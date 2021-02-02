@@ -1,4 +1,4 @@
-/** @type {import("snowpack").SnowpackUserConfig } */
+/** @type {import('snowpack').SnowpackUserConfig} */
 module.exports = {
   mount: {
     /* ... */
@@ -15,7 +15,7 @@ module.exports = {
     // "bundle": true,
   },
   packageOptions: {
-    /* ... */
+    source: 'local',
   },
   devOptions: {
     /* ... */
@@ -23,4 +23,4 @@ module.exports = {
   buildOptions: {
     /* ... */
   },
-};
+}
