@@ -1,14 +1,18 @@
 import React from 'react';
-
-import { Store } from './lib/store';
-
-const store = new Store('https://surfy.ddns.net/');
-store.populate();
+import { useResource } from './lib/react';
 
 function App(): void {
+  const resource = useResource('mySubject');
+
+  if (resource == undefined) {
+    return <p>no resource</p>;
+  }
+
+  console.log('resource', resource);
+
   return (
     <div className='App'>
-      <header className='App-header'>{store.getResource('mySubject').get('myProp').toString()}</header>
+      <header className='App-header'>{resource.get('myProp').toString()}</header>
     </div>
   );
 }

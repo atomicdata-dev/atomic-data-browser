@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
+import { StoreContext } from './lib/react.js';
+
+import { Store } from './lib/store';
+
+const store = new Store('https://surfy.ddns.net/');
+store.populate();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <StoreContext.Provider value={store}>
+      <App />
+    </StoreContext.Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
