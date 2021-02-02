@@ -6,6 +6,7 @@ describe('<App>', () => {
     const store = new Store('base_url')
     store.populate()
     let resource = store.getResource('mySubject')
-    expect(resource.get('myProp').toString() == 'myVal')
+    let atomString = resource.get('myProp').toString()
+    expect(atomString).to.equal('myVal')
   })
 })
