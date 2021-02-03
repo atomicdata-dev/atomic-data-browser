@@ -42,19 +42,17 @@ export class Store {
 
   /** Adds a Resource to the store. */
   addResource(resource: Resource): void {
-    console.log('add', resource);
     this.resources.set(resource.subject, resource);
     this.notify(resource);
   }
 
-  /** Gets a resource by URL */
+  /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
   async getResource(subject: string): Promise<Resource> {
-    try {
-      this.resources.get(subject);
-    } catch {
+    const found = this.resources.get(subject);
+    if (found == undefined) {
       return fetchResource(subject);
     }
-    return this.resources.get(subject);
+    return found;
   }
 
   /** Returns the URL of the companion server */

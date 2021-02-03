@@ -1,7 +1,8 @@
 # Atomic-React
 
-An example app for interacting with [`atomic-server`](https://github.com/joepio/atomic).
+_status: very pre-alpha, stay away from this_
 
+An example app for interacting with [`atomic-server`](https://github.com/joepio/atomic).
 Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) from a browser!
 
 ## Usage
