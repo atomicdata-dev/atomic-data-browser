@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { StoreContext } from './lib/react';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Store } from './lib/store';
 import ResourcePage from './components/ResourcePage';
 import { checkValidURL } from './lib/client';
-import useQueryParam from './helpers/useQueryParam';
+import { StringParam, useQueryParam, QueryParamProvider } from 'use-query-params';
 
 /** Initialize the store */
 const store = new Store('https://surfy.ddns.net/');
@@ -17,7 +18,7 @@ function App(): JSX.Element {
   // Value in the form field
   const [subjectInternal, setSubjectInternal] = useState<string>(defaultSubject);
   // Value shown in navbar, after Submitting
-  const [subject, setSubject] = useQueryParam('subject', defaultSubject);
+  const [subject, setSubject] = useQueryParam('subject', StringParam);
   const [error, setError] = useState<Error>(null);
 
   const handleSubjectChange = (subj: string) => {
@@ -50,7 +51,7 @@ function App(): JSX.Element {
             </label>
             <input type='submit' value='Submit' />
           </form>
-          {error !== null ? error.message : subject.length > 0 && <ResourcePage key={subject} subject={subject} />}
+          {error !== null ? error.message : subject && <ResourcePage key={subject} subject={subject} />}
         </header>
       </div>
     </StoreContext.Provider>

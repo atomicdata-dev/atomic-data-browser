@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { handleSetSubject } from '../helpers/useQueryParam';
+import { StringParam, useQueryParam } from 'use-query-params';
 import { useResource } from '../lib/react';
 import { Value } from '../lib/value';
 import ValueComp from './ValueComp';
@@ -17,11 +17,12 @@ const PropValRow = styled.div`
 
 /** A single Property / Value renderer */
 function PropVal({ propertyURL, value }: Props): JSX.Element {
+  const [, setSubject] = useQueryParam('subject', StringParam);
   const property = useResource(propertyURL);
 
   const handleClickProp = (e): void => {
     e.preventDefault();
-    handleSetSubject(propertyURL);
+    setSubject(propertyURL);
   };
 
   return (
