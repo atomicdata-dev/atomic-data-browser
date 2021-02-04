@@ -10,6 +10,7 @@ Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) 
 - [x] Fetch atomic data
 - [x] Render atomic data
 - [x] Render properties as labels
+- [x] Some styling
 - [ ] Navigate collections (sorting / pagination)
 - [ ] Datatype dependent renders
 - [ ] Properly parse JSON-AD

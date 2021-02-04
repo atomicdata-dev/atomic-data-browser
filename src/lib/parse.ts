@@ -14,6 +14,7 @@ export function parseJsonADResource(string: string): Resource {
       resource.setSubject(subject);
       continue;
     }
+    // TODO: use Property URL to set the right Datatype
     resource.set(key, new Value(jsonObject[key]));
   }
   return resource;

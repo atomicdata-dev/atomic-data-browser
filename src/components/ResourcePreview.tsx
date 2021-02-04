@@ -1,4 +1,5 @@
 import React from 'react';
+import { urls } from '../helpers/urls';
 import { usePropString, useResource } from '../lib/react';
 
 type Props = {
@@ -8,8 +9,8 @@ type Props = {
 /** A Resource as a small clickable link with a name. */
 function ResourcePreview({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
-  const shortname = usePropString(resource, 'https://atomicdata.dev/properties/shortname');
-  const description = usePropString(resource, 'https://atomicdata.dev/properties/description');
+  const shortname = usePropString(resource, urls.shortname);
+  const description = usePropString(resource, urls.desription);
 
   if (resource == undefined) {
     return <p>Resource ${subject} is undefined.</p>;

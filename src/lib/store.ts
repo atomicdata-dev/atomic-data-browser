@@ -32,6 +32,13 @@ export class Store {
     this.notify(resource);
   }
 
+  /** Fetches a resource by URL, replaces the one in the store. */
+  async fetchResource(subject: string): Promise<Resource> {
+    const fetched = await fetchResource(subject);
+    this.addResource(fetched);
+    return fetched;
+  }
+
   /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
   async getResource(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
@@ -44,13 +51,6 @@ export class Store {
   /** Returns the URL of the companion server */
   getBaseUrl(): string {
     return 'Store base url is ' + this.base_url;
-  }
-
-  /** Fetches a resource by URL, replaces the one in the store. */
-  async fetchResource(subject: string): Promise<Resource> {
-    const fetched = await fetchResource(subject);
-    this.addResource(fetched);
-    return fetched;
   }
 
   /** Let's subscribers know that a resource has been changed. Time to update your views! */

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { urls } from '../helpers/urls';
 import { useResource } from '../lib/react';
 import { Value } from '../lib/value';
 import ValueComp from './ValueComp';
@@ -15,6 +16,10 @@ const PropValRow = styled.div`
   margin-bottom: 1rem;
 `;
 
+const PropertyLabel = styled.a`
+  font-weight: bold;
+`;
+
 /** A single Property / Value renderer */
 function PropVal({ propertyURL, value }: Props): JSX.Element {
   const [, setSubject] = useQueryParam('subject', StringParam);
@@ -27,9 +32,9 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <a onClick={handleClickProp} href={propertyURL}>
-        {property?.get('https://atomicdata.dev/properties/shortname').toString() || propertyURL}
-      </a>
+      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property?.get(urls.desription)?.toString()}>
+        {property?.get(urls.shortname)?.toString() || propertyURL}
+      </PropertyLabel>
       <ValueComp value={value} />
     </PropValRow>
   );
