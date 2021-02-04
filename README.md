@@ -9,7 +9,7 @@ Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) 
 
 - [x] Fetch atomic data
 - [x] Render atomic data
-- [ ] Render properties as labels
+- [x] Render properties as labels
 - [ ] Navigate collections (sorting / pagination)
 - [ ] Datatype dependent renders
 - [ ] Properly parse JSON-AD
@@ -43,3 +43,11 @@ yarn build
 ## Testing
 
 `yarn test`
+
+## Directory structure
+
+```
+- **components**: possibly re-usable components
+- **helpers**: projects-specific helper functions
+- **lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
+```

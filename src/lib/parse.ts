@@ -1,4 +1,5 @@
 import { Resource } from './resource';
+import { Value } from './value';
 
 /** Parses an JSON-AD string containing a resoure */
 export function parseJsonADResource(string: string): Resource {
@@ -13,7 +14,7 @@ export function parseJsonADResource(string: string): Resource {
       resource.setSubject(subject);
       continue;
     }
-    resource.set(key, jsonObject[key]);
+    resource.set(key, new Value(jsonObject[key]));
   }
   return resource;
 }

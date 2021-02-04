@@ -1,7 +1,7 @@
 import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
 
-/** Fetches and Parses a Resource */
+/** Fetches and Parses a Resource. Does not add it to the store. If you need that, use `Store.fetchResource`. */
 export async function fetchResource(subject: string): Promise<Resource> {
   checkValidURL(subject);
   const requestHeaders: HeadersInit = new Headers();
@@ -14,6 +14,7 @@ export async function fetchResource(subject: string): Promise<Resource> {
   return resource;
 }
 
+/** Throws an error if the URL is not valid */
 export function checkValidURL(subject: string): void {
   try {
     new URL(subject);

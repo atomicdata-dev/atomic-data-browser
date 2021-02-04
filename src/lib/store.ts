@@ -1,21 +1,6 @@
 import { Resource } from './resource';
 import { fetchResource } from './client';
-
-/** All the types that a Value might contain */
-type JSVals = string | Date | number;
-
-/** Atomic Data Value. Can be any https://atomicdata.dev/classes/Datatype */
-export class Value {
-  val: JSVals;
-
-  constructor(val: JSVals) {
-    this.val = val;
-  }
-
-  toString(): string {
-    return this.val.toString();
-  }
-}
+import { Value } from './value';
 
 type callback = (resource: Resource) => void;
 
@@ -36,12 +21,12 @@ export class Store {
 
   /** Adds a bunch of predetermined Resources to the store */
   populate(): void {
-    const resource = new Resource('https://example.com/mySubject');
-    resource.set('myProp', new Value('myVal'));
+    const resource = new Resource('https://atomicdata.dev/test');
+    resource.set('https://atomicdata.dev/properties/shortname', new Value('value-from-populate'));
     this.addResource(resource);
   }
 
-  /** Adds a Resource to the store. */
+  /** Adds a Resource to the store. Replaces existing. */
   addResource(resource: Resource): void {
     this.resources.set(resource.getSubject(), resource);
     this.notify(resource);
@@ -51,7 +36,7 @@ export class Store {
   async getResource(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
     if (found == undefined) {
-      return await fetchResource(subject);
+      return await this.fetchResource(subject);
     }
     return found;
   }
@@ -59,6 +44,13 @@ export class Store {
   /** Returns the URL of the companion server */
   getBaseUrl(): string {
     return 'Store base url is ' + this.base_url;
+  }
+
+  /** Fetches a resource by URL, replaces the one in the store. */
+  async fetchResource(subject: string): Promise<Resource> {
+    const fetched = await fetchResource(subject);
+    this.addResource(fetched);
+    return fetched;
   }
 
   /** Let's subscribers know that a resource has been changed. Time to update your views! */

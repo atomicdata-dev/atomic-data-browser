@@ -1,5 +1,5 @@
 import { checkValidURL } from './client';
-import { Value } from './store';
+import { Value } from './value';
 
 /** Contains the PropertyURL / Value combinations */
 type PropVals = Map<string, Value>;

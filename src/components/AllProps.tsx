@@ -4,20 +4,20 @@ import PropVal from './PropVal';
 
 type Props = {
   resource: Resource;
-  /** A list of URLs that need not be rendererd */
+  /** A list of property subjects (URLs) that need not be rendererd */
   except?: string[];
 };
 
+/** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */
 function AllProps({ resource, except = [] }: Props): JSX.Element {
   return (
     <React.Fragment>
       {[...resource.getPropVals()].map(
-        (propval): JSX.Element => {
-          const propertyURL = propval[0];
-          if (except.includes(propertyURL)) {
-            return;
+        ([prop, val]): JSX.Element => {
+          if (except.includes(prop)) {
+            return null;
           }
-          return <PropVal key={propertyURL} propertyURL={propertyURL} value={propval[1]} />;
+          return <PropVal key={prop} propertyURL={prop} value={val} />;
         },
       )}
     </React.Fragment>

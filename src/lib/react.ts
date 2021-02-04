@@ -4,7 +4,7 @@ import React from 'react';
 import { Resource } from './resource';
 
 /** Hook for getting a Resource in a React component */
-export function useResource(subject: string): Resource {
+export function useResource(subject: string): Resource | null {
   const [resource, setResource] = useState(null);
   const store = useStore();
 
@@ -32,13 +32,22 @@ export function useResource(subject: string): Resource {
   return resource;
 }
 
-/** Hook for getting a string Value in a React component */
-export function usePropString(resource: Resource, propertyURL: string): string {
+/** Hook for getting a stringified representation of an Atom in a React component */
+export function usePropString(resource: Resource, propertyURL: string): string | null {
+  // Not sure about this...
   if (resource == undefined) {
-    return '...';
+    return 'loading...';
   }
-  const value = resource.get(propertyURL).toString();
-  return value;
+  let value = undefined;
+  try {
+    value = resource.get(propertyURL);
+  } catch (e) {
+    console.log(e);
+  }
+  if (value == undefined) {
+    return null;
+  }
+  return value.toString();
 }
 
 /** Preffered way of using the store in a Component. */
