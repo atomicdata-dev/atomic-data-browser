@@ -1,18 +1,19 @@
-import { Resource } from './store';
+import { Resource } from './resource';
 
 /** Parses an JSON-AD string containing a resoure */
 export function parseJsonADResource(string: string): Resource {
   const jsonObject = JSON.parse(string);
-  // TODO: add the atoms
-  const subject: string = jsonObject['@id'];
-  if (typeof subject !== 'string') {
-    throw "Object has no subject, should be set with '@id'";
-  }
-  console.log('PARSED');
-  const resource = new Resource(subject);
+  const resource = new Resource('no_@id');
   for (const key in jsonObject) {
+    if (key == '@id') {
+      const subject: string = jsonObject['@id'];
+      if (typeof subject !== 'string') {
+        throw new Error("'@id' field must be a string");
+      }
+      resource.setSubject(subject);
+      continue;
+    }
     resource.set(key, jsonObject[key]);
   }
-  console.log('resource', resource);
   return resource;
 }

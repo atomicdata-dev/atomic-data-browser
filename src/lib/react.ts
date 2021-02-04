@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Resource, Store } from './store';
+import { Store } from './store';
 import React from 'react';
+import { Resource } from './resource';
 
-/** Hook for using a Resource in a React component */
+/** Hook for getting a Resource in a React component */
 export function useResource(subject: string): Resource {
   const [resource, setResource] = useState(null);
   const store = useStore();
@@ -31,11 +32,22 @@ export function useResource(subject: string): Resource {
   return resource;
 }
 
+/** Hook for getting a string Value in a React component */
+export function usePropString(resource: Resource, propertyURL: string): string {
+  if (resource == undefined) {
+    return '...';
+  }
+  const value = resource.get(propertyURL).toString();
+  return value;
+}
+
 /** Preffered way of using the store in a Component. */
 export function useStore(): Store {
   const store = React.useContext(StoreContext);
   if (store == undefined) {
-    throw 'Store is undefined, not found in react context. Have you wrapped your application in `<StoreContext.Provider value={new Store}>`?';
+    throw new Error(
+      'Store is not found in react context. Have you wrapped your application in `<StoreContext.Provider value={new Store}>`?',
+    );
   }
   return store;
 }

@@ -1,3 +1,4 @@
+import { Resource } from './resource';
 import { fetchResource } from './client';
 
 /** All the types that a Value might contain */
@@ -35,14 +36,14 @@ export class Store {
 
   /** Adds a bunch of predetermined Resources to the store */
   populate(): void {
-    const resource = new Resource('mySubject');
+    const resource = new Resource('https://example.com/mySubject');
     resource.set('myProp', new Value('myVal'));
     this.addResource(resource);
   }
 
   /** Adds a Resource to the store. */
   addResource(resource: Resource): void {
-    this.resources.set(resource.subject, resource);
+    this.resources.set(resource.getSubject(), resource);
     this.notify(resource);
   }
 
@@ -50,7 +51,7 @@ export class Store {
   async getResource(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
     if (found == undefined) {
-      return fetchResource(subject);
+      return await fetchResource(subject);
     }
     return found;
   }
@@ -62,7 +63,7 @@ export class Store {
 
   /** Let's subscribers know that a resource has been changed. Time to update your views! */
   notify(resource: Resource): void {
-    const subject = resource.subject;
+    const subject = resource.getSubject();
     const subscribers = this.subscribers.get(subject);
     if (subscribers == undefined) {
       return;
@@ -85,26 +86,5 @@ export class Store {
     let callbackArray = this.subscribers.get(subject);
     callbackArray = callbackArray.filter(item => item !== callback);
     this.subscribers.set(subject, callbackArray);
-  }
-}
-
-/** Describes an Atomic Resource, which has a Subject URL and a bunch of Property / Value combinations. */
-export class Resource {
-  subject: string;
-  propvals: Map<string, Value>;
-
-  constructor(subject: string) {
-    this.subject = subject;
-    this.propvals = new Map();
-  }
-
-  /** Get a Value by its property */
-  get(propUrl: string): Value {
-    return this.propvals.get(propUrl);
-  }
-
-  /** Set a Property, Value combination */
-  set(prop: string, val: Value): void {
-    this.propvals.set(prop, val);
   }
 }

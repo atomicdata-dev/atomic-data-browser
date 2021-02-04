@@ -5,28 +5,27 @@ interface Props {
 }
 
 interface State {
-  hasError: boolean;
   error?: Error;
 }
 
+/** Prints an error if there is one in the children */
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     error: null,
-    hasError: false,
   };
 
   public static getDerivedStateFromError(e: Error): State {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true, error: e };
+    return { error: e };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Uncaught error:', error, errorInfo);
+    console.log('Uncaught error:', error, errorInfo);
   }
 
   public render(): ReactNode {
-    if (this.state.hasError) {
-      return <h1>Error! {this.state.error}</h1>;
+    if (this.state.error) {
+      return <p>Error: {this.state.error.message}</p>;
     }
 
     return this.props.children;
