@@ -1,9 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { props } from '../helpers/urls';
 import { usePropString, useResource, useStore } from '../lib/react';
 import AllProps from './AllProps';
+import AtomicUrl from './datatypes/AtomicUrl';
 import Markdown from './datatypes/Markdown';
-// import ErrorBoundary from './ErrorBoundary';
 
 type Props = {
   subject: string;
@@ -15,6 +16,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
   const shortname = usePropString(resource, props.shortname);
   const description = usePropString(resource, props.desription);
+  const klass = usePropString(resource, props.isA);
 
   if (resource == undefined) {
     return <p>Resource is undefined.</p>;
@@ -22,12 +24,23 @@ function ResourcePage({ subject }: Props): JSX.Element {
     return (
       <div>
         {shortname && <h1>{shortname}</h1>}
+        {klass && (
+          <ClassPreview>
+            {'is a '}
+            <AtomicUrl url={klass} />
+          </ClassPreview>
+        )}
         {description && <Markdown text={description} />}
-        <AllProps resource={resource} except={[props.shortname, props.desription]} />
+        <AllProps resource={resource} except={[props.shortname, props.desription, props.isA]} />
         <button onClick={() => store.fetchResource(subject)}>refresh</button>
       </div>
     );
   }
 }
+
+const ClassPreview = styled.div`
+  margin-bottom: 0.5rem;
+  font-style: italic;
+`;
 
 export default ResourcePage;

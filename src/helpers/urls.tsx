@@ -2,6 +2,7 @@ export const props = {
   shortname: 'https://atomicdata.dev/properties/shortname',
   desription: 'https://atomicdata.dev/properties/description',
   datatype: 'https://atomicdata.dev/properties/datatype',
+  isA: 'https://atomicdata.dev/properties/isA',
 };
 
 export const datatypes = {

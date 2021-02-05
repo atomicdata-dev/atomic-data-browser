@@ -50,6 +50,10 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: bold;
   }
 
+  i {
+    font-style: italic;
+  }
+
   p {
     margin-bottom: 1rem;
   }
