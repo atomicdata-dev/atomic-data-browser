@@ -1,18 +1,13 @@
 import React from 'react';
-import { Value } from '../../lib/value';
+import ReactMarkdown from 'react-markdown';
 
 type Props = {
-  value: Value;
+  text: string;
 };
 
 /** Renders a markdown value */
-function Markdown({ value }: Props): JSX.Element {
-  return (
-    <div>
-      {"I'm markdown! "}
-      {value.toString()}
-    </div>
-  );
+function Markdown({ text }: Props): JSX.Element {
+  return <ReactMarkdown>{text}</ReactMarkdown>;
 }
 
 export default Markdown;

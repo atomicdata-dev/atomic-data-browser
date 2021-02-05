@@ -1,7 +1,8 @@
 import React from 'react';
-import { urls } from '../helpers/urls';
+import { props } from '../helpers/urls';
 import { usePropString, useResource, useStore } from '../lib/react';
 import AllProps from './AllProps';
+import Markdown from './datatypes/Markdown';
 // import ErrorBoundary from './ErrorBoundary';
 
 type Props = {
@@ -12,18 +13,17 @@ type Props = {
 function ResourcePage({ subject }: Props): JSX.Element {
   const store = useStore();
   const resource = useResource(subject);
-  const shortname = usePropString(resource, urls.shortname);
-  const description = usePropString(resource, urls.desription);
+  const shortname = usePropString(resource, props.shortname);
+  const description = usePropString(resource, props.desription);
 
-  console.log('Re-render...');
   if (resource == undefined) {
     return <p>Resource is undefined.</p>;
   } else {
     return (
       <div>
         {shortname && <h1>{shortname}</h1>}
-        {description && <p>{description}</p>}
-        <AllProps resource={resource} except={[urls.shortname, urls.desription]} />
+        {description && <Markdown text={description} />}
+        <AllProps resource={resource} except={[props.shortname, props.desription]} />
         <button onClick={() => store.fetchResource(subject)}>refresh</button>
       </div>
     );

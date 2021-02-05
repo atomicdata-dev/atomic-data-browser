@@ -1,6 +1,8 @@
 import { Resource } from './resource';
 import { fetchResource } from './client';
 import { Value } from './value';
+import { urls } from '../helpers/urls';
+import { Datatype, datatypeFromUrl } from './datatypes';
 
 type callback = (resource: Resource) => void;
 
@@ -48,6 +50,14 @@ export class Store {
     return found;
   }
 
+  /** Gets a property by URL. */
+  async getProperty(subject: string): Promise<Property> {
+    const resource = await this.getResource(subject);
+    const prop = new Property();
+    prop.datatype = datatypeFromUrl(resource.get(urls.props.datatype).toString());
+    return prop;
+  }
+
   /** Returns the URL of the companion server */
   getBaseUrl(): string {
     return 'Store base url is ' + this.base_url;
@@ -79,4 +89,11 @@ export class Store {
     callbackArray = callbackArray.filter(item => item !== callback);
     this.subscribers.set(subject, callbackArray);
   }
+}
+
+export class Property {
+  subject: string;
+  datatype: Datatype;
+  shortname: string;
+  description: string;
 }

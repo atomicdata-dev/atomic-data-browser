@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { urls } from '../helpers/urls';
+import { datatypeFromUrl } from '../lib/datatypes';
 import { useResource } from '../lib/react';
 import { Value } from '../lib/value';
 import ValueComp from './ValueComp';
@@ -18,12 +19,15 @@ const PropValRow = styled.div`
 
 const PropertyLabel = styled.a`
   font-weight: bold;
+  display: block;
 `;
 
 /** A single Property / Value renderer */
 function PropVal({ propertyURL, value }: Props): JSX.Element {
   const [, setSubject] = useQueryParam('subject', StringParam);
+  // TODO: Add useProperty
   const property = useResource(propertyURL);
+  const datatype = datatypeFromUrl(property?.get(urls.props.datatype)?.toString());
 
   const handleClickProp = (e): void => {
     e.preventDefault();
@@ -32,10 +36,10 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property?.get(urls.desription)?.toString()}>
-        {property?.get(urls.shortname)?.toString() || propertyURL}
+      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property?.get(urls.props.desription)?.toString()}>
+        {property?.get(urls.props.shortname)?.toString() || propertyURL}
       </PropertyLabel>
-      <ValueComp value={value} />
+      <ValueComp value={value} datatype={datatype} />
     </PropValRow>
   );
 }

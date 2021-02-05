@@ -1,8 +1,9 @@
 import { Resource } from './resource';
+import { Store } from './store';
 import { Value } from './value';
 
 /** Parses an JSON-AD string containing a resoure */
-export function parseJsonADResource(string: string): Resource {
+export function parseJsonADResource(string: string, store: Store): Resource {
   const jsonObject = JSON.parse(string);
   const resource = new Resource('no_@id');
   for (const key in jsonObject) {
@@ -15,6 +16,7 @@ export function parseJsonADResource(string: string): Resource {
       continue;
     }
     // TODO: use Property URL to set the right Datatype
+    // let prop = store.getProperty(key);
     resource.set(key, new Value(jsonObject[key]));
   }
   return resource;

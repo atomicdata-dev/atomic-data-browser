@@ -1,8 +1,20 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { lighten } from 'polished';
 
+// Detect dark mode
+const darkMode = () => {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return true;
+  }
+
+  // Watch for changes, not used
+  // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  //   const newColorScheme = e.matches ? 'dark' : 'light';
+  // });
+};
+
 export const theme: DefaultTheme = {
-  darkMode: true,
+  darkMode: darkMode(),
   fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   colors: {
     main: 'rgb(150,150,255)',

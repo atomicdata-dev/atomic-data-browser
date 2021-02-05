@@ -12,7 +12,7 @@ Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) 
 - [x] Render properties as labels
 - [x] Some styling
 - [ ] Navigate collections (sorting / pagination)
-- [ ] Datatype dependent renders
+- [x] Datatype dependent renders
 - [ ] Properly parse JSON-AD
 - [ ] Set default agent (private key)
 - [ ] Datatype dependent form inputs
