@@ -43,6 +43,7 @@ module.exports = {
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations// New rules
     'class-methods-use-this': 'off',
     'import/extensions': 'off',
+    // 'no-unused-vars': ["error", { "ie": "^_" }],
     'import/prefer-default-export': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-var-requires': 'off',

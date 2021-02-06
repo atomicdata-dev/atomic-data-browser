@@ -9,7 +9,7 @@ describe('Commit', () => {
   it('signs a commit with the right signature', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // This output is wrong, but I still want this test to succeed: https://github.com/joepio/atomic-react/issues/3
-    const correct_signature_rust = 'Nmyp7gmLhf5GZw2mCOXjXqfsSDeA4GIiYFQh2P/0xsJENwetnzmDDA1lUyzr9mpc32JxIzCVEgTsyi2GzK/ACQ==';
+    // const correct_signature_rust = 'Nmyp7gmLhf5GZw2mCOXjXqfsSDeA4GIiYFQh2P/0xsJENwetnzmDDA1lUyzr9mpc32JxIzCVEgTsyi2GzK/ACQ==';
     const signature_js = 'e0Qj5uolzD8ChfpuiFhhwQg5F98y2q56RaMy0RCJy2glMIbkb8hUfNm+d5kym/FJjRiL83oEFopgq5fQdQmzBQ==';
     const createdAt = 0;
     const commitbuilder: CommitBuilder = {
@@ -31,7 +31,7 @@ describe('Commit', () => {
     const input = 'val';
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // This output is wrong, but I still want this test to succeed: https://github.com/joepio/atomic-react/issues/3
-    const correct_signature_rust = '+RVIN+DVu6khCAo8M+BE2IrS9HT+L89I2b5YDC+AddTwPNiaYX6wQX+ANZVSIblMKYUiy9l0QxS3j7UvlYYRAg==';
+    // const correct_signature_rust = '+RVIN+DVu6khCAo8M+BE2IrS9HT+L89I2b5YDC+AddTwPNiaYX6wQX+ANZVSIblMKYUiy9l0QxS3j7UvlYYRAg==';
     const signature_js = 'lPLljbXFUH72EQdyIHQmh/CSzNPhF+uO8JpRVS7kKRgE2Ict78keUis8SC2FqTyfq1MFmfZqn9Yx8RRO+FYNCw==';
     const signature = await signToBase64(input, privateKey);
     expect(signature).to.equal(signature_js);

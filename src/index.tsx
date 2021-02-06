@@ -1,33 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { QueryParamProvider } from 'use-query-params';
 import App from './App.jsx';
-import { StoreContext } from './lib/react';
-import { Store } from './lib/store.js';
-import { ThemeProvider } from 'styled-components';
-import { buildTheme } from './styling.jsx';
 
-// Initialize the store
-const store = new Store('https://surfy.ddns.net/');
-// Add some basic resources
-store.populate();
-
-/** Top level React node of the Application. This is where you place wrappers / providers. */
+/** Top level React node of the Application. Keep this one empty (no providers), as the Testing library imports the App component */
 export const Root = (): JSX.Element => (
   <React.StrictMode>
-    {/* Atomic Data Store */}
-    <StoreContext.Provider value={store}>
-      <BrowserRouter>
-        {/* Used for getting / setting query parameters */}
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <ThemeProvider theme={buildTheme()}>
-            {/* Contains actual Application logic */}
-            <App />
-          </ThemeProvider>
-        </QueryParamProvider>
-      </BrowserRouter>
-    </StoreContext.Provider>
+    <App />
   </React.StrictMode>
 );
 
