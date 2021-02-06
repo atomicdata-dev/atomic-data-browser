@@ -63,15 +63,18 @@ const AddressBar = styled.form`
   input {
     border: none;
     font-size: 0.8rem;
-    padding: 0.4rem;
+    padding: 0.4rem 1.2rem;
   }
   input[type='text'] {
     flex: 1;
+    &:hover {
+      background-color: ${props => props.theme.colors.bg1};
+    }
   }
   input[type='submit'] {
     &:hover {
       cursor: pointer;
-      background-color: blue;
+      background-color: ${props => props.theme.colors.main};
       color: white;
     }
   }

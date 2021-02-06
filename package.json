@@ -8,16 +8,19 @@
     "url": "https://github.com/joepio/atomic-react/"
   },
   "scripts": {
-    "start": "snowpack dev",
+    "start": "snowpack dev --polyfill-node",
     "build": "snowpack build",
     "test": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --quiet",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@types/json-stable-stringify": "^1.0.32",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
+    "json-stable-stringify": "^1.0.1",
+    "noble-ed25519": "^1.0.3",
     "polished": "^4.1.0",
     "query-string": "^6.13.8",
     "react-markdown": "^5.0.3",

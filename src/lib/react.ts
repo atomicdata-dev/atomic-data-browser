@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Store } from './store';
 import React from 'react';
 import { Resource } from './resource';
+import { handleError } from '../helpers/handler';
 
 /** Hook for getting a Resource in a React component */
 export function useResource(subject: string): Resource | null {
@@ -42,12 +43,35 @@ export function usePropString(resource: Resource, propertyURL: string): string |
   try {
     value = resource.get(propertyURL);
   } catch (e) {
-    console.log(e);
+    handleError(e);
   }
   if (value == undefined) {
     return null;
   }
   return value.toString();
+}
+
+/** Hook for getting a stringified representation of an Atom in a React component */
+export function usePropDate(resource: Resource, propertyURL: string): Date | null {
+  // Not sure about this...
+  if (resource == undefined) {
+    return null;
+  }
+  let value = undefined;
+  try {
+    value = resource.get(propertyURL);
+  } catch (e) {
+    handleError(e);
+  }
+  if (value == undefined) {
+    return null;
+  }
+  try {
+    return value.toDate();
+  } catch (e) {
+    handleError(e);
+    return null;
+  }
 }
 
 /** Preffered way of using the store in a Component. */

@@ -11,11 +11,9 @@ Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) 
 - [x] Render atomic data
 - [x] Render properties as labels
 - [x] Some styling
-- [ ] Navigate collections (sorting / pagination)
 - [x] Datatype dependent renders
-- [ ] Properly parse JSON-AD
+- [ ] Navigate collections (sorting / pagination)
 - [ ] Set default agent (private key)
-- [ ] Datatype dependent form inputs
 - [ ] Click a property to open its form
 - [ ] Validate form fields
 - [ ] Sign and Post Commits after editing a field

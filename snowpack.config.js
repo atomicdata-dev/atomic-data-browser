@@ -26,6 +26,8 @@ module.exports = {
   },
   packageOptions: {
     source: 'local',
+    // Used for the `crypto` node library for signing commits
+    polyfillNode: true,
   },
   devOptions: {
     /* ... */

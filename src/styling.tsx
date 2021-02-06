@@ -2,7 +2,7 @@ import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { lighten } from 'polished';
 
 // Detect dark mode
-const darkMode = () => {
+const isDarkMode = () => {
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     return true;
   }
@@ -13,22 +13,34 @@ const darkMode = () => {
   // });
 };
 
-export const theme: DefaultTheme = {
-  darkMode: darkMode(),
-  fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  colors: {
-    main: 'rgb(150,150,255)',
-  },
+export const buildTheme = (): DefaultTheme => {
+  const darkMode = isDarkMode();
+  return {
+    darkMode,
+    fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    colors: {
+      main: darkMode ? 'rgb(150,150,255)' : 'rgb(40,40,255)',
+      mainAlt: darkMode ? 'rgb(155,155,255)' : 'rgb(35,35,255)',
+      bg1: '#ececec',
+    },
+  };
 };
 
+// Styled-components requires overwriting the default theme
 import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     /** If true, make things dark */
     darkMode: boolean;
     fontFamily: string;
+    /** All theme colors */
     colors: {
+      /** Main accent color, used for links */
       main: string;
+      /** Subtly different hue of the main color. */
+      mainAlt: string;
+      /** Subtle background color */
+      bg1: string;
     };
   }
 }
