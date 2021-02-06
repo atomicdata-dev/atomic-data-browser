@@ -54,7 +54,7 @@ export class Store {
   async getProperty(subject: string): Promise<Property> {
     const resource = await this.getResource(subject);
     const prop = new Property();
-    prop.datatype = datatypeFromUrl(resource.get(urls.props.datatype).toString());
+    prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype).toString());
     return prop;
   }
 

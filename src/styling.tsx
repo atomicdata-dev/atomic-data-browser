@@ -1,14 +1,20 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
-import { lighten } from 'polished';
+import { darken, lighten } from 'polished';
 
 export const buildTheme = (darkMode: boolean): DefaultTheme => {
+  const main = darkMode ? 'rgb(150,150,255)' : 'rgb(40,40,255)';
+  const bg = darkMode ? 'black' : 'white';
+
   return {
     darkMode,
     fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     colors: {
-      main: darkMode ? 'rgb(150,150,255)' : 'rgb(40,40,255)',
-      mainAlt: darkMode ? 'rgb(155,155,255)' : 'rgb(35,35,255)',
-      bg1: '#ececec',
+      main,
+      main1: darkMode ? darken(0.1)(main) : lighten(0.1)(main),
+      main2: darkMode ? darken(0.2)(main) : lighten(0.2)(main),
+      bg,
+      bg1: darkMode ? lighten(0.1)(bg) : darken(0.1)(bg),
+      text: darkMode ? 'white' : 'black',
     },
   };
 };
@@ -25,17 +31,23 @@ declare module 'styled-components' {
       /** Main accent color, used for links */
       main: string;
       /** Subtly different hue of the main color. */
-      mainAlt: string;
+      main1: string;
+      /** Even more different hue of the main color. */
+      main2: string;
+      /** Absolute background color */
+      bg: string;
       /** Subtle background color */
       bg1: string;
+      /** Main (body) text color */
+      text: string;
     };
   }
 }
 
 export const GlobalStyle = createGlobalStyle`
   body {
-    color: ${props => (props.theme.darkMode ? 'white' : 'black')};
-    background-color: ${props => (props.theme.darkMode ? 'black' : 'white')};
+    background-color: ${props => props.theme.colors.bg};
+    color: ${props => props.theme.colors.text};
     font-family: ${props => props.theme.fontFamily};
     line-height: 1.5em;
   }
@@ -60,9 +72,11 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: ${props => props.theme.colors.main};
     text-decoration: none;
-  }
-
-  a:hover {
-    color: ${props => lighten(0.1, props.theme.colors.main)};
+    &:hover {
+      color: ${props => props.theme.colors.main1};
+    }
+    &:active {
+      color: ${props => props.theme.colors.main2};
+    }
   }
 `;

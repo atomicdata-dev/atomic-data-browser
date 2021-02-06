@@ -1,6 +1,21 @@
-export const props = {
+export const classes = {
+  collection: 'https://atomicdata.dev/classes/Collection',
+};
+
+export const properties = {
   shortname: 'https://atomicdata.dev/properties/shortname',
-  desription: 'https://atomicdata.dev/properties/description',
+  description: 'https://atomicdata.dev/properties/description',
+  recommends: 'https://atomicdata.dev/properties/recommends',
+  requires: 'https://atomicdata.dev/properties/requires',
+  collection: {
+    members: 'https://atomicdata.dev/properties/collection/members',
+    currentPage: 'https://atomicdata.dev/properties/collection/currentPage',
+    pageSize: 'https://atomicdata.dev/properties/collection/pageSize',
+    property: 'https://atomicdata.dev/properties/collection/property',
+    totalMembers: 'https://atomicdata.dev/properties/collection/totalMembers',
+    totalPages: 'https://atomicdata.dev/properties/collection/totalPages',
+    value: 'https://atomicdata.dev/properties/collection/value',
+  },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
 };
@@ -19,6 +34,7 @@ export const datatypes = {
 };
 
 export const urls = {
-  props,
+  properties,
+  classes,
   datatypes,
 };

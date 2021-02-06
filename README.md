@@ -12,12 +12,17 @@ Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) 
 - [x] Render properties as labels
 - [x] Some styling
 - [x] Datatype dependent renders
-- [ ] Navigate collections (sorting / pagination)
-- [ ] Set default agent (private key)
+- [x] Commit implementation
+- [ ] Set default agent / base server
+- [ ] Edit properties (Sign and Post Commits after editing an atom)
 - [ ] Click a property to open its form
 - [ ] Validate form fields
-- [ ] Sign and Post Commits after editing a field
-- [ ] Publish as useful NPM package(s)
+- [x] Table view
+- [ ] Navigate collections (sorting / pagination)
+- [ ] Instantiate new Resources
+- [ ] Add properties
+- [ ] Resolve atomic paths
+- [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
 
 ## Usage
 

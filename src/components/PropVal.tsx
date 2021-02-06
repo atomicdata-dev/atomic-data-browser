@@ -27,7 +27,7 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
   const [, setSubject] = useQueryParam('subject', StringParam);
   // TODO: Add useProperty
   const property = useResource(propertyURL);
-  const datatype = datatypeFromUrl(property?.get(urls.props.datatype)?.toString());
+  const datatype = datatypeFromUrl(property?.get(urls.properties.datatype)?.toString());
 
   const handleClickProp = (e): void => {
     e.preventDefault();
@@ -36,8 +36,8 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property?.get(urls.props.desription)?.toString()}>
-        {property?.get(urls.props.shortname)?.toString() || propertyURL}
+      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property?.get(urls.properties.description)?.toString()}>
+        {property?.get(urls.properties.shortname)?.toString() || propertyURL}
       </PropertyLabel>
       <ValueComp value={value} datatype={datatype} />
     </PropValRow>

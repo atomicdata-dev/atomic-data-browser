@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Store } from './store';
+import { Property, Store } from './store';
 import React from 'react';
 import { Resource } from './resource';
-import { handleError } from '../helpers/handler';
+import { handleInfo } from '../helpers/handlers';
+import { Value } from './value';
+import { datatypeFromUrl } from './datatypes';
+import { urls } from '../helpers/urls';
 
 /** Hook for getting a Resource in a React component */
 export function useResource(subject: string): Resource | null {
@@ -33,6 +36,42 @@ export function useResource(subject: string): Resource | null {
   return resource;
 }
 
+export function useProperty(subject: string): Property | null {
+  const propR = useResource(subject);
+
+  if (propR == null) {
+    return null;
+  }
+
+  const datatype = datatypeFromUrl(propR.get(urls.properties.datatype).toString());
+  const shortname = propR.get(urls.properties.shortname).toString();
+  const description = propR.get(urls.properties.description).toString();
+
+  const property: Property = {
+    subject,
+    datatype,
+    shortname,
+    description,
+  };
+  return property;
+}
+
+export function usePropValue(resource: Resource, propertyURL: string): Value | null {
+  if (resource == undefined) {
+    return null;
+  }
+  let value = null;
+  try {
+    value = resource.get(propertyURL);
+  } catch (e) {
+    handleInfo(e);
+  }
+  if (value == undefined) {
+    return null;
+  }
+  return value;
+}
+
 /** Hook for getting a stringified representation of an Atom in a React component */
 export function usePropString(resource: Resource, propertyURL: string): string | null {
   // Not sure about this...
@@ -43,12 +82,29 @@ export function usePropString(resource: Resource, propertyURL: string): string |
   try {
     value = resource.get(propertyURL);
   } catch (e) {
-    handleError(e);
+    handleInfo(e);
   }
   if (value == undefined) {
     return null;
   }
   return value.toString();
+}
+
+/** Hook for getting all URLs for some array */
+export function usePropArray(resource: Resource, propertyURL: string): string[] {
+  if (resource == undefined) {
+    return [];
+  }
+  let value = [];
+  try {
+    value = resource.get(propertyURL).toArray();
+  } catch (e) {
+    handleInfo(e);
+  }
+  if (value == undefined) {
+    return null;
+  }
+  return value;
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
@@ -61,7 +117,7 @@ export function usePropDate(resource: Resource, propertyURL: string): Date | nul
   try {
     value = resource.get(propertyURL);
   } catch (e) {
-    handleError(e);
+    handleInfo(e);
   }
   if (value == undefined) {
     return null;
@@ -69,7 +125,7 @@ export function usePropDate(resource: Resource, propertyURL: string): Date | nul
   try {
     return value.toDate();
   } catch (e) {
-    handleError(e);
+    handleInfo(e);
     return null;
   }
 }

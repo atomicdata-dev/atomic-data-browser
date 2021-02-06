@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { handleError } from '../helpers/handlers';
 
 interface Props {
   children: ReactNode;
@@ -20,7 +21,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.log('Uncaught error:', error, errorInfo);
+    handleError(error);
   }
 
   public render(): ReactNode {
