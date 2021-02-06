@@ -54,9 +54,7 @@ export const signAt = async (commitBuilder: CommitBuilder, agent: string, privat
 export const signToBase64 = async (message: string, privateKeyBase64: string): Promise<string> => {
   const privateKeyArrayBuffer = decode(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
-  // Things are correct here
   const signatureHex = await ed.sign(message, privateKeyBytes);
-  console.log('signatureHex', signatureHex);
   const signatureBase64 = hexToBase64(signatureHex);
   return signatureBase64;
 };
