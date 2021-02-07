@@ -9,20 +9,21 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 
 ## Progress
 
-- [x] Fetch atomic data
-- [x] Render atomic data
-- [x] Render properties as labels
-- [x] Some styling
-- [x] Datatype dependent renders
-- [x] Commit implementation
-- [ ] Set default agent / base server
-- [ ] Edit properties (Sign and Post Commits after editing an atom)
-- [ ] Click a property to open its form
-- [ ] Validate form fields
-- [x] Table view
-- [ ] Navigate collections (sorting / pagination)
-- [ ] Instantiate new Resources
-- [ ] Add properties
+- [x] **View data**
+  - [x] Fetch atomic data
+  - [x] Render atomic data
+  - [x] Render properties as labels
+  - [x] Datatype dependent renders
+  - [x] Table view
+  - [ ] Navigate collections (sorting / pagination)
+- [ ] **Edit data**
+  - [x] Commit implementation
+  - [ ] Set default agent / base server
+  - [ ] Edit properties (Sign and Post Commits after editing an atom)
+  - [ ] Click a property to open its form
+  - [ ] Validate form fields
+  - [ ] Instantiate new Resources
+  - [ ] Add properties
 - [ ] Resolve atomic paths
 - [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
 
