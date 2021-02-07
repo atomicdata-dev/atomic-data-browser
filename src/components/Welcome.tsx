@@ -10,6 +10,9 @@ export const Welcome: React.FunctionComponent = () => {
         This app is built using <a href='https://github.com/joepio/atomic-react'>atomic-react</a>, a typescript library for rendering and
         editing Atomic Data.
       </p>
+      <p>
+        Check out the <a href='docs.atomicdata.dev/'>docs</a> for more info about the concept.
+      </p>
       <p>Some Atomic Data servers to check out:</p>
       <ul>
         <li>
