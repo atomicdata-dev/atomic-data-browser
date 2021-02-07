@@ -5,7 +5,7 @@ const Settings = () => {
 };
 export default Settings;
 import {HexColorPicker} from "../pkg/react-colorful.js";
-import "../pkg/react-colorful/dist/index.css.proxy.js";
+import "../pkg/react-colorful/dist/index.css";
 import {useLocalStorage} from "../helpers/useLocalStorage.js";
 const Picker = () => {
   const [color, setColor] = useLocalStorage("mainColor", "#aabbcc");
