@@ -8,28 +8,21 @@ import { datatypeFromUrl } from './datatypes';
 import { urls } from '../helpers/urls';
 
 /** Hook for getting a Resource in a React component */
-export function useResource(subject: string): Resource | null {
-  const [resource, setResource] = useState(null);
+export function useResource(subject: string): Resource {
   const store = useStore();
+  const [resource, setResource] = useState<Resource>(store.getResource(subject));
 
   useEffect(() => {
-    // Async code needs to be made sync
-    const getResourceAsync = async () => {
-      const resource = await store.getResource(subject);
-      setResource(resource);
-    };
-    getResourceAsync();
-
     // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
-    function handleResourceUpdated(resource: Resource) {
+    function handleNotify(updated: Resource) {
       // When a change happens, set the new Resource.
-      setResource(resource);
+      setResource(updated);
     }
-    store.subscribe(subject, handleResourceUpdated);
+    store.subscribe(subject, handleNotify);
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(subject, handleResourceUpdated);
+      store.unsubscribe(subject, handleNotify);
     };
   }, []);
 
@@ -39,11 +32,12 @@ export function useResource(subject: string): Resource | null {
 export function useProperty(subject: string): Property | null {
   const propR = useResource(subject);
 
-  if (propR == null) {
+  if (!propR.isReady()) {
     return null;
   }
 
-  const datatype = datatypeFromUrl(propR.get(urls.properties.datatype).toString());
+  const datatypeUrl = propR.get(urls.properties.datatype)?.toString();
+  const datatype = datatypeFromUrl(datatypeUrl);
   const shortname = propR.get(urls.properties.shortname).toString();
   const description = propR.get(urls.properties.description).toString();
 
@@ -56,8 +50,8 @@ export function useProperty(subject: string): Property | null {
   return property;
 }
 
-export function usePropValue(resource: Resource, propertyURL: string): Value | null {
-  if (resource == undefined) {
+export function useValue(resource: Resource, propertyURL: string): Value | null {
+  if (!resource.isReady()) {
     return null;
   }
   let value = null;
@@ -73,10 +67,10 @@ export function usePropValue(resource: Resource, propertyURL: string): Value | n
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
-export function usePropString(resource: Resource, propertyURL: string): string | null {
+export function useString(resource: Resource, propertyURL: string): string | null {
   // Not sure about this...
-  if (resource == undefined) {
-    return 'loading...';
+  if (!resource.isReady()) {
+    return null;
   }
   let value = undefined;
   try {
@@ -91,26 +85,25 @@ export function usePropString(resource: Resource, propertyURL: string): string |
 }
 
 /** Hook for getting all URLs for some array */
-export function usePropArray(resource: Resource, propertyURL: string): string[] {
-  if (resource == undefined) {
+export function useArray(resource: Resource, propertyURL: string): string[] {
+  if (!resource.isReady()) {
     return [];
   }
   let value = [];
   try {
-    value = resource.get(propertyURL).toArray();
+    value = resource.get(propertyURL)?.toArray();
   } catch (e) {
     handleInfo(e);
   }
   if (value == undefined) {
-    return null;
+    return [];
   }
   return value;
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
-export function usePropDate(resource: Resource, propertyURL: string): Date | null {
-  // Not sure about this...
-  if (resource == undefined) {
+export function useDate(resource: Resource, propertyURL: string): Date | null {
+  if (!resource.isReady()) {
     return null;
   }
   let value = undefined;

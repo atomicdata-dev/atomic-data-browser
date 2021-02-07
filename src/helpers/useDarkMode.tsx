@@ -9,7 +9,6 @@ export const useDarkMode = (): [boolean, Dispatch<SetStateAction<boolean>>] => {
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     setDark(e.matches ? true : false);
-    console.log('SWITCH', e);
   });
 
   const toggleTheme = () => {

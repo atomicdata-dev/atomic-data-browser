@@ -1,5 +1,5 @@
 export function handleError(e: Error): void {
-  console.log(e);
+  console.error(e);
 }
 
 export function handleWarning(e: Error): void {

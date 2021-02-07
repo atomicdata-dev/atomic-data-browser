@@ -1,7 +1,10 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { darken, lighten } from 'polished';
+import { useDarkMode } from './helpers/useDarkMode';
 
-export const buildTheme = (darkMode: boolean): DefaultTheme => {
+export const buildTheme = (): DefaultTheme => {
+  const [darkMode] = useDarkMode();
+
   const main = darkMode ? 'rgb(150,150,255)' : 'rgb(40,40,255)';
   const bg = darkMode ? 'black' : 'white';
 

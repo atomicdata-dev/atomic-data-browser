@@ -2,7 +2,8 @@ import React, { ReactNode } from 'react';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { truncateUrl } from '../../helpers/truncate';
 import { urls } from '../../helpers/urls';
-import { usePropString, useResource } from '../../lib/react';
+import { useString, useResource } from '../../lib/react';
+import { ResourceStatus } from '../../lib/resource';
 
 type Props = {
   children?: ReactNode;
@@ -10,11 +11,20 @@ type Props = {
 };
 
 /** Renders a markdown value */
-function AtomicUrl({ children, url }: Props): JSX.Element {
+function ResourceInline({ children, url }: Props): JSX.Element {
   const [, setSubject] = useQueryParam('subject', StringParam);
   const resource = useResource(url);
-  const shortname = usePropString(resource, urls.properties.shortname);
-  const description = usePropString(resource, urls.properties.description);
+
+  const status = resource.getStatus();
+  if (status == ResourceStatus.loading) {
+    return null;
+  }
+  if (status == ResourceStatus.error) {
+    return <div>{resource.getError().message}</div>;
+  }
+
+  const shortname = useString(resource, urls.properties.shortname);
+  const description = useString(resource, urls.properties.description);
 
   const handleClick = e => {
     e.preventDefault();
@@ -28,4 +38,4 @@ function AtomicUrl({ children, url }: Props): JSX.Element {
   );
 }
 
-export default AtomicUrl;
+export default ResourceInline;

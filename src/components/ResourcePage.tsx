@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { usePropString, useResource } from '../lib/react';
+import { useString, useResource, useStore } from '../lib/react';
+import { ResourceStatus } from '../lib/resource';
 import AllProps from './AllProps';
 import { Container } from './Container';
-import AtomicUrl from './datatypes/AtomicUrl';
+import ResourceInline from './datatypes/ResourceInline';
 import Markdown from './datatypes/Markdown';
 import Table from './Table';
 
@@ -15,13 +16,18 @@ type Props = {
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function ResourcePage({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
-  const shortname = usePropString(resource, properties.shortname);
-  const description = usePropString(resource, properties.description);
-  const klass = usePropString(resource, properties.isA);
 
-  if (resource == null) {
+  const status = resource.getStatus();
+  if (status == ResourceStatus.loading) {
     return null;
   }
+  if (status == ResourceStatus.error) {
+    return <div>{resource.getError().message}</div>;
+  }
+
+  const shortname = useString(resource, properties.shortname);
+  const description = useString(resource, properties.description);
+  const klass = useString(resource, properties.isA);
 
   switch (klass) {
     case urls.classes.collection:
@@ -34,7 +40,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
       {klass && (
         <ClassPreview>
           {'is a '}
-          <AtomicUrl url={klass} />
+          <ResourceInline url={klass} />
         </ClassPreview>
       )}
       {description && <Markdown text={description} />}

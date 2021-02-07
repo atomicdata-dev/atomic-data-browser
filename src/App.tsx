@@ -7,7 +7,7 @@ import { buildTheme, GlobalStyle } from './styling';
 import { StoreContext } from './lib/react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Browser from './components/Browser';
-import { useDarkMode } from './helpers/useDarkMode';
+// import { useDarkMode } from './helpers/useDarkMode';
 
 /** Initialize the store */
 const store = new Store('https://surfy.ddns.net/');
@@ -16,14 +16,12 @@ store.populate();
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
-  const [darkMode] = useDarkMode();
-
   return (
     <StoreContext.Provider value={store}>
       <BrowserRouter>
         {/* Used for getting / setting query parameters */}
         <QueryParamProvider ReactRouterRoute={Route}>
-          <ThemeProvider theme={buildTheme(darkMode)}>
+          <ThemeProvider theme={buildTheme()}>
             <GlobalStyle />
             <Browser />
           </ThemeProvider>

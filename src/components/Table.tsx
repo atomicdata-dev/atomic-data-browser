@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { usePropArray, useProperty, usePropString, usePropValue, useResource } from '../lib/react';
+import { useArray, useProperty, useString, useValue, useResource } from '../lib/react';
 import { Resource } from '../lib/resource';
 import { Container } from './Container';
-import AtomicUrl from './datatypes/AtomicUrl';
+import ResourceInline from './datatypes/ResourceInline';
 import Markdown from './datatypes/Markdown';
 import ValueComp from './ValueComp';
 
@@ -14,16 +14,16 @@ type TableProps = {
 
 /** A table view for Collections. Header shows properties of the first class of the collection */
 function Table({ resource }: TableProps): JSX.Element {
-  const shortname = usePropString(resource, properties.shortname);
-  const description = usePropString(resource, properties.description);
-  const members = usePropArray(resource, properties.collection.members);
-  const klass = usePropString(resource, properties.collection.value);
+  const shortname = useString(resource, properties.shortname);
+  const description = useString(resource, properties.description);
+  const members = useArray(resource, properties.collection.members);
+  const klass = useString(resource, properties.collection.value);
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
   // If that happens, we need a different approach to rendering the Headers
   const classResource = useResource(klass);
-  const requiredProps = usePropArray(classResource, urls.properties.requires);
-  const recommendedProps = usePropArray(classResource, urls.properties.recommends);
+  const requiredProps = useArray(classResource, urls.properties.requires);
+  const recommendedProps = useArray(classResource, urls.properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
   // Don't show the shortname, it's already shown in the first row.
   const propsArray = propsArrayFull.filter(item => item !== urls.properties.shortname);
@@ -70,7 +70,7 @@ function Header({ klass, propsArray }: HeaderProps): JSX.Element {
         {propsArray.map(prop => {
           return (
             <CellStyled header key={prop}>
-              <AtomicUrl url={prop} />
+              <ResourceInline url={prop} />
             </CellStyled>
           );
         })}
@@ -92,7 +92,7 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
   return (
     <RowStyled>
       <CellStyled>
-        <AtomicUrl url={subject} />
+        <ResourceInline url={subject} />
       </CellStyled>
       {propsArray.map(prop => {
         return <Cell key={prop} resource={resource} prop={prop} />;
@@ -111,7 +111,7 @@ type CellProps = {
 };
 
 function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
-  const value = usePropValue(resource, propUrl);
+  const value = useValue(resource, propUrl);
   const fullprop = useProperty(propUrl);
   if (value == null) {
     return null;

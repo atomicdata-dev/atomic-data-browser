@@ -1,4 +1,4 @@
-import { Resource } from './resource';
+import { Resource, ResourceStatus } from './resource';
 import { fetchResource } from './client';
 import { Value } from './value';
 import { urls } from '../helpers/urls';
@@ -28,7 +28,7 @@ export class Store {
     this.addResource(resource);
   }
 
-  /** Adds a Resource to the store. Replaces existing. */
+  /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
   addResource(resource: Resource): void {
     this.resources.set(resource.getSubject(), resource);
     this.notify(resource);
@@ -42,19 +42,27 @@ export class Store {
   }
 
   /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
-  async getResource(subject: string): Promise<Resource> {
+  getResource(subject: string): Resource {
     const found = this.resources.get(subject);
+    // If the resource is not in the internal map,
     if (found == undefined) {
-      return await this.fetchResource(subject);
+      this.fetchResource(subject);
+      const newR = new Resource(subject);
+      newR.setStatus(ResourceStatus.loading);
+      this.resources.set(subject, newR);
+      return newR;
     }
     return found;
   }
 
   /** Gets a property by URL. */
-  async getProperty(subject: string): Promise<Property> {
+  async getProperty(subject: string): Promise<Property | null> {
     const resource = await this.getResource(subject);
+    if (!resource.isReady()) {
+      return null;
+    }
     const prop = new Property();
-    prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype).toString());
+    prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype)?.toString());
     return prop;
   }
 
@@ -77,8 +85,10 @@ export class Store {
 
   /** Registers a callback for when the subject resource is updated. */
   subscribe(subject: string, callback: callback): void {
-    // const callbackArray = this.subscribers.get(subject);
-    const callbackArray = [];
+    let callbackArray = this.subscribers.get(subject);
+    if (callbackArray == undefined) {
+      callbackArray = [];
+    }
     callbackArray.push(callback);
     this.subscribers.set(subject, callbackArray);
   }

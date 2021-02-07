@@ -18,7 +18,7 @@ export function AddressBar(): JSX.Element {
   return (
     <Wrapper onSubmit={handleSubmit}>
       <input type='text' value={subject} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
-      <input type='submit' value='Fetch' />
+      {/* <input type='submit' value='Fetch' /> */}
     </Wrapper>
   );
 }
@@ -42,6 +42,13 @@ const Wrapper = styled.form`
     border-color: ${props => props.theme.colors.main1};
   }
 
+  @media (max-width: 40rem) {
+    max-width: 100%;
+    margin: auto;
+    left: auto;
+    right: auto;
+  }
+
   input {
     border: none;
     font-size: 0.8rem;
@@ -58,6 +65,7 @@ const Wrapper = styled.form`
   }
   input[type='submit'] {
     background-color: ${props => props.theme.colors.main};
+    color: white;
     &:hover {
       cursor: pointer;
       background-color: ${props => props.theme.colors.main1};

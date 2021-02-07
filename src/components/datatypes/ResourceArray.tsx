@@ -1,5 +1,5 @@
 import React from 'react';
-import AtomicUrl from './AtomicUrl';
+import ResourceInline from './ResourceInline';
 
 type Props = {
   array: string[];
@@ -12,7 +12,7 @@ function ResourceArray({ array }: Props): JSX.Element {
       {array.map(url => {
         return (
           <React.Fragment key={url}>
-            <AtomicUrl url={url} />
+            <ResourceInline url={url} />
             {', '}
           </React.Fragment>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Datatype } from '../lib/datatypes';
 import { Value } from '../lib/value';
-import AtomicUrl from './datatypes/AtomicUrl';
+import ResourceInline from './datatypes/ResourceInline';
 import DateTime from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';
 import Nestedresource from './datatypes/NestedResource';
@@ -18,7 +18,7 @@ function ValueComp({ value, datatype }: Props): JSX.Element {
     case Datatype.ATOMIC_URL: {
       const resource = value.toResource();
       if (typeof resource == 'string') {
-        return <AtomicUrl url={resource} />;
+        return <ResourceInline url={resource} />;
       }
       return <Nestedresource resource={resource} />;
     }
