@@ -593,7 +593,7 @@
       ]
     },
     "dist/components/Welcome.js": {
-      "bytes": 997,
+      "bytes": 1190,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -830,7 +830,7 @@
           "bytesInOutput": 614
         },
         "dist/components/Welcome.js": {
-          "bytesInOutput": 456
+          "bytesInOutput": 567
         },
         "dist/components/Browser.js": {
           "bytesInOutput": 113
@@ -842,7 +842,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 300323
+      "bytes": 300434
     }
   }
 }
