@@ -1,6 +1,6 @@
-import React from "../../_snowpack/pkg/react.js";
-import styled from "../../_snowpack/pkg/styled-components.js";
-import {StringParam, useQueryParam} from "../../_snowpack/pkg/use-query-params.js";
+import React from "../pkg/react.js";
+import styled from "../pkg/styled-components.js";
+import {StringParam, useQueryParam} from "../pkg/use-query-params.js";
 import {useProperty} from "../lib/react.js";
 import ValueComp from "./ValueComp.js";
 const PropValRow = styled.div`

@@ -1,4 +1,4 @@
-import React from "../../_snowpack/pkg/react.js";
+import React from "../pkg/react.js";
 import PropVal from "./PropVal.js";
 function AllProps({resource, except = []}) {
   return /* @__PURE__ */ React.createElement(React.Fragment, null, [...resource.getPropVals()].map(([prop, val]) => {

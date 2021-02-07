@@ -1,4 +1,4 @@
-import React, {Component} from "../../_snowpack/pkg/react.js";
+import React, {Component} from "../pkg/react.js";
 import {handleError} from "../helpers/handlers.js";
 class ErrorBoundary extends Component {
   constructor() {

@@ -1,10 +1,10 @@
-import React from "../_snowpack/pkg/react.js";
-import {ThemeProvider} from "../_snowpack/pkg/styled-components.js";
+import React from "./pkg/react.js";
+import {ThemeProvider} from "./pkg/styled-components.js";
 import {Store} from "./lib/store.js";
-import {QueryParamProvider} from "../_snowpack/pkg/use-query-params.js";
+import {QueryParamProvider} from "./pkg/use-query-params.js";
 import {buildTheme, GlobalStyle} from "./styling.js";
 import {StoreContext} from "./lib/react.js";
-import {BrowserRouter, Route} from "../_snowpack/pkg/react-router-dom.js";
+import {BrowserRouter, Route} from "./pkg/react-router-dom.js";
 import Browser from "./components/Browser.js";
 const store = new Store("https://surfy.ddns.net/");
 function App() {

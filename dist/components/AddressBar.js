@@ -1,6 +1,6 @@
-import * as React from "../../_snowpack/pkg/react.js";
-import styled from "../../_snowpack/pkg/styled-components.js";
-import {StringParam, useQueryParam} from "../../_snowpack/pkg/use-query-params.js";
+import * as React from "../pkg/react.js";
+import styled from "../pkg/styled-components.js";
+import {StringParam, useQueryParam} from "../pkg/use-query-params.js";
 export function AddressBar() {
   const [subject, setSubject] = useQueryParam("subject", StringParam);
   const handleSubmit = (event) => {

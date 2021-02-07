@@ -1,4 +1,4 @@
-import {useState} from "../../_snowpack/pkg/react.js";
+import {useState} from "../pkg/react.js";
 import {handleError} from "./handlers.js";
 export function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {

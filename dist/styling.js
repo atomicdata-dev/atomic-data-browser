@@ -1,5 +1,5 @@
-import {createGlobalStyle} from "../_snowpack/pkg/styled-components.js";
-import {darken, lighten} from "../_snowpack/pkg/polished.js";
+import {createGlobalStyle} from "./pkg/styled-components.js";
+import {darken, lighten} from "./pkg/polished.js";
 import {useDarkMode} from "./helpers/useDarkMode.js";
 export const buildTheme = () => {
   const [darkMode] = useDarkMode();
@@ -19,7 +19,7 @@ export const buildTheme = () => {
     }
   };
 };
-import "../_snowpack/pkg/styled-components.js";
+import "./pkg/styled-components.js";
 export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.colors.bg};

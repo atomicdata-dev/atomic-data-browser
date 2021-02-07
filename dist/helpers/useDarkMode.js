@@ -1,4 +1,4 @@
-import {useEffect, useState} from "../../_snowpack/pkg/react.js";
+import {useEffect, useState} from "../pkg/react.js";
 export const useDarkMode = () => {
   let def = false;
   if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {

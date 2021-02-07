@@ -1,5 +1,5 @@
-import React from "../../_snowpack/pkg/react.js";
-import styled from "../../_snowpack/pkg/styled-components.js";
+import React from "../pkg/react.js";
+import styled from "../pkg/styled-components.js";
 import {properties, urls} from "../helpers/urls.js";
 import {useArray, useProperty, useString, useValue, useResource, useTitle} from "../lib/react.js";
 import ResourceInline from "./datatypes/ResourceInline.js";

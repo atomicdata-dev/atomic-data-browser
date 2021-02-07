@@ -1,5 +1,5 @@
-import * as React from "../../_snowpack/pkg/react.js";
-import {StringParam, useQueryParam} from "../../_snowpack/pkg/use-query-params.js";
+import * as React from "../pkg/react.js";
+import {StringParam, useQueryParam} from "../pkg/use-query-params.js";
 import {AddressBar} from "./AddressBar.js";
 import ResourcePage from "./ResourcePage.js";
 import {Welcome} from "./Welcome.js";

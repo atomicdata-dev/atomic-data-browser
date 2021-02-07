@@ -1,4 +1,4 @@
-import React from "../../_snowpack/pkg/react.js";
+import React from "../pkg/react.js";
 import {Datatype} from "../lib/datatypes.js";
 import ResourceInline from "./datatypes/ResourceInline.js";
 import DateTime from "./datatypes/DateTime.js";

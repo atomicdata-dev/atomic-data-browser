@@ -1,6 +1,6 @@
-import ed from "../../_snowpack/pkg/noble-ed25519.js";
-import stringify from "../../_snowpack/pkg/json-stable-stringify.js";
-import {decode} from "../../_snowpack/pkg/base64-arraybuffer.js";
+import ed from "../pkg/noble-ed25519.js";
+import stringify from "../pkg/json-stable-stringify.js";
+import {decode} from "../pkg/base64-arraybuffer.js";
 function hexToBase64(hexstring) {
   return btoa(hexstring.match(/\w{2}/g).map(function(a) {
     return String.fromCharCode(parseInt(a, 16));

@@ -1,5 +1,5 @@
-import React from "../../_snowpack/pkg/react.js";
-import {StringParam, useQueryParam} from "../../_snowpack/pkg/use-query-params.js";
+import React from "../pkg/react.js";
+import {StringParam, useQueryParam} from "../pkg/use-query-params.js";
 import {useStore} from "../lib/react.js";
 function Link({children, url}) {
   const [, setSubject] = useQueryParam("subject", StringParam);

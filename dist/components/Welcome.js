@@ -1,4 +1,4 @@
-import * as React from "../../_snowpack/pkg/react.js";
+import * as React from "../pkg/react.js";
 import {Container} from "./Container.js";
 import Link from "./Link.js";
 export const Welcome = () => {

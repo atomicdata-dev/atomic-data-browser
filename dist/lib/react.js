@@ -1,5 +1,5 @@
-import {useState, useEffect} from "../../_snowpack/pkg/react.js";
-import React from "../../_snowpack/pkg/react.js";
+import {useState, useEffect} from "../pkg/react.js";
+import React from "../pkg/react.js";
 import {handleInfo} from "../helpers/handlers.js";
 import {datatypeFromUrl} from "./datatypes.js";
 import {urls} from "../helpers/urls.js";
