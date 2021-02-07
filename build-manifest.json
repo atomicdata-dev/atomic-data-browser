@@ -240,7 +240,7 @@
       "imports": []
     },
     "dist/lib/react.js": {
-      "bytes": 3090,
+      "bytes": 2967,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -779,7 +779,7 @@
           "bytesInOutput": 93
         },
         "dist/lib/react.js": {
-          "bytesInOutput": 1240
+          "bytesInOutput": 1151
         },
         "dist/pkg/common/index-9a858da8.js": {
           "bytesInOutput": 708
@@ -842,7 +842,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 300412
+      "bytes": 300323
     }
   }
 }
