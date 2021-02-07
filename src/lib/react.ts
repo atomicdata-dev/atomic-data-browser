@@ -6,6 +6,7 @@ import { handleInfo } from '../helpers/handlers';
 import { Value } from './value';
 import { datatypeFromUrl } from './datatypes';
 import { urls } from '../helpers/urls';
+import { truncateUrl } from '../helpers/truncate';
 
 /** Hook for getting a Resource in a React component */
 export function useResource(subject: string): Resource {
@@ -82,6 +83,22 @@ export function useString(resource: Resource, propertyURL: string): string | nul
     return null;
   }
   return value.toString();
+}
+
+/** Returns the most fitting title / name for a Resource */
+export function useTitle(resource: Resource): string {
+  console.log('resource', resource);
+  console.log('status', resource.getStatus());
+  const title = useString(resource, urls.properties.title);
+  if (title !== null) {
+    return title;
+  }
+  const shortname = useString(resource, urls.properties.shortname);
+  console.log('shortname', shortname);
+  if (shortname !== null) {
+    return shortname;
+  }
+  return truncateUrl(resource.getSubject(), 40);
 }
 
 /** Hook for getting all URLs for some array */

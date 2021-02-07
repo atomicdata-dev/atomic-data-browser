@@ -1,6 +1,5 @@
 import { Resource, ResourceStatus } from './resource';
 import { fetchResource } from './client';
-import { Value } from './value';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 
@@ -21,13 +20,6 @@ export class Store {
     this.subscribers = new Map();
   }
 
-  /** Adds a bunch of predetermined Resources to the store */
-  populate(): void {
-    const resource = new Resource('https://atomicdata.dev/test');
-    resource.set('https://atomicdata.dev/properties/shortname', new Value('value-from-populate'));
-    this.addResource(resource);
-  }
-
   /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
   addResource(resource: Resource): void {
     this.resources.set(resource.getSubject(), resource);
@@ -36,9 +28,11 @@ export class Store {
 
   /** Fetches a resource by URL, replaces the one in the store. */
   async fetchResource(subject: string): Promise<Resource> {
-    const fetched = await fetchResource(subject);
-    this.addResource(fetched);
-    return fetched;
+    if (this.resources.get(subject) == undefined) {
+      const fetched = await fetchResource(subject);
+      this.addResource(fetched);
+      return fetched;
+    }
   }
 
   /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */

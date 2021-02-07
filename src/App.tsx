@@ -11,8 +11,6 @@ import Browser from './components/Browser';
 
 /** Initialize the store */
 const store = new Store('https://surfy.ddns.net/');
-/** Add some basic resources */
-store.populate();
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {

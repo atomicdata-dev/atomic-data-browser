@@ -9,11 +9,11 @@ type Props = {
 function ResourceArray({ array }: Props): JSX.Element {
   return (
     <div>
-      {array.map(url => {
+      {array.map((url, index) => {
         return (
           <React.Fragment key={url}>
             <ResourceInline url={url} />
-            {', '}
+            {index !== array.length - 1 && ', '}
           </React.Fragment>
         );
       })}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useStore } from '../lib/react';
+import { useString, useResource, useStore, useTitle } from '../lib/react';
 import { ResourceStatus } from '../lib/resource';
 import AllProps from './AllProps';
 import { Container } from './Container';
@@ -19,13 +19,13 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return null;
+    return <Container>Loading...</Container>;
   }
   if (status == ResourceStatus.error) {
-    return <div>{resource.getError().message}</div>;
+    return <Container>{resource.getError().message}</Container>;
   }
 
-  const shortname = useString(resource, properties.shortname);
+  const title = useTitle(resource);
   const description = useString(resource, properties.description);
   const klass = useString(resource, properties.isA);
 
@@ -36,7 +36,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
   return (
     <Container>
-      {shortname && <h1>{shortname}</h1>}
+      <h1>{title}</h1>
       {klass && (
         <ClassPreview>
           {'is a '}

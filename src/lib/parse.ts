@@ -2,11 +2,10 @@ import { handleError } from '../helpers/handlers';
 import { Resource, ResourceStatus } from './resource';
 import { Value } from './value';
 
-/** Parses an JSON-AD string containing a resoure */
-export function parseJsonADResource(string: string): Resource {
-  const jsonObject = JSON.parse(string);
-  const resource = new Resource('no_@id');
+/** Parses an JSON-AD string containing a resoure, adds it to the input Resource */
+export function parseJsonADResource(string: string, resource: Resource): void {
   try {
+    const jsonObject = JSON.parse(string);
     for (const key in jsonObject) {
       if (key == '@id') {
         const subject: string = jsonObject['@id'];
@@ -23,5 +22,5 @@ export function parseJsonADResource(string: string): Resource {
     resource.setError(e);
     handleError(e);
   }
-  return resource;
+  return;
 }

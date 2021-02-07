@@ -2,21 +2,21 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
 
-const defaultSubject = 'https://atomicdata.dev/classes';
-
 export function AddressBar(): JSX.Element {
   // Value shown in navbar, after Submitting
   const [subject, setSubject] = useQueryParam('subject', StringParam);
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (subject == undefined || subject == '') {
-      setSubject(defaultSubject);
-    }
+  };
+
+  const handleClear = () => {
+    setSubject('');
   };
 
   return (
     <Wrapper onSubmit={handleSubmit}>
+      <button onClick={handleClear}>X</button>
       <input type='text' value={subject} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
       {/* <input type='submit' value='Fetch' /> */}
     </Wrapper>

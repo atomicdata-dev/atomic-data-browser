@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { useArray, useProperty, useString, useValue, useResource } from '../lib/react';
+import { useArray, useProperty, useString, useValue, useResource, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
-import { Container } from './Container';
 import ResourceInline from './datatypes/ResourceInline';
 import Markdown from './datatypes/Markdown';
 import ValueComp from './ValueComp';
@@ -14,7 +13,7 @@ type TableProps = {
 
 /** A table view for Collections. Header shows properties of the first class of the collection */
 function Table({ resource }: TableProps): JSX.Element {
-  const shortname = useString(resource, properties.shortname);
+  const title = useTitle(resource);
   const description = useString(resource, properties.description);
   const members = useArray(resource, properties.collection.members);
   const klass = useString(resource, properties.collection.value);
@@ -34,10 +33,8 @@ function Table({ resource }: TableProps): JSX.Element {
 
   return (
     <Wrapper>
-      <Container>
-        {shortname ? <h1>{shortname}</h1> : <h1>Collection</h1>}
-        {description && <Markdown text={description} />}
-      </Container>
+      <h1>{title}</h1>
+      {description && <Markdown text={description} />}
       <table>
         <Header klass={classResource} propsArray={propsArray} />
         <tbody>

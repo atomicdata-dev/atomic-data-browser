@@ -1,9 +1,10 @@
 import React, { ReactNode } from 'react';
-import { StringParam, useQueryParam } from 'use-query-params';
+import styled from 'styled-components';
 import { truncateUrl } from '../../helpers/truncate';
 import { urls } from '../../helpers/urls';
-import { useString, useResource } from '../../lib/react';
+import { useString, useResource, useTitle } from '../../lib/react';
 import { ResourceStatus } from '../../lib/resource';
+import Link from '../Link';
 
 type Props = {
   children?: ReactNode;
@@ -12,7 +13,6 @@ type Props = {
 
 /** Renders a markdown value */
 function ResourceInline({ children, url }: Props): JSX.Element {
-  const [, setSubject] = useQueryParam('subject', StringParam);
   const resource = useResource(url);
 
   const status = resource.getStatus();
@@ -20,22 +20,23 @@ function ResourceInline({ children, url }: Props): JSX.Element {
     return null;
   }
   if (status == ResourceStatus.error) {
-    return <div>{resource.getError().message}</div>;
+    return <ErrorLook>Error: {resource.getError().message}</ErrorLook>;
   }
 
-  const shortname = useString(resource, urls.properties.shortname);
+  const title = useTitle(resource);
+
   const description = useString(resource, urls.properties.description);
 
-  const handleClick = e => {
-    e.preventDefault();
-    setSubject(url);
-  };
-
   return (
-    <a onClick={handleClick} href={url} title={description ? description : null}>
-      {children ? children : shortname ? shortname : truncateUrl(url, 40)}
-    </a>
+    <Link url={url}>
+      <span title={description ? description : null}>{title}</span>
+    </Link>
   );
 }
+
+const ErrorLook = styled.div`
+  color: ${props => props.theme.colors.alert};
+  font-family: monospace;
+`;
 
 export default ResourceInline;

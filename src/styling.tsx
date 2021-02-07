@@ -4,6 +4,7 @@ import { useDarkMode } from './helpers/useDarkMode';
 
 export const buildTheme = (): DefaultTheme => {
   const [darkMode] = useDarkMode();
+  // const [main] = useLocalStorage('mainColor', 'rgb(150,150,255)');
 
   const main = darkMode ? 'rgb(150,150,255)' : 'rgb(40,40,255)';
   const bg = darkMode ? 'black' : 'white';
@@ -18,12 +19,14 @@ export const buildTheme = (): DefaultTheme => {
       bg,
       bg1: darkMode ? lighten(0.1)(bg) : darken(0.1)(bg),
       text: darkMode ? 'white' : 'black',
+      alert: 'red',
     },
   };
 };
 
 // Styled-components requires overwriting the default theme
 import 'styled-components';
+import { useLocalStorage } from './helpers/useLocalStorage';
 declare module 'styled-components' {
   export interface DefaultTheme {
     /** If true, make things dark */
@@ -43,6 +46,8 @@ declare module 'styled-components' {
       bg1: string;
       /** Main (body) text color */
       text: string;
+      /** Error / warning color */
+      alert: string;
     };
   }
 }
