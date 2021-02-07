@@ -87,7 +87,7 @@ export function useString(resource: Resource, propertyURL: string): string | nul
 
 /** Returns the most fitting title / name for a Resource */
 export function useTitle(resource: Resource): string {
-  const title = useString(resource, urls.properties.title);
+  const title = useString(resource, urls.properties.name);
   if (title !== null) {
     return title;
   }

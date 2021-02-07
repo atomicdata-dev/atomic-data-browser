@@ -7,7 +7,7 @@ export const properties = {
   description: 'https://atomicdata.dev/properties/description',
   recommends: 'https://atomicdata.dev/properties/recommends',
   requires: 'https://atomicdata.dev/properties/requires',
-  title: 'https://atomicdata.dev/properties/title',
+  name: 'https://atomicdata.dev/properties/name',
   collection: {
     members: 'https://atomicdata.dev/properties/collection/members',
     currentPage: 'https://atomicdata.dev/properties/collection/currentPage',

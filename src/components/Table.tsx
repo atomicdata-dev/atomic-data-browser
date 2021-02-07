@@ -1,21 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { useArray, useProperty, useString, useValue, useResource, useTitle } from '../lib/react';
+import { useArray, useProperty, useString, useValue, useResource } from '../lib/react';
 import { Resource } from '../lib/resource';
 import ResourceInline from './datatypes/ResourceInline';
-import Markdown from './datatypes/Markdown';
 import ValueComp from './ValueComp';
 
 type TableProps = {
   resource: Resource;
+  members: string[];
 };
 
 /** A table view for Collections. Header shows properties of the first class of the collection */
-function Table({ resource }: TableProps): JSX.Element {
-  const title = useTitle(resource);
-  const description = useString(resource, properties.description);
-  const members = useArray(resource, properties.collection.members);
+function Table({ resource, members }: TableProps): JSX.Element {
   const klass = useString(resource, properties.collection.value);
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
@@ -32,24 +29,16 @@ function Table({ resource }: TableProps): JSX.Element {
   }
 
   return (
-    <Wrapper>
-      <h1>{title}</h1>
-      {description && <Markdown text={description} />}
-      <table>
-        <Header klass={classResource} propsArray={propsArray} />
-        <tbody>
-          {members.map(member => {
-            return <Row propsArray={propsArray} key={member} subject={member} />;
-          })}
-        </tbody>
-      </table>
-    </Wrapper>
+    <table>
+      <Header klass={classResource} propsArray={propsArray} />
+      <tbody>
+        {members.map(member => {
+          return <Row propsArray={propsArray} key={member} subject={member} />;
+        })}
+      </tbody>
+    </table>
   );
 }
-
-const Wrapper = styled.div`
-  padding: 1rem;
-`;
 
 type HeaderProps = {
   klass: Resource;

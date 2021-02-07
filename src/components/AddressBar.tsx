@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { FaHome, FaShare } from 'react-icons/fa';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { copyToClipboard } from '../helpers/copyToClipboard';
+import { Button } from './Button';
 
 export function AddressBar(): JSX.Element {
   // Value shown in navbar, after Submitting
@@ -10,15 +13,24 @@ export function AddressBar(): JSX.Element {
     event.preventDefault();
   };
 
-  const handleClear = () => {
+  const handleHome = () => {
     setSubject('');
+  };
+
+  const handleShare = () => {
+    copyToClipboard(subject);
   };
 
   return (
     <Wrapper onSubmit={handleSubmit}>
-      <button onClick={handleClear}>X</button>
+      <Button onClick={handleHome} title='Home'>
+        <FaHome />
+      </Button>
       <input type='text' value={subject} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
       {/* <input type='submit' value='Fetch' /> */}
+      <Button onClick={handleShare} title='Copy resource URL to clipboard' disabled={subject == undefined || subject == ''}>
+        <FaShare />
+      </Button>
     </Wrapper>
   );
 }
@@ -41,6 +53,7 @@ const Wrapper = styled.form`
   &:hover {
     border-color: ${props => props.theme.colors.main1};
   }
+  background-color: ${props => props.theme.colors.bg1};
 
   @media (max-width: 40rem) {
     max-width: 100%;
@@ -53,7 +66,6 @@ const Wrapper = styled.form`
     border: none;
     font-size: 0.8rem;
     padding: 0.4rem 1.2rem;
-    background-color: ${props => props.theme.colors.bg1};
     color: ${props => props.theme.colors.text};
   }
   input[type='text'] {

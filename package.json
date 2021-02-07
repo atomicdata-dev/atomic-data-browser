@@ -28,6 +28,7 @@
     "polished": "^4.1.0",
     "query-string": "^6.13.8",
     "react-colorful": "^4.4.4",
+    "react-icons": "^4.2.0",
     "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
     "snowpack-plugin-baseurl-handler": "^0.0.3",
