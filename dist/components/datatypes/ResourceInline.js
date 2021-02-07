@@ -4,7 +4,7 @@ import {urls} from "../../helpers/urls.js";
 import {useString, useResource, useTitle} from "../../lib/react.js";
 import {ResourceStatus} from "../../lib/resource.js";
 import Link from "../Link.js";
-function ResourceInline({children, url}) {
+function ResourceInline({url}) {
   const resource = useResource(url);
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
