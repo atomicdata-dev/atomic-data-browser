@@ -22,9 +22,12 @@ module.exports = {
   ],
   optimize: {
     /* Example: Bundle your final build: */
-    // "bundle": true,
+    bundle: true,
+    minify: true,
+    target: 'es2018',
   },
   packageOptions: {
+    // source: 'local',
     source: 'local',
     // Used for the `crypto` node library for signing commits
     polyfillNode: true,
@@ -33,6 +36,8 @@ module.exports = {
     /* ... */
   },
   buildOptions: {
+    baseUrl: 'https://joepio.github.io/atomic-react/',
+    metaUrlPath: `dist`,
     /* ... */
   },
 };

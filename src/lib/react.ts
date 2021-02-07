@@ -87,14 +87,11 @@ export function useString(resource: Resource, propertyURL: string): string | nul
 
 /** Returns the most fitting title / name for a Resource */
 export function useTitle(resource: Resource): string {
-  console.log('resource', resource);
-  console.log('status', resource.getStatus());
   const title = useString(resource, urls.properties.title);
   if (title !== null) {
     return title;
   }
   const shortname = useString(resource, urls.properties.shortname);
-  console.log('shortname', shortname);
   if (shortname !== null) {
     return shortname;
   }

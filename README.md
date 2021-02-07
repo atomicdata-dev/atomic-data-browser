@@ -5,6 +5,8 @@ _status: very pre-alpha, stay away from this_
 An example app for interacting with [`atomic-server`](https://github.com/joepio/atomic).
 Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) from a browser!
 
+**[demo](https://joepio.github.io/atomic-react/)**
+
 ## Progress
 
 - [x] Fetch atomic data
@@ -55,3 +57,7 @@ yarn build
 - **helpers**: projects-specific helper functions
 - **lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
 ```
+
+## Publish
+
+`yarn publish` builds & pushes to `gh-pages` branch, which will appear on

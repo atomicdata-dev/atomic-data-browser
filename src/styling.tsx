@@ -26,7 +26,6 @@ export const buildTheme = (): DefaultTheme => {
 
 // Styled-components requires overwriting the default theme
 import 'styled-components';
-import { useLocalStorage } from './helpers/useLocalStorage';
 declare module 'styled-components' {
   export interface DefaultTheme {
     /** If true, make things dark */

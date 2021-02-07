@@ -1,18 +1,16 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { truncateUrl } from '../../helpers/truncate';
 import { urls } from '../../helpers/urls';
 import { useString, useResource, useTitle } from '../../lib/react';
 import { ResourceStatus } from '../../lib/resource';
 import Link from '../Link';
 
 type Props = {
-  children?: ReactNode;
   url: string;
 };
 
-/** Renders a markdown value */
-function ResourceInline({ children, url }: Props): JSX.Element {
+/** Renders a Resource in a small, inline link. */
+function ResourceInline({ url }: Props): JSX.Element {
   const resource = useResource(url);
 
   const status = resource.getStatus();
