@@ -1,9 +1,9 @@
 # Atomic-React
 
-_status: very pre-alpha, stay away from this_
+_status: pre-alpha_
 
-An example app for interacting with [`atomic-server`](https://github.com/joepio/atomic).
-Goal: Edit an [Atomic Resource](https://docs.atomicdata.dev/core/concepts.html) from a browser!
+Typescript / React library for parsing, storing and rendering [Atomic Data](https://atomicdata.dev/).
+Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
 
 **[demo](https://joepio.github.io/atomic-react/)**
 
@@ -42,13 +42,9 @@ yarn dev
 yarn build
 ```
 
-## Linting
-
-`yarn prettier --write .`
-
-## Testing
-
-`yarn test`
+- lint: `yarn prettier --write .`
+- test: `yarn test`
+- publish: `yarn publish` builds & pushes to `gh-pages` branch.
 
 ## Directory structure
 
@@ -58,6 +54,6 @@ yarn build
 - **lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
 ```
 
-## Publish
+## Contribute
 
-`yarn publish` builds & pushes to `gh-pages` branch, which will appear on
+Open a PR, post an issue, but most of all: [join our Discord server](https://discord.gg/a72Rv2P)!
