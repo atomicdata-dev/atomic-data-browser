@@ -215,7 +215,7 @@
       ]
     },
     "dist/styling.js": {
-      "bytes": 2070,
+      "bytes": 1993,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -324,7 +324,7 @@
       "imports": []
     },
     "dist/components/Button.js": {
-      "bytes": 785,
+      "bytes": 906,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -333,7 +333,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 2517,
+      "bytes": 2584,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -362,10 +362,14 @@
       ]
     },
     "dist/components/Link.js": {
-      "bytes": 515,
+      "bytes": 1063,
       "imports": [
         {
           "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
           "kind": "import-statement"
         },
         {
@@ -506,7 +510,7 @@
       ]
     },
     "dist/components/PropVal.js": {
-      "bytes": 1049,
+      "bytes": 895,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -517,11 +521,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/use-query-params.js",
+          "path": "dist/lib/react.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/components/Link.js",
           "kind": "import-statement"
         },
         {
@@ -552,6 +556,19 @@
         }
       ]
     },
+    "dist/helpers/useLocalStorage.js": {
+      "bytes": 724,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "dist/helpers/useMedia.js": {
       "bytes": 390,
       "imports": [
@@ -562,7 +579,7 @@
       ]
     },
     "dist/components/ResourceCard.js": {
-      "bytes": 1784,
+      "bytes": 1870,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -599,6 +616,10 @@
         {
           "path": "dist/components/datatypes/Markdown.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Link.js",
+          "kind": "import-statement"
         }
       ]
     },
@@ -632,12 +653,8 @@
       ]
     },
     "dist/components/Collection.js": {
-      "bytes": 2014,
+      "bytes": 2757,
       "imports": [
-        {
-          "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
         {
           "path": "dist/pkg/react.js",
           "kind": "import-statement"
@@ -648,6 +665,10 @@
         },
         {
           "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useLocalStorage.js",
           "kind": "import-statement"
         },
         {
@@ -902,7 +923,7 @@
           "bytesInOutput": 268
         },
         "dist/styling.js": {
-          "bytesInOutput": 1347
+          "bytesInOutput": 1288
         },
         "dist/helpers/truncate.js": {
           "bytesInOutput": 93
@@ -923,13 +944,13 @@
           "bytesInOutput": 228
         },
         "dist/components/Button.js": {
-          "bytesInOutput": 621
+          "bytesInOutput": 718
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1490
+          "bytesInOutput": 1545
         },
         "dist/components/Link.js": {
-          "bytesInOutput": 173
+          "bytesInOutput": 499
         },
         "dist/components/datatypes/ResourceInline.js": {
           "bytesInOutput": 365
@@ -953,7 +974,7 @@
           "bytesInOutput": 493
         },
         "dist/components/PropVal.js": {
-          "bytesInOutput": 388
+          "bytesInOutput": 357
         },
         "dist/components/AllProps.js": {
           "bytesInOutput": 192
@@ -961,17 +982,20 @@
         "dist/components/Container.js": {
           "bytesInOutput": 70
         },
+        "dist/helpers/useLocalStorage.js": {
+          "bytesInOutput": 251
+        },
         "dist/helpers/useMedia.js": {
           "bytesInOutput": 200
         },
         "dist/components/ResourceCard.js": {
-          "bytesInOutput": 697
+          "bytesInOutput": 714
         },
         "dist/components/Table.js": {
           "bytesInOutput": 1125
         },
         "dist/components/Collection.js": {
-          "bytesInOutput": 514
+          "bytesInOutput": 1143
         },
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 614
@@ -989,7 +1013,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 305787
+      "bytes": 307072
     }
   }
 }
