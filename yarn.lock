@@ -3157,6 +3157,26 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
+oaf-react-router@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/oaf-react-router/-/oaf-react-router-2.1.1.tgz#0216edddedb820ec7c67eda8fcaac2a471893b83"
+  integrity sha512-l3EAdh8b6DRvbbP6sC9uY4Iek1TZq4nxIrWzeZXiN6aCiiZ8NKcmKJqkuej8VbdX0lBCyVp7AgS/HWbXD6wp6A==
+  dependencies:
+    oaf-routing "^3.0.0"
+
+oaf-routing@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/oaf-routing/-/oaf-routing-3.0.1.tgz#86b1170d6310583730fddcd3d0e34a4517bf61d4"
+  integrity sha512-1BiJObNkwQHTUZ5vBm0Yb1aB2oTe+SK2Oqr/p1zNCrm0c/oAHaZSRvYZhSYjvVa2q2B+O14v3e3LLIhHn0t+QQ==
+  dependencies:
+    oaf-side-effects "^2.0.0"
+    unique-selector "^0.4.1"
+
+oaf-side-effects@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/oaf-side-effects/-/oaf-side-effects-2.1.0.tgz#04c84c700d35b2785dce729fcc749aa450e53196"
+  integrity sha512-NE3hDKy+ZY6zTqCv7DgXbjpOAYbixZl59WPWFx0UWoyCfYcsqmSMjnR53xCOjPAWZD8pOFi2UCg8qAQfinickg==
+
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
@@ -4282,6 +4302,11 @@ unified@^9.0.0:
     is-plain-obj "^2.0.0"
     trough "^1.0.0"
     vfile "^4.0.0"
+
+unique-selector@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/unique-selector/-/unique-selector-0.4.1.tgz#f14e0f0e3b8fb3667c8245463c3ffe237442b0ac"
+  integrity sha512-7dLxUE1Wu89fpruo7DAH2k+7UcGSZBnEiwjvlPX5p0LuoJkVIgoaR/5YRFjwmQnVq7ZK0ankCdLRx4mRqd6oOQ==
 
 unist-util-is@^4.0.0:
   version "4.0.4"

@@ -45,6 +45,10 @@ yarn build
 
 - lint: `yarn prettier --write .`
 - test: `yarn test`
+
+## Deploying
+
+- Due to a snowpack bug, we first need to go to `index.html` and rename the absolute paths to assets to `https://joepio.github.io/atomic-react/${path}`.
 - publish: `yarn publish` builds & pushes to `gh-pages` branch.
 
 ## Directory structure

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
 import styled from 'styled-components';
 import { properties } from '../helpers/urls';
+import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useViewport } from '../helpers/useMedia';
 import { useArray, useString, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
@@ -19,6 +19,18 @@ enum DisplayStyle {
   CARDLIST,
 }
 
+const displayStyleString = (style: DisplayStyle) => {
+  switch (style) {
+    case DisplayStyle.CARDLIST: {
+      return 'Cards';
+      break;
+    }
+    case DisplayStyle.TABLE: {
+      return 'Table';
+    }
+  }
+};
+
 /** A View for collections. Contains logic for switching between various views. */
 function Collection({ resource }: CollectionProps): JSX.Element {
   const title = useTitle(resource);
@@ -26,17 +38,22 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
-  const [displayStyle, setDisplayStyle] = useState(defaultView);
+  // const [displayStyle, setDisplayStyle] = useState(defaultView);
+  const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const members = useArray(resource, properties.collection.members);
 
   const handleToggleView = () => {
+    setDisplayStyle(nextDisplayStyle());
+  };
+
+  const nextDisplayStyle = (): DisplayStyle => {
     switch (displayStyle) {
       case DisplayStyle.CARDLIST: {
-        setDisplayStyle(DisplayStyle.TABLE);
+        return DisplayStyle.TABLE;
         break;
       }
       case DisplayStyle.TABLE: {
-        setDisplayStyle(DisplayStyle.CARDLIST);
+        return DisplayStyle.CARDLIST;
       }
     }
   };
@@ -44,7 +61,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   return (
     <Wrapper>
       <h1>{title}</h1>
-      <ButtonMargin onClick={handleToggleView}>Toggle view</ButtonMargin>
+      <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
       {description && <Markdown text={description} />}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}
@@ -58,16 +75,48 @@ type CardListProps = {
 
 function CardList({ members }: CardListProps): JSX.Element {
   return (
-    <React.Fragment>
+    <Masonry>
       {members.map(member => (
-        <ResourceCard key={member} subject={member} />
+        <GridItem key={member}>
+          <ResourceCard key={member} subject={member} />
+        </GridItem>
       ))}
-    </React.Fragment>
+    </Masonry>
   );
 }
+
+const GridItem = styled.div`
+  margin: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  margin-bottom: ${props => props.theme.margin}rem;
+  break-inside: avoid;
+  word-break: break-word;
+`;
+
+const Masonry = styled.div`
+  column-count: 1;
+  column-gap: ${props => props.theme.margin}rem;
+  margin: ${props => props.theme.margin}rem auto;
+  overflow: visible;
+  box-sizing: border-box;
+
+  /* Masonry on small screens */
+  @media only screen and (min-width: 700px) {
+    column-count: 2;
+  }
+  /* Masonry on medium-sized screens */
+  @media only screen and (min-width: 1200px) {
+    column-count: 3;
+  }
+  /* Masonry on large screens */
+  @media only screen and (min-width: 1800px) {
+    column-count: 4;
+  }
+`;
 
 export default Collection;
 
 const Wrapper = styled.div`
-  padding: 1rem;
+  padding: ${props => props.theme.margin}rem;
 `;

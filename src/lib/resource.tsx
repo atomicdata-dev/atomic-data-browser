@@ -1,3 +1,4 @@
+import { handleError } from '../helpers/handlers';
 import { checkValidURL } from './client';
 import { Value } from './value';
 
@@ -38,7 +39,7 @@ export class Resource {
     return result;
   }
 
-  /** Returns the status of the Resource (loading, error, ready) */
+  /** Returns the Error of the Resource */
   getError(): Error {
     return this.error;
   }
@@ -53,21 +54,24 @@ export class Resource {
     return this.subject;
   }
 
+  /** Returns the internal Map of Property-Values */
   getPropVals(): PropVals {
     return this.propvals;
   }
 
-  /** Set a Property, Value combination */
-  set(prop: string, val: Value): void {
+  /** Set a Property, Value combination without performing validations. */
+  setUnsafe(prop: string, val: Value): void {
     this.propvals.set(prop, val);
   }
 
+  /** Should be called during loading / parsing a Resource */
   setStatus(status: ResourceStatus): void {
     this.status = status;
   }
 
   setError(e: Error): void {
     this.setStatus(ResourceStatus.error);
+    handleError(e);
     this.error = e;
   }
 

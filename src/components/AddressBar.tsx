@@ -22,7 +22,7 @@ export function AddressBar(): JSX.Element {
   };
 
   return (
-    <Wrapper onSubmit={handleSubmit}>
+    <AddressBarStyled onSubmit={handleSubmit}>
       <Button onClick={handleHome} title='Home'>
         <FaHome />
       </Button>
@@ -31,12 +31,14 @@ export function AddressBar(): JSX.Element {
       <Button onClick={handleShare} title='Copy resource URL to clipboard' disabled={subject == undefined || subject == ''}>
         <FaShare />
       </Button>
-    </Wrapper>
+    </AddressBarStyled>
   );
 }
 
-const Wrapper = styled.form`
+const AddressBarStyled = styled.form`
+  box-shadow: ${props => props.theme.boxShadow};
   position: fixed;
+  z-index: 100;
   bottom: 2rem;
   height: 2rem;
   display: flex;
@@ -50,10 +52,10 @@ const Wrapper = styled.form`
   left: 50%;
   margin-left: -20rem; /* Negative half of width. */
   margin-right: -20rem; /* Negative half of width. */
-  &:hover {
-    border-color: ${props => props.theme.colors.main1};
-  }
   background-color: ${props => props.theme.colors.bg1};
+  &:hover {
+    border-color: ${props => props.theme.colors.mainLight};
+  }
 
   @media (max-width: 40rem) {
     max-width: 100%;
@@ -68,22 +70,21 @@ const Wrapper = styled.form`
     padding: 0.4rem 1.2rem;
     color: ${props => props.theme.colors.text};
   }
+
   input[type='text'] {
     flex: 1;
     background-color: ${props => props.theme.colors.bg};
-    &:hover {
-      background-color: ${props => props.theme.colors.bg1};
-    }
   }
+
   input[type='submit'] {
     background-color: ${props => props.theme.colors.main};
     color: white;
     &:hover {
       cursor: pointer;
-      background-color: ${props => props.theme.colors.main1};
+      background-color: ${props => props.theme.colors.mainLight};
     }
     &:active {
-      background-color: ${props => props.theme.colors.main2};
+      background-color: ${props => props.theme.colors.mainDark};
     }
   }
 `;

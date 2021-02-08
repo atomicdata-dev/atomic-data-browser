@@ -15,7 +15,7 @@ export function parseJsonADResource(string: string, resource: Resource): void {
         resource.setSubject(subject);
         continue;
       }
-      resource.set(key, new Value(jsonObject[key]));
+      resource.setUnsafe(key, new Value(jsonObject[key]));
     }
     resource.setStatus(ResourceStatus.ready);
   } catch (e) {

@@ -15,12 +15,12 @@ export const Button = styled.button`
   color: ${props => props.theme.colors.bg};
 
   &:hover {
-    background-color: ${props => props.theme.colors.main1};
+    background-color: ${props => props.theme.colors.mainLight};
     color: ${props => props.theme.colors.bg};
   }
 
   &:active {
-    background-color: ${props => props.theme.colors.main2};
+    background-color: ${props => props.theme.colors.mainDark};
   }
 
   &:disabled {
@@ -29,8 +29,17 @@ export const Button = styled.button`
 `;
 
 export const ButtonMargin = styled(Button)`
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.theme.margin}rem;
   border-radius: 999px;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: ${props => props.theme.margin}rem;
+  padding-right: ${props => props.theme.margin}rem;
+  box-shadow: ${props => props.theme.boxShadow};
+
+  &:active {
+    box-shadow: ${props => props.theme.boxShadowIntense};
+  }
+
+  &:active {
+    box-shadow: inset ${props => props.theme.boxShadowIntense};
+  }
 `;

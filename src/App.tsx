@@ -7,7 +7,6 @@ import { buildTheme, GlobalStyle } from './styling';
 import { StoreContext } from './lib/react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Browser from './components/Browser';
-// import { useDarkMode } from './helpers/useDarkMode';
 
 /** Initialize the store */
 const store = new Store('https://surfy.ddns.net/');

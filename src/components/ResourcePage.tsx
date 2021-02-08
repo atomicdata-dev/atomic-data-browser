@@ -1,13 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../lib/react';
 import { ResourceStatus } from '../lib/resource';
 import AllProps from './AllProps';
 import { Container } from './Container';
-import ResourceInline from './datatypes/ResourceInline';
 import Markdown from './datatypes/Markdown';
-import Collection from './Collection';
+import Collection from './CollectionPage';
+import ClassDetail from './ClassDetail';
 
 type Props = {
   subject: string;
@@ -37,21 +36,11 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <Container>
       <h1>{title}</h1>
-      {klass && (
-        <ClassPreview>
-          {'is a '}
-          <ResourceInline url={klass} />
-        </ClassPreview>
-      )}
+      <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />
     </Container>
   );
 }
-
-const ClassPreview = styled.div`
-  margin-bottom: 0.5rem;
-  font-style: italic;
-`;
 
 export default ResourcePage;

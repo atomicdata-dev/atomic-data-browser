@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { StringParam, useQueryParam } from 'use-query-params';
 import { useProperty } from '../lib/react';
 import { Value } from '../lib/value';
+import Link from './Link';
 import ValueComp from './ValueComp';
 
 type Props = {
@@ -12,23 +12,17 @@ type Props = {
 
 const PropValRow = styled.div`
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.theme.margin}rem;
 `;
 
-const PropertyLabel = styled.a`
+const PropertyLabel = styled.span`
   font-weight: bold;
   display: block;
 `;
 
 /** A single Property / Value renderer */
 function PropVal({ propertyURL, value }: Props): JSX.Element {
-  const [, setSubject] = useQueryParam('subject', StringParam);
   const property = useProperty(propertyURL);
-
-  const handleClickProp = (e): void => {
-    e.preventDefault();
-    setSubject(propertyURL);
-  };
 
   if (property == null) {
     return null;
@@ -36,9 +30,9 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <PropertyLabel onClick={handleClickProp} href={propertyURL} title={property.description}>
-        {property.shortname || propertyURL}
-      </PropertyLabel>
+      <Link url={propertyURL}>
+        <PropertyLabel title={property.description}>{property.shortname || propertyURL}</PropertyLabel>
+      </Link>
       <ValueComp value={value} datatype={property.datatype} />
     </PropValRow>
   );

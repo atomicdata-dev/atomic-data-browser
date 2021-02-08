@@ -29,16 +29,21 @@ function Table({ resource, members }: TableProps): JSX.Element {
   }
 
   return (
-    <table>
+    <TableStyled>
       <Header klass={classResource} propsArray={propsArray} />
       <tbody>
         {members.map(member => {
           return <Row propsArray={propsArray} key={member} subject={member} />;
         })}
       </tbody>
-    </table>
+    </TableStyled>
   );
 }
+
+const TableStyled = styled.table`
+  display: block;
+  overflow-y: auto;
+`;
 
 type HeaderProps = {
   klass: Resource;
