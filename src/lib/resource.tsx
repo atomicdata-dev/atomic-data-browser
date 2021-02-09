@@ -1,5 +1,8 @@
 import { handleError } from '../helpers/handlers';
+import { wait } from '../helpers/mock';
 import { checkValidURL } from './client';
+import { validate } from './datatypes';
+import { Store } from './store';
 import { Value } from './value';
 
 /** Contains the PropertyURL / Value combinations */
@@ -57,6 +60,21 @@ export class Resource {
   /** Returns the internal Map of Property-Values */
   getPropVals(): PropVals {
     return this.propvals;
+  }
+
+  /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
+  async save(): Promise<string> {
+    // TODO: implement
+    await wait(2000);
+    return 'newResourceUrl';
+  }
+
+  /** Set a Property, Value combination and perform a validation. */
+  async setValidate(prop: string, value: any, store: Store): Promise<Value> {
+    const fullProp = await store.getProperty(prop);
+    const newVal = validate(value, fullProp.datatype);
+    this.propvals.set(prop, newVal);
+    return newVal;
   }
 
   /** Set a Property, Value combination without performing validations. */

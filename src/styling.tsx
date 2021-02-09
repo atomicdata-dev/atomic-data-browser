@@ -18,16 +18,17 @@ export const buildTheme = (): DefaultTheme => {
     boxShadow: `2px 2px 22px 0px ${shadowColor}`,
     boxShadowIntense: `2px 2px 22px 0px ${shadowColorIntense}`,
     margin: 1,
+    radius: '9px',
     colors: {
       main,
       mainLight: darkMode ? lighten(0.08)(main) : lighten(0.08)(main),
       mainDark: darkMode ? darken(0.08)(main) : darken(0.08)(main),
       bg,
-      bg1: darkMode ? lighten(0.1)(bg) : darken(0.1)(bg),
+      bg1: darkMode ? lighten(0.1)(bg) : darken(0.05)(bg),
       bg2: darkMode ? lighten(0.2)(bg) : darken(0.2)(bg),
       text,
       text1: darkMode ? darken(0.1)(text) : lighten(0.1)(text),
-      alert: 'red',
+      alert: '#cf5b5b',
     },
   };
 };
@@ -43,6 +44,8 @@ declare module 'styled-components' {
     boxShadowIntense: string;
     /** Base margin */
     margin: number;
+    /** Roundness of some elements / Border radius */
+    radius: string;
     /** All theme colors */
     colors: {
       /** Main accent color, used for links */
@@ -111,11 +114,12 @@ export const GlobalStyle = createGlobalStyle`
 
   code {
     background-color: ${props => props.theme.colors.bg1};
-    padding: .3rem;
+    padding: 0rem 0.2rem;
     font-family: Monaco, monospace;
     font-size: .8rem;
-    display: inline;
+    display: inline-flex;
     white-space: nowrap;
     overflow: scroll;
+    max-width: 100%;
   }
 `;

@@ -11,7 +11,7 @@ type Props = {
 
 /** Renders the is-a Class for some resource */
 function ClassDetail({ resource }: Props): JSX.Element {
-  const klass = useString(resource, properties.isA);
+  const [klass] = useString(resource, properties.isA);
 
   return (
     <React.Fragment>

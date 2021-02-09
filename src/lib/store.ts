@@ -37,6 +37,9 @@ export class Store {
 
   /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
   getResource(subject: string): Resource {
+    if (subject.startsWith('local')) {
+      return new Resource(subject);
+    }
     const found = this.resources.get(subject);
     // If the resource is not in the internal map,
     if (found == undefined) {

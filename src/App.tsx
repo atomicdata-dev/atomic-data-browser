@@ -1,12 +1,14 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { QueryParamProvider } from 'use-query-params';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { Store } from './lib/store';
-import { QueryParamProvider } from 'use-query-params';
 import { buildTheme, GlobalStyle } from './styling';
 import { StoreContext } from './lib/react';
-import { BrowserRouter, Route } from 'react-router-dom';
 import Browser from './components/Browser';
+import New from './components/New';
+import { AddressBar } from './components/AddressBar';
 
 /** Initialize the store */
 const store = new Store('https://surfy.ddns.net/');
@@ -20,7 +22,15 @@ function App(): JSX.Element {
         <QueryParamProvider ReactRouterRoute={Route}>
           <ThemeProvider theme={buildTheme()}>
             <GlobalStyle />
-            <Browser />
+            <AddressBar />
+            <Switch>
+              <Route path='/new'>
+                <New />
+              </Route>
+              <Route path='/'>
+                <Browser />
+              </Route>
+            </Switch>
           </ThemeProvider>
         </QueryParamProvider>
       </BrowserRouter>

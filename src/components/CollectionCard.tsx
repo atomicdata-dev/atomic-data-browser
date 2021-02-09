@@ -14,7 +14,7 @@ type Props = {
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function CollectionCard({ resource }: Props): JSX.Element {
   const title = useTitle(resource);
-  const description = useString(resource, properties.description);
+  const [description] = useString(resource, properties.description);
   const members = useArray(resource, properties.collection.members);
 
   return (

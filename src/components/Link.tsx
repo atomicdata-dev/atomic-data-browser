@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { StringParam, useQueryParam } from 'use-query-params';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useStore } from '../lib/react';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 /** Renders a markdown value */
 function Link({ children, url }: Props): JSX.Element {
-  const [currentUrl, setSubject] = useQueryParam('subject', StringParam);
+  const [currentUrl, setSubject] = useCurrentSubject();
   const store = useStore();
   store.fetchResource(url);
 

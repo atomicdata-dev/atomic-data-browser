@@ -34,7 +34,7 @@ const displayStyleString = (style: DisplayStyle) => {
 /** A View for collections. Contains logic for switching between various views. */
 function Collection({ resource }: CollectionProps): JSX.Element {
   const title = useTitle(resource);
-  const description = useString(resource, properties.description);
+  const [description] = useString(resource, properties.description);
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
