@@ -42,9 +42,9 @@ function New(): JSX.Element {
     <Container>
       <h1>Create something new</h1>
       <LabelStyled>new resource URL</LabelStyled>
-      <InputStyled value={newSubject} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} />
+      <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} />
       <LabelStyled>class URL</LabelStyled>
-      <InputStyled value={classSubject} onChange={e => setClassSubject(e.target.value)} placeholder={'Enter a Class URL...'} />
+      <InputStyled value={classSubject || null} onChange={e => setClassSubject(e.target.value)} placeholder={'Enter a Class URL...'} />
       {/* Key is required for re-rendering when subject changes */}
       {classSubject ? <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} /> : <Examples />}
     </Container>
@@ -77,7 +77,8 @@ function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
 
   async function save() {
     try {
-      newResource.setValidate(urls.properties.isA, [klass.getSubject()], store);
+      newResource.setStatus(ResourceStatus.ready);
+      await newResource.setValidate(urls.properties.isA, [klass.getSubject()], store);
       const newUrlString = await newResource.save(store);
       setSaving(false);
       // Redirect to newly created resource

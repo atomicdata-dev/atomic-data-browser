@@ -15,6 +15,7 @@ type Props = {
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
+  console.log('resource page:', resource);
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);

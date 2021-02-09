@@ -12,14 +12,19 @@ export const Button = styled.button`
   -webkit-appearance: none;
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
+  outline: none;
+  transition: 0.1s transform, 0.1s background-color;
 
-  &:hover:not([disabled]) {
+  &:hover:not([disabled]),
+  &:focus:not([disabled]) {
     background-color: ${props => props.theme.colors.mainLight};
     color: ${props => props.theme.colors.bg};
+    transform: scale(1.05);
   }
 
   &:active:not([disabled]) {
     background-color: ${props => props.theme.colors.mainDark};
+    transition: 0s transform, 0s background-color;
   }
 
   &:disabled {

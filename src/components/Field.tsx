@@ -45,7 +45,7 @@ function FieldLabeled({ property, resource, required }: IFieldProps): JSX.Elemen
         return <InputString resource={resource} property={property} required={required} />;
       }
       default: {
-        return <p>unsupported datatype: {datatypeUrl}</p>;
+        return <InputString resource={resource} property={property} required={required} />;
       }
     }
   }

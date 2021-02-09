@@ -38,9 +38,6 @@ export class Store {
 
   /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
   getResource(subject: string): Resource {
-    if (subject.startsWith('local')) {
-      return new Resource(subject);
-    }
     const found = this.resources.get(subject);
     // If the resource is not in the internal map,
     if (found == undefined) {
@@ -56,9 +53,6 @@ export class Store {
   /** Gets a property by URL. */
   async getProperty(subject: string): Promise<Property | null> {
     const resource = await this.getResource(subject);
-    if (!resource.isReady()) {
-      return null;
-    }
     const prop = new Property();
     prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype)?.toString());
     return prop;
