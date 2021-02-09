@@ -51,7 +51,6 @@ export const datatypeFromUrl = (url: string): Datatype => {
       return Datatype.TIMESTAMP;
     }
     default: {
-      handleError(new Error(`unkown datatype: ${url}`));
       return Datatype.UNKNOWN;
     }
   }

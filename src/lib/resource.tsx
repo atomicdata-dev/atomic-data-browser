@@ -63,10 +63,10 @@ export class Resource {
   }
 
   /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
-  async save(): Promise<string> {
+  async save(store: Store): Promise<string> {
     // TODO: implement
-    await wait(2000);
-    return 'newResourceUrl';
+    store.addResource(this);
+    return this.getSubject();
   }
 
   /** Set a Property, Value combination and perform a validation. */

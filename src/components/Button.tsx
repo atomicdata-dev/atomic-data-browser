@@ -36,6 +36,7 @@ export const ButtonBar = styled(Button)`
 `;
 
 export const ButtonMargin = styled(Button)`
+  padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;
   border-radius: 999px;
   padding-left: ${props => props.theme.margin}rem;

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { handleError } from '../helpers/handlers';
+import { createSubjectUrl } from '../helpers/navigation';
 import { classes, properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle, useArray } from '../lib/react';
+import { useString, useResource, useTitle, useArray, useStore } from '../lib/react';
 import { ResourceStatus } from '../lib/resource';
 import { ButtonMargin } from './Button';
 import { Container } from './Container';
@@ -12,11 +13,18 @@ import FieldLabeled, { ErrMessage, InputStyled, LabelStyled } from './Field';
 
 type NewProps = {
   classSubject: string;
+  newSubject: string;
 };
 
 /** Form for instantiating a new Resource from some Class */
 function New(): JSX.Element {
   const [classSubject, setClassSubject] = useQueryParam('classSubject', StringParam);
+  const [newSubject, setNewSubject] = useState<string>(null);
+
+  if (newSubject == undefined) {
+    const random = Math.random().toString(36).substring(7);
+    setNewSubject(`local:${random}`);
+  }
 
   function Examples(): JSX.Element {
     return (
@@ -24,6 +32,7 @@ function New(): JSX.Element {
         ... Or load one of these:
         <ul>
           <li onClick={() => setClassSubject(urls.classes.class)}>Class</li>
+          <li onClick={() => setClassSubject(urls.classes.datatype)}>Datatype</li>
         </ul>
       </div>
     );
@@ -32,17 +41,20 @@ function New(): JSX.Element {
   return (
     <Container>
       <h1>Create something new</h1>
+      <LabelStyled>new resource URL</LabelStyled>
+      <InputStyled value={newSubject} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} />
       <LabelStyled>class URL</LabelStyled>
       <InputStyled value={classSubject} onChange={e => setClassSubject(e.target.value)} placeholder={'Enter a Class URL...'} />
       {/* Key is required for re-rendering when subject changes */}
-      {classSubject ? <NewForm classSubject={classSubject} key={classSubject} /> : <Examples />}
+      {classSubject ? <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} /> : <Examples />}
     </Container>
   );
 }
 
-function NewForm({ classSubject }: NewProps): JSX.Element {
+function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
   const [klass] = useResource(classSubject);
-  const [newResource] = useResource('local:new');
+  const store = useStore();
+  const [newResource] = useResource(newSubject);
   const status = klass.getStatus();
   const requires = useArray(klass, properties.requires);
   const recommends = useArray(klass, properties.recommends);
@@ -63,13 +75,13 @@ function NewForm({ classSubject }: NewProps): JSX.Element {
     return <React.Fragment>{classSubject} is not a Class</React.Fragment>;
   }
 
-  console.log('status ok', klass.getSubject());
-
   async function save() {
     try {
-      const newUrl = await newResource.save();
+      newResource.setValidate(urls.properties.isA, [klass.getSubject()], store);
+      const newUrlString = await newResource.save(store);
       setSaving(false);
-      history.push(newUrl);
+      // Redirect to newly created resource
+      history.push(createSubjectUrl(newUrlString));
     } catch (e) {
       handleError(e);
       setErr(e);
@@ -78,7 +90,6 @@ function NewForm({ classSubject }: NewProps): JSX.Element {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log('submit?');
     setSaving(true);
     save();
   }

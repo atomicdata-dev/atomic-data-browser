@@ -88,7 +88,6 @@ export function useString(resource: Resource, propertyURL: string): [string | nu
         handleValidationError(null);
       } catch (e) {
         handleValidationError(e);
-        // handleError(e);
       }
     }
     setAsyn();
