@@ -13,7 +13,7 @@ export const Button = styled.button`
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
   outline: none;
-  transition: 0.1s transform, 0.1s background-color;
+  transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow;
 
   &:hover:not([disabled]),
   &:focus:not([disabled]) {
@@ -25,6 +25,7 @@ export const Button = styled.button`
   &:active:not([disabled]) {
     background-color: ${props => props.theme.colors.mainDark};
     transition: 0s transform, 0s background-color;
+    transform: scale(1);
   }
 
   &:disabled {
@@ -50,7 +51,7 @@ export const ButtonMargin = styled(Button)`
   display: inline-block;
   margin-right: ${props => props.theme.margin}rem;
 
-  &:active {
+  &:hover {
     box-shadow: ${props => props.theme.boxShadowIntense};
   }
 
@@ -73,5 +74,21 @@ export const ButtonIcon = styled(Button)`
 
   &:active {
     box-shadow: inset ${props => props.theme.boxShadowIntense};
+  }
+`;
+
+/** A button inside an input field */
+export const ButtonInput = styled(Button)`
+  background-color: ${props => props.theme.colors.bg1};
+  color: ${props => props.theme.colors.text};
+  flex: 0;
+  height: auto;
+  border-left: solid 1px ${props => props.theme.colors.bg2};
+  border-radius: 0;
+
+  &:last-child {
+    border-radius: ${props => props.theme.radius};
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 `;

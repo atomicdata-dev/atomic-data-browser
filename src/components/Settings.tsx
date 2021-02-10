@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from './Container';
+import { Container } from './Containers';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
 import { useLocalStorage } from '../helpers/useLocalStorage';
@@ -14,6 +14,7 @@ const Settings: React.FunctionComponent = () => {
   return (
     <Container>
       <h1>Settings</h1>
+      <p>Press save to apply settings.</p>
       <ButtonMargin onClick={() => setDark(!dark)}>{dark ? <FaToggleOn /> : <FaToggleOff />} dark mode</ButtonMargin>
       <p>Set the theme color:</p>
       <MainColorPicker />

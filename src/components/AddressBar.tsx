@@ -38,17 +38,9 @@ export function AddressBar(): JSX.Element {
       <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
         <FaArrowRight />
       </ButtonBar>
-      <input type='text' value={subject || null} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
+      <input type='text' value={subject || ''} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
         <FaPlus />
-      </ButtonBar>
-      <ButtonBar
-        type='button'
-        title='Copy resource URL to clipboard'
-        onClick={handleShare}
-        disabled={subject == undefined || subject == ''}
-      >
-        <FaShare />
       </ButtonBar>
     </AddressBarStyled>
   );

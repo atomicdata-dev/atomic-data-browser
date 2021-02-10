@@ -3,7 +3,7 @@ import { properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../lib/react';
 import { ResourceStatus } from '../lib/resource';
 import AllProps from './AllProps';
-import { Container } from './Container';
+import { Container } from './Containers';
 import Markdown from './datatypes/Markdown';
 import Collection from './CollectionPage';
 import ClassDetail from './ClassDetail';

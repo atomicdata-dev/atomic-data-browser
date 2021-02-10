@@ -30,7 +30,7 @@ function ResourceInline({ url }: Props): JSX.Element {
   );
 }
 
-const ErrorLook = styled.div`
+export const ErrorLook = styled.div`
   color: ${props => props.theme.colors.alert};
   font-family: monospace;
 `;

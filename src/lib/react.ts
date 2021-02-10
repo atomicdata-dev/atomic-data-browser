@@ -36,6 +36,38 @@ export function useResource(subject: string): [Resource, (resource: Resource) =>
   return [resource, update];
 }
 
+/** Converts an array of Atomic URL strings to an array of Resources. Could take a long time. */
+export function useResources(subjects: string[]): Map<string, Resource> {
+  const [resources, setResources] = useState(new Map());
+  const store = useStore();
+
+  useEffect(() => {
+    function handleNotify(updated: Resource) {
+      // When a change happens, set the new Resource.
+      resources.set(updated.getSubject(), updated);
+      // We need to create new Maps for react hooks to update - React only checks references, not content
+      setResources(new Map(resources));
+    }
+
+    // Iterate over all resources asynchronously
+    subjects.map(subject => {
+      const resource = store.getResource(subject);
+      resources.set(subject, resource);
+      setResources(new Map(resources));
+      // Let the store know to call handleNotify when a resource is updated.
+      store.subscribe(subject, handleNotify);
+    });
+
+    return () => {
+      // When the component is unmounted, unsubscribe from the store.
+      subjects.map(subject => store.unsubscribe(subject, handleNotify));
+    };
+    // maybe add resources here
+  }, [subjects]);
+
+  return resources;
+}
+
 export function useProperty(subject: string): Property | null {
   const [propR] = useResource(subject);
 
@@ -127,16 +159,20 @@ export function useTitle(resource: Resource): string {
   if (shortname !== null) {
     return shortname;
   }
-  return truncateUrl(resource.getSubject(), 40);
+  const subject = resource.getSubject();
+  if (typeof subject == 'string' && subject.length > 0) {
+    return truncateUrl(subject, 40);
+  }
+  return subject.toString();
 }
 
 /** Hook for getting all URLs for some array */
-export function useArray(resource: Resource, propertyURL: string): string[] {
-  const [value] = useValue(resource, propertyURL);
+export function useArray(resource: Resource, propertyURL: string): [string[] | null, handleValidationError] {
+  const [value, set] = useValue(resource, propertyURL);
   if (value == null) {
-    return [];
+    return [[], set];
   }
-  return value.toArray();
+  return [value.toArray(), set];
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */

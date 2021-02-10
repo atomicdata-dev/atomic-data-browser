@@ -19,8 +19,8 @@ function Table({ resource, members }: TableProps): JSX.Element {
   // But we can also have a collection of thing that share the same creator.
   // If that happens, we need a different approach to rendering the Headers
   const [classResource] = useResource(klass);
-  const requiredProps = useArray(classResource, urls.properties.requires);
-  const recommendedProps = useArray(classResource, urls.properties.recommends);
+  const [requiredProps] = useArray(classResource, urls.properties.requires);
+  const [recommendedProps] = useArray(classResource, urls.properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
   // Don't show the shortname, it's already shown in the first row.
   const propsArray = propsArrayFull.filter(item => item !== urls.properties.shortname);

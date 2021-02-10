@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { QueryParamProvider } from 'use-query-params';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import { Store } from './lib/store';
 import { buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor } from './styling';
@@ -25,7 +25,8 @@ function App(): JSX.Element {
 
   return (
     <StoreContext.Provider value={store}>
-      <BrowserRouter>
+      {/* Basename is for hosting on GitHub pages */}
+      <HashRouter basename='/'>
         {/* Used for getting / setting query parameters */}
         <QueryParamProvider ReactRouterRoute={Route}>
           <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
@@ -44,7 +45,7 @@ function App(): JSX.Element {
             </Switch>
           </ThemeProvider>
         </QueryParamProvider>
-      </BrowserRouter>
+      </HashRouter>
     </StoreContext.Provider>
   );
 }

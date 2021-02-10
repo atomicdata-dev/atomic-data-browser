@@ -15,7 +15,7 @@ type Props = {
 function CollectionCard({ resource }: Props): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
-  const members = useArray(resource, properties.collection.members);
+  const [members] = useArray(resource, properties.collection.members);
 
   return (
     <Card>

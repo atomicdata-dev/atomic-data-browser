@@ -35,15 +35,30 @@ export class Store {
     }
   }
 
-  /** Gets a resource by URL. Fetches and parses it if it's not available in the store. */
+  /**
+   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Instantly returns an empty loading resource, while
+   * the fetching is done in the background .
+   */
   getResource(subject: string): Resource {
     const found = this.resources.get(subject);
-    // If the resource is not in the internal map,
     if (found == undefined) {
       this.fetchResource(subject);
       const newR = new Resource(subject);
       newR.setStatus(ResourceStatus.loading);
       this.resources.set(subject, newR);
+      return newR;
+    }
+    return found;
+  }
+
+  /**
+   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Not recommended to use this for rendering, because
+   * it might cause resources to be fetched multiple times.
+   */
+  async getResourceAsync(subject: string): Promise<Resource> {
+    const found = this.resources.get(subject);
+    if (found == undefined) {
+      const newR = await this.fetchResource(subject);
       return newR;
     }
     return found;
@@ -74,7 +89,7 @@ export class Store {
     });
   }
 
-  /** Registers a callback for when the subject resource is updated. */
+  /** Registers a callback for when the a resource is updated. */
   subscribe(subject: string, callback: callback): void {
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {

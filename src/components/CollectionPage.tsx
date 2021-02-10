@@ -6,6 +6,7 @@ import { useViewport } from '../helpers/useMedia';
 import { useArray, useString, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
 import { ButtonMargin } from './Button';
+import { Wrapper } from './Containers';
 import Markdown from './datatypes/Markdown';
 import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
@@ -41,7 +42,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
   // const [displayStyle, setDisplayStyle] = useState(defaultView);
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
-  const members = useArray(resource, properties.collection.members);
+  const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
 
   const handleToggleView = () => {
@@ -119,7 +120,3 @@ const Masonry = styled.div`
 `;
 
 export default Collection;
-
-const Wrapper = styled.div`
-  padding: ${props => props.theme.margin}rem;
-`;

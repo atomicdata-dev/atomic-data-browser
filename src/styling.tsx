@@ -120,7 +120,11 @@ export const GlobalStyle = createGlobalStyle`
     font-size: .8rem;
     display: inline-flex;
     white-space: nowrap;
-    overflow: scroll;
+    overflow: auto;
     max-width: 100%;
+  }
+
+  b {
+    font-weight: bold;
   }
 `;
