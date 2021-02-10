@@ -98,87 +98,6 @@
         }
       ]
     },
-    "dist/helpers/handlers.js": {
-      "bytes": 164,
-      "imports": []
-    },
-    "dist/lib/value.js": {
-      "bytes": 714,
-      "imports": []
-    },
-    "dist/lib/parse.js": {
-      "bytes": 703,
-      "imports": [
-        {
-          "path": "dist/helpers/handlers.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/resource.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/value.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/lib/client.js": {
-      "bytes": 896,
-      "imports": [
-        {
-          "path": "dist/lib/parse.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/resource.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/lib/resource.js": {
-      "bytes": 1062,
-      "imports": [
-        {
-          "path": "dist/lib/client.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/helpers/urls.js": {
-      "bytes": 1688,
-      "imports": []
-    },
-    "dist/lib/datatypes.js": {
-      "bytes": 1362,
-      "imports": [
-        {
-          "path": "dist/helpers/urls.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/lib/store.js": {
-      "bytes": 2044,
-      "imports": [
-        {
-          "path": "dist/lib/resource.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/client.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/urls.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/datatypes.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
     "dist/pkg/use-query-params.js": {
       "bytes": 31565,
       "imports": [
@@ -196,78 +115,6 @@
       "bytes": 622,
       "imports": []
     },
-    "dist/pkg/polished.js": {
-      "bytes": 25939,
-      "imports": [
-        {
-          "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/helpers/useDarkMode.js": {
-      "bytes": 574,
-      "imports": [
-        {
-          "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/styling.js": {
-      "bytes": 1993,
-      "imports": [
-        {
-          "path": "dist/pkg/styled-components.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/polished.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/useDarkMode.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/styled-components.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/helpers/truncate.js": {
-      "bytes": 193,
-      "imports": []
-    },
-    "dist/lib/react.js": {
-      "bytes": 2966,
-      "imports": [
-        {
-          "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/handlers.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/datatypes.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/urls.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/truncate.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
     "dist/pkg/common/index-9a858da8.js": {
       "bytes": 2201,
       "imports": [
@@ -277,8 +124,8 @@
         }
       ]
     },
-    "dist/pkg/react-router-dom.js": {
-      "bytes": 63405,
+    "dist/pkg/common/react-router-4a7b0edc.js": {
+      "bytes": 56529,
       "imports": [
         {
           "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
@@ -299,16 +146,217 @@
         {
           "path": "dist/pkg/common/hoist-non-react-statics.cjs-e2a24831.js",
           "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/react-router-dom.js": {
+      "bytes": 7739,
+      "imports": [
+        {
+          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-63a1b8e9.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-9a858da8.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-977a59a3.js",
+          "kind": "import-statement"
         },
         {
           "path": "dist/pkg/common/_commonjsHelpers-913f9c4a.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/hoist-non-react-statics.cjs-e2a24831.js",
+          "kind": "import-statement"
         }
       ]
     },
-    "dist/pkg/react-icons/fa.js": {
-      "bytes": 3703,
+    "dist/helpers/handlers.js": {
+      "bytes": 164,
+      "imports": []
+    },
+    "dist/lib/value.js": {
+      "bytes": 714,
+      "imports": []
+    },
+    "dist/lib/parse.js": {
+      "bytes": 709,
       "imports": [
+        {
+          "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/value.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/lib/client.js": {
+      "bytes": 982,
+      "imports": [
+        {
+          "path": "dist/lib/parse.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/helpers/urls.js": {
+      "bytes": 1847,
+      "imports": []
+    },
+    "dist/lib/datatypes.js": {
+      "bytes": 2123,
+      "imports": [
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/client.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/value.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/lib/resource.js": {
+      "bytes": 1475,
+      "imports": [
+        {
+          "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/client.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/datatypes.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/lib/store.js": {
+      "bytes": 1988,
+      "imports": [
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/client.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/datatypes.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/polished.js": {
+      "bytes": 27000,
+      "imports": [
+        {
+          "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/styling.js": {
+      "bytes": 2442,
+      "imports": [
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/polished.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/helpers/truncate.js": {
+      "bytes": 193,
+      "imports": []
+    },
+    "dist/lib/react.js": {
+      "bytes": 3381,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/datatypes.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/truncate.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/react-router.js": {
+      "bytes": 332,
+      "imports": [
+        {
+          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
+          "kind": "import-statement"
+        },
         {
           "path": "dist/pkg/common/index-63a1b8e9.js",
           "kind": "import-statement"
@@ -316,56 +364,43 @@
         {
           "path": "dist/pkg/common/_commonjsHelpers-913f9c4a.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-9a858da8.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-977a59a3.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/hoist-non-react-statics.cjs-e2a24831.js",
+          "kind": "import-statement"
         }
       ]
     },
-    "dist/helpers/copyToClipboard.js": {
-      "bytes": 303,
+    "dist/helpers/navigation.js": {
+      "bytes": 477,
       "imports": []
     },
-    "dist/components/Button.js": {
-      "bytes": 906,
+    "dist/helpers/useCurrentSubject.js": {
+      "bytes": 159,
       "imports": [
-        {
-          "path": "dist/pkg/styled-components.js",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "dist/components/AddressBar.js": {
-      "bytes": 2584,
-      "imports": [
-        {
-          "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/react-icons/fa.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/styled-components.js",
-          "kind": "import-statement"
-        },
         {
           "path": "dist/pkg/use-query-params.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/copyToClipboard.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/components/Button.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/components/Link.js": {
-      "bytes": 1063,
+      "bytes": 1267,
       "imports": [
         {
           "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router.js",
           "kind": "import-statement"
         },
         {
@@ -373,7 +408,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/use-query-params.js",
+          "path": "dist/helpers/navigation.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useCurrentSubject.js",
           "kind": "import-statement"
         },
         {
@@ -383,7 +422,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1031,
+      "bytes": 1035,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -510,7 +549,7 @@
       ]
     },
     "dist/components/PropVal.js": {
-      "bytes": 895,
+      "bytes": 903,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -548,7 +587,7 @@
       ]
     },
     "dist/components/Container.js": {
-      "bytes": 143,
+      "bytes": 174,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -578,8 +617,46 @@
         }
       ]
     },
-    "dist/components/ResourceCard.js": {
-      "bytes": 1870,
+    "dist/components/Button.js": {
+      "bytes": 2007,
+      "imports": [
+        {
+          "path": "dist/pkg/polished.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/NewInstanceButton.js": {
+      "bytes": 595,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router-dom.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/navigation.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/ClassDetail.js": {
+      "bytes": 691,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -587,6 +664,69 @@
         },
         {
           "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/ResourceInline.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/Card.js": {
+      "bytes": 744,
+      "imports": [
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/CollectionCard.js": {
+      "bytes": 1128,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/Markdown.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Link.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Card.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/ResourceInline.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/ResourceCard.js": {
+      "bytes": 1742,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
           "kind": "import-statement"
         },
         {
@@ -606,25 +746,29 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Container.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/components/datatypes/ResourceInline.js",
-          "kind": "import-statement"
-        },
-        {
           "path": "dist/components/datatypes/Markdown.js",
           "kind": "import-statement"
         },
         {
           "path": "dist/components/Link.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/ClassDetail.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Card.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/CollectionCard.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/components/Table.js": {
-      "bytes": 2780,
+      "bytes": 2867,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -652,8 +796,8 @@
         }
       ]
     },
-    "dist/components/Collection.js": {
-      "bytes": 2757,
+    "dist/components/CollectionPage.js": {
+      "bytes": 3347,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -688,6 +832,10 @@
           "kind": "import-statement"
         },
         {
+          "path": "dist/components/NewInstanceButton.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "dist/components/ResourceCard.js",
           "kind": "import-statement"
         },
@@ -698,14 +846,10 @@
       ]
     },
     "dist/components/ResourcePage.js": {
-      "bytes": 1785,
+      "bytes": 1735,
       "imports": [
         {
           "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/styled-components.js",
           "kind": "import-statement"
         },
         {
@@ -729,24 +873,32 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/datatypes/ResourceInline.js",
-          "kind": "import-statement"
-        },
-        {
           "path": "dist/components/datatypes/Markdown.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Collection.js",
+          "path": "dist/components/CollectionPage.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/ClassDetail.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/NewInstanceButton.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/components/Welcome.js": {
-      "bytes": 1595,
+      "bytes": 1912,
       "imports": [
         {
           "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router-dom.js",
           "kind": "import-statement"
         },
         {
@@ -760,7 +912,7 @@
       ]
     },
     "dist/components/Browser.js": {
-      "bytes": 625,
+      "bytes": 526,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -768,10 +920,6 @@
         },
         {
           "path": "dist/pkg/use-query-params.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/components/AddressBar.js",
           "kind": "import-statement"
         },
         {
@@ -784,8 +932,243 @@
         }
       ]
     },
+    "dist/pkg/react-icons/fa.js": {
+      "bytes": 6211,
+      "imports": [
+        {
+          "path": "dist/pkg/common/index-63a1b8e9.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/_commonjsHelpers-913f9c4a.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/Field.js": {
+      "bytes": 4141,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/datatypes.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-icons/fa.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Link.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/New.js": {
+      "bytes": 4638,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/use-query-params.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/navigation.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Container.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/Markdown.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Field.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Link.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/NewInstanceButton.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/helpers/copyToClipboard.js": {
+      "bytes": 335,
+      "imports": []
+    },
+    "dist/components/AddressBar.js": {
+      "bytes": 3526,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-icons/fa.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router-dom.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/use-query-params.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/copyToClipboard.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/navigation.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/helpers/useDarkMode.js": {
+      "bytes": 789,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/styling.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useLocalStorage.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/react-colorful.js": {
+      "bytes": 5556,
+      "imports": [
+        {
+          "path": "dist/pkg/common/index-63a1b8e9.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/_commonjsHelpers-913f9c4a.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/react-colorful/dist/index.css": {
+      "bytes": 1716,
+      "imports": []
+    },
+    "dist/components/Settings.js": {
+      "bytes": 1420,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Container.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-colorful.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-colorful/dist/index.css",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useLocalStorage.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/styling.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useDarkMode.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-icons/fa.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "dist/App.js": {
-      "bytes": 929,
+      "bytes": 1840,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -796,11 +1179,15 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/store.js",
+          "path": "dist/pkg/use-query-params.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/use-query-params.js",
+          "path": "dist/pkg/react-router-dom.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/store.js",
           "kind": "import-statement"
         },
         {
@@ -812,11 +1199,27 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/react-router-dom.js",
+          "path": "dist/components/Browser.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Browser.js",
+          "path": "dist/components/New.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/AddressBar.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useDarkMode.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useLocalStorage.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Settings.js",
           "kind": "import-statement"
         }
       ]
@@ -866,13 +1269,13 @@
           "bytesInOutput": 231
         },
         "dist/pkg/common/index-63a1b8e9.js": {
-          "bytesInOutput": 6906
+          "bytesInOutput": 6908
         },
         "dist/pkg/react.js": {
-          "bytesInOutput": 493
+          "bytesInOutput": 492
         },
         "dist/pkg/react-dom.js": {
-          "bytesInOutput": 124025
+          "bytesInOutput": 124031
         },
         "dist/pkg/common/process-2545f00a.js": {
           "bytesInOutput": 2189
@@ -884,7 +1287,22 @@
           "bytesInOutput": 977
         },
         "dist/pkg/styled-components.js": {
-          "bytesInOutput": 31768
+          "bytesInOutput": 31780
+        },
+        "dist/pkg/use-query-params.js": {
+          "bytesInOutput": 10133
+        },
+        "dist/pkg/common/inheritsLoose-26512cd4.js": {
+          "bytesInOutput": 307
+        },
+        "dist/pkg/common/index-9a858da8.js": {
+          "bytesInOutput": 708
+        },
+        "dist/pkg/common/react-router-4a7b0edc.js": {
+          "bytesInOutput": 18073
+        },
+        "dist/pkg/react-router-dom.js": {
+          "bytesInOutput": 2354
         },
         "dist/helpers/handlers.js": {
           "bytesInOutput": 63
@@ -893,73 +1311,55 @@
           "bytesInOutput": 494
         },
         "dist/lib/parse.js": {
-          "bytesInOutput": 254
+          "bytesInOutput": 260
         },
         "dist/lib/client.js": {
-          "bytesInOutput": 399
-        },
-        "dist/lib/resource.js": {
-          "bytesInOutput": 522
+          "bytesInOutput": 427
         },
         "dist/helpers/urls.js": {
-          "bytesInOutput": 1481
+          "bytesInOutput": 1628
         },
         "dist/lib/datatypes.js": {
-          "bytesInOutput": 710
+          "bytesInOutput": 1078
+        },
+        "dist/lib/resource.js": {
+          "bytesInOutput": 698
         },
         "dist/lib/store.js": {
-          "bytesInOutput": 946
-        },
-        "dist/pkg/use-query-params.js": {
-          "bytesInOutput": 10133
-        },
-        "dist/pkg/common/inheritsLoose-26512cd4.js": {
-          "bytesInOutput": 307
+          "bytesInOutput": 914
         },
         "dist/pkg/polished.js": {
-          "bytesInOutput": 10017
-        },
-        "dist/helpers/useDarkMode.js": {
-          "bytesInOutput": 268
+          "bytesInOutput": 10158
         },
         "dist/styling.js": {
-          "bytesInOutput": 1288
+          "bytesInOutput": 1564
         },
         "dist/helpers/truncate.js": {
           "bytesInOutput": 93
         },
         "dist/lib/react.js": {
-          "bytesInOutput": 1150
+          "bytesInOutput": 1248
         },
-        "dist/pkg/common/index-9a858da8.js": {
-          "bytesInOutput": 708
+        "dist/pkg/react-router.js": {
+          "bytesInOutput": 0
         },
-        "dist/pkg/react-router-dom.js": {
-          "bytesInOutput": 19918
+        "dist/helpers/navigation.js": {
+          "bytesInOutput": 276
         },
-        "dist/pkg/react-icons/fa.js": {
-          "bytesInOutput": 2425
-        },
-        "dist/helpers/copyToClipboard.js": {
-          "bytesInOutput": 228
-        },
-        "dist/components/Button.js": {
-          "bytesInOutput": 718
-        },
-        "dist/components/AddressBar.js": {
-          "bytesInOutput": 1545
+        "dist/helpers/useCurrentSubject.js": {
+          "bytesInOutput": 38
         },
         "dist/components/Link.js": {
-          "bytesInOutput": 499
+          "bytesInOutput": 547
         },
         "dist/components/datatypes/ResourceInline.js": {
-          "bytesInOutput": 365
+          "bytesInOutput": 344
         },
         "dist/components/datatypes/DateTime.js": {
           "bytesInOutput": 109
         },
         "dist/pkg/react-markdown.js": {
-          "bytesInOutput": 75936
+          "bytesInOutput": 75954
         },
         "dist/components/datatypes/Markdown.js": {
           "bytesInOutput": 66
@@ -974,13 +1374,13 @@
           "bytesInOutput": 493
         },
         "dist/components/PropVal.js": {
-          "bytesInOutput": 357
+          "bytesInOutput": 369
         },
         "dist/components/AllProps.js": {
           "bytesInOutput": 192
         },
         "dist/components/Container.js": {
-          "bytesInOutput": 70
+          "bytesInOutput": 89
         },
         "dist/helpers/useLocalStorage.js": {
           "bytesInOutput": 251
@@ -988,32 +1388,83 @@
         "dist/helpers/useMedia.js": {
           "bytesInOutput": 200
         },
+        "dist/components/Button.js": {
+          "bytesInOutput": 1579
+        },
+        "dist/components/NewInstanceButton.js": {
+          "bytesInOutput": 144
+        },
+        "dist/components/ClassDetail.js": {
+          "bytesInOutput": 243
+        },
+        "dist/components/Card.js": {
+          "bytesInOutput": 509
+        },
+        "dist/components/CollectionCard.js": {
+          "bytesInOutput": 328
+        },
         "dist/components/ResourceCard.js": {
-          "bytesInOutput": 714
+          "bytesInOutput": 604
         },
         "dist/components/Table.js": {
-          "bytesInOutput": 1125
+          "bytesInOutput": 1182
         },
-        "dist/components/Collection.js": {
-          "bytesInOutput": 1143
+        "dist/components/CollectionPage.js": {
+          "bytesInOutput": 1348
         },
         "dist/components/ResourcePage.js": {
-          "bytesInOutput": 614
+          "bytesInOutput": 575
         },
         "dist/components/Welcome.js": {
-          "bytesInOutput": 817
+          "bytesInOutput": 941
         },
         "dist/components/Browser.js": {
-          "bytesInOutput": 113
+          "bytesInOutput": 98
+        },
+        "dist/pkg/react-icons/fa.js": {
+          "bytesInOutput": 4617
+        },
+        "dist/components/Field.js": {
+          "bytesInOutput": 1720
+        },
+        "dist/components/New.js": {
+          "bytesInOutput": 1776
+        },
+        "dist/helpers/copyToClipboard.js": {
+          "bytesInOutput": 254
+        },
+        "dist/components/AddressBar.js": {
+          "bytesInOutput": 1810
+        },
+        "dist/helpers/useDarkMode.js": {
+          "bytesInOutput": 304
+        },
+        "dist/pkg/react-colorful.js": {
+          "bytesInOutput": 5335
+        },
+        "dist/pkg/react-colorful/dist/index.css": {
+          "bytesInOutput": 0
+        },
+        "dist/components/Settings.js": {
+          "bytesInOutput": 318
         },
         "dist/App.js": {
-          "bytesInOutput": 262
+          "bytesInOutput": 530
         },
         "dist/index.js": {
           "bytesInOutput": 159
         }
       },
-      "bytes": 307072
+      "bytes": 323441
+    },
+    "../~~bundle~~/dist/index.css": {
+      "imports": [],
+      "inputs": {
+        "dist/pkg/react-colorful/dist/index.css": {
+          "bytesInOutput": 1716
+        }
+      },
+      "bytes": 1717
     }
   }
 }
