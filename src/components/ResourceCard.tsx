@@ -15,8 +15,10 @@ type Props = {
 
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function ResourceCard({ subject }: Props): JSX.Element {
-  const resource = useResource(subject);
-  const klass = useString(resource, properties.isA);
+  const [resource] = useResource(subject);
+  const title = useTitle(resource);
+  const [description] = useString(resource, properties.description);
+  const [klass] = useString(resource, properties.isA);
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
@@ -33,9 +35,6 @@ function ResourceCard({ subject }: Props): JSX.Element {
       </Card>
     );
   }
-
-  const title = useTitle(resource);
-  const description = useString(resource, properties.description);
 
   switch (klass) {
     case urls.classes.collection:

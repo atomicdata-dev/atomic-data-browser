@@ -7,6 +7,7 @@ import { Container } from './Container';
 import Markdown from './datatypes/Markdown';
 import Collection from './CollectionPage';
 import ClassDetail from './ClassDetail';
+import NewInstanceButton from './NewInstanceButton';
 
 type Props = {
   subject: string;
@@ -14,7 +15,10 @@ type Props = {
 
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function ResourcePage({ subject }: Props): JSX.Element {
-  const resource = useResource(subject);
+  const [resource] = useResource(subject);
+  const title = useTitle(resource);
+  const [description] = useString(resource, properties.description);
+  const [klass] = useString(resource, properties.isA);
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
@@ -23,10 +27,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
   if (status == ResourceStatus.error) {
     return <Container>{resource.getError().message}</Container>;
   }
-
-  const title = useTitle(resource);
-  const description = useString(resource, properties.description);
-  const klass = useString(resource, properties.isA);
 
   switch (klass) {
     case urls.classes.collection:
@@ -39,6 +39,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />
+      {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
+      {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
     </Container>
   );
 }

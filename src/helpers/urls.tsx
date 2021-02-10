@@ -1,5 +1,8 @@
 export const classes = {
   collection: 'https://atomicdata.dev/classes/Collection',
+  class: 'https://atomicdata.dev/classes/Class',
+  property: 'https://atomicdata.dev/classes/Property',
+  datatype: 'https://atomicdata.dev/classes/Datatype',
 };
 
 export const properties = {

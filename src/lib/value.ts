@@ -1,7 +1,7 @@
 import { Resource } from './resource';
 
 /** All the types that a Value might contain */
-type JSVals = string | Date | number | string[] | Date | Resource;
+export type JSVals = string | Date | number | string[] | Date | Resource;
 
 /** A Nested Resource is an Anonymous resource, without a subject URL of its own. However, it does contain values. */
 export type NestedResource = Map<string, JSVals>;

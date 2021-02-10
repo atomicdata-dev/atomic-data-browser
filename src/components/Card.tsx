@@ -7,7 +7,7 @@ export const Card = styled.div`
   box-shadow: ${props => props.theme.boxShadow};
   padding: ${props => props.theme.margin}rem;
   padding-bottom: 0;
-  border-radius: 8px;
+  border-radius: ${props => props.theme.radius};
 `;
 
 /** A Row in a Card. Should probably be used inside a CardInsideFull */

@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { StringParam, useQueryParam } from 'use-query-params';
+import { createSubjectUrl } from '../helpers/navigation';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useStore } from '../lib/react';
 
 type Props = {
@@ -8,9 +10,10 @@ type Props = {
   url: string;
 };
 
-/** Renders a markdown value */
+/** Renders an openable Resource. Only for Atomic Resources. */
 function Link({ children, url }: Props): JSX.Element {
-  const [currentUrl, setSubject] = useQueryParam('subject', StringParam);
+  const [currentUrl] = useCurrentSubject();
+  const history = useHistory();
   const store = useStore();
   store.fetchResource(url);
 
@@ -19,7 +22,7 @@ function Link({ children, url }: Props): JSX.Element {
     if (currentUrl == url) {
       return;
     }
-    setSubject(url);
+    history.push(createSubjectUrl(url));
   };
 
   return (
@@ -33,11 +36,13 @@ type Proppies = {
   disabled?: boolean;
 };
 
-const LinkView = styled.a<Proppies>`
+export const LinkView = styled.a<Proppies>`
   /* color: ${props => props.theme.colors.main}; */
   color: ${props => (props.disabled ? props.theme.colors.text : props.theme.colors.main)};
   text-decoration: none;
+  cursor: pointer;
   pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
+
   &:hover {
     color: ${props => props.theme.colors.mainLight};
   }

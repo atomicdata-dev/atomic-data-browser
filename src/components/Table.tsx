@@ -7,17 +7,18 @@ import ResourceInline from './datatypes/ResourceInline';
 import ValueComp from './ValueComp';
 
 type TableProps = {
+  /** A Collection Resource with a filter-value set */
   resource: Resource;
   members: string[];
 };
 
 /** A table view for Collections. Header shows properties of the first class of the collection */
 function Table({ resource, members }: TableProps): JSX.Element {
-  const klass = useString(resource, properties.collection.value);
+  const [klass] = useString(resource, properties.collection.value);
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
   // If that happens, we need a different approach to rendering the Headers
-  const classResource = useResource(klass);
+  const [classResource] = useResource(klass);
   const requiredProps = useArray(classResource, urls.properties.requires);
   const recommendedProps = useArray(classResource, urls.properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
@@ -76,7 +77,7 @@ type RowProps = {
 };
 
 function Row({ subject, propsArray }: RowProps): JSX.Element {
-  const resource = useResource(subject);
+  const [resource] = useResource(subject);
   if (resource == null) {
     return null;
   }
@@ -93,7 +94,7 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
 }
 
 const RowStyled = styled.tr`
-  border-top: solid 1px ${props => props.theme.colors.bg1};
+  border-top: solid 1px ${props => props.theme.colors.bg2};
 `;
 
 type CellProps = {
@@ -102,7 +103,7 @@ type CellProps = {
 };
 
 function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
-  const value = useValue(resource, propUrl);
+  const [value] = useValue(resource, propUrl);
   const fullprop = useProperty(propUrl);
   if (value == null) {
     return null;

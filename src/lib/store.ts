@@ -52,9 +52,6 @@ export class Store {
   /** Gets a property by URL. */
   async getProperty(subject: string): Promise<Property | null> {
     const resource = await this.getResource(subject);
-    if (!resource.isReady()) {
-      return null;
-    }
     const prop = new Property();
     prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype)?.toString());
     return prop;

@@ -7,6 +7,7 @@ import { useArray, useString, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
 import { ButtonMargin } from './Button';
 import Markdown from './datatypes/Markdown';
+import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
 
@@ -34,13 +35,14 @@ const displayStyleString = (style: DisplayStyle) => {
 /** A View for collections. Contains logic for switching between various views. */
 function Collection({ resource }: CollectionProps): JSX.Element {
   const title = useTitle(resource);
-  const description = useString(resource, properties.description);
+  const [description] = useString(resource, properties.description);
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
   // const [displayStyle, setDisplayStyle] = useState(defaultView);
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const members = useArray(resource, properties.collection.members);
+  const [klass] = useString(resource, properties.collection.value);
 
   const handleToggleView = () => {
     setDisplayStyle(nextDisplayStyle());
@@ -62,6 +64,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     <Wrapper>
       <h1>{title}</h1>
       <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
+      {klass && <NewInstanceButton klass={klass} />}
       {description && <Markdown text={description} />}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}

@@ -1,14 +1,20 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container } from './Container';
-import Link from './Link';
+import Link, { LinkView } from './Link';
 
 export const Welcome: React.FunctionComponent = () => {
+  const history = useHistory();
+
   return (
     <Container>
-      <h1>Atomic-React Browser</h1>
+      <h1>Atomic Data Browser</h1>
       <p>
         This app is built using <a href='https://github.com/joepio/atomic-react'>atomic-react</a>, a typescript library for rendering and
         editing Atomic Data. Check out the <a href='https://docs.atomicdata.dev/'>docs</a> for more info about Atomic Data.
+      </p>
+      <p>
+        You can edit app settings, such as theme color at <LinkView onClick={() => history.push('/settings')}>/settings</LinkView>.
       </p>
       <p>Things to visit with this browser:</p>
       <ul>

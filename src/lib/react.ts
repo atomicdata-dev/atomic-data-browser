@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Property, Store } from './store';
 import React from 'react';
-import { Resource } from './resource';
+import { Resource, ResourceStatus } from './resource';
 import { handleInfo } from '../helpers/handlers';
 import { Value } from './value';
 import { datatypeFromUrl } from './datatypes';
@@ -9,9 +9,15 @@ import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
 
 /** Hook for getting a Resource in a React component */
-export function useResource(subject: string): Resource {
+export function useResource(subject: string): [Resource, (resource: Resource) => void] {
   const store = useStore();
   const [resource, setResource] = useState<Resource>(store.getResource(subject));
+
+  /** Update the Resource with this value. Overwrites existing. */
+  // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
+  const update = (resource: Resource) => {
+    store.addResource(resource);
+  };
 
   useEffect(() => {
     // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -25,13 +31,13 @@ export function useResource(subject: string): Resource {
       // When the component is unmounted, unsubscribe from the store.
       store.unsubscribe(subject, handleNotify);
     };
-  }, []);
+  }, [store, subject]);
 
-  return resource;
+  return [resource, update];
 }
 
 export function useProperty(subject: string): Property | null {
-  const propR = useResource(subject);
+  const [propR] = useResource(subject);
 
   if (!propR.isReady()) {
     return null;
@@ -51,47 +57,73 @@ export function useProperty(subject: string): Property | null {
   return property;
 }
 
-export function useValue(resource: Resource, propertyURL: string): Value | null {
+/** A callback function for setting validation error messages */
+type handleValidationError = (string: string, handleValidationError?) => void;
+
+/**
+ * Returns a Value (can be string, array, more) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes two
+ * arguments - the second one is for handling validation errors
+ */
+export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationError] {
+  const [val, set] = useState(null);
+  const store = useStore();
+
+  /** Validates the value. If it fails, it calls the function in the second Argument. */
+  function validateAndSet(newVal: string, handleValidationError?: (e: Error) => unknown) {
+    set(newVal);
+
+    /** Validates and sets a property / value combination. Will invoke the callback if the value is not valid. */
+    async function setAsync() {
+      try {
+        await resource.setValidate(propertyURL, newVal, store);
+        handleValidationError(null);
+      } catch (e) {
+        handleValidationError(e);
+      }
+    }
+    setAsync();
+  }
+  // If a value has already been set, return it.
+  if (val !== null) {
+    return [val, validateAndSet];
+  }
+  // When the resource isn't ready, return null
   if (!resource.isReady()) {
-    return null;
+    return [null, validateAndSet];
   }
   let value = null;
+  // Try to actually get the value, log any errorr
   try {
     value = resource.get(propertyURL);
   } catch (e) {
     handleInfo(e);
   }
+  // If it didn't work, return null to be more explicit
   if (value == undefined) {
-    return null;
+    return [null, validateAndSet];
   }
-  return value;
+  return [value, validateAndSet];
 }
 
-/** Hook for getting a stringified representation of an Atom in a React component */
-export function useString(resource: Resource, propertyURL: string): string | null {
-  // Not sure about this...
-  if (!resource.isReady()) {
-    return null;
+/** Hook for getting and setting a stringified representation of an Atom in a React component */
+export function useString(resource: Resource, propertyURL: string): [string | null, (string: string, handleValidationError?) => void] {
+  const [val, setVal] = useValue(resource, propertyURL);
+  if (val == null) {
+    return [null, setVal];
   }
-  let value = undefined;
-  try {
-    value = resource.get(propertyURL);
-  } catch (e) {
-    handleInfo(e);
-  }
-  if (value == undefined) {
-    return null;
-  }
-  return value.toString();
+  return [val.toString(), setVal];
 }
 
 /** Returns the most fitting title / name for a Resource */
 export function useTitle(resource: Resource): string {
-  const title = useString(resource, urls.properties.name);
+  const [title] = useString(resource, urls.properties.name);
+  const [shortname] = useString(resource, urls.properties.shortname);
+  if (resource.getStatus() == ResourceStatus.loading) {
+    return '...';
+  }
   if (title !== null) {
     return title;
   }
-  const shortname = useString(resource, urls.properties.shortname);
   if (shortname !== null) {
     return shortname;
   }
@@ -100,33 +132,17 @@ export function useTitle(resource: Resource): string {
 
 /** Hook for getting all URLs for some array */
 export function useArray(resource: Resource, propertyURL: string): string[] {
-  if (!resource.isReady()) {
+  const [value] = useValue(resource, propertyURL);
+  if (value == null) {
     return [];
   }
-  let value = [];
-  try {
-    value = resource.get(propertyURL)?.toArray();
-  } catch (e) {
-    handleInfo(e);
-  }
-  if (value == undefined) {
-    return [];
-  }
-  return value;
+  return value.toArray();
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
 export function useDate(resource: Resource, propertyURL: string): Date | null {
-  if (!resource.isReady()) {
-    return null;
-  }
-  let value = undefined;
-  try {
-    value = resource.get(propertyURL);
-  } catch (e) {
-    handleInfo(e);
-  }
-  if (value == undefined) {
+  const [value] = useValue(resource, propertyURL);
+  if (value == null) {
     return null;
   }
   try {

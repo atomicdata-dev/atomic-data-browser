@@ -11,7 +11,9 @@ type Props = {
 
 /** Renders a Resource in a small, inline link. */
 function ResourceInline({ url }: Props): JSX.Element {
-  const resource = useResource(url);
+  const [resource] = useResource(url);
+  const title = useTitle(resource);
+  const [description] = useString(resource, urls.properties.description);
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
@@ -20,10 +22,6 @@ function ResourceInline({ url }: Props): JSX.Element {
   if (status == ResourceStatus.error) {
     return <ErrorLook>Error: {resource.getError().message}</ErrorLook>;
   }
-
-  const title = useTitle(resource);
-
-  const description = useString(resource, urls.properties.description);
 
   return (
     <Link url={url}>

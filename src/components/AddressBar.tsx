@@ -1,36 +1,55 @@
 import * as React from 'react';
-import { FaHome, FaShare } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaHome, FaShare, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { copyToClipboard } from '../helpers/copyToClipboard';
-import { Button } from './Button';
+import { createSubjectUrl } from '../helpers/navigation';
+import { ButtonBar } from './Button';
 
 export function AddressBar(): JSX.Element {
   // Value shown in navbar, after Submitting
-  const [subject, setSubject] = useQueryParam('subject', StringParam);
+  const [subjectQ] = useQueryParam('subject', StringParam);
+  const [subject, setSubject] = useState<string>(subjectQ);
+  const history = useHistory();
 
   const handleSubmit = event => {
     event.preventDefault();
-  };
-
-  const handleHome = () => {
-    setSubject('');
+    handleNavigation(createSubjectUrl(subject));
   };
 
   const handleShare = () => {
     copyToClipboard(subject);
   };
 
+  const handleNavigation = (to: string) => {
+    history.push(to);
+  };
+
   return (
     <AddressBarStyled onSubmit={handleSubmit}>
-      <Button onClick={handleHome} title='Home'>
+      <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Home'>
         <FaHome />
-      </Button>
-      <input type='text' value={subject} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
-      {/* <input type='submit' value='Fetch' /> */}
-      <Button onClick={handleShare} title='Copy resource URL to clipboard' disabled={subject == undefined || subject == ''}>
+      </ButtonBar>
+      <ButtonBar type='button' title='Go back' onClick={history.goBack}>
+        <FaArrowLeft />
+      </ButtonBar>
+      <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
+        <FaArrowRight />
+      </ButtonBar>
+      <input type='text' value={subject || null} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
+      <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
+        <FaPlus />
+      </ButtonBar>
+      <ButtonBar
+        type='button'
+        title='Copy resource URL to clipboard'
+        onClick={handleShare}
+        disabled={subject == undefined || subject == ''}
+      >
         <FaShare />
-      </Button>
+      </ButtonBar>
     </AddressBarStyled>
   );
 }
@@ -73,6 +92,7 @@ const AddressBarStyled = styled.form`
 
   input[type='text'] {
     flex: 1;
+    min-width: 1rem;
     background-color: ${props => props.theme.colors.bg};
   }
 
