@@ -1,7 +1,6 @@
-import { handleError } from '../helpers/handlers';
 import { urls } from '../helpers/urls';
 import { checkValidURL } from './client';
-import { Value } from './value';
+import { JSVals, Value } from './value';
 
 export enum Datatype {
   ATOMIC_URL,
@@ -59,7 +58,7 @@ export const datatypeFromUrl = (url: string): Datatype => {
 const slug_regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Validates a value and its datatype. Throws an error if things are wrong. */
-export const validate = (value: any, datatype: Datatype): Value => {
+export const validate = (value: JSVals, datatype: Datatype): Value => {
   const typ = typeof value;
   let err = null;
   switch (datatype) {

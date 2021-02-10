@@ -18,12 +18,12 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - [ ] Navigate collections (sorting / pagination)
 - [ ] **Edit data**
   - [x] Commit implementation
+  - [x] Instantiate new Resources
+  - [x] Validate form fields
   - [ ] Set default agent / base server
   - [ ] Edit properties (Sign and Post Commits after editing an atom)
   - [ ] Click a property to open its form
-  - [ ] Validate form fields
-  - [ ] Instantiate new Resources
-  - [ ] Add properties
+  - [ ] Add properties to existing resource
 - [ ] Resolve atomic paths
 - [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
 

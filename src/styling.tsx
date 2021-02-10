@@ -1,12 +1,13 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { darken, lighten } from 'polished';
-import { useDarkMode } from './helpers/useDarkMode';
 
-export const buildTheme = (): DefaultTheme => {
-  const [darkMode] = useDarkMode();
-  // const [main] = useLocalStorage('mainColor', 'rgb(150,150,255)');
+export const localStoreKeyMainColor = 'mainColor';
+export const localStoreKeyDarkMode = 'darkMode';
+export const defaultColor = 'rgb(40, 40, 255)';
 
-  const main = darkMode ? 'rgb(170,170,255)' : 'rgb(40,40,255)';
+/** Construct a StyledComponents theme object */
+export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
+  const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? 'black' : 'white';
   const text = darkMode ? 'white' : 'black';
   const shadowColor = darkMode ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,0.1)';

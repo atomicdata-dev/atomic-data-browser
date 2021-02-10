@@ -7,6 +7,7 @@ import { useArray, useString, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
 import { ButtonMargin } from './Button';
 import Markdown from './datatypes/Markdown';
+import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
 
@@ -41,6 +42,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   // const [displayStyle, setDisplayStyle] = useState(defaultView);
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const members = useArray(resource, properties.collection.members);
+  const [klass] = useString(resource, properties.collection.value);
 
   const handleToggleView = () => {
     setDisplayStyle(nextDisplayStyle());
@@ -62,6 +64,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     <Wrapper>
       <h1>{title}</h1>
       <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
+      {klass && <NewInstanceButton klass={klass} />}
       {description && <Markdown text={description} />}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}

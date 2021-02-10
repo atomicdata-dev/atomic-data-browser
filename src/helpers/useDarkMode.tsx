@@ -1,30 +1,29 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
+import { localStoreKeyDarkMode } from '../styling';
+import { useLocalStorage } from './useLocalStorage';
 
-export const useDarkMode = (): [boolean, Dispatch<SetStateAction<boolean>>] => {
+export const useDarkMode = (): [boolean, Dispatch<boolean>] => {
   let def = false;
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     def = true;
   }
   const [dark, setDark] = useState(def);
+  const [darkLocal, setDarkLocal] = useLocalStorage(localStoreKeyDarkMode, dark);
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     setDark(e.matches ? true : false);
   });
 
-  const toggleTheme = () => {
-    if (dark === true) {
-      setDark(false);
-    } else {
-      setDark(true);
-    }
-  };
+  function setDarkBoth(a: boolean) {
+    setDark(a);
+    setDarkLocal(a);
+  }
 
   useEffect(() => {
-    // const localMode = localStorage.getItem('theme');
-    // if (localMode) {
-    //   setDark(localMode);
-    // }
-  }, []);
+    if (darkLocal !== undefined) {
+      setDark(darkLocal);
+    }
+  }, [dark, darkLocal]);
 
-  return [dark, toggleTheme];
+  return [dark, setDarkBoth];
 };

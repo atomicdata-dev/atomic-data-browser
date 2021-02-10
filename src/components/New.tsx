@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { handleError } from '../helpers/handlers';
-import { createSubjectUrl } from '../helpers/navigation';
+import { createInstanceUrl, createSubjectUrl } from '../helpers/navigation';
 import { classes, properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle, useArray, useStore } from '../lib/react';
 import { ResourceStatus } from '../lib/resource';
 import { ButtonMargin } from './Button';
 import { Container } from './Container';
 import Markdown from './datatypes/Markdown';
-import FieldLabeled, { ErrMessage, InputStyled, LabelStyled } from './Field';
+import FieldLabeled, { ErrMessage, InputStyled } from './Field';
+import Link from './Link';
+import NewIntanceButton from './NewInstanceButton';
 
 type NewProps = {
   classSubject: string;
@@ -18,8 +20,10 @@ type NewProps = {
 
 /** Form for instantiating a new Resource from some Class */
 function New(): JSX.Element {
-  const [classSubject, setClassSubject] = useQueryParam('classSubject', StringParam);
+  const [classSubject] = useQueryParam('classSubject', StringParam);
   const [newSubject, setNewSubject] = useState<string>(null);
+  const [classInput, setClassInput] = useState<string>(null);
+  const history = useHistory();
 
   if (newSubject == undefined) {
     const random = Math.random().toString(36).substring(7);
@@ -29,24 +33,32 @@ function New(): JSX.Element {
   function Examples(): JSX.Element {
     return (
       <div>
-        ... Or load one of these:
-        <ul>
-          <li onClick={() => setClassSubject(urls.classes.class)}>Class</li>
-          <li onClick={() => setClassSubject(urls.classes.datatype)}>Datatype</li>
-        </ul>
+        <NewIntanceButton klass={urls.classes.class} />
+        <NewIntanceButton klass={urls.classes.property} />
       </div>
     );
   }
 
+  function handleClassSet(e) {
+    e.preventDefault();
+    history.push(createInstanceUrl(classInput));
+  }
+
   return (
     <Container>
-      <h1>Create something new</h1>
-      <LabelStyled>new resource URL</LabelStyled>
-      <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} />
-      <LabelStyled>class URL</LabelStyled>
-      <InputStyled value={classSubject || null} onChange={e => setClassSubject(e.target.value)} placeholder={'Enter a Class URL...'} />
       {/* Key is required for re-rendering when subject changes */}
-      {classSubject ? <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} /> : <Examples />}
+      {classSubject ? (
+        <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} />
+      ) : (
+        <form onSubmit={handleClassSet}>
+          <h1>Create something new</h1>
+          {/* <LabelStyled>new resource URL</LabelStyled>
+      <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} /> */}
+          <Examples />
+          <p>... or enter the URL of an existing Class:</p>
+          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
+        </form>
+      )}
     </Container>
   );
 }
@@ -97,7 +109,9 @@ function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>new {title}</h2>
+      <h2>
+        new <Link url={classSubject}>{title}</Link>
+      </h2>
       {description && <Markdown text={description} />}
       {requires.map(property => {
         return <FieldLabeled key={property} property={property} resource={newResource} required />;
@@ -107,7 +121,7 @@ function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
       })}
       {err && <ErrMessage>{err.message}</ErrMessage>}
       <ButtonMargin type='submit' onClick={handleSubmit} disabled={saving}>
-        {saving ? 'wait' : 'save'}
+        {saving ? 'wait...' : 'save locally'}
       </ButtonMargin>
     </form>
   );

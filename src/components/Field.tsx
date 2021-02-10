@@ -7,6 +7,7 @@ import { useResource, useString, useTitle } from '../lib/react';
 import { Resource } from '../lib/resource';
 import { FaInfo } from 'react-icons/fa';
 import { ButtonIcon } from './Button';
+import Link from './Link';
 
 interface IFieldProps {
   /** Subject of the Property */
@@ -23,14 +24,14 @@ function FieldLabeled({ property, resource, required }: IFieldProps): JSX.Elemen
   const label = useTitle(propertyFull);
   const [datatypeUrl] = useString(propertyFull, urls.properties.datatype);
   const datatype = datatypeFromUrl(datatypeUrl);
-  const description = useString(propertyFull, urls.properties.description);
+  const [description] = useString(propertyFull, urls.properties.description);
   const [collapsed, setCollapsed] = useState(true);
 
   if (datatype == null) {
     return <div>loading</div>;
   }
 
-  function Input(props: InputProps) {
+  function Input() {
     switch (datatype) {
       case Datatype.STRING: {
         return <InputString resource={resource} property={property} required={required} />;
@@ -51,7 +52,7 @@ function FieldLabeled({ property, resource, required }: IFieldProps): JSX.Elemen
   }
   return (
     <FieldStyled>
-      <LabelWrapper>
+      <LabelWrapper title={description}>
         <LabelStyled>
           {label}{' '}
           <ButtonIcon type='button' onClick={() => setCollapsed(!collapsed)}>
@@ -59,7 +60,11 @@ function FieldLabeled({ property, resource, required }: IFieldProps): JSX.Elemen
           </ButtonIcon>
         </LabelStyled>
       </LabelWrapper>
-      {!collapsed && <LabelHelper>{description}</LabelHelper>}
+      {!collapsed && (
+        <LabelHelper>
+          {description} <Link url={property}>Go to Property</Link>
+        </LabelHelper>
+      )}
       <Input resource={resource} property={property} />
     </FieldStyled>
   );
@@ -116,6 +121,7 @@ function InputString({ resource, property, required }: InputProps) {
 
   function handleUpdate(e) {
     const newval = e.target.value;
+    // I pass the error setter for validation purposes
     setVale(newval, setErr);
   }
 

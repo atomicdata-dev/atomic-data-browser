@@ -47,6 +47,8 @@ export const ButtonMargin = styled(Button)`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   box-shadow: ${props => props.theme.boxShadow};
+  display: inline-block;
+  margin-right: ${props => props.theme.margin}rem;
 
   &:active {
     box-shadow: ${props => props.theme.boxShadowIntense};

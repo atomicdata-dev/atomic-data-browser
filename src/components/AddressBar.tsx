@@ -16,7 +16,6 @@ export function AddressBar(): JSX.Element {
 
   const handleSubmit = event => {
     event.preventDefault();
-    // console.log('handleSubmit fired', event);
     handleNavigation(createSubjectUrl(subject));
   };
 

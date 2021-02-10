@@ -1,9 +1,8 @@
 import { handleError } from '../helpers/handlers';
-import { wait } from '../helpers/mock';
 import { checkValidURL } from './client';
 import { validate } from './datatypes';
 import { Store } from './store';
-import { Value } from './value';
+import { JSVals, Value } from './value';
 
 /** Contains the PropertyURL / Value combinations */
 type PropVals = Map<string, Value>;
@@ -70,7 +69,7 @@ export class Resource {
   }
 
   /** Set a Property, Value combination and perform a validation. */
-  async setValidate(prop: string, value: any, store: Store): Promise<Value> {
+  async setValidate(prop: string, value: JSVals, store: Store): Promise<Value> {
     const fullProp = await store.getProperty(prop);
     const newVal = validate(value, fullProp.datatype);
     this.propvals.set(prop, newVal);

@@ -24,7 +24,6 @@ export class Store {
   addResource(resource: Resource): void {
     this.resources.set(resource.getSubject(), resource);
     this.notify(resource);
-    console.log('new resourece', resource);
   }
 
   /** Fetches a resource by URL, replaces the one in the store. */

@@ -7,6 +7,7 @@ import ResourceInline from './datatypes/ResourceInline';
 import ValueComp from './ValueComp';
 
 type TableProps = {
+  /** A Collection Resource with a filter-value set */
   resource: Resource;
   members: string[];
 };
@@ -102,7 +103,7 @@ type CellProps = {
 };
 
 function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
-  const value = useValue(resource, propUrl);
+  const [value] = useValue(resource, propUrl);
   const fullprop = useProperty(propUrl);
   if (value == null) {
     return null;
