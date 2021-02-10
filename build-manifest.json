@@ -1168,7 +1168,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 1840,
+      "bytes": 1878,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1449,13 +1449,13 @@
           "bytesInOutput": 318
         },
         "dist/App.js": {
-          "bytesInOutput": 530
+          "bytesInOutput": 559
         },
         "dist/index.js": {
           "bytesInOutput": 159
         }
       },
-      "bytes": 323441
+      "bytes": 323470
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
