@@ -150,7 +150,7 @@
       ]
     },
     "dist/pkg/react-router-dom.js": {
-      "bytes": 7739,
+      "bytes": 7733,
       "imports": [
         {
           "path": "dist/pkg/common/react-router-4a7b0edc.js",
@@ -1168,7 +1168,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 1878,
+      "bytes": 1853,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1302,7 +1302,7 @@
           "bytesInOutput": 18073
         },
         "dist/pkg/react-router-dom.js": {
-          "bytesInOutput": 2354
+          "bytesInOutput": 2350
         },
         "dist/helpers/handlers.js": {
           "bytesInOutput": 63
@@ -1449,13 +1449,13 @@
           "bytesInOutput": 318
         },
         "dist/App.js": {
-          "bytesInOutput": 559
+          "bytesInOutput": 540
         },
         "dist/index.js": {
           "bytesInOutput": 159
         }
       },
-      "bytes": 323470
+      "bytes": 323447
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
