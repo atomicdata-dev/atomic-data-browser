@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { FaHome, FaShare, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaHome, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { copyToClipboard } from '../helpers/copyToClipboard';
 import { createSubjectUrl } from '../helpers/navigation';
 import { ButtonBar } from './Button';
 
@@ -17,10 +16,6 @@ export function AddressBar(): JSX.Element {
   const handleSubmit = event => {
     event.preventDefault();
     handleNavigation(createSubjectUrl(subject));
-  };
-
-  const handleShare = () => {
-    copyToClipboard(subject);
   };
 
   const handleNavigation = (to: string) => {

@@ -9,7 +9,7 @@ import { ResourceStatus } from '../lib/resource';
 import { ButtonMargin } from './Button';
 import { Container } from './Containers';
 import Markdown from './datatypes/Markdown';
-import FieldLabeled, { ErrMessage, InputStyled } from './Field';
+import FieldLabeled, { ErrMessage, InputStyled } from './forms/Field';
 import Link from './Link';
 import NewIntanceButton from './NewInstanceButton';
 

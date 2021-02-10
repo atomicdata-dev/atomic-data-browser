@@ -63,7 +63,7 @@ export function useResources(subjects: string[]): Map<string, Resource> {
       subjects.map(subject => store.unsubscribe(subject, handleNotify));
     };
     // maybe add resources here
-  }, [subjects]);
+  }, [subjects, resources, store]);
 
   return resources;
 }

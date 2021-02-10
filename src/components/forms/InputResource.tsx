@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import Downshift from 'downshift';
-import { ErrMessage, InputProps, InputStyled, InputWrapper } from './components/Field';
-import { useArray, useResource, useResources, useStore, useString } from './lib/react';
-import { urls } from './helpers/urls';
-import { ButtonInput } from './components/Button';
-import ResourceLine from './components/ResourceLine';
+import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
+import { useArray, useResource, useString } from '../../lib/react';
+import { urls } from '../../helpers/urls';
+import { ButtonInput } from '../Button';
+import ResourceLine from '../ResourceLine';
 import styled, { ThemeContext } from 'styled-components';
 
-export function InputResource({ resource, property, required }: InputProps) {
-  const [value, setVale] = useString(resource, property);
+export function InputResource({ resource, property, required }: InputProps): JSX.Element {
+  const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource('https://atomicdata.dev/properties');
@@ -39,12 +39,12 @@ export function InputResource({ resource, property, required }: InputProps) {
           <DropDownStyled>
             <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
               <InputStyled {...getInputProps()} required={required} />
-              <ButtonInput {...getToggleButtonProps()} aria-label={'toggle menu'}>
+              <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
                 &#8595;
               </ButtonInput>
               {selectedItem ? (
                 //@ts-ignore issue with types from Downshift
-                <ButtonInput onClick={clearSelection} aria-label='clear selection'>
+                <ButtonInput type='button' onClick={clearSelection} aria-label='clear selection'>
                   clear
                 </ButtonInput>
               ) : null}
