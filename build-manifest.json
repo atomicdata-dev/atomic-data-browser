@@ -124,8 +124,12 @@
         }
       ]
     },
-    "dist/pkg/common/react-router-4a7b0edc.js": {
-      "bytes": 56529,
+    "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js": {
+      "bytes": 384,
+      "imports": []
+    },
+    "dist/pkg/common/react-router-64d12d91.js": {
+      "bytes": 56253,
       "imports": [
         {
           "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
@@ -144,20 +148,24 @@
           "kind": "import-statement"
         },
         {
+          "path": "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "dist/pkg/common/hoist-non-react-statics.cjs-e2a24831.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/pkg/react-router-dom.js": {
-      "bytes": 7733,
+      "bytes": 7801,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
@@ -170,6 +178,10 @@
         },
         {
           "path": "dist/pkg/common/index-9a858da8.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js",
           "kind": "import-statement"
         },
         {
@@ -212,7 +224,7 @@
       ]
     },
     "dist/lib/client.js": {
-      "bytes": 982,
+      "bytes": 1042,
       "imports": [
         {
           "path": "dist/lib/parse.js",
@@ -263,7 +275,7 @@
       ]
     },
     "dist/lib/store.js": {
-      "bytes": 1988,
+      "bytes": 2199,
       "imports": [
         {
           "path": "dist/lib/resource.js",
@@ -283,17 +295,25 @@
         }
       ]
     },
+    "dist/pkg/common/assertThisInitialized-8eae6022.js": {
+      "bytes": 219,
+      "imports": []
+    },
     "dist/pkg/polished.js": {
-      "bytes": 27000,
+      "bytes": 26911,
       "imports": [
         {
           "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/assertThisInitialized-8eae6022.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/styling.js": {
-      "bytes": 2442,
+      "bytes": 2474,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -310,11 +330,11 @@
       ]
     },
     "dist/helpers/truncate.js": {
-      "bytes": 193,
+      "bytes": 225,
       "imports": []
     },
     "dist/lib/react.js": {
-      "bytes": 3381,
+      "bytes": 4177,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -347,10 +367,10 @@
       ]
     },
     "dist/pkg/react-router.js": {
-      "bytes": 332,
+      "bytes": 392,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-4a7b0edc.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
@@ -371,6 +391,10 @@
         },
         {
           "path": "dist/pkg/common/index-977a59a3.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js",
           "kind": "import-statement"
         },
         {
@@ -422,7 +446,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1035,
+      "bytes": 1042,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -586,8 +610,8 @@
         }
       ]
     },
-    "dist/components/Container.js": {
-      "bytes": 174,
+    "dist/components/Containers.js": {
+      "bytes": 348,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -618,7 +642,7 @@
       ]
     },
     "dist/components/Button.js": {
-      "bytes": 2007,
+      "bytes": 2450,
       "imports": [
         {
           "path": "dist/pkg/polished.js",
@@ -690,7 +714,7 @@
       ]
     },
     "dist/components/CollectionCard.js": {
-      "bytes": 1128,
+      "bytes": 1130,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -768,7 +792,7 @@
       ]
     },
     "dist/components/Table.js": {
-      "bytes": 2867,
+      "bytes": 2871,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -797,7 +821,7 @@
       ]
     },
     "dist/components/CollectionPage.js": {
-      "bytes": 3347,
+      "bytes": 3311,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -828,6 +852,10 @@
           "kind": "import-statement"
         },
         {
+          "path": "dist/components/Containers.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "dist/components/datatypes/Markdown.js",
           "kind": "import-statement"
         },
@@ -846,7 +874,7 @@
       ]
     },
     "dist/components/ResourcePage.js": {
-      "bytes": 1735,
+      "bytes": 1736,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -869,7 +897,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Container.js",
+          "path": "dist/components/Containers.js",
           "kind": "import-statement"
         },
         {
@@ -891,7 +919,7 @@
       ]
     },
     "dist/components/Welcome.js": {
-      "bytes": 1912,
+      "bytes": 2204,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -902,7 +930,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Container.js",
+          "path": "dist/components/Containers.js",
           "kind": "import-statement"
         },
         {
@@ -933,7 +961,7 @@
       ]
     },
     "dist/pkg/react-icons/fa.js": {
-      "bytes": 6211,
+      "bytes": 5743,
       "imports": [
         {
           "path": "dist/pkg/common/index-63a1b8e9.js",
@@ -945,8 +973,137 @@
         }
       ]
     },
-    "dist/components/Field.js": {
-      "bytes": 4141,
+    "dist/components/forms/InputString.js": {
+      "bytes": 874,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/Field.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/pkg/downshift.js": {
+      "bytes": 63826,
+      "imports": [
+        {
+          "path": "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/assertThisInitialized-8eae6022.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-9a858da8.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/index-63a1b8e9.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/common/_commonjsHelpers-913f9c4a.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/ResourceLine.js": {
+      "bytes": 938,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/resource.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/ResourceInline.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/forms/InputResource.js": {
+      "bytes": 3576,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/downshift.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/Field.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/lib/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Button.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/ResourceLine.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/forms/FieldSwitcher.js": {
+      "bytes": 1260,
+      "imports": [
+        {
+          "path": "dist/lib/datatypes.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputString.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputResource.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/forms/Field.js": {
+      "bytes": 3248,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -958,14 +1115,6 @@
         },
         {
           "path": "dist/pkg/styled-components.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/urls.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/lib/datatypes.js",
           "kind": "import-statement"
         },
         {
@@ -983,11 +1132,15 @@
         {
           "path": "dist/components/Link.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/FieldSwitcher.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/components/New.js": {
-      "bytes": 4638,
+      "bytes": 4649,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1026,7 +1179,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Container.js",
+          "path": "dist/components/Containers.js",
           "kind": "import-statement"
         },
         {
@@ -1034,7 +1187,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Field.js",
+          "path": "dist/components/forms/Field.js",
           "kind": "import-statement"
         },
         {
@@ -1047,12 +1200,8 @@
         }
       ]
     },
-    "dist/helpers/copyToClipboard.js": {
-      "bytes": 335,
-      "imports": []
-    },
     "dist/components/AddressBar.js": {
-      "bytes": 3526,
+      "bytes": 3140,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1076,10 +1225,6 @@
         },
         {
           "path": "dist/pkg/use-query-params.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/helpers/copyToClipboard.js",
           "kind": "import-statement"
         },
         {
@@ -1127,14 +1272,14 @@
       "imports": []
     },
     "dist/components/Settings.js": {
-      "bytes": 1420,
+      "bytes": 1502,
       "imports": [
         {
           "path": "dist/pkg/react.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Container.js",
+          "path": "dist/components/Containers.js",
           "kind": "import-statement"
         },
         {
@@ -1269,13 +1414,13 @@
           "bytesInOutput": 231
         },
         "dist/pkg/common/index-63a1b8e9.js": {
-          "bytesInOutput": 6908
+          "bytesInOutput": 6906
         },
         "dist/pkg/react.js": {
           "bytesInOutput": 492
         },
         "dist/pkg/react-dom.js": {
-          "bytesInOutput": 124031
+          "bytesInOutput": 124025
         },
         "dist/pkg/common/process-2545f00a.js": {
           "bytesInOutput": 2189
@@ -1287,7 +1432,7 @@
           "bytesInOutput": 977
         },
         "dist/pkg/styled-components.js": {
-          "bytesInOutput": 31780
+          "bytesInOutput": 31810
         },
         "dist/pkg/use-query-params.js": {
           "bytesInOutput": 10133
@@ -1296,10 +1441,13 @@
           "bytesInOutput": 307
         },
         "dist/pkg/common/index-9a858da8.js": {
-          "bytesInOutput": 708
+          "bytesInOutput": 707
         },
-        "dist/pkg/common/react-router-4a7b0edc.js": {
-          "bytesInOutput": 18073
+        "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js": {
+          "bytesInOutput": 138
+        },
+        "dist/pkg/common/react-router-64d12d91.js": {
+          "bytesInOutput": 17929
         },
         "dist/pkg/react-router-dom.js": {
           "bytesInOutput": 2350
@@ -1314,7 +1462,7 @@
           "bytesInOutput": 260
         },
         "dist/lib/client.js": {
-          "bytesInOutput": 427
+          "bytesInOutput": 449
         },
         "dist/helpers/urls.js": {
           "bytesInOutput": 1628
@@ -1326,19 +1474,22 @@
           "bytesInOutput": 698
         },
         "dist/lib/store.js": {
-          "bytesInOutput": 914
+          "bytesInOutput": 1013
+        },
+        "dist/pkg/common/assertThisInitialized-8eae6022.js": {
+          "bytesInOutput": 124
         },
         "dist/pkg/polished.js": {
-          "bytesInOutput": 10158
+          "bytesInOutput": 10034
         },
         "dist/styling.js": {
-          "bytesInOutput": 1564
+          "bytesInOutput": 1596
         },
         "dist/helpers/truncate.js": {
-          "bytesInOutput": 93
+          "bytesInOutput": 119
         },
         "dist/lib/react.js": {
-          "bytesInOutput": 1248
+          "bytesInOutput": 1339
         },
         "dist/pkg/react-router.js": {
           "bytesInOutput": 0
@@ -1359,7 +1510,7 @@
           "bytesInOutput": 109
         },
         "dist/pkg/react-markdown.js": {
-          "bytesInOutput": 75954
+          "bytesInOutput": 75956
         },
         "dist/components/datatypes/Markdown.js": {
           "bytesInOutput": 66
@@ -1379,8 +1530,8 @@
         "dist/components/AllProps.js": {
           "bytesInOutput": 192
         },
-        "dist/components/Container.js": {
-          "bytesInOutput": 89
+        "dist/components/Containers.js": {
+          "bytesInOutput": 226
         },
         "dist/helpers/useLocalStorage.js": {
           "bytesInOutput": 251
@@ -1389,7 +1540,7 @@
           "bytesInOutput": 200
         },
         "dist/components/Button.js": {
-          "bytesInOutput": 1579
+          "bytesInOutput": 1941
         },
         "dist/components/NewInstanceButton.js": {
           "bytesInOutput": 144
@@ -1401,40 +1552,52 @@
           "bytesInOutput": 509
         },
         "dist/components/CollectionCard.js": {
-          "bytesInOutput": 328
+          "bytesInOutput": 330
         },
         "dist/components/ResourceCard.js": {
           "bytesInOutput": 604
         },
         "dist/components/Table.js": {
-          "bytesInOutput": 1182
+          "bytesInOutput": 1186
         },
         "dist/components/CollectionPage.js": {
-          "bytesInOutput": 1348
+          "bytesInOutput": 1301
         },
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 575
         },
         "dist/components/Welcome.js": {
-          "bytesInOutput": 941
+          "bytesInOutput": 1148
         },
         "dist/components/Browser.js": {
           "bytesInOutput": 98
         },
         "dist/pkg/react-icons/fa.js": {
-          "bytesInOutput": 4617
+          "bytesInOutput": 4197
         },
-        "dist/components/Field.js": {
-          "bytesInOutput": 1720
+        "dist/components/forms/InputString.js": {
+          "bytesInOutput": 347
+        },
+        "dist/pkg/downshift.js": {
+          "bytesInOutput": 23706
+        },
+        "dist/components/ResourceLine.js": {
+          "bytesInOutput": 313
+        },
+        "dist/components/forms/InputResource.js": {
+          "bytesInOutput": 1800
+        },
+        "dist/components/forms/FieldSwitcher.js": {
+          "bytesInOutput": 534
+        },
+        "dist/components/forms/Field.js": {
+          "bytesInOutput": 1669
         },
         "dist/components/New.js": {
-          "bytesInOutput": 1776
-        },
-        "dist/helpers/copyToClipboard.js": {
-          "bytesInOutput": 254
+          "bytesInOutput": 1780
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1810
+          "bytesInOutput": 1688
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -1446,7 +1609,7 @@
           "bytesInOutput": 0
         },
         "dist/components/Settings.js": {
-          "bytesInOutput": 318
+          "bytesInOutput": 362
         },
         "dist/App.js": {
           "bytesInOutput": 540
@@ -1455,7 +1618,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 323447
+      "bytes": 350545
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
