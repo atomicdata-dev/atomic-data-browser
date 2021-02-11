@@ -36,9 +36,9 @@ export function InputResource({ resource, property, required }: InputProps): JSX
           highlightedIndex,
           selectedItem,
           getRootProps,
-        }) => (
+        }): JSX.Element => (
           <DropDownStyled>
-            <InputWrapper {...getRootProps(null, { suppressRefError: true })}>
+            <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
               <InputStyled {...getInputProps()} required={required} />
               <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
                 <FaCaretDown />
