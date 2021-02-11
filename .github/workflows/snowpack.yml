@@ -15,7 +15,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci
+      # Maybe use ci, but since I use yarn locally this seems more convenient
+      - run: npm i
+      - run: npm lint
+      - run: npm test
       - run: npm run build
       - name: Committing changes
         uses: EndBug/add-and-commit@v7
