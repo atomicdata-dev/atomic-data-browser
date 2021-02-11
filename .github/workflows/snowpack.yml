@@ -17,17 +17,9 @@ jobs:
           node-version: 14.x
       # Maybe use ci, but since I use yarn locally this seems more convenient
       - run: npm i
-      # - run: npm run lint
-      # - run: npm run test
+      - run: npm run lint
+      - run: npm run test
       - run: npm run build
-      # - name: Committing changes
-      #   uses: EndBug/add-and-commit@v7
-      #   with:
-      #     branch: main
-      #     push: '-u origin gh-pages --force'
-      #     author_name: Snowpack Build
-      #     author_email: actions@github.com
-      #     add: .
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
