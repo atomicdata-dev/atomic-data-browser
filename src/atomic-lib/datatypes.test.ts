@@ -9,6 +9,8 @@ describe('Datatypes', () => {
     const float = 1.13;
     const slug = 'sl-ug';
     const atomicUrl = urls.classes.class;
+    const resourceArray = [urls.classes.class, urls.classes.property];
+    const resourceArrayInvalid = [urls.classes.class, 'urls.classes.property'];
     expect(() => validate(string, Datatype.STRING), 'Valid string').to.not.throw();
     expect(() => validate(int, Datatype.STRING), 'Invalid string, number').to.throw();
     expect(() => validate(float, Datatype.STRING), 'Invalid string, number').to.throw();
@@ -17,12 +19,18 @@ describe('Datatypes', () => {
     expect(() => validate(string, Datatype.ATOMIC_URL)).to.throw();
 
     expect(() => validate(int, Datatype.INTEGER), 'Valid Integer').to.not.throw();
-    expect(() => validate(float, Datatype.ATOMIC_URL)).to.throw();
-    expect(() => validate(string, Datatype.ATOMIC_URL)).to.throw();
+    expect(() => validate(float, Datatype.INTEGER)).to.throw();
+    expect(() => validate(string, Datatype.INTEGER)).to.throw();
 
     expect(() => validate(slug, Datatype.SLUG), 'Valid slug').to.not.throw();
-    expect(() => validate(float, Datatype.ATOMIC_URL)).to.throw();
-    expect(() => validate(string, Datatype.ATOMIC_URL)).to.throw();
-    expect(() => validate(int, Datatype.ATOMIC_URL)).to.throw();
+    expect(() => validate(float, Datatype.SLUG)).to.throw();
+    expect(() => validate(string, Datatype.SLUG)).to.throw();
+    expect(() => validate(int, Datatype.SLUG)).to.throw();
+
+    expect(() => validate(resourceArray, Datatype.RESOURCEARRAY)).to.not.throw();
+    expect(() => validate(resourceArrayInvalid, Datatype.RESOURCEARRAY)).to.throw(); ◘
+    expect(() => validate(float, Datatype.RESOURCEARRAY)).to.throw();
+    expect(() => validate(string, Datatype.RESOURCEARRAY)).to.throw();
+    expect(() => validate(int, Datatype.RESOURCEARRAY)).to.throw();
   });
 });
