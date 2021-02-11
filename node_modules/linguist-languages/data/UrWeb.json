@@ -1,0 +1,15 @@
+{
+  "name": "UrWeb",
+  "type": "programming",
+  "aliases": [
+    "Ur/Web",
+    "Ur"
+  ],
+  "extensions": [
+    ".ur",
+    ".urs"
+  ],
+  "tmScope": "source.ur",
+  "aceMode": "text",
+  "languageId": 383
+}

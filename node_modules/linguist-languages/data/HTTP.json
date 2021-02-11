@@ -1,0 +1,12 @@
+{
+  "name": "HTTP",
+  "type": "data",
+  "extensions": [
+    ".http"
+  ],
+  "tmScope": "source.httpspec",
+  "aceMode": "text",
+  "codemirrorMode": "http",
+  "codemirrorMimeType": "message/http",
+  "languageId": 152
+}

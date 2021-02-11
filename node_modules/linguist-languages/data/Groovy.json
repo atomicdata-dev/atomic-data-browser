@@ -1,0 +1,22 @@
+{
+  "name": "Groovy",
+  "type": "programming",
+  "tmScope": "source.groovy",
+  "aceMode": "groovy",
+  "codemirrorMode": "groovy",
+  "codemirrorMimeType": "text/x-groovy",
+  "color": "#e69f56",
+  "extensions": [
+    ".groovy",
+    ".grt",
+    ".gtpl",
+    ".gvy"
+  ],
+  "interpreters": [
+    "groovy"
+  ],
+  "filenames": [
+    "Jenkinsfile"
+  ],
+  "languageId": 142
+}

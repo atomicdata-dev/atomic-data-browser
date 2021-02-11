@@ -1,0 +1,10 @@
+{
+  "name": "Cap'n Proto",
+  "type": "programming",
+  "tmScope": "source.capnp",
+  "extensions": [
+    ".capnp"
+  ],
+  "aceMode": "text",
+  "languageId": 52
+}

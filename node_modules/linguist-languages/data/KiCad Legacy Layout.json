@@ -1,0 +1,10 @@
+{
+  "name": "KiCad Legacy Layout",
+  "type": "data",
+  "extensions": [
+    ".brd"
+  ],
+  "tmScope": "source.pcb.board",
+  "aceMode": "text",
+  "languageId": 140848857
+}

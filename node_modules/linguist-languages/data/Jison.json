@@ -1,0 +1,11 @@
+{
+  "name": "Jison",
+  "type": "programming",
+  "group": "Yacc",
+  "extensions": [
+    ".jison"
+  ],
+  "tmScope": "source.jison",
+  "aceMode": "text",
+  "languageId": 284531423
+}

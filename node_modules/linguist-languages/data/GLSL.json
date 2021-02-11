@@ -1,0 +1,29 @@
+{
+  "name": "GLSL",
+  "type": "programming",
+  "extensions": [
+    ".glsl",
+    ".fp",
+    ".frag",
+    ".frg",
+    ".fs",
+    ".fsh",
+    ".fshader",
+    ".geo",
+    ".geom",
+    ".glslf",
+    ".glslv",
+    ".gs",
+    ".gshader",
+    ".shader",
+    ".tesc",
+    ".tese",
+    ".vert",
+    ".vrx",
+    ".vsh",
+    ".vshader"
+  ],
+  "tmScope": "source.glsl",
+  "aceMode": "glsl",
+  "languageId": 124
+}

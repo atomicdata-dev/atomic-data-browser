@@ -1,0 +1,14 @@
+{
+  "name": "HLSL",
+  "type": "programming",
+  "extensions": [
+    ".hlsl",
+    ".cginc",
+    ".fx",
+    ".fxh",
+    ".hlsli"
+  ],
+  "aceMode": "text",
+  "tmScope": "source.hlsl",
+  "languageId": 145
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Graphviz (DOT)",
+  "type": "data",
+  "tmScope": "source.dot",
+  "extensions": [
+    ".dot",
+    ".gv"
+  ],
+  "aceMode": "text",
+  "languageId": 140
+}

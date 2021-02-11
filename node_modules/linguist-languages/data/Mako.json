@@ -1,0 +1,11 @@
+{
+  "name": "Mako",
+  "type": "programming",
+  "extensions": [
+    ".mako",
+    ".mao"
+  ],
+  "tmScope": "text.html.mako",
+  "aceMode": "text",
+  "languageId": 221
+}

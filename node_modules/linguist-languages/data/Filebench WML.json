@@ -1,0 +1,10 @@
+{
+  "name": "Filebench WML",
+  "type": "programming",
+  "extensions": [
+    ".f"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 111
+}

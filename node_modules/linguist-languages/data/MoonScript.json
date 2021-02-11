@@ -1,0 +1,13 @@
+{
+  "name": "MoonScript",
+  "type": "programming",
+  "extensions": [
+    ".moon"
+  ],
+  "interpreters": [
+    "moon"
+  ],
+  "tmScope": "source.moonscript",
+  "aceMode": "text",
+  "languageId": 238
+}

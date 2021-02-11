@@ -1,0 +1,11 @@
+{
+  "name": "Isabelle ROOT",
+  "type": "programming",
+  "group": "Isabelle",
+  "filenames": [
+    "ROOT"
+  ],
+  "tmScope": "source.isabelle.root",
+  "aceMode": "text",
+  "languageId": 171
+}

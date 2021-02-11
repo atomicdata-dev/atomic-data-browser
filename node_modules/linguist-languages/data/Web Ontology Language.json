@@ -1,0 +1,10 @@
+{
+  "name": "Web Ontology Language",
+  "type": "data",
+  "extensions": [
+    ".owl"
+  ],
+  "tmScope": "text.xml",
+  "aceMode": "xml",
+  "languageId": 394
+}

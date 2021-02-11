@@ -1,0 +1,10 @@
+{
+  "name": "TSQL",
+  "type": "programming",
+  "extensions": [
+    ".sql"
+  ],
+  "aceMode": "sql",
+  "tmScope": "source.tsql",
+  "languageId": 918334941
+}

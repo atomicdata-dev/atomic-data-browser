@@ -1,0 +1,13 @@
+{
+  "name": "KiCad Schematic",
+  "type": "data",
+  "aliases": [
+    "eeschema schematic"
+  ],
+  "extensions": [
+    ".sch"
+  ],
+  "tmScope": "source.pcb.schematic",
+  "aceMode": "text",
+  "languageId": 622447435
+}

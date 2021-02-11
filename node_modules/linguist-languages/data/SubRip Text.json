@@ -1,0 +1,10 @@
+{
+  "name": "SubRip Text",
+  "type": "data",
+  "extensions": [
+    ".srt"
+  ],
+  "aceMode": "text",
+  "tmScope": "text.srt",
+  "languageId": 360
+}

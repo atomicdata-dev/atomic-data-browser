@@ -1,0 +1,13 @@
+{
+  "name": "Csound Score",
+  "type": "programming",
+  "aliases": [
+    "csound-sco"
+  ],
+  "extensions": [
+    ".sco"
+  ],
+  "tmScope": "source.csound-score",
+  "aceMode": "csound_score",
+  "languageId": 75
+}

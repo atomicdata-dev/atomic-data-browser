@@ -1,0 +1,13 @@
+{
+  "name": "Swift",
+  "type": "programming",
+  "color": "#ffac45",
+  "extensions": [
+    ".swift"
+  ],
+  "tmScope": "source.swift",
+  "aceMode": "text",
+  "codemirrorMode": "swift",
+  "codemirrorMimeType": "text/x-swift",
+  "languageId": 362
+}

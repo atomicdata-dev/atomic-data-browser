@@ -1,0 +1,15 @@
+{
+  "name": "Regular Expression",
+  "type": "data",
+  "extensions": [
+    ".regexp",
+    ".regex"
+  ],
+  "aliases": [
+    "regexp",
+    "regex"
+  ],
+  "aceMode": "text",
+  "tmScope": "source.regexp",
+  "languageId": 363378884
+}

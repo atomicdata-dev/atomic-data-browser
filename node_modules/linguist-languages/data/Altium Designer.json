@@ -1,0 +1,16 @@
+{
+  "name": "Altium Designer",
+  "type": "data",
+  "aliases": [
+    "altium"
+  ],
+  "extensions": [
+    ".OutJob",
+    ".PcbDoc",
+    ".PrjPCB",
+    ".SchDoc"
+  ],
+  "tmScope": "source.ini",
+  "aceMode": "ini",
+  "languageId": 187772328
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Scilab",
+  "type": "programming",
+  "extensions": [
+    ".sci",
+    ".sce",
+    ".tst"
+  ],
+  "tmScope": "source.scilab",
+  "aceMode": "text",
+  "languageId": 344
+}

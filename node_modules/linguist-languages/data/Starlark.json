@@ -1,0 +1,24 @@
+{
+  "name": "Starlark",
+  "type": "programming",
+  "tmScope": "source.python",
+  "aceMode": "python",
+  "codemirrorMode": "python",
+  "codemirrorMimeType": "text/x-python",
+  "color": "#76d275",
+  "extensions": [
+    ".bzl"
+  ],
+  "filenames": [
+    "BUCK",
+    "BUILD",
+    "BUILD.bazel",
+    "Tiltfile",
+    "WORKSPACE"
+  ],
+  "aliases": [
+    "bazel",
+    "bzl"
+  ],
+  "languageId": 960266174
+}

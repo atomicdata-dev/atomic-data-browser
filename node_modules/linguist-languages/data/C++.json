@@ -1,0 +1,32 @@
+{
+  "name": "C++",
+  "type": "programming",
+  "tmScope": "source.c++",
+  "aceMode": "c_cpp",
+  "codemirrorMode": "clike",
+  "codemirrorMimeType": "text/x-c++src",
+  "color": "#f34b7d",
+  "aliases": [
+    "cpp"
+  ],
+  "extensions": [
+    ".cpp",
+    ".c++",
+    ".cc",
+    ".cp",
+    ".cxx",
+    ".h",
+    ".h++",
+    ".hh",
+    ".hpp",
+    ".hxx",
+    ".inc",
+    ".inl",
+    ".ino",
+    ".ipp",
+    ".re",
+    ".tcc",
+    ".tpp"
+  ],
+  "languageId": 43
+}

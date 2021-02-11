@@ -1,0 +1,10 @@
+{
+  "name": "RobotFramework",
+  "type": "programming",
+  "extensions": [
+    ".robot"
+  ],
+  "tmScope": "text.robot",
+  "aceMode": "text",
+  "languageId": 324
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Avro IDL",
+  "type": "data",
+  "extensions": [
+    ".avdl"
+  ],
+  "tmScope": "source.avro",
+  "aceMode": "text",
+  "languageId": 785497837
+}

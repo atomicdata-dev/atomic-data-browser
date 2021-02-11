@@ -1,0 +1,11 @@
+{
+  "name": "Coq",
+  "type": "programming",
+  "extensions": [
+    ".coq",
+    ".v"
+  ],
+  "tmScope": "source.coq",
+  "aceMode": "text",
+  "languageId": 69
+}

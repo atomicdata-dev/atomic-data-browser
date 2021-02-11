@@ -1,0 +1,13 @@
+{
+  "name": "LabVIEW",
+  "type": "programming",
+  "extensions": [
+    ".lvproj",
+    ".lvlib"
+  ],
+  "tmScope": "text.xml",
+  "aceMode": "xml",
+  "codemirrorMode": "xml",
+  "codemirrorMimeType": "text/xml",
+  "languageId": 194
+}

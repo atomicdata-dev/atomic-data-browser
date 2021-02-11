@@ -1,0 +1,12 @@
+{
+  "name": "JSON5",
+  "type": "data",
+  "extensions": [
+    ".json5"
+  ],
+  "tmScope": "source.js",
+  "aceMode": "javascript",
+  "codemirrorMode": "javascript",
+  "codemirrorMimeType": "application/json",
+  "languageId": 175
+}

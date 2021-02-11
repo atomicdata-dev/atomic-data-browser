@@ -1,0 +1,13 @@
+{
+  "name": "Gentoo Ebuild",
+  "type": "programming",
+  "group": "Shell",
+  "extensions": [
+    ".ebuild"
+  ],
+  "tmScope": "source.shell",
+  "aceMode": "sh",
+  "codemirrorMode": "shell",
+  "codemirrorMimeType": "text/x-sh",
+  "languageId": 127
+}

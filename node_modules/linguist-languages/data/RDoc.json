@@ -1,0 +1,11 @@
+{
+  "name": "RDoc",
+  "type": "prose",
+  "aceMode": "rdoc",
+  "wrap": true,
+  "extensions": [
+    ".rdoc"
+  ],
+  "tmScope": "text.rdoc",
+  "languageId": 309
+}

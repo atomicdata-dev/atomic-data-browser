@@ -1,0 +1,10 @@
+{
+  "name": "Gradle",
+  "type": "data",
+  "extensions": [
+    ".gradle"
+  ],
+  "tmScope": "source.groovy.gradle",
+  "aceMode": "text",
+  "languageId": 136
+}

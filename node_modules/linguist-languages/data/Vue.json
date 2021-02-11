@@ -1,0 +1,11 @@
+{
+  "name": "Vue",
+  "type": "markup",
+  "color": "#2c3e50",
+  "extensions": [
+    ".vue"
+  ],
+  "tmScope": "text.html.vue",
+  "aceMode": "html",
+  "languageId": 391
+}

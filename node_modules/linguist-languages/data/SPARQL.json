@@ -1,0 +1,13 @@
+{
+  "name": "SPARQL",
+  "type": "data",
+  "tmScope": "source.sparql",
+  "aceMode": "text",
+  "codemirrorMode": "sparql",
+  "codemirrorMimeType": "application/sparql-query",
+  "extensions": [
+    ".sparql",
+    ".rq"
+  ],
+  "languageId": 331
+}

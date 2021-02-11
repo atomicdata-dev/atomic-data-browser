@@ -1,0 +1,14 @@
+{
+  "name": "Pic",
+  "type": "markup",
+  "group": "Roff",
+  "tmScope": "source.pic",
+  "extensions": [
+    ".pic",
+    ".chem"
+  ],
+  "aceMode": "text",
+  "codemirrorMode": "troff",
+  "codemirrorMimeType": "text/troff",
+  "languageId": 425
+}

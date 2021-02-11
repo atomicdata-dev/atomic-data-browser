@@ -1,0 +1,10 @@
+{
+  "name": "Brightscript",
+  "type": "programming",
+  "extensions": [
+    ".brs"
+  ],
+  "tmScope": "source.brightscript",
+  "aceMode": "text",
+  "languageId": 39
+}

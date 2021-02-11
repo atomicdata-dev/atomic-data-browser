@@ -1,0 +1,10 @@
+{
+  "name": "DirectX 3D File",
+  "type": "data",
+  "extensions": [
+    ".x"
+  ],
+  "aceMode": "text",
+  "tmScope": "none",
+  "languageId": 201049282
+}

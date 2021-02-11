@@ -1,0 +1,30 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var query_string_1 = require("query-string");
+var shallowEqual_1 = require("./shallowEqual");
+function useUpdateRefIfShallowNew(ref, newValue, isEqual) {
+    if (isEqual === void 0) { isEqual = shallowEqual_1.default; }
+    var hasNew = ((ref.current == null || newValue == null) && ref.current === newValue) ||
+        !isEqual(ref.current, newValue);
+    React.useEffect(function () {
+        if (hasNew) {
+            ref.current = newValue;
+        }
+    }, [ref, newValue, hasNew]);
+}
+exports.useUpdateRefIfShallowNew = useUpdateRefIfShallowNew;
+function getSSRSafeSearchString(location) {
+    // handle checking SSR (#13)
+    if (typeof location === 'object') {
+        // in browser
+        if (typeof window !== 'undefined') {
+            return location.search;
+        }
+        else {
+            return query_string_1.extract("" + location.pathname + (location.search ? location.search : ''));
+        }
+    }
+    return '';
+}
+exports.getSSRSafeSearchString = getSSRSafeSearchString;

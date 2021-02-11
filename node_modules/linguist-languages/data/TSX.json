@@ -1,0 +1,13 @@
+{
+  "name": "TSX",
+  "type": "programming",
+  "group": "TypeScript",
+  "extensions": [
+    ".tsx"
+  ],
+  "tmScope": "source.tsx",
+  "aceMode": "javascript",
+  "codemirrorMode": "jsx",
+  "codemirrorMimeType": "text/jsx",
+  "languageId": 94901924
+}

@@ -1,0 +1,16 @@
+{
+  "name": "EditorConfig",
+  "type": "data",
+  "group": "INI",
+  "filenames": [
+    ".editorconfig"
+  ],
+  "aliases": [
+    "editor-config"
+  ],
+  "aceMode": "ini",
+  "codemirrorMode": "properties",
+  "codemirrorMimeType": "text/x-properties",
+  "tmScope": "source.editorconfig",
+  "languageId": 96139566
+}

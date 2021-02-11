@@ -1,0 +1,13 @@
+{
+  "name": "Textile",
+  "type": "prose",
+  "aceMode": "textile",
+  "codemirrorMode": "textile",
+  "codemirrorMimeType": "text/x-textile",
+  "wrap": true,
+  "extensions": [
+    ".textile"
+  ],
+  "tmScope": "none",
+  "languageId": 373
+}

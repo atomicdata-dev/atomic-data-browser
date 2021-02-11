@@ -1,0 +1,13 @@
+{
+  "name": "AsciiDoc",
+  "type": "prose",
+  "aceMode": "asciidoc",
+  "wrap": true,
+  "extensions": [
+    ".asciidoc",
+    ".adoc",
+    ".asc"
+  ],
+  "tmScope": "text.html.asciidoc",
+  "languageId": 22
+}

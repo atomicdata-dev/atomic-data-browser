@@ -1,0 +1,17 @@
+{
+  "name": "BlitzBasic",
+  "type": "programming",
+  "aliases": [
+    "b3d",
+    "blitz3d",
+    "blitzplus",
+    "bplus"
+  ],
+  "extensions": [
+    ".bb",
+    ".decls"
+  ],
+  "tmScope": "source.blitzmax",
+  "aceMode": "text",
+  "languageId": 34
+}

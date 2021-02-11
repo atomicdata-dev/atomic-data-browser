@@ -1,0 +1,11 @@
+{
+  "name": "MiniD",
+  "type": "programming",
+  "searchable": false,
+  "extensions": [
+    ".minid"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 231
+}

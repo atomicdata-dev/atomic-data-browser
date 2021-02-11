@@ -1,0 +1,10 @@
+{
+  "name": "Thrift",
+  "type": "programming",
+  "tmScope": "source.thrift",
+  "extensions": [
+    ".thrift"
+  ],
+  "aceMode": "text",
+  "languageId": 374
+}

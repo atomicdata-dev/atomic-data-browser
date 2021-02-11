@@ -1,0 +1,14 @@
+{
+  "name": "GAP",
+  "type": "programming",
+  "extensions": [
+    ".g",
+    ".gap",
+    ".gd",
+    ".gi",
+    ".tst"
+  ],
+  "tmScope": "source.gap",
+  "aceMode": "text",
+  "languageId": 119
+}

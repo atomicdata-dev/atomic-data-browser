@@ -1,0 +1,14 @@
+{
+  "name": "Darcs Patch",
+  "type": "data",
+  "aliases": [
+    "dpatch"
+  ],
+  "extensions": [
+    ".darcspatch",
+    ".dpatch"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 86
+}

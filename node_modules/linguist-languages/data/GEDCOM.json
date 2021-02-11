@@ -1,0 +1,10 @@
+{
+  "name": "GEDCOM",
+  "type": "data",
+  "aceMode": "text",
+  "extensions": [
+    ".ged"
+  ],
+  "tmScope": "source.gedcom",
+  "languageId": 459577965
+}

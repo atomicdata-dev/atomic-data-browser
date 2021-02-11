@@ -1,0 +1,13 @@
+{
+  "name": "JSX",
+  "type": "programming",
+  "group": "JavaScript",
+  "extensions": [
+    ".jsx"
+  ],
+  "tmScope": "source.js.jsx",
+  "aceMode": "javascript",
+  "codemirrorMode": "jsx",
+  "codemirrorMimeType": "text/jsx",
+  "languageId": 178
+}

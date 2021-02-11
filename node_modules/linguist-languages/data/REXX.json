@@ -1,0 +1,19 @@
+{
+  "name": "REXX",
+  "type": "programming",
+  "aliases": [
+    "arexx"
+  ],
+  "extensions": [
+    ".rexx",
+    ".pprx",
+    ".rex"
+  ],
+  "interpreters": [
+    "regina",
+    "rexx"
+  ],
+  "tmScope": "source.rexx",
+  "aceMode": "text",
+  "languageId": 311
+}

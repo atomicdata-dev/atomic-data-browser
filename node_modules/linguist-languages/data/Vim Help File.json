@@ -1,0 +1,13 @@
+{
+  "name": "Vim Help File",
+  "type": "prose",
+  "aliases": [
+    "vimhelp"
+  ],
+  "extensions": [
+    ".txt"
+  ],
+  "tmScope": "text.vim-help",
+  "aceMode": "text",
+  "languageId": 508563686
+}

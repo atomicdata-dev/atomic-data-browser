@@ -1,0 +1,10 @@
+{
+  "name": "TSV",
+  "type": "data",
+  "aceMode": "text",
+  "tmScope": "source.generic-db",
+  "extensions": [
+    ".tsv"
+  ],
+  "languageId": 1035892117
+}

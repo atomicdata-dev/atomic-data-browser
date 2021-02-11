@@ -1,0 +1,15 @@
+{
+  "name": "POV-Ray SDL",
+  "type": "programming",
+  "aliases": [
+    "pov-ray",
+    "povray"
+  ],
+  "extensions": [
+    ".pov",
+    ".inc"
+  ],
+  "tmScope": "source.pov-ray sdl",
+  "aceMode": "text",
+  "languageId": 275
+}

@@ -1,0 +1,14 @@
+{
+  "name": "PicoLisp",
+  "type": "programming",
+  "extensions": [
+    ".l"
+  ],
+  "interpreters": [
+    "picolisp",
+    "pil"
+  ],
+  "tmScope": "source.lisp",
+  "aceMode": "lisp",
+  "languageId": 285
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Protocol Buffer",
+  "type": "data",
+  "aliases": [
+    "protobuf",
+    "Protocol Buffers"
+  ],
+  "extensions": [
+    ".proto"
+  ],
+  "tmScope": "source.protobuf",
+  "aceMode": "protobuf",
+  "codemirrorMode": "protobuf",
+  "codemirrorMimeType": "text/x-protobuf",
+  "languageId": 297
+}

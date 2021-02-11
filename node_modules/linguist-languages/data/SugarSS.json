@@ -1,0 +1,11 @@
+{
+  "name": "SugarSS",
+  "type": "markup",
+  "tmScope": "source.css.postcss.sugarss",
+  "group": "CSS",
+  "extensions": [
+    ".sss"
+  ],
+  "aceMode": "text",
+  "languageId": 826404698
+}

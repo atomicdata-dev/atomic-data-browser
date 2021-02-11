@@ -1,0 +1,10 @@
+{
+  "name": "HXML",
+  "type": "data",
+  "aceMode": "text",
+  "extensions": [
+    ".hxml"
+  ],
+  "tmScope": "source.hxml",
+  "languageId": 786683730
+}

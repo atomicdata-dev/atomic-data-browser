@@ -1,0 +1,13 @@
+{
+  "name": "Ecere Projects",
+  "type": "data",
+  "group": "JavaScript",
+  "extensions": [
+    ".epj"
+  ],
+  "tmScope": "source.json",
+  "aceMode": "json",
+  "codemirrorMode": "javascript",
+  "codemirrorMimeType": "application/json",
+  "languageId": 98
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ApacheConf",
+  "type": "data",
+  "aliases": [
+    "aconf",
+    "apache"
+  ],
+  "extensions": [
+    ".apacheconf",
+    ".vhost"
+  ],
+  "filenames": [
+    ".htaccess",
+    "apache2.conf",
+    "httpd.conf"
+  ],
+  "tmScope": "source.apache-config",
+  "aceMode": "apache_conf",
+  "languageId": 16
+}

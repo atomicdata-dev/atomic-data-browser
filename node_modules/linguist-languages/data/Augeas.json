@@ -1,0 +1,10 @@
+{
+  "name": "Augeas",
+  "type": "programming",
+  "extensions": [
+    ".aug"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 25
+}

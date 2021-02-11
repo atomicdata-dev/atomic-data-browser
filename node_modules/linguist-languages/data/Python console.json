@@ -1,0 +1,12 @@
+{
+  "name": "Python console",
+  "type": "programming",
+  "group": "Python",
+  "searchable": false,
+  "aliases": [
+    "pycon"
+  ],
+  "tmScope": "text.python.console",
+  "aceMode": "text",
+  "languageId": 428
+}

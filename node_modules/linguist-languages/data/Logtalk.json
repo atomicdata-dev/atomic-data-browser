@@ -1,0 +1,11 @@
+{
+  "name": "Logtalk",
+  "type": "programming",
+  "extensions": [
+    ".lgt",
+    ".logtalk"
+  ],
+  "tmScope": "source.logtalk",
+  "aceMode": "text",
+  "languageId": 210
+}

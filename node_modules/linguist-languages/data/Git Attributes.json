@@ -1,0 +1,16 @@
+{
+  "name": "Git Attributes",
+  "type": "data",
+  "group": "INI",
+  "aliases": [
+    "gitattributes"
+  ],
+  "filenames": [
+    ".gitattributes"
+  ],
+  "tmScope": "source.gitattributes",
+  "aceMode": "gitignore",
+  "codemirrorMode": "shell",
+  "codemirrorMimeType": "text/x-sh",
+  "languageId": 956324166
+}

@@ -1,0 +1,10 @@
+{
+  "name": "TXL",
+  "type": "programming",
+  "extensions": [
+    ".txl"
+  ],
+  "tmScope": "source.txl",
+  "aceMode": "text",
+  "languageId": 366
+}

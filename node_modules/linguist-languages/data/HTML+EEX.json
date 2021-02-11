@@ -1,0 +1,18 @@
+{
+  "name": "HTML+EEX",
+  "type": "markup",
+  "tmScope": "text.html.elixir",
+  "group": "HTML",
+  "aliases": [
+    "eex",
+    "leex"
+  ],
+  "extensions": [
+    ".eex",
+    ".html.leex"
+  ],
+  "aceMode": "text",
+  "codemirrorMode": "htmlmixed",
+  "codemirrorMimeType": "text/html",
+  "languageId": 149
+}

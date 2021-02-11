@@ -1,0 +1,14 @@
+{
+  "name": "fish",
+  "type": "programming",
+  "group": "Shell",
+  "interpreters": [
+    "fish"
+  ],
+  "extensions": [
+    ".fish"
+  ],
+  "tmScope": "source.fish",
+  "aceMode": "text",
+  "languageId": 415
+}

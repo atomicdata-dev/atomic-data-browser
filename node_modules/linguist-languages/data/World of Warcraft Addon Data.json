@@ -1,0 +1,10 @@
+{
+  "name": "World of Warcraft Addon Data",
+  "type": "data",
+  "extensions": [
+    ".toc"
+  ],
+  "tmScope": "source.toc",
+  "aceMode": "text",
+  "languageId": 396
+}

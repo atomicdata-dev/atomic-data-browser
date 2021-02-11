@@ -1,0 +1,10 @@
+{
+  "name": "GAMS",
+  "type": "programming",
+  "extensions": [
+    ".gms"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 118
+}

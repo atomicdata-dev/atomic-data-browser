@@ -1,0 +1,12 @@
+{
+  "name": "Smarty",
+  "type": "programming",
+  "extensions": [
+    ".tpl"
+  ],
+  "aceMode": "smarty",
+  "codemirrorMode": "smarty",
+  "codemirrorMimeType": "text/x-smarty",
+  "tmScope": "text.html.smarty",
+  "languageId": 353
+}

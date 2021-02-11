@@ -1,0 +1,16 @@
+{
+  "name": "Dockerfile",
+  "type": "programming",
+  "color": "#384d54",
+  "tmScope": "source.dockerfile",
+  "extensions": [
+    ".dockerfile"
+  ],
+  "filenames": [
+    "Dockerfile"
+  ],
+  "aceMode": "dockerfile",
+  "codemirrorMode": "dockerfile",
+  "codemirrorMimeType": "text/x-dockerfile",
+  "languageId": 89
+}

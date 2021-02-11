@@ -1,0 +1,10 @@
+{
+  "name": "BitBake",
+  "type": "programming",
+  "tmScope": "none",
+  "extensions": [
+    ".bb"
+  ],
+  "aceMode": "text",
+  "languageId": 32
+}

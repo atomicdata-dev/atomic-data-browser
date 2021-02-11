@@ -1,0 +1,12 @@
+{
+  "name": "Zimpl",
+  "type": "programming",
+  "extensions": [
+    ".zimpl",
+    ".zmpl",
+    ".zpl"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 411
+}

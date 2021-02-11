@@ -1,0 +1,24 @@
+{
+  "name": "OCaml",
+  "type": "programming",
+  "aceMode": "ocaml",
+  "codemirrorMode": "mllike",
+  "codemirrorMimeType": "text/x-ocaml",
+  "color": "#3be133",
+  "extensions": [
+    ".ml",
+    ".eliom",
+    ".eliomi",
+    ".ml4",
+    ".mli",
+    ".mll",
+    ".mly"
+  ],
+  "interpreters": [
+    "ocaml",
+    "ocamlrun",
+    "ocamlscript"
+  ],
+  "tmScope": "source.ocaml",
+  "languageId": 255
+}

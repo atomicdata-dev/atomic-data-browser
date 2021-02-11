@@ -1,0 +1,10 @@
+{
+  "name": "ShaderLab",
+  "type": "programming",
+  "extensions": [
+    ".shader"
+  ],
+  "aceMode": "text",
+  "tmScope": "source.shaderlab",
+  "languageId": 664257356
+}

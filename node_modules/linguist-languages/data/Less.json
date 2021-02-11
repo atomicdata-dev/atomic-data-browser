@@ -1,0 +1,13 @@
+{
+  "name": "Less",
+  "type": "markup",
+  "color": "#1d365d",
+  "extensions": [
+    ".less"
+  ],
+  "tmScope": "source.css.less",
+  "aceMode": "less",
+  "codemirrorMode": "css",
+  "codemirrorMimeType": "text/css",
+  "languageId": 198
+}

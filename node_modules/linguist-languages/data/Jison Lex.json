@@ -1,0 +1,11 @@
+{
+  "name": "Jison Lex",
+  "type": "programming",
+  "group": "Lex",
+  "extensions": [
+    ".jisonlex"
+  ],
+  "tmScope": "source.jisonlex",
+  "aceMode": "text",
+  "languageId": 406395330
+}

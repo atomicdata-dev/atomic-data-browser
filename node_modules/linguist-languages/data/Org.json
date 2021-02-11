@@ -1,0 +1,11 @@
+{
+  "name": "Org",
+  "type": "prose",
+  "wrap": true,
+  "extensions": [
+    ".org"
+  ],
+  "tmScope": "none",
+  "aceMode": "text",
+  "languageId": 267
+}

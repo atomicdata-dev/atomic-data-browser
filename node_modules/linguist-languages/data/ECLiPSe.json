@@ -1,0 +1,11 @@
+{
+  "name": "ECLiPSe",
+  "type": "programming",
+  "group": "prolog",
+  "extensions": [
+    ".ecl"
+  ],
+  "tmScope": "source.prolog.eclipse",
+  "aceMode": "prolog",
+  "languageId": 94
+}

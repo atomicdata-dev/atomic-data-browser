@@ -1,0 +1,10 @@
+{
+  "name": "CSV",
+  "type": "data",
+  "aceMode": "text",
+  "tmScope": "none",
+  "extensions": [
+    ".csv"
+  ],
+  "languageId": 51
+}

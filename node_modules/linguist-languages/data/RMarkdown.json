@@ -1,0 +1,13 @@
+{
+  "name": "RMarkdown",
+  "type": "prose",
+  "wrap": true,
+  "aceMode": "markdown",
+  "codemirrorMode": "gfm",
+  "codemirrorMimeType": "text/x-gfm",
+  "extensions": [
+    ".rmd"
+  ],
+  "tmScope": "source.gfm",
+  "languageId": 313
+}

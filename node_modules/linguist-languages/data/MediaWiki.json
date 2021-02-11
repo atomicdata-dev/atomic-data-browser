@@ -1,0 +1,12 @@
+{
+  "name": "MediaWiki",
+  "type": "prose",
+  "wrap": true,
+  "extensions": [
+    ".mediawiki",
+    ".wiki"
+  ],
+  "tmScope": "text.html.mediawiki",
+  "aceMode": "text",
+  "languageId": 228
+}

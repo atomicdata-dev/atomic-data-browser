@@ -1,0 +1,13 @@
+{
+  "name": "JavaScript+ERB",
+  "type": "programming",
+  "tmScope": "source.js",
+  "group": "JavaScript",
+  "extensions": [
+    ".js.erb"
+  ],
+  "aceMode": "javascript",
+  "codemirrorMode": "javascript",
+  "codemirrorMimeType": "application/javascript",
+  "languageId": 914318960
+}

@@ -1,0 +1,11 @@
+{
+  "name": "WebVTT",
+  "type": "data",
+  "wrap": true,
+  "extensions": [
+    ".vtt"
+  ],
+  "tmScope": "source.vtt",
+  "aceMode": "text",
+  "languageId": 658679714
+}

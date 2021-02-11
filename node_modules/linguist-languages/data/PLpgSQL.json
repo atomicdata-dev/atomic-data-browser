@@ -1,0 +1,13 @@
+{
+  "name": "PLpgSQL",
+  "type": "programming",
+  "aceMode": "pgsql",
+  "codemirrorMode": "sql",
+  "codemirrorMimeType": "text/x-sql",
+  "tmScope": "source.sql",
+  "extensions": [
+    ".pgsql",
+    ".sql"
+  ],
+  "languageId": 274
+}

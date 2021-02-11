@@ -1,0 +1,10 @@
+{
+  "name": "TLA",
+  "type": "programming",
+  "extensions": [
+    ".tla"
+  ],
+  "tmScope": "source.tla",
+  "aceMode": "text",
+  "languageId": 364
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Modula-2",
+  "type": "programming",
+  "extensions": [
+    ".mod"
+  ],
+  "tmScope": "source.modula2",
+  "aceMode": "text",
+  "languageId": 234
+}

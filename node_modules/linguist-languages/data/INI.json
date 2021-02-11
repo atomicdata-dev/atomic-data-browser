@@ -1,0 +1,24 @@
+{
+  "name": "INI",
+  "type": "data",
+  "extensions": [
+    ".ini",
+    ".cfg",
+    ".dof",
+    ".lektorproject",
+    ".prefs",
+    ".pro",
+    ".properties"
+  ],
+  "filenames": [
+    "buildozer.spec"
+  ],
+  "tmScope": "source.ini",
+  "aliases": [
+    "dosini"
+  ],
+  "aceMode": "ini",
+  "codemirrorMode": "properties",
+  "codemirrorMimeType": "text/x-properties",
+  "languageId": 163
+}

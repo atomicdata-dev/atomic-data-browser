@@ -1,0 +1,10 @@
+{
+  "name": "Xtend",
+  "type": "programming",
+  "extensions": [
+    ".xtend"
+  ],
+  "tmScope": "source.xtend",
+  "aceMode": "text",
+  "languageId": 406
+}

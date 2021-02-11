@@ -1,0 +1,15 @@
+{
+  "name": "Gettext Catalog",
+  "type": "prose",
+  "searchable": false,
+  "aliases": [
+    "pot"
+  ],
+  "extensions": [
+    ".po",
+    ".pot"
+  ],
+  "tmScope": "source.po",
+  "aceMode": "text",
+  "languageId": 129
+}

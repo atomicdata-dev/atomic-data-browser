@@ -1,0 +1,13 @@
+{
+  "name": "FIGlet Font",
+  "type": "data",
+  "aliases": [
+    "FIGfont"
+  ],
+  "extensions": [
+    ".flf"
+  ],
+  "tmScope": "source.figfont",
+  "aceMode": "text",
+  "languageId": 686129783
+}

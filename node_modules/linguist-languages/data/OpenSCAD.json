@@ -1,0 +1,10 @@
+{
+  "name": "OpenSCAD",
+  "type": "programming",
+  "extensions": [
+    ".scad"
+  ],
+  "tmScope": "source.scad",
+  "aceMode": "scad",
+  "languageId": 266
+}

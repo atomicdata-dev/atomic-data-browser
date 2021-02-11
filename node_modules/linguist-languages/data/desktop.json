@@ -1,0 +1,11 @@
+{
+  "name": "desktop",
+  "type": "data",
+  "extensions": [
+    ".desktop",
+    ".desktop.in"
+  ],
+  "tmScope": "source.desktop",
+  "aceMode": "text",
+  "languageId": 412
+}

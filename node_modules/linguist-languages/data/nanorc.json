@@ -1,0 +1,15 @@
+{
+  "name": "nanorc",
+  "type": "data",
+  "group": "INI",
+  "extensions": [
+    ".nanorc"
+  ],
+  "filenames": [
+    ".nanorc",
+    "nanorc"
+  ],
+  "tmScope": "source.nanorc",
+  "aceMode": "text",
+  "languageId": 775996197
+}

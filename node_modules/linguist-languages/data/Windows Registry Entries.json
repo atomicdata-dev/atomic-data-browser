@@ -1,0 +1,12 @@
+{
+  "name": "Windows Registry Entries",
+  "type": "data",
+  "extensions": [
+    ".reg"
+  ],
+  "tmScope": "source.reg",
+  "aceMode": "ini",
+  "codemirrorMode": "properties",
+  "codemirrorMimeType": "text/x-properties",
+  "languageId": 969674868
+}

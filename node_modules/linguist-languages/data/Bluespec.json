@@ -1,0 +1,10 @@
+{
+  "name": "Bluespec",
+  "type": "programming",
+  "extensions": [
+    ".bsv"
+  ],
+  "tmScope": "source.bsv",
+  "aceMode": "verilog",
+  "languageId": 36
+}
