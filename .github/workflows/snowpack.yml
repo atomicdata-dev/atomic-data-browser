@@ -20,11 +20,16 @@ jobs:
       # - run: npm run lint
       # - run: npm run test
       - run: npm run build
-      - name: Committing changes
-        uses: EndBug/add-and-commit@v7
+      # - name: Committing changes
+      #   uses: EndBug/add-and-commit@v7
+      #   with:
+      #     branch: main
+      #     push: '-u origin gh-pages --force'
+      #     author_name: Snowpack Build
+      #     author_email: actions@github.com
+      #     add: .
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          branch: main
-          push: '-u origin gh-pages --force'
-          author_name: Snowpack Build
-          author_email: actions@github.com
-          add: .
+          branch: gh-pages # The branch the action should deploy to.
+          folder: docs # The folder the action should deploy.
