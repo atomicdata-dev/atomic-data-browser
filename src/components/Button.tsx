@@ -9,6 +9,7 @@ export const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
   border: none;
+  margin: 0;
   -webkit-appearance: none;
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};

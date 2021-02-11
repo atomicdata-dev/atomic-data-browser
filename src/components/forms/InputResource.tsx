@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Downshift from 'downshift';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
+import { FaCaretDown } from 'react-icons/fa';
 import { useArray, useResource, useString } from '../../lib/react';
 import { urls } from '../../helpers/urls';
 import { ButtonInput } from '../Button';
@@ -40,7 +41,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
             <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
               <InputStyled {...getInputProps()} required={required} />
               <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
-                &#8595;
+                <FaCaretDown />
               </ButtonInput>
               {selectedItem ? (
                 //@ts-ignore issue with types from Downshift
@@ -49,7 +50,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
                 </ButtonInput>
               ) : null}
             </InputWrapper>{' '}
-            <ul {...getMenuProps()}>
+            <DropDownWrapperWrapper {...getMenuProps()}>
               {isOpen ? (
                 <DropDownWrapper>
                   {options
@@ -72,7 +73,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
                     ))}
                 </DropDownWrapper>
               ) : null}
-            </ul>
+            </DropDownWrapperWrapper>
           </DropDownStyled>
         )}
       </Downshift>
@@ -85,6 +86,10 @@ export function InputResource({ resource, property, required }: InputProps): JSX
 /** A wrapper all dropdown items */
 const DropDownStyled = styled.div`
   position: relative;
+`;
+
+const DropDownWrapperWrapper = styled.ul`
+  margin-bottom: 0;
 `;
 
 /** A wrapper all dropdown items */

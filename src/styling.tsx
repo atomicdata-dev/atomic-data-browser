@@ -3,7 +3,7 @@ import { darken, lighten } from 'polished';
 
 export const localStoreKeyMainColor = 'mainColor';
 export const localStoreKeyDarkMode = 'darkMode';
-export const defaultColor = 'rgb(40, 40, 255)';
+export const defaultColor = '#1E43A3';
 
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
@@ -94,6 +94,7 @@ export const GlobalStyle = createGlobalStyle`
     margin-bottom: ${props => props.theme.margin}rem;
     font-weight: bold;
     line-height: 1em;
+    margin-top: 0;
   }
 
   i {
@@ -105,7 +106,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ul {
+    margin-top: 0;
     margin-bottom: ${props => props.theme.margin}rem;
+
     li {
       list-style-type: disc;
       margin-left: ${props => props.theme.margin * 2}rem;
