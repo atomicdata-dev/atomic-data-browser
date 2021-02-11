@@ -3,9 +3,9 @@ import { ThemeProvider } from 'styled-components';
 import { QueryParamProvider } from 'use-query-params';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import { Store } from './lib/store';
+import { Store } from './atomic-lib/store';
 import { buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor } from './styling';
-import { StoreContext } from './lib/react';
+import { StoreContext } from './atomic-react/hooks';
 import Browser from './components/Browser';
 import New from './components/New';
 import { AddressBar } from './components/AddressBar';

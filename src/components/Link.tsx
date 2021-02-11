@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { createSubjectUrl } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { useStore } from '../lib/react';
+import { useStore } from '../atomic-react/hooks';
 
 type Props = {
   children?: ReactNode;

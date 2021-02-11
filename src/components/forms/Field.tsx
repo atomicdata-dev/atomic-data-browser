@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useProperty } from '../../lib/react';
-import { Resource } from '../../lib/resource';
+import { useProperty } from '../../atomic-react/hooks';
+import { Resource } from '../../atomic-lib/resource';
 import { FaInfo } from 'react-icons/fa';
 import { ButtonIcon } from '../Button';
 import Link from '../Link';
 import InputSwitcher from './FieldSwitcher';
-import { Property } from '../../lib/store';
+import { Property } from '../../atomic-lib/store';
 
 /** A form field with a label */
 function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps): JSX.Element {

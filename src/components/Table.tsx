@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties, urls } from '../helpers/urls';
-import { useArray, useProperty, useString, useValue, useResource } from '../lib/react';
-import { Resource } from '../lib/resource';
+import { useArray, useProperty, useString, useValue, useResource } from '../atomic-react/hooks';
+import { Resource } from '../atomic-lib/resource';
 import ResourceInline from './datatypes/ResourceInline';
 import ValueComp from './ValueComp';
 

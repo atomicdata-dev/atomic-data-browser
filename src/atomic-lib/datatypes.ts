@@ -59,12 +59,18 @@ const slug_regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Validates a value and its datatype. Throws an error if things are wrong. */
 export const validate = (value: JSVals, datatype: Datatype): Value => {
-  const typ = typeof value;
   let err = null;
   switch (datatype) {
+    case Datatype.STRING: {
+      if (!isString(value)) {
+        err = 'Not a string';
+        break;
+      }
+      break;
+    }
     case Datatype.SLUG: {
-      if (typ !== 'string') {
-        err = 'not a string';
+      if (!isString(value)) {
+        err = 'Not a slug, not even a string';
         break;
       }
       if (value.match(slug_regex) == null) {
@@ -73,8 +79,16 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       break;
     }
     case Datatype.ATOMIC_URL: {
-      if (typ !== 'string') {
+      if (!isString(value)) {
         err = 'Not a string. Should be a URL';
+        break;
+      }
+      checkValidURL(value);
+      break;
+    }
+    case Datatype.RESOURCEARRAY: {
+      if (isString(value)) {
+        err = 'Not a resource array, but a single string';
         break;
       }
       checkValidURL(value);
@@ -86,3 +100,11 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
   }
   return new Value(value);
 };
+
+function isArray(val: JSVals): val is [] {
+  return Object.prototype.toString.call(val) === '[object Array]';
+}
+
+function isString(val: JSVals): val is string {
+  return typeof val === 'string';
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties } from '../helpers/urls';
-import { useString } from '../lib/react';
-import { Resource } from '../lib/resource';
+import { useString } from '../atomic-react/hooks';
+import { Resource } from '../atomic-lib/resource';
 import ResourceInline from './datatypes/ResourceInline';
 
 type Props = {

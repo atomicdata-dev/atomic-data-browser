@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Property, Store } from './store';
+import { Property, Store } from '../atomic-lib/store';
 import React from 'react';
-import { Resource, ResourceStatus } from './resource';
+import { Resource, ResourceStatus } from '../atomic-lib/resource';
 import { handleInfo } from '../helpers/handlers';
-import { Value } from './value';
-import { datatypeFromUrl } from './datatypes';
+import { Value } from '../atomic-lib/value';
+import { datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
 

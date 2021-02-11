@@ -7,7 +7,7 @@ describe('<App>', () => {
   it('renders resource after clicking on fetch', async () => {
     const { findByText, getByText } = render(<App />);
     fireEvent.click(getByText('atomicdata.dev'));
-    const linkElement = await findByText(/requires/i);
+    const linkElement = await findByText(/recommends/i);
     expect(document.body.contains(linkElement));
   });
 });

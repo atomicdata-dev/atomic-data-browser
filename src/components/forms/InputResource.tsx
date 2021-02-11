@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import Downshift from 'downshift';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
+import { useArray, useResource, useString } from '../../atomic-react/hooks';
 import { FaCaretDown } from 'react-icons/fa';
-import { useArray, useResource, useString } from '../../lib/react';
 import { urls } from '../../helpers/urls';
 import { ButtonInput } from '../Button';
 import ResourceLine from '../ResourceLine';
@@ -16,7 +16,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
   const [options] = useArray(classesCollection, urls.properties.collection.members);
   const themeContext = useContext(ThemeContext);
 
-  function handleUpdate(newval) {
+  function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
     setVale(newval, setErr);
   }
