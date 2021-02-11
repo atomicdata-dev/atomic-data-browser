@@ -96,6 +96,16 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       });
       break;
     }
+    case Datatype.INTEGER: {
+      if (!isNumber(value)) {
+        err = 'Not a number';
+        break;
+      }
+      if (value % 1 !== 0) {
+        err = 'Not an integer';
+      }
+      break;
+    }
   }
   if (err !== null) {
     throw new Error(`${err}`);
@@ -109,4 +119,8 @@ function isArray(val: JSVals): val is [] {
 
 function isString(val: JSVals): val is string {
   return typeof val === 'string';
+}
+
+function isNumber(val: JSVals): val is number {
+  return typeof val === 'number';
 }
