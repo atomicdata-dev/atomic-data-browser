@@ -27,7 +27,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
           clearSelection,
           getInputProps,
           getItemProps,
-          getLabelProps,
+          // getLabelProps,
           getMenuProps,
           getToggleButtonProps,
           isOpen,

@@ -35,7 +35,7 @@ export const Welcome: React.FunctionComponent = () => {
         <code>docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server</code>
       </p>
       <p>
-        ...and visist <Link url='http://localhost/collections'>localhost</Link>!
+        ...and visit <Link url='http://localhost/collections'>localhost</Link>!
       </p>
     </Container>
   );
