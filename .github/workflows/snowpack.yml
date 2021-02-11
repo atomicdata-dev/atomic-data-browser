@@ -24,5 +24,6 @@ jobs:
         uses: EndBug/add-and-commit@v7
         with:
           branch: gh-pages
+          push: origin main --force
           author_name: Snowpack Build
           author_email: actions@github.com
