@@ -21,5 +21,6 @@ jobs:
         uses: EndBug/add-and-commit@v7
         with:
           branch: gh-pages
+          pull_strategy: --rebase
           author_name: Snowpack Build
           author_email: actions@github.com
