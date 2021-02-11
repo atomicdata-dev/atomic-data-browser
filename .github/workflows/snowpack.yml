@@ -25,7 +25,7 @@ jobs:
         with:
           branch: gh-pages
           push: '-u origin gh-pages --force'
-          pull_strategy: --set-upstream-to=origin/master --rebase
+          pull_strategy: '--set-upstream-to=origin/master --rebase'
           author_name: Snowpack Build
           author_email: actions@github.com
           add: .
