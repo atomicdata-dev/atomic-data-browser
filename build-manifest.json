@@ -330,7 +330,7 @@
       ]
     },
     "dist/helpers/truncate.js": {
-      "bytes": 225,
+      "bytes": 193,
       "imports": []
     },
     "dist/lib/react.js": {
@@ -919,7 +919,7 @@
       ]
     },
     "dist/components/Welcome.js": {
-      "bytes": 2204,
+      "bytes": 2203,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1045,7 +1045,7 @@
       ]
     },
     "dist/components/forms/InputResource.js": {
-      "bytes": 3576,
+      "bytes": 3557,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1486,7 +1486,7 @@
           "bytesInOutput": 1596
         },
         "dist/helpers/truncate.js": {
-          "bytesInOutput": 119
+          "bytesInOutput": 93
         },
         "dist/lib/react.js": {
           "bytesInOutput": 1339
@@ -1567,7 +1567,7 @@
           "bytesInOutput": 575
         },
         "dist/components/Welcome.js": {
-          "bytesInOutput": 1148
+          "bytesInOutput": 1147
         },
         "dist/components/Browser.js": {
           "bytesInOutput": 98
@@ -1585,7 +1585,7 @@
           "bytesInOutput": 313
         },
         "dist/components/forms/InputResource.js": {
-          "bytesInOutput": 1800
+          "bytesInOutput": 1784
         },
         "dist/components/forms/FieldSwitcher.js": {
           "bytesInOutput": 534
@@ -1618,7 +1618,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 350545
+      "bytes": 350502
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],

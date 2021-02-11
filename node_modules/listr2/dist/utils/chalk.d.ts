@@ -1,4 +1,0 @@
-import chalkDefault from 'chalk';
-declare let chalk: chalkDefault.Chalk;
-/** A custom chalk instance to disable coloring compeletely. */
-export default chalk;
