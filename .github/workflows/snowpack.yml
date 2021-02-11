@@ -20,5 +20,6 @@ jobs:
       - name: Committing changes
         uses: EndBug/add-and-commit@v7
         with:
+          branch: gh-pages
           author_name: Snowpack Build
           author_email: actions@github.com
