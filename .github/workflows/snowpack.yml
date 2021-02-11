@@ -25,6 +25,6 @@ jobs:
         with:
           branch: gh-pages
           push: '-u origin gh-pages --force'
-          pull_strategy: --rebase
+          pull_strategy: --rebase --autostash
           author_name: Snowpack Build
           author_email: actions@github.com

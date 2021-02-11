@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useString } from '../../lib/react';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
 
-export default function InputString({ resource, property, required }: InputProps) {
+export default function InputString({ resource, property, required }: InputProps): JSX.Element {
   const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
 
