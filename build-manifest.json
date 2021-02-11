@@ -1,7 +1,7 @@
 {
   "inputs": {
     "index.css": {
-      "bytes": 1052,
+      "bytes": 6142,
       "imports": []
     },
     "dist/env.js": {
@@ -313,7 +313,7 @@
       ]
     },
     "dist/styling.js": {
-      "bytes": 2474,
+      "bytes": 2504,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -642,7 +642,7 @@
       ]
     },
     "dist/components/Button.js": {
-      "bytes": 2450,
+      "bytes": 2463,
       "imports": [
         {
           "path": "dist/pkg/polished.js",
@@ -961,7 +961,7 @@
       ]
     },
     "dist/pkg/react-icons/fa.js": {
-      "bytes": 5743,
+      "bytes": 6021,
       "imports": [
         {
           "path": "dist/pkg/common/index-63a1b8e9.js",
@@ -1045,7 +1045,7 @@
       ]
     },
     "dist/components/forms/InputResource.js": {
-      "bytes": 3557,
+      "bytes": 3743,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1057,6 +1057,10 @@
         },
         {
           "path": "dist/components/forms/Field.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-icons/fa.js",
           "kind": "import-statement"
         },
         {
@@ -1103,7 +1107,7 @@
       ]
     },
     "dist/components/forms/Field.js": {
-      "bytes": 3248,
+      "bytes": 3316,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1396,10 +1400,10 @@
       "imports": [],
       "inputs": {
         "index.css": {
-          "bytesInOutput": 773
+          "bytesInOutput": 1739
         }
       },
-      "bytes": 774
+      "bytes": 1740
     },
     "../~~bundle~~/dist/index.js": {
       "imports": [],
@@ -1432,7 +1436,7 @@
           "bytesInOutput": 977
         },
         "dist/pkg/styled-components.js": {
-          "bytesInOutput": 31810
+          "bytesInOutput": 31809
         },
         "dist/pkg/use-query-params.js": {
           "bytesInOutput": 10133
@@ -1483,7 +1487,7 @@
           "bytesInOutput": 10034
         },
         "dist/styling.js": {
-          "bytesInOutput": 1596
+          "bytesInOutput": 1626
         },
         "dist/helpers/truncate.js": {
           "bytesInOutput": 93
@@ -1501,16 +1505,16 @@
           "bytesInOutput": 38
         },
         "dist/components/Link.js": {
-          "bytesInOutput": 547
+          "bytesInOutput": 546
         },
         "dist/components/datatypes/ResourceInline.js": {
-          "bytesInOutput": 344
+          "bytesInOutput": 343
         },
         "dist/components/datatypes/DateTime.js": {
           "bytesInOutput": 109
         },
         "dist/pkg/react-markdown.js": {
-          "bytesInOutput": 75956
+          "bytesInOutput": 76001
         },
         "dist/components/datatypes/Markdown.js": {
           "bytesInOutput": 66
@@ -1525,13 +1529,13 @@
           "bytesInOutput": 493
         },
         "dist/components/PropVal.js": {
-          "bytesInOutput": 369
+          "bytesInOutput": 367
         },
         "dist/components/AllProps.js": {
           "bytesInOutput": 192
         },
         "dist/components/Containers.js": {
-          "bytesInOutput": 226
+          "bytesInOutput": 224
         },
         "dist/helpers/useLocalStorage.js": {
           "bytesInOutput": 251
@@ -1540,16 +1544,16 @@
           "bytesInOutput": 200
         },
         "dist/components/Button.js": {
-          "bytesInOutput": 1941
+          "bytesInOutput": 1949
         },
         "dist/components/NewInstanceButton.js": {
           "bytesInOutput": 144
         },
         "dist/components/ClassDetail.js": {
-          "bytesInOutput": 243
+          "bytesInOutput": 242
         },
         "dist/components/Card.js": {
-          "bytesInOutput": 509
+          "bytesInOutput": 506
         },
         "dist/components/CollectionCard.js": {
           "bytesInOutput": 330
@@ -1558,10 +1562,10 @@
           "bytesInOutput": 604
         },
         "dist/components/Table.js": {
-          "bytesInOutput": 1186
+          "bytesInOutput": 1183
         },
         "dist/components/CollectionPage.js": {
-          "bytesInOutput": 1301
+          "bytesInOutput": 1299
         },
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 575
@@ -1573,7 +1577,7 @@
           "bytesInOutput": 98
         },
         "dist/pkg/react-icons/fa.js": {
-          "bytesInOutput": 4197
+          "bytesInOutput": 4419
         },
         "dist/components/forms/InputString.js": {
           "bytesInOutput": 347
@@ -1585,19 +1589,19 @@
           "bytesInOutput": 313
         },
         "dist/components/forms/InputResource.js": {
-          "bytesInOutput": 1784
+          "bytesInOutput": 1826
         },
         "dist/components/forms/FieldSwitcher.js": {
           "bytesInOutput": 534
         },
         "dist/components/forms/Field.js": {
-          "bytesInOutput": 1669
+          "bytesInOutput": 1730
         },
         "dist/components/New.js": {
           "bytesInOutput": 1780
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1688
+          "bytesInOutput": 1687
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -1618,7 +1622,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 350502
+      "bytes": 350893
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
