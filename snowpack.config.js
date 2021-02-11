@@ -37,6 +37,8 @@ module.exports = {
   },
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-react/',
+    /** Github requires output to this folder for static hosting on main branch */
+    out: 'docs',
     metaUrlPath: `dist`,
     /* ... */
   },
