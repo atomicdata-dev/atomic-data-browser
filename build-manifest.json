@@ -202,11 +202,11 @@
       "bytes": 164,
       "imports": []
     },
-    "dist/lib/value.js": {
+    "dist/atomic-lib/value.js": {
       "bytes": 714,
       "imports": []
     },
-    "dist/lib/parse.js": {
+    "dist/atomic-lib/parse.js": {
       "bytes": 709,
       "imports": [
         {
@@ -214,24 +214,24 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/value.js",
+          "path": "dist/atomic-lib/value.js",
           "kind": "import-statement"
         }
       ]
     },
-    "dist/lib/client.js": {
+    "dist/atomic-lib/client.js": {
       "bytes": 1042,
       "imports": [
         {
-          "path": "dist/lib/parse.js",
+          "path": "dist/atomic-lib/parse.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         }
       ]
@@ -240,24 +240,24 @@
       "bytes": 1847,
       "imports": []
     },
-    "dist/lib/datatypes.js": {
-      "bytes": 2123,
+    "dist/atomic-lib/datatypes.js": {
+      "bytes": 2810,
       "imports": [
         {
           "path": "dist/helpers/urls.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/client.js",
+          "path": "dist/atomic-lib/client.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/value.js",
+          "path": "dist/atomic-lib/value.js",
           "kind": "import-statement"
         }
       ]
     },
-    "dist/lib/resource.js": {
+    "dist/atomic-lib/resource.js": {
       "bytes": 1475,
       "imports": [
         {
@@ -265,24 +265,24 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/client.js",
+          "path": "dist/atomic-lib/client.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/datatypes.js",
+          "path": "dist/atomic-lib/datatypes.js",
           "kind": "import-statement"
         }
       ]
     },
-    "dist/lib/store.js": {
+    "dist/atomic-lib/store.js": {
       "bytes": 2199,
       "imports": [
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/client.js",
+          "path": "dist/atomic-lib/client.js",
           "kind": "import-statement"
         },
         {
@@ -290,7 +290,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/datatypes.js",
+          "path": "dist/atomic-lib/datatypes.js",
           "kind": "import-statement"
         }
       ]
@@ -333,8 +333,8 @@
       "bytes": 193,
       "imports": []
     },
-    "dist/lib/react.js": {
-      "bytes": 4177,
+    "dist/atomic-react/hooks.js": {
+      "bytes": 4201,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -345,7 +345,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -353,7 +353,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/datatypes.js",
+          "path": "dist/atomic-lib/datatypes.js",
           "kind": "import-statement"
         },
         {
@@ -417,7 +417,7 @@
       ]
     },
     "dist/components/Link.js": {
-      "bytes": 1267,
+      "bytes": 1276,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -440,13 +440,13 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1042,
+      "bytes": 1058,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -461,11 +461,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -540,14 +540,14 @@
       ]
     },
     "dist/components/ValueComp.js": {
-      "bytes": 1397,
+      "bytes": 1404,
       "imports": [
         {
           "path": "dist/pkg/react.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/datatypes.js",
+          "path": "dist/atomic-lib/datatypes.js",
           "kind": "import-statement"
         },
         {
@@ -573,7 +573,7 @@
       ]
     },
     "dist/components/PropVal.js": {
-      "bytes": 903,
+      "bytes": 912,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -584,7 +584,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -655,7 +655,7 @@
       ]
     },
     "dist/components/NewInstanceButton.js": {
-      "bytes": 595,
+      "bytes": 604,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -670,7 +670,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -680,7 +680,7 @@
       ]
     },
     "dist/components/ClassDetail.js": {
-      "bytes": 691,
+      "bytes": 700,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -695,7 +695,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -714,7 +714,7 @@
       ]
     },
     "dist/components/CollectionCard.js": {
-      "bytes": 1130,
+      "bytes": 1139,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -725,7 +725,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -747,7 +747,7 @@
       ]
     },
     "dist/components/ResourceCard.js": {
-      "bytes": 1742,
+      "bytes": 1758,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -758,11 +758,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -792,7 +792,7 @@
       ]
     },
     "dist/components/Table.js": {
-      "bytes": 2871,
+      "bytes": 2880,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -807,7 +807,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -821,7 +821,7 @@
       ]
     },
     "dist/components/CollectionPage.js": {
-      "bytes": 3311,
+      "bytes": 3320,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -844,7 +844,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -874,7 +874,7 @@
       ]
     },
     "dist/components/ResourcePage.js": {
-      "bytes": 1736,
+      "bytes": 1752,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -885,11 +885,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -974,14 +974,14 @@
       ]
     },
     "dist/components/forms/InputString.js": {
-      "bytes": 874,
+      "bytes": 883,
       "imports": [
         {
           "path": "dist/pkg/react.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -1020,7 +1020,7 @@
       ]
     },
     "dist/components/ResourceLine.js": {
-      "bytes": 938,
+      "bytes": 954,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1031,11 +1031,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -1045,7 +1045,7 @@
       ]
     },
     "dist/components/forms/InputResource.js": {
-      "bytes": 3743,
+      "bytes": 3754,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1060,11 +1060,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/react-icons/fa.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/pkg/react-icons/fa.js",
           "kind": "import-statement"
         },
         {
@@ -1086,10 +1086,10 @@
       ]
     },
     "dist/components/forms/FieldSwitcher.js": {
-      "bytes": 1260,
+      "bytes": 1267,
       "imports": [
         {
-          "path": "dist/lib/datatypes.js",
+          "path": "dist/atomic-lib/datatypes.js",
           "kind": "import-statement"
         },
         {
@@ -1107,7 +1107,7 @@
       ]
     },
     "dist/components/forms/Field.js": {
-      "bytes": 3316,
+      "bytes": 3325,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1122,7 +1122,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -1144,7 +1144,7 @@
       ]
     },
     "dist/components/New.js": {
-      "bytes": 4649,
+      "bytes": 4665,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1171,11 +1171,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/resource.js",
+          "path": "dist/atomic-lib/resource.js",
           "kind": "import-statement"
         },
         {
@@ -1317,7 +1317,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 1853,
+      "bytes": 1869,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1336,7 +1336,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/store.js",
+          "path": "dist/atomic-lib/store.js",
           "kind": "import-statement"
         },
         {
@@ -1344,7 +1344,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/lib/react.js",
+          "path": "dist/atomic-react/hooks.js",
           "kind": "import-statement"
         },
         {
@@ -1459,25 +1459,25 @@
         "dist/helpers/handlers.js": {
           "bytesInOutput": 63
         },
-        "dist/lib/value.js": {
+        "dist/atomic-lib/value.js": {
           "bytesInOutput": 494
         },
-        "dist/lib/parse.js": {
+        "dist/atomic-lib/parse.js": {
           "bytesInOutput": 260
         },
-        "dist/lib/client.js": {
+        "dist/atomic-lib/client.js": {
           "bytesInOutput": 449
         },
         "dist/helpers/urls.js": {
           "bytesInOutput": 1628
         },
-        "dist/lib/datatypes.js": {
-          "bytesInOutput": 1078
+        "dist/atomic-lib/datatypes.js": {
+          "bytesInOutput": 1420
         },
-        "dist/lib/resource.js": {
+        "dist/atomic-lib/resource.js": {
           "bytesInOutput": 698
         },
-        "dist/lib/store.js": {
+        "dist/atomic-lib/store.js": {
           "bytesInOutput": 1013
         },
         "dist/pkg/common/assertThisInitialized-8eae6022.js": {
@@ -1492,7 +1492,7 @@
         "dist/helpers/truncate.js": {
           "bytesInOutput": 93
         },
-        "dist/lib/react.js": {
+        "dist/atomic-react/hooks.js": {
           "bytesInOutput": 1339
         },
         "dist/pkg/react-router.js": {
@@ -1589,7 +1589,7 @@
           "bytesInOutput": 313
         },
         "dist/components/forms/InputResource.js": {
-          "bytesInOutput": 1826
+          "bytesInOutput": 1828
         },
         "dist/components/forms/FieldSwitcher.js": {
           "bytesInOutput": 534
@@ -1622,7 +1622,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 350893
+      "bytes": 351237
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
