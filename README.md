@@ -1,5 +1,7 @@
 # Atomic-React
 
+[![Snowpack build Status](https://github.com/joepio/atomic-react/workflows/Snowpack/badge.svg)](https://github.com/{userName}/{repoName}/actions)
+
 _status: pre-alpha_
 
 Typescript / React library for parsing, storing and rendering [Atomic Data](https://atomicdata.dev/).
