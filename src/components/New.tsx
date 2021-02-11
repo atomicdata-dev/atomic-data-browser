@@ -50,15 +50,15 @@ function New(): JSX.Element {
       {classSubject ? (
         <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} />
       ) : (
-          <form onSubmit={handleClassSet}>
-            <h1>Create something new</h1>
-            {/* <LabelStyled>new resource URL</LabelStyled>
-      <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} /> */}
-            <Examples />
-            <p>... or enter the URL of an existing Class:</p>
-            <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
-          </form>
-        )}
+        <form onSubmit={handleClassSet}>
+          <h1>Create something new</h1>
+          {/* <LabelStyled>new resource URL</LabelStyled>
+  <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} /> */}
+          <Examples />
+          <p>... or enter the URL of an existing Class:</p>
+          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
+        </form>
+      )}
     </Container>
   );
 }

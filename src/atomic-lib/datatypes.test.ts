@@ -28,7 +28,7 @@ describe('Datatypes', () => {
     expect(() => validate(int, Datatype.SLUG)).to.throw();
 
     expect(() => validate(resourceArray, Datatype.RESOURCEARRAY)).to.not.throw();
-    expect(() => validate(resourceArrayInvalid, Datatype.RESOURCEARRAY)).to.throw(); ◘
+    expect(() => validate(resourceArrayInvalid, Datatype.RESOURCEARRAY)).to.throw();
     expect(() => validate(float, Datatype.RESOURCEARRAY)).to.throw();
     expect(() => validate(string, Datatype.RESOURCEARRAY)).to.throw();
     expect(() => validate(int, Datatype.RESOURCEARRAY)).to.throw();
