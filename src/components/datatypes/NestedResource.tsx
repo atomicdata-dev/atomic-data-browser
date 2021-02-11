@@ -1,5 +1,5 @@
 import React from 'react';
-import { NestedResource } from '../../lib/value';
+import { NestedResource } from '../../atomic-lib/value';
 
 type Props = {
   resource: NestedResource;

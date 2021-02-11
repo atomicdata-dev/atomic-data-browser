@@ -1,7 +1,7 @@
 import React from 'react';
 import { properties } from '../helpers/urls';
-import { useArray, useString, useTitle } from '../lib/react';
-import { Resource } from '../lib/resource';
+import { useArray, useString, useTitle } from '../atomic-react/hooks';
+import { Resource } from '../atomic-lib/resource';
 import Markdown from './datatypes/Markdown';
 import Link from './Link';
 import { Card, CardInsideFull, CardRow } from './Card';

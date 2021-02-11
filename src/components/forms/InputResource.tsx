@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Downshift from 'downshift';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
-import { useArray, useResource, useString } from '../../lib/react';
+import { useArray, useResource, useString } from '../../atomic-react/hooks';
 import { urls } from '../../helpers/urls';
 import { ButtonInput } from '../Button';
 import ResourceLine from '../ResourceLine';
@@ -15,7 +15,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
   const [options] = useArray(classesCollection, urls.properties.collection.members);
   const themeContext = useContext(ThemeContext);
 
-  function handleUpdate(newval) {
+  function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
     setVale(newval, setErr);
   }
@@ -37,7 +37,7 @@ export function InputResource({ resource, property, required }: InputProps): JSX
           getRootProps,
         }) => (
           <DropDownStyled>
-            <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
+            <InputWrapper {...getRootProps(null, { suppressRefError: true })}>
               <InputStyled {...getInputProps()} required={required} />
               <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
                 &#8595;

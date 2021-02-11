@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useString } from '../../lib/react';
+import { useString } from '../../atomic-react/hooks';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
 
 export default function InputString({ resource, property, required }: InputProps): JSX.Element {

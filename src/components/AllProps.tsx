@@ -1,5 +1,5 @@
 import React from 'react';
-import { Resource } from '../lib/resource';
+import { Resource } from '../atomic-lib/resource';
 import PropVal from './PropVal';
 
 type Props = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { urls } from '../helpers/urls';
-import { useString, useResource, useTitle } from '../lib/react';
-import { ResourceStatus } from '../lib/resource';
+import { useString, useResource, useTitle } from '../atomic-react/hooks';
+import { ResourceStatus } from '../atomic-lib/resource';
 import { ErrorLook } from '../components/datatypes/ResourceInline';
 
 type Props = {

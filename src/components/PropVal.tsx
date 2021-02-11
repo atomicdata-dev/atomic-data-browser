@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useProperty } from '../lib/react';
-import { Value } from '../lib/value';
+import { useProperty } from '../atomic-react/hooks';
+import { Value } from '../atomic-lib/value';
 import Link from './Link';
 import ValueComp from './ValueComp';
 

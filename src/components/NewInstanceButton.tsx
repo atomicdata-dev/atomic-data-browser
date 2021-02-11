@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { createInstanceUrl } from '../helpers/navigation';
-import { useResource, useTitle } from '../lib/react';
+import { useResource, useTitle } from '../atomic-react/hooks';
 import { ButtonMargin } from './Button';
 
 type NewIntanceButtonProps = {

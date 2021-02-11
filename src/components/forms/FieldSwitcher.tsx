@@ -1,4 +1,4 @@
-import { Datatype } from '../../lib/datatypes';
+import { Datatype } from '../../atomic-lib/datatypes';
 import React from 'react';
 import { InputProps } from './Field';
 import InputString from './InputString';

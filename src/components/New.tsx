@@ -4,8 +4,8 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { handleError } from '../helpers/handlers';
 import { createInstanceUrl, createSubjectUrl } from '../helpers/navigation';
 import { classes, properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle, useArray, useStore } from '../lib/react';
-import { ResourceStatus } from '../lib/resource';
+import { useString, useResource, useTitle, useArray, useStore } from '../atomic-react/hooks';
+import { ResourceStatus } from '../atomic-lib/resource';
 import { ButtonMargin } from './Button';
 import { Container } from './Containers';
 import Markdown from './datatypes/Markdown';
@@ -50,15 +50,15 @@ function New(): JSX.Element {
       {classSubject ? (
         <NewForm classSubject={classSubject} key={`${classSubject}+${newSubject}`} newSubject={newSubject} />
       ) : (
-        <form onSubmit={handleClassSet}>
-          <h1>Create something new</h1>
-          {/* <LabelStyled>new resource URL</LabelStyled>
+          <form onSubmit={handleClassSet}>
+            <h1>Create something new</h1>
+            {/* <LabelStyled>new resource URL</LabelStyled>
       <InputStyled value={newSubject || null} onChange={e => setNewSubject(e.target.value)} placeholder={'URL of the new resource...'} /> */}
-          <Examples />
-          <p>... or enter the URL of an existing Class:</p>
-          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
-        </form>
-      )}
+            <Examples />
+            <p>... or enter the URL of an existing Class:</p>
+            <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
+          </form>
+        )}
     </Container>
   );
 }

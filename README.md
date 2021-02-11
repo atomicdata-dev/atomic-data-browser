@@ -1,6 +1,6 @@
 # Atomic-React
 
-[![Snowpack build Status](https://github.com/joepio/atomic-react/workflows/Snowpack/badge.svg)](https://github.com/{userName}/{repoName}/actions)
+[![Snowpack build Status](https://github.com/joepio/atomic-react/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-react/actions)
 
 _status: pre-alpha_
 
@@ -29,7 +29,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 - [ ] Resolve atomic paths
 - [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
 
-## Usage
+## Running locally
 
 Run using `npx`:
 
@@ -56,10 +56,20 @@ yarn build
 ## Directory structure
 
 ```
+src/
 - **components**: possibly re-usable components
 - **helpers**: projects-specific helper functions
 - **lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
+- **react**: general atomic data library (higher documentation + testing goals), no react-specific code.
 ```
+
+## Undertanding the code
+
+- **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
+- **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
+- **Hooks** are used wherever possible. This means functional components, instead of old-style Class components.
+- **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
+- **Document** your components and properties! Explain your thinking when doing something non-trivial.
 
 ## Contribute
 
