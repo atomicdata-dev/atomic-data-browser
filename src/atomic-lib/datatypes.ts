@@ -87,11 +87,13 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       break;
     }
     case Datatype.RESOURCEARRAY: {
-      if (isString(value)) {
-        err = 'Not a resource array, but a single string';
+      if (!isArray(value)) {
+        err = 'Not an array';
         break;
       }
-      checkValidURL(value);
+      value.map(item => {
+        checkValidURL(item);
+      });
       break;
     }
   }
