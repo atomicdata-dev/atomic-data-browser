@@ -1045,7 +1045,7 @@
       ]
     },
     "dist/components/forms/InputResource.js": {
-      "bytes": 3754,
+      "bytes": 3752,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1589,7 +1589,7 @@
           "bytesInOutput": 313
         },
         "dist/components/forms/InputResource.js": {
-          "bytesInOutput": 1828
+          "bytesInOutput": 1826
         },
         "dist/components/forms/FieldSwitcher.js": {
           "bytesInOutput": 534
@@ -1622,7 +1622,7 @@
           "bytesInOutput": 159
         }
       },
-      "bytes": 351237
+      "bytes": 351235
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
