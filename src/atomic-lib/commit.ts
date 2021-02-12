@@ -1,6 +1,7 @@
 import ed from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
-import { decode } from 'base64-arraybuffer';
+import { decode, encode } from 'base64-arraybuffer';
+import { urls } from '../helpers/urls';
 
 export interface CommitBuilder {
   subject: string;
@@ -11,7 +12,7 @@ export interface CommitBuilder {
 
 interface CommitPreSigned extends CommitBuilder {
   signer: string;
-  created_at: number;
+  createdAt: number;
 }
 
 export interface Commit extends CommitPreSigned {
@@ -29,8 +30,29 @@ function hexToBase64(hexstring: string) {
   );
 }
 
+/** Replaces a key in a Commit. Ignores it if it's not there */
+function replaceKey(o: Commit | CommitPreSigned, oldKey: string, newKey: string) {
+  if (oldKey in o && oldKey !== newKey) {
+    Object.defineProperty(o, newKey, Object.getOwnPropertyDescriptor(o, oldKey));
+    delete o[oldKey];
+  }
+}
+
 /** Takes a commit (without signature) and serializes it deterministically. */
-export function serializeDeterministically(commit: CommitPreSigned): string {
+export function serializeDeterministically(commit: CommitPreSigned | Commit): string {
+  // @ts-ignore Prevent devs from making the same mistake I made
+  if (commit.signature !== undefined) {
+    // @ts-ignore Prevent devs from making the same mistake I made
+    delete commit.signature;
+    // throw Error("You're trying to deterministicall serialize a Commit with a signature - you need one without its signature!");
+  }
+  replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
+  replaceKey(commit, 'subject', urls.properties.commit.subject);
+  replaceKey(commit, 'set', urls.properties.commit.set);
+  replaceKey(commit, 'signer', urls.properties.commit.signer);
+  replaceKey(commit, 'remove', urls.properties.commit.remove);
+  replaceKey(commit, 'destroy', urls.properties.commit.destroy);
+
   return stringify(commit);
 }
 
@@ -38,7 +60,7 @@ export function serializeDeterministically(commit: CommitPreSigned): string {
 export const signAt = async (commitBuilder: CommitBuilder, agent: string, privateKey: string, createdAt: number): Promise<Commit> => {
   const commitPreSigned: CommitPreSigned = {
     ...commitBuilder,
-    created_at: createdAt,
+    createdAt: createdAt,
     signer: agent,
   };
   const serializedCommit = serializeDeterministically(commitPreSigned);
@@ -54,7 +76,18 @@ export const signAt = async (commitBuilder: CommitBuilder, agent: string, privat
 export const signToBase64 = async (message: string, privateKeyBase64: string): Promise<string> => {
   const privateKeyArrayBuffer = decode(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
-  const signatureHex = await ed.sign(message, privateKeyBytes);
-  const signatureBase64 = hexToBase64(signatureHex);
+  const utf8Encode = new TextEncoder();
+  const messageBytes: Uint8Array = utf8Encode.encode(message);
+  const signatureHex = await ed.sign(messageBytes, privateKeyBytes);
+  const signatureBase64 = encode(signatureHex);
+  return signatureBase64;
+};
+
+/** From base64 encoded private key */
+export const generatePublicKeyFromPrivate = async (privateKey: string): Promise<string> => {
+  const privateKeyArrayBuffer = decode(privateKey);
+  const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
+  const publickey = await ed.getPublicKey(privateKeyBytes);
+  const signatureBase64 = encode(publickey);
   return signatureBase64;
 };

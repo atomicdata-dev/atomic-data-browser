@@ -20,6 +20,14 @@ export const properties = {
     totalPages: 'https://atomicdata.dev/properties/collection/totalPages',
     value: 'https://atomicdata.dev/properties/collection/value',
   },
+  commit: {
+    subject: 'https://atomicdata.dev/properties/subject',
+    createdAt: 'https://atomicdata.dev/properties/createdAt',
+    signer: 'https://atomicdata.dev/properties/signer',
+    set: 'https://atomicdata.dev/properties/set',
+    remove: 'https://atomicdata.dev/properties/remove',
+    destroy: 'https://atomicdata.dev/properties/destroy',
+  },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
 };

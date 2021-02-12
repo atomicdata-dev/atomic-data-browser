@@ -1,16 +1,24 @@
 import { expect } from 'chai';
-import { CommitBuilder, serializeDeterministically, signAt, signToBase64 } from './commit';
+import { CommitBuilder, generatePublicKeyFromPrivate, serializeDeterministically, signAt, signToBase64 } from './commit';
+import ed from 'noble-ed25519';
 
 describe('Commit', () => {
-  const privateKey = 'MFMCAQEwBQYDK2VwBCIEIItEZm3wbIpx7qK/+UPT2DqsZWwsD50M3QDLyTwPGVKEoSMDIQAivODlyb+pfdNQGbu7EJ2w3f8+2suBNenGNsE8KsI6pA==';
-  const agentSubject = 'http://localhost/agents/Irzg5cm/qX3TUBm7uxCdsN3/PtrLgTXpxjbBPCrCOqQ=';
+  const privateKey = 'CapMWIhFUT+w7ANv9oCPqrHrwZpkP2JhzF9JnyT6WcI=';
+  const publicKey = '7LsjMW5gOfDdJzK/atgjQ1t20J/rw8MjVg6xwqm+h8U=';
+  const agentSubject = 'http://localhost/agents/7LsjMW5gOfDdJzK/atgjQ1t20J/rw8MjVg6xwqm+h8U=';
   const subject = 'https://localhost/new_thing';
+
+  it('creates the right public key', async () => {
+    const generatedPublickey = await generatePublicKeyFromPrivate(privateKey);
+    expect(generatedPublickey).to.equal(publicKey);
+  });
 
   it('signs a commit with the right signature', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // This output is wrong, but I still want this test to succeed: https://github.com/joepio/atomic-react/issues/3
-    // const correct_signature_rust = 'Nmyp7gmLhf5GZw2mCOXjXqfsSDeA4GIiYFQh2P/0xsJENwetnzmDDA1lUyzr9mpc32JxIzCVEgTsyi2GzK/ACQ==';
-    const signature_js = 'e0Qj5uolzD8ChfpuiFhhwQg5F98y2q56RaMy0RCJy2glMIbkb8hUfNm+d5kym/FJjRiL83oEFopgq5fQdQmzBQ==';
+    const signatureCorrect = 'YUdaEModMZPanrvbbtmtczN9PrV8wofTRWYRRguPoqxFlii4CsEWyeg9VMJXt9NNPl31L0m1T5G5mDC6wGCwDA==';
+    const serializedCommitRust =
+      '{"https://atomicdata.dev/properties/createdAt":0,"https://atomicdata.dev/properties/set":{"https://atomicdata.dev/properties/description":"Some value","https://atomicdata.dev/properties/shortname":"someval"},"https://atomicdata.dev/properties/signer":"http://localhost/agents/7LsjMW5gOfDdJzK/atgjQ1t20J/rw8MjVg6xwqm+h8U=","https://atomicdata.dev/properties/subject":"https://localhost/new_thing"}';
     const createdAt = 0;
     const commitbuilder: CommitBuilder = {
       subject,
@@ -20,20 +28,16 @@ describe('Commit', () => {
       },
     };
     const commit = await signAt(commitbuilder, agentSubject, privateKey, createdAt);
-    expect(
-      serializeDeterministically(commit),
-      '"createdAt":0,"set":{"https://atomicdata.dev/properties/description":"Some value","https://atomicdata.dev/properties/shortname":"someval"},"signer":"http://localhost/agents/Irzg5cm/qX3TUBm7uxCdsN3/PtrLgTXpxjbBPCrCOqQ=","subject":"https://localhost/new_thing"}',
-    );
-    expect(commit.signature).to.equal(signature_js);
+    const sig = commit.signature;
+    const serialized = serializeDeterministically(commit);
+    expect(serialized).to.equal(serializedCommitRust);
+    expect(sig).to.equal(signatureCorrect);
   });
 
   it('signs any string correctly', async () => {
     const input = 'val';
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // This output is wrong, but I still want this test to succeed: https://github.com/joepio/atomic-react/issues/3
-    // const correct_signature_rust = '+RVIN+DVu6khCAo8M+BE2IrS9HT+L89I2b5YDC+AddTwPNiaYX6wQX+ANZVSIblMKYUiy9l0QxS3j7UvlYYRAg==';
-    const signature_js = 'lPLljbXFUH72EQdyIHQmh/CSzNPhF+uO8JpRVS7kKRgE2Ict78keUis8SC2FqTyfq1MFmfZqn9Yx8RRO+FYNCw==';
+    const correct_signature_rust = 'YtDR/xo0272LHNBQtDer4LekzdkfUANFTI0eHxZhITXnbC3j0LCqDWhr6itNvo4tFnep6DCbev5OKAHH89+TDA==';
     const signature = await signToBase64(input, privateKey);
-    expect(signature).to.equal(signature_js);
+    expect(signature).to.equal(correct_signature_rust);
   });
 });
