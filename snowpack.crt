@@ -1,0 +1,85 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 2 (0x2)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=devcert
+        Validity
+            Not Before: Feb 13 14:22:06 2021 GMT
+            Not After : May 19 14:22:06 2023 GMT
+        Subject: CN=snowpack
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d9:b0:79:c4:82:e5:c0:5e:d6:87:a9:8d:ae:e5:
+                    71:0d:58:5e:04:0d:68:f5:14:d2:ec:eb:99:83:53:
+                    0c:02:0b:75:85:46:5f:9a:fc:7a:e4:a0:04:07:0c:
+                    b2:cc:a8:9f:91:a5:f7:8d:76:bd:79:14:e3:ab:db:
+                    46:28:fd:39:55:1b:cd:33:60:0d:33:47:f3:c9:c3:
+                    aa:1a:4b:f1:d4:10:9b:af:32:b0:28:47:5e:af:9b:
+                    45:12:17:73:62:9d:69:ee:b9:a2:d4:80:64:a0:72:
+                    10:c4:b4:cb:9a:f9:ba:a4:6f:c7:c2:70:fa:8b:cb:
+                    68:af:36:bd:c0:27:fa:86:2d:33:f6:f6:b3:c3:54:
+                    21:bd:08:5d:8f:dc:8d:a6:19:e2:70:69:59:54:38:
+                    e5:6d:1a:8d:80:34:8d:f2:de:e2:7a:a7:bd:ff:14:
+                    9d:98:5c:a3:e2:3b:f9:03:0f:f8:04:da:54:22:cb:
+                    7c:b2:27:22:1e:87:09:d0:61:e0:e6:18:ed:0d:1b:
+                    32:05:a7:54:06:17:2b:a5:4d:1b:dd:7c:b1:cc:51:
+                    c2:b3:f9:0a:97:14:88:0c:8e:7f:6d:8d:26:38:09:
+                    4c:e5:91:1c:1d:73:10:d2:34:e7:45:70:fa:8f:ff:
+                    cb:f6:c6:b9:c2:ae:48:c5:2d:ad:4c:f8:ed:99:94:
+                    40:a7
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                A9:EF:15:39:3D:89:EE:58:8F:38:19:47:EB:6D:C9:60:0E:0E:BB:30
+            X509v3 Authority Key Identifier: 
+                keyid:43:F3:32:30:89:FB:0E:7E:DD:B4:2B:6F:7F:98:BE:78:D5:2D:14:17
+                DirName:/CN=devcert
+                serial:9F:A3:B3:05:DA:A2:04:89
+
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Subject Alternative Name: 
+                DNS:snowpack, DNS:*.snowpack
+    Signature Algorithm: sha256WithRSAEncryption
+         22:b2:71:4b:e6:64:bc:d4:91:c1:6c:e9:14:37:27:10:94:4e:
+         bb:3d:4e:7b:5f:fd:56:92:8b:9f:ff:18:e8:12:ec:b5:c8:89:
+         a4:c9:d0:d7:bb:e7:84:31:15:34:41:04:7b:85:d2:44:ae:2c:
+         52:7d:8a:1c:66:12:b4:0a:95:f5:87:ab:ac:cd:17:97:62:48:
+         31:06:f9:0c:cf:77:84:93:35:21:e9:83:81:bb:f8:bc:48:12:
+         53:16:26:f9:46:5c:4c:66:4e:ab:75:54:39:43:c3:79:8d:1b:
+         96:64:47:94:3d:f9:6b:7f:fd:b0:ff:b8:f1:42:6e:53:88:de:
+         90:1d:72:d2:2e:c5:0d:14:4f:f1:6c:6a:2f:9f:63:5d:29:e0:
+         d0:24:7d:cd:a9:b6:81:ed:db:58:d5:7d:a1:02:7f:8a:d4:ff:
+         cd:bc:12:1c:c8:4d:f8:db:ab:34:29:b9:74:d2:fa:a4:eb:d4:
+         44:9d:57:ff:0d:a5:38:78:27:2e:91:f0:cd:8f:84:1f:bf:75:
+         5e:c5:be:9f:fe:71:b3:08:2f:77:b1:43:4f:f5:8d:c6:39:a6:
+         92:f6:86:ad:fc:1b:be:2b:28:a1:10:f9:72:43:df:32:df:85:
+         8c:4c:a1:63:82:98:8f:bb:fb:1e:4b:09:7b:fe:05:74:bf:85:
+         61:1a:0b:00
+-----BEGIN CERTIFICATE-----
+MIIDWzCCAkOgAwIBAgIBAjANBgkqhkiG9w0BAQsFADASMRAwDgYDVQQDDAdkZXZj
+ZXJ0MB4XDTIxMDIxMzE0MjIwNloXDTIzMDUxOTE0MjIwNlowEzERMA8GA1UEAwwI
+c25vd3BhY2swggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDZsHnEguXA
+XtaHqY2u5XENWF4EDWj1FNLs65mDUwwCC3WFRl+a/HrkoAQHDLLMqJ+RpfeNdr15
+FOOr20Yo/TlVG80zYA0zR/PJw6oaS/HUEJuvMrAoR16vm0USF3NinWnuuaLUgGSg
+chDEtMua+bqkb8fCcPqLy2ivNr3AJ/qGLTP29rPDVCG9CF2P3I2mGeJwaVlUOOVt
+Go2ANI3y3uJ6p73/FJ2YXKPiO/kDD/gE2lQiy3yyJyIehwnQYeDmGO0NGzIFp1QG
+FyulTRvdfLHMUcKz+QqXFIgMjn9tjSY4CUzlkRwdcxDSNOdFcPqP/8v2xrnCrkjF
+La1M+O2ZlECnAgMBAAGjgbowgbcwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUqe8V
+OT2J7liPOBlH623JYA4OuzAwQgYDVR0jBDswOYAUQ/MyMIn7Dn7dtCtvf5i+eNUt
+FBehFqQUMBIxEDAOBgNVBAMMB2RldmNlcnSCCQCfo7MF2qIEiTAOBgNVHQ8BAf8E
+BAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwHwYDVR0RBBgwFoIIc25vd3BhY2uC
+Ciouc25vd3BhY2swDQYJKoZIhvcNAQELBQADggEBACKycUvmZLzUkcFs6RQ3JxCU
+Trs9Tntf/VaSi5//GOgS7LXIiaTJ0Ne754QxFTRBBHuF0kSuLFJ9ihxmErQKlfWH
+q6zNF5diSDEG+QzPd4STNSHpg4G7+LxIElMWJvlGXExmTqt1VDlDw3mNG5ZkR5Q9
++Wt//bD/uPFCblOI3pAdctIuxQ0UT/Fsai+fY10p4NAkfc2ptoHt21jVfaECf4rU
+/828EhzITfjbqzQpuXTS+qTr1ESdV/8NpTh4Jy6R8M2PhB+/dV7Fvp/+cbMIL3ex
+Q0/1jcY5ppL2hq38G74rKKEQ+XJD3zLfhYxMoWOCmI+7+x5LCXv+BXS/hWEaCwA=
+-----END CERTIFICATE-----

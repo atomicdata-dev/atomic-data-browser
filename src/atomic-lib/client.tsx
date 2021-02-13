@@ -1,3 +1,4 @@
+import { Commit, serializeDeterministically } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource, ResourceStatus } from './resource';
 
@@ -27,6 +28,24 @@ export async function fetchResource(subject: string): Promise<Resource> {
     resource.setError(e);
   }
   return resource;
+}
+
+/** Posts a Commit to some endpoint */
+export async function postCommit(commit: Commit, endpoint: string): Promise<string> {
+  console.log(commit);
+  const serialized = serializeDeterministically(commit);
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set('Content-Type', 'application/ad+json');
+  const response = await window.fetch(endpoint, {
+    headers: requestHeaders,
+    method: 'POST',
+    body: serialized,
+  });
+  const body = await response.text();
+  if (response.status !== 200) {
+    throw new Error(`Commit failed. Server replied with ${response.status}: ${body}`);
+  }
+  return body;
 }
 
 /** Throws an error if the URL is not valid */

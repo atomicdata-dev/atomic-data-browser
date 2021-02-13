@@ -1,5 +1,6 @@
 import { handleError } from '../helpers/handlers';
-import { checkValidURL } from './client';
+import { checkValidURL, postCommit } from './client';
+import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
 import { Store } from './store';
 import { JSVals, Value } from './value';
@@ -20,10 +21,12 @@ export class Resource {
   /** If the resource could not be fetched, we put that info here. */
   private error?: Error;
   private status: ResourceStatus;
+  private commitBuilder: CommitBuilder;
 
   constructor(subject: string) {
     this.subject = subject;
     this.propvals = new Map();
+    this.commitBuilder = new CommitBuilder(subject);
   }
 
   /** Checks if the resource is both loaded and free from errors */
@@ -63,8 +66,11 @@ export class Resource {
 
   /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
   async save(store: Store): Promise<string> {
-    // TODO: implement
     store.addResource(this);
+    const agent = store.getAgent();
+    const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
+    // TODO: Post to endpoint of resource
+    await postCommit(commit, store.getBaseUrl() + `/commit`);
     return this.getSubject();
   }
 
@@ -73,6 +79,8 @@ export class Resource {
     const fullProp = await store.getProperty(prop);
     const newVal = validate(value, fullProp.datatype);
     this.propvals.set(prop, newVal);
+    // Add the change to the Commit Builder, so we can commit our changes later
+    this.commitBuilder.set[prop] = newVal.toNative(fullProp.datatype);
     return newVal;
   }
 

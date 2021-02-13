@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, getByTitle, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import App from './App';
 

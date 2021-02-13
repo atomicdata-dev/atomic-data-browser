@@ -45,7 +45,7 @@ function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps
   );
 }
 
-const FieldStyled = styled.div`
+export const FieldStyled = styled.div`
   margin-bottom: ${props => props.theme.margin}rem;
 `;
 

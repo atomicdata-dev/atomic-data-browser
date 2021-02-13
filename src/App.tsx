@@ -12,16 +12,23 @@ import { AddressBar } from './components/AddressBar';
 import { useDarkMode } from './helpers/useDarkMode';
 import { useLocalStorage } from './helpers/useLocalStorage';
 import Settings from './components/Settings';
+import { Agent } from './atomic-lib/agent';
+import { getEnv, isDev } from './config';
+import { handleWarning } from './helpers/handlers';
 
 /** Initialize the store */
-const store = new Store('https://surfy.ddns.net/');
+const store = new Store('http://localhost');
+
+if (isDev) {
+  const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
+  store.setAgent(agent);
+  handleWarning('setting agent with keys!');
+}
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
   const [darkMode] = useDarkMode();
   const [mainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
-
-  console.log('app renders', mainColor);
 
   return (
     <StoreContext.Provider value={store}>

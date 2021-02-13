@@ -7,6 +7,7 @@ module.exports = {
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
+    '@snowpack/plugin-dotenv',
     [
       '@snowpack/plugin-run-script',
       {
@@ -34,6 +35,8 @@ module.exports = {
   },
   devOptions: {
     /* ... */
+    // HTTPS is required for `window.crypto` usage
+    secure: true,
   },
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-react/',

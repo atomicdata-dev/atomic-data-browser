@@ -2,7 +2,7 @@ export function handleError(e: Error): void {
   console.error(e);
 }
 
-export function handleWarning(e: Error): void {
+export function handleWarning(e: any): void {
   console.warn(e);
 }
 

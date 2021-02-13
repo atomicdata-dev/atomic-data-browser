@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { CommitBuilder, generatePublicKeyFromPrivate, serializeDeterministically, signAt, signToBase64 } from './commit';
-import ed from 'noble-ed25519';
+import { CommitBuilderI, generatePublicKeyFromPrivate, serializeDeterministically, signAt, signToBase64 } from './commit';
 
 describe('Commit', () => {
   const privateKey = 'CapMWIhFUT+w7ANv9oCPqrHrwZpkP2JhzF9JnyT6WcI=';
@@ -20,7 +19,7 @@ describe('Commit', () => {
     const serializedCommitRust =
       '{"https://atomicdata.dev/properties/createdAt":0,"https://atomicdata.dev/properties/set":{"https://atomicdata.dev/properties/description":"Some value","https://atomicdata.dev/properties/shortname":"someval"},"https://atomicdata.dev/properties/signer":"http://localhost/agents/7LsjMW5gOfDdJzK/atgjQ1t20J/rw8MjVg6xwqm+h8U=","https://atomicdata.dev/properties/subject":"https://localhost/new_thing"}';
     const createdAt = 0;
-    const commitbuilder: CommitBuilder = {
+    const commitbuilder: CommitBuilderI = {
       subject,
       set: {
         'https://atomicdata.dev/properties/description': 'Some value',

@@ -2,16 +2,36 @@ import ed from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
 import { decode, encode } from 'base64-arraybuffer';
 import { urls } from '../helpers/urls';
+import { JSVals, Value } from './value';
 
-export interface CommitBuilder {
+export interface CommitBuilderI {
   subject: string;
-  set?: Record<string, string>;
+  set?: Record<string, JSVals>;
   remove?: string[];
   destroy?: boolean;
 }
 
-interface CommitPreSigned extends CommitBuilder {
+export class CommitBuilder implements CommitBuilderI {
+  subject: string;
+  set?: Record<string, JSVals>;
+  remove?: string[];
+  destroy?: boolean;
+
+  constructor(subject: string) {
+    this.subject = subject;
+    this.set = {};
+  }
+
+  async sign(privateKey: string, agentSubject: string) {
+    const now: number = Math.round(new Date().getTime() / 1000);
+    const commit = await signAt(this, agentSubject, privateKey, now);
+    return commit;
+  }
+}
+
+interface CommitPreSigned extends CommitBuilderI {
   signer: string;
+  // Unix timestamp in milliseconds
   createdAt: number;
 }
 
@@ -40,18 +60,20 @@ function replaceKey(o: Commit | CommitPreSigned, oldKey: string, newKey: string)
 
 /** Takes a commit (without signature) and serializes it deterministically. */
 export function serializeDeterministically(commit: CommitPreSigned | Commit): string {
-  // @ts-ignore Prevent devs from making the same mistake I made
-  if (commit.signature !== undefined) {
-    // @ts-ignore Prevent devs from making the same mistake I made
-    delete commit.signature;
-    // throw Error("You're trying to deterministicall serialize a Commit with a signature - you need one without its signature!");
-  }
+  // // @ts-ignore Prevent devs from making the same mistake I made
+  // if (commit.signature !== undefined) {
+  //   // @ts-ignore Prevent devs from making the same mistake I made
+  //   delete commit.signature;
+  //   // throw Error("You're trying to deterministicall serialize a Commit with a signature - you need one without its signature!");
+  // }
   replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
   replaceKey(commit, 'subject', urls.properties.commit.subject);
   replaceKey(commit, 'set', urls.properties.commit.set);
   replaceKey(commit, 'signer', urls.properties.commit.signer);
+  replaceKey(commit, 'signature', urls.properties.commit.signature);
   replaceKey(commit, 'remove', urls.properties.commit.remove);
   replaceKey(commit, 'destroy', urls.properties.commit.destroy);
+  commit[urls.properties.isA] = [urls.classes.commit];
 
   return stringify(commit);
 }

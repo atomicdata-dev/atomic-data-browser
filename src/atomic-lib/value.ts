@@ -1,7 +1,9 @@
+import { Datatype } from './datatypes';
 import { Resource } from './resource';
+import { Property } from './store';
 
 /** All the types that a Value might contain */
-export type JSVals = string | Date | number | string[] | Date | Resource;
+export type JSVals = string | Date | number | string[] | Date | Resource | boolean;
 
 /** A Nested Resource is an Anonymous resource, without a subject URL of its own. However, it does contain values. */
 export type NestedResource = Map<string, JSVals>;
@@ -23,6 +25,14 @@ export class Value {
     throw new Error(`Not an array: ${this.val}`);
   }
 
+  /** Tries to make a boolean from this value. Throws if it is not a boolean. */
+  toBoolean(): boolean {
+    if (typeof this.val !== 'boolean') {
+      throw new Error(`Not a boolean: ${this.val}`);
+    }
+    return this.val;
+  }
+
   /** Tries to convert the value (timestamp or date) to a JS Date. Throws an error when fails. */
   toDate(): Date {
     // If it's a unix epoch timestamp...
@@ -37,6 +47,37 @@ export class Value {
     throw new Error(`Cannot be converted into Date: ${this.val}`);
   }
 
+  /** Converts value to its native JS(ON) counterpart */
+  toNative(datatype: Datatype): JSVals {
+    switch (datatype) {
+      case Datatype.MARKDOWN:
+      case Datatype.STRING:
+      case Datatype.ATOMIC_URL:
+      case Datatype.SLUG:
+      case Datatype.DATE:
+        return this.toString();
+        break;
+      case Datatype.BOOLEAN:
+        return this.toBoolean();
+      case Datatype.TIMESTAMP:
+        return this.val;
+      case Datatype.RESOURCEARRAY:
+        return this.toArray();
+      default: {
+        return this.toString();
+        return;
+      }
+    }
+  }
+
+  /** Returns a number of the value, or throws an error */
+  toNumber(): number {
+    if (typeof this.val !== 'number') {
+      throw new Error(`Not a number: ${this.val}`);
+    }
+    return this.val;
+  }
+
   /** Returns a default string representation of the value. */
   toString(): string {
     return this.val.toString();
@@ -46,6 +87,16 @@ export class Value {
   toResource(): string | NestedResource {
     if (typeof this.val == 'string') {
       return this.val;
+    }
+    if (typeof this.val !== 'object') {
+      throw new Error(`Not a resource: ${this.val}`);
+    }
+    if (typeof this.val !== 'object') {
+      throw new Error(`Not a resource: ${this.val}`);
+    }
+    // TODO: more cases
+    if (this.val.prototype == undefined || this.val.prototype !== 'NestedResource') {
+      throw new Error(`Not a resource: ${this.val}`);
     }
     return this.val;
   }

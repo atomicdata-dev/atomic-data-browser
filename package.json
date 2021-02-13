@@ -9,7 +9,7 @@
     "url": "https://github.com/joepio/atomic-react/"
   },
   "scripts": {
-    "start": "snowpack dev",
+    "start": "snowpack dev --secure",
     "build": "snowpack build",
     "test": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --quiet",
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@esm-bundle/chai": "4.1.5",
+    "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-react-refresh": "^2.4.0",
     "@snowpack/plugin-run-script": "^2.3.0",
     "@snowpack/web-test-runner-plugin": "0.2.1",

@@ -7,9 +7,27 @@ import { localStoreKeyMainColor } from '../styling';
 import { ButtonMargin } from './Button';
 import { useDarkMode } from '../helpers/useDarkMode';
 import { FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from './forms/Field';
+import { useStore } from '../atomic-react/hooks';
+import { useState } from 'react';
+import { Agent } from '../atomic-lib/agent';
 
 const Settings: React.FunctionComponent = () => {
   const [dark, setDark] = useDarkMode();
+  const store = useStore();
+  const initialAgent = store.getAgent();
+  const [agentSubject, setCurrentAgent] = useState<string>(initialAgent.subject);
+  const [privateKey, setCurrentPrivateKey] = useState<string>(initialAgent.privateKey);
+  const [err, setErr] = useState<Error>(null);
+
+  function handleSetAgent() {
+    try {
+      const agent = new Agent(agentSubject, privateKey);
+      store.setAgent(agent);
+    } catch (e) {
+      setErr(e);
+    }
+  }
 
   return (
     <Container>
@@ -19,7 +37,21 @@ const Settings: React.FunctionComponent = () => {
       <p>Set the theme color:</p>
       <MainColorPicker />
       <br />
-      <ButtonMargin onClick={() => window.location.reload()}>save</ButtonMargin>
+      <ButtonMargin onClick={() => window.location.reload()}>save theme</ButtonMargin>
+      <FieldStyled>
+        <LabelStyled>Agent Subject URL</LabelStyled>
+        <InputWrapper>
+          <InputStyled value={agentSubject} onChange={e => setCurrentAgent(e.target.value)} />
+        </InputWrapper>
+      </FieldStyled>
+      <FieldStyled>
+        <LabelStyled>Private Key</LabelStyled>
+        <InputWrapper>
+          <InputStyled value={privateKey} onChange={e => setCurrentPrivateKey(e.target.value)} />
+        </InputWrapper>
+      </FieldStyled>
+      <ErrMessage>{err}</ErrMessage>
+      <ButtonMargin onClick={handleSetAgent}>save agent</ButtonMargin>
     </Container>
   );
 };

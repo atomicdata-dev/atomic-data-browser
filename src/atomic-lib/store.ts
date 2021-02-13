@@ -2,20 +2,23 @@ import { Resource, ResourceStatus } from './resource';
 import { fetchResource } from './client';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
+import { Agent } from './agent';
 
 type callback = (resource: Resource) => void;
 
 /** An in memory store that has a bunch of useful methods for retrieving and */
 export class Store {
   /** The default store URL, where to send commits and where to create new instances */
-  base_url: string;
+  baseUrl: string;
   /** All the resources of the store */
   resources: Map<string, Resource>;
   /** A list of all functions that need to be called when a certain resource is updated */
   subscribers: Map<string, Array<callback>>;
+  /** Current Agent, used for signing commits. Is required for posting things. */
+  agent?: Agent;
 
   constructor(base_url: string) {
-    this.base_url = base_url;
+    this.baseUrl = base_url;
     this.resources = new Map();
     this.subscribers = new Map();
   }
@@ -33,6 +36,20 @@ export class Store {
       this.addResource(fetched);
       return fetched;
     }
+  }
+
+  /** Returns the URL of the companion server */
+  getBaseUrl(): string {
+    return this.baseUrl;
+  }
+
+  /** Returns the Currently set Agent, throws an error if there is none. Make sure to first run `store.setAgent()`. */
+  getAgent(): Agent {
+    console.log('agent: ', this.agent);
+    if (this.agent == null) {
+      throw new Error('No agent has been set. Run store.setAgent()');
+    }
+    return this.agent;
   }
 
   /**
@@ -72,11 +89,6 @@ export class Store {
     return prop;
   }
 
-  /** Returns the URL of the companion server */
-  getBaseUrl(): string {
-    return 'Store base url is ' + this.base_url;
-  }
-
   /** Let's subscribers know that a resource has been changed. Time to update your views! */
   notify(resource: Resource): void {
     const subject = resource.getSubject();
@@ -87,6 +99,10 @@ export class Store {
     subscribers.map(callback => {
       callback(resource);
     });
+  }
+
+  setAgent(agent: Agent) {
+    this.agent = agent;
   }
 
   /** Registers a callback for when the a resource is updated. */

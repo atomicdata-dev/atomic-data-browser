@@ -98,6 +98,7 @@ function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
     } catch (e) {
       handleError(e);
       setErr(e);
+      setSaving(false);
     }
   }
 
@@ -121,7 +122,7 @@ function NewForm({ classSubject, newSubject }: NewProps): JSX.Element {
       })}
       {err && <ErrMessage>{err.message}</ErrMessage>}
       <ButtonMargin type='submit' onClick={handleSubmit} disabled={saving}>
-        {saving ? 'wait...' : 'save locally'}
+        {saving ? 'wait...' : 'save'}
       </ButtonMargin>
     </form>
   );

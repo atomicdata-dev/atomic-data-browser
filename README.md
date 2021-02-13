@@ -22,7 +22,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - [x] Commit implementation
   - [x] Instantiate new Resources
   - [x] Validate form fields
-  - [ ] Set default agent / base server
+  - [x] Set default agent / base server
   - [ ] Edit properties (Sign and Post Commits after editing an atom)
   - [ ] Click a property to open its form
   - [ ] Add properties to existing resource
@@ -31,9 +31,15 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 
 ## Running locally
 
+Create keys for https (required to run `window.crypto` libraries in the browser):
+
+```sh
+npx devcert-cli generate snowpack
+```
+
 Run using `npx`:
 
-```
+```sh
 npx snowpack dev
 ```
 
@@ -63,7 +69,7 @@ src/
 - **react**: general atomic data library (higher documentation + testing goals), no react-specific code.
 ```
 
-## Undertanding the code
+## Understanding the code
 
 - **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
 - **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
