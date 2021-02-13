@@ -3,7 +3,7 @@ import { Property, Store } from '../atomic-lib/store';
 import React from 'react';
 import { Resource, ResourceStatus } from '../atomic-lib/resource';
 import { handleInfo } from '../helpers/handlers';
-import { Value } from '../atomic-lib/value';
+import { JSVals, Value } from '../atomic-lib/value';
 import { datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
@@ -90,19 +90,22 @@ export function useProperty(subject: string): Property | null {
 }
 
 /** A callback function for setting validation error messages */
-type handleValidationError = (string: string, handleValidationError?) => void;
+type handleValidationError = (val: JSVals, handleValidationError?) => void;
 
 /**
  * Returns a Value (can be string, array, more) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes two
  * arguments - the second one is for handling validation errors
  */
 export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationError] {
-  const [val, set] = useState(null);
+  const [val, set] = useState<Value>(null);
   const store = useStore();
 
   /** Validates the value. If it fails, it calls the function in the second Argument. */
-  function validateAndSet(newVal: string, handleValidationError?: (e: Error) => unknown) {
-    set(newVal);
+  function validateAndSet(newVal: JSVals, handleValidationError?: (e: Error) => unknown) {
+    const valFromNewVal = new Value(newVal);
+    set(valFromNewVal);
+
+    console.log('validateAndSet!', newVal);
 
     /** Validates and sets a property / value combination. Will invoke the callback if the value is not valid. */
     async function setAsync() {
@@ -166,7 +169,7 @@ export function useTitle(resource: Resource): string {
   return subject.toString();
 }
 
-/** Hook for getting all URLs for some array */
+/** Hook for getting all URLs for some array. Returns the current Array (defaults to empty array) and a callback for validation errors. */
 export function useArray(resource: Resource, propertyURL: string): [string[] | null, handleValidationError] {
   const [value, set] = useValue(resource, propertyURL);
   if (value == null) {

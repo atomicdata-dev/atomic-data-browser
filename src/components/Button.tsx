@@ -40,6 +40,11 @@ export const Button = styled.button`
 export const ButtonBar = styled(Button)`
   min-width: 2.5rem;
   padding: 0.4rem;
+
+  &:hover:not([disabled]),
+  &:focus:not([disabled]) {
+    transform: scale(1);
+  }
 `;
 
 export const ButtonMargin = styled(Button)`

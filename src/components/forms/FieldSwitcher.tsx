@@ -3,6 +3,7 @@ import React from 'react';
 import { InputProps } from './Field';
 import InputString from './InputString';
 import { InputResource } from './InputResource';
+import InputResourceArray from './InputResourceArray';
 
 export default function InputSwitcher({ resource, property, required }: InputProps): JSX.Element {
   switch (property.datatype) {
@@ -19,7 +20,7 @@ export default function InputSwitcher({ resource, property, required }: InputPro
       return <InputResource resource={resource} property={property} required={required} />;
     }
     case Datatype.RESOURCEARRAY: {
-      return <InputResource resource={resource} property={property} required={required} />;
+      return <InputResourceArray resource={resource} property={property} required={required} />;
     }
     default: {
       return <InputString resource={resource} property={property} required={required} />;
