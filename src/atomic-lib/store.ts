@@ -1,8 +1,9 @@
 import { Resource, ResourceStatus } from './resource';
-import { fetchResource } from './client';
+import { checkValidURL, fetchResource } from './client';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
+import { generatePublicKeyFromPrivate } from './commit';
 
 type callback = (resource: Resource) => void;
 
@@ -101,7 +102,8 @@ export class Store {
     });
   }
 
-  setAgent(agent: Agent) {
+  /** Sets the current Agent, used for signing commits */
+  setAgent(agent: Agent): void {
     this.agent = agent;
   }
 

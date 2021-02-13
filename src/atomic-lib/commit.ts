@@ -22,7 +22,7 @@ export class CommitBuilder implements CommitBuilderI {
     this.set = {};
   }
 
-  async sign(privateKey: string, agentSubject: string) {
+  async sign(privateKey: string, agentSubject: string): Promise<Commit> {
     const now: number = Math.round(new Date().getTime() / 1000);
     const commit = await signAt(this, agentSubject, privateKey, now);
     return commit;
@@ -37,17 +37,6 @@ interface CommitPreSigned extends CommitBuilderI {
 
 export interface Commit extends CommitPreSigned {
   signature: string;
-}
-
-function hexToBase64(hexstring: string) {
-  return btoa(
-    hexstring
-      .match(/\w{2}/g)
-      .map(function (a) {
-        return String.fromCharCode(parseInt(a, 16));
-      })
-      .join(''),
-  );
 }
 
 /** Replaces a key in a Commit. Ignores it if it's not there */
@@ -79,7 +68,7 @@ export function serializeDeterministically(commit: CommitPreSigned | Commit): st
 }
 
 /** Creates a signature for a Commit using the private Key of some Agent. */
-export const signAt = async (commitBuilder: CommitBuilder, agent: string, privateKey: string, createdAt: number): Promise<Commit> => {
+export const signAt = async (commitBuilder: CommitBuilderI, agent: string, privateKey: string, createdAt: number): Promise<Commit> => {
   const commitPreSigned: CommitPreSigned = {
     ...commitBuilder,
     createdAt: createdAt,
