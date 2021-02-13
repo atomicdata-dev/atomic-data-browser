@@ -57,6 +57,10 @@ export const datatypeFromUrl = (url: string): Datatype => {
 
 const slug_regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+export interface ArrayError extends Error {
+  index?: number;
+}
+
 /** Validates a value and its datatype. Throws an error if things are wrong. */
 export const validate = (value: JSVals, datatype: Datatype): Value => {
   let err = null;
@@ -91,8 +95,14 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
         err = 'Not an array';
         break;
       }
-      value.map(item => {
-        checkValidURL(item);
+      value.map((item, index) => {
+        try {
+          checkValidURL(item);
+        } catch (e) {
+          const arrError: ArrayError = new Error(`Invalid URL`);
+          arrError.index = index;
+          throw arrError;
+        }
       });
       break;
     }

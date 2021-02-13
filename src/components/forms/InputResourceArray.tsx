@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
+import { ArrayError } from '../../atomic-lib/datatypes';
 import { useArray } from '../../atomic-react/hooks';
 import { ButtonMargin } from '../Button';
-import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
-import { InputResource } from './InputResource';
+import { ErrMessage, InputProps } from './Field';
 import { ResourceSelector } from './ResourceSelector';
 
 export default function InputResourceArray({ resource, property, required }: InputProps): JSX.Element {
   const [array, setArray] = useArray(resource, property.subject);
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<ArrayError>(null);
 
   function handleUpdate(e) {
     const newval = e.target.value;
@@ -18,43 +19,42 @@ export default function InputResourceArray({ resource, property, required }: Inp
   function handleAdd() {
     array.push(null);
     const newArray = array;
-    setArray(newArray, setErr);
+    setArray(newArray);
   }
 
   function handleRemove(index: number) {
+    console.log('handleRemove', array, index);
     array.splice(index, 1);
     const newArray = array;
-    setArray(newArray, setErr);
+    setArray(newArray);
   }
 
   function handleSetSubject(value: string, handleErr, index: number) {
     console.log('handleSetSubject', value, index);
     array[index] = value;
     console.log('handleSetSubject array', array);
-    setErr(null);
     setArray(array, handleErr);
   }
 
   return (
     <>
       {array.map((subject, index) => (
-        <>
-          <ResourceSelector
-            subject={subject}
-            setSubject={(set, handleErr) => handleSetSubject(set, handleErr, index)}
-            resource={resource}
-            property={property}
-            required={required}
-          />
-          <ButtonMargin type='button' onClick={() => handleRemove(index)}>
-            Remove item
-          </ButtonMargin>
-        </>
+        <ResourceSelector
+          key={`${property.subject}${index}`}
+          subject={subject}
+          setSubject={(set, handleErr) => handleSetSubject(set, handleErr, index)}
+          error={err?.index == index && err}
+          setError={setErr}
+          resource={resource}
+          property={property}
+          required={required}
+          handleRemove={() => handleRemove(index)}
+        />
       ))}
       <ButtonMargin type='button' onClick={handleAdd}>
-        Add item
+        <FaPlus /> add
       </ButtonMargin>
-      {array !== [] && err && <ErrMessage>{err.message}</ErrMessage>}
+      {array !== [] && err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
       {array == [] && <ErrMessage>Required</ErrMessage>}
     </>
   );

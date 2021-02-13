@@ -1,25 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import Downshift from 'downshift';
 import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
-import { useArray, useResource, useString } from '../../atomic-react/hooks';
-import { FaCaretDown } from 'react-icons/fa';
+import { useArray, useResource } from '../../atomic-react/hooks';
+import { FaCaretDown, FaTrash } from 'react-icons/fa';
 import { urls } from '../../helpers/urls';
 import { ButtonInput } from '../Button';
 import ResourceLine from '../ResourceLine';
 import styled, { ThemeContext } from 'styled-components';
-import { Datatype } from '../../atomic-lib/datatypes';
 
 interface ResourceSelectorProps extends InputProps {
-  setSubject: (subject: string, errHandler: () => Error) => void;
+  /** Take the second argument of a `useString` hook and pass the setString part to this property */
+  setSubject: (subject: string, errHandler: Dispatch<SetStateAction<Error>>) => void;
   subject: string;
+  handleRemove?: () => void;
+  error: () => void;
+  setError: () => void;
 }
 
-export function ResourceSelector({ resource, property, required, setSubject, subject }: ResourceSelectorProps): JSX.Element {
-  // If it's used for a single resource
-  // const [subjectSingle, setSubjectSingle] = useString(parentResource, property.subject);
-  // If it's used for a ResourceArray...
-  // const [array, setArray] = useArray(parentResource, property.subject);
-  const [err, setErr] = useState<Error>(null);
+/** Form field for selecting a single resource. Needs external subject & setSubject properties */
+export function ResourceSelector({ required, setSubject, subject, handleRemove, error, setError }: ResourceSelectorProps): JSX.Element {
+  // const [err, setErr] = useState<Error>(null);
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource('https://atomicdata.dev/properties');
   const [options] = useArray(classesCollection, urls.properties.collection.members);
@@ -28,7 +28,8 @@ export function ResourceSelector({ resource, property, required, setSubject, sub
   function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
     console.log('handleUpdate ResoureceSelector', newval);
-    setSubject(newval, setErr);
+    // Pass the Error handler to its parent, so validation errors appear locally
+    setSubject(newval, setError);
   }
 
   return (
@@ -50,15 +51,20 @@ export function ResourceSelector({ resource, property, required, setSubject, sub
           <DropDownStyled>
             <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
               <InputStyled {...getInputProps()} required={required} />
-              <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
-                <FaCaretDown />
-              </ButtonInput>
               {selectedItem ? (
                 //@ts-ignore issue with types from Downshift
                 <ButtonInput type='button' onClick={clearSelection} aria-label='clear selection'>
                   clear
                 </ButtonInput>
               ) : null}
+              <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
+                <FaCaretDown />
+              </ButtonInput>
+              {handleRemove !== undefined && (
+                <ButtonInput type='button' onClick={handleRemove} aria-label='clear selection'>
+                  <FaTrash />
+                </ButtonInput>
+              )}
             </InputWrapper>{' '}
             <DropDownWrapperWrapper {...getMenuProps()}>
               {isOpen ? (
@@ -87,7 +93,7 @@ export function ResourceSelector({ resource, property, required, setSubject, sub
           </DropDownStyled>
         )}
       </Downshift>
-      {subject !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
+      {subject !== '' && error && <ErrMessage>{error.message}</ErrMessage>}
       {subject == '' && <ErrMessage>Required</ErrMessage>}
     </div>
   );

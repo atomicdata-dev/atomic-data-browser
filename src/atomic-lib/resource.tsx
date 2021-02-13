@@ -68,6 +68,7 @@ export class Resource {
   async save(store: Store): Promise<string> {
     store.addResource(this);
     const agent = store.getAgent();
+    // TODO: Check if all required props are there
     const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
     // TODO: Post to endpoint of resource
     await postCommit(commit, store.getBaseUrl() + `/commit`);
