@@ -11,7 +11,7 @@ import { truncateUrl } from '../helpers/truncate';
 /** Hook for getting a Resource in a React component */
 export function useResource(subject: string): [Resource, (resource: Resource) => void] {
   const store = useStore();
-  const [resource, setResource] = useState<Resource>(store.getResource(subject));
+  const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject));
 
   /** Update the Resource with this value. Overwrites existing. */
   // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
@@ -51,7 +51,7 @@ export function useResources(subjects: string[]): Map<string, Resource> {
 
     // Iterate over all resources asynchronously
     subjects.map(subject => {
-      const resource = store.getResource(subject);
+      const resource = store.getResourceLoading(subject);
       resources.set(subject, resource);
       setResources(new Map(resources));
       // Let the store know to call handleNotify when a resource is updated.

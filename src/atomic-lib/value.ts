@@ -1,6 +1,5 @@
 import { Datatype } from './datatypes';
 import { Resource } from './resource';
-import { Property } from './store';
 
 /** All the types that a Value might contain */
 export type JSVals = string | Date | number | string[] | Date | Resource | boolean;
@@ -56,7 +55,6 @@ export class Value {
       case Datatype.SLUG:
       case Datatype.DATE:
         return this.toString();
-        break;
       case Datatype.BOOLEAN:
         return this.toBoolean();
       case Datatype.TIMESTAMP:
@@ -65,7 +63,6 @@ export class Value {
         return this.toArray();
       default: {
         return this.toString();
-        return;
       }
     }
   }

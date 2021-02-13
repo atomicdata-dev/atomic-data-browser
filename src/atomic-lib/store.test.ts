@@ -12,7 +12,7 @@ describe('Store', () => {
     const newResource = new Resource(subject);
     newResource.setUnsafe(urls.properties.description, new Value(testval));
     store.addResource(newResource);
-    const gotResource = store.getResource(subject);
+    const gotResource = store.getResourceLoading(subject);
     const atomString = gotResource.get(urls.properties.description).toString();
     expect(atomString).to.equal(testval);
   });

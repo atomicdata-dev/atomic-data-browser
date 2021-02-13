@@ -19,12 +19,6 @@ import { handleWarning } from './helpers/handlers';
 /** Initialize the store */
 const store = new Store('http://localhost');
 
-if (isDev) {
-  const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
-  store.setAgent(agent);
-  handleWarning('setting agent with keys!');
-}
-
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
   const [darkMode] = useDarkMode();
@@ -58,3 +52,18 @@ function App(): JSX.Element {
 }
 
 export default App;
+
+declare global {
+  interface Window {
+    store: Store;
+  }
+}
+
+if (isDev) {
+  const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
+  store.setAgent(agent);
+  handleWarning('setting agent with keys!');
+
+  // You can access the Store from your console in dev mode!
+  window.store = store;
+}

@@ -24,10 +24,11 @@ function New(): JSX.Element {
   const [newSubject, setNewSubject] = useState<string>(null);
   const [classInput, setClassInput] = useState<string>(null);
   const history = useHistory();
+  const store = useStore();
 
   if (newSubject == undefined) {
-    const random = Math.random().toString(36).substring(7);
-    setNewSubject(`local:${random}`);
+    const random = Math.random().toString(36).substring(10);
+    setNewSubject(`${store.getBaseUrl()}/things/${random}`);
   }
 
   function Examples(): JSX.Element {

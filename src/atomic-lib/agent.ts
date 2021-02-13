@@ -9,11 +9,11 @@ export class Agent {
 
   constructor(subject: string, privateKey: string) {
     checkValidURL(subject);
+    this.subject = subject;
     this.privateKey = privateKey;
     async () => {
       const pubKey = await generatePublicKeyFromPrivate(privateKey);
       this.publicKey = pubKey;
-      this.subject = subject;
     };
   }
 }

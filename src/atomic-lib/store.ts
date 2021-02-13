@@ -1,9 +1,8 @@
 import { Resource, ResourceStatus } from './resource';
-import { checkValidURL, fetchResource } from './client';
+import { fetchResource } from './client';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
-import { generatePublicKeyFromPrivate } from './commit';
 
 type callback = (resource: Resource) => void;
 
@@ -46,7 +45,6 @@ export class Store {
 
   /** Returns the Currently set Agent, throws an error if there is none. Make sure to first run `store.setAgent()`. */
   getAgent(): Agent {
-    console.log('agent: ', this.agent);
     if (this.agent == null) {
       throw new Error('No agent has been set. Run store.setAgent()');
     }
@@ -57,7 +55,7 @@ export class Store {
    * Gets a resource by URL. Fetches and parses it if it's not available in the store. Instantly returns an empty loading resource, while
    * the fetching is done in the background .
    */
-  getResource(subject: string): Resource {
+  getResourceLoading(subject: string): Resource {
     const found = this.resources.get(subject);
     if (found == undefined) {
       this.fetchResource(subject);
@@ -84,9 +82,13 @@ export class Store {
 
   /** Gets a property by URL. */
   async getProperty(subject: string): Promise<Property | null> {
-    const resource = await this.getResource(subject);
+    const resource = await this.getResourceAsync(subject);
     const prop = new Property();
-    prop.datatype = datatypeFromUrl(resource.get(urls.properties.datatype)?.toString());
+    const datatypeUrl = resource.get(urls.properties.datatype);
+    if (datatypeUrl == null) {
+      throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);
+    }
+    prop.datatype = datatypeFromUrl(datatypeUrl.toString());
     return prop;
   }
 

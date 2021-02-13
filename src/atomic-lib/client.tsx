@@ -32,7 +32,6 @@ export async function fetchResource(subject: string): Promise<Resource> {
 
 /** Posts a Commit to some endpoint */
 export async function postCommit(commit: Commit, endpoint: string): Promise<string> {
-  console.log(commit);
   const serialized = serializeDeterministically(commit);
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
