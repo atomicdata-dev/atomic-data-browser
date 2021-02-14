@@ -3,7 +3,7 @@
     "module": "es2020",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "target": "esnext",
+    "target": "es2020",
     "jsx": "preserve",
     "strictFunctionTypes": true,
     "sourceMap": true
