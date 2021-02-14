@@ -335,7 +335,7 @@
       ]
     },
     "dist/atomic-lib/store.js": {
-      "bytes": 2656,
+      "bytes": 3047,
       "imports": [
         {
           "path": "dist/atomic-lib/resource.js",
@@ -394,7 +394,7 @@
       "imports": []
     },
     "dist/atomic-react/hooks.js": {
-      "bytes": 4442,
+      "bytes": 4398,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1258,7 +1258,7 @@
       ]
     },
     "dist/components/New.js": {
-      "bytes": 4733,
+      "bytes": 4732,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1403,7 +1403,7 @@
       ]
     },
     "dist/components/Settings.js": {
-      "bytes": 2986,
+      "bytes": 3727,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1469,7 +1469,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 2138,
+      "bytes": 2221,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1654,7 +1654,7 @@
           "bytesInOutput": 881
         },
         "dist/atomic-lib/store.js": {
-          "bytesInOutput": 1254
+          "bytesInOutput": 1495
         },
         "dist/pkg/common/assertThisInitialized-8eae6022.js": {
           "bytesInOutput": 124
@@ -1669,7 +1669,7 @@
           "bytesInOutput": 93
         },
         "dist/atomic-react/hooks.js": {
-          "bytesInOutput": 1428
+          "bytesInOutput": 1395
         },
         "dist/pkg/react-router.js": {
           "bytesInOutput": 0
@@ -1780,7 +1780,7 @@
           "bytesInOutput": 1737
         },
         "dist/components/New.js": {
-          "bytesInOutput": 1805
+          "bytesInOutput": 1804
         },
         "dist/components/AddressBar.js": {
           "bytesInOutput": 1688
@@ -1798,19 +1798,19 @@
           "bytesInOutput": 71
         },
         "dist/components/Settings.js": {
-          "bytesInOutput": 748
+          "bytesInOutput": 973
         },
         "dist/config.js": {
           "bytesInOutput": 82
         },
         "dist/App.js": {
-          "bytesInOutput": 617
+          "bytesInOutput": 647
         },
         "dist/index.js": {
           "bytesInOutput": 158
         }
       },
-      "bytes": 373280
+      "bytes": 373742
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
