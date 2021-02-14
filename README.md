@@ -31,33 +31,21 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 
 ## Running locally
 
-Create keys for https (required to run `window.crypto` libraries in the browser):
-
 ```sh
+# Create keys for https (required to run `window.crypto` libraries in the browser):
 npx devcert-cli generate snowpack
-```
-
-Run using `npx`:
-
-```sh
-npx snowpack dev
-```
-
-Or `yarn` / `npm`:
-
-```sh
+# Rename because
+mv snowpack.cert snowpack.crt
+# Install dependencies
 yarn
+# Run dev server
 yarn dev
+# Build
 yarn build
+# Lint
+yarn build
+# Test
 ```
-
-- lint: `yarn prettier --write .`
-- test: `yarn test`
-
-## Deploying
-
-- Due to a snowpack bug, we first need to go to `index.html` and rename the absolute paths to assets to `https://joepio.github.io/atomic-react/${path}`.
-- publish: `yarn publish` builds & pushes to `gh-pages` branch.
 
 ## Directory structure
 

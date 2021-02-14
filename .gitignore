@@ -2,6 +2,6 @@
 build
 node_modules
 docs
-# .env
-# .snowpack.crt
-# .snowpack.key
+.env
+.snowpack.crt
+.snowpack.key
