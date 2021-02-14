@@ -79,12 +79,14 @@ export function useProperty(subject: string): Property | null {
   const datatype = datatypeFromUrl(datatypeUrl);
   const shortname = propR.get(urls.properties.shortname).toString();
   const description = propR.get(urls.properties.description).toString();
+  const classType = propR.get(urls.properties.classType)?.toString();
 
   const property: Property = {
     subject,
     datatype,
     shortname,
     description,
+    classType,
   };
   return property;
 }

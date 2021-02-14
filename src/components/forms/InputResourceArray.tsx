@@ -10,12 +10,6 @@ export default function InputResourceArray({ resource, property, required }: Inp
   const [array, setArray] = useArray(resource, property.subject);
   const [err, setErr] = useState<ArrayError>(null);
 
-  function handleUpdate(e) {
-    const newval = e.target.value;
-    // I pass the error setter for validation purposes
-    setArray(newval, setErr);
-  }
-
   function handleAdd() {
     array.push(null);
     const newArray = array;
@@ -23,16 +17,13 @@ export default function InputResourceArray({ resource, property, required }: Inp
   }
 
   function handleRemove(index: number) {
-    console.log('handleRemove', array, index);
     array.splice(index, 1);
     const newArray = array;
     setArray(newArray);
   }
 
   function handleSetSubject(value: string, handleErr, index: number) {
-    console.log('handleSetSubject', value, index);
     array[index] = value;
-    console.log('handleSetSubject array', array);
     setArray(array, handleErr);
   }
 

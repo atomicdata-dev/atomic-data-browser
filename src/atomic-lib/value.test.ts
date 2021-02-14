@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { Agent } from './agent';
 import { Datatype } from './datatypes';
 import { Value } from './value';
 

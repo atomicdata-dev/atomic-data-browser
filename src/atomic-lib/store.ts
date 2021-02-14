@@ -88,6 +88,8 @@ export class Store {
     if (datatypeUrl == null) {
       throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);
     }
+    const classTypeURL = resource.get(urls.properties.classType).toString();
+    prop.classType = classTypeURL;
     prop.datatype = datatypeFromUrl(datatypeUrl.toString());
     return prop;
   }
@@ -132,4 +134,5 @@ export class Property {
   datatype: Datatype;
   shortname: string;
   description: string;
+  classType?: string;
 }

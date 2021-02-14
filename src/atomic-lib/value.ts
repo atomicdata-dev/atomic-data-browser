@@ -85,17 +85,13 @@ export class Value {
     if (typeof this.val == 'string') {
       return this.val;
     }
-    if (typeof this.val !== 'object') {
-      throw new Error(`Not a resource: ${this.val}`);
+    if (typeof this.val == 'object') {
+      return this.val;
     }
     if (typeof this.val !== 'object') {
       throw new Error(`Not a resource: ${this.val}`);
     }
-    // TODO: more cases
-    if (this.val.prototype == undefined || this.val.prototype !== 'NestedResource') {
-      throw new Error(`Not a resource: ${this.val}`);
-    }
-    return this.val;
+    throw new Error(`Not a resource: ${this.val}`);
   }
 
   /** Returns the internal JSON based value */

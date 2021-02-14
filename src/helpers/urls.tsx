@@ -1,4 +1,5 @@
 export const classes = {
+  agent: 'https://atomicdata.dev/classes/Agent',
   collection: 'https://atomicdata.dev/classes/Collection',
   commit: 'https://atomicdata.dev/classes/Commit',
   class: 'https://atomicdata.dev/classes/Class',
@@ -12,6 +13,7 @@ export const properties = {
   recommends: 'https://atomicdata.dev/properties/recommends',
   requires: 'https://atomicdata.dev/properties/requires',
   name: 'https://atomicdata.dev/properties/name',
+  classType: 'https://atomicdata.dev/properties/classtype',
   collection: {
     members: 'https://atomicdata.dev/properties/collection/members',
     currentPage: 'https://atomicdata.dev/properties/collection/currentPage',
