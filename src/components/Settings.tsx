@@ -31,6 +31,11 @@ const Settings: React.FunctionComponent = () => {
     }
   }
 
+  function handleSetDark() {
+    setDark(!dark);
+    window.location.reload();
+  }
+
   function handleSetBaseUrl() {
     try {
       store.setBaseUrl(baseUrl);
@@ -43,7 +48,7 @@ const Settings: React.FunctionComponent = () => {
     <Container>
       <h1>Settings</h1>
       <p>Press save to apply settings.</p>
-      <ButtonMargin onClick={() => setDark(!dark)}>{dark ? <FaToggleOn /> : <FaToggleOff />} dark mode</ButtonMargin>
+      <ButtonMargin onClick={handleSetDark}>{dark ? <FaToggleOn /> : <FaToggleOff />} dark mode</ButtonMargin>
       <p>Set the theme color:</p>
       <MainColorPicker />
       <br />

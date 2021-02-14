@@ -7,7 +7,7 @@ import { Store } from './atomic-lib/store';
 import { buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor } from './styling';
 import { StoreContext } from './atomic-react/hooks';
 import Browser from './components/Browser';
-import New from './components/New';
+import New from './components/forms/New';
 import { AddressBar } from './components/AddressBar';
 import { useDarkMode } from './helpers/useDarkMode';
 import { useLocalStorage } from './helpers/useLocalStorage';
@@ -15,6 +15,7 @@ import Settings from './components/Settings';
 import { Agent } from './atomic-lib/agent';
 import { getEnv, isDev } from './config';
 import { handleWarning } from './helpers/handlers';
+import { Edit } from './components/forms/Edit';
 
 /** Initialize the store */
 const store = new Store();
@@ -36,6 +37,9 @@ function App(): JSX.Element {
             <Switch>
               <Route path='/new'>
                 <New />
+              </Route>
+              <Route path='/edit'>
+                <Edit />
               </Route>
               <Route path='/settings'>
                 <Settings />

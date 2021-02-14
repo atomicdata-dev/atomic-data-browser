@@ -98,6 +98,7 @@ const GridItem = styled.div`
   word-break: break-word;
 `;
 
+/** A grid with columns and dynamic height items. Unfortunately, it does not work properly with safari, where shadows appear cropped */
 const Masonry = styled.div`
   column-count: 1;
   column-gap: ${props => props.theme.margin}rem;

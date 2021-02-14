@@ -2,22 +2,22 @@ import React from 'react';
 import ResourceInline from './ResourceInline';
 
 type Props = {
-  array: string[];
+  subjects: string[];
 };
 
-/** Renders a markdown value */
-function ResourceArray({ array }: Props): JSX.Element {
+/** Renders an array of subject URLs as links with commas between them */
+function ResourceArray({ subjects }: Props): JSX.Element {
   return (
-    <div>
-      {array.map((url, index) => {
+    <>
+      {subjects.map((url, index) => {
         return (
           <React.Fragment key={url}>
             <ResourceInline url={url} />
-            {index !== array.length - 1 && ', '}
+            {index !== subjects.length - 1 && ', '}
           </React.Fragment>
         );
       })}
-    </div>
+    </>
   );
 }
 

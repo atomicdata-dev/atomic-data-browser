@@ -18,7 +18,7 @@ function CollectionCard({ resource }: Props): JSX.Element {
   const [members] = useArray(resource, properties.collection.members);
 
   return (
-    <Card>
+    <Card about={resource.getSubject()}>
       <Link url={resource.getSubject()}>
         <h2>{title}</h2>
       </Link>

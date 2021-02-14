@@ -20,7 +20,7 @@ function ResourceInline({ url }: Props): JSX.Element {
     return null;
   }
   if (status == ResourceStatus.error) {
-    return <ErrorLook>Error: {resource.getError().message}</ErrorLook>;
+    return <ErrorLook about={url}>Error: {resource.getError().message}</ErrorLook>;
   }
 
   return (
@@ -30,7 +30,7 @@ function ResourceInline({ url }: Props): JSX.Element {
   );
 }
 
-export const ErrorLook = styled.div`
+export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
   font-family: monospace;
 `;

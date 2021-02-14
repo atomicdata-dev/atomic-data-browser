@@ -23,7 +23,7 @@ export class CommitBuilder implements CommitBuilderI {
   }
 
   async sign(privateKey: string, agentSubject: string): Promise<Commit> {
-    const now: number = Math.round(new Date().getTime() / 1000);
+    const now: number = Math.round(new Date().getTime());
     const commit = await signAt(this, agentSubject, privateKey, now);
     return commit;
   }
@@ -68,7 +68,7 @@ export const signAt = async (commitBuilder: CommitBuilderI, agent: string, priva
   }
   const commitPreSigned: CommitPreSigned = {
     ...commitBuilder,
-    createdAt: createdAt,
+    createdAt,
     signer: agent,
   };
   const serializedCommit = serializeDeterministically(commitPreSigned);

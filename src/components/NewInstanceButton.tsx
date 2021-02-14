@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { createInstanceUrl } from '../helpers/navigation';
+import { newURL } from '../helpers/navigation';
 import { useResource, useTitle } from '../atomic-react/hooks';
 import { ButtonMargin } from './Button';
 
@@ -15,7 +15,7 @@ function NewIntanceButton({ klass }: NewIntanceButtonProps): JSX.Element {
   const history = useHistory();
 
   return (
-    <ButtonMargin type='button' onClick={() => history.push(createInstanceUrl(klass))}>
+    <ButtonMargin type='button' onClick={() => history.push(newURL(klass))}>
       Create a {title}
     </ButtonMargin>
   );

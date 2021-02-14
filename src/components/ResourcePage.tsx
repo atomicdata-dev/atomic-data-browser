@@ -8,6 +8,9 @@ import Markdown from './datatypes/Markdown';
 import Collection from './CollectionPage';
 import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
+import { useHistory } from 'react-router-dom';
+import { editURL } from '../helpers/navigation';
+import { ButtonMargin } from './Button';
 
 type Props = {
   subject: string;
@@ -17,6 +20,7 @@ type Props = {
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
+  const history = useHistory();
   const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);
 
@@ -41,6 +45,9 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
+      <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
+        Edit
+      </ButtonMargin>
     </Container>
   );
 }

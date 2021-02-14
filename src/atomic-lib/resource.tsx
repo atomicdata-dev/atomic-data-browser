@@ -24,6 +24,10 @@ export class Resource {
   private commitBuilder: CommitBuilder;
 
   constructor(subject: string) {
+    if (subject == undefined) {
+      subject = `local:resource/` + Math.random().toString(32);
+    }
+
     this.subject = subject;
     this.propvals = new Map();
     this.commitBuilder = new CommitBuilder(subject);

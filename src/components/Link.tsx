@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { createSubjectUrl } from '../helpers/navigation';
+import { openURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useStore } from '../atomic-react/hooks';
 
@@ -22,11 +22,11 @@ function Link({ children, url }: Props): JSX.Element {
     if (currentUrl == url) {
       return;
     }
-    history.push(createSubjectUrl(url));
+    history.push(openURL(url));
   };
 
   return (
-    <LinkView onClick={handleClick} href={url} disabled={currentUrl == url} tabIndex={currentUrl == url ? -1 : 0}>
+    <LinkView about={url} onClick={handleClick} href={url} disabled={currentUrl == url} tabIndex={currentUrl == url ? -1 : 0}>
       {children}
     </LinkView>
   );

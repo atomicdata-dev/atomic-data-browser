@@ -4,7 +4,7 @@ import { FaHome, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { createSubjectUrl } from '../helpers/navigation';
+import { openURL } from '../helpers/navigation';
 import { ButtonBar } from './Button';
 
 export function AddressBar(): JSX.Element {
@@ -15,7 +15,7 @@ export function AddressBar(): JSX.Element {
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleNavigation(createSubjectUrl(subject));
+    handleNavigation(openURL(subject));
   };
 
   const handleNavigation = (to: string) => {

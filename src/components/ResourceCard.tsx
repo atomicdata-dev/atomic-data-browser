@@ -23,14 +23,14 @@ function ResourceCard({ subject }: Props): JSX.Element {
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
     return (
-      <Card>
+      <Card about={subject}>
         <p>Loading...</p>
       </Card>
     );
   }
   if (status == ResourceStatus.error) {
     return (
-      <Card>
+      <Card about={subject}>
         <p>{resource.getError().message}</p>
       </Card>
     );
@@ -42,7 +42,7 @@ function ResourceCard({ subject }: Props): JSX.Element {
   }
 
   return (
-    <Card>
+    <Card about={subject}>
       <Link url={subject}>
         <h2>{title}</h2>
       </Link>

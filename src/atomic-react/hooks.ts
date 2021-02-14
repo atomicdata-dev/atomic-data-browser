@@ -8,7 +8,7 @@ import { datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
 
-/** Hook for getting a Resource in a React component */
+/** Hook for getting and updating a Resource in a React component */
 export function useResource(subject: string): [Resource, (resource: Resource) => void] {
   const store = useStore();
   const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject));

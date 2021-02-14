@@ -3,5 +3,5 @@ build
 node_modules
 docs
 .env
-.snowpack.crt
-.snowpack.key
+snowpack.crt
+snowpack.key

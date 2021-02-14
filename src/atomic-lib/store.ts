@@ -28,6 +28,12 @@ export class Store {
     this.notify(resource);
   }
 
+  /** Creates a random URL */
+  createSubject(): string {
+    const random = Math.random().toString(36).substring(2);
+    return `${this.getBaseUrl()}/things/${random}`;
+  }
+
   /** Fetches a resource by URL, replaces the one in the store. */
   async fetchResource(subject: string): Promise<Resource> {
     if (this.resources.get(subject) == undefined) {
@@ -89,7 +95,6 @@ export class Store {
       throw new Error(`Property ${subject} is not found`);
     }
     const prop = new Property();
-    console.log('prop resoruce', resource);
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
       throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);

@@ -18,12 +18,12 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - [x] Datatype dependent renders
   - [x] Table view
   - [ ] Navigate collections (sorting / pagination)
-- [ ] **Edit data**
+- [x] **Edit data**
   - [x] Commit implementation
   - [x] Instantiate new Resources
   - [x] Validate form fields
   - [x] Set default agent / base server
-  - [ ] Edit properties (Sign and Post Commits after editing an atom)
+  - [x] Edit resources (Sign and Post Commits after editing an atom)
   - [ ] Click a property to open its form
   - [ ] Add properties to existing resource
 - [ ] Resolve atomic paths
@@ -34,7 +34,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 ```sh
 # Create keys for https (required to run `window.crypto` libraries in the browser):
 npx devcert-cli generate snowpack
-# Rename because
+# Rename because snowpack wants .crt
 mv snowpack.cert snowpack.crt
 # Install dependencies
 yarn
@@ -43,9 +43,24 @@ yarn dev
 # Build
 yarn build
 # Lint
-yarn build
+yarn lint
 # Test
+yarn test
 ```
+
+If you want to _edit_ data, you'll need to fill in the .env file, and probably want to run [`atomic-server`](https://github.com/joepio/atomic/blob/master/server/README.md) using [docker](https://docs.docker.com/get-docker/).
+
+```sh
+# Create a local .env
+cp template.ev .env
+# Run atomic-server locally, and check the logs.
+docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server
+# Copy the server, privatekey and agent
+# Edit the newly created .env and paste in the values from above
+vim .env
+```
+
+This app is a client, but has no persistent storage. Run `atomic-server`
 
 ## Directory structure
 
@@ -61,9 +76,10 @@ src/
 
 - **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
 - **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
-- **Hooks** are used wherever possible. This means functional components, instead of old-style Class components.
+- **Hooks** are used wherever possible. This means functional components, instead of old-style Class components. Hooks tend to use a pattern similar to React's own `useState`, which means that two terms are returned: the first one contains the current value, and the second one is a function for setting the value.
 - **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
+- **Resources** should have a `resource=${subjectURL}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing.
 
 ## Contribute
 

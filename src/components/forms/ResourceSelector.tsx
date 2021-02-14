@@ -68,9 +68,11 @@ export function ResourceSelector({
                   clear
                 </ButtonInput>
               ) : null}
-              <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
-                <FaCaretDown />
-              </ButtonInput>
+              {options.length > 0 && (
+                <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
+                  <FaCaretDown />
+                </ButtonInput>
+              )}
               {handleRemove !== undefined && (
                 <ButtonInput type='button' onClick={handleRemove} aria-label='clear selection'>
                   <FaTrash />
@@ -78,7 +80,7 @@ export function ResourceSelector({
               )}
             </InputWrapper>{' '}
             <DropDownWrapperWrapper {...getMenuProps()}>
-              {isOpen ? (
+              {options.length > 0 && isOpen ? (
                 <DropDownWrapper>
                   {options
                     .filter(item => !inputValue || item.includes(inputValue))
