@@ -17,7 +17,7 @@ import { getEnv, isDev } from './config';
 import { handleWarning } from './helpers/handlers';
 
 /** Initialize the store */
-const store = new Store('http://localhost');
+const store = new Store();
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
@@ -62,6 +62,10 @@ declare global {
 if (isDev) {
   const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
   store.setAgent(agent);
+  const baseUrl = getEnv('BASE_URL');
+  if (baseUrl !== undefined) {
+    store.setBaseUrl(baseUrl);
+  }
   handleWarning('setting agent with keys!');
 
   // You can access the Store from your console in dev mode!

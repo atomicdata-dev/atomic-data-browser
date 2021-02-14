@@ -18,14 +18,24 @@ const Settings: React.FunctionComponent = () => {
   const initialAgent = store.getAgent();
   const [agentSubject, setCurrentAgent] = useState<string>(initialAgent.subject);
   const [privateKey, setCurrentPrivateKey] = useState<string>(initialAgent.privateKey);
-  const [err, setErr] = useState<Error>(null);
+  const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
+  const [agentErr, setErrAgent] = useState<Error>(null);
+  const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
 
   function handleSetAgent() {
     try {
       const agent = new Agent(agentSubject, privateKey);
       store.setAgent(agent);
     } catch (e) {
-      setErr(e);
+      setErrAgent(e);
+    }
+  }
+
+  function handleSetBaseUrl() {
+    try {
+      store.setBaseUrl(baseUrl);
+    } catch (e) {
+      setErrBaseUrl(e);
     }
   }
 
@@ -50,8 +60,16 @@ const Settings: React.FunctionComponent = () => {
           <InputStyled value={privateKey} onChange={e => setCurrentPrivateKey(e.target.value)} />
         </InputWrapper>
       </FieldStyled>
-      <ErrMessage>{err}</ErrMessage>
+      <ErrMessage>{agentErr}</ErrMessage>
       <ButtonMargin onClick={handleSetAgent}>save agent</ButtonMargin>
+      <FieldStyled>
+        <LabelStyled>Base URL</LabelStyled>
+        <InputWrapper>
+          <InputStyled value={baseUrl} onChange={e => setBaseUrl(e.target.value)} />
+        </InputWrapper>
+      </FieldStyled>
+      <ErrMessage>{baseUrlErr}</ErrMessage>
+      <ButtonMargin onClick={handleSetBaseUrl}>save base URL</ButtonMargin>
     </Container>
   );
 };

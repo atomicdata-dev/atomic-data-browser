@@ -1,5 +1,5 @@
 import { Resource, ResourceStatus } from './resource';
-import { fetchResource } from './client';
+import { checkValidURL, fetchResource } from './client';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
@@ -17,8 +17,7 @@ export class Store {
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
 
-  constructor(base_url: string) {
-    this.baseUrl = base_url;
+  constructor() {
     this.resources = new Map();
     this.subscribers = new Map();
   }
@@ -40,6 +39,9 @@ export class Store {
 
   /** Returns the URL of the companion server */
   getBaseUrl(): string {
+    if (this.baseUrl == undefined) {
+      return 'https://atomicdata.dev';
+    }
     return this.baseUrl;
   }
 
@@ -81,14 +83,18 @@ export class Store {
   }
 
   /** Gets a property by URL. */
-  async getProperty(subject: string): Promise<Property | null> {
+  async getProperty(subject: string): Promise<Property> {
     const resource = await this.getResourceAsync(subject);
+    if (resource == undefined) {
+      throw new Error(`Property ${subject} is not found`);
+    }
     const prop = new Property();
+    console.log('prop resoruce', resource);
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
       throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);
     }
-    const classTypeURL = resource.get(urls.properties.classType).toString();
+    const classTypeURL = resource.get(urls.properties.classType)?.toString();
     prop.classType = classTypeURL;
     prop.datatype = datatypeFromUrl(datatypeUrl.toString());
     return prop;
@@ -109,6 +115,15 @@ export class Store {
   /** Sets the current Agent, used for signing commits */
   setAgent(agent: Agent): void {
     this.agent = agent;
+  }
+
+  /** Sets the Base URL, without the trailing slash. */
+  setBaseUrl(baseUrl: string): void {
+    checkValidURL(baseUrl);
+    if (baseUrl.substr(-1) == '/') {
+      throw new Error('baseUrl should not have a trailing slash');
+    }
+    this.baseUrl = baseUrl;
   }
 
   /** Registers a callback for when the a resource is updated. */

@@ -107,8 +107,6 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
     const valFromNewVal = new Value(newVal);
     set(valFromNewVal);
 
-    console.log('validateAndSet!', newVal);
-
     /** Validates and sets a property / value combination. Will invoke the callback if the value is not valid. */
     async function setAsync() {
       try {

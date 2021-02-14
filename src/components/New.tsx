@@ -27,7 +27,7 @@ function New(): JSX.Element {
   const store = useStore();
 
   if (newSubject == undefined) {
-    const random = Math.random().toString(36).substring(10);
+    const random = Math.random().toString(36).substring(2);
     setNewSubject(`${store.getBaseUrl()}/things/${random}`);
   }
 
