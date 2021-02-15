@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Container } from '../components/Containers';
+import { ContainerNarrow } from '../components/Containers';
 
 export const Shortcuts: React.FunctionComponent = () => {
   return (
-    <Container>
+    <ContainerNarrow>
       <h1>Keyboard shortcuts</h1>
       <p>
         <code>e</code> <b>e</b>dit resource at cursor
@@ -23,6 +23,6 @@ export const Shortcuts: React.FunctionComponent = () => {
       <p>
         <code>n</code> <b>n</b>ew resource
       </p>
-    </Container>
+    </ContainerNarrow>
   );
 };

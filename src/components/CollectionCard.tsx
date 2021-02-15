@@ -3,7 +3,7 @@ import { properties } from '../helpers/urls';
 import { useArray, useString, useTitle } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import Markdown from './datatypes/Markdown';
-import Link from './Link';
+import AtomicLink from './Link';
 import { Card, CardInsideFull, CardRow } from './Card';
 import ResourceInline from './datatypes/ResourceInline';
 
@@ -19,9 +19,9 @@ function CollectionCard({ resource }: Props): JSX.Element {
 
   return (
     <Card about={resource.getSubject()}>
-      <Link url={resource.getSubject()}>
+      <AtomicLink url={resource.getSubject()}>
         <h2>{title}</h2>
-      </Link>
+      </AtomicLink>
       {description && <Markdown text={description} />}
       <CardInsideFull>
         {members.map(member => {

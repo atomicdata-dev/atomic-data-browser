@@ -2,7 +2,7 @@
 
 [![Snowpack build Status](https://github.com/joepio/atomic-react/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-react/actions)
 
-_status: pre-alpha_
+_status: alpha_
 
 Typescript / React library for parsing, storing and rendering [Atomic Data](https://atomicdata.dev/).
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
@@ -24,7 +24,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - [x] Validate form fields
   - [x] Set default agent / base server
   - [x] Edit resources (Sign and Post Commits after editing an atom)
-  - [ ] Click a property to open its form
+  - [x] Press `e` to open a resource's edit form
   - [ ] Add properties to existing resource
 - [ ] Resolve atomic paths
 - [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
@@ -62,17 +62,7 @@ vim .env
 
 This app is a client, but has no persistent storage. Run `atomic-server`
 
-## Directory structure
-
-```
-src/
-- **components**: possibly re-usable components
-- **helpers**: projects-specific helper functions
-- **lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
-- **react**: general atomic data library (higher documentation + testing goals), no react-specific code.
-```
-
-## Understanding the code
+## Understanding & contributing to the code
 
 - **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
 - **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
@@ -80,6 +70,17 @@ src/
 - **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
 - **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
+
+```
+src/
+- **components**: project specific components.
+  - **datatypes**: for viewing atomic datatypes.
+  - **forms**: for handling forms and form fields
+- **helpers**: projects-specific helper functions
+- **atomic-lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
+- **atomic-react**: generic, yet react-specific library for viewing and manipulating atomic data.
+- **routes**: components that are fed into the React Router as main Routes (e.g. `/new`, `/settings`).
+```
 
 ## Contribute
 

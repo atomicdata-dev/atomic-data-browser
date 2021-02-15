@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { urls } from '../../helpers/urls';
 import { useString, useResource, useTitle } from '../../atomic-react/hooks';
 import { ResourceStatus } from '../../atomic-lib/resource';
-import Link from '../Link';
+import AtomicLink from '../Link';
 
 type Props = {
   url: string;
@@ -24,9 +24,9 @@ function ResourceInline({ url }: Props): JSX.Element {
   }
 
   return (
-    <Link url={url}>
+    <AtomicLink url={url}>
       <span title={description ? description : null}>{title}</span>
-    </Link>
+    </AtomicLink>
   );
 }
 

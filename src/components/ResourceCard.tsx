@@ -4,7 +4,7 @@ import { useString, useResource, useTitle } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import Markdown from './datatypes/Markdown';
-import Link from './Link';
+import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';
 import { Card } from './Card';
 import CollectionCard from './CollectionCard';
@@ -43,9 +43,9 @@ function ResourceCard({ subject }: Props): JSX.Element {
 
   return (
     <Card about={subject}>
-      <Link url={subject}>
+      <AtomicLink url={subject}>
         <h2>{title}</h2>
-      </Link>
+      </AtomicLink>
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />

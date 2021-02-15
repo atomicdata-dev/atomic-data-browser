@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { properties, urls } from '../../helpers/urls';
-import { newURL } from '../../helpers/navigation';
-import { useArray, useResource, useStore, useString, useTitle } from '../../atomic-react/hooks';
-import { Container } from '../Containers';
-import { InputStyled } from './Field';
-import NewIntanceButton from '../NewInstanceButton';
-import { ResourceForm } from './ResourceForm';
-import { ResourceStatus } from '../../atomic-lib/resource';
-import Link from '../Link';
-import Markdown from '../datatypes/Markdown';
+import { properties, urls } from '../helpers/urls';
+import { newURL } from '../helpers/navigation';
+import { useArray, useResource, useStore, useString, useTitle } from '../atomic-react/hooks';
+import { ContainerNarrow } from '../components/Containers';
+import { InputStyled } from '../components/forms/Field';
+import NewIntanceButton from '../components/NewInstanceButton';
+import { ResourceForm } from '../components/forms/ResourceForm';
+import { ResourceStatus } from '../atomic-lib/resource';
+import AtomicLink from '../components/Link';
+import Markdown from '../components/datatypes/Markdown';
 
 /** Form for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -48,12 +48,12 @@ function New(): JSX.Element {
   }
 
   return (
-    <Container>
+    <ContainerNarrow>
       {/* Key is required for re-rendering when subject changes */}
       {classSubject ? (
         <>
           <h2>
-            new <Link url={classSubject}>{klassTitle}</Link>
+            new <AtomicLink url={classSubject}>{klassTitle}</AtomicLink>
           </h2>
           {klassDescription && <Markdown text={klassDescription} />}
           <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} />
@@ -68,7 +68,7 @@ function New(): JSX.Element {
           <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
         </form>
       )}
-    </Container>
+    </ContainerNarrow>
   );
 }
 

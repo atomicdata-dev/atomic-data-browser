@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useResource, useTitle } from '../atomic-react/hooks';
 import { newURL } from '../helpers/navigation';
-import { Container } from '../components/Containers';
+import { ContainerNarrow } from '../components/Containers';
 import { InputStyled } from '../components/forms/Field';
 import { ResourceForm } from '../components/forms/ResourceForm';
 
@@ -22,7 +22,7 @@ export function Edit(): JSX.Element {
   }
 
   return (
-    <Container>
+    <ContainerNarrow>
       {/* Key is required for re-rendering when subject changes */}
       {subject ? (
         <>
@@ -41,6 +41,6 @@ export function Edit(): JSX.Element {
           />
         </form>
       )}
-    </Container>
+    </ContainerNarrow>
   );
 }

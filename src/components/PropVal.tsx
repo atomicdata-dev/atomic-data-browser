@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useProperty } from '../atomic-react/hooks';
 import { Value } from '../atomic-lib/value';
-import Link from './Link';
+import AtomicLink from './Link';
 import ValueComp from './ValueComp';
 
 type Props = {
@@ -30,9 +30,9 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <Link url={propertyURL}>
+      <AtomicLink url={propertyURL}>
         <PropertyLabel title={property.description}>{property.shortname || propertyURL}</PropertyLabel>
-      </Link>
+      </AtomicLink>
       <ValueComp value={value} datatype={property.datatype} />
     </PropValRow>
   );

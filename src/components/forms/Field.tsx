@@ -5,7 +5,7 @@ import { useProperty } from '../../atomic-react/hooks';
 import { Resource } from '../../atomic-lib/resource';
 import { FaInfo } from 'react-icons/fa';
 import { ButtonIcon } from '../Button';
-import Link from '../Link';
+import AtomicLink from '../Link';
 import InputSwitcher from './FieldSwitcher';
 import { Property } from '../../atomic-lib/store';
 
@@ -38,7 +38,7 @@ function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps
       </LabelWrapper>
       {!collapsed && (
         <LabelHelper>
-          {property.description} <Link url={propertyURL}>Go to Property</Link>
+          {property.description} <AtomicLink url={propertyURL}>Go to Property</AtomicLink>
         </LabelHelper>
       )}
       <InputSwitcher resource={resource} property={property} required={required} />

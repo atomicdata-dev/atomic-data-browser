@@ -3,7 +3,7 @@ import { properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
-import { Container } from './Containers';
+import { ContainerNarrow } from './Containers';
 import Markdown from './datatypes/Markdown';
 import Collection from './CollectionPage';
 import ClassDetail from './ClassDetail';
@@ -26,10 +26,10 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return <Container>Loading...</Container>;
+    return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
   if (status == ResourceStatus.error) {
-    return <Container>{resource.getError().message}</Container>;
+    return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
   }
 
   switch (klass) {
@@ -38,7 +38,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   }
 
   return (
-    <Container about={subject}>
+    <ContainerNarrow about={subject}>
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
@@ -48,7 +48,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
         Edit
       </ButtonMargin>
-    </Container>
+    </ContainerNarrow>
   );
 }
 

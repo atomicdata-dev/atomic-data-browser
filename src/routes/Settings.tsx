@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from '../components/Containers';
+import { ContainerNarrow } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
 import { useLocalStorage } from '../helpers/useLocalStorage';
@@ -45,7 +45,7 @@ const Settings: React.FunctionComponent = () => {
   }
 
   return (
-    <Container>
+    <ContainerNarrow>
       <h1>Settings</h1>
       <p>Press save to apply settings.</p>
       <ButtonMargin onClick={handleSetDark}>{dark ? <FaToggleOn /> : <FaToggleOff />} dark mode</ButtonMargin>
@@ -75,7 +75,7 @@ const Settings: React.FunctionComponent = () => {
       </FieldStyled>
       <ErrMessage>{baseUrlErr}</ErrMessage>
       <ButtonMargin onClick={handleSetBaseUrl}>save base URL</ButtonMargin>
-    </Container>
+    </ContainerNarrow>
   );
 };
 

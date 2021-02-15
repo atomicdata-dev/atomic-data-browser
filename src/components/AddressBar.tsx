@@ -8,10 +8,9 @@ import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
 
+/** Persistently shown navigation bar */
 export function AddressBar(): JSX.Element {
-  // Value shown in navbar, after Submitting
-  const [subjectQ, setSubjectQ] = useQueryParam('subject', StringParam);
-  // const [subject, setSubject] = useState<string>(subjectQ);
+  const [subject, setSubject] = useQueryParam('subject', StringParam);
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   useHotkeys('/', e => {
@@ -22,7 +21,7 @@ export function AddressBar(): JSX.Element {
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleNavigation(openURL(subjectQ));
+    handleNavigation(openURL(subject));
   };
 
   const handleNavigation = (to: string) => {
@@ -43,8 +42,8 @@ export function AddressBar(): JSX.Element {
       <input
         ref={inputRef}
         type='text'
-        value={subjectQ || ''}
-        onChange={e => setSubjectQ(e.target.value)}
+        value={subject || ''}
+        onChange={e => setSubject(e.target.value)}
         placeholder='Enter an Atomic URL'
       />
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
@@ -83,6 +82,7 @@ const AddressBarStyled = styled.form`
     right: auto;
   }
 
+  /* Search bar and buttons */
   input {
     border: none;
     font-size: 0.8rem;
@@ -90,6 +90,7 @@ const AddressBarStyled = styled.form`
     color: ${props => props.theme.colors.text};
   }
 
+  /* Search bar */
   input[type='text'] {
     flex: 1;
     min-width: 1rem;

@@ -8,7 +8,7 @@ import { useViewport } from '../helpers/useMedia';
 import { useArray, useString, useTitle } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import { ButtonMargin } from './Button';
-import { Wrapper } from './Containers';
+import { ContainerFull } from './Containers';
 import Markdown from './datatypes/Markdown';
 import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
@@ -23,7 +23,8 @@ enum DisplayStyle {
   CARDLIST,
 }
 
-const displayStyleString = (style: DisplayStyle) => {
+/** Returns the name for a displaystyle */
+const displayStyleString = (style: DisplayStyle): string => {
   switch (style) {
     case DisplayStyle.CARDLIST: {
       return 'cards';
@@ -65,14 +66,14 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   useHotkeys('v', () => handleToggleView(), {}, [displayStyle]);
 
   return (
-    <Wrapper about={resource.getSubject()}>
+    <ContainerFull about={resource.getSubject()}>
       <h1>{title}</h1>
       <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
       {klass && <NewInstanceButton klass={klass} />}
       {description && <Markdown text={description} />}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}
-    </Wrapper>
+    </ContainerFull>
   );
 }
 
@@ -92,6 +93,7 @@ function CardList({ members }: CardListProps): JSX.Element {
   );
 }
 
+/** Use this to wrap around items to make them fit in the grid */
 const GridItem = styled.div`
   margin: 0;
   display: grid;

@@ -1,6 +1,7 @@
 import { desaturate } from 'polished';
 import styled from 'styled-components';
 
+/** Base button style. You're likely to want to use ButtonMargin in most places */
 export const Button = styled.button`
   display: flex;
   align-items: center;
@@ -37,16 +38,19 @@ export const Button = styled.button`
   }
 `;
 
+/** Button inside the navigation bar */
 export const ButtonBar = styled(Button)`
   min-width: 2.5rem;
   padding: 0.4rem;
 
   &:hover:not([disabled]),
+  &:active:not([disabled]),
   &:focus:not([disabled]) {
     transform: scale(1);
   }
 `;
 
+/** Button with some basic margins around it */
 export const ButtonMargin = styled(Button)`
   padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;
@@ -66,6 +70,7 @@ export const ButtonMargin = styled(Button)`
   }
 `;
 
+/** Button that only shows an icon */
 export const ButtonIcon = styled(Button)`
   box-shadow: ${props => props.theme.boxShadow};
   border-radius: 999px;

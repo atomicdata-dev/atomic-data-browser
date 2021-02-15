@@ -11,7 +11,7 @@ type Props = {
 };
 
 /** Renders an openable Resource. Only for Atomic Resources. */
-function Link({ children, url }: Props): JSX.Element {
+function AtomicLink({ children, url }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
   const store = useStore();
@@ -36,8 +36,8 @@ type Proppies = {
   disabled?: boolean;
 };
 
+/** Look clickable, should be used for opening things only - not interactions. */
 export const LinkView = styled.a<Proppies>`
-  /* color: ${props => props.theme.colors.main}; */
   color: ${props => (props.disabled ? props.theme.colors.text : props.theme.colors.main)};
   text-decoration: none;
   cursor: pointer;
@@ -51,4 +51,4 @@ export const LinkView = styled.a<Proppies>`
   }
 `;
 
-export default Link;
+export default AtomicLink;
