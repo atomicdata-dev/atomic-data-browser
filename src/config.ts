@@ -7,3 +7,7 @@ export const getEnv = (key: string): string => {
 export function isDev(): boolean {
   return getEnv('MODE') == 'development';
 }
+
+export function isTest(): boolean {
+  return getEnv('NODE_ENV') == 'test';
+}

@@ -13,7 +13,7 @@ import { useDarkMode } from './helpers/useDarkMode';
 import { useLocalStorage } from './helpers/useLocalStorage';
 import Settings from './components/Settings';
 import { Agent } from './atomic-lib/agent';
-import { getEnv, isDev } from './config';
+import { getEnv, isDev, isTest } from './config';
 import { handleWarning } from './helpers/handlers';
 import { Edit } from './components/forms/Edit';
 import HotKeysWrapper from './components/HotKeyWrapper';
@@ -74,7 +74,7 @@ declare global {
   }
 }
 
-if (isDev) {
+if (isDev && !isTest) {
   const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
   store.setAgent(agent);
   const baseUrl = getEnv('BASE_URL');
