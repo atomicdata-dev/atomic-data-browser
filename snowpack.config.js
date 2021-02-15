@@ -36,7 +36,7 @@ module.exports = {
   devOptions: {
     /* ... */
     // HTTPS is required for `window.crypto` usage
-    secure: true,
+    // secure: true,
   },
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-react/',
