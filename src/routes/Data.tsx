@@ -30,7 +30,7 @@ function Data(): JSX.Element {
         subject: <AtomicLink url={subject}>{subject}</AtomicLink>
       </h3>
       <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
-        Edit
+        edit
       </ButtonMargin>
       <AllProps resource={resource} />
     </ContainerNarrow>

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import Downshift from 'downshift';
-import { ErrMessage, InputProps, InputStyled, InputWrapper } from './Field';
+import { InputProps } from './Field';
 import { useArray, useResource } from '../../atomic-react/hooks';
 import { FaCaretDown, FaTrash } from 'react-icons/fa';
 import { urls } from '../../helpers/urls';
@@ -8,6 +8,7 @@ import { ButtonInput } from '../Button';
 import ResourceLine from '../ResourceLine';
 import styled, { ThemeContext } from 'styled-components';
 import { ArrayError } from '../../atomic-lib/datatypes';
+import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
 
 interface ResourceSelectorProps extends InputProps {
   /** Take the second argument of a `useString` hook and pass the setString part to this property */

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { ArrayError } from '../../atomic-lib/datatypes';
 import { useArray } from '../../atomic-react/hooks';
 import { ButtonMargin } from '../Button';
-import { ErrMessage, InputProps } from './Field';
+import { InputProps } from './Field';
+import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 
 export default function InputResourceArray({ resource, property, required }: InputProps): JSX.Element {

@@ -6,7 +6,8 @@ import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { classes, properties } from '../../helpers/urls';
 import { ButtonMargin } from '../Button';
-import FieldLabeled, { ErrMessage } from './Field';
+import FieldLabeled from './Field';
+import { ErrMessage } from './InputStyles';
 
 type ResourceFormProps = {
   /** Optionally sets the isA Class of a resource. Really useful when creating a new instance of some resource */

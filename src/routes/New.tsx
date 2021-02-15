@@ -5,7 +5,7 @@ import { properties, urls } from '../helpers/urls';
 import { newURL } from '../helpers/navigation';
 import { useArray, useResource, useStore, useString, useTitle } from '../atomic-react/hooks';
 import { ContainerNarrow } from '../components/Containers';
-import { InputStyled } from '../components/forms/Field';
+import { InputStyled } from '../components/forms/InputStyles';
 import NewIntanceButton from '../components/NewInstanceButton';
 import { ResourceForm } from '../components/forms/ResourceForm';
 import { ResourceStatus } from '../atomic-lib/resource';
