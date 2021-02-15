@@ -481,7 +481,7 @@
       ]
     },
     "dist/components/Link.js": {
-      "bytes": 1274,
+      "bytes": 1232,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -510,7 +510,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1079,
+      "bytes": 1091,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -641,7 +641,7 @@
       ]
     },
     "dist/components/PropVal.js": {
-      "bytes": 912,
+      "bytes": 924,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -679,7 +679,7 @@
       ]
     },
     "dist/components/Containers.js": {
-      "bytes": 348,
+      "bytes": 360,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -723,7 +723,7 @@
       ]
     },
     "dist/components/Button.js": {
-      "bytes": 2547,
+      "bytes": 2575,
       "imports": [
         {
           "path": "dist/pkg/polished.js",
@@ -795,7 +795,7 @@
       ]
     },
     "dist/components/CollectionCard.js": {
-      "bytes": 1173,
+      "bytes": 1185,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -828,7 +828,7 @@
       ]
     },
     "dist/components/ResourceCard.js": {
-      "bytes": 1826,
+      "bytes": 1838,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -902,7 +902,7 @@
       ]
     },
     "dist/components/CollectionPage.js": {
-      "bytes": 3476,
+      "bytes": 3488,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -959,7 +959,7 @@
       ]
     },
     "dist/components/ResourcePage.js": {
-      "bytes": 2087,
+      "bytes": 2111,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1015,8 +1015,8 @@
         }
       ]
     },
-    "dist/components/Welcome.js": {
-      "bytes": 2546,
+    "dist/routes/Welcome.js": {
+      "bytes": 2606,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1036,8 +1036,8 @@
         }
       ]
     },
-    "dist/components/Browser.js": {
-      "bytes": 526,
+    "dist/routes/Browser.js": {
+      "bytes": 538,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1052,7 +1052,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Welcome.js",
+          "path": "dist/routes/Welcome.js",
           "kind": "import-statement"
         }
       ]
@@ -1250,7 +1250,7 @@
       ]
     },
     "dist/components/forms/Field.js": {
-      "bytes": 3332,
+      "bytes": 3344,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1327,8 +1327,8 @@
         }
       ]
     },
-    "dist/components/forms/New.js": {
-      "bytes": 2910,
+    "dist/routes/New.js": {
+      "bytes": 2993,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1394,7 +1394,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3295,
+      "bytes": 3340,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1481,8 +1481,8 @@
         }
       ]
     },
-    "dist/components/Settings.js": {
-      "bytes": 3803,
+    "dist/routes/Settings.js": {
+      "bytes": 3851,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1547,8 +1547,8 @@
         }
       ]
     },
-    "dist/components/forms/Edit.js": {
-      "bytes": 1408,
+    "dist/routes/Edit.js": {
+      "bytes": 1452,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1605,8 +1605,8 @@
         }
       ]
     },
-    "dist/components/Data.js": {
-      "bytes": 1441,
+    "dist/routes/Data.js": {
+      "bytes": 1525,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1650,8 +1650,8 @@
         }
       ]
     },
-    "dist/components/Shortcuts.js": {
-      "bytes": 1242,
+    "dist/routes/Shortcuts.js": {
+      "bytes": 1266,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1664,7 +1664,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 2872,
+      "bytes": 2836,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1695,11 +1695,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Browser.js",
+          "path": "dist/routes/Browser.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/New.js",
+          "path": "dist/routes/New.js",
           "kind": "import-statement"
         },
         {
@@ -1715,7 +1715,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Settings.js",
+          "path": "dist/routes/Settings.js",
           "kind": "import-statement"
         },
         {
@@ -1731,7 +1731,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Edit.js",
+          "path": "dist/routes/Edit.js",
           "kind": "import-statement"
         },
         {
@@ -1739,11 +1739,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Data.js",
+          "path": "dist/routes/Data.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/Shortcuts.js",
+          "path": "dist/routes/Shortcuts.js",
           "kind": "import-statement"
         }
       ]
@@ -1892,7 +1892,7 @@
           "bytesInOutput": 38
         },
         "dist/components/Link.js": {
-          "bytesInOutput": 555
+          "bytesInOutput": 513
         },
         "dist/components/datatypes/ResourceInline.js": {
           "bytesInOutput": 350
@@ -1934,7 +1934,7 @@
           "bytesInOutput": 200
         },
         "dist/components/Button.js": {
-          "bytesInOutput": 2038
+          "bytesInOutput": 2066
         },
         "dist/components/NewInstanceButton.js": {
           "bytesInOutput": 144
@@ -1960,10 +1960,10 @@
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 656
         },
-        "dist/components/Welcome.js": {
+        "dist/routes/Welcome.js": {
           "bytesInOutput": 1344
         },
-        "dist/components/Browser.js": {
+        "dist/routes/Browser.js": {
           "bytesInOutput": 98
         },
         "dist/pkg/react-icons/fa.js": {
@@ -1996,14 +1996,14 @@
         "dist/components/forms/ResourceForm.js": {
           "bytesInOutput": 1137
         },
-        "dist/components/forms/New.js": {
+        "dist/routes/New.js": {
           "bytesInOutput": 1010
         },
         "dist/helpers/useFocus.js": {
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1735
+          "bytesInOutput": 1785
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2017,22 +2017,22 @@
         "dist/atomic-lib/agent.js": {
           "bytesInOutput": 71
         },
-        "dist/components/Settings.js": {
+        "dist/routes/Settings.js": {
           "bytesInOutput": 1009
         },
         "dist/config.js": {
           "bytesInOutput": 126
         },
-        "dist/components/forms/Edit.js": {
+        "dist/routes/Edit.js": {
           "bytesInOutput": 454
         },
         "dist/components/HotKeyWrapper.js": {
           "bytesInOutput": 281
         },
-        "dist/components/Data.js": {
+        "dist/routes/Data.js": {
           "bytesInOutput": 438
         },
-        "dist/components/Shortcuts.js": {
+        "dist/routes/Shortcuts.js": {
           "bytesInOutput": 447
         },
         "dist/App.js": {
@@ -2042,7 +2042,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 383734
+      "bytes": 383770
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],

@@ -81,7 +81,6 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     font-weight: bold;
   }
 `;function Jg(e,t){let n=e.replace(/(^\w+:|^)\/\//,"");return n.length<=t?n:n.slice(0,t)+"..."}function Oe(e){let t=cn(),[n,r]=we(t.getResourceLoading(e)),i=o=>{t.addResource(o)};return zi(()=>{r(t.getResourceLoading(e))},[e,t]),zi(()=>{function o(a){r(a)}return t.subscribe(e,o),()=>{t.unsubscribe(e,o)}},[t,e]),[n,i]}function Ei(e){let[t]=Oe(e);if(!t.isReady())return null;let n=t.get(re.properties.datatype)?.toString(),r=Vu(n),i=t.get(re.properties.shortname).toString(),o=t.get(re.properties.description).toString(),a=t.get(re.properties.classType)?.toString();return{subject:e,datatype:r,shortname:i,description:o,classType:a}}function Gu(e,t){let[n,r]=we(null),i=cn();function o(u,l){let s=new jr(u);r(s);async function c(){try{await e.setValidate(t,u,i),l&&l(null)}catch(h){l&&l(h)}}c()}if(n!==null)return[n,o];if(!e.isReady())return[null,o];let a=null;try{a=e.get(t)}catch(u){Og(u)}return a==null?[null,o]:[a,o]}function Se(e,t){let[n,r]=Gu(e,t);return n==null?[null,r]:[n.toString(),r]}function Ge(e){let[t]=Se(e,re.properties.name),[n]=Se(e,re.properties.shortname);if(e.getStatus()==ge.loading)return"...";if(t!==null)return t;if(n!==null)return n;let r=e.getSubject();return typeof r=="string"&&r.length>0?Jg(r,40):r}function rt(e,t){let[n,r]=Gu(e,t);return n==null?[[],r]:[n.toArray(),r]}function cn(){let e=v.useContext(Tf);if(e==null)throw new Error("Store is not found in react context. Have you wrapped your application in `<StoreContext.Provider value={new Store}>`?");return e}var Tf=v.createContext(void 0);function ki(e){let t=new URL(location.origin);return t.pathname="/",t.searchParams.append("subject",e),t.pathname.toString()+t.search}function Ci(e){let t=new URL(location.origin);return t.pathname="/new",t.searchParams.append("classSubject",e),t.pathname.toString()+t.search}function bi(e){let t=new URL(location.origin);return t.pathname="/edit",t.searchParams.append("subject",e),t.pathname.toString()+t.search}function ev(e){let t=new URL(location.origin);return t.pathname="/data",t.searchParams.append("subject",e),t.pathname.toString()+t.search}function Lf(){let e=[];return document.querySelectorAll(":hover").forEach(n=>{let r=n.getAttribute("about");r!==null&&e.unshift(r)}),e[0]}function tv(){return Nt("subject",It)}function Kk({children:e,url:t}){let[n]=tv(),r=He();cn().fetchResource(t);let o=a=>{a.preventDefault(),n!=t&&r.push(ki(t))};return v.createElement(Yu,{about:t,onClick:o,href:t,disabled:n==t,tabIndex:n==t?-1:0},e)}var Yu=se.a`
-  /* color: ${e=>e.theme.colors.main}; */
   color: ${e=>e.disabled?e.theme.colors.text:e.theme.colors.main};
   text-decoration: none;
   cursor: pointer;
@@ -159,6 +158,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
   padding: 0.4rem;
 
   &:hover:not([disabled]),
+  &:active:not([disabled]),
   &:focus:not([disabled]) {
     transform: scale(1);
   }
@@ -370,6 +370,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     right: auto;
   }
 
+  /* Search bar and buttons */
   input {
     border: none;
     font-size: 0.8rem;
@@ -377,6 +378,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     color: ${e=>e.theme.colors.text};
   }
 
+  /* Search bar */
   input[type='text'] {
     flex: 1;
     min-width: 1rem;
