@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StringParam, useQueryParam } from 'use-query-params';
 import ResourcePage from './ResourcePage';
-import { Welcome } from './Welcome';
+import { Welcome } from '../routes/Welcome';
 
 /** A generic Atomic Data browser */
 const Browser: React.FunctionComponent = () => {

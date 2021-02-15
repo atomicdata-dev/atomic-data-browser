@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { useResource, useTitle } from '../../atomic-react/hooks';
-import { newURL } from '../../helpers/navigation';
-import { Container } from '../Containers';
-import { InputStyled } from './Field';
-import { ResourceForm } from './ResourceForm';
+import { useResource, useTitle } from '../atomic-react/hooks';
+import { newURL } from '../helpers/navigation';
+import { Container } from '../components/Containers';
+import { InputStyled } from '../components/forms/Field';
+import { ResourceForm } from '../components/forms/ResourceForm';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {

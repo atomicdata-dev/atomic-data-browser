@@ -1,11 +1,11 @@
 import React from 'react';
 import { useResource } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
-import AllProps from './AllProps';
-import { Container } from './Containers';
+import AllProps from '../components/AllProps';
+import { Container } from '../components/Containers';
 import { StringParam, useQueryParam } from 'use-query-params';
-import Link from './Link';
-import { ButtonMargin } from './Button';
+import Link from '../components/Link';
+import { ButtonMargin } from '../components/Button';
 import { editURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 

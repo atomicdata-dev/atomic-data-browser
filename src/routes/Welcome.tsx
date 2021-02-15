@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container } from './Containers';
-import Link, { LinkView } from './Link';
+import { Container } from '../components/Containers';
+import Link, { LinkView } from '../components/Link';
 
 export const Welcome: React.FunctionComponent = () => {
   const history = useHistory();

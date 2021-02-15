@@ -11,14 +11,14 @@ import New from './components/forms/New';
 import { AddressBar } from './components/AddressBar';
 import { useDarkMode } from './helpers/useDarkMode';
 import { useLocalStorage } from './helpers/useLocalStorage';
-import Settings from './components/Settings';
+import Settings from './routes/Settings';
 import { Agent } from './atomic-lib/agent';
 import { getEnv, isDev, isTest } from './config';
 import { handleWarning } from './helpers/handlers';
-import { Edit } from './components/forms/Edit';
+import { Edit } from './routes/Edit';
 import HotKeysWrapper from './components/HotKeyWrapper';
-import Data from './components/Data';
-import { Shortcuts } from './components/Shortcuts';
+import Data from './routes/Data';
+import { Shortcuts } from './routes/Shortcuts';
 
 /** Initialize the store */
 const store = new Store();

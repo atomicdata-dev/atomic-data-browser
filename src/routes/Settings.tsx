@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Container } from './Containers';
+import { Container } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { localStoreKeyMainColor } from '../styling';
-import { ButtonMargin } from './Button';
+import { ButtonMargin } from '../components/Button';
 import { useDarkMode } from '../helpers/useDarkMode';
 import { FaToggleOn, FaToggleOff } from 'react-icons/fa';
-import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from './forms/Field';
+import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/Field';
 import { useStore } from '../atomic-react/hooks';
 import { useState } from 'react';
 import { Agent } from '../atomic-lib/agent';

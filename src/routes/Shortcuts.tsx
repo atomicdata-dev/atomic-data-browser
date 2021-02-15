@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from './Containers';
+import { Container } from '../components/Containers';
 
 export const Shortcuts: React.FunctionComponent = () => {
   return (
