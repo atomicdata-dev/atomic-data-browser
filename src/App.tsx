@@ -16,6 +16,9 @@ import { Agent } from './atomic-lib/agent';
 import { getEnv, isDev } from './config';
 import { handleWarning } from './helpers/handlers';
 import { Edit } from './components/forms/Edit';
+import HotKeysWrapper from './components/HotKeyWrapper';
+import Data from './components/Data';
+import { Shortcuts } from './components/Shortcuts';
 
 /** Initialize the store */
 const store = new Store();
@@ -31,24 +34,32 @@ function App(): JSX.Element {
       <HashRouter basename='/'>
         {/* Used for getting / setting query parameters */}
         <QueryParamProvider ReactRouterRoute={Route}>
-          <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
-            <GlobalStyle />
-            <AddressBar />
-            <Switch>
-              <Route path='/new'>
-                <New />
-              </Route>
-              <Route path='/edit'>
-                <Edit />
-              </Route>
-              <Route path='/settings'>
-                <Settings />
-              </Route>
-              <Route path='/'>
-                <Browser />
-              </Route>
-            </Switch>
-          </ThemeProvider>
+          <HotKeysWrapper>
+            <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
+              <GlobalStyle />
+              <AddressBar />
+              <Switch>
+                <Route path='/new'>
+                  <New />
+                </Route>
+                <Route path='/edit'>
+                  <Edit />
+                </Route>
+                <Route path='/data'>
+                  <Data />
+                </Route>
+                <Route path='/settings'>
+                  <Settings />
+                </Route>
+                <Route path='/shortcuts'>
+                  <Shortcuts />
+                </Route>
+                <Route path='/'>
+                  <Browser />
+                </Route>
+              </Switch>
+            </ThemeProvider>
+          </HotKeysWrapper>
         </QueryParamProvider>
       </HashRouter>
     </StoreContext.Provider>

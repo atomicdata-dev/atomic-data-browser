@@ -1,21 +1,28 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { FaHome, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { openURL } from '../helpers/navigation';
+import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 export function AddressBar(): JSX.Element {
   // Value shown in navbar, after Submitting
-  const [subjectQ] = useQueryParam('subject', StringParam);
-  const [subject, setSubject] = useState<string>(subjectQ);
+  const [subjectQ, setSubjectQ] = useQueryParam('subject', StringParam);
+  // const [subject, setSubject] = useState<string>(subjectQ);
   const history = useHistory();
+  const [inputRef, setInputFocus] = useFocus();
+  useHotkeys('/', e => {
+    e.preventDefault();
+    //@ts-ignore this does seem callable
+    setInputFocus();
+  });
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleNavigation(openURL(subject));
+    handleNavigation(openURL(subjectQ));
   };
 
   const handleNavigation = (to: string) => {
@@ -33,7 +40,13 @@ export function AddressBar(): JSX.Element {
       <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
         <FaArrowRight />
       </ButtonBar>
-      <input type='text' value={subject || ''} onChange={e => setSubject(e.target.value)} placeholder='Enter an Atomic URL' />
+      <input
+        ref={inputRef}
+        type='text'
+        value={subjectQ || ''}
+        onChange={e => setSubjectQ(e.target.value)}
+        placeholder='Enter an Atomic URL'
+      />
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
         <FaPlus />
       </ButtonBar>

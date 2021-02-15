@@ -13,14 +13,19 @@ export function useResource(subject: string): [Resource, (resource: Resource) =>
   const store = useStore();
   const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject));
 
-  /** Update the Resource with this value. Overwrites existing. */
+  /** Callback function to update the Resource with this value. Overwrites existing. */
   // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
   const update = (resource: Resource) => {
     store.addResource(resource);
   };
 
+  // If the subject changes, make sure to change the resource!
   useEffect(() => {
-    // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
+    setResource(store.getResourceLoading(subject));
+  }, [subject, store]);
+
+  // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
+  useEffect(() => {
     function handleNotify(updated: Resource) {
       // When a change happens, set the new Resource.
       setResource(updated);
@@ -92,13 +97,13 @@ export function useProperty(subject: string): Property | null {
 }
 
 /** A callback function for setting validation error messages */
-type handleValidationError = (val: JSVals, handleValidationError?) => void;
+type handleValidationErrorType = (val: JSVals, callback?: (e: Error) => unknown) => void;
 
 /**
  * Returns a Value (can be string, array, more) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes two
  * arguments - the second one is for handling validation errors
  */
-export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationError] {
+export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationErrorType] {
   const [val, set] = useState<Value>(null);
   const store = useStore();
 
@@ -111,13 +116,14 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
     async function setAsync() {
       try {
         await resource.setValidate(propertyURL, newVal, store);
-        handleValidationError(null);
+        handleValidationError && handleValidationError(null);
       } catch (e) {
-        handleValidationError(e);
+        handleValidationError && handleValidationError(e);
       }
     }
     setAsync();
   }
+
   // If a value has already been set, return it.
   if (val !== null) {
     return [val, validateAndSet];
@@ -141,7 +147,7 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
 }
 
 /** Hook for getting and setting a stringified representation of an Atom in a React component */
-export function useString(resource: Resource, propertyURL: string): [string | null, (string: string, handleValidationError?) => void] {
+export function useString(resource: Resource, propertyURL: string): [string | null, (string: string, handleValidationErrorType?) => void] {
   const [val, setVal] = useValue(resource, propertyURL);
   if (val == null) {
     return [null, setVal];
@@ -166,11 +172,11 @@ export function useTitle(resource: Resource): string {
   if (typeof subject == 'string' && subject.length > 0) {
     return truncateUrl(subject, 40);
   }
-  return subject.toString();
+  return subject;
 }
 
 /** Hook for getting all URLs for some array. Returns the current Array (defaults to empty array) and a callback for validation errors. */
-export function useArray(resource: Resource, propertyURL: string): [string[] | null, handleValidationError] {
+export function useArray(resource: Resource, propertyURL: string): [string[] | null, handleValidationErrorType] {
   const [value, set] = useValue(resource, propertyURL);
   if (value == null) {
     return [[], set];

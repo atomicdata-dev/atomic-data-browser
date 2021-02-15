@@ -13,6 +13,7 @@ import { Property } from '../../atomic-lib/store';
 function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps): JSX.Element {
   const property = useProperty(propertyURL);
   const [collapsed, setCollapsed] = useState(true);
+
   if (property == null) {
     return (
       <FieldStyled>

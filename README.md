@@ -79,7 +79,7 @@ src/
 - **Hooks** are used wherever possible. This means functional components, instead of old-style Class components. Hooks tend to use a pattern similar to React's own `useState`, which means that two terms are returned: the first one contains the current value, and the second one is a function for setting the value.
 - **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
-- **Resources** should have a `resource=${subjectURL}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing.
+- **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
 
 ## Contribute
 

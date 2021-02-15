@@ -19,9 +19,15 @@ export const Welcome: React.FunctionComponent = () => {
         out the <a href='https://docs.atomicdata.dev/'>docs</a> for more info about Atomic Data.
       </p>
       <p>
-        You can edit app settings, such as theme color at <LinkView onClick={() => history.push('/settings')}>/settings</LinkView>.
+        You can edit app settings, such as current user and theme color at{' '}
+        <LinkView onClick={() => history.push('/settings')}>/settings</LinkView>.
       </p>
-      <p>Things to visit with this browser:</p>
+      <p>
+        Check out the keyboard shortcuts at <LinkView onClick={() => history.push('/shortcuts')}>/shortcuts</LinkView>.
+      </p>
+      <p>
+        Some <a href='https://github.com/joepio/atomic'>atomic-servers</a> to visit with this browser:
+      </p>
       <ul>
         <li>
           <Link url='https://atomicdata.dev/collections'>atomicdata.dev</Link>

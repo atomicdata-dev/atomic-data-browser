@@ -38,14 +38,17 @@ export function ResourceSelector({
 
   function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
-    console.log('handleUpdate ResoureceSelector', newval);
     // Pass the Error handler to its parent, so validation errors appear locally
     setSubject(newval, setError);
   }
 
   return (
-    <div>
-      <Downshift onChange={selection => handleUpdate(selection)} itemToString={item => (item ? item : '')}>
+    <>
+      <Downshift
+        initialInputValue={subject ? subject : ''}
+        onChange={selection => handleUpdate(selection)}
+        itemToString={item => (item ? item : '')}
+      >
         {({
           clearSelection,
           getInputProps,
@@ -64,17 +67,17 @@ export function ResourceSelector({
               <InputStyled {...getInputProps()} required={required} />
               {selectedItem ? (
                 //@ts-ignore issue with types from Downshift
-                <ButtonInput type='button' onClick={clearSelection} aria-label='clear selection'>
+                <ButtonInput type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
                   clear
                 </ButtonInput>
               ) : null}
               {options.length > 0 && (
-                <ButtonInput type='button' {...getToggleButtonProps()} aria-label={'toggle menu'}>
+                <ButtonInput type='button' {...getToggleButtonProps()} title='toggle menu' aria-label={'toggle menu'}>
                   <FaCaretDown />
                 </ButtonInput>
               )}
               {handleRemove !== undefined && (
-                <ButtonInput type='button' onClick={handleRemove} aria-label='clear selection'>
+                <ButtonInput type='button' onClick={handleRemove} title='remove item' aria-label='remove item'>
                   <FaTrash />
                 </ButtonInput>
               )}
@@ -108,7 +111,7 @@ export function ResourceSelector({
       </Downshift>
       {subject !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
       {subject == '' && <ErrMessage>Required</ErrMessage>}
-    </div>
+    </>
   );
 }
 

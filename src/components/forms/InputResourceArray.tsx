@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
 import { ArrayError } from '../../atomic-lib/datatypes';
 import { useArray } from '../../atomic-react/hooks';
 import { ButtonMargin } from '../Button';
@@ -31,7 +30,7 @@ export default function InputResourceArray({ resource, property, required }: Inp
     <>
       {array.map((subject, index) => (
         <ResourceSelector
-          key={`${property.subject}${index}`}
+          key={`${property.subject}${index}${subject}`}
           subject={subject}
           setSubject={(set, handleErr) => handleSetSubject(set, handleErr, index)}
           error={err?.index == index && err}
@@ -43,9 +42,9 @@ export default function InputResourceArray({ resource, property, required }: Inp
         />
       ))}
       <ButtonMargin type='button' onClick={handleAdd}>
-        <FaPlus /> add
+        {'add'}
       </ButtonMargin>
-      {array !== [] && err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
+      {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
       {array == [] && <ErrMessage>Required</ErrMessage>}
     </>
   );

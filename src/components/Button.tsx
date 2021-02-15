@@ -54,7 +54,7 @@ export const ButtonMargin = styled(Button)`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   box-shadow: ${props => props.theme.boxShadow};
-  display: inline-block;
+  display: inline-flex;
   margin-right: ${props => props.theme.margin}rem;
 
   &:hover {

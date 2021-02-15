@@ -16,14 +16,14 @@ function ResourceLine({ subject }: Props): JSX.Element {
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return <span>Loading...</span>;
+    return <span about={subject}>Loading...</span>;
   }
   if (status == ResourceStatus.error) {
-    return <ErrorLook>Error: {resource.getError().message}</ErrorLook>;
+    return <ErrorLook about={subject}>Error: {resource.getError().message}</ErrorLook>;
   }
 
   return (
-    <span>
+    <span about={subject}>
       <b>{title}</b>
       {description ? ` - ${description}` : null}
     </span>

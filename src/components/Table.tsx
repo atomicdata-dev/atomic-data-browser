@@ -82,7 +82,7 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
     return null;
   }
   return (
-    <RowStyled>
+    <RowStyled about={subject}>
       <CellStyled>
         <ResourceInline url={subject} />
       </CellStyled>

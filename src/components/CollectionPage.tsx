@@ -1,5 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useHotkeys } from 'react-hotkeys-hook';
+
 import { properties } from '../helpers/urls';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useViewport } from '../helpers/useMedia';
@@ -24,11 +26,11 @@ enum DisplayStyle {
 const displayStyleString = (style: DisplayStyle) => {
   switch (style) {
     case DisplayStyle.CARDLIST: {
-      return 'Cards';
+      return 'cards';
       break;
     }
     case DisplayStyle.TABLE: {
-      return 'Table';
+      return 'table';
     }
   }
 };
@@ -60,9 +62,10 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       }
     }
   };
+  useHotkeys('v', () => handleToggleView(), {}, [displayStyle]);
 
   return (
-    <Wrapper>
+    <Wrapper about={resource.getSubject()}>
       <h1>{title}</h1>
       <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
       {klass && <NewInstanceButton klass={klass} />}

@@ -38,7 +38,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   }
 
   return (
-    <Container>
+    <Container about={subject}>
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}

@@ -61,9 +61,14 @@ export class Store {
 
   /**
    * Gets a resource by URL. Fetches and parses it if it's not available in the store. Instantly returns an empty loading resource, while
-   * the fetching is done in the background .
+   * the fetching is done in the background . If the subject is undefined, an empty non-saved resource will be returned.
    */
   getResourceLoading(subject: string): Resource {
+    if (subject == undefined) {
+      const newR = new Resource(undefined);
+      newR.setStatus(ResourceStatus.ready);
+      return newR;
+    }
     const found = this.resources.get(subject);
     if (found == undefined) {
       this.fetchResource(subject);
