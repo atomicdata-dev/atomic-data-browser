@@ -1057,6 +1057,15 @@
         }
       ]
     },
+    "dist/components/forms/InputStyles.js": {
+      "bytes": 1916,
+      "imports": [
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "dist/pkg/react-icons/fa.js": {
       "bytes": 6406,
       "imports": [
@@ -1071,7 +1080,7 @@
       ]
     },
     "dist/components/forms/InputString.js": {
-      "bytes": 883,
+      "bytes": 889,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1082,7 +1091,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Field.js",
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         }
       ]
@@ -1142,7 +1151,7 @@
       ]
     },
     "dist/components/forms/ResourceSelector.js": {
-      "bytes": 4566,
+      "bytes": 4572,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1150,10 +1159,6 @@
         },
         {
           "path": "dist/pkg/downshift.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/components/forms/Field.js",
           "kind": "import-statement"
         },
         {
@@ -1179,6 +1184,10 @@
         {
           "path": "dist/pkg/styled-components.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputStyles.js",
+          "kind": "import-statement"
         }
       ]
     },
@@ -1200,7 +1209,7 @@
       ]
     },
     "dist/components/forms/InputResourceArray.js": {
-      "bytes": 1497,
+      "bytes": 1503,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1215,7 +1224,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Field.js",
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         },
         {
@@ -1224,8 +1233,25 @@
         }
       ]
     },
-    "dist/components/forms/FieldSwitcher.js": {
-      "bytes": 1330,
+    "dist/components/forms/InputMarkdown.js": {
+      "bytes": 910,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/atomic-react/hooks.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputStyles.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/components/forms/InputSwitcher.js": {
+      "bytes": 1380,
       "imports": [
         {
           "path": "dist/atomic-lib/datatypes.js",
@@ -1246,11 +1272,15 @@
         {
           "path": "dist/components/forms/InputResourceArray.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputMarkdown.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/components/forms/Field.js": {
-      "bytes": 3344,
+      "bytes": 1671,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1258,10 +1288,6 @@
         },
         {
           "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/styled-components.js",
           "kind": "import-statement"
         },
         {
@@ -1281,13 +1307,17 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/FieldSwitcher.js",
+          "path": "dist/components/forms/InputSwitcher.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         }
       ]
     },
     "dist/components/forms/ResourceForm.js": {
-      "bytes": 3134,
+      "bytes": 3165,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1324,11 +1354,15 @@
         {
           "path": "dist/components/forms/Field.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/forms/InputStyles.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/routes/New.js": {
-      "bytes": 2993,
+      "bytes": 2999,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1359,7 +1393,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Field.js",
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         },
         {
@@ -1482,7 +1516,7 @@
       ]
     },
     "dist/routes/Settings.js": {
-      "bytes": 3851,
+      "bytes": 4440,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1521,7 +1555,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Field.js",
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         },
         {
@@ -1534,6 +1568,10 @@
         },
         {
           "path": "dist/atomic-lib/agent.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Card.js",
           "kind": "import-statement"
         }
       ]
@@ -1548,7 +1586,7 @@
       ]
     },
     "dist/routes/Edit.js": {
-      "bytes": 1452,
+      "bytes": 1458,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1575,7 +1613,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/components/forms/Field.js",
+          "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         },
         {
@@ -1966,6 +2004,9 @@
         "dist/routes/Browser.js": {
           "bytesInOutput": 98
         },
+        "dist/components/forms/InputStyles.js": {
+          "bytesInOutput": 1396
+        },
         "dist/pkg/react-icons/fa.js": {
           "bytesInOutput": 4756
         },
@@ -1987,11 +2028,14 @@
         "dist/components/forms/InputResourceArray.js": {
           "bytesInOutput": 558
         },
-        "dist/components/forms/FieldSwitcher.js": {
+        "dist/components/forms/InputMarkdown.js": {
+          "bytesInOutput": 347
+        },
+        "dist/components/forms/InputSwitcher.js": {
           "bytesInOutput": 534
         },
         "dist/components/forms/Field.js": {
-          "bytesInOutput": 1737
+          "bytesInOutput": 388
         },
         "dist/components/forms/ResourceForm.js": {
           "bytesInOutput": 1137
@@ -2018,7 +2062,7 @@
           "bytesInOutput": 71
         },
         "dist/routes/Settings.js": {
-          "bytesInOutput": 1009
+          "bytesInOutput": 1324
         },
         "dist/config.js": {
           "bytesInOutput": 126
@@ -2042,7 +2086,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 383770
+      "bytes": 384479
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
