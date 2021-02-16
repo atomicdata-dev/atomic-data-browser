@@ -58,7 +58,7 @@ const Settings: React.FunctionComponent = () => {
       <h1>Settings</h1>
       <Card>
         <h2>Theme</h2>
-        <ButtonMargin onClick={handleSetDark}>{dark ? <FaToggleOn /> : <FaToggleOff />} dark mode</ButtonMargin>
+        <ButtonMargin onClick={handleSetDark}>{dark ? 'turn off' : 'turn on'} dark mode</ButtonMargin>
         <MainColorPicker />
         <br />
       </Card>
@@ -83,6 +83,12 @@ const Settings: React.FunctionComponent = () => {
           <ErrMessage>{agentErr?.message}</ErrMessage>
         </FieldStyled>
         <ButtonMargin onClick={handleSetAgent}>save agent</ButtonMargin>
+      </Card>
+      <Card>
+        <h2>Base URL</h2>
+        <p>
+          The Base URL is the address of your Atomic Serve server. If you create something new, this is where the commit will be sent to.
+        </p>
         <FieldStyled>
           <LabelStyled>Base URL</LabelStyled>
           <InputWrapper>
