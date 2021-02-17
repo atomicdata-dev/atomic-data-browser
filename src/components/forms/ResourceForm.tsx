@@ -74,7 +74,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   }
 
   return (
-    <form>
+    <form about={resource.getSubject()}>
       {requires.map(property => {
         return <FieldLabeled key={property} property={property} resource={resource} required />;
       })}

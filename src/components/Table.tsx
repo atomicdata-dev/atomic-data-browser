@@ -63,7 +63,7 @@ function Header({ klass, propsArray }: HeaderProps): JSX.Element {
         {propsArray.map(prop => {
           return (
             <CellStyled header key={prop}>
-              <ResourceInline url={prop} />
+              <ResourceInline subject={prop} />
             </CellStyled>
           );
         })}
@@ -85,7 +85,7 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
   return (
     <RowStyled about={subject}>
       <CellStyled>
-        <ResourceInline url={subject} />
+        <ResourceInline subject={subject} />
       </CellStyled>
       {propsArray.map(prop => {
         return <Cell key={prop} resource={resource} prop={prop} />;

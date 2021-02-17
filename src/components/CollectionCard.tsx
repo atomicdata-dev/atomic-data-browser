@@ -27,7 +27,7 @@ function CollectionCard({ resource }: Props): JSX.Element {
         {members.map(member => {
           return (
             <CardRow key={member}>
-              <ResourceInline url={member} />
+              <ResourceInline subject={member} />
             </CardRow>
           );
         })}

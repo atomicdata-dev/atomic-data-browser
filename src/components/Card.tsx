@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
+type CardProps = {
+  /** Adds a colorful border */
+  selected: boolean;
+};
+
 /** A Card with a border. */
-export const Card = styled.div`
+export const Card = styled.div<CardProps>`
   /** Don't put side margins in this component - use a wrapping component */
   border: solid 1px ${props => props.theme.colors.bg2};
   box-shadow: ${props => props.theme.boxShadow};
@@ -9,6 +14,7 @@ export const Card = styled.div`
   margin-bottom: ${props => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
+  border-color: ${props => (props.selected ? props.theme.colors.text : props.theme.colors.bg2)};
 `;
 
 /** A Row in a Card. Should probably be used inside a CardInsideFull */

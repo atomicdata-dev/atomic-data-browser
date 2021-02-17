@@ -16,11 +16,32 @@ export function AddressBar(): JSX.Element {
   useHotkeys('/', e => {
     e.preventDefault();
     //@ts-ignore this does seem callable
+    // setSubject[''];
+    inputRef.current.select();
+  });
+
+  useHotkeys(
+    'esc',
+    e => {
+      e.preventDefault();
+      console.log('esc');
+      //@ts-ignore this does seem callable
+      inputRef.current.blur();
+    },
+    { enableOnTags: ['INPUT'] },
+  );
+
+  useHotkeys('/', e => {
+    e.preventDefault();
+    //@ts-ignore this does seem callable
+    setSubject[''];
     setInputFocus();
   });
 
   const handleSubmit = event => {
     event.preventDefault();
+    inputRef.current.blur();
+    document.activeElement.blur();
     handleNavigation(openURL(subject));
   };
 

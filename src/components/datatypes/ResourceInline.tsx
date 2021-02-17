@@ -6,11 +6,11 @@ import { ResourceStatus } from '../../atomic-lib/resource';
 import AtomicLink from '../Link';
 
 type Props = {
-  url: string;
+  subject: string;
 };
 
 /** Renders a Resource in a small, inline link. */
-function ResourceInline({ url }: Props): JSX.Element {
+function ResourceInline({ subject: url }: Props): JSX.Element {
   const [resource] = useResource(url);
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);

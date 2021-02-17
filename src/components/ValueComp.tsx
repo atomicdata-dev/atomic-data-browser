@@ -18,7 +18,7 @@ function ValueComp({ value, datatype }: Props): JSX.Element {
     case Datatype.ATOMIC_URL: {
       const resource = value.toResource();
       if (typeof resource == 'string') {
-        return <ResourceInline url={resource} />;
+        return <ResourceInline subject={resource} />;
       }
       return <Nestedresource resource={resource} />;
     }

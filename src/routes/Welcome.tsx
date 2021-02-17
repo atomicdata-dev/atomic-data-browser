@@ -10,13 +10,12 @@ export const Welcome: React.FunctionComponent = () => {
     <ContainerNarrow>
       <h1>Atomic Data Browser</h1>
       <p>
-        <a href='https://atomicdata.dev'>Atomic Data</a> is a new set of standards designed to make it easier to share and create linked
-        data
+        <a href='https://atomicdata.dev'>Atomic Data</a> is a new set of standards designed to make it easier to share, create and model
+        linked data. Check out the <a href='https://docs.atomicdata.dev/'>docs</a> for more information about Atomic Data.
       </p>
       <p>
-        This app is for viewing, editing and creating Atomic Data. It&apos;s built with{' '}
-        <a href='https://github.com/joepio/atomic-react'>atomic-react</a>, a typescript library for rendering and editing Atomic Data. Check
-        out the <a href='https://docs.atomicdata.dev/'>docs</a> for more info about Atomic Data.
+        This app is for viewing, editing and creating Atomic Data. It&apos;s free and open source on{' '}
+        <a href='https://github.com/joepio/atomic-data-browser'>github</a>.
       </p>
       <p>
         You can edit app settings, such as current user and theme color at{' '}

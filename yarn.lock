@@ -3663,6 +3663,11 @@ query-string@^6.13.8:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
+quick-score@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/quick-score/-/quick-score-0.0.10.tgz#4fa956b814ae7e3a2a7e94f7d0716dfa750639f8"
+  integrity sha512-IrDSAI00ifPkR4RjyJvf07hyfw+w2b6SuT18SQS8wOKMfYw4oIolf5wQliWkQ8OJTA7fOTYDzw7be/V3g+rsRA==
+
 ramda@^0.27.1:
   version "0.27.1"
   resolved "https://registry.npmjs.org/ramda/-/ramda-0.27.1.tgz"

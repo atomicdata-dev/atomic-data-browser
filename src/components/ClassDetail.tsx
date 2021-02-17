@@ -18,7 +18,7 @@ function ClassDetail({ resource }: Props): JSX.Element {
       {klass && (
         <ClassDetailStyled>
           {'is a '}
-          <ResourceInline url={klass} />
+          <ResourceInline subject={klass} />
         </ClassDetailStyled>
       )}
     </React.Fragment>

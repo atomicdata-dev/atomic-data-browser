@@ -23,7 +23,7 @@ function ResourceArray({ subjects: subjectsIn }: Props): JSX.Element {
       {subjects.map((url, index) => {
         return (
           <React.Fragment key={url}>
-            <ResourceInline url={url} />
+            <ResourceInline subject={url} />
             {index !== subjects.length - 1 && ', '}
           </React.Fragment>
         );
