@@ -271,7 +271,7 @@
       ]
     },
     "dist/atomic-lib/value.js": {
-      "bytes": 1705,
+      "bytes": 1813,
       "imports": [
         {
           "path": "dist/atomic-lib/datatypes.js",
@@ -280,7 +280,7 @@
       ]
     },
     "dist/atomic-lib/parse.js": {
-      "bytes": 709,
+      "bytes": 892,
       "imports": [
         {
           "path": "dist/helpers/handlers.js",
@@ -314,7 +314,7 @@
       ]
     },
     "dist/atomic-lib/resource.js": {
-      "bytes": 1934,
+      "bytes": 2291,
       "imports": [
         {
           "path": "dist/helpers/handlers.js",
@@ -335,7 +335,7 @@
       ]
     },
     "dist/atomic-lib/store.js": {
-      "bytes": 3278,
+      "bytes": 3346,
       "imports": [
         {
           "path": "dist/atomic-lib/resource.js",
@@ -373,7 +373,7 @@
       ]
     },
     "dist/styling.js": {
-      "bytes": 2504,
+      "bytes": 2522,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -786,7 +786,7 @@
       ]
     },
     "dist/components/Card.js": {
-      "bytes": 744,
+      "bytes": 803,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -873,7 +873,7 @@
       ]
     },
     "dist/components/Table.js": {
-      "bytes": 2900,
+      "bytes": 2929,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -959,7 +959,7 @@
       ]
     },
     "dist/components/ResourcePage.js": {
-      "bytes": 2111,
+      "bytes": 2128,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1016,7 +1016,7 @@
       ]
     },
     "dist/routes/Welcome.js": {
-      "bytes": 2606,
+      "bytes": 2811,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1067,7 +1067,7 @@
       ]
     },
     "dist/pkg/react-icons/fa.js": {
-      "bytes": 6406,
+      "bytes": 5564,
       "imports": [
         {
           "path": "dist/pkg/common/index-63a1b8e9.js",
@@ -1151,7 +1151,7 @@
       ]
     },
     "dist/components/forms/ResourceSelector.js": {
-      "bytes": 4572,
+      "bytes": 4586,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1280,7 +1280,7 @@
       ]
     },
     "dist/components/forms/Field.js": {
-      "bytes": 1671,
+      "bytes": 1689,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1362,7 +1362,7 @@
       ]
     },
     "dist/routes/New.js": {
-      "bytes": 2999,
+      "bytes": 3108,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1428,7 +1428,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3340,
+      "bytes": 3380,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1516,7 +1516,7 @@
       ]
     },
     "dist/routes/Settings.js": {
-      "bytes": 4440,
+      "bytes": 4575,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1551,10 +1551,6 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/react-icons/fa.js",
-          "kind": "import-statement"
-        },
-        {
           "path": "dist/components/forms/InputStyles.js",
           "kind": "import-statement"
         },
@@ -1577,7 +1573,7 @@
       ]
     },
     "dist/config.js": {
-      "bytes": 274,
+      "bytes": 224,
       "imports": [
         {
           "path": "dist/env.js",
@@ -1644,7 +1640,7 @@
       ]
     },
     "dist/routes/Data.js": {
-      "bytes": 1525,
+      "bytes": 1915,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1689,7 +1685,7 @@
       ]
     },
     "dist/routes/Shortcuts.js": {
-      "bytes": 1266,
+      "bytes": 1461,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1702,7 +1698,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 2836,
+      "bytes": 3279,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1891,19 +1887,19 @@
           "bytesInOutput": 1487
         },
         "dist/atomic-lib/value.js": {
-          "bytesInOutput": 1124
+          "bytesInOutput": 1188
         },
         "dist/atomic-lib/parse.js": {
-          "bytesInOutput": 260
+          "bytesInOutput": 380
         },
         "dist/atomic-lib/client.js": {
           "bytesInOutput": 785
         },
         "dist/atomic-lib/resource.js": {
-          "bytesInOutput": 939
+          "bytesInOutput": 1132
         },
         "dist/atomic-lib/store.js": {
-          "bytesInOutput": 1627
+          "bytesInOutput": 1670
         },
         "dist/pkg/common/assertThisInitialized-8eae6022.js": {
           "bytesInOutput": 124
@@ -1912,7 +1908,7 @@
           "bytesInOutput": 10034
         },
         "dist/styling.js": {
-          "bytesInOutput": 1626
+          "bytesInOutput": 1644
         },
         "dist/helpers/truncate.js": {
           "bytesInOutput": 93
@@ -1981,7 +1977,7 @@
           "bytesInOutput": 243
         },
         "dist/components/Card.js": {
-          "bytesInOutput": 509
+          "bytesInOutput": 556
         },
         "dist/components/CollectionCard.js": {
           "bytesInOutput": 348
@@ -1990,16 +1986,16 @@
           "bytesInOutput": 619
         },
         "dist/components/Table.js": {
-          "bytesInOutput": 1191
+          "bytesInOutput": 1220
         },
         "dist/components/CollectionPage.js": {
           "bytesInOutput": 1342
         },
         "dist/components/ResourcePage.js": {
-          "bytesInOutput": 656
+          "bytesInOutput": 664
         },
         "dist/routes/Welcome.js": {
-          "bytesInOutput": 1344
+          "bytesInOutput": 1465
         },
         "dist/routes/Browser.js": {
           "bytesInOutput": 98
@@ -2008,7 +2004,7 @@
           "bytesInOutput": 1396
         },
         "dist/pkg/react-icons/fa.js": {
-          "bytesInOutput": 4756
+          "bytesInOutput": 4024
         },
         "dist/components/forms/InputString.js": {
           "bytesInOutput": 340
@@ -2020,7 +2016,7 @@
           "bytesInOutput": 328
         },
         "dist/components/forms/ResourceSelector.js": {
-          "bytesInOutput": 2389
+          "bytesInOutput": 2393
         },
         "dist/components/forms/InputResource.js": {
           "bytesInOutput": 192
@@ -2038,16 +2034,16 @@
           "bytesInOutput": 388
         },
         "dist/components/forms/ResourceForm.js": {
-          "bytesInOutput": 1137
+          "bytesInOutput": 1141
         },
         "dist/routes/New.js": {
-          "bytesInOutput": 1010
+          "bytesInOutput": 1082
         },
         "dist/helpers/useFocus.js": {
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1785
+          "bytesInOutput": 1825
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2062,10 +2058,10 @@
           "bytesInOutput": 71
         },
         "dist/routes/Settings.js": {
-          "bytesInOutput": 1324
+          "bytesInOutput": 1500
         },
         "dist/config.js": {
-          "bytesInOutput": 126
+          "bytesInOutput": 74
         },
         "dist/routes/Edit.js": {
           "bytesInOutput": 454
@@ -2074,19 +2070,19 @@
           "bytesInOutput": 281
         },
         "dist/routes/Data.js": {
-          "bytesInOutput": 438
+          "bytesInOutput": 634
         },
         "dist/routes/Shortcuts.js": {
-          "bytesInOutput": 447
+          "bytesInOutput": 530
         },
         "dist/App.js": {
-          "bytesInOutput": 862
+          "bytesInOutput": 1097
         },
         "dist/index.js": {
           "bytesInOutput": 158
         }
       },
-      "bytes": 384479
+      "bytes": 385148
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
