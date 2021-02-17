@@ -13,6 +13,9 @@ export class Value {
 
   /** Createes a new Vales, makes (possibly incorrect) assumptions about its Datatype based on the input value */
   constructor(val: JSVals) {
+    if (val === null || val === undefined) {
+      throw Error('New Value cannot be null or undefined');
+    }
     this.val = val;
   }
 
@@ -77,6 +80,7 @@ export class Value {
 
   /** Returns a default string representation of the value. */
   toString(): string {
+    // this.val && this.val.toString();
     return this.val.toString();
   }
 

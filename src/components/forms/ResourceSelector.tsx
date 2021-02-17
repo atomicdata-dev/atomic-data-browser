@@ -40,7 +40,7 @@ export function ResourceSelector({
   function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
     // Pass the Error handler to its parent, so validation errors appear locally
-    setSubject(newval, setError);
+    setSubject(newval ? newval : '', setError);
   }
 
   return (
