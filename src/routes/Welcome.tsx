@@ -41,7 +41,10 @@ export const Welcome: React.FunctionComponent = () => {
         <code>docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server</code>
       </p>
       <p>
-        ...and visit <AtomicLink url='http://localhost/collections'>localhost</AtomicLink>!
+        ...and visit <AtomicLink url='http://localhost/collections'>localhost</AtomicLink>.
+      </p>
+      <p>
+        If you have any questions, feel free to join our <a href='https://discord.gg/a72Rv2P'>Discord</a>!
       </p>
     </ContainerNarrow>
   );

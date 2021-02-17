@@ -44,6 +44,7 @@ function Table({ resource, members }: TableProps): JSX.Element {
 const TableStyled = styled.table`
   display: block;
   overflow-y: auto;
+  border-collapse: collapse;
 `;
 
 type HeaderProps = {

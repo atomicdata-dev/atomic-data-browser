@@ -57,6 +57,9 @@ function New(): JSX.Element {
           </h2>
           {klassDescription && <Markdown text={klassDescription} />}
           <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} />
+          <p>
+            Saving to {store.getBaseUrl()} as {resource.getSubje}
+          </p>
         </>
       ) : (
         <form onSubmit={handleClassSet}>

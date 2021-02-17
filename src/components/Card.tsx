@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 /** A Card with a border. */
 export const Card = styled.div`
-  /** Don't put margins in this component - use a wrapping component */
+  /** Don't put side margins in this component - use a wrapping component */
   border: solid 1px ${props => props.theme.colors.bg2};
   box-shadow: ${props => props.theme.boxShadow};
   padding: ${props => props.theme.margin}rem;
+  margin-bottom: ${props => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
 `;

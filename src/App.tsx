@@ -13,7 +13,7 @@ import { useDarkMode } from './helpers/useDarkMode';
 import { useLocalStorage } from './helpers/useLocalStorage';
 import Settings from './routes/Settings';
 import { Agent } from './atomic-lib/agent';
-import { getEnv, isDev, isTest } from './config';
+import { getSnowpackEnv, isDev } from './config';
 import { handleWarning } from './helpers/handlers';
 import { Edit } from './routes/Edit';
 import HotKeysWrapper from './components/HotKeyWrapper';
@@ -74,14 +74,24 @@ declare global {
   }
 }
 
-if (isDev && !isTest) {
-  const agent = new Agent(getEnv('AGENT'), getEnv('PRIVATE_KEY'));
-  store.setAgent(agent);
-  const baseUrl = getEnv('BASE_URL');
+if (isDev()) {
+  const agentSubject = getSnowpackEnv('AGENT');
+  const agentPrivateKey = getSnowpackEnv('PRIVATE_KEY');
+  if (agentSubject && agentPrivateKey) {
+    handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
+    const agent = new Agent(getSnowpackEnv('AGENT'), getSnowpackEnv('PRIVATE_KEY'));
+    store.setAgent(agent);
+  } else {
+    handleWarning(`No AGENT and PRIVATE_KEY found in .env, Agent not set.`);
+  }
+
+  const baseUrl = getSnowpackEnv('BASE_URL');
   if (baseUrl !== undefined) {
     store.setBaseUrl(baseUrl);
+    handleWarning(`Set baseURL ${baseUrl} from .env`);
+  } else {
+    handleWarning(`No BASE_URL found in .env, defaulting to https://atomicdata.dev.`);
   }
-  handleWarning('setting agent with keys!');
 
   // You can access the Store from your console in dev mode!
   window.store = store;

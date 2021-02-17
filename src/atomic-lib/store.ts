@@ -122,6 +122,11 @@ export class Store {
     });
   }
 
+  /** Removes resource from this store */
+  removeResource(subject: string): void {
+    this.resources.delete(subject);
+  }
+
   /** Sets the current Agent, used for signing commits */
   setAgent(agent: Agent): void {
     this.agent = agent;

@@ -42,11 +42,11 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
-      <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />
+      <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA, properties.name]} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
       <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
-        Edit
+        edit
       </ButtonMargin>
     </ContainerNarrow>
   );

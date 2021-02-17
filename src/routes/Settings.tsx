@@ -6,7 +6,6 @@ import { useLocalStorage } from '../helpers/useLocalStorage';
 import { localStoreKeyMainColor } from '../styling';
 import { ButtonMargin } from '../components/Button';
 import { useDarkMode } from '../helpers/useDarkMode';
-import { FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useStore } from '../atomic-react/hooks';
 import { useState } from 'react';

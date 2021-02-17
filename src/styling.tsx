@@ -10,7 +10,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? 'black' : 'white';
   const text = darkMode ? 'white' : 'black';
-  const shadowColor = darkMode ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,0.1)';
+  const shadowColor = darkMode ? 'rgba(255,255,255,.2)' : 'rgba(0,0,0,0.1)';
   const shadowColorIntense = darkMode ? 'rgba(255,255,255,.3)' : 'rgba(0,0,0,0.3)';
 
   return {
@@ -26,7 +26,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       mainDark: darkMode ? darken(0.08)(main) : darken(0.08)(main),
       bg,
       bg1: darkMode ? lighten(0.1)(bg) : darken(0.05)(bg),
-      bg2: darkMode ? lighten(0.2)(bg) : darken(0.2)(bg),
+      bg2: darkMode ? lighten(0.3)(bg) : darken(0.2)(bg),
       text,
       text1: darkMode ? darken(0.1)(text) : lighten(0.1)(text),
       alert: '#cf5b5b',
@@ -102,6 +102,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   p {
+    margin-top: 0;
     margin-bottom: ${props => props.theme.margin}rem;
   }
 

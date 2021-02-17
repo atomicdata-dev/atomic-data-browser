@@ -1,12 +1,12 @@
 import React from 'react';
-import { useResource } from '../atomic-react/hooks';
+import { useResource, useStore } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import { StringParam, useQueryParam } from 'use-query-params';
 import AtomicLink from '../components/Link';
 import { ButtonMargin } from '../components/Button';
-import { editURL } from '../helpers/navigation';
+import { editURL, openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 
 /** Renders the data of some Resource */
@@ -14,6 +14,7 @@ function Data(): JSX.Element {
   const [subject] = useQueryParam('subject', StringParam);
   const [resource] = useResource(subject);
   const history = useHistory();
+  const store = useStore();
   const status = resource.getStatus();
 
   if (status == ResourceStatus.loading) {
@@ -21,6 +22,11 @@ function Data(): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
+  }
+
+  function handleDestroy() {
+    resource.destroy(store);
+    history.push('/');
   }
 
   return (
@@ -31,6 +37,12 @@ function Data(): JSX.Element {
       </h3>
       <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
         edit
+      </ButtonMargin>
+      <ButtonMargin type='button' onClick={() => history.push(openURL(subject))}>
+        normal view
+      </ButtonMargin>
+      <ButtonMargin type='button' onClick={handleDestroy}>
+        delete
       </ButtonMargin>
       <AllProps resource={resource} />
     </ContainerNarrow>

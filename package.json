@@ -1,12 +1,12 @@
 {
   "license": "MIT",
-  "homepage": "https://joepio.github.io/atomic-react/",
+  "homepage": "https://joepio.github.io/atomic-data-browser/",
   "author": {
     "email": "joep@ontola.io",
     "name": "Joep Meindertsma"
   },
   "repository": {
-    "url": "https://github.com/joepio/atomic-react/"
+    "url": "https://github.com/joepio/atomic-data-browser/"
   },
   "scripts": {
     "start": "snowpack dev --secure",

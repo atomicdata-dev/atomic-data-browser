@@ -1,13 +1,13 @@
-# Atomic-React
+# Atomic Data Browser
 
-[![Snowpack build Status](https://github.com/joepio/atomic-react/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-react/actions)
+[![Snowpack build Status](https://github.com/joepio/atomic-data-browser/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
 
 _status: alpha_
 
-Typescript / React library for parsing, storing and rendering [Atomic Data](https://atomicdata.dev/).
+View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
 
-**[demo](https://joepio.github.io/atomic-react/)**
+**[demo](https://joepio.github.io/atomic-data-browser/)**
 
 ## Progress
 
@@ -48,7 +48,8 @@ yarn lint
 yarn test
 ```
 
-If you want to _edit_ data, you'll need to fill in the .env file, and probably want to run [`atomic-server`](https://github.com/joepio/atomic/blob/master/server/README.md) using [docker](https://docs.docker.com/get-docker/).
+If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent).
+It's recommended fill in the .env file, and probably want to run [`atomic-server`](https://github.com/joepio/atomic/blob/master/server/README.md) using [docker](https://docs.docker.com/get-docker/).
 
 ```sh
 # Create a local .env
@@ -71,16 +72,15 @@ This app is a client, but has no persistent storage. Run `atomic-server`
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
 - **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
 
-```
-src/
+## Directory structure
+
 - **components**: project specific components.
   - **datatypes**: for viewing atomic datatypes.
   - **forms**: for handling forms and form fields
 - **helpers**: projects-specific helper functions
-- **atomic-lib**: general atomic data library (higher documentation + testing goals), no react-specific code.
-- **atomic-react**: generic, yet react-specific library for viewing and manipulating atomic data.
+- **atomic-lib**: general atomic data library, containing thins like a store, parsing, sending requests, the Resource model, datatype validations and creating Commits. Should not contain any react-specific code.
+- **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data.
 - **routes**: components that are fed into the React Router as main Routes (e.g. `/new`, `/settings`).
-```
 
 ## Contribute
 

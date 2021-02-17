@@ -15,7 +15,12 @@ export function parseJsonADResource(string: string, resource: Resource): void {
         resource.setSubject(subject);
         continue;
       }
-      resource.setUnsafe(key, new Value(jsonObject[key]));
+      try {
+        const val = new Value(jsonObject[key]);
+        resource.setUnsafe(key, val);
+      } catch (e) {
+        throw new Error(`Failed creating value for key ${key} in resource ${resource.getSubject()}. ${e.message}`);
+      }
     }
     resource.setStatus(ResourceStatus.ready);
   } catch (e) {

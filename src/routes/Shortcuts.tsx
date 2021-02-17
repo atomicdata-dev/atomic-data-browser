@@ -23,6 +23,9 @@ export const Shortcuts: React.FunctionComponent = () => {
       <p>
         <code>n</code> <b>n</b>ew resource
       </p>
+      <p>
+        <code>v</code> toggle <b>v</b>iew (collections only)
+      </p>
     </ContainerNarrow>
   );
 };

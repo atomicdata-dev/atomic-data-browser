@@ -33,9 +33,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   const [saving, setSaving] = useState(false);
   const history = useHistory();
 
-  // TODO: Should be an array of all properties of the resources that have not been included in the recommended and required fields
-  const otherProps = [];
-
   if (resourceStatus == ResourceStatus.loading) {
     return <>Loading resource...</>;
   }
@@ -51,6 +48,9 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   if (klassIsa !== classes.class) {
     return <>{classSubject} is not a Class</>;
   }
+
+  // TODO: Should be an array of all properties of the resources that have not been included in the recommended and required fields
+  const otherProps = [];
 
   async function save() {
     setErr(null);

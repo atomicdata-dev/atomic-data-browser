@@ -12,7 +12,7 @@ import { FieldStyled, InputStyled, InputWrapper, LabelHelper, LabelStyled, Label
 /** A form field with a label */
 function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps): JSX.Element {
   const property = useProperty(propertyURL);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsedHelper, setCollapsed] = useState(true);
 
   if (property == null) {
     return (
@@ -31,12 +31,12 @@ function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps
       <LabelWrapper title={property.description}>
         <LabelStyled>
           {property.shortname}{' '}
-          <ButtonIcon type='button' onClick={() => setCollapsed(!collapsed)}>
+          <ButtonIcon type='button' onClick={() => setCollapsed(!collapsedHelper)}>
             <FaInfo />
           </ButtonIcon>
         </LabelStyled>
       </LabelWrapper>
-      {!collapsed && (
+      {!collapsedHelper && (
         <LabelHelper>
           {property.description} <AtomicLink url={propertyURL}>Go to Property</AtomicLink>
         </LabelHelper>

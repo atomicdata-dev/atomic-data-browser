@@ -76,10 +76,11 @@ const AddressBarStyled = styled.form`
   }
 
   @media (max-width: 40rem) {
-    max-width: 100%;
-    margin: auto;
+    max-width: calc(100% - 1rem);
     left: auto;
     right: auto;
+    margin-left: 0.5rem;
+    bottom: 0.5rem;
   }
 
   /* Search bar and buttons */

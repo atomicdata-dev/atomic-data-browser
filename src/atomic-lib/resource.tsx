@@ -68,14 +68,25 @@ export class Resource {
     return this.propvals;
   }
 
+  /** Removes the resource form both the server and locally */
+  async destroy(store: Store): Promise<void> {
+    const newCommitBuilder = new CommitBuilder(this.getSubject());
+    newCommitBuilder.destroy = true;
+    const agent = store.getAgent();
+    const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
+    await postCommit(commit, store.getBaseUrl() + `/commit`);
+    store.removeResource(this.getSubject());
+  }
+
   /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
   async save(store: Store): Promise<string> {
-    store.addResource(this);
     const agent = store.getAgent();
     // TODO: Check if all required props are there
     const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
     // TODO: Post to endpoint of resource
     await postCommit(commit, store.getBaseUrl() + `/commit`);
+    // When all succeeds, save it
+    store.addResource(this);
     return this.getSubject();
   }
 
