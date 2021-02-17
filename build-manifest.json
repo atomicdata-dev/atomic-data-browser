@@ -510,7 +510,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1091,
+      "bytes": 1100,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -591,7 +591,7 @@
       ]
     },
     "dist/components/datatypes/ResourceArray.js": {
-      "bytes": 1079,
+      "bytes": 1088,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -608,7 +608,7 @@
       ]
     },
     "dist/components/ValueComp.js": {
-      "bytes": 1407,
+      "bytes": 1411,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -761,7 +761,7 @@
       ]
     },
     "dist/components/ClassDetail.js": {
-      "bytes": 700,
+      "bytes": 704,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -786,7 +786,7 @@
       ]
     },
     "dist/components/Card.js": {
-      "bytes": 803,
+      "bytes": 900,
       "imports": [
         {
           "path": "dist/pkg/styled-components.js",
@@ -795,7 +795,7 @@
       ]
     },
     "dist/components/CollectionCard.js": {
-      "bytes": 1185,
+      "bytes": 1189,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -873,7 +873,7 @@
       ]
     },
     "dist/components/Table.js": {
-      "bytes": 2929,
+      "bytes": 2928,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1015,8 +1015,70 @@
         }
       ]
     },
+    "dist/pkg/quick-score.js": {
+      "bytes": 23931,
+      "imports": []
+    },
+    "dist/helpers/useSearch.js": {
+      "bytes": 465,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/atomic-react/hooks.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/quick-score.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "dist/routes/Search.js": {
+      "bytes": 2798,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Containers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useSearch.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/datatypes/ResourceInline.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/Card.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-hotkeys-hook.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router-dom.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/navigation.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/styled-components.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "dist/routes/Welcome.js": {
-      "bytes": 2811,
+      "bytes": 2780,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1037,7 +1099,7 @@
       ]
     },
     "dist/routes/Browser.js": {
-      "bytes": 538,
+      "bytes": 768,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1048,7 +1110,15 @@
           "kind": "import-statement"
         },
         {
+          "path": "dist/atomic-lib/client.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "dist/components/ResourcePage.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/routes/Search.js",
           "kind": "import-statement"
         },
         {
@@ -1317,7 +1387,7 @@
       ]
     },
     "dist/components/forms/ResourceForm.js": {
-      "bytes": 3165,
+      "bytes": 3199,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1428,7 +1498,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3380,
+      "bytes": 3691,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1929,7 +1999,7 @@
           "bytesInOutput": 513
         },
         "dist/components/datatypes/ResourceInline.js": {
-          "bytesInOutput": 350
+          "bytesInOutput": 354
         },
         "dist/components/datatypes/DateTime.js": {
           "bytesInOutput": 109
@@ -1944,10 +2014,10 @@
           "bytesInOutput": 110
         },
         "dist/components/datatypes/ResourceArray.js": {
-          "bytesInOutput": 431
+          "bytesInOutput": 435
         },
         "dist/components/ValueComp.js": {
-          "bytesInOutput": 496
+          "bytesInOutput": 500
         },
         "dist/components/PropVal.js": {
           "bytesInOutput": 369
@@ -1974,19 +2044,19 @@
           "bytesInOutput": 144
         },
         "dist/components/ClassDetail.js": {
-          "bytesInOutput": 243
+          "bytesInOutput": 247
         },
         "dist/components/Card.js": {
-          "bytesInOutput": 556
+          "bytesInOutput": 629
         },
         "dist/components/CollectionCard.js": {
-          "bytesInOutput": 348
+          "bytesInOutput": 352
         },
         "dist/components/ResourceCard.js": {
           "bytesInOutput": 619
         },
         "dist/components/Table.js": {
-          "bytesInOutput": 1220
+          "bytesInOutput": 1228
         },
         "dist/components/CollectionPage.js": {
           "bytesInOutput": 1342
@@ -1994,11 +2064,20 @@
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 664
         },
+        "dist/pkg/quick-score.js": {
+          "bytesInOutput": 4893
+        },
+        "dist/helpers/useSearch.js": {
+          "bytesInOutput": 136
+        },
+        "dist/routes/Search.js": {
+          "bytesInOutput": 1121
+        },
         "dist/routes/Welcome.js": {
-          "bytesInOutput": 1465
+          "bytesInOutput": 1434
         },
         "dist/routes/Browser.js": {
-          "bytesInOutput": 98
+          "bytesInOutput": 153
         },
         "dist/components/forms/InputStyles.js": {
           "bytesInOutput": 1396
@@ -2034,7 +2113,7 @@
           "bytesInOutput": 388
         },
         "dist/components/forms/ResourceForm.js": {
-          "bytesInOutput": 1141
+          "bytesInOutput": 1159
         },
         "dist/routes/New.js": {
           "bytesInOutput": 1082
@@ -2043,7 +2122,7 @@
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 1825
+          "bytesInOutput": 2024
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2082,7 +2161,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 385148
+      "bytes": 391640
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
