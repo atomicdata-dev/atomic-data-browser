@@ -1494,7 +1494,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3727,
+      "bytes": 3822,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -2118,7 +2118,7 @@
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 2049
+          "bytesInOutput": 2103
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2157,7 +2157,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 391888
+      "bytes": 391942
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
