@@ -39,6 +39,10 @@ export function AddressBar(): JSX.Element {
     setInputFocus();
   });
 
+  function handleSelect(e) {
+    e.target.select();
+  }
+
   const handleSubmit = event => {
     event.preventDefault();
     inputRef.current.blur();
@@ -64,9 +68,10 @@ export function AddressBar(): JSX.Element {
       <input
         ref={inputRef}
         type='text'
+        onClick={handleSelect}
         value={subject || ''}
         onChange={e => setSubject(e.target.value)}
-        placeholder='Enter an Atomic URL (press "/" )'
+        placeholder='Enter an Atomic URL or search   (press "/" )'
       />
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
         <FaPlus />
