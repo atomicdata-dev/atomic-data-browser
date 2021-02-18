@@ -50,8 +50,13 @@ export const ButtonBar = styled(Button)`
   }
 `;
 
+interface ButtonProps {
+  // Less visually agressive button. Show only borders in color, instead of entire button
+  subtle?: boolean;
+}
+
 /** Button with some basic margins around it */
-export const ButtonMargin = styled(Button)`
+export const ButtonMargin = styled(Button)<ButtonProps>`
   padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;
   border-radius: 999px;
@@ -60,6 +65,10 @@ export const ButtonMargin = styled(Button)`
   box-shadow: ${props => props.theme.boxShadow};
   display: inline-flex;
   margin-right: ${props => props.theme.margin}rem;
+  background-color: ${props => (props.subtle ? props.theme.colors.bg : props.theme.colors.main)};
+  border: solid 1px ${props => props.theme.colors.main};
+  color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.bg)};
+  border: solid 1px ${props => props.theme.colors.main};
 
   &:hover {
     box-shadow: ${props => props.theme.boxShadowIntense};

@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
-import { useSearch as useSearchIndex } from '../helpers/useSearch';
+import { useSearch } from '../helpers/useSearch';
 import ResourceInline from '../components/datatypes/ResourceInline';
 import { Card } from '../components/Card';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL } from '../helpers/navigation';
-import styled from 'styled-components';
 
 type SearchProps = {
   query: string;
@@ -16,7 +15,7 @@ const MAX_COUNT = 30;
 /** Full text search route */
 export function Search({ query }: SearchProps): JSX.Element {
   const [selectedIndex, setSelected] = useState(0);
-  const index = useSearchIndex();
+  const index = useSearch();
   const history = useHistory();
   const htmlElRef = useRef(null);
 
@@ -36,7 +35,9 @@ export function Search({ query }: SearchProps): JSX.Element {
     'up',
     e => {
       e.preventDefault();
-      setSelected(selectedIndex > 0 ? selectedIndex - 1 : 0);
+      const newSelected = selectedIndex > 0 ? selectedIndex - 1 : 0;
+      setSelected(newSelected);
+      htmlElRef.current.children[newSelected].scrollIntoView({ behavior: 'smooth' });
     },
     { enableOnTags: ['INPUT'] },
   );
@@ -44,14 +45,15 @@ export function Search({ query }: SearchProps): JSX.Element {
     'down',
     e => {
       e.preventDefault();
-      setSelected(selectedIndex == results.length - 1 ? results.length - 1 : selectedIndex + 1);
-      htmlElRef.current.children[selectedIndex].scrollIntoView({ behavior: 'smooth' });
+      const newSelected = selectedIndex == results.length - 1 ? results.length - 1 : selectedIndex + 1;
+      setSelected(newSelected);
+      htmlElRef.current.children[newSelected].scrollIntoView({ behavior: 'smooth' });
     },
     { enableOnTags: ['INPUT'] },
   );
 
   if (index == null) {
-    return null;
+    return <p>Building search index...</p>;
   }
 
   const resultsIn = index.search(query);
@@ -64,41 +66,17 @@ export function Search({ query }: SearchProps): JSX.Element {
 
   return (
     <ContainerNarrow ref={htmlElRef}>
+      {results.length == 0 && <p>No results found for {query}</p>}
       {results.map((hit, index) => {
+        const resource = hit.item;
         return (
-          <Card about={hit.item} key={`${index}${selectedIndex}`} selected={index == selectedIndex}>
-            {/* {JSON.stringify(hit.matches)} */}
+          <Card about={resource.subject} key={`${index}${selectedIndex}`} selected={index == selectedIndex}>
             <h3>
-              <ResourceInline key={hit.item} subject={hit.item} />
+              <ResourceInline key={resource.subject} subject={resource.subject} />
             </h3>
-            <Highlight>{highglight(hit.item, hit.matches)}</Highlight>
           </Card>
         );
       })}
     </ContainerNarrow>
   );
-}
-
-const Highlight = styled.div`
-  margin-bottom: 1rem;
-  /* font-size: 0.8em; */
-  line-height: 1rem;
-  font-family: monospace;
-`;
-
-function highglight(string, matches) {
-  const substrings = [];
-  let previousEnd = 0;
-
-  for (const [start, end] of matches) {
-    const prefix = string.substring(previousEnd, start);
-    const match = <mark>{string.substring(start, end)}</mark>;
-
-    substrings.push(prefix, match);
-    previousEnd = end;
-  }
-
-  substrings.push(string.substring(previousEnd));
-
-  return <span>{React.Children.toArray(substrings)}</span>;
 }

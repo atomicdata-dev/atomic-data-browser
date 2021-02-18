@@ -42,7 +42,7 @@ export default function InputResourceArray({ resource, property, required }: Inp
           handleRemove={() => handleRemove(index)}
         />
       ))}
-      <ButtonMargin type='button' onClick={handleAdd}>
+      <ButtonMargin subtle type='button' onClick={handleAdd}>
         {'add'}
       </ButtonMargin>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}

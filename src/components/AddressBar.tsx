@@ -17,6 +17,7 @@ export function AddressBar(): JSX.Element {
     e.preventDefault();
     //@ts-ignore this does seem callable
     // setSubject[''];
+    history.push('/');
     inputRef.current.select();
   });
 
@@ -65,7 +66,7 @@ export function AddressBar(): JSX.Element {
         type='text'
         value={subject || ''}
         onChange={e => setSubject(e.target.value)}
-        placeholder='Enter an Atomic URL'
+        placeholder='Enter an Atomic URL (press "/" )'
       />
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
         <FaPlus />
