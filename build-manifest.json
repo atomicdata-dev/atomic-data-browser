@@ -723,7 +723,7 @@
       ]
     },
     "dist/components/Button.js": {
-      "bytes": 2575,
+      "bytes": 2878,
       "imports": [
         {
           "path": "dist/pkg/polished.js",
@@ -1020,7 +1020,7 @@
       "imports": []
     },
     "dist/helpers/useSearch.js": {
-      "bytes": 465,
+      "bytes": 815,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1037,7 +1037,7 @@
       ]
     },
     "dist/routes/Search.js": {
-      "bytes": 2798,
+      "bytes": 2395,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1069,10 +1069,6 @@
         },
         {
           "path": "dist/helpers/navigation.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/styled-components.js",
           "kind": "import-statement"
         }
       ]
@@ -1279,7 +1275,7 @@
       ]
     },
     "dist/components/forms/InputResourceArray.js": {
-      "bytes": 1503,
+      "bytes": 1521,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1498,7 +1494,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3691,
+      "bytes": 3727,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -2038,7 +2034,7 @@
           "bytesInOutput": 200
         },
         "dist/components/Button.js": {
-          "bytesInOutput": 2066
+          "bytesInOutput": 2297
         },
         "dist/components/NewInstanceButton.js": {
           "bytesInOutput": 144
@@ -2068,10 +2064,10 @@
           "bytesInOutput": 4893
         },
         "dist/helpers/useSearch.js": {
-          "bytesInOutput": 136
+          "bytesInOutput": 275
         },
         "dist/routes/Search.js": {
-          "bytesInOutput": 1121
+          "bytesInOutput": 964
         },
         "dist/routes/Welcome.js": {
           "bytesInOutput": 1434
@@ -2101,7 +2097,7 @@
           "bytesInOutput": 192
         },
         "dist/components/forms/InputResourceArray.js": {
-          "bytesInOutput": 558
+          "bytesInOutput": 568
         },
         "dist/components/forms/InputMarkdown.js": {
           "bytesInOutput": 347
@@ -2122,7 +2118,7 @@
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 2024
+          "bytesInOutput": 2049
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2161,7 +2157,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 391640
+      "bytes": 391888
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
