@@ -1,33 +1,32 @@
-export function openURL(subject: string): string {
+/** Constructs a URL string with a route, a query Parameter and a value */
+function constructURL(
+  /** The base path, e.g. '/new' */
+  path: string,
+  /** The query parameter key, e.g. 'subject' for '/new?subject={}' */
+  queryParam: string,
+  /** The actual value, e.g. 'https://example.com/myReosource' */
+  value: string,
+): string {
   const navTo = new URL(location.origin);
-  navTo.pathname = '/';
-  navTo.searchParams.append('subject', subject);
-  const path = navTo.pathname.toString();
+  navTo.pathname = path;
+  navTo.searchParams.append(queryParam, value);
   return path + navTo.search;
+}
+
+export function openURL(subject: string): string {
+  return constructURL('/', 'subject', subject);
 }
 
 export function newURL(classUrl: string): string {
-  const navTo = new URL(location.origin);
-  navTo.pathname = '/new';
-  navTo.searchParams.append('classSubject', classUrl);
-  const path = navTo.pathname.toString();
-  return path + navTo.search;
+  return constructURL('/new', 'classSubject', classUrl);
 }
 
 export function editURL(subject: string): string {
-  const navTo = new URL(location.origin);
-  navTo.pathname = '/edit';
-  navTo.searchParams.append('subject', subject);
-  const path = navTo.pathname.toString();
-  return path + navTo.search;
+  return constructURL('/edit', 'subject', subject);
 }
 
 export function dataURL(subject: string): string {
-  const navTo = new URL(location.origin);
-  navTo.pathname = '/data';
-  navTo.searchParams.append('subject', subject);
-  const path = navTo.pathname.toString();
-  return path + navTo.search;
+  return constructURL('/data', 'subject', subject);
 }
 
 /** Takes the cursor position, finds the nearest `about=` attributes in DOM nodes */

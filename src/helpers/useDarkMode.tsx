@@ -2,6 +2,8 @@ import { Dispatch, useEffect, useState } from 'react';
 import { localStoreKeyDarkMode } from '../styling';
 import { useLocalStorage } from './useLocalStorage';
 
+/** A hook for using dark mode. Sets using local storage. */
+// TODO: use context for this, so a refresh is not needed after changing the value.
 export const useDarkMode = (): [boolean, Dispatch<boolean>] => {
   let def = false;
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {

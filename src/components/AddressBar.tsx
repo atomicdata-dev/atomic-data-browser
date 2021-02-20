@@ -2,15 +2,15 @@ import * as React from 'react';
 import { FaHome, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { StringParam, useQueryParam } from 'use-query-params';
 import { openURL } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 
 /** Persistently shown navigation bar */
 export function AddressBar(): JSX.Element {
-  const [subject, setSubject] = useQueryParam('subject', StringParam);
+  const [subject, setSubject] = useCurrentSubject();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   useHotkeys('/', e => {

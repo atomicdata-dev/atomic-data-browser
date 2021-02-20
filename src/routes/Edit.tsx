@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { StringParam, useQueryParam } from 'use-query-params';
 import { useResource, useTitle } from '../atomic-react/hooks';
 import { newURL } from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
 import { InputStyled } from '../components/forms/InputStyles';
 import { ResourceForm } from '../components/forms/ResourceForm';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
-  const [subject] = useQueryParam('subject', StringParam);
+  const [subject] = useCurrentSubject();
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   // const [subject, setNewSubject] = useState<string>(null);

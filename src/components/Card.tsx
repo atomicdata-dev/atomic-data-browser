@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 type CardProps = {
   /** Adds a colorful border */
-  selected: boolean;
+  selected?: boolean;
 };
 
 /** A Card with a border. */

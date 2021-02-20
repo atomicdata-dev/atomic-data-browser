@@ -19,11 +19,18 @@ export function Search({ query }: SearchProps): JSX.Element {
   const history = useHistory();
   const htmlElRef = useRef(null);
 
+  /** Moves to the card at the selected index */
+  function moveTo(index: number) {
+    setSelected(index);
+    const offset = -40;
+    const y = htmlElRef.current.children[index].getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
   useHotkeys(
     'enter',
     e => {
       e.preventDefault();
-      console.log('open sesame');
       const subject = htmlElRef.current.children[selectedIndex].getAttribute('about');
       //@ts-ignore blur does exist though
       document?.activeElement?.blur();
@@ -36,8 +43,7 @@ export function Search({ query }: SearchProps): JSX.Element {
     e => {
       e.preventDefault();
       const newSelected = selectedIndex > 0 ? selectedIndex - 1 : 0;
-      setSelected(newSelected);
-      htmlElRef.current.children[newSelected].scrollIntoView({ behavior: 'smooth' });
+      moveTo(newSelected);
     },
     { enableOnTags: ['INPUT'] },
   );
@@ -46,8 +52,7 @@ export function Search({ query }: SearchProps): JSX.Element {
     e => {
       e.preventDefault();
       const newSelected = selectedIndex == results.length - 1 ? results.length - 1 : selectedIndex + 1;
-      setSelected(newSelected);
-      htmlElRef.current.children[newSelected].scrollIntoView({ behavior: 'smooth' });
+      moveTo(newSelected);
     },
     { enableOnTags: ['INPUT'] },
   );

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { StringParam, useQueryParam } from 'use-query-params';
 import { checkValidURL } from '../atomic-lib/client';
 import ResourcePage from '../components/ResourcePage';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './Search';
 import { Welcome } from './Welcome';
 
 /** A generic Atomic Data browser */
 const Browser: React.FunctionComponent = () => {
   // Value shown in navbar, after Submitting
-  const [subject] = useQueryParam('subject', StringParam);
+  const [subject] = useCurrentSubject();
 
   if (subject == undefined || subject == '') {
     return <Welcome />;

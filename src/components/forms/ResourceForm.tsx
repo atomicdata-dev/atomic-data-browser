@@ -46,7 +46,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     return <>{klass.getError().message}</>;
   }
   if (klassIsa !== classes.class) {
-    return <>{classSubject} is not a Class</>;
+    return <>{classSubject} is not a Class. Only resources with valid classes can be created or edited at this moment.</>;
   }
 
   // TODO: Should be an array of all properties of the resources that have not been included in the recommended and required fields

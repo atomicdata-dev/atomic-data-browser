@@ -15,7 +15,8 @@ export const Welcome: React.FunctionComponent = () => {
       </p>
       <p>
         This app is for viewing, editing and creating Atomic Data. It&apos;s free and open source on{' '}
-        <a href='https://github.com/joepio/atomic-data-browser'>github</a>.
+        <a href='https://github.com/joepio/atomic-data-browser'>github</a>. Please add an issue if you encouter problems or have a feature
+        request. Expect bugs and issues, because this stuff is pretty beta.
       </p>
       <p>
         You can edit app settings, such as current user and theme color at{' '}

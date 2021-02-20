@@ -39,7 +39,7 @@ mv snowpack.cert snowpack.crt
 # Install dependencies
 yarn
 # Run dev server
-yarn dev
+yarn start
 # Build
 yarn build
 # Lint

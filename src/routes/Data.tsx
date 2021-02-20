@@ -3,15 +3,15 @@ import { useResource, useStore } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
-import { StringParam, useQueryParam } from 'use-query-params';
 import AtomicLink from '../components/Link';
 import { ButtonMargin } from '../components/Button';
 import { editURL, openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
-  const [subject] = useQueryParam('subject', StringParam);
+  const [subject] = useCurrentSubject();
   const [resource] = useResource(subject);
   const history = useHistory();
   const store = useStore();

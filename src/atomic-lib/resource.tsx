@@ -1,4 +1,5 @@
 import { handleError } from '../helpers/handlers';
+import { properties } from '../helpers/urls';
 import { checkValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
@@ -46,6 +47,21 @@ export class Resource {
       return null;
     }
     return result;
+  }
+
+  /** Get a Value by its property */
+  getClasses(): string[] {
+    const classesVal = this.get(properties.isA);
+    if (classesVal == undefined) {
+      // throw new Error(`not found property ${propUrl} in ${this.subject}`);
+      return [];
+    }
+    try {
+      const arr = classesVal.toArray();
+      return arr;
+    } catch (e) {
+      return [];
+    }
   }
 
   /** Returns the Error of the Resource */

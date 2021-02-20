@@ -96,8 +96,8 @@ function CardList({ members }: CardListProps): JSX.Element {
 /** Use this to wrap around items to make them fit in the grid */
 const GridItem = styled.div`
   margin: 0;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  /* display: grid; */
+  /* grid-template-rows: 1fr auto; */
   margin-bottom: ${props => props.theme.margin}rem;
   break-inside: avoid;
   word-break: break-word;
@@ -111,16 +111,27 @@ const Masonry = styled.div`
   overflow: visible;
   box-sizing: border-box;
 
+  @supports (grid-template-rows: masonry) {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: masonry;
+    /* grid-gap: ${props => props.theme.margin}rem; */
+    grid-column-gap: ${props => props.theme.margin}rem;
+  }
+
   /* Masonry on small screens */
   @media only screen and (min-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
     column-count: 2;
   }
   /* Masonry on medium-sized screens */
   @media only screen and (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
     column-count: 3;
   }
   /* Masonry on large screens */
   @media only screen and (min-width: 1800px) {
+    grid-template-columns: repeat(4, 1fr);
     column-count: 4;
   }
 `;

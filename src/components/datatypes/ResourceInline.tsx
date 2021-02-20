@@ -10,21 +10,29 @@ type Props = {
 };
 
 /** Renders a Resource in a small, inline link. */
-function ResourceInline({ subject: url }: Props): JSX.Element {
-  const [resource] = useResource(url);
+function ResourceInline({ subject }: Props): JSX.Element {
+  const [resource] = useResource(subject);
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return null;
+    return <span about={subject}>...</span>;
   }
   if (status == ResourceStatus.error) {
-    return <ErrorLook about={url}>Error: {resource.getError().message}</ErrorLook>;
+    return (
+      <span about={subject}>
+        {subject}
+        <br />
+        <ErrorLook>
+          {subject}Error: {resource.getError().message}
+        </ErrorLook>
+      </span>
+    );
   }
 
   return (
-    <AtomicLink url={url}>
+    <AtomicLink url={subject}>
       <span title={description ? description : null}>{title}</span>
     </AtomicLink>
   );
