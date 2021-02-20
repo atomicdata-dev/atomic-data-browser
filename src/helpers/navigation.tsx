@@ -14,7 +14,7 @@ function constructURL(
 }
 
 export function openURL(subject: string): string {
-  return constructURL('/', 'subject', subject);
+  return constructURL('/show', 'subject', subject);
 }
 
 export function newURL(classUrl: string): string {

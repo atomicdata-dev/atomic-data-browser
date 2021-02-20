@@ -1,12 +1,12 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { QueryParamProvider } from 'use-query-params';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { Store } from './atomic-lib/store';
 import { buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor } from './styling';
 import { StoreContext } from './atomic-react/hooks';
-import Browser from './routes/Browser';
+import Show from './routes/Show';
 import New from './routes/New';
 import { AddressBar } from './components/AddressBar';
 import { useDarkMode } from './helpers/useDarkMode';
@@ -19,6 +19,8 @@ import { Edit } from './routes/Edit';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import Data from './routes/Data';
 import { Shortcuts } from './routes/Shortcuts';
+import { Welcome } from './routes/Welcome';
+import Local from './routes/Local';
 
 /** Initialize the store */
 const store = new Store();
@@ -31,7 +33,7 @@ function App(): JSX.Element {
   return (
     <StoreContext.Provider value={store}>
       {/* Basename is for hosting on GitHub pages */}
-      <HashRouter basename='/'>
+      <BrowserRouter basename='/'>
         {/* Used for getting / setting query parameters */}
         <QueryParamProvider ReactRouterRoute={Route}>
           <HotKeysWrapper>
@@ -54,14 +56,20 @@ function App(): JSX.Element {
                 <Route path='/shortcuts'>
                   <Shortcuts />
                 </Route>
+                <Route path='/show'>
+                  <Show />
+                </Route>
+                <Route path='/:path'>
+                  <Local />
+                </Route>
                 <Route path='/'>
-                  <Browser />
+                  <Welcome />
                 </Route>
               </Switch>
             </ThemeProvider>
           </HotKeysWrapper>
         </QueryParamProvider>
-      </HashRouter>
+      </BrowserRouter>
     </StoreContext.Provider>
   );
 }

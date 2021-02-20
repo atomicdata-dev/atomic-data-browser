@@ -6,7 +6,7 @@ import { Search } from './Search';
 import { Welcome } from './Welcome';
 
 /** A generic Atomic Data browser */
-const Browser: React.FunctionComponent = () => {
+const Show: React.FunctionComponent = () => {
   // Value shown in navbar, after Submitting
   const [subject] = useCurrentSubject();
 
@@ -21,4 +21,4 @@ const Browser: React.FunctionComponent = () => {
   }
 };
 
-export default Browser;
+export default Show;
