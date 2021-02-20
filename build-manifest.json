@@ -1772,7 +1772,7 @@
       ]
     },
     "dist/routes/Local.js": {
-      "bytes": 374,
+      "bytes": 383,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -2184,7 +2184,7 @@
           "bytesInOutput": 606
         },
         "dist/routes/Local.js": {
-          "bytesInOutput": 91
+          "bytesInOutput": 98
         },
         "dist/App.js": {
           "bytesInOutput": 1218
@@ -2193,7 +2193,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 392895
+      "bytes": 392902
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
