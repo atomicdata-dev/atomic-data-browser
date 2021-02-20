@@ -128,8 +128,8 @@
       "bytes": 384,
       "imports": []
     },
-    "dist/pkg/common/react-router-64d12d91.js": {
-      "bytes": 56253,
+    "dist/pkg/common/react-router-54f966e3.js": {
+      "bytes": 56372,
       "imports": [
         {
           "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
@@ -158,14 +158,14 @@
       ]
     },
     "dist/pkg/react-router-dom.js": {
-      "bytes": 7801,
+      "bytes": 7823,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-64d12d91.js",
+          "path": "dist/pkg/common/react-router-54f966e3.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/common/react-router-64d12d91.js",
+          "path": "dist/pkg/common/react-router-54f966e3.js",
           "kind": "import-statement"
         },
         {
@@ -202,6 +202,10 @@
       "bytes": 164,
       "imports": []
     },
+    "dist/helpers/urls.js": {
+      "bytes": 2425,
+      "imports": []
+    },
     "dist/pkg/noble-ed25519.js": {
       "bytes": 23478,
       "imports": [
@@ -227,10 +231,6 @@
           "kind": "import-statement"
         }
       ]
-    },
-    "dist/helpers/urls.js": {
-      "bytes": 2425,
-      "imports": []
     },
     "dist/atomic-lib/commit.js": {
       "bytes": 2515,
@@ -314,10 +314,14 @@
       ]
     },
     "dist/atomic-lib/resource.js": {
-      "bytes": 2291,
+      "bytes": 2572,
       "imports": [
         {
           "path": "dist/helpers/handlers.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
           "kind": "import-statement"
         },
         {
@@ -434,7 +438,7 @@
       "bytes": 392,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-64d12d91.js",
+          "path": "dist/pkg/common/react-router-54f966e3.js",
           "kind": "import-statement"
         },
         {
@@ -468,7 +472,7 @@
       ]
     },
     "dist/helpers/navigation.js": {
-      "bytes": 1191,
+      "bytes": 835,
       "imports": []
     },
     "dist/helpers/useCurrentSubject.js": {
@@ -510,7 +514,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1100,
+      "bytes": 1306,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -902,7 +906,7 @@
       ]
     },
     "dist/components/CollectionPage.js": {
-      "bytes": 3488,
+      "bytes": 3888,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1020,7 +1024,7 @@
       "imports": []
     },
     "dist/helpers/useSearch.js": {
-      "bytes": 815,
+      "bytes": 1064,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1033,11 +1037,15 @@
         {
           "path": "dist/pkg/quick-score.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/urls.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/routes/Search.js": {
-      "bytes": 2395,
+      "bytes": 2429,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1074,7 +1082,7 @@
       ]
     },
     "dist/routes/Welcome.js": {
-      "bytes": 2780,
+      "bytes": 2911,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1094,15 +1102,11 @@
         }
       ]
     },
-    "dist/routes/Browser.js": {
-      "bytes": 768,
+    "dist/routes/Show.js": {
+      "bytes": 740,
       "imports": [
         {
           "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/use-query-params.js",
           "kind": "import-statement"
         },
         {
@@ -1111,6 +1115,10 @@
         },
         {
           "path": "dist/components/ResourcePage.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useCurrentSubject.js",
           "kind": "import-statement"
         },
         {
@@ -1383,7 +1391,7 @@
       ]
     },
     "dist/components/forms/ResourceForm.js": {
-      "bytes": 3199,
+      "bytes": 3275,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1494,7 +1502,7 @@
       ]
     },
     "dist/components/AddressBar.js": {
-      "bytes": 3822,
+      "bytes": 3859,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1513,10 +1521,6 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/use-query-params.js",
-          "kind": "import-statement"
-        },
-        {
           "path": "dist/helpers/navigation.js",
           "kind": "import-statement"
         },
@@ -1530,6 +1534,10 @@
         },
         {
           "path": "dist/pkg/react-hotkeys-hook.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useCurrentSubject.js",
           "kind": "import-statement"
         }
       ]
@@ -1648,7 +1656,7 @@
       ]
     },
     "dist/routes/Edit.js": {
-      "bytes": 1458,
+      "bytes": 1436,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1656,10 +1664,6 @@
         },
         {
           "path": "dist/pkg/react-router.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/use-query-params.js",
           "kind": "import-statement"
         },
         {
@@ -1680,6 +1684,10 @@
         },
         {
           "path": "dist/components/forms/ResourceForm.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useCurrentSubject.js",
           "kind": "import-statement"
         }
       ]
@@ -1706,7 +1714,7 @@
       ]
     },
     "dist/routes/Data.js": {
-      "bytes": 1915,
+      "bytes": 1893,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1729,10 +1737,6 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/use-query-params.js",
-          "kind": "import-statement"
-        },
-        {
           "path": "dist/components/Link.js",
           "kind": "import-statement"
         },
@@ -1747,11 +1751,15 @@
         {
           "path": "dist/pkg/react-router-dom.js",
           "kind": "import-statement"
+        },
+        {
+          "path": "dist/helpers/useCurrentSubject.js",
+          "kind": "import-statement"
         }
       ]
     },
     "dist/routes/Shortcuts.js": {
-      "bytes": 1461,
+      "bytes": 1649,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1763,8 +1771,25 @@
         }
       ]
     },
+    "dist/routes/Local.js": {
+      "bytes": 374,
+      "imports": [
+        {
+          "path": "dist/pkg/react.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/pkg/react-router-dom.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/components/ResourcePage.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "dist/App.js": {
-      "bytes": 3279,
+      "bytes": 3601,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1795,7 +1820,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "dist/routes/Browser.js",
+          "path": "dist/routes/Show.js",
           "kind": "import-statement"
         },
         {
@@ -1844,6 +1869,14 @@
         },
         {
           "path": "dist/routes/Shortcuts.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/routes/Welcome.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/routes/Local.js",
           "kind": "import-statement"
         }
       ]
@@ -1925,14 +1958,17 @@
         "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js": {
           "bytesInOutput": 138
         },
-        "dist/pkg/common/react-router-64d12d91.js": {
-          "bytesInOutput": 17923
+        "dist/pkg/common/react-router-54f966e3.js": {
+          "bytesInOutput": 17977
         },
         "dist/pkg/react-router-dom.js": {
-          "bytesInOutput": 2350
+          "bytesInOutput": 2354
         },
         "dist/helpers/handlers.js": {
           "bytesInOutput": 94
+        },
+        "dist/helpers/urls.js": {
+          "bytesInOutput": 2145
         },
         "dist/pkg/noble-ed25519.js": {
           "bytesInOutput": 10713
@@ -1942,9 +1978,6 @@
         },
         "dist/pkg/base64-arraybuffer.js": {
           "bytesInOutput": 807
-        },
-        "dist/helpers/urls.js": {
-          "bytesInOutput": 2145
         },
         "dist/atomic-lib/commit.js": {
           "bytesInOutput": 1000
@@ -1962,7 +1995,7 @@
           "bytesInOutput": 785
         },
         "dist/atomic-lib/resource.js": {
-          "bytesInOutput": 1132
+          "bytesInOutput": 1230
         },
         "dist/atomic-lib/store.js": {
           "bytesInOutput": 1670
@@ -1986,7 +2019,7 @@
           "bytesInOutput": 0
         },
         "dist/helpers/navigation.js": {
-          "bytesInOutput": 690
+          "bytesInOutput": 434
         },
         "dist/helpers/useCurrentSubject.js": {
           "bytesInOutput": 38
@@ -1995,7 +2028,7 @@
           "bytesInOutput": 513
         },
         "dist/components/datatypes/ResourceInline.js": {
-          "bytesInOutput": 354
+          "bytesInOutput": 449
         },
         "dist/components/datatypes/DateTime.js": {
           "bytesInOutput": 109
@@ -2055,7 +2088,7 @@
           "bytesInOutput": 1228
         },
         "dist/components/CollectionPage.js": {
-          "bytesInOutput": 1342
+          "bytesInOutput": 1718
         },
         "dist/components/ResourcePage.js": {
           "bytesInOutput": 664
@@ -2064,16 +2097,16 @@
           "bytesInOutput": 4893
         },
         "dist/helpers/useSearch.js": {
-          "bytesInOutput": 275
+          "bytesInOutput": 391
         },
         "dist/routes/Search.js": {
-          "bytesInOutput": 964
+          "bytesInOutput": 966
         },
         "dist/routes/Welcome.js": {
-          "bytesInOutput": 1434
+          "bytesInOutput": 1565
         },
-        "dist/routes/Browser.js": {
-          "bytesInOutput": 153
+        "dist/routes/Show.js": {
+          "bytesInOutput": 141
         },
         "dist/components/forms/InputStyles.js": {
           "bytesInOutput": 1396
@@ -2109,7 +2142,7 @@
           "bytesInOutput": 388
         },
         "dist/components/forms/ResourceForm.js": {
-          "bytesInOutput": 1159
+          "bytesInOutput": 1235
         },
         "dist/routes/New.js": {
           "bytesInOutput": 1082
@@ -2118,7 +2151,7 @@
           "bytesInOutput": 73
         },
         "dist/components/AddressBar.js": {
-          "bytesInOutput": 2103
+          "bytesInOutput": 2108
         },
         "dist/helpers/useDarkMode.js": {
           "bytesInOutput": 304
@@ -2139,25 +2172,28 @@
           "bytesInOutput": 74
         },
         "dist/routes/Edit.js": {
-          "bytesInOutput": 454
+          "bytesInOutput": 442
         },
         "dist/components/HotKeyWrapper.js": {
           "bytesInOutput": 281
         },
         "dist/routes/Data.js": {
-          "bytesInOutput": 634
+          "bytesInOutput": 622
         },
         "dist/routes/Shortcuts.js": {
-          "bytesInOutput": 530
+          "bytesInOutput": 606
+        },
+        "dist/routes/Local.js": {
+          "bytesInOutput": 91
         },
         "dist/App.js": {
-          "bytesInOutput": 1097
+          "bytesInOutput": 1218
         },
         "dist/index.js": {
           "bytesInOutput": 158
         }
       },
-      "bytes": 391942
+      "bytes": 392895
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
