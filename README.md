@@ -7,7 +7,7 @@ _status: alpha_
 View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
 
-**[demo](https://joepio.github.io/atomic-data-browser/)**
+**[demo on atomicdata.dev](https://atomicdata.dev/)**
 
 ## Progress
 
