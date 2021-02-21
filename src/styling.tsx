@@ -1,5 +1,6 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { darken, lighten } from 'polished';
+import '../public/reset.css';
 
 export const localStoreKeyMainColor = 'mainColor';
 export const localStoreKeyDarkMode = 'darkMode';
