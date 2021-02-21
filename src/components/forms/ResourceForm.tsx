@@ -78,6 +78,11 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   if (!resource.getSubject().includes(store.getBaseUrl())) {
     warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might nog have the rights to edit this.`;
   }
+  try {
+    store.getAgent();
+  } catch (e) {
+    warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
+  }
 
   return (
     <form about={resource.getSubject()}>
