@@ -16,7 +16,7 @@ function NewIntanceButton({ klass }: NewIntanceButtonProps): JSX.Element {
 
   return (
     <ButtonMargin type='button' onClick={() => history.push(newURL(klass))}>
-      create a {title}
+      new {title}
     </ButtonMargin>
   );
 }

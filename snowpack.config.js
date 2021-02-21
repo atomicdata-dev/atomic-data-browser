@@ -24,10 +24,10 @@ module.exports = {
     { match: 'routes', src: '.*', dest: '/index.html' },
   ],
   optimize: {
-    /* Example: Bundle your final build: */
-    bundle: true,
-    minify: true,
-    target: 'es2020',
+    // Might be required for hosting on github pages
+    // bundle: true,
+    // minify: true,
+    // target: 'es2020',
   },
   packageOptions: {
     source: 'local',
@@ -38,7 +38,7 @@ module.exports = {
   },
   devOptions: {},
   buildOptions: {
-    baseUrl: 'https://joepio.github.io/atomic-react/',
+    baseUrl: 'https://joepio.github.io/atomic-data-browser/',
     /** Github requires output to this folder for static hosting on main branch */
     out: 'docs',
     metaUrlPath: `dist`,
