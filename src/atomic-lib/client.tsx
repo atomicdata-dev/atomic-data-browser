@@ -21,7 +21,7 @@ export async function fetchResource(subject: string): Promise<Resource> {
     if (response.status == 200) {
       parseJsonADResource(body, resource);
     } else {
-      const error = new Error(`${subject} returned ${response.status}`);
+      const error = new Error(`${subject} returned ${response.status}. Server: ${body}`);
       resource.setError(error);
     }
   } catch (e) {

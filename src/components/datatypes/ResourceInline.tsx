@@ -21,13 +21,11 @@ function ResourceInline({ subject }: Props): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return (
-      <span about={subject}>
-        {subject}
-        <br />
-        <ErrorLook>
-          {subject}Error: {resource.getError().message}
+      <AtomicLink url={subject}>
+        <ErrorLook about={subject} title={resource.getError().message}>
+          error
         </ErrorLook>
-      </span>
+      </AtomicLink>
     );
   }
 

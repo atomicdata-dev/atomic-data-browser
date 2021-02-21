@@ -73,8 +73,15 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     save();
   }
 
+  let warning = null;
+
+  if (!resource.getSubject().includes(store.getBaseUrl())) {
+    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might nog have the rights to edit this.`;
+  }
+
   return (
     <form about={resource.getSubject()}>
+      {warning && <ErrMessage>Warning: {warning}</ErrMessage>}
       {requires.map(property => {
         return <FieldLabeled key={property} property={property} resource={resource} required />;
       })}
