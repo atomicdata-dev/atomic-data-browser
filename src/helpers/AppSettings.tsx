@@ -3,10 +3,6 @@ import { useContext } from 'react';
 import { useDarkMode } from './useDarkMode';
 import { useLocalStorage } from './useLocalStorage';
 
-export const localStoreKeyMainColor = 'mainColor';
-export const localStoreKeyDarkMode = 'darkMode';
-export const defaultColor = '#1b50d8';
-
 interface ProviderProps {
   children: ReactNode;
 }
@@ -14,9 +10,17 @@ interface ProviderProps {
 // Create a provider for components to consume and subscribe to changes
 export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element => {
   const [darkMode, setDarkMode] = useDarkMode();
-  const [mainColor, setMainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
+  const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
+  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
+  const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
 
-  return <SettingsContext.Provider value={{ darkMode, setDarkMode, mainColor, setMainColor }}>{props.children}</SettingsContext.Provider>;
+  return (
+    <SettingsContext.Provider
+      value={{ darkMode, setDarkMode, mainColor, setMainColor, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating }}
+    >
+      {props.children}
+    </SettingsContext.Provider>
+  );
 };
 
 interface AppSettings {
@@ -26,6 +30,12 @@ interface AppSettings {
   // CSS value for the primary color
   mainColor: string;
   setMainColor: (s: string) => void;
+  // If the navbar should be at the top of the page
+  navbarTop: boolean;
+  setNavbarTop: (s: boolean) => void;
+  // If the navbar should be floating instead of being fixed at the top or bottom
+  navbarFloating: boolean;
+  setNavbarFloating: (s: boolean) => void;
 }
 
 /** Hook for using App Settings, such as theme and darkmode */

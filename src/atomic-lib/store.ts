@@ -44,9 +44,9 @@ export class Store {
   }
 
   /** Returns the URL of the companion server */
-  getBaseUrl(): string {
+  getBaseUrl(): string | null {
     if (this.baseUrl == undefined) {
-      return 'https://atomicdata.dev';
+      return null;
     }
     return this.baseUrl;
   }

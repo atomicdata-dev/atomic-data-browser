@@ -7,17 +7,46 @@ import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
+import { useSettings } from '../helpers/AppSettings';
+import { transparentize } from 'polished';
+
+interface AddressBarProps {
+  children: React.ReactNode;
+}
+
+/** Wraps the entire app and adds a navbar at the bottom or the top */
+export function Navigation({ children }: AddressBarProps): JSX.Element {
+  const { navbarTop } = useSettings();
+
+  return (
+    <>
+      {navbarTop && <NavBar />}
+      <Content topPadding={navbarTop}>{children}</Content>
+      {!navbarTop && <NavBar />}
+    </>
+  );
+}
+
+interface ContentProps {
+  topPadding: boolean;
+}
+
+const Content = styled.div<ContentProps>`
+  margin-top: ${props => (props.topPadding ? '2rem' : '0')};
+  margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
+`;
 
 /** Persistently shown navigation bar */
-export function AddressBar(): JSX.Element {
+function NavBar() {
   const [subject, setSubject] = useCurrentSubject();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
+  const { navbarTop, navbarFloating } = useSettings();
+
   useHotkeys('/', e => {
     e.preventDefault();
-    //@ts-ignore this does seem callable
-    // setSubject[''];
     history.push('/');
+    //@ts-ignore this does seem callable
     inputRef.current.select();
   });
 
@@ -40,7 +69,6 @@ export function AddressBar(): JSX.Element {
   });
 
   function handleChange(e) {
-    // e => setSubject(e.target.value);
     handleNavigation(openURL(e.target.value));
   }
 
@@ -50,7 +78,9 @@ export function AddressBar(): JSX.Element {
 
   const handleSubmit = event => {
     event.preventDefault();
+    //@ts-ignore this does seem callable
     inputRef.current.blur();
+    //@ts-ignore this does seem callable
     document.activeElement.blur();
     handleNavigation(openURL(subject));
   };
@@ -59,8 +89,10 @@ export function AddressBar(): JSX.Element {
     history.push(to);
   };
 
+  const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
+
   return (
-    <AddressBarStyled onSubmit={handleSubmit}>
+    <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Home'>
         <FaHome />
       </ButtonBar>
@@ -81,44 +113,28 @@ export function AddressBar(): JSX.Element {
       <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
         <FaPlus />
       </ButtonBar>
-    </AddressBarStyled>
+    </ConditionalNavbar>
   );
 }
 
-const AddressBarStyled = styled.form`
-  box-shadow: ${props => props.theme.boxShadow};
+interface NavBarStyledProps {
+  floating: boolean;
+  top: boolean;
+}
+
+/** Don't use this directly - use NavBarFloating or NavBarFixed */
+const NavBarBase = styled.form<NavBarStyledProps>`
   position: fixed;
   z-index: 100;
-  bottom: 2rem;
-  height: 2rem;
+  height: 2.5rem;
   display: flex;
-  border: solid 1px ${props => props.theme.colors.main};
-  border-radius: 999px;
-  overflow: hidden;
-  max-width: calc(100% - 2rem);
-  width: 40rem;
-  margin: auto;
-  /* Center fixed item */
-  left: 50%;
-  margin-left: -20rem; /* Negative half of width. */
-  margin-right: -20rem; /* Negative half of width. */
+  border: solid 1px ${props => props.theme.colors.bg2};
   background-color: ${props => props.theme.colors.bg1};
-  &:hover {
-    border-color: ${props => props.theme.colors.mainLight};
-  }
-
-  @media (max-width: 40rem) {
-    max-width: calc(100% - 1rem);
-    left: auto;
-    right: auto;
-    margin-left: 0.5rem;
-    bottom: 0.5rem;
-  }
 
   /* Search bar and buttons */
   input {
     border: none;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 0.4rem 1.2rem;
     color: ${props => props.theme.colors.text};
   }
@@ -128,6 +144,18 @@ const AddressBarStyled = styled.form`
     flex: 1;
     min-width: 1rem;
     background-color: ${props => props.theme.colors.bg};
+    outline: 0;
+
+    &:hover {
+      box-shadow: inset 0 0 0 2px ${props => transparentize(0.6, props.theme.colors.main)};
+    }
+    &:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 2px ${props => props.theme.colors.main};
+      /* border-radius: ${props => props.theme.radius}; */
+      box-sizing: border-box;
+      /* outline-offset: -1px; */
+    }
   }
 
   input[type='submit'] {
@@ -141,4 +169,38 @@ const AddressBarStyled = styled.form`
       background-color: ${props => props.theme.colors.mainDark};
     }
   }
+`;
+
+const NavBarFloating = styled(NavBarBase)`
+  box-shadow: ${props => props.theme.boxShadow};
+  border-radius: 999px;
+  overflow: hidden;
+  max-width: calc(100% - 2rem);
+  width: 40rem;
+  margin: auto;
+  /* Center fixed item */
+  left: 50%;
+  margin-left: -20rem; /* Negative half of width. */
+  margin-right: -20rem; /* Negative half of width. */
+  position: ${props => (props.floating ? 'fixed' : 'relative')};
+  top: ${props => (props.top ? '2rem' : 'auto')};
+  bottom: ${props => (props.top ? 'auto' : '2rem')};
+
+  @media (max-width: 40rem) {
+    max-width: calc(100% - 1rem);
+    left: auto;
+    right: auto;
+    margin-left: 0.5rem;
+    bottom: 0.5rem;
+  }
+`;
+
+const NavBarFixed = styled(NavBarBase)`
+  top: ${props => (props.top ? '0' : 'auto')};
+  bottom: ${props => (props.top ? 'auto' : '0')};
+  left: 0;
+  right: 0;
+  border-width: 0;
+  border-bottom: ${props => (props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
+  border-top: ${props => (!props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
 `;

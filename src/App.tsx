@@ -7,7 +7,7 @@ import { GlobalStyle, ThemeWrapper } from './styling';
 import { StoreContext } from './atomic-react/hooks';
 import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';
-import { AddressBar } from './components/AddressBar';
+import { Navigation } from './components/Navigation';
 import Settings from './routes/SettingsRoute';
 import { Agent } from './atomic-lib/agent';
 import { getSnowpackEnv, isDev } from './config';
@@ -35,33 +35,34 @@ function App(): JSX.Element {
             <HotKeysWrapper>
               <ThemeWrapper>
                 <GlobalStyle />
-                <AddressBar />
-                <Switch>
-                  <Route path='/new'>
-                    <New />
-                  </Route>
-                  <Route path='/edit'>
-                    <Edit />
-                  </Route>
-                  <Route path='/data'>
-                    <Data />
-                  </Route>
-                  <Route path='/settings'>
-                    <Settings />
-                  </Route>
-                  <Route path='/shortcuts'>
-                    <Shortcuts />
-                  </Route>
-                  <Route path='/show'>
-                    <Show />
-                  </Route>
-                  <Route path='/:path'>
-                    <Local />
-                  </Route>
-                  <Route path='/'>
-                    <Welcome />
-                  </Route>
-                </Switch>
+                <Navigation>
+                  <Switch>
+                    <Route path='/new'>
+                      <New />
+                    </Route>
+                    <Route path='/edit'>
+                      <Edit />
+                    </Route>
+                    <Route path='/data'>
+                      <Data />
+                    </Route>
+                    <Route path='/settings'>
+                      <Settings />
+                    </Route>
+                    <Route path='/shortcuts'>
+                      <Shortcuts />
+                    </Route>
+                    <Route path='/show'>
+                      <Show />
+                    </Route>
+                    <Route path='/:path'>
+                      <Local />
+                    </Route>
+                    <Route path='/'>
+                      <Welcome />
+                    </Route>
+                  </Switch>
+                </Navigation>
               </ThemeWrapper>
             </HotKeysWrapper>
           </QueryParamProvider>

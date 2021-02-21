@@ -12,7 +12,7 @@ import { useSettings } from '../helpers/AppSettings';
 
 const Settings: React.FunctionComponent = () => {
   const store = useStore();
-  const { darkMode, setDarkMode } = useSettings();
+  const { darkMode, setDarkMode, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } = useSettings();
   const [agentSubject, setCurrentAgent] = useState<string>(null);
   const [privateKey, setCurrentPrivateKey] = useState<string>('');
   const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
@@ -49,8 +49,12 @@ const Settings: React.FunctionComponent = () => {
     <ContainerNarrow>
       <h1>Settings</h1>
       <Card>
-        <h2>Theme</h2>
+        <h2>Look & feel</h2>
         <ButtonMargin onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</ButtonMargin>
+        {!navbarFloating && <ButtonMargin onClick={() => setNavbarTop(!navbarTop)}>navbar to {navbarTop ? 'bottom' : 'top'}</ButtonMargin>}
+        {!navbarTop && (
+          <ButtonMargin onClick={() => setNavbarFloating(!navbarFloating)}>{navbarFloating ? 'fixed' : 'floating'} navbar</ButtonMargin>
+        )}
         <MainColorPicker />
         <br />
       </Card>
