@@ -1,10 +1,25 @@
-import { createGlobalStyle, DefaultTheme } from 'styled-components';
+import { createGlobalStyle, DefaultTheme, ThemeProvider } from 'styled-components';
 import { darken, lighten } from 'polished';
 import '../public/reset.css';
+import React from 'react';
+import 'styled-components';
+import { useContext } from 'react';
+import { SettingsContext } from './helpers/AppSettings';
 
-export const localStoreKeyMainColor = 'mainColor';
-export const localStoreKeyDarkMode = 'darkMode';
-export const defaultColor = '#1b50d8';
+interface ThemeWrapperProps {
+  children: React.ReactNode;
+}
+
+/** Provides the theme for all components below. Make sure to wrap this inside SettingsContext */
+export const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
+  const { mainColor, darkMode } = useContext(SettingsContext);
+
+  return (
+    <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
+      {children}
+    </ThemeProvider>
+  );
+};
 
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
@@ -36,7 +51,6 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
 };
 
 // Styled-components requires overwriting the default theme
-import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     /** If true, make things dark */

@@ -1,6 +1,6 @@
 import { Dispatch, useEffect, useState } from 'react';
-import { localStoreKeyDarkMode } from '../styling';
 import { useLocalStorage } from './useLocalStorage';
+import { localStoreKeyDarkMode } from './AppSettings';
 
 /** A hook for using dark mode. Sets using local storage. */
 // TODO: use context for this, so a refresh is not needed after changing the value.

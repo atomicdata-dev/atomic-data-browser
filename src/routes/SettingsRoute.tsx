@@ -2,19 +2,17 @@ import * as React from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
-import { useLocalStorage } from '../helpers/useLocalStorage';
-import { localStoreKeyMainColor } from '../styling';
 import { ButtonMargin } from '../components/Button';
-import { useDarkMode } from '../helpers/useDarkMode';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useStore } from '../atomic-react/hooks';
 import { useState } from 'react';
 import { Agent } from '../atomic-lib/agent';
 import { Card } from '../components/Card';
+import { useSettings } from '../helpers/AppSettings';
 
 const Settings: React.FunctionComponent = () => {
-  const [dark, setDark] = useDarkMode();
   const store = useStore();
+  const { darkMode, setDarkMode } = useSettings();
   const [agentSubject, setCurrentAgent] = useState<string>(null);
   const [privateKey, setCurrentPrivateKey] = useState<string>('');
   const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
@@ -39,11 +37,6 @@ const Settings: React.FunctionComponent = () => {
     }
   }
 
-  function handleSetDark() {
-    setDark(!dark);
-    window.location.reload();
-  }
-
   function handleSetBaseUrl() {
     try {
       store.setBaseUrl(baseUrl);
@@ -57,7 +50,7 @@ const Settings: React.FunctionComponent = () => {
       <h1>Settings</h1>
       <Card>
         <h2>Theme</h2>
-        <ButtonMargin onClick={handleSetDark}>{dark ? 'turn off' : 'turn on'} dark mode</ButtonMargin>
+        <ButtonMargin onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</ButtonMargin>
         <MainColorPicker />
         <br />
       </Card>
@@ -104,12 +97,7 @@ const Settings: React.FunctionComponent = () => {
 export default Settings;
 
 const MainColorPicker = () => {
-  const [color, setColor] = useLocalStorage(localStoreKeyMainColor, '#aabbcc');
+  const { mainColor, setMainColor } = useSettings();
 
-  function handleSetColor(color: string) {
-    setColor(color);
-    window.location.reload();
-  }
-
-  return <HexColorPicker color={color} onChange={handleSetColor} />;
+  return <HexColorPicker color={mainColor} onChange={val => setMainColor(val)} />;
 };

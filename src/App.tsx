@@ -1,75 +1,72 @@
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { Store } from './atomic-lib/store';
-import { buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor } from './styling';
+import { GlobalStyle, ThemeWrapper } from './styling';
 import { StoreContext } from './atomic-react/hooks';
-import Show from './routes/Show';
-import New from './routes/New';
+import Show from './routes/ShowRoute';
+import New from './routes/NewRoute';
 import { AddressBar } from './components/AddressBar';
-import { useDarkMode } from './helpers/useDarkMode';
-import { useLocalStorage } from './helpers/useLocalStorage';
-import Settings from './routes/Settings';
+import Settings from './routes/SettingsRoute';
 import { Agent } from './atomic-lib/agent';
 import { getSnowpackEnv, isDev } from './config';
 import { handleWarning } from './helpers/handlers';
-import { Edit } from './routes/Edit';
+import { Edit } from './routes/EditRoute';
 import HotKeysWrapper from './components/HotKeyWrapper';
-import Data from './routes/Data';
-import { Shortcuts } from './routes/Shortcuts';
-import { Welcome } from './routes/Welcome';
-import Local from './routes/Local';
+import Data from './routes/DataRoute';
+import { Shortcuts } from './routes/ShortcutsRoute';
+import { Welcome } from './routes/WelcomeRoute';
+import Local from './routes/LocalRoute';
+import { AppSettingsContextProvider } from './helpers/AppSettings';
 
 /** Initialize the store */
 const store = new Store();
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
-  const [darkMode] = useDarkMode();
-  const [mainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
-
   return (
     <StoreContext.Provider value={store}>
-      {/* Basename is for hosting on GitHub pages */}
-      <BrowserRouter basename='/'>
-        {/* Used for getting / setting query parameters */}
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <HotKeysWrapper>
-            <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
-              <GlobalStyle />
-              <AddressBar />
-              <Switch>
-                <Route path='/new'>
-                  <New />
-                </Route>
-                <Route path='/edit'>
-                  <Edit />
-                </Route>
-                <Route path='/data'>
-                  <Data />
-                </Route>
-                <Route path='/settings'>
-                  <Settings />
-                </Route>
-                <Route path='/shortcuts'>
-                  <Shortcuts />
-                </Route>
-                <Route path='/show'>
-                  <Show />
-                </Route>
-                <Route path='/:path'>
-                  <Local />
-                </Route>
-                <Route path='/'>
-                  <Welcome />
-                </Route>
-              </Switch>
-            </ThemeProvider>
-          </HotKeysWrapper>
-        </QueryParamProvider>
-      </BrowserRouter>
+      <AppSettingsContextProvider>
+        {/* Basename is for hosting on GitHub pages */}
+        <BrowserRouter basename='/'>
+          {/* Used for getting / setting query parameters */}
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <HotKeysWrapper>
+              <ThemeWrapper>
+                <GlobalStyle />
+                <AddressBar />
+                <Switch>
+                  <Route path='/new'>
+                    <New />
+                  </Route>
+                  <Route path='/edit'>
+                    <Edit />
+                  </Route>
+                  <Route path='/data'>
+                    <Data />
+                  </Route>
+                  <Route path='/settings'>
+                    <Settings />
+                  </Route>
+                  <Route path='/shortcuts'>
+                    <Shortcuts />
+                  </Route>
+                  <Route path='/show'>
+                    <Show />
+                  </Route>
+                  <Route path='/:path'>
+                    <Local />
+                  </Route>
+                  <Route path='/'>
+                    <Welcome />
+                  </Route>
+                </Switch>
+              </ThemeWrapper>
+            </HotKeysWrapper>
+          </QueryParamProvider>
+        </BrowserRouter>
+      </AppSettingsContextProvider>
     </StoreContext.Provider>
   );
 }

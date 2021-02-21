@@ -76,7 +76,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   let warning = null;
 
   if (!resource.getSubject().includes(store.getBaseUrl())) {
-    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might nog have the rights to edit this.`;
+    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might not have the rights to edit this.`;
   }
   try {
     store.getAgent();
@@ -86,7 +86,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
 
   return (
     <form about={resource.getSubject()}>
-      {warning && <ErrMessage>Warning: {warning}</ErrMessage>}
+      {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
       {requires.map(property => {
         return <FieldLabeled key={property} property={property} resource={resource} required />;
       })}

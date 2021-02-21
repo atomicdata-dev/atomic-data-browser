@@ -2,8 +2,8 @@ import * as React from 'react';
 import { checkValidURL } from '../atomic-lib/client';
 import ResourcePage from '../components/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { Search } from './Search';
-import { Welcome } from './Welcome';
+import { Search } from './SearchRoute';
+import { Welcome } from './WelcomeRoute';
 
 /** A generic Atomic Data browser */
 const Show: React.FunctionComponent = () => {

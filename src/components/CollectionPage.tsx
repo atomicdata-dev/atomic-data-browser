@@ -43,7 +43,6 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
-  // const [displayStyle, setDisplayStyle] = useState(defaultView);
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
