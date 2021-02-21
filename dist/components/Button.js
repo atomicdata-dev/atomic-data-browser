@@ -13,13 +13,14 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.colors.main};
   color: ${(props) => props.theme.colors.bg};
   outline: none;
-  transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow;
+  transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color;
 
   &:hover:not([disabled]),
   &:focus:not([disabled]) {
     background-color: ${(props) => props.theme.colors.mainLight};
     color: ${(props) => props.theme.colors.bg};
     transform: scale(1.05);
+    outline: 0;
   }
 
   &:active:not([disabled]) {
@@ -36,13 +37,23 @@ export const Button = styled.button`
   }
 `;
 export const ButtonBar = styled(Button)`
-  min-width: 2.5rem;
-  padding: 0.4rem;
+  /* min-width: 2.5rem; */
+  padding: 0.7rem;
+  border: none;
+  color: ${(props) => props.theme.colors.main};
+  background-color: ${(props) => props.theme.colors.bg};
 
   &:hover:not([disabled]),
   &:active:not([disabled]),
   &:focus:not([disabled]) {
     transform: scale(1);
+  }
+
+  &:first-child {
+    padding-left: 1.2rem;
+  }
+  &:last-child {
+    padding-right: 1.2rem;
   }
 `;
 export const ButtonMargin = styled(Button)`

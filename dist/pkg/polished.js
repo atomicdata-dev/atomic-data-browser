@@ -904,4 +904,49 @@ var curriedLighten = /*#__PURE__*/curry
 /* ::<number | string, string, string> */
 (lighten);
 
-export { curriedDarken as darken, curriedDesaturate as desaturate, curriedLighten as lighten };
+/**
+ * Decreases the opacity of a color. Its range for the amount is between 0 to 1.
+ *
+ *
+ * @example
+ * // Styles as object usage
+ * const styles = {
+ *   background: transparentize(0.1, '#fff');
+ *   background: transparentize(0.2, 'hsl(0, 0%, 100%)'),
+ *   background: transparentize('0.5', 'rgba(255, 0, 0, 0.8)'),
+ * }
+ *
+ * // styled-components usage
+ * const div = styled.div`
+ *   background: ${transparentize(0.1, '#fff')};
+ *   background: ${transparentize(0.2, 'hsl(0, 0%, 100%)')},
+ *   background: ${transparentize('0.5', 'rgba(255, 0, 0, 0.8)')},
+ * `
+ *
+ * // CSS in JS Output
+ *
+ * element {
+ *   background: "rgba(255,255,255,0.9)";
+ *   background: "rgba(255,255,255,0.8)";
+ *   background: "rgba(255,0,0,0.3)";
+ * }
+ */
+
+function transparentize(amount, color) {
+  if (color === 'transparent') return color;
+  var parsedColor = parseToRgb(color);
+  var alpha = typeof parsedColor.alpha === 'number' ? parsedColor.alpha : 1;
+
+  var colorWithAlpha = _extends({}, parsedColor, {
+    alpha: guard(0, 1, +(alpha * 100 - parseFloat(amount) * 100).toFixed(2) / 100)
+  });
+
+  return rgba(colorWithAlpha);
+} // prettier-ignore
+
+
+var curriedTransparentize = /*#__PURE__*/curry
+/* ::<number | string, string, string> */
+(transparentize);
+
+export { curriedDarken as darken, curriedDesaturate as desaturate, curriedLighten as lighten, curriedTransparentize as transparentize };

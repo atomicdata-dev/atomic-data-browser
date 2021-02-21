@@ -6,7 +6,7 @@ import {GlobalStyle, ThemeWrapper} from "./styling.js";
 import {StoreContext} from "./atomic-react/hooks.js";
 import Show from "./routes/ShowRoute.js";
 import New from "./routes/NewRoute.js";
-import {AddressBar} from "./components/AddressBar.js";
+import {Navigation} from "./components/Navigation.js";
 import Settings from "./routes/SettingsRoute.js";
 import {Agent} from "./atomic-lib/agent.js";
 import {getSnowpackEnv, isDev} from "./config.js";
@@ -26,7 +26,7 @@ function App() {
     basename: "/"
   }, /* @__PURE__ */ React.createElement(QueryParamProvider, {
     ReactRouterRoute: Route
-  }, /* @__PURE__ */ React.createElement(HotKeysWrapper, null, /* @__PURE__ */ React.createElement(ThemeWrapper, null, /* @__PURE__ */ React.createElement(GlobalStyle, null), /* @__PURE__ */ React.createElement(AddressBar, null), /* @__PURE__ */ React.createElement(Switch, null, /* @__PURE__ */ React.createElement(Route, {
+  }, /* @__PURE__ */ React.createElement(HotKeysWrapper, null, /* @__PURE__ */ React.createElement(ThemeWrapper, null, /* @__PURE__ */ React.createElement(GlobalStyle, null), /* @__PURE__ */ React.createElement(Navigation, null, /* @__PURE__ */ React.createElement(Switch, null, /* @__PURE__ */ React.createElement(Route, {
     path: "/new"
   }, /* @__PURE__ */ React.createElement(New, null)), /* @__PURE__ */ React.createElement(Route, {
     path: "/edit"
@@ -42,7 +42,7 @@ function App() {
     path: "/:path"
   }, /* @__PURE__ */ React.createElement(Local, null)), /* @__PURE__ */ React.createElement(Route, {
     path: "/"
-  }, /* @__PURE__ */ React.createElement(Welcome, null)))))))));
+  }, /* @__PURE__ */ React.createElement(Welcome, null))))))))));
 }
 export default App;
 if (isDev()) {

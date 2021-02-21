@@ -24,7 +24,7 @@ export class Store {
   }
   getBaseUrl() {
     if (this.baseUrl == void 0) {
-      return "https://atomicdata.dev";
+      return null;
     }
     return this.baseUrl;
   }

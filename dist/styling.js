@@ -16,7 +16,7 @@ export const buildTheme = (darkMode, mainIn) => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? "black" : "white";
   const text = darkMode ? "white" : "black";
-  const shadowColor = darkMode ? "rgba(255,255,255,.2)" : "rgba(0,0,0,0.1)";
+  const shadowColor = darkMode ? "rgba(255,255,255,.15)" : "rgba(0,0,0,0.1)";
   const shadowColorIntense = darkMode ? "rgba(255,255,255,.3)" : "rgba(0,0,0,0.3)";
   return {
     darkMode,

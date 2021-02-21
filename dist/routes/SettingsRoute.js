@@ -11,7 +11,7 @@ import {Card} from "../components/Card.js";
 import {useSettings} from "../helpers/AppSettings.js";
 const Settings = () => {
   const store = useStore();
-  const {darkMode, setDarkMode} = useSettings();
+  const {darkMode, setDarkMode, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating} = useSettings();
   const [agentSubject, setCurrentAgent] = useState(null);
   const [privateKey, setCurrentPrivateKey] = useState("");
   const [baseUrl, setBaseUrl] = useState(store.getBaseUrl());
@@ -39,9 +39,13 @@ const Settings = () => {
       setErrBaseUrl(e);
     }
   }
-  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Settings"), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Theme"), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Settings"), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Look & feel"), /* @__PURE__ */ React.createElement(ButtonMargin, {
     onClick: () => setDarkMode(!darkMode)
-  }, darkMode ? "turn off" : "turn on", " dark mode"), /* @__PURE__ */ React.createElement(MainColorPicker, null), /* @__PURE__ */ React.createElement("br", null)), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Agent"), /* @__PURE__ */ React.createElement("p", null, "An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits. Creating an Agent currently requires setting up an ", /* @__PURE__ */ React.createElement("a", {
+  }, darkMode ? "turn off" : "turn on", " dark mode"), !navbarFloating && /* @__PURE__ */ React.createElement(ButtonMargin, {
+    onClick: () => setNavbarTop(!navbarTop)
+  }, "navbar to ", navbarTop ? "bottom" : "top"), !navbarTop && /* @__PURE__ */ React.createElement(ButtonMargin, {
+    onClick: () => setNavbarFloating(!navbarFloating)
+  }, navbarFloating ? "fixed" : "floating", " navbar"), /* @__PURE__ */ React.createElement(MainColorPicker, null), /* @__PURE__ */ React.createElement("br", null)), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Agent"), /* @__PURE__ */ React.createElement("p", null, "An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits. Creating an Agent currently requires setting up an ", /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/joepio/atomic/tree/master/server"
   }, "atomic-server"), "."), /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "Agent Subject URL"), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, {
     value: agentSubject,

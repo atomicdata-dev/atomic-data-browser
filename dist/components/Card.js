@@ -7,7 +7,7 @@ export const Card = styled.div`
   margin-bottom: ${(props) => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${(props) => props.theme.radius};
-  border-color: ${(props) => props.selected ? props.theme.colors.text : props.theme.colors.bg2};
+  border-color: ${(props) => props.selected ? props.theme.colors.main : props.theme.colors.bg2};
 `;
 export const CardRow = styled.div`
   display: block;

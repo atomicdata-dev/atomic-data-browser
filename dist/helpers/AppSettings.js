@@ -2,14 +2,13 @@ import React from "../pkg/react.js";
 import {useContext} from "../pkg/react.js";
 import {useDarkMode} from "./useDarkMode.js";
 import {useLocalStorage} from "./useLocalStorage.js";
-export const localStoreKeyMainColor = "mainColor";
-export const localStoreKeyDarkMode = "darkMode";
-export const defaultColor = "#1b50d8";
 export const AppSettingsContextProvider = (props) => {
   const [darkMode, setDarkMode] = useDarkMode();
-  const [mainColor, setMainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
+  const [mainColor, setMainColor] = useLocalStorage("mainColor", "#1b50d8");
+  const [navbarTop, setNavbarTop] = useLocalStorage("navbarTop", false);
+  const [navbarFloating, setNavbarFloating] = useLocalStorage("navbarFloating", false);
   return /* @__PURE__ */ React.createElement(SettingsContext.Provider, {
-    value: {darkMode, setDarkMode, mainColor, setMainColor}
+    value: {darkMode, setDarkMode, mainColor, setMainColor, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating}
   }, props.children);
 };
 export const useSettings = () => {
