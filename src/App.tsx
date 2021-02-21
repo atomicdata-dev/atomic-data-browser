@@ -22,6 +22,8 @@ import { AppSettingsContextProvider } from './helpers/AppSettings';
 
 /** Initialize the store */
 const store = new Store();
+/** Defaulting to the current URL's origin will make sense in most non-dev environments */
+store.setBaseUrl(window.location.origin);
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {

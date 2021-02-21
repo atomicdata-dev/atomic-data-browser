@@ -53,8 +53,8 @@ export class Store {
 
   /** Returns the Currently set Agent, throws an error if there is none. Make sure to first run `store.setAgent()`. */
   getAgent(): Agent {
-    if (this.agent == null) {
-      throw new Error('No agent has been set. Run store.setAgent()');
+    if (this.agent == undefined) {
+      return null;
     }
     return this.agent;
   }

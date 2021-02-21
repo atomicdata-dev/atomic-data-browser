@@ -93,7 +93,7 @@ function NavBar() {
 
   return (
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
-      <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Home'>
+      <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
         <FaHome />
       </ButtonBar>
       <ButtonBar type='button' title='Go back' onClick={history.goBack}>
@@ -110,7 +110,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      <ButtonBar type='button' title='Create a new Resource' onClick={() => handleNavigation('/new')}>
+      <ButtonBar type='button' title='Create a new Resource (n)' onClick={() => handleNavigation('/new')}>
         <FaPlus />
       </ButtonBar>
     </ConditionalNavbar>

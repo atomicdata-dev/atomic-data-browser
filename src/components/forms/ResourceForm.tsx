@@ -78,9 +78,8 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   if (!resource.getSubject().includes(store.getBaseUrl())) {
     warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might not have the rights to edit this.`;
   }
-  try {
-    store.getAgent();
-  } catch (e) {
+  const agent = store.getAgent();
+  if (agent == null) {
     warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
   }
 
@@ -96,9 +95,11 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
       {otherProps.map(property => {
         return <FieldLabeled key={property} property={property} resource={resource} />;
       })}
-      <ButtonMargin type='button' onClick={handleSubmit} disabled={saving}>
-        {saving ? 'wait...' : 'save'}
-      </ButtonMargin>
+      {agent && (
+        <ButtonMargin type='button' onClick={handleSubmit} disabled={saving}>
+          {saving ? 'wait...' : 'save'}
+        </ButtonMargin>
+      )}
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );
