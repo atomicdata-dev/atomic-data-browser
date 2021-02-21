@@ -17,7 +17,7 @@ module.exports = {
     ],
     // Snowpack can build for production, but WebPack does more optimizations
     // Throws an error atm, enable later
-    // '@snowpack/plugin-webpack',
+    '@snowpack/plugin-webpack',
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
