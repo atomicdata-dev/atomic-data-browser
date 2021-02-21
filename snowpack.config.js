@@ -19,9 +19,9 @@ module.exports = {
     // Throws an error atm, enable later
     [
       '@snowpack/plugin-webpack',
-      // {
-      //   outputPattern: { css: '[namez].css', js: '[namez].js' },
-      // },
+      {
+        outputPattern: { css: '[name].css', js: '[name].js' },
+      },
     ],
   ],
   routes: [
