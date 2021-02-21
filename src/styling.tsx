@@ -11,7 +11,7 @@ interface ThemeWrapperProps {
 }
 
 /** Provides the theme for all components below. Make sure to wrap this inside SettingsContext */
-export const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
+export const ThemeWrapper = ({ children }: ThemeWrapperProps): JSX.Element => {
   const { mainColor, darkMode } = useContext(SettingsContext);
 
   return (

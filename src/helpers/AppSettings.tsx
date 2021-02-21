@@ -12,7 +12,7 @@ interface ProviderProps {
 }
 
 // Create a provider for components to consume and subscribe to changes
-export const AppSettingsContextProvider = (props: ProviderProps) => {
+export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element => {
   const [darkMode, setDarkMode] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
 
@@ -29,7 +29,7 @@ interface AppSettings {
 }
 
 /** Hook for using App Settings, such as theme and darkmode */
-export const useSettings = () => {
+export const useSettings = (): AppSettings => {
   const settings = useContext(SettingsContext);
   return settings;
 };
