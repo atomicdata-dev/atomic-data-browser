@@ -1,5 +1,6 @@
 import {createGlobalStyle} from "./pkg/styled-components.js";
 import {darken, lighten} from "./pkg/polished.js";
+import "../reset.css.proxy.js";
 export const localStoreKeyMainColor = "mainColor";
 export const localStoreKeyDarkMode = "darkMode";
 export const defaultColor = "#1b50d8";
