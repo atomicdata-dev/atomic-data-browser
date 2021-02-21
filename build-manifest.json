@@ -128,8 +128,8 @@
       "bytes": 384,
       "imports": []
     },
-    "dist/pkg/common/react-router-54f966e3.js": {
-      "bytes": 56372,
+    "dist/pkg/common/react-router-64d12d91.js": {
+      "bytes": 56253,
       "imports": [
         {
           "path": "dist/pkg/common/inheritsLoose-26512cd4.js",
@@ -158,14 +158,14 @@
       ]
     },
     "dist/pkg/react-router-dom.js": {
-      "bytes": 7823,
+      "bytes": 7807,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-54f966e3.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
-          "path": "dist/pkg/common/react-router-54f966e3.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
@@ -297,7 +297,7 @@
       ]
     },
     "dist/atomic-lib/client.js": {
-      "bytes": 1729,
+      "bytes": 1746,
       "imports": [
         {
           "path": "dist/atomic-lib/commit.js",
@@ -438,7 +438,7 @@
       "bytes": 392,
       "imports": [
         {
-          "path": "dist/pkg/common/react-router-54f966e3.js",
+          "path": "dist/pkg/common/react-router-64d12d91.js",
           "kind": "import-statement"
         },
         {
@@ -514,7 +514,7 @@
       ]
     },
     "dist/components/datatypes/ResourceInline.js": {
-      "bytes": 1306,
+      "bytes": 1276,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1391,7 +1391,7 @@
       ]
     },
     "dist/components/forms/ResourceForm.js": {
-      "bytes": 3275,
+      "bytes": 3630,
       "imports": [
         {
           "path": "dist/pkg/react.js",
@@ -1772,14 +1772,10 @@
       ]
     },
     "dist/routes/Local.js": {
-      "bytes": 383,
+      "bytes": 279,
       "imports": [
         {
           "path": "dist/pkg/react.js",
-          "kind": "import-statement"
-        },
-        {
-          "path": "dist/pkg/react-router-dom.js",
           "kind": "import-statement"
         },
         {
@@ -1958,8 +1954,8 @@
         "dist/pkg/common/objectWithoutPropertiesLoose-d5128f55.js": {
           "bytesInOutput": 138
         },
-        "dist/pkg/common/react-router-54f966e3.js": {
-          "bytesInOutput": 17977
+        "dist/pkg/common/react-router-64d12d91.js": {
+          "bytesInOutput": 17923
         },
         "dist/pkg/react-router-dom.js": {
           "bytesInOutput": 2354
@@ -1992,7 +1988,7 @@
           "bytesInOutput": 380
         },
         "dist/atomic-lib/client.js": {
-          "bytesInOutput": 785
+          "bytesInOutput": 799
         },
         "dist/atomic-lib/resource.js": {
           "bytesInOutput": 1230
@@ -2028,7 +2024,7 @@
           "bytesInOutput": 513
         },
         "dist/components/datatypes/ResourceInline.js": {
-          "bytesInOutput": 449
+          "bytesInOutput": 421
         },
         "dist/components/datatypes/DateTime.js": {
           "bytesInOutput": 109
@@ -2142,7 +2138,7 @@
           "bytesInOutput": 388
         },
         "dist/components/forms/ResourceForm.js": {
-          "bytesInOutput": 1235
+          "bytesInOutput": 1487
         },
         "dist/routes/New.js": {
           "bytesInOutput": 1082
@@ -2184,7 +2180,7 @@
           "bytesInOutput": 606
         },
         "dist/routes/Local.js": {
-          "bytesInOutput": 98
+          "bytesInOutput": 79
         },
         "dist/App.js": {
           "bytesInOutput": 1218
@@ -2193,7 +2189,7 @@
           "bytesInOutput": 158
         }
       },
-      "bytes": 392902
+      "bytes": 393067
     },
     "../~~bundle~~/dist/index.css": {
       "imports": [],
