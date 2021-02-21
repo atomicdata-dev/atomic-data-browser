@@ -2,18 +2,16 @@ import * as React from "../pkg/react.js";
 import {ContainerNarrow} from "../components/Containers.js";
 import {HexColorPicker} from "../pkg/react-colorful.js";
 import "../pkg/react-colorful/dist/index.css.proxy.js";
-import {useLocalStorage} from "../helpers/useLocalStorage.js";
-import {localStoreKeyMainColor} from "../styling.js";
 import {ButtonMargin} from "../components/Button.js";
-import {useDarkMode} from "../helpers/useDarkMode.js";
 import {ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled} from "../components/forms/InputStyles.js";
 import {useStore} from "../atomic-react/hooks.js";
 import {useState} from "../pkg/react.js";
 import {Agent} from "../atomic-lib/agent.js";
 import {Card} from "../components/Card.js";
+import {useSettings} from "../helpers/AppSettings.js";
 const Settings = () => {
-  const [dark, setDark] = useDarkMode();
   const store = useStore();
+  const {darkMode, setDarkMode} = useSettings();
   const [agentSubject, setCurrentAgent] = useState(null);
   const [privateKey, setCurrentPrivateKey] = useState("");
   const [baseUrl, setBaseUrl] = useState(store.getBaseUrl());
@@ -34,10 +32,6 @@ const Settings = () => {
       setErrAgent(e);
     }
   }
-  function handleSetDark() {
-    setDark(!dark);
-    window.location.reload();
-  }
   function handleSetBaseUrl() {
     try {
       store.setBaseUrl(baseUrl);
@@ -46,8 +40,8 @@ const Settings = () => {
     }
   }
   return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Settings"), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Theme"), /* @__PURE__ */ React.createElement(ButtonMargin, {
-    onClick: handleSetDark
-  }, dark ? "turn off" : "turn on", " dark mode"), /* @__PURE__ */ React.createElement(MainColorPicker, null), /* @__PURE__ */ React.createElement("br", null)), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Agent"), /* @__PURE__ */ React.createElement("p", null, "An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits. Creating an Agent currently requires setting up an ", /* @__PURE__ */ React.createElement("a", {
+    onClick: () => setDarkMode(!darkMode)
+  }, darkMode ? "turn off" : "turn on", " dark mode"), /* @__PURE__ */ React.createElement(MainColorPicker, null), /* @__PURE__ */ React.createElement("br", null)), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Agent"), /* @__PURE__ */ React.createElement("p", null, "An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits. Creating an Agent currently requires setting up an ", /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/joepio/atomic/tree/master/server"
   }, "atomic-server"), "."), /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "Agent Subject URL"), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, {
     value: agentSubject,
@@ -66,13 +60,9 @@ const Settings = () => {
 };
 export default Settings;
 const MainColorPicker = () => {
-  const [color, setColor] = useLocalStorage(localStoreKeyMainColor, "#aabbcc");
-  function handleSetColor(color2) {
-    setColor(color2);
-    window.location.reload();
-  }
+  const {mainColor, setMainColor} = useSettings();
   return /* @__PURE__ */ React.createElement(HexColorPicker, {
-    color,
-    onChange: handleSetColor
+    color: mainColor,
+    onChange: (val) => setMainColor(val)
   });
 };

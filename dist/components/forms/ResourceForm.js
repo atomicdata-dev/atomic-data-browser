@@ -59,7 +59,7 @@ export function ResourceForm({classSubject, resource}) {
   }
   let warning = null;
   if (!resource.getSubject().includes(store.getBaseUrl())) {
-    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might nog have the rights to edit this.`;
+    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might not have the rights to edit this.`;
   }
   try {
     store.getAgent();
@@ -68,7 +68,7 @@ export function ResourceForm({classSubject, resource}) {
   }
   return /* @__PURE__ */ React.createElement("form", {
     about: resource.getSubject()
-  }, warning && /* @__PURE__ */ React.createElement(ErrMessage, null, "Warning: ", warning), requires.map((property) => {
+  }, warning && /* @__PURE__ */ React.createElement(ErrMessage, null, "\u26A0\uFE0F", warning), requires.map((property) => {
     return /* @__PURE__ */ React.createElement(FieldLabeled, {
       key: property,
       property,

@@ -2,8 +2,8 @@ import * as React from "../pkg/react.js";
 import {checkValidURL} from "../atomic-lib/client.js";
 import ResourcePage from "../components/ResourcePage.js";
 import {useCurrentSubject} from "../helpers/useCurrentSubject.js";
-import {Search} from "./Search.js";
-import {Welcome} from "./Welcome.js";
+import {Search} from "./SearchRoute.js";
+import {Welcome} from "./WelcomeRoute.js";
 const Show = () => {
   const [subject] = useCurrentSubject();
   if (subject == void 0 || subject == "") {

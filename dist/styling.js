@@ -1,9 +1,17 @@
-import {createGlobalStyle} from "./pkg/styled-components.js";
+import {createGlobalStyle, ThemeProvider} from "./pkg/styled-components.js";
 import {darken, lighten} from "./pkg/polished.js";
 import "../reset.css.proxy.js";
-export const localStoreKeyMainColor = "mainColor";
-export const localStoreKeyDarkMode = "darkMode";
-export const defaultColor = "#1b50d8";
+import React from "./pkg/react.js";
+import "./pkg/styled-components.js";
+import {useContext} from "./pkg/react.js";
+import {SettingsContext} from "./helpers/AppSettings.js";
+export const ThemeWrapper = ({children}) => {
+  const {mainColor, darkMode} = useContext(SettingsContext);
+  return /* @__PURE__ */ React.createElement(ThemeProvider, {
+    key: mainColor,
+    theme: buildTheme(darkMode, mainColor)
+  }, children);
+};
 export const buildTheme = (darkMode, mainIn) => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? "black" : "white";
@@ -30,7 +38,6 @@ export const buildTheme = (darkMode, mainIn) => {
     }
   };
 };
-import "./pkg/styled-components.js";
 export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.colors.bg};

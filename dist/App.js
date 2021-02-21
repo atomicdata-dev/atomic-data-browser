@@ -1,39 +1,32 @@
 import React from "./pkg/react.js";
-import {ThemeProvider} from "./pkg/styled-components.js";
 import {QueryParamProvider} from "./pkg/use-query-params.js";
 import {BrowserRouter, Route, Switch} from "./pkg/react-router-dom.js";
 import {Store} from "./atomic-lib/store.js";
-import {buildTheme, defaultColor, GlobalStyle, localStoreKeyMainColor} from "./styling.js";
+import {GlobalStyle, ThemeWrapper} from "./styling.js";
 import {StoreContext} from "./atomic-react/hooks.js";
-import Show from "./routes/Show.js";
-import New from "./routes/New.js";
+import Show from "./routes/ShowRoute.js";
+import New from "./routes/NewRoute.js";
 import {AddressBar} from "./components/AddressBar.js";
-import {useDarkMode} from "./helpers/useDarkMode.js";
-import {useLocalStorage} from "./helpers/useLocalStorage.js";
-import Settings from "./routes/Settings.js";
+import Settings from "./routes/SettingsRoute.js";
 import {Agent} from "./atomic-lib/agent.js";
 import {getSnowpackEnv, isDev} from "./config.js";
 import {handleWarning} from "./helpers/handlers.js";
-import {Edit} from "./routes/Edit.js";
+import {Edit} from "./routes/EditRoute.js";
 import HotKeysWrapper from "./components/HotKeyWrapper.js";
-import Data from "./routes/Data.js";
-import {Shortcuts} from "./routes/Shortcuts.js";
-import {Welcome} from "./routes/Welcome.js";
-import Local from "./routes/Local.js";
+import Data from "./routes/DataRoute.js";
+import {Shortcuts} from "./routes/ShortcutsRoute.js";
+import {Welcome} from "./routes/WelcomeRoute.js";
+import Local from "./routes/LocalRoute.js";
+import {AppSettingsContextProvider} from "./helpers/AppSettings.js";
 const store = new Store();
 function App() {
-  const [darkMode] = useDarkMode();
-  const [mainColor] = useLocalStorage(localStoreKeyMainColor, defaultColor);
   return /* @__PURE__ */ React.createElement(StoreContext.Provider, {
     value: store
-  }, /* @__PURE__ */ React.createElement(BrowserRouter, {
+  }, /* @__PURE__ */ React.createElement(AppSettingsContextProvider, null, /* @__PURE__ */ React.createElement(BrowserRouter, {
     basename: "/"
   }, /* @__PURE__ */ React.createElement(QueryParamProvider, {
     ReactRouterRoute: Route
-  }, /* @__PURE__ */ React.createElement(HotKeysWrapper, null, /* @__PURE__ */ React.createElement(ThemeProvider, {
-    key: mainColor,
-    theme: buildTheme(darkMode, mainColor)
-  }, /* @__PURE__ */ React.createElement(GlobalStyle, null), /* @__PURE__ */ React.createElement(AddressBar, null), /* @__PURE__ */ React.createElement(Switch, null, /* @__PURE__ */ React.createElement(Route, {
+  }, /* @__PURE__ */ React.createElement(HotKeysWrapper, null, /* @__PURE__ */ React.createElement(ThemeWrapper, null, /* @__PURE__ */ React.createElement(GlobalStyle, null), /* @__PURE__ */ React.createElement(AddressBar, null), /* @__PURE__ */ React.createElement(Switch, null, /* @__PURE__ */ React.createElement(Route, {
     path: "/new"
   }, /* @__PURE__ */ React.createElement(New, null)), /* @__PURE__ */ React.createElement(Route, {
     path: "/edit"
@@ -49,7 +42,7 @@ function App() {
     path: "/:path"
   }, /* @__PURE__ */ React.createElement(Local, null)), /* @__PURE__ */ React.createElement(Route, {
     path: "/"
-  }, /* @__PURE__ */ React.createElement(Welcome, null))))))));
+  }, /* @__PURE__ */ React.createElement(Welcome, null)))))))));
 }
 export default App;
 if (isDev()) {

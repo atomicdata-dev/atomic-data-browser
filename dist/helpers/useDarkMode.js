@@ -1,6 +1,6 @@
 import {useEffect, useState} from "../pkg/react.js";
-import {localStoreKeyDarkMode} from "../styling.js";
 import {useLocalStorage} from "./useLocalStorage.js";
+import {localStoreKeyDarkMode} from "./AppSettings.js";
 export const useDarkMode = () => {
   let def = false;
   if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
