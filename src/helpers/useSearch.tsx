@@ -34,7 +34,7 @@ function constructIndex(store: Store): SearchIndex {
       return '';
     }
     // QuickScore can't handle URLs as keys, so I serialize all values of propvals to a single string. https://github.com/fwextensions/quick-score/issues/11
-    const propvalsString = JSON.stringify(Array.from(resource.getPropVals().values()));
+    const propvalsString = JSON.stringify(Array.from(resource.getPropVals().values()).sort().join('\n'));
     const searchResource: FoundResource = {
       subject: resource.getSubject(),
       valuesArray: propvalsString,
