@@ -62,7 +62,7 @@ function NavBar() {
   }, /* @__PURE__ */ React.createElement(ButtonBar, {
     type: "button",
     onClick: () => handleNavigation("/"),
-    title: "Home"
+    title: "Go home (h)"
   }, /* @__PURE__ */ React.createElement(FaHome, null)), /* @__PURE__ */ React.createElement(ButtonBar, {
     type: "button",
     title: "Go back",
@@ -80,7 +80,7 @@ function NavBar() {
     placeholder: 'Enter an Atomic URL or search   (press "/" )'
   }), /* @__PURE__ */ React.createElement(ButtonBar, {
     type: "button",
-    title: "Create a new Resource",
+    title: "Create a new Resource (n)",
     onClick: () => handleNavigation("/new")
   }, /* @__PURE__ */ React.createElement(FaPlus, null)));
 }

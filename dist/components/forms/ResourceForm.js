@@ -61,9 +61,8 @@ export function ResourceForm({classSubject, resource}) {
   if (!resource.getSubject().includes(store.getBaseUrl())) {
     warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might not have the rights to edit this.`;
   }
-  try {
-    store.getAgent();
-  } catch (e) {
+  const agent = store.getAgent();
+  if (agent == null) {
     warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
   }
   return /* @__PURE__ */ React.createElement("form", {
@@ -87,7 +86,7 @@ export function ResourceForm({classSubject, resource}) {
       property,
       resource
     });
-  }), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }), agent && /* @__PURE__ */ React.createElement(ButtonMargin, {
     type: "button",
     onClick: handleSubmit,
     disabled: saving

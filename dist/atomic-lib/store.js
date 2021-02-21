@@ -29,8 +29,8 @@ export class Store {
     return this.baseUrl;
   }
   getAgent() {
-    if (this.agent == null) {
-      throw new Error("No agent has been set. Run store.setAgent()");
+    if (this.agent == void 0) {
+      return null;
     }
     return this.agent;
   }

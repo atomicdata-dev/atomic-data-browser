@@ -19,6 +19,7 @@ import {Welcome} from "./routes/WelcomeRoute.js";
 import Local from "./routes/LocalRoute.js";
 import {AppSettingsContextProvider} from "./helpers/AppSettings.js";
 const store = new Store();
+store.setBaseUrl(window.location.origin);
 function App() {
   return /* @__PURE__ */ React.createElement(StoreContext.Provider, {
     value: store

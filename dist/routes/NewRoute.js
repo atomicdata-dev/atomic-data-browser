@@ -43,7 +43,7 @@ function New() {
     resource,
     classSubject,
     key: `${classSubject}+${newSubject}`
-  }), /* @__PURE__ */ React.createElement("p", null, "Saving to ", store.getBaseUrl(), " as ", resource.getSubje)) : /* @__PURE__ */ React.createElement("form", {
+  })) : /* @__PURE__ */ React.createElement("form", {
     onSubmit: handleClassSet
   }, /* @__PURE__ */ React.createElement("h1", null, "Create something new"), /* @__PURE__ */ React.createElement(Examples, null), /* @__PURE__ */ React.createElement("p", null, "... or enter the URL of an existing Class:"), /* @__PURE__ */ React.createElement(InputStyled, {
     value: classInput || null,
