@@ -3,7 +3,7 @@ import { darken, lighten } from 'polished';
 
 export const localStoreKeyMainColor = 'mainColor';
 export const localStoreKeyDarkMode = 'darkMode';
-export const defaultColor = '#1E43A3';
+export const defaultColor = '#1b50d8';
 
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
