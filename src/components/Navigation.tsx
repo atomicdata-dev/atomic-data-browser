@@ -32,6 +32,7 @@ interface ContentProps {
 }
 
 const Content = styled.div<ContentProps>`
+  transition: margin-top 0.2s ease, margin-bottom 0.2s ease;
   margin-top: ${props => (props.topPadding ? '2rem' : '0')};
   margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
 `;
@@ -124,6 +125,7 @@ interface NavBarStyledProps {
 
 /** Don't use this directly - use NavBarFloating or NavBarFixed */
 const NavBarBase = styled.form<NavBarStyledProps>`
+  transition: all 0.2s ease;
   position: fixed;
   z-index: 100;
   height: 2.5rem;
@@ -182,7 +184,6 @@ const NavBarFloating = styled(NavBarBase)`
   left: 50%;
   margin-left: -20rem; /* Negative half of width. */
   margin-right: -20rem; /* Negative half of width. */
-  position: ${props => (props.floating ? 'fixed' : 'relative')};
   top: ${props => (props.top ? '2rem' : 'auto')};
   bottom: ${props => (props.top ? 'auto' : '2rem')};
 
