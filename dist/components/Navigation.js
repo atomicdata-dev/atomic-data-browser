@@ -16,6 +16,7 @@ export function Navigation({children}) {
   }, children), !navbarTop && /* @__PURE__ */ React.createElement(NavBar, null));
 }
 const Content = styled.div`
+  transition: margin-top 0.2s ease, margin-bottom 0.2s ease;
   margin-top: ${(props) => props.topPadding ? "2rem" : "0"};
   margin-bottom: ${(props) => props.topPadding ? "0" : "2rem"};
 `;
@@ -85,6 +86,7 @@ function NavBar() {
   }, /* @__PURE__ */ React.createElement(FaPlus, null)));
 }
 const NavBarBase = styled.form`
+  transition: all 0.2s ease;
   position: fixed;
   z-index: 100;
   height: 2.5rem;
@@ -142,7 +144,6 @@ const NavBarFloating = styled(NavBarBase)`
   left: 50%;
   margin-left: -20rem; /* Negative half of width. */
   margin-right: -20rem; /* Negative half of width. */
-  position: ${(props) => props.floating ? "fixed" : "relative"};
   top: ${(props) => props.top ? "2rem" : "auto"};
   bottom: ${(props) => props.top ? "auto" : "2rem"};
 

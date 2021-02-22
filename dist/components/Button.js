@@ -16,7 +16,7 @@ export const Button = styled.button`
   transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color;
 
   &:hover:not([disabled]),
-  &:focus:not([disabled]) {
+  &:focus-visible:not([disabled]) {
     background-color: ${(props) => props.theme.colors.mainLight};
     color: ${(props) => props.theme.colors.bg};
     transform: scale(1.05);
@@ -45,7 +45,7 @@ export const ButtonBar = styled(Button)`
 
   &:hover:not([disabled]),
   &:active:not([disabled]),
-  &:focus:not([disabled]) {
+  &:focus-visible:not([disabled]) {
     transform: scale(1);
   }
 

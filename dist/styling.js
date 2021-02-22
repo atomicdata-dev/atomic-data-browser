@@ -45,6 +45,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${(props) => props.theme.fontFamily};
     line-height: 1.5em;
     word-wrap: break-word;
+    transition: background-color .5s ease, color .5s ease;
   }
 
   a {
