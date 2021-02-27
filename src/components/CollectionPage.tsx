@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { properties } from '../helpers/urls';
 import { useLocalStorage } from '../helpers/useLocalStorage';
@@ -13,6 +14,7 @@ import Markdown from './datatypes/Markdown';
 import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
+import { useCurrentSubject, useSubjectParam } from '../helpers/useCurrentSubject';
 
 type CollectionProps = {
   resource: Resource;
@@ -46,6 +48,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
+  // Query parameters for Collections
+  const [page, setPage] = useSubjectParam('current_page');
+  const [pageSize, setPageSize] = useSubjectParam('page_size');
+  const [propertyFilter, setPropertyFilter] = useSubjectParam('property');
+  const [valueFilter, setValueFilter] = useSubjectParam('value');
+  const [sortBy, setSortBy] = useSubjectParam('sort_by');
+  const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
 
   const handleToggleView = () => {
     setDisplayStyle(nextDisplayStyle());
@@ -70,6 +79,8 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
       {klass && <NewInstanceButton klass={klass} />}
       {description && <Markdown text={description} />}
+      <input type='number' value={page} onChange={e => setPage(e.target.value)} />
+      <input type='number' value={pageSize} onChange={e => setPageSize(e.target.value)} />
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}
     </ContainerFull>
