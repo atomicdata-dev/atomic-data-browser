@@ -1,12 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { properties } from '../helpers/urls';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useViewport } from '../helpers/useMedia';
-import { useArray, useString, useTitle } from '../atomic-react/hooks';
+import { useArray, useNumber, useString, useTitle, useValue, useValue } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import { ButtonMargin } from './Button';
 import { ContainerFull } from './Containers';
@@ -14,7 +13,7 @@ import Markdown from './datatypes/Markdown';
 import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
-import { useCurrentSubject, useSubjectParam } from '../helpers/useCurrentSubject';
+import { useSubjectParam } from '../helpers/useCurrentSubject';
 
 type CollectionProps = {
   resource: Resource;
@@ -48,9 +47,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
+  // const [pageSizeI] = useNumber(resource, properties.collection.pageSize);
+  const [currentPage] = useNumber(resource, properties.collection.currentPage);
+  const [totalPages] = useNumber(resource, properties.collection.totalPages);
   // Query parameters for Collections
-  const [page, setPage] = useSubjectParam('current_page');
-  const [pageSize, setPageSize] = useSubjectParam('page_size');
+  const [, setPage] = useSubjectParam('current_page');
+  // We use the pageSize from the Collection itself - not the query param. This gives us a default value.
+  // const [, setPageSize] = useSubjectParam('page_size');
   const [propertyFilter, setPropertyFilter] = useSubjectParam('property');
   const [valueFilter, setValueFilter] = useSubjectParam('value');
   const [sortBy, setSortBy] = useSubjectParam('sort_by');
@@ -64,23 +67,30 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     switch (displayStyle) {
       case DisplayStyle.CARDLIST: {
         return DisplayStyle.TABLE;
-        break;
       }
       case DisplayStyle.TABLE: {
         return DisplayStyle.CARDLIST;
       }
     }
   };
-  useHotkeys('v', () => handleToggleView(), {}, [displayStyle]);
+  useHotkeys('v', handleToggleView, {}, [displayStyle]);
 
   return (
     <ContainerFull about={resource.getSubject()}>
       <h1>{title}</h1>
-      <ButtonMargin onClick={handleToggleView}>{displayStyleString(nextDisplayStyle())} view</ButtonMargin>
+      <ButtonMargin subtle onClick={handleToggleView}>
+        {displayStyleString(nextDisplayStyle())} view
+      </ButtonMargin>
+      <ButtonMargin subtle onClick={() => setPage(currentPage - 1)} disabled={currentPage == 0}>
+        prev page
+      </ButtonMargin>
+      <ButtonMargin subtle onClick={() => setPage(currentPage + 1)} disabled={currentPage == totalPages - 1}>
+        next page
+      </ButtonMargin>
       {klass && <NewInstanceButton klass={klass} />}
       {description && <Markdown text={description} />}
-      <input type='number' value={page} onChange={e => setPage(e.target.value)} />
-      <input type='number' value={pageSize} onChange={e => setPageSize(e.target.value)} />
+      {/* <input type='number' placeholder='page nr' value={page} onChange={e => setPage(e.target.value)} /> */}
+      {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}
     </ContainerFull>

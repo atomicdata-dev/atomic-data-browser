@@ -184,6 +184,15 @@ export function useArray(resource: Resource, propertyURL: string): [string[] | n
   return [value.toArray(), set];
 }
 
+/** Hook for getting all URLs for some array. Returns the current Array (defaults to empty array) and a callback for validation errors. */
+export function useNumber(resource: Resource, propertyURL: string): [number | null, handleValidationErrorType] {
+  const [value, set] = useValue(resource, propertyURL);
+  if (value == null) {
+    return [NaN, set];
+  }
+  return [value.toNumber(), set];
+}
+
 /** Hook for getting a stringified representation of an Atom in a React component */
 export function useDate(resource: Resource, propertyURL: string): Date | null {
   const [value] = useValue(resource, propertyURL);
