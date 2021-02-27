@@ -11,6 +11,7 @@ import NewInstanceButton from './NewInstanceButton';
 import { useHistory } from 'react-router-dom';
 import { editURL } from '../helpers/navigation';
 import { ButtonMargin } from './Button';
+import { ErrorLook } from './datatypes/ResourceInline';
 
 type Props = {
   subject: string;
@@ -29,7 +30,12 @@ function ResourcePage({ subject }: Props): JSX.Element {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
   if (status == ResourceStatus.error) {
-    return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
+    return (
+      <ContainerNarrow>
+        <h1>⚠️ {title}</h1>
+        <ErrorLook>{resource.getError().message}</ErrorLook>
+      </ContainerNarrow>
+    );
   }
 
   switch (klass) {
