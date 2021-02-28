@@ -5,6 +5,7 @@ import InputString from './InputString';
 import { InputResource } from './InputResource';
 import InputResourceArray from './InputResourceArray';
 import InputMarkdown from './InputMarkdown';
+import InputNumber from './InputNumber';
 
 export default function InputSwitcher({ resource, property, required }: InputProps): JSX.Element {
   switch (property.datatype) {
@@ -16,6 +17,9 @@ export default function InputSwitcher({ resource, property, required }: InputPro
     }
     case Datatype.SLUG: {
       return <InputString resource={resource} property={property} required={required} />;
+    }
+    case Datatype.INTEGER: {
+      return <InputNumber resource={resource} property={property} required={required} />;
     }
     case Datatype.ATOMIC_URL: {
       return <InputResource resource={resource} property={property} required={required} />;
