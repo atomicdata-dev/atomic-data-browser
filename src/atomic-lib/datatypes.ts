@@ -32,7 +32,7 @@ export const datatypeFromUrl = (url: string): Datatype => {
       return Datatype.FLOAT;
     }
     case urls.datatypes.integer: {
-      return Datatype.STRING;
+      return Datatype.INTEGER;
     }
     case urls.datatypes.markdown: {
       return Datatype.MARKDOWN;
