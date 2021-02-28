@@ -14,7 +14,7 @@ export class Value {
   /** Createes a new Vales, makes (possibly incorrect) assumptions about its Datatype based on the input value */
   constructor(val: JSVals) {
     if (val === null || val === undefined) {
-      throw Error('New Value cannot be null or undefined');
+      throw Error(`New Value cannot be null or undefined, is a ${typeof this.val}`);
     }
     this.val = val;
   }
@@ -24,13 +24,13 @@ export class Value {
     if (this.val.constructor == Array) {
       return this.val;
     }
-    throw new Error(`Not an array: ${this.val}`);
+    throw new Error(`Not an array: ${this.val}, is a ${typeof this.val}`);
   }
 
   /** Tries to make a boolean from this value. Throws if it is not a boolean. */
   toBoolean(): boolean {
     if (typeof this.val !== 'boolean') {
-      throw new Error(`Not a boolean: ${this.val}`);
+      throw new Error(`Not a boolean: ${this.val}, is a ${typeof this.val}`);
     }
     return this.val;
   }
@@ -46,7 +46,7 @@ export class Value {
     if (typeof this.val == 'string') {
       return new Date(this.val.toString());
     }
-    throw new Error(`Cannot be converted into Date: ${this.val}`);
+    throw new Error(`Cannot be converted into Date: ${this.val}, is a ${typeof this.val}`);
   }
 
   /** Converts value to its native JS(ON) counterpart */
@@ -65,7 +65,7 @@ export class Value {
       case Datatype.RESOURCEARRAY:
         return this.toArray();
       default: {
-        return this.toString();
+        return this.val;
       }
     }
   }
@@ -73,7 +73,7 @@ export class Value {
   /** Returns a number of the value, or throws an error */
   toNumber(): number {
     if (typeof this.val !== 'number') {
-      throw new Error(`Not a number: ${this.val}`);
+      throw new Error(`Not a number: ${this.val}, is a ${typeof this.val}`);
     }
     return this.val;
   }
@@ -93,9 +93,9 @@ export class Value {
       return this.val;
     }
     if (typeof this.val !== 'object') {
-      throw new Error(`Not a resource: ${this.val}`);
+      throw new Error(`Not a resource: ${this.val}, is a ${typeof this.val}`);
     }
-    throw new Error(`Not a resource: ${this.val}`);
+    throw new Error(`Not a resource: ${this.val}, is a ${typeof this.val}`);
   }
 
   /** Returns the internal JSON based value */
