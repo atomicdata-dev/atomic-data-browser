@@ -14,7 +14,7 @@ import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
-import { DropDownList } from './forms/Dropdownlist';
+import { DropDownList, DropDownMini } from './forms/Dropdownlist';
 
 type CollectionProps = {
   resource: Resource;
@@ -117,7 +117,9 @@ function Collection({ resource }: CollectionProps): JSX.Element {
           </Button>
         </>
       )}
-      <DropDownList options={propsArrayFull} onUpdate={handleSetSort} />
+      <DropDownMini>
+        <DropDownList placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
+      </DropDownMini>
       {description && <Markdown text={description} />}
       {/* <input type='number' placeholder='page nr' value={page} onChange={e => setPage(e.target.value)} /> */}
       {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}

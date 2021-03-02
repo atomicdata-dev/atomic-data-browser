@@ -132,3 +132,8 @@ const DropDownItem = styled.li`
     color: ${props => props.theme.colors.bg};
   }
 `;
+
+/** A wrapper for wrapping around the dropdown if you want it tiny */
+export const DropDownMini = styled.li`
+  display: inline-flex;
+`;
