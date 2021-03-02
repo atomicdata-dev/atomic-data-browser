@@ -5,15 +5,16 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { properties } from '../helpers/urls';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useViewport } from '../helpers/useMedia';
-import { useArray, useNumber, useString, useTitle, useValue, useValue } from '../atomic-react/hooks';
+import { useArray, useNumber, useResource, useString, useTitle } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
-import { ButtonMargin } from './Button';
+import { Button } from './Button';
 import { ContainerFull } from './Containers';
 import Markdown from './datatypes/Markdown';
 import NewInstanceButton from './NewInstanceButton';
 import ResourceCard from './ResourceCard';
 import Table from './Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
+import { DropDownList } from './forms/Dropdownlist';
 
 type CollectionProps = {
   resource: Resource;
@@ -59,9 +60,33 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [sortBy, setSortBy] = useSubjectParam('sort_by');
   const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
 
+  // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
+  // But we can also have a collection of thing that share the same creator.
+  // If that happens, we need a different approach to rendering the Headers
+  const [classResource] = useResource(klass);
+  const [requiredProps] = useArray(classResource, properties.requires);
+  const [recommendedProps] = useArray(classResource, properties.recommends);
+  const propsArrayFull = requiredProps.concat(recommendedProps);
+
   const handleToggleView = () => {
     setDisplayStyle(nextDisplayStyle());
   };
+
+  function handlePrevPage() {
+    if (currentPage !== 0) {
+      () => setPage(currentPage - 1);
+    }
+  }
+
+  function handleNextPage() {
+    if (currentPage !== totalPages - 1) {
+      () => setPage(currentPage + 1);
+    }
+  }
+
+  function handleSetSort(by: string) {
+    setSortBy(by);
+  }
 
   const nextDisplayStyle = (): DisplayStyle => {
     switch (displayStyle) {
@@ -78,21 +103,26 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   return (
     <ContainerFull about={resource.getSubject()}>
       <h1>{title}</h1>
-      <ButtonMargin subtle onClick={handleToggleView}>
+      <Button subtle onClick={handleToggleView}>
         {displayStyleString(nextDisplayStyle())} view
-      </ButtonMargin>
-      <ButtonMargin subtle onClick={() => setPage(currentPage - 1)} disabled={currentPage == 0}>
-        prev page
-      </ButtonMargin>
-      <ButtonMargin subtle onClick={() => setPage(currentPage + 1)} disabled={currentPage == totalPages - 1}>
-        next page
-      </ButtonMargin>
+      </Button>
       {klass && <NewInstanceButton klass={klass} />}
+      {totalPages > 1 && (
+        <>
+          <Button subtle onClick={handlePrevPage} disabled={currentPage == 0}>
+            prev page
+          </Button>
+          <Button subtle onClick={handleNextPage} disabled={currentPage == totalPages - 1}>
+            next page
+          </Button>
+        </>
+      )}
+      <DropDownList options={propsArrayFull} onUpdate={handleSetSort} />
       {description && <Markdown text={description} />}
       {/* <input type='number' placeholder='page nr' value={page} onChange={e => setPage(e.target.value)} /> */}
       {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
-      {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} />}
+      {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} columns={propsArrayFull} />}
     </ContainerFull>
   );
 }
