@@ -22,6 +22,9 @@ export class Store {
       return fetched;
     }
   }
+  getAllSubjects() {
+    return Array.from(this.resources.keys());
+  }
   getBaseUrl() {
     if (this.baseUrl == void 0) {
       return null;

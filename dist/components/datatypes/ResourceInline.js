@@ -11,7 +11,8 @@ function ResourceInline({subject}) {
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
     return /* @__PURE__ */ React.createElement("span", {
-      about: subject
+      about: subject,
+      title: `${subject} is loading..`
     }, "...");
   }
   if (status == ResourceStatus.error) {
@@ -20,7 +21,7 @@ function ResourceInline({subject}) {
     }, /* @__PURE__ */ React.createElement(ErrorLook, {
       about: subject,
       title: resource.getError().message
-    }, "error"));
+    }, "Error: ", subject));
   }
   return /* @__PURE__ */ React.createElement(AtomicLink, {
     url: subject
@@ -30,6 +31,7 @@ function ResourceInline({subject}) {
 }
 export const ErrorLook = styled.span`
   color: ${(props) => props.theme.colors.alert};
+  line-height: 1em;
   font-family: monospace;
 `;
 export default ResourceInline;

@@ -8,11 +8,13 @@ export var ResourceStatus;
   ResourceStatus2[ResourceStatus2["loading"] = 0] = "loading";
   ResourceStatus2[ResourceStatus2["error"] = 1] = "error";
   ResourceStatus2[ResourceStatus2["ready"] = 2] = "ready";
+  ResourceStatus2[ResourceStatus2["new"] = 3] = "new";
 })(ResourceStatus || (ResourceStatus = {}));
 export class Resource {
   constructor(subject) {
     if (subject == void 0) {
       subject = `local:resource/` + Math.random().toString(32);
+      this.status = 3;
     }
     this.subject = subject;
     this.propvals = new Map();
@@ -60,6 +62,11 @@ export class Resource {
     await postCommit(commit, store.getBaseUrl() + `/commit`);
     store.removeResource(this.getSubject());
   }
+  removePropVal(propertyUrl) {
+    this.propvals.delete(propertyUrl);
+    delete this.commitBuilder.set[propertyUrl];
+    this.commitBuilder.remove.push(propertyUrl);
+  }
   async save(store) {
     const agent = store.getAgent();
     const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
@@ -67,7 +74,7 @@ export class Resource {
     store.addResource(this);
     return this.getSubject();
   }
-  async setValidate(prop, value, store) {
+  async set(prop, value, store) {
     const fullProp = await store.getProperty(prop);
     const newVal = validate(value, fullProp.datatype);
     this.propvals.set(prop, newVal);

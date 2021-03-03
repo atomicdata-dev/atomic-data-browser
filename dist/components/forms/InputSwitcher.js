@@ -4,6 +4,8 @@ import InputString from "./InputString.js";
 import {InputResource} from "./InputResource.js";
 import InputResourceArray from "./InputResourceArray.js";
 import InputMarkdown from "./InputMarkdown.js";
+import InputNumber from "./InputNumber.js";
+import InputBoolean from "./InputBoolean.js";
 export default function InputSwitcher({resource, property, required}) {
   switch (property.datatype) {
     case Datatype.STRING: {
@@ -27,6 +29,14 @@ export default function InputSwitcher({resource, property, required}) {
         required
       });
     }
+    case Datatype.TIMESTAMP:
+    case Datatype.INTEGER: {
+      return /* @__PURE__ */ React.createElement(InputNumber, {
+        resource,
+        property,
+        required
+      });
+    }
     case Datatype.ATOMIC_URL: {
       return /* @__PURE__ */ React.createElement(InputResource, {
         resource,
@@ -36,6 +46,13 @@ export default function InputSwitcher({resource, property, required}) {
     }
     case Datatype.RESOURCEARRAY: {
       return /* @__PURE__ */ React.createElement(InputResourceArray, {
+        resource,
+        property,
+        required
+      });
+    }
+    case Datatype.BOOLEAN: {
+      return /* @__PURE__ */ React.createElement(InputBoolean, {
         resource,
         property,
         required

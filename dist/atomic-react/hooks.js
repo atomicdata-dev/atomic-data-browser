@@ -69,11 +69,16 @@ export function useValue(resource, propertyURL) {
   const [val, set] = useState(null);
   const store = useStore();
   function validateAndSet(newVal, handleValidationError) {
+    if (newVal == null) {
+      resource.removePropVal(propertyURL);
+      set(null);
+      return;
+    }
     const valFromNewVal = new Value(newVal);
     set(valFromNewVal);
     async function setAsync() {
       try {
-        await resource.setValidate(propertyURL, newVal, store);
+        await resource.set(propertyURL, newVal, store);
         handleValidationError && handleValidationError(null);
       } catch (e) {
         handleValidationError && handleValidationError(e);
@@ -129,6 +134,20 @@ export function useArray(resource, propertyURL) {
     return [[], set];
   }
   return [value.toArray(), set];
+}
+export function useNumber(resource, propertyURL) {
+  const [value, set] = useValue(resource, propertyURL);
+  if (value == null) {
+    return [NaN, set];
+  }
+  return [value.toNumber(), set];
+}
+export function useBoolean(resource, propertyURL) {
+  const [value, set] = useValue(resource, propertyURL);
+  if (value == null) {
+    return [false, set];
+  }
+  return [value.toBoolean(), set];
 }
 export function useDate(resource, propertyURL) {
   const [value] = useValue(resource, propertyURL);

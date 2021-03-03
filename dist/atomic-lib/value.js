@@ -2,7 +2,7 @@ import {Datatype} from "./datatypes.js";
 export class Value {
   constructor(val) {
     if (val === null || val === void 0) {
-      throw Error("New Value cannot be null or undefined");
+      throw Error(`New Value cannot be null or undefined, is a ${typeof this.val}`);
     }
     this.val = val;
   }
@@ -10,11 +10,11 @@ export class Value {
     if (this.val.constructor == Array) {
       return this.val;
     }
-    throw new Error(`Not an array: ${this.val}`);
+    throw new Error(`Not an array: ${this.val}, is a ${typeof this.val}`);
   }
   toBoolean() {
     if (typeof this.val !== "boolean") {
-      throw new Error(`Not a boolean: ${this.val}`);
+      throw new Error(`Not a boolean: ${this.val}, is a ${typeof this.val}`);
     }
     return this.val;
   }
@@ -27,7 +27,7 @@ export class Value {
     if (typeof this.val == "string") {
       return new Date(this.val.toString());
     }
-    throw new Error(`Cannot be converted into Date: ${this.val}`);
+    throw new Error(`Cannot be converted into Date: ${this.val}, is a ${typeof this.val}`);
   }
   toNative(datatype) {
     switch (datatype) {
@@ -44,13 +44,13 @@ export class Value {
       case Datatype.RESOURCEARRAY:
         return this.toArray();
       default: {
-        return this.toString();
+        return this.val;
       }
     }
   }
   toNumber() {
     if (typeof this.val !== "number") {
-      throw new Error(`Not a number: ${this.val}`);
+      throw new Error(`Not a number: ${this.val}, is a ${typeof this.val}`);
     }
     return this.val;
   }
@@ -65,9 +65,9 @@ export class Value {
       return this.val;
     }
     if (typeof this.val !== "object") {
-      throw new Error(`Not a resource: ${this.val}`);
+      throw new Error(`Not a resource: ${this.val}, is a ${typeof this.val}`);
     }
-    throw new Error(`Not a resource: ${this.val}`);
+    throw new Error(`Not a resource: ${this.val}, is a ${typeof this.val}`);
   }
   value() {
     return this.val;

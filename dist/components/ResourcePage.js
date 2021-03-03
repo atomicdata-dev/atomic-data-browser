@@ -10,7 +10,8 @@ import ClassDetail from "./ClassDetail.js";
 import NewInstanceButton from "./NewInstanceButton.js";
 import {useHistory} from "../pkg/react-router-dom.js";
 import {editURL} from "../helpers/navigation.js";
-import {ButtonMargin} from "./Button.js";
+import {Button} from "./Button.js";
+import {ErrorLook} from "./datatypes/ResourceInline.js";
 function ResourcePage({subject}) {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
@@ -22,7 +23,7 @@ function ResourcePage({subject}) {
     return /* @__PURE__ */ React.createElement(ContainerNarrow, null, "Loading...");
   }
   if (status == ResourceStatus.error) {
-    return /* @__PURE__ */ React.createElement(ContainerNarrow, null, resource.getError().message);
+    return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "\u26A0\uFE0F ", title), /* @__PURE__ */ React.createElement(ErrorLook, null, resource.getError().message));
   }
   switch (klass) {
     case urls.classes.collection:
@@ -41,8 +42,7 @@ function ResourcePage({subject}) {
     except: [properties.shortname, properties.description, properties.isA, properties.name]
   }), klass == urls.classes.class && /* @__PURE__ */ React.createElement(NewInstanceButton, {
     klass: subject
-  }), /* @__PURE__ */ React.createElement(ButtonMargin, {
-    type: "button",
+  }), /* @__PURE__ */ React.createElement(Button, {
     onClick: () => history.push(editURL(subject))
   }, "edit"));
 }

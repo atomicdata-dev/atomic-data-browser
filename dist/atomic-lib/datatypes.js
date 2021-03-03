@@ -30,7 +30,7 @@ export const datatypeFromUrl = (url) => {
       return 3;
     }
     case urls.datatypes.integer: {
-      return 8;
+      return 4;
     }
     case urls.datatypes.markdown: {
       return 5;

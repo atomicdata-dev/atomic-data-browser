@@ -2,7 +2,7 @@ import * as React from "../pkg/react.js";
 import {ContainerNarrow} from "../components/Containers.js";
 import {HexColorPicker} from "../pkg/react-colorful.js";
 import "../pkg/react-colorful/dist/index.css.proxy.js";
-import {ButtonMargin} from "../components/Button.js";
+import {Button} from "../components/Button.js";
 import {ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled} from "../components/forms/InputStyles.js";
 import {useStore} from "../atomic-react/hooks.js";
 import {useState} from "../pkg/react.js";
@@ -39,11 +39,11 @@ const Settings = () => {
       setErrBaseUrl(e);
     }
   }
-  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Settings"), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Look & feel"), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Settings"), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Look & feel"), /* @__PURE__ */ React.createElement(Button, {
     onClick: () => setDarkMode(!darkMode)
-  }, darkMode ? "turn off" : "turn on", " dark mode"), !navbarFloating && /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }, darkMode ? "turn off" : "turn on", " dark mode"), !navbarFloating && /* @__PURE__ */ React.createElement(Button, {
     onClick: () => setNavbarTop(!navbarTop)
-  }, "navbar to ", navbarTop ? "bottom" : "top"), !navbarTop && /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }, "navbar to ", navbarTop ? "bottom" : "top"), !navbarTop && /* @__PURE__ */ React.createElement(Button, {
     onClick: () => setNavbarFloating(!navbarFloating)
   }, navbarFloating ? "fixed" : "floating", " navbar"), /* @__PURE__ */ React.createElement(MainColorPicker, null), /* @__PURE__ */ React.createElement("br", null)), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Agent"), /* @__PURE__ */ React.createElement("p", null, "An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits. Creating an Agent currently requires setting up an ", /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/joepio/atomic/tree/master/server"
@@ -53,12 +53,12 @@ const Settings = () => {
   }))), /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "Private Key"), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, {
     value: privateKey,
     onChange: (e) => setCurrentPrivateKey(e.target.value)
-  })), /* @__PURE__ */ React.createElement(ErrMessage, null, agentErr?.message)), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  })), /* @__PURE__ */ React.createElement(ErrMessage, null, agentErr?.message)), /* @__PURE__ */ React.createElement(Button, {
     onClick: handleSetAgent
   }, "save agent")), /* @__PURE__ */ React.createElement(Card, null, /* @__PURE__ */ React.createElement("h2", null, "Base URL"), /* @__PURE__ */ React.createElement("p", null, "The Base URL is the address of your Atomic Serve server. If you create something new, this is where the commit will be sent to."), /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "Base URL"), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, {
     value: baseUrl,
     onChange: (e) => setBaseUrl(e.target.value)
-  }))), /* @__PURE__ */ React.createElement(ErrMessage, null, baseUrlErr), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }))), /* @__PURE__ */ React.createElement(ErrMessage, null, baseUrlErr), /* @__PURE__ */ React.createElement(Button, {
     onClick: handleSetBaseUrl
   }, "save base URL")));
 };

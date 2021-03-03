@@ -47,7 +47,6 @@ export function Search({query}) {
     ref: htmlElRef
   }, results.length == 0 && /* @__PURE__ */ React.createElement("p", null, "No results found for ", query), results.map((hit, index2) => {
     const resource = hit.item;
-    console.log(resource.subject, hit);
     return /* @__PURE__ */ React.createElement(Card, {
       about: resource.subject,
       key: `${index2}${selectedIndex}`,

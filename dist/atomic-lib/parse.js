@@ -10,6 +10,9 @@ export function parseJsonADResource(string, resource) {
         if (typeof subject !== "string") {
           throw new Error("'@id' field must be a string");
         }
+        if (subject !== resource.getSubject()) {
+          throw new Error(`Resource has wrong subject in @id. Received subject was ${subject}, expected ${resource.getSubject()}.`);
+        }
         resource.setSubject(subject);
         continue;
       }

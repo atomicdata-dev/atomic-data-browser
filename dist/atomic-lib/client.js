@@ -50,7 +50,6 @@ export function checkValidURL(subject) {
     new URL(subject);
   } catch {
     throw new Error(`Not a valid URL: ${subject}`);
-    return false;
   }
   return true;
 }

@@ -16,7 +16,7 @@ export function Navigation({children}) {
   }, children), !navbarTop && /* @__PURE__ */ React.createElement(NavBar, null));
 }
 const Content = styled.div`
-  transition: margin-top 0.2s ease, margin-bottom 0.2s ease;
+  transition: all 0.2s;
   margin-top: ${(props) => props.topPadding ? "2rem" : "0"};
   margin-bottom: ${(props) => props.topPadding ? "0" : "2rem"};
 `;
@@ -32,7 +32,6 @@ function NavBar() {
   });
   useHotkeys("esc", (e) => {
     e.preventDefault();
-    console.log("esc");
     inputRef.current.blur();
   }, {enableOnTags: ["INPUT"]});
   useHotkeys("/", (e) => {
@@ -86,7 +85,7 @@ function NavBar() {
   }, /* @__PURE__ */ React.createElement(FaPlus, null)));
 }
 const NavBarBase = styled.form`
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   position: fixed;
   z-index: 100;
   height: 2.5rem;

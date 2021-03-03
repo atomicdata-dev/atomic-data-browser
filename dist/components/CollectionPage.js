@@ -4,13 +4,15 @@ import {useHotkeys} from "../pkg/react-hotkeys-hook.js";
 import {properties} from "../helpers/urls.js";
 import {useLocalStorage} from "../helpers/useLocalStorage.js";
 import {useViewport} from "../helpers/useMedia.js";
-import {useArray, useString, useTitle} from "../atomic-react/hooks.js";
-import {ButtonMargin} from "./Button.js";
+import {useArray, useNumber, useResource, useString, useTitle} from "../atomic-react/hooks.js";
+import {Button} from "./Button.js";
 import {ContainerFull} from "./Containers.js";
 import Markdown from "./datatypes/Markdown.js";
 import NewInstanceButton from "./NewInstanceButton.js";
 import ResourceCard from "./ResourceCard.js";
 import Table from "./Table.js";
+import {useSubjectParam} from "../helpers/useCurrentSubject.js";
+import {DropDownList, DropDownMini} from "./forms/Dropdownlist.js";
 var DisplayStyle;
 (function(DisplayStyle2) {
   DisplayStyle2[DisplayStyle2["TABLE"] = 0] = "TABLE";
@@ -35,34 +37,70 @@ function Collection({resource}) {
   const [displayStyle, setDisplayStyle] = useLocalStorage("CollectionDisplayStyle", defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
+  const [currentPage] = useNumber(resource, properties.collection.currentPage);
+  const [totalPages] = useNumber(resource, properties.collection.totalPages);
+  const [, setPage] = useSubjectParam("current_page");
+  const [sortBy, setSortBy] = useSubjectParam("sort_by");
+  const [classResource] = useResource(klass);
+  const [requiredProps] = useArray(classResource, properties.requires);
+  const [recommendedProps] = useArray(classResource, properties.recommends);
+  const propsArrayFull = requiredProps.concat(recommendedProps);
   const handleToggleView = () => {
     setDisplayStyle(nextDisplayStyle());
   };
+  function handlePrevPage() {
+    if (currentPage !== 0) {
+      () => setPage(currentPage - 1);
+    }
+  }
+  function handleNextPage() {
+    if (currentPage !== totalPages - 1) {
+      () => setPage(currentPage + 1);
+    }
+  }
+  function handleSetSort(by) {
+    setSortBy(by);
+  }
   const nextDisplayStyle = () => {
     switch (displayStyle) {
       case 1: {
         return 0;
-        break;
       }
       case 0: {
         return 1;
       }
     }
   };
-  useHotkeys("v", () => handleToggleView(), {}, [displayStyle]);
+  useHotkeys("v", handleToggleView, {}, [displayStyle]);
   return /* @__PURE__ */ React.createElement(ContainerFull, {
     about: resource.getSubject()
-  }, /* @__PURE__ */ React.createElement("h1", null, title), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }, /* @__PURE__ */ React.createElement("h1", null, title), /* @__PURE__ */ React.createElement(Button, {
+    subtle: true,
     onClick: handleToggleView
   }, displayStyleString(nextDisplayStyle()), " view"), klass && /* @__PURE__ */ React.createElement(NewInstanceButton, {
+    subtle: true,
     klass
-  }), description && /* @__PURE__ */ React.createElement(Markdown, {
+  }), totalPages > 1 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Button, {
+    subtle: true,
+    onClick: handlePrevPage,
+    disabled: currentPage == 0
+  }, "prev page"), /* @__PURE__ */ React.createElement(Button, {
+    subtle: true,
+    onClick: handleNextPage,
+    disabled: currentPage == totalPages - 1
+  }, "next page")), /* @__PURE__ */ React.createElement(DropDownMini, null, /* @__PURE__ */ React.createElement(DropDownList, {
+    placeholder: "sort by...",
+    initial: sortBy,
+    options: propsArrayFull,
+    onUpdate: handleSetSort
+  })), description && /* @__PURE__ */ React.createElement(Markdown, {
     text: description
   }), displayStyle == 1 && /* @__PURE__ */ React.createElement(CardList, {
     members
   }), displayStyle == 0 && /* @__PURE__ */ React.createElement(Table, {
     resource,
-    members
+    members,
+    columns: propsArrayFull
   }));
 }
 function CardList({members}) {

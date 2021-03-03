@@ -20,7 +20,7 @@ function constructIndex(store) {
     if (resource.getClasses().includes(urls.classes.commit)) {
       return "";
     }
-    const propvalsString = JSON.stringify(Array.from(resource.getPropVals().values()).sort().join("\n"));
+    const propvalsString = JSON.stringify(Array.from(resource.getPropVals().values()).sort().join(" \n "));
     const searchResource = {
       subject: resource.getSubject(),
       valuesArray: propvalsString

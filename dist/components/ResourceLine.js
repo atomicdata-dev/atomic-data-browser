@@ -6,7 +6,7 @@ import {ErrorLook} from "./datatypes/ResourceInline.js";
 function ResourceLine({subject}) {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
-  const [description] = useString(resource, urls.properties.description);
+  let [description] = useString(resource, urls.properties.description);
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
     return /* @__PURE__ */ React.createElement("span", {
@@ -17,6 +17,10 @@ function ResourceLine({subject}) {
     return /* @__PURE__ */ React.createElement(ErrorLook, {
       about: subject
     }, "Error: ", resource.getError().message);
+  }
+  const TRUNCATE_LENGTH = 40;
+  if (description?.length >= TRUNCATE_LENGTH) {
+    description = description.slice(0, TRUNCATE_LENGTH) + "...";
   }
   return /* @__PURE__ */ React.createElement("span", {
     about: subject

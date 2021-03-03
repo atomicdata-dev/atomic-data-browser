@@ -8,6 +8,7 @@ import AtomicLink from "./Link.js";
 import ClassDetail from "./ClassDetail.js";
 import {Card} from "./Card.js";
 import CollectionCard from "./CollectionCard.js";
+import {ErrorLook} from "./datatypes/ResourceInline.js";
 function ResourceCard({subject}) {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
@@ -22,7 +23,7 @@ function ResourceCard({subject}) {
   if (status == ResourceStatus.error) {
     return /* @__PURE__ */ React.createElement(Card, {
       about: subject
-    }, /* @__PURE__ */ React.createElement("p", null, resource.getError().message));
+    }, /* @__PURE__ */ React.createElement(ErrorLook, null, resource.getError().message));
   }
   switch (klass) {
     case urls.classes.collection:
