@@ -23,6 +23,7 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
   );
 };
 
+/** A bunch of getters and setters for client-side app settings */
 interface AppSettings {
   // Whether the App should render in dark mode. Checks user preferences.
   darkMode: boolean;

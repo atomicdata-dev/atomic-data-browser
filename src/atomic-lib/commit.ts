@@ -11,6 +11,7 @@ export interface CommitBuilderI {
   destroy?: boolean;
 }
 
+/** A Commit without signature */
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
   set?: Record<string, JSVals>;

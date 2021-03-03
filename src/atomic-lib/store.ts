@@ -34,13 +34,17 @@ export class Store {
     return `${this.getBaseUrl()}/things/${random}`;
   }
 
-  /** Fetches a resource by URL, replaces the one in the store. */
+  /** Fetches a resource by URL. Does not do anything if the resource is already present, even if it has errored */
   async fetchResource(subject: string): Promise<Resource> {
     if (this.resources.get(subject) == undefined) {
       const fetched = await fetchResource(subject);
       this.addResource(fetched);
       return fetched;
     }
+  }
+
+  getAllSubjects(): string[] {
+    return Array.from(this.resources.keys());
   }
 
   /** Returns the URL of the companion server */

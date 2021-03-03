@@ -74,7 +74,6 @@ export function Search({ query }: SearchProps): JSX.Element {
       {results.length == 0 && <p>No results found for {query}</p>}
       {results.map((hit, index) => {
         const resource = hit.item;
-        console.log(resource.subject, hit);
         return (
           <Card about={resource.subject} key={`${index}${selectedIndex}`} selected={index == selectedIndex}>
             <h3>

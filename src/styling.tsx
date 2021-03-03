@@ -85,13 +85,18 @@ declare module 'styled-components' {
 }
 
 export const GlobalStyle = createGlobalStyle`
+
   body {
     background-color: ${props => props.theme.colors.bg};
     color: ${props => props.theme.colors.text};
     font-family: ${props => props.theme.fontFamily};
     line-height: 1.5em;
     word-wrap: break-word;
-    transition: background-color .5s ease, color .5s ease;
+  }
+
+  /** Pretty dark mode transition */
+  input, button, body {
+    transition: all .2s ease;
   }
 
   a {

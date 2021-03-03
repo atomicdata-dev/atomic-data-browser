@@ -48,17 +48,12 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
-  // const [pageSizeI] = useNumber(resource, properties.collection.pageSize);
+  // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
   const [currentPage] = useNumber(resource, properties.collection.currentPage);
   const [totalPages] = useNumber(resource, properties.collection.totalPages);
   // Query parameters for Collections
   const [, setPage] = useSubjectParam('current_page');
-  // We use the pageSize from the Collection itself - not the query param. This gives us a default value.
-  // const [, setPageSize] = useSubjectParam('page_size');
-  const [propertyFilter, setPropertyFilter] = useSubjectParam('property');
-  const [valueFilter, setValueFilter] = useSubjectParam('value');
   const [sortBy, setSortBy] = useSubjectParam('sort_by');
-  const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
 
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
@@ -106,7 +101,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       <Button subtle onClick={handleToggleView}>
         {displayStyleString(nextDisplayStyle())} view
       </Button>
-      {klass && <NewInstanceButton klass={klass} />}
+      {klass && <NewInstanceButton subtle klass={klass} />}
       {totalPages > 1 && (
         <>
           <Button subtle onClick={handlePrevPage} disabled={currentPage == 0}>
@@ -121,7 +116,6 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         <DropDownList placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
       </DropDownMini>
       {description && <Markdown text={description} />}
-      {/* <input type='number' placeholder='page nr' value={page} onChange={e => setPage(e.target.value)} /> */}
       {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
       {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
       {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} columns={propsArrayFull} />}

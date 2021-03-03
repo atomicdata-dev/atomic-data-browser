@@ -12,7 +12,7 @@ type Props = {
 function ResourceLine({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
-  const [description] = useString(resource, urls.properties.description);
+  let [description] = useString(resource, urls.properties.description);
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
@@ -20,6 +20,11 @@ function ResourceLine({ subject }: Props): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return <ErrorLook about={subject}>Error: {resource.getError().message}</ErrorLook>;
+  }
+
+  const TRUNCATE_LENGTH = 40;
+  if (description?.length >= TRUNCATE_LENGTH) {
+    description = description.slice(0, TRUNCATE_LENGTH) + '...';
   }
 
   return (

@@ -10,9 +10,14 @@ import { JSVals, Value } from './value';
 type PropVals = Map<string, Value>;
 
 export enum ResourceStatus {
+  /** Fetching has started, but no response was received */
   loading,
+  /** If something went wrong while fetching or parsing */
   error,
+  /** Fetched, parsed, stored and ready for usage */
   ready,
+  /** Newly created, not saved to the store */
+  new,
 }
 
 /** Describes an Atomic Resource, which has a Subject URL and a bunch of Property / Value combinations. */
@@ -27,6 +32,7 @@ export class Resource {
   constructor(subject: string) {
     if (subject == undefined) {
       subject = `local:resource/` + Math.random().toString(32);
+      this.status = ResourceStatus.new;
     }
 
     this.subject = subject;
@@ -94,6 +100,16 @@ export class Resource {
     store.removeResource(this.getSubject());
   }
 
+  /** Removes a property value combination from the resource */
+  removePropVal(propertyUrl: string) {
+    // Delete from this resource
+    this.propvals.delete(propertyUrl);
+    // Delete possible item from the commitbuilder set object
+    delete this.commitBuilder.set[propertyUrl];
+    // Add it to the array of items that the server might need to remove after posting.
+    this.commitBuilder.remove.push(propertyUrl);
+  }
+
   /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
   async save(store: Store): Promise<string> {
     const agent = store.getAgent();
@@ -106,8 +122,11 @@ export class Resource {
     return this.getSubject();
   }
 
-  /** Set a Property, Value combination and perform a validation. */
-  async setValidate(prop: string, value: JSVals, store: Store): Promise<Value> {
+  /**
+   * Set a Property, Value combination and perform a validation. Will throw if property is not valid for the datatype. Will fetch the
+   * datatype if it's not available.
+   */
+  async set(prop: string, value: JSVals, store: Store): Promise<Value> {
     const fullProp = await store.getProperty(prop);
     const newVal = validate(value, fullProp.datatype);
     this.propvals.set(prop, newVal);

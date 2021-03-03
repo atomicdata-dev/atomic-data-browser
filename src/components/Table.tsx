@@ -70,7 +70,6 @@ function HeaderItem({ subject }: HeaderItemProps) {
   const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
 
   function handleToggleSort() {
-    console.log('istrue', sortDesc == 'true');
     if (sortBy == subject) {
       if (sortDesc == 'true') {
         setSortDesc(null);
