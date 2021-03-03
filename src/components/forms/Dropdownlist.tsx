@@ -18,13 +18,12 @@ interface DropDownListProps {
   placeholder?: string;
 }
 
-export function DropDownList({ required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps) {
+export function DropDownList({ required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
   const themeContext = useContext(ThemeContext);
 
   return (
     <Downshift
       initialSelectedItem={initial ? initial : ''}
-      // initialInputValue={initial ? initial : ''}
       onChange={selection => onUpdate(selection)}
       itemToString={item => (item ? item : '')}
     >

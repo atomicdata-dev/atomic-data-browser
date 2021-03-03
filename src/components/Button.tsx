@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   margins?: boolean;
 }
 
-export function Button({ children, icon, ...props }: ButtonProps) {
+export function Button({ children, icon, ...props }: ButtonProps): JSX.Element {
   let Comp = ButtonMargin;
   if (icon) {
     Comp = ButtonIcon;

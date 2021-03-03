@@ -28,8 +28,8 @@ export default function InputNumber({ resource, property, required }: InputProps
           required={required}
         />
       </InputWrapper>
-      {value !== NaN && err && <ErrMessage>{err.message}</ErrMessage>}
-      {value == NaN && <ErrMessage>Required</ErrMessage>}
+      {value !== null && err && <ErrMessage>{err.message}</ErrMessage>}
+      {value == null && <ErrMessage>Required</ErrMessage>}
     </>
   );
 }

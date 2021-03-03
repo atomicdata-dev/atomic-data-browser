@@ -101,7 +101,7 @@ export class Resource {
   }
 
   /** Removes a property value combination from the resource */
-  removePropVal(propertyUrl: string) {
+  removePropVal(propertyUrl: string): void {
     // Delete from this resource
     this.propvals.delete(propertyUrl);
     // Delete possible item from the commitbuilder set object

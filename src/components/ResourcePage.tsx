@@ -1,6 +1,6 @@
 import React from 'react';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle, useStore } from '../atomic-react/hooks';
+import { useString, useResource, useTitle } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
