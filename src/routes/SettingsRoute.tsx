@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
-import { ButtonMargin } from '../components/Button';
+import { Button } from '../components/Button';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useStore } from '../atomic-react/hooks';
 import { useState } from 'react';
@@ -50,11 +50,9 @@ const Settings: React.FunctionComponent = () => {
       <h1>Settings</h1>
       <Card>
         <h2>Look & feel</h2>
-        <ButtonMargin onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</ButtonMargin>
-        {!navbarFloating && <ButtonMargin onClick={() => setNavbarTop(!navbarTop)}>navbar to {navbarTop ? 'bottom' : 'top'}</ButtonMargin>}
-        {!navbarTop && (
-          <ButtonMargin onClick={() => setNavbarFloating(!navbarFloating)}>{navbarFloating ? 'fixed' : 'floating'} navbar</ButtonMargin>
-        )}
+        <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</Button>
+        {!navbarFloating && <Button onClick={() => setNavbarTop(!navbarTop)}>navbar to {navbarTop ? 'bottom' : 'top'}</Button>}
+        {!navbarTop && <Button onClick={() => setNavbarFloating(!navbarFloating)}>{navbarFloating ? 'fixed' : 'floating'} navbar</Button>}
         <MainColorPicker />
         <br />
       </Card>
@@ -78,7 +76,7 @@ const Settings: React.FunctionComponent = () => {
           </InputWrapper>
           <ErrMessage>{agentErr?.message}</ErrMessage>
         </FieldStyled>
-        <ButtonMargin onClick={handleSetAgent}>save agent</ButtonMargin>
+        <Button onClick={handleSetAgent}>save agent</Button>
       </Card>
       <Card>
         <h2>Base URL</h2>
@@ -92,7 +90,7 @@ const Settings: React.FunctionComponent = () => {
           </InputWrapper>
         </FieldStyled>
         <ErrMessage>{baseUrlErr}</ErrMessage>
-        <ButtonMargin onClick={handleSetBaseUrl}>save base URL</ButtonMargin>
+        <Button onClick={handleSetBaseUrl}>save base URL</Button>
       </Card>
     </ContainerNarrow>
   );

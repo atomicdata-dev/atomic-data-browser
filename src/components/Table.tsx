@@ -1,29 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
-import { properties, urls } from '../helpers/urls';
-import { useArray, useProperty, useString, useValue, useResource } from '../atomic-react/hooks';
+import { urls } from '../helpers/urls';
+import { useProperty, useValue, useResource } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import ResourceInline from './datatypes/ResourceInline';
 import ValueComp from './ValueComp';
+import { useSubjectParam } from '../helpers/useCurrentSubject';
+import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
+import { Button } from './Button';
 
 type TableProps = {
   /** A Collection Resource with a filter-value set */
   resource: Resource;
   members: string[];
+  /** Array of property URLs to be shown in columns */
+  columns: string[];
 };
 
 /** A table view for Collections. Header shows properties of the first class of the collection */
-function Table({ resource, members }: TableProps): JSX.Element {
-  const [klass] = useString(resource, properties.collection.value);
-  // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
-  // But we can also have a collection of thing that share the same creator.
-  // If that happens, we need a different approach to rendering the Headers
-  const [classResource] = useResource(klass);
-  const [requiredProps] = useArray(classResource, urls.properties.requires);
-  const [recommendedProps] = useArray(classResource, urls.properties.recommends);
-  const propsArrayFull = requiredProps.concat(recommendedProps);
+function Table({ resource, members, columns }: TableProps): JSX.Element {
   // Don't show the shortname, it's already shown in the first row.
-  const propsArray = propsArrayFull.filter(item => item !== urls.properties.shortname);
+  const propsArray = columns.filter(item => item !== urls.properties.shortname);
 
   if (resource == null) {
     return null;
@@ -31,7 +28,7 @@ function Table({ resource, members }: TableProps): JSX.Element {
 
   return (
     <TableStyled>
-      <Header klass={classResource} propsArray={propsArray} />
+      <Header columns={propsArray} />
       <tbody>
         {members.map(member => {
           return <Row propsArray={propsArray} key={member} subject={member} />;
@@ -48,27 +45,50 @@ const TableStyled = styled.table`
 `;
 
 type HeaderProps = {
-  klass: Resource;
-  propsArray: string[];
+  columns: string[];
 };
 
-function Header({ klass, propsArray }: HeaderProps): JSX.Element {
-  if (klass == null) {
-    return null;
-  }
+function Header({ columns }: HeaderProps): JSX.Element {
   return (
     <thead>
       <tr>
         <CellStyled header>subject</CellStyled>
-        {propsArray.map(prop => {
-          return (
-            <CellStyled header key={prop}>
-              <ResourceInline subject={prop} />
-            </CellStyled>
-          );
+        {columns.map(prop => {
+          return <HeaderItem key={prop} subject={prop} />;
         })}
       </tr>
     </thead>
+  );
+}
+
+type HeaderItemProps = {
+  subject: string;
+};
+
+function HeaderItem({ subject }: HeaderItemProps) {
+  const [sortBy, setSortBy] = useSubjectParam('sort_by');
+  const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
+
+  function handleToggleSort() {
+    if (sortBy == subject) {
+      if (sortDesc == 'true') {
+        setSortDesc(null);
+        // setSortBy(null);
+      } else {
+        setSortDesc('true');
+      }
+    } else {
+      setSortBy(subject);
+    }
+  }
+
+  return (
+    <CellStyled header>
+      <ResourceInline subject={subject} />{' '}
+      <Button onClick={handleToggleSort} subtle icon>
+        {sortBy == subject ? sortDesc == 'true' ? <FaSortDown /> : <FaSortUp /> : <FaSort />}
+      </Button>
+    </CellStyled>
   );
 }
 
@@ -107,10 +127,10 @@ function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
   const [value] = useValue(resource, propUrl);
   const fullprop = useProperty(propUrl);
   if (value == null) {
-    return null;
+    return <CellStyled />;
   }
   if (fullprop == null) {
-    return null;
+    return <CellStyled />;
   }
   return (
     <CellStyled>
@@ -126,6 +146,8 @@ type CellStyledProps = {
 const CellStyled = styled.td<CellStyledProps>`
   padding: 0.3rem;
   font-weight: ${props => (props.header ? 'bold' : ``)};
+  /* word-break: keep-all; */
+  white-space: ${props => (props.header ? 'nowrap' : ``)};
 `;
 
 export default Table;

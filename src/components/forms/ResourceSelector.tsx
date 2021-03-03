@@ -1,14 +1,10 @@
-import React, { Dispatch, SetStateAction, useContext } from 'react';
-import Downshift from 'downshift';
+import React, { Dispatch, SetStateAction } from 'react';
 import { InputProps } from './Field';
-import { useArray, useResource } from '../../atomic-react/hooks';
-import { FaCaretDown, FaTrash } from 'react-icons/fa';
+import { useArray, useResource, useStore, useTitle } from '../../atomic-react/hooks';
 import { urls } from '../../helpers/urls';
-import { ButtonInput } from '../Button';
-import ResourceLine from '../ResourceLine';
-import styled, { ThemeContext } from 'styled-components';
 import { ArrayError } from '../../atomic-lib/datatypes';
-import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
+import { ErrMessage } from './InputStyles';
+import { DropDownList } from './Dropdownlist';
 
 interface ResourceSelectorProps extends InputProps {
   /** Take the second argument of a `useString` hook and pass the setString part to this property */
@@ -34,8 +30,10 @@ export function ResourceSelector({
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource(getCollection(property.classType));
-  const [options] = useArray(classesCollection, urls.properties.collection.members);
-  const themeContext = useContext(ThemeContext);
+  let [options] = useArray(classesCollection, urls.properties.collection.members);
+  const [classType] = useResource(property.classType);
+  const classTypeTitle = useTitle(classType);
+  const store = useStore();
 
   function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
@@ -43,73 +41,26 @@ export function ResourceSelector({
     setSubject(newval ? newval : '', setError);
   }
 
+  let placeholder = 'Enter an Atomic URL...';
+
+  if (options.length == 0) {
+    options = store.getAllSubjects();
+  }
+
+  if (property.classType && classTypeTitle?.length > 0) {
+    placeholder = `Enter a ${classTypeTitle} URL...`;
+  }
+
   return (
     <>
-      <Downshift
-        initialInputValue={subject ? subject : ''}
-        onChange={selection => handleUpdate(selection)}
-        itemToString={item => (item ? item : '')}
-      >
-        {({
-          clearSelection,
-          getInputProps,
-          getItemProps,
-          // getLabelProps,
-          getMenuProps,
-          getToggleButtonProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem,
-          getRootProps,
-        }): JSX.Element => (
-          <DropDownStyled>
-            <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
-              <InputStyled {...getInputProps()} required={required} />
-              {selectedItem ? (
-                //@ts-ignore issue with types from Downshift
-                <ButtonInput type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
-                  clear
-                </ButtonInput>
-              ) : null}
-              {options.length > 0 && (
-                <ButtonInput type='button' {...getToggleButtonProps()} title='toggle menu' aria-label={'toggle menu'}>
-                  <FaCaretDown />
-                </ButtonInput>
-              )}
-              {handleRemove !== undefined && (
-                <ButtonInput type='button' onClick={handleRemove} title='remove item' aria-label='remove item'>
-                  <FaTrash />
-                </ButtonInput>
-              )}
-            </InputWrapper>{' '}
-            <DropDownWrapperWrapper {...getMenuProps()}>
-              {options.length > 0 && isOpen ? (
-                <DropDownWrapper>
-                  {options
-                    .filter(item => !inputValue || item.includes(inputValue))
-                    .map((item, index) => (
-                      <DropDownItem
-                        key={item}
-                        {...getItemProps({
-                          key: item,
-                          index,
-                          item,
-                          style: {
-                            backgroundColor: highlightedIndex === index ? themeContext.colors.main : themeContext.colors.bg1,
-                            color: highlightedIndex === index ? themeContext.colors.bg : themeContext.colors.text,
-                          },
-                        })}
-                      >
-                        <ResourceLine subject={item} />
-                      </DropDownItem>
-                    ))}
-                </DropDownWrapper>
-              ) : null}
-            </DropDownWrapperWrapper>
-          </DropDownStyled>
-        )}
-      </Downshift>
+      <DropDownList
+        placeholder={placeholder}
+        required={required}
+        onUpdate={handleUpdate}
+        options={options}
+        onRemove={handleRemove}
+        initial={subject}
+      />
       {subject !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
       {subject == '' && <ErrMessage>Required</ErrMessage>}
     </>
@@ -130,45 +81,3 @@ function getCollection(classtypeUrl: string) {
       return 'https://atomicdata.dev/datatypes';
   }
 }
-
-/** A wrapper all dropdown items */
-const DropDownStyled = styled.div`
-  position: relative;
-`;
-
-const DropDownWrapperWrapper = styled.ul`
-  margin-bottom: 0;
-`;
-
-/** A wrapper all dropdown items */
-const DropDownWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: ${props => props.theme.colors.bg1};
-  border: solid 1px ${props => props.theme.colors.bg2};
-  border-radius: ${props => props.theme.radius};
-  position: absolute;
-  z-index: 1000;
-  max-height: 30rem;
-  overflow-y: auto;
-  left: 0;
-  right: 0;
-`;
-
-/** A wrapper all dropdown items */
-const DropDownItem = styled.li`
-  display: flex;
-  flex-direction: row;
-  background-color: ${props => props.theme.colors.bg1};
-  border: solid 1px ${props => props.theme.colors.bg2};
-  cursor: pointer;
-  margin: 0;
-  padding: 0.3rem;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: ${props => props.theme.colors.main};
-    color: ${props => props.theme.colors.bg};
-  }
-`;

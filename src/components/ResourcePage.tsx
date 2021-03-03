@@ -1,6 +1,6 @@
 import React from 'react';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle } from '../atomic-react/hooks';
+import { useString, useResource, useTitle, useStore } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
@@ -10,7 +10,8 @@ import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
 import { useHistory } from 'react-router-dom';
 import { editURL } from '../helpers/navigation';
-import { ButtonMargin } from './Button';
+import { Button } from './Button';
+import { ErrorLook } from './datatypes/ResourceInline';
 
 type Props = {
   subject: string;
@@ -29,7 +30,12 @@ function ResourcePage({ subject }: Props): JSX.Element {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
   if (status == ResourceStatus.error) {
-    return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
+    return (
+      <ContainerNarrow>
+        <h1>⚠️ {title}</h1>
+        <ErrorLook>{resource.getError().message}</ErrorLook>
+      </ContainerNarrow>
+    );
   }
 
   switch (klass) {
@@ -45,9 +51,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA, properties.name]} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
-      <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
-        edit
-      </ButtonMargin>
+      <Button onClick={() => history.push(editURL(subject))}>edit</Button>
     </ContainerNarrow>
   );
 }

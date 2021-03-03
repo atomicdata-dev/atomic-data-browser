@@ -17,13 +17,17 @@ function ResourceInline({ subject }: Props): JSX.Element {
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return <span about={subject}>...</span>;
+    return (
+      <span about={subject} title={`${subject} is loading..`}>
+        ...
+      </span>
+    );
   }
   if (status == ResourceStatus.error) {
     return (
       <AtomicLink url={subject}>
         <ErrorLook about={subject} title={resource.getError().message}>
-          error
+          Error: {subject}
         </ErrorLook>
       </AtomicLink>
     );
@@ -38,6 +42,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
 
 export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
+  line-height: 1em;
   font-family: monospace;
 `;
 

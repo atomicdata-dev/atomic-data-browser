@@ -8,7 +8,10 @@ import { datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
 
-/** Hook for getting and updating a Resource in a React component */
+/**
+ * Hook for getting and updating a Resource in a React component. Will try to fetch the subject and add its parsed values to the store.
+ * Always returns a Resource and a setter for a Resource, even if the input is undefined or not a valid atomic URL.
+ */
 export function useResource(subject: string): [Resource, (resource: Resource) => void] {
   const store = useStore();
   const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject));
@@ -100,22 +103,28 @@ export function useProperty(subject: string): Property | null {
 type handleValidationErrorType = (val: JSVals, callback?: (e: Error) => unknown) => void;
 
 /**
- * Returns a Value (can be string, array, more) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes two
- * arguments - the second one is for handling validation errors
+ * Returns a Value (can be string, array, more or null) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes
+ * two arguments - the first one a native JS representation of the new value, the second one a callback function for handling validation errors.
  */
 export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationErrorType] {
   const [val, set] = useState<Value>(null);
   const store = useStore();
 
-  /** Validates the value. If it fails, it calls the function in the second Argument. */
+  /** Validates the value. If it fails, it calls the function in the second Argument. Pass null to remove existing value. */
   function validateAndSet(newVal: JSVals, handleValidationError?: (e: Error) => unknown) {
+    if (newVal == null) {
+      // remove the value
+      resource.removePropVal(propertyURL);
+      set(null);
+      return;
+    }
     const valFromNewVal = new Value(newVal);
     set(valFromNewVal);
 
     /** Validates and sets a property / value combination. Will invoke the callback if the value is not valid. */
     async function setAsync() {
       try {
-        await resource.setValidate(propertyURL, newVal, store);
+        await resource.set(propertyURL, newVal, store);
         handleValidationError && handleValidationError(null);
       } catch (e) {
         handleValidationError && handleValidationError(e);
@@ -182,6 +191,23 @@ export function useArray(resource: Resource, propertyURL: string): [string[] | n
     return [[], set];
   }
   return [value.toArray(), set];
+}
+
+export function useNumber(resource: Resource, propertyURL: string): [number | null, handleValidationErrorType] {
+  const [value, set] = useValue(resource, propertyURL);
+  if (value == null) {
+    return [NaN, set];
+  }
+  return [value.toNumber(), set];
+}
+
+/** Returns true or false. */
+export function useBoolean(resource: Resource, propertyURL: string): [boolean | null, handleValidationErrorType] {
+  const [value, set] = useValue(resource, propertyURL);
+  if (value == null) {
+    return [false, set];
+  }
+  return [value.toBoolean(), set];
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */

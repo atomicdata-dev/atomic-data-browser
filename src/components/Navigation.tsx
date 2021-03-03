@@ -32,7 +32,7 @@ interface ContentProps {
 }
 
 const Content = styled.div<ContentProps>`
-  transition: margin-top 0.2s ease, margin-bottom 0.2s ease;
+  transition: all 0.2s;
   margin-top: ${props => (props.topPadding ? '2rem' : '0')};
   margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
 `;
@@ -55,7 +55,6 @@ function NavBar() {
     'esc',
     e => {
       e.preventDefault();
-      console.log('esc');
       //@ts-ignore this does seem callable
       inputRef.current.blur();
     },
@@ -125,7 +124,7 @@ interface NavBarStyledProps {
 
 /** Don't use this directly - use NavBarFloating or NavBarFixed */
 const NavBarBase = styled.form<NavBarStyledProps>`
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   position: fixed;
   z-index: 100;
   height: 2.5rem;

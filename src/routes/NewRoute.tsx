@@ -39,7 +39,7 @@ function New(): JSX.Element {
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
   if (currentClass.length == 0) {
-    resource.setValidate(properties.isA, [klass.getSubject()], store);
+    resource.set(properties.isA, [klass.getSubject()], store);
   }
 
   function handleClassSet(e) {

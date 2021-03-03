@@ -8,6 +8,7 @@ import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';
 import { Card } from './Card';
 import CollectionCard from './CollectionCard';
+import { ErrorLook } from './datatypes/ResourceInline';
 
 type Props = {
   subject: string;
@@ -31,7 +32,7 @@ function ResourceCard({ subject }: Props): JSX.Element {
   if (status == ResourceStatus.error) {
     return (
       <Card about={subject}>
-        <p>{resource.getError().message}</p>
+        <ErrorLook>{resource.getError().message}</ErrorLook>
       </Card>
     );
   }
