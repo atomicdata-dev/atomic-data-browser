@@ -17,7 +17,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - [x] Render properties as labels
   - [x] Datatype dependent renders
   - [x] Table view
-  - [ ] Navigate collections (sorting / pagination)
+  - [x] Navigate collections (sorting / pagination)
 - [x] **Edit data**
   - [x] Commit implementation
   - [x] Instantiate new Resources

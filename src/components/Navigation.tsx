@@ -69,7 +69,8 @@ function NavBar() {
   });
 
   function handleChange(e) {
-    handleNavigation(openURL(e.target.value));
+    // Replace instead of push to make the back-button behavior better.
+    history.replace(openURL(e.target.value));
   }
 
   function handleSelect(e) {
