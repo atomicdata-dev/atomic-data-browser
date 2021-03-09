@@ -29,11 +29,15 @@ function Table({ resource, members, columns }: TableProps): JSX.Element {
   return (
     <TableStyled>
       <Header columns={propsArray} />
-      <tbody>
-        {members.map(member => {
-          return <Row propsArray={propsArray} key={member} subject={member} />;
-        })}
-      </tbody>
+      {members.length > 0 ? (
+        <tbody>
+          {members.map(member => {
+            return <Row propsArray={propsArray} key={member} subject={member} />;
+          })}
+        </tbody>
+      ) : (
+        <p>This collection is empty</p>
+      )}
     </TableStyled>
   );
 }

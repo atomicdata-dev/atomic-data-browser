@@ -128,6 +128,9 @@ type CardListProps = {
 };
 
 function CardList({ members }: CardListProps): JSX.Element {
+  if (members.length == 0) {
+    return <p>This collection is empty</p>;
+  }
   return (
     <Masonry>
       {members.map(member => (
