@@ -40,7 +40,7 @@ function NavBar() {
     setInputFocus();
   });
   function handleChange(e) {
-    handleNavigation(openURL(e.target.value));
+    history.replace(openURL(e.target.value));
   }
   function handleSelect(e) {
     e.target.select();
