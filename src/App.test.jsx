@@ -6,7 +6,7 @@ import App from './App';
 describe('<App>', () => {
   it('renders resource after clicking on fetch', async () => {
     const { findByText, getByText } = render(<App />);
-    fireEvent.click(getByText('atomicdata.dev'));
+    fireEvent.click(getByText('List of Classes'));
     // const linkElement = await findByText(/recommends/i);
     // expect(document.body.contains(linkElement));
     // fireEvent.click(getByTitle('Create a new Resource"'));
