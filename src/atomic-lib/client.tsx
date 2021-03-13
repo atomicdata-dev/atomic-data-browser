@@ -23,7 +23,9 @@ export async function fetchResource(
     requestHeaders.set('Accept', 'application/ad+json');
     let url = subject;
     if (from !== undefined) {
-      url = `${from}/path?${subject}`;
+      const newURL = new URL(`${from}/path`);
+      newURL.searchParams.set('path', subject);
+      url = newURL.href;
     }
     const response = await window.fetch(url, {
       headers: requestHeaders,

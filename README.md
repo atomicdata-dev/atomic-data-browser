@@ -54,7 +54,7 @@ It's recommended fill in the .env file, and probably want to run [`atomic-server
 
 ```sh
 # Create a local .env
-cp template.ev .env
+cp template.env .env
 # Run atomic-server locally, and check the logs.
 docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server
 # Copy the server, privatekey and agent
