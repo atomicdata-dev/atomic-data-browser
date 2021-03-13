@@ -7,6 +7,7 @@ import Markdown from '../datatypes/Markdown';
 import FieldLabeled from '../forms/Field';
 import { Button } from '../Button';
 import { openURL } from '../../helpers/navigation';
+import { useHistory } from 'react-router-dom';
 
 type EndpointProps = {
   resource: Resource;
@@ -19,21 +20,22 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const [parameters] = useArray(resource, properties.endpoint.parameters);
   const [virtualResource] = useResource(null);
   const store = useStore();
+  const history = useHistory();
 
-  function constructSubject() {
-    // const paramVals: [key: string, value: JSVals][] = [];
+  async function constructSubject() {
     const url = new URL(resource.getSubject());
 
-    parameters.map(async propUrl => {
-      const val = virtualResource.get(propUrl);
-
-      if (val != null) {
-        const fullprop = await store.getProperty(propUrl);
-        // paramVals.push([fullprop.shortname, val.value()]);
-        url.searchParams.set(fullprop.shortname, val.toString());
-      }
-    });
-    openURL(url.href);
+    await Promise.all(
+      parameters.map(async propUrl => {
+        const val = virtualResource.get(propUrl);
+        if (val != null) {
+          const fullprop = await store.getProperty(propUrl);
+          console.log('prop', fullprop);
+          url.searchParams.set(fullprop.shortname, val.toString());
+        }
+      }),
+    );
+    history.push(openURL(url.href));
   }
 
   return (

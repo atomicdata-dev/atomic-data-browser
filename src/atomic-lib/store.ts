@@ -115,8 +115,18 @@ export class Store {
     if (datatypeUrl == null) {
       throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);
     }
+    const shortname = resource.get(urls.properties.shortname);
+    if (shortname == null) {
+      throw new Error(`Property ${subject} has no shortname: ${resource.getPropVals()}`);
+    }
+    const description = resource.get(urls.properties.description);
+    if (description == null) {
+      throw new Error(`Property ${subject} has no shortname: ${resource.getPropVals()}`);
+    }
     const classTypeURL = resource.get(urls.properties.classType)?.toString();
     prop.classType = classTypeURL;
+    prop.shortname = shortname.toString();
+    prop.description = description.toString();
     prop.datatype = datatypeFromUrl(datatypeUrl.toString());
     return prop;
   }
