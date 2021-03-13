@@ -35,9 +35,16 @@ export class Store {
   }
 
   /** Fetches a resource by URL. Does not do anything if the resource is already present, even if it has errored */
-  async fetchResource(subject: string): Promise<Resource> {
-    if (this.resources.get(subject) == undefined) {
-      const fetched = await fetchResource(subject, this.getBaseUrl());
+  async fetchResource(
+    /** The resource URL to be fetched */
+    subject: string,
+    /** Always fetch the resource, even if there is one in the store */
+    forceRefresh?: boolean,
+    /** Fetch it from the `/path` endpoint of your baseURL. This effectively is a proxy / cache. */
+    fromProxy?: boolean,
+  ): Promise<Resource> {
+    if (forceRefresh || this.resources.get(subject) == undefined) {
+      const fetched = await fetchResource(subject, fromProxy && this.getBaseUrl());
       this.addResource(fetched);
       return fetched;
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle } from '../atomic-react/hooks';
+import { useString, useResource, useTitle, useStore } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
@@ -25,6 +25,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const history = useHistory();
   const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);
+  const store = useStore();
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
@@ -35,6 +36,9 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <ContainerNarrow>
         <h1>⚠️ {title}</h1>
         <ErrorLook>{resource.getError().message}</ErrorLook>
+        <br />
+        <Button onClick={() => store.fetchResource(subject, true)}>Retry</Button>
+        <Button onClick={() => store.fetchResource(subject, true, true)}>Use proxy</Button>
       </ContainerNarrow>
     );
   }

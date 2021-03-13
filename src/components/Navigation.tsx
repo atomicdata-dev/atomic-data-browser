@@ -106,6 +106,8 @@ function NavBar() {
       <input
         ref={inputRef}
         type='text'
+        name='search'
+        aria-label='Search'
         onClick={handleSelect}
         value={subject || ''}
         onChange={handleChange}

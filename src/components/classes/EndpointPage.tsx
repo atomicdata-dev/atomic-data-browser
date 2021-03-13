@@ -6,7 +6,6 @@ import { properties } from '../../helpers/urls';
 import Markdown from '../datatypes/Markdown';
 import FieldLabeled from '../forms/Field';
 import { Button } from '../Button';
-import { JSVals } from '../../atomic-lib/value';
 import { openURL } from '../../helpers/navigation';
 
 type EndpointProps = {
