@@ -4,7 +4,11 @@ import { StringParam, useQueryParam } from 'use-query-params';
 type setFunc = (newValue: string | ((latestValue: string) => string), updateType?: 'replace' | 'push' | 'replaceIn' | 'pushIn') => void;
 
 export function useCurrentSubject(): [string, setFunc] {
-  return useQueryParam('subject', StringParam);
+  const [subjectQ, setSubjectQ] = useQueryParam('subject', StringParam);
+  if (subjectQ == undefined) {
+    return [window.location.href, setSubjectQ];
+  }
+  return [subjectQ, setSubjectQ];
 }
 
 /** Hook for getting and setting a query param from the current Subject */
