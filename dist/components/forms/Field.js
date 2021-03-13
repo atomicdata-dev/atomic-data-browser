@@ -10,7 +10,10 @@ function FieldLabeled({property: propertyURL, resource, required}) {
   const property = useProperty(propertyURL);
   const [collapsedHelper, setCollapsed] = useState(true);
   if (property == null) {
-    return /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelWrapper, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "loading...")), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, null)));
+    return /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelWrapper, null, /* @__PURE__ */ React.createElement(LabelStyled, null, "loading property...")), /* @__PURE__ */ React.createElement(InputWrapper, null, /* @__PURE__ */ React.createElement(InputStyled, {
+      disabled: true,
+      placeholder: "loading property..."
+    })));
   }
   return /* @__PURE__ */ React.createElement(FieldStyled, null, /* @__PURE__ */ React.createElement(LabelWrapper, {
     title: property.description

@@ -4,7 +4,8 @@ export const classes = {
   commit: "https://atomicdata.dev/classes/Commit",
   class: "https://atomicdata.dev/classes/Class",
   property: "https://atomicdata.dev/classes/Property",
-  datatype: "https://atomicdata.dev/classes/Datatype"
+  datatype: "https://atomicdata.dev/classes/Datatype",
+  endpoint: "https://atomicdata.dev/classes/Endpoint"
 };
 export const properties = {
   shortname: "https://atomicdata.dev/properties/shortname",
@@ -30,6 +31,9 @@ export const properties = {
     remove: "https://atomicdata.dev/properties/remove",
     destroy: "https://atomicdata.dev/properties/destroy",
     signature: "https://atomicdata.dev/properties/signature"
+  },
+  endpoint: {
+    parameters: "https://atomicdata.dev/properties/endpoint/parameters"
   },
   datatype: "https://atomicdata.dev/properties/datatype",
   isA: "https://atomicdata.dev/properties/isA"

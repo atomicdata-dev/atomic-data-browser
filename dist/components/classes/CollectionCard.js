@@ -1,10 +1,10 @@
-import React from "../pkg/react.js";
-import {properties} from "../helpers/urls.js";
-import {useArray, useString, useTitle} from "../atomic-react/hooks.js";
-import Markdown from "./datatypes/Markdown.js";
-import AtomicLink from "./Link.js";
-import {Card, CardInsideFull, CardRow} from "./Card.js";
-import ResourceInline from "./datatypes/ResourceInline.js";
+import React from "../../pkg/react.js";
+import {properties} from "../../helpers/urls.js";
+import {useArray, useString, useTitle} from "../../atomic-react/hooks.js";
+import Markdown from "../datatypes/Markdown.js";
+import AtomicLink from "../Link.js";
+import {Card, CardInsideFull, CardRow} from "../Card.js";
+import ResourceInline from "../datatypes/ResourceInline.js";
 function CollectionCard({resource}) {
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);

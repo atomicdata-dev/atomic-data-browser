@@ -1,7 +1,7 @@
 import {serializeDeterministically} from "./commit.js";
 import {parseJsonADResource} from "./parse.js";
 import {Resource, ResourceStatus} from "./resource.js";
-export async function fetchResource(subject) {
+export async function fetchResource(subject, from) {
   const resource = new Resource(subject);
   resource.setStatus(ResourceStatus.ready);
   try {
@@ -11,7 +11,11 @@ export async function fetchResource(subject) {
     }
     const requestHeaders = new Headers();
     requestHeaders.set("Accept", "application/ad+json");
-    const response = await window.fetch(subject, {
+    let url = subject;
+    if (from !== void 0) {
+      url = `${from}/path?${subject}`;
+    }
+    const response = await window.fetch(url, {
       headers: requestHeaders
     });
     const body = await response.text();

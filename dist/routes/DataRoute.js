@@ -28,7 +28,9 @@ function Data() {
     about: subject
   }, /* @__PURE__ */ React.createElement("h1", null, "data view"), /* @__PURE__ */ React.createElement("h3", null, "subject: ", /* @__PURE__ */ React.createElement(AtomicLink, {
     url: subject
-  }, subject)), /* @__PURE__ */ React.createElement(ButtonMargin, {
+  }, subject)), /* @__PURE__ */ React.createElement(AllProps, {
+    resource
+  }), /* @__PURE__ */ React.createElement(ButtonMargin, {
     type: "button",
     onClick: () => history.push(editURL(subject))
   }, "edit"), /* @__PURE__ */ React.createElement(ButtonMargin, {
@@ -37,8 +39,6 @@ function Data() {
   }, "normal view"), /* @__PURE__ */ React.createElement(ButtonMargin, {
     type: "button",
     onClick: handleDestroy
-  }, "delete"), /* @__PURE__ */ React.createElement(AllProps, {
-    resource
-  }));
+  }, "delete"));
 }
 export default Data;

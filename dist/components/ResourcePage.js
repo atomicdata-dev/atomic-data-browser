@@ -5,13 +5,14 @@ import {ResourceStatus} from "../atomic-lib/resource.js";
 import AllProps from "./AllProps.js";
 import {ContainerNarrow} from "./Containers.js";
 import Markdown from "./datatypes/Markdown.js";
-import Collection from "./CollectionPage.js";
+import Collection from "./classes/CollectionPage.js";
 import ClassDetail from "./ClassDetail.js";
 import NewInstanceButton from "./NewInstanceButton.js";
 import {useHistory} from "../pkg/react-router-dom.js";
 import {editURL} from "../helpers/navigation.js";
 import {Button} from "./Button.js";
 import {ErrorLook} from "./datatypes/ResourceInline.js";
+import EndpointPage from "./classes/EndpointPage.js";
 function ResourcePage({subject}) {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
@@ -28,6 +29,10 @@ function ResourcePage({subject}) {
   switch (klass) {
     case urls.classes.collection:
       return /* @__PURE__ */ React.createElement(Collection, {
+        resource
+      });
+    case urls.classes.endpoint:
+      return /* @__PURE__ */ React.createElement(EndpointPage, {
         resource
       });
   }

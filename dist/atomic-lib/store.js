@@ -17,7 +17,7 @@ export class Store {
   }
   async fetchResource(subject) {
     if (this.resources.get(subject) == void 0) {
-      const fetched = await fetchResource(subject);
+      const fetched = await fetchResource(subject, this.getBaseUrl());
       this.addResource(fetched);
       return fetched;
     }

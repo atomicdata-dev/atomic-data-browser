@@ -7,7 +7,7 @@ import Markdown from "./datatypes/Markdown.js";
 import AtomicLink from "./Link.js";
 import ClassDetail from "./ClassDetail.js";
 import {Card} from "./Card.js";
-import CollectionCard from "./CollectionCard.js";
+import CollectionCard from "./classes/CollectionCard.js";
 import {ErrorLook} from "./datatypes/ResourceInline.js";
 function ResourceCard({subject}) {
   const [resource] = useResource(subject);

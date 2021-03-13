@@ -4,11 +4,11 @@ import {ContainerNarrow} from "../components/Containers.js";
 import AtomicLink, {LinkView} from "../components/Link.js";
 export const Welcome = () => {
   const history = useHistory();
-  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Atomic Data Browser"), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("a", {
+  return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "Atomic Data"), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("a", {
     href: "https://atomicdata.dev"
-  }, "Atomic Data"), " is a new set of standards designed to make it easier to share, create and model linked data. Check out the ", /* @__PURE__ */ React.createElement("a", {
+  }, "Atomic Data"), " is a new set of standards designed to make it easier to share, create and model linked data. Check out", " ", /* @__PURE__ */ React.createElement("b", null, /* @__PURE__ */ React.createElement("a", {
     href: "https://docs.atomicdata.dev/"
-  }, "docs"), " for more information about Atomic Data."), /* @__PURE__ */ React.createElement("p", null, "This app is for viewing, editing and creating Atomic Data. It's free and open source on", " ", /* @__PURE__ */ React.createElement("a", {
+  }, "the docs")), " ", "for more information about Atomic Data."), /* @__PURE__ */ React.createElement("p", null, "This app is for viewing, editing and creating Atomic Data. It's free and open source on", " ", /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/joepio/atomic-data-browser"
   }, "github"), ". Please add an issue if you encouter problems or have a feature request. Expect bugs and issues, because this stuff is pretty beta."), /* @__PURE__ */ React.createElement("p", null, "You can edit app settings, such as current user and theme color at", " ", /* @__PURE__ */ React.createElement(LinkView, {
     onClick: () => history.push("/settings")
