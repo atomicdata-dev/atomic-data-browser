@@ -18,10 +18,10 @@ function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps
     return (
       <FieldStyled>
         <LabelWrapper>
-          <LabelStyled>loading...</LabelStyled>
+          <LabelStyled>loading property...</LabelStyled>
         </LabelWrapper>
         <InputWrapper>
-          <InputStyled />
+          <InputStyled disabled placeholder='loading property...' />
         </InputWrapper>
       </FieldStyled>
     );

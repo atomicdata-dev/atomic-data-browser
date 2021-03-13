@@ -2,19 +2,19 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
 
-import { properties } from '../helpers/urls';
-import { useLocalStorage } from '../helpers/useLocalStorage';
-import { useViewport } from '../helpers/useMedia';
-import { useArray, useNumber, useResource, useString, useTitle } from '../atomic-react/hooks';
-import { Resource } from '../atomic-lib/resource';
-import { Button } from './Button';
-import { ContainerFull } from './Containers';
-import Markdown from './datatypes/Markdown';
-import NewInstanceButton from './NewInstanceButton';
-import ResourceCard from './ResourceCard';
-import Table from './Table';
-import { useSubjectParam } from '../helpers/useCurrentSubject';
-import { DropDownList, DropDownMini } from './forms/Dropdownlist';
+import { properties } from '../../helpers/urls';
+import { useLocalStorage } from '../../helpers/useLocalStorage';
+import { useViewport } from '../../helpers/useMedia';
+import { useArray, useNumber, useResource, useString, useTitle } from '../../atomic-react/hooks';
+import { Resource } from '../../atomic-lib/resource';
+import { Button } from '../Button';
+import { ContainerFull } from '../Containers';
+import Markdown from '../datatypes/Markdown';
+import NewInstanceButton from '../NewInstanceButton';
+import ResourceCard from '../ResourceCard';
+import Table from '../Table';
+import { useSubjectParam } from '../../helpers/useCurrentSubject';
+import { DropDownList, DropDownMini } from '../forms/Dropdownlist';
 
 type CollectionProps = {
   resource: Resource;

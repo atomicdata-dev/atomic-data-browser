@@ -2,8 +2,15 @@ import { Commit, serializeDeterministically } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource, ResourceStatus } from './resource';
 
-/** Fetches and Parses a Resource. Does not add it to the store. If you need that, use `Store.fetchResource`. */
-export async function fetchResource(subject: string): Promise<Resource> {
+/**
+ * Fetches and Parses a Resource. Can fetch through another atomic server if you pass the `from` argument, which should be the baseURL of
+ * an Atomic Server. Does not add it to the store. If you need that, use `Store.fetchResource`.
+ */
+export async function fetchResource(
+  subject: string,
+  /** Base URL of an atomic server. Uses the `/path` endpoint to indirectly fetch through that server. */
+  from?: string,
+): Promise<Resource> {
   const resource = new Resource(subject);
   // We set the status to ready. This is overwrited when an error happens.
   resource.setStatus(ResourceStatus.ready);
@@ -14,7 +21,11 @@ export async function fetchResource(subject: string): Promise<Resource> {
     }
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Accept', 'application/ad+json');
-    const response = await window.fetch(subject, {
+    let url = subject;
+    if (from !== undefined) {
+      url = `${from}/path?${subject}`;
+    }
+    const response = await window.fetch(url, {
       headers: requestHeaders,
     });
     const body = await response.text();
@@ -31,7 +42,11 @@ export async function fetchResource(subject: string): Promise<Resource> {
 }
 
 /** Posts a Commit to some endpoint */
-export async function postCommit(commit: Commit, endpoint: string): Promise<string> {
+export async function postCommit(
+  commit: Commit,
+  /** URL to post to, e.g. https://atomicdata.dev/commit */
+  endpoint: string,
+): Promise<string> {
   const serialized = serializeDeterministically(commit);
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');

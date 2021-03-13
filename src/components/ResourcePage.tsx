@@ -5,13 +5,14 @@ import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
 import Markdown from './datatypes/Markdown';
-import Collection from './CollectionPage';
+import Collection from './classes/CollectionPage';
 import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
 import { useHistory } from 'react-router-dom';
 import { editURL } from '../helpers/navigation';
 import { Button } from './Button';
 import { ErrorLook } from './datatypes/ResourceInline';
+import EndpointPage from './classes/EndpointPage';
 
 type Props = {
   subject: string;
@@ -41,6 +42,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
   switch (klass) {
     case urls.classes.collection:
       return <Collection resource={resource} />;
+    case urls.classes.endpoint:
+      return <EndpointPage resource={resource} />;
   }
 
   return (

@@ -50,7 +50,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   }
 
   // TODO: Should be an array of all properties of the resources that have not been included in the recommended and required fields
-  const otherProps = [];
+  const otherProps: string[] = [];
 
   async function save() {
     setErr(null);

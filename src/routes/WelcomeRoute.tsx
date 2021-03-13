@@ -8,10 +8,14 @@ export const Welcome: React.FunctionComponent = () => {
 
   return (
     <ContainerNarrow>
-      <h1>Atomic Data Browser</h1>
+      <h1>Atomic Data</h1>
       <p>
         <a href='https://atomicdata.dev'>Atomic Data</a> is a new set of standards designed to make it easier to share, create and model
-        linked data. Check out the <a href='https://docs.atomicdata.dev/'>docs</a> for more information about Atomic Data.
+        linked data. Check out{' '}
+        <b>
+          <a href='https://docs.atomicdata.dev/'>the docs</a>
+        </b>{' '}
+        for more information about Atomic Data.
       </p>
       <p>
         This app is for viewing, editing and creating Atomic Data. It&apos;s free and open source on{' '}
@@ -31,6 +35,7 @@ export const Welcome: React.FunctionComponent = () => {
       <ul>
         <li>
           <AtomicLink url='https://atomicdata.dev/collections'>atomicdata.dev</AtomicLink>
+          {}
         </li>
         <li>
           <AtomicLink url='https://surfy.ddns.net/collections'>surfy.ddns.net</AtomicLink>

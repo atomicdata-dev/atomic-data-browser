@@ -1,11 +1,11 @@
 import React from 'react';
-import { properties } from '../helpers/urls';
-import { useArray, useString, useTitle } from '../atomic-react/hooks';
-import { Resource } from '../atomic-lib/resource';
-import Markdown from './datatypes/Markdown';
-import AtomicLink from './Link';
-import { Card, CardInsideFull, CardRow } from './Card';
-import ResourceInline from './datatypes/ResourceInline';
+import { properties } from '../../helpers/urls';
+import { useArray, useString, useTitle } from '../../atomic-react/hooks';
+import { Resource } from '../../atomic-lib/resource';
+import Markdown from '../datatypes/Markdown';
+import AtomicLink from '../Link';
+import { Card, CardInsideFull, CardRow } from '../Card';
+import ResourceInline from '../datatypes/ResourceInline';
 
 type Props = {
   resource: Resource;

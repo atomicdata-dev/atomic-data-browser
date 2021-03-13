@@ -37,7 +37,7 @@ export class Store {
   /** Fetches a resource by URL. Does not do anything if the resource is already present, even if it has errored */
   async fetchResource(subject: string): Promise<Resource> {
     if (this.resources.get(subject) == undefined) {
-      const fetched = await fetchResource(subject);
+      const fetched = await fetchResource(subject, this.getBaseUrl());
       this.addResource(fetched);
       return fetched;
     }

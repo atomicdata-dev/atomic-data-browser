@@ -56,6 +56,7 @@ export const ButtonBase = styled.button`
   }
 
   &:active:not([disabled]) {
+    transition: all 0s;
     background-color: ${props => props.theme.colors.mainDark};
     /* transition: 0s transform, 0s background-color; */
     transform: scale(1);
@@ -92,6 +93,7 @@ export const ButtonBar = styled(ButtonBase)`
 `;
 
 /** Button with some basic margins around it */
+// eslint-disable-next-line prettier/prettier
 export const ButtonMargin = styled(ButtonBase)<ButtonProps>`
   padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;

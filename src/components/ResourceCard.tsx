@@ -7,7 +7,7 @@ import Markdown from './datatypes/Markdown';
 import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';
 import { Card } from './Card';
-import CollectionCard from './CollectionCard';
+import CollectionCard from './classes/CollectionCard';
 import { ErrorLook } from './datatypes/ResourceInline';
 
 type Props = {

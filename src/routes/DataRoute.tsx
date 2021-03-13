@@ -35,6 +35,7 @@ function Data(): JSX.Element {
       <h3>
         subject: <AtomicLink url={subject}>{subject}</AtomicLink>
       </h3>
+      <AllProps resource={resource} />
       <ButtonMargin type='button' onClick={() => history.push(editURL(subject))}>
         edit
       </ButtonMargin>
@@ -44,7 +45,6 @@ function Data(): JSX.Element {
       <ButtonMargin type='button' onClick={handleDestroy}>
         delete
       </ButtonMargin>
-      <AllProps resource={resource} />
     </ContainerNarrow>
   );
 }
