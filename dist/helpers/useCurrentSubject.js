@@ -1,7 +1,11 @@
 import {useState} from "../pkg/react.js";
 import {StringParam, useQueryParam} from "../pkg/use-query-params.js";
 export function useCurrentSubject() {
-  return useQueryParam("subject", StringParam);
+  const [subjectQ, setSubjectQ] = useQueryParam("subject", StringParam);
+  if (subjectQ == void 0) {
+    return [window.location.href, setSubjectQ];
+  }
+  return [subjectQ, setSubjectQ];
 }
 export function useSubjectParam(key) {
   const [subject, setSubject] = useCurrentSubject();
