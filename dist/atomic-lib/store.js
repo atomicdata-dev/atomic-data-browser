@@ -15,9 +15,9 @@ export class Store {
     const random = Math.random().toString(36).substring(2);
     return `${this.getBaseUrl()}/things/${random}`;
   }
-  async fetchResource(subject) {
-    if (this.resources.get(subject) == void 0) {
-      const fetched = await fetchResource(subject, this.getBaseUrl());
+  async fetchResource(subject, forceRefresh, fromProxy) {
+    if (forceRefresh || this.resources.get(subject) == void 0) {
+      const fetched = await fetchResource(subject, fromProxy && this.getBaseUrl());
       this.addResource(fetched);
       return fetched;
     }

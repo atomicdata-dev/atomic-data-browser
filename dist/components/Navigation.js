@@ -74,6 +74,8 @@ function NavBar() {
   }, /* @__PURE__ */ React.createElement(FaArrowRight, null)), /* @__PURE__ */ React.createElement("input", {
     ref: inputRef,
     type: "text",
+    name: "search",
+    "aria-label": "Search",
     onClick: handleSelect,
     value: subject || "",
     onChange: handleChange,

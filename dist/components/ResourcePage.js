@@ -1,6 +1,6 @@
 import React from "../pkg/react.js";
 import {properties, urls} from "../helpers/urls.js";
-import {useString, useResource, useTitle} from "../atomic-react/hooks.js";
+import {useString, useResource, useTitle, useStore} from "../atomic-react/hooks.js";
 import {ResourceStatus} from "../atomic-lib/resource.js";
 import AllProps from "./AllProps.js";
 import {ContainerNarrow} from "./Containers.js";
@@ -19,12 +19,17 @@ function ResourcePage({subject}) {
   const history = useHistory();
   const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);
+  const store = useStore();
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
     return /* @__PURE__ */ React.createElement(ContainerNarrow, null, "Loading...");
   }
   if (status == ResourceStatus.error) {
-    return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "\u26A0\uFE0F ", title), /* @__PURE__ */ React.createElement(ErrorLook, null, resource.getError().message));
+    return /* @__PURE__ */ React.createElement(ContainerNarrow, null, /* @__PURE__ */ React.createElement("h1", null, "\u26A0\uFE0F ", title), /* @__PURE__ */ React.createElement(ErrorLook, null, resource.getError().message), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(Button, {
+      onClick: () => store.fetchResource(subject, true)
+    }, "Retry"), /* @__PURE__ */ React.createElement(Button, {
+      onClick: () => store.fetchResource(subject, true, true)
+    }, "Use proxy"));
   }
   switch (klass) {
     case urls.classes.collection:

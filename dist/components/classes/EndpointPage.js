@@ -15,9 +15,7 @@ function EndpointPage({resource}) {
   function constructSubject() {
     const url = new URL(resource.getSubject());
     parameters.map(async (propUrl) => {
-      console.log("propurl", propUrl);
       const val = virtualResource.get(propUrl);
-      console.log("val", val);
       if (val != null) {
         const fullprop = await store.getProperty(propUrl);
         url.searchParams.set(fullprop.shortname, val.toString());

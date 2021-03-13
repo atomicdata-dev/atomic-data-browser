@@ -104,6 +104,9 @@ function Collection({resource}) {
   }));
 }
 function CardList({members}) {
+  if (members.length == 0) {
+    return /* @__PURE__ */ React.createElement("p", null, "This collection is empty");
+  }
   return /* @__PURE__ */ React.createElement(Masonry, null, members.map((member) => /* @__PURE__ */ React.createElement(GridItem, {
     key: member
   }, /* @__PURE__ */ React.createElement(ResourceCard, {

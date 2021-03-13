@@ -14,13 +14,13 @@ function Table({resource, members, columns}) {
   }
   return /* @__PURE__ */ React.createElement(TableStyled, null, /* @__PURE__ */ React.createElement(Header, {
     columns: propsArray
-  }), /* @__PURE__ */ React.createElement("tbody", null, members.map((member) => {
+  }), members.length > 0 ? /* @__PURE__ */ React.createElement("tbody", null, members.map((member) => {
     return /* @__PURE__ */ React.createElement(Row, {
       propsArray,
       key: member,
       subject: member
     });
-  })));
+  })) : /* @__PURE__ */ React.createElement("p", null, "This collection is empty"));
 }
 const TableStyled = styled.table`
   display: block;

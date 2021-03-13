@@ -17,11 +17,9 @@ export const Welcome = () => {
   }, "/shortcuts"), "."), /* @__PURE__ */ React.createElement("p", null, "Some ", /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/joepio/atomic"
   }, "atomic-servers"), " to visit with this browser:"), /* @__PURE__ */ React.createElement("ul", null, /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement(AtomicLink, {
-    url: "https://atomicdata.dev/collections"
-  }, "atomicdata.dev")), /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement(AtomicLink, {
-    url: "https://surfy.ddns.net/collections"
-  }, "surfy.ddns.net"))), /* @__PURE__ */ React.createElement("p", null, "Or run your own server..."), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("code", null, "docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server")), /* @__PURE__ */ React.createElement("p", null, "...and visit ", /* @__PURE__ */ React.createElement(AtomicLink, {
-    url: "http://localhost/collections"
+    url: "https://atomicdata.dev/collections/collection"
+  }, "atomicdata.dev"))), /* @__PURE__ */ React.createElement("p", null, "Or run your own server..."), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("code", null, "docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server")), /* @__PURE__ */ React.createElement("p", null, "...and visit ", /* @__PURE__ */ React.createElement(AtomicLink, {
+    url: "http://localhost/collections/collection"
   }, "localhost"), "."), /* @__PURE__ */ React.createElement("p", null, "If you have any questions, feel free to join our ", /* @__PURE__ */ React.createElement("a", {
     href: "https://discord.gg/a72Rv2P"
   }, "Discord"), "!"));
