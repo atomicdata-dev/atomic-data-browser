@@ -34,11 +34,7 @@ export const Welcome: React.FunctionComponent = () => {
       </p>
       <ul>
         <li>
-          <AtomicLink url='https://atomicdata.dev/collections'>atomicdata.dev</AtomicLink>
-          {}
-        </li>
-        <li>
-          <AtomicLink url='https://surfy.ddns.net/collections'>surfy.ddns.net</AtomicLink>
+          <AtomicLink url='https://atomicdata.dev/collections/collection'>atomicdata.dev</AtomicLink>
         </li>
       </ul>
       <p>Or run your own server...</p>
@@ -46,7 +42,7 @@ export const Welcome: React.FunctionComponent = () => {
         <code>docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server</code>
       </p>
       <p>
-        ...and visit <AtomicLink url='http://localhost/collections'>localhost</AtomicLink>.
+        ...and visit <AtomicLink url='http://localhost/collections/collection'>localhost</AtomicLink>.
       </p>
       <p>
         If you have any questions, feel free to join our <a href='https://discord.gg/a72Rv2P'>Discord</a>!
