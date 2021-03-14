@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import registerServiceWorker from './serviceWorker';
+
 import App from './App.jsx';
 
 /** Top level React node of the Application. Keep this one empty (no providers), as the Testing library imports the App component */
@@ -18,3 +20,5 @@ if (import.meta.hot) {
   // @ts-ignore
   import.meta.hot.accept();
 }
+
+registerServiceWorker();
