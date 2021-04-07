@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
-import 'react-colorful/dist/index.css';
 import { Button } from '../components/Button';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useStore } from '../atomic-react/hooks';
