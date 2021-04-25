@@ -19,6 +19,7 @@ import { Shortcuts } from './routes/ShortcutsRoute';
 import { Welcome } from './routes/WelcomeRoute';
 import Local from './routes/LocalRoute';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
+import ScrollToTop from './components/ScrollToTop';
 
 /** Initialize the store */
 const store = new Store();
@@ -34,6 +35,7 @@ function App(): JSX.Element {
         <BrowserRouter basename='/'>
           {/* Used for getting / setting query parameters */}
           <QueryParamProvider ReactRouterRoute={Route}>
+            <ScrollToTop />
             <HotKeysWrapper>
               <ThemeWrapper>
                 <GlobalStyle />
