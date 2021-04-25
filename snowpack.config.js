@@ -17,12 +17,13 @@ module.exports = {
     ],
     // Snowpack can build for production, but WebPack does more optimizations
     // Throws an error atm, enable later
-    [
-      '@snowpack/plugin-webpack',
-      {
-        outputPattern: { css: '[name].css', js: '[name].js' },
-      },
-    ],
+    // See https://github.com/joepio/atomic-data-browser/issues/31
+    // [
+    //   '@snowpack/plugin-webpack',
+    //   {
+    //     outputPattern: { css: '[name].css', js: '[name].js' },
+    //   },
+    // ],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -30,8 +31,9 @@ module.exports = {
   ],
   optimize: {
     // Might be required for hosting on github pages
-    // bundle: true,
-    // minify: true,
+    bundle: true,
+    minify: true,
+    // Try this for error
     // target: 'es2020',
   },
   packageOptions: {
