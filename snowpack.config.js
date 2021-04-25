@@ -33,6 +33,7 @@ module.exports = {
     // Might be required for hosting on github pages
     bundle: true,
     minify: true,
+    treeshake: true,
     // Try this for error
     // target: 'es2020',
   },
@@ -48,6 +49,6 @@ module.exports = {
     baseUrl: 'https://joepio.github.io/atomic-data-browser/',
     /** Github requires output to this folder for static hosting on main branch */
     out: 'docs',
-    metaUrlPath: `dist`,
+    metaUrlPath: `.`,
   },
 };
