@@ -22,7 +22,11 @@ function AtomicLink({ children, url }: Props): JSX.Element {
     if (currentUrl == url) {
       return;
     }
-    history.push(openURL(url));
+    if (window.location.origin == new URL(url).origin) {
+      history.push(url);
+    } else {
+      history.push(openURL(url));
+    }
   };
 
   return (
