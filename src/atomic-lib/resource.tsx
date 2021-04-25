@@ -97,7 +97,8 @@ export class Resource {
     newCommitBuilder.destroy = true;
     const agent = store.getAgent();
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
-    await postCommit(commit, store.getBaseUrl() + `/commit`);
+    const endpoint = new URL(this.getSubject()).origin + `/commit`;
+    await postCommit(commit, endpoint);
     store.removeResource(this.getSubject());
   }
 
