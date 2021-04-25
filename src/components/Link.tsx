@@ -11,26 +11,35 @@ type Props = {
 };
 
 /** Renders an openable Resource. Only for Atomic Resources. */
-function AtomicLink({ children, url }: Props): JSX.Element {
+function AtomicLink({ children, url: urlString }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
   const store = useStore();
-  store.fetchResource(url);
+  store.fetchResource(urlString);
+
+  const url = new URL(urlString);
 
   const handleClick = e => {
     e.preventDefault();
-    if (currentUrl == url) {
+    if (currentUrl == urlString) {
       return;
     }
-    if (window.location.origin == new URL(url).origin) {
-      history.push(url);
+    if (window.location.origin == url.origin) {
+      const path = url.pathname + url.search;
+      history.push(path);
     } else {
-      history.push(openURL(url));
+      history.push(openURL(urlString));
     }
   };
 
   return (
-    <LinkView about={url} onClick={handleClick} href={url} disabled={currentUrl == url} tabIndex={currentUrl == url ? -1 : 0}>
+    <LinkView
+      about={urlString}
+      onClick={handleClick}
+      href={urlString}
+      disabled={currentUrl == urlString}
+      tabIndex={currentUrl == urlString ? -1 : 0}
+    >
       {children}
     </LinkView>
   );
