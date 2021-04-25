@@ -59,9 +59,7 @@ function App(): JSX.Element {
                     <Route path='/show'>
                       <Show />
                     </Route>
-                    <Route path='/:path'>
-                      <Local />
-                    </Route>
+                    <Route path='/:path' component={Local} />
                     <Route path='/'>
                       <Welcome />
                     </Route>
