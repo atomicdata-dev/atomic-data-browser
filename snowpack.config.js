@@ -1,4 +1,4 @@
-/** @type {import('snowpack').SnowpackUserConfig} */
+// eslint-disable-next-line no-undef
 module.exports = {
   mount: {
     public: '/',
@@ -34,8 +34,6 @@ module.exports = {
     bundle: true,
     minify: true,
     treeshake: true,
-    // Try this for error
-    // target: 'es2020',
   },
   packageOptions: {
     source: 'local',
