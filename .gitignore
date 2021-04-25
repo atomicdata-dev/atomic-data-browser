@@ -5,3 +5,4 @@ docs
 .env
 snowpack.crt
 snowpack.key
+.husky

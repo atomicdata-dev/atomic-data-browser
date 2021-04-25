@@ -16,16 +16,34 @@ interface DropDownListProps {
   /** Is called when the entire value is removed. Renders a trashcan button if passed */
   onRemove?: () => unknown;
   placeholder?: string;
+  /** If true, allows other-than-options values. Will still validate the input, though. */
+  allowOther?: boolean;
 }
 
-export function DropDownList({ required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
+/** An input for selecting a value from a dropdown menu. */
+export function DropDownList({ allowOther, required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
   const themeContext = useContext(ThemeContext);
+
+  function stateReducer(state, changes) {
+    // Prevent reset of input on blur
+    if (allowOther &&
+      changes.type === Downshift.stateChangeTypes.blurButton ||
+      changes.type === Downshift.stateChangeTypes.mouseUp ||
+      changes.type === Downshift.stateChangeTypes.blurInput) {
+      return {
+        ...changes,
+        selectedItem: state.inputValue,
+      }
+    }
+    return changes
+  }
 
   return (
     <Downshift
       initialSelectedItem={initial ? initial : ''}
       onChange={selection => onUpdate(selection)}
       itemToString={item => (item ? item : '')}
+      stateReducer={stateReducer}
     >
       {({
         clearSelection,

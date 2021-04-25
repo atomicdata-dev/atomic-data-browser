@@ -13,7 +13,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 
 - [x] **View data**
   - [x] Fetch atomic data
-  - [x] Parse [JSON-AD](https://docs.atomicdata.dev/core/serialization.html#json-ad)
+  - [x] Parse [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html)
   - [x] Render atomic data
   - [x] Render properties as labels
   - [x] Datatype dependent renders

@@ -54,6 +54,7 @@ export function ResourceSelector({
   return (
     <>
       <DropDownList
+        allowOther
         placeholder={placeholder}
         required={required}
         onUpdate={handleUpdate}
