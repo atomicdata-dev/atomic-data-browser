@@ -1,65 +1,43 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { useProperty } from '../../atomic-react/hooks';
-import { Resource } from '../../atomic-lib/resource';
+import React, { useState } from 'react';
 import { FaInfo } from 'react-icons/fa';
 import { ButtonIcon } from '../Button';
-import AtomicLink from '../Link';
-import InputSwitcher from './InputSwitcher';
-import { Property } from '../../atomic-lib/store';
-import { FieldStyled, InputStyled, InputWrapper, LabelHelper, LabelStyled, LabelWrapper } from './InputStyles';
+import { ErrMessage, FieldStyled, LabelHelper, LabelStyled, LabelWrapper } from './InputStyles';
 
-/** A form field with a label */
-function FieldLabeled({ property: propertyURL, resource, required }: IFieldProps): JSX.Element {
-  const property = useProperty(propertyURL);
+/** High level form field skeleton. Pass the actual input as a child component. */
+function Field({ label, helper, children, error }: IFieldProps): JSX.Element {
   const [collapsedHelper, setCollapsed] = useState(true);
 
-  if (property == null) {
-    return (
-      <FieldStyled>
-        <LabelWrapper>
-          <LabelStyled>loading property...</LabelStyled>
-        </LabelWrapper>
-        <InputWrapper>
-          <InputStyled disabled placeholder='loading property...' />
-        </InputWrapper>
-      </FieldStyled>
-    );
-  }
   return (
     <FieldStyled>
-      <LabelWrapper title={property.description}>
+      <LabelWrapper>
         <LabelStyled>
-          {property.shortname}{' '}
-          <ButtonIcon type='button' onClick={() => setCollapsed(!collapsedHelper)}>
-            <FaInfo />
-          </ButtonIcon>
+          {label}
+          {helper && (
+            <React.Fragment>
+              {' '}
+              <ButtonIcon type='button' onClick={() => setCollapsed(!collapsedHelper)}>
+                <FaInfo />
+              </ButtonIcon>
+            </React.Fragment>
+          )}
         </LabelStyled>
       </LabelWrapper>
-      {!collapsedHelper && (
-        <LabelHelper>
-          {property.description} <AtomicLink url={propertyURL}>Go to Property</AtomicLink>
-        </LabelHelper>
-      )}
-      <InputSwitcher resource={resource} property={property} required={required} />
+      {!collapsedHelper && <LabelHelper>{helper}</LabelHelper>}
+      {children}
+      {error && <ErrMessage title={`Error: ${JSON.stringify(error)}`}>{error.message}</ErrMessage>}
     </FieldStyled>
   );
 }
 
-/** A single field in a form should receive these */
-export type InputProps = {
-  resource: Resource;
-  property: Property;
-  required?: boolean;
-};
-
 interface IFieldProps {
-  /** Subject of the Property */
-  property: string;
-  /** The resource being edited */
-  resource: Resource;
-  /** Whether the field must have a valid value before submitting */
-  required?: boolean;
+  /** Label */
+  label?: string;
+  /** Helper text / collapsible info */
+  helper?: React.ReactNode;
+  /** Here goes the input */
+  children: React.ReactNode;
+  /** The error to be shown in the component */
+  error?: Error;
 }
 
-export default FieldLabeled;
+export default Field;

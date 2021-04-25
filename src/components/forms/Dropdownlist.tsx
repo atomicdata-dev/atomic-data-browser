@@ -20,22 +20,23 @@ interface DropDownListProps {
   allowOther?: boolean;
 }
 
-/** An input for selecting a value from a dropdown menu. */
+/** An input for selecting a value from a dropdown menu. This component assumes that values are Resource IDs. */
 export function DropDownList({ allowOther, required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
   const themeContext = useContext(ThemeContext);
 
   function stateReducer(state, changes) {
     // Prevent reset of input on blur
-    if (allowOther &&
-      changes.type === Downshift.stateChangeTypes.blurButton ||
+    if (
+      (allowOther && changes.type === Downshift.stateChangeTypes.blurButton) ||
       changes.type === Downshift.stateChangeTypes.mouseUp ||
-      changes.type === Downshift.stateChangeTypes.blurInput) {
+      changes.type === Downshift.stateChangeTypes.blurInput
+    ) {
       return {
         ...changes,
         selectedItem: state.inputValue,
-      }
+      };
     }
-    return changes
+    return changes;
   }
 
   return (

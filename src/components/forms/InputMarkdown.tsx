@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useString } from '../../atomic-react/hooks';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import { ErrMessage, InputWrapper, TextAreaStyled } from './InputStyles';
 
 export default function InputMarkdown({ resource, property, required }: InputProps): JSX.Element {

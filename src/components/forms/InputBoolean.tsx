@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useBoolean } from '../../atomic-react/hooks';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled } from './InputStyles';
 
 export default function InputBoolean({ resource, property, required }: InputProps): JSX.Element {

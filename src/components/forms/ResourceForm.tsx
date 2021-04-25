@@ -6,7 +6,7 @@ import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { classes, properties } from '../../helpers/urls';
 import { ButtonMargin } from '../Button';
-import FieldLabeled from './Field';
+import ResourceField from './ResourceField';
 import { ErrMessage } from './InputStyles';
 
 type ResourceFormProps = {
@@ -43,7 +43,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     return <>Loading class...</>;
   }
   if (classStatus == ResourceStatus.error) {
-    return <>{klass.getError().message}</>;
+    return <>Error in class. {klass.getError().message}</>;
   }
   if (klassIsa !== classes.class) {
     return <>{classSubject} is not a Class. Only resources with valid classes can be created or edited at this moment.</>;
@@ -87,13 +87,13 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     <form about={resource.getSubject()}>
       {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
       {requires.map(property => {
-        return <FieldLabeled key={property} property={property} resource={resource} required />;
+        return <ResourceField key={property} propertyURL={property} resource={resource} required />;
       })}
       {recommends.map(property => {
-        return <FieldLabeled key={property} property={property} resource={resource} />;
+        return <ResourceField key={property} propertyURL={property} resource={resource} />;
       })}
       {otherProps.map(property => {
-        return <FieldLabeled key={property} property={property} resource={resource} />;
+        return <ResourceField key={property} propertyURL={property} resource={resource} />;
       })}
       {agent && (
         <ButtonMargin type='button' onClick={handleSubmit} disabled={saving}>

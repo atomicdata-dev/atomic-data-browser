@@ -92,8 +92,8 @@ export class Store {
   }
 
   /**
-   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Not recommended to use this for rendering, because
-   * it might cause resources to be fetched multiple times.
+   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Not recommended to use this for rendering, because it
+   * might cause resources to be fetched multiple times.
    */
   async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
@@ -146,6 +146,17 @@ export class Store {
   /** Removes resource from this store */
   removeResource(subject: string): void {
     this.resources.delete(subject);
+  }
+
+  /** Changes the Subject of a Resource */
+  renameSubject(oldSubject: string, newSubject: string): void {
+    const found = this.resources.get(oldSubject);
+    if (found == undefined) {
+      throw new Error(`Subject does not exist in store: ${oldSubject}`);
+    }
+    found.setSubject(newSubject);
+    this.resources.set(newSubject, found);
+    this.removeResource(oldSubject);
   }
 
   /** Sets the current Agent, used for signing commits */

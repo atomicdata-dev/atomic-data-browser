@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import { useString } from '../../atomic-react/hooks';
 import { ResourceSelector } from './ResourceSelector';
 
@@ -12,10 +12,9 @@ export function InputResource({ resource, property, required }: InputProps): JSX
     <ResourceSelector
       error={error}
       setError={setError}
-      resource={resource}
-      property={property}
+      classType={property.classType}
       setSubject={setSubject}
-      subject={subject}
+      value={subject}
       required={required}
     />
   );

@@ -9,6 +9,7 @@ import { JSVals, Value } from './value';
 /** Contains the PropertyURL / Value combinations */
 type PropVals = Map<string, Value>;
 
+/** The various basic states that an in-memory Resource can be in. */
 export enum ResourceStatus {
   /** Fetching has started, but no response was received */
   loading,
@@ -110,7 +111,7 @@ export class Resource {
     this.commitBuilder.remove.push(propertyUrl);
   }
 
-  /** Commits the changes and sends it to the default server. Returns the new Url if succesful, throws an error if things go wrong */
+  /** Commits the changes and sends the Commit to the default server (Base URL). Returns the new Url if succesful, throws an error if things go wrong */
   async save(store: Store): Promise<string> {
     const agent = store.getAgent();
     // TODO: Check if all required props are there
@@ -151,9 +152,10 @@ export class Resource {
     this.error = e;
   }
 
-  /** Set a Property, Value combination */
+  /** Set the Subject / ID URL of the Resource. Does not update the Store. */
   setSubject(subject: string): void {
     checkValidURL(subject);
+    this.commitBuilder.subject = subject;
     this.subject = subject;
   }
 }

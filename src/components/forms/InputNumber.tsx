@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNumber } from '../../atomic-react/hooks';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
 
 export default function InputNumber({ resource, property, required }: InputProps): JSX.Element {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrayError } from '../../atomic-lib/datatypes';
 import { useArray } from '../../atomic-react/hooks';
 import { ButtonMargin } from '../Button';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 
@@ -32,12 +32,11 @@ export default function InputResourceArray({ resource, property, required }: Inp
       {array.map((subject, index) => (
         <ResourceSelector
           key={`${property.subject}${index}${subject}`}
-          subject={subject}
+          value={subject}
           setSubject={(set, handleErr) => handleSetSubject(set, handleErr, index)}
           error={err?.index == index && err}
           setError={setErr}
-          resource={resource}
-          property={property}
+          classType={property.classType}
           required={required}
           handleRemove={() => handleRemove(index)}
         />

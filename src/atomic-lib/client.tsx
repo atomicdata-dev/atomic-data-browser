@@ -3,8 +3,8 @@ import { parseJsonADResource } from './parse';
 import { Resource, ResourceStatus } from './resource';
 
 /**
- * Fetches and Parses a Resource. Can fetch through another atomic server if you pass the `from` argument, which should be the baseURL of
- * an Atomic Server. Does not add it to the store. If you need that, use `Store.fetchResource`.
+ * Fetches and Parses a Resource. Can fetch through another atomic server if you pass the `from` argument, which should be the baseURL of an
+ * Atomic Server. Does not add it to the store. If you need that, use `Store.fetchResource`.
  */
 export async function fetchResource(
   subject: string,

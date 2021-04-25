@@ -1,6 +1,6 @@
 import { Datatype } from '../../atomic-lib/datatypes';
 import React from 'react';
-import { InputProps } from './Field';
+import { InputProps } from './ResourceField';
 import InputString from './InputString';
 import { InputResource } from './InputResource';
 import InputResourceArray from './InputResourceArray';

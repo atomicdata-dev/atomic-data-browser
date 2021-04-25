@@ -4,7 +4,7 @@ import { Resource } from '../../atomic-lib/resource';
 import { ContainerNarrow } from '../Containers';
 import { properties } from '../../helpers/urls';
 import Markdown from '../datatypes/Markdown';
-import FieldLabeled from '../forms/Field';
+import ResourceField from '../forms/ResourceField';
 import { Button } from '../Button';
 import { openURL } from '../../helpers/navigation';
 import { useHistory } from 'react-router-dom';
@@ -22,6 +22,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const store = useStore();
   const history = useHistory();
 
+  /** Create the URL using the variables */
   async function constructSubject() {
     const url = new URL(resource.getSubject());
 
@@ -30,7 +31,6 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
         const val = virtualResource.get(propUrl);
         if (val != null) {
           const fullprop = await store.getProperty(propUrl);
-          console.log('prop', fullprop);
           url.searchParams.set(fullprop.shortname, val.toString());
         }
       }),
@@ -43,7 +43,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       <h1>{title} endpoint</h1>
       {description && <Markdown text={description} />}
       {parameters.map(param => {
-        return <FieldLabeled key={param} property={param} resource={virtualResource} />;
+        return <ResourceField key={param} propertyURL={param} resource={virtualResource} />;
       })}
       <Button onClick={constructSubject}>Open</Button>
     </ContainerNarrow>
