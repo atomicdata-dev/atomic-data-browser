@@ -111,13 +111,16 @@ export class Resource {
     this.commitBuilder.remove.push(propertyUrl);
   }
 
-  /** Commits the changes and sends the Commit to the default server (Base URL). Returns the new Url if succesful, throws an error if things go wrong */
+  /**
+   * Commits the changes and sends the Commit to the resource's `/commit` endpoint. Returns the new Url if succesful, throws an error if
+   * things go wrong
+   */
   async save(store: Store): Promise<string> {
     const agent = store.getAgent();
     // TODO: Check if all required props are there
     const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
-    // TODO: Post to endpoint of resource
-    await postCommit(commit, store.getBaseUrl() + `/commit`);
+    const endpoint = new URL(this.getSubject()).origin + `/commit`;
+    await postCommit(commit, endpoint);
     // When all succeeds, save it
     store.addResource(this);
     return this.getSubject();
