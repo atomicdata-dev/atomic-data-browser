@@ -48,7 +48,7 @@ module.exports = {
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-data-browser/',
     /** Github requires output to this folder for static hosting on main branch */
-    out: 'docs',
-    metaUrlPath: `.`,
+    out: 'publish',
+    metaUrlPath: `dist`,
   },
 };

@@ -2,6 +2,7 @@
 build
 node_modules
 docs
+publish
 .env
 snowpack.crt
 snowpack.key
