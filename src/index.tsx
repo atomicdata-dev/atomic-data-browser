@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './serviceWorker';
 
 import App from './App.jsx';
 
@@ -20,5 +19,3 @@ if (import.meta.hot) {
   // @ts-ignore
   import.meta.hot.accept();
 }
-
-registerServiceWorker();
