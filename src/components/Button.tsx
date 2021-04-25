@@ -25,11 +25,11 @@ export function Button({ children, icon, ...props }: ButtonProps): JSX.Element {
   );
 }
 
-/** Style-only props */
-interface ButtonProps {
-  // Less visually agressive button. Show only borders in color, instead of entire button
-  subtle?: boolean;
-}
+// /** Style-only props */
+// interface ButtonProps {
+//   // Less visually agressive button. Show only borders in color, instead of entire button
+//   subtle?: boolean;
+// }
 
 /** Base button style. You're likely to want to use ButtonMargin in most places */
 export const ButtonBase = styled.button`
@@ -47,12 +47,15 @@ export const ButtonBase = styled.button`
   outline: none;
   /* transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color; */
 
-  &:hover:not([disabled]),
-  &:focus-visible:not([disabled]) {
-    background-color: ${props => props.theme.colors.mainLight};
-    color: ${props => props.theme.colors.bg};
-    transform: scale(1.05);
-    outline: 0;
+  /** Prevent sticky hover buttons on touch devices */
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([disabled]),
+    &:focus-visible:not([disabled]) {
+      background-color: ${props => props.theme.colors.mainLight};
+      color: ${props => props.theme.colors.bg};
+      transform: scale(1.05);
+      outline: 0;
+    }
   }
 
   &:active:not([disabled]) {
@@ -94,7 +97,7 @@ export const ButtonBar = styled(ButtonBase)`
 
 /** Button with some basic margins around it */
 // eslint-disable-next-line prettier/prettier
-export const ButtonMargin = styled(ButtonBase)<ButtonProps>`
+export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;
   border-radius: 999px;
