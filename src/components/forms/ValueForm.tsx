@@ -21,6 +21,7 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
   const [value] = useValue(resource, propertyURL);
   const store = useStore();
   const [err, setErr] = useState<Error>(null);
+  const haveAgent = store.getAgent() !== null;
 
   if (!value) {
     return null;
@@ -55,7 +56,13 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
   return (
     <ValueFormWrapper>
       <InputSwitcher resource={resource} property={property} autoFocus />
-      <Button onClick={handleSave}>Save</Button>
+      <Button
+        disabled={!haveAgent}
+        title={haveAgent ? 'Save the edits' : 'You cannot save - there is no Agent set. Go to settings.'}
+        onClick={handleSave}
+      >
+        Save
+      </Button>
       <Button subtle onClick={() => setEditMode(false)}>
         Cancel
       </Button>
