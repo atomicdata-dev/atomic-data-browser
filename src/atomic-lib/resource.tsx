@@ -118,6 +118,9 @@ export class Resource {
    */
   async save(store: Store): Promise<string> {
     const agent = store.getAgent();
+    if (!agent) {
+      throw new Error('No agent has been set, you cannot save.');
+    }
     // TODO: Check if all required props are there
     const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
