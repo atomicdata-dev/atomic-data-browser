@@ -7,7 +7,7 @@ import { GlobalStyle, ThemeWrapper } from './styling';
 import { StoreContext } from './atomic-react/hooks';
 import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';
-import { Navigation } from './components/Navigation';
+import { NavigationWrapper } from './components/Navigation';
 import Settings from './routes/SettingsRoute';
 import { Agent } from './atomic-lib/agent';
 import { getSnowpackEnv, isDev } from './config';
@@ -33,13 +33,12 @@ function App(): JSX.Element {
       <AppSettingsContextProvider>
         {/* Basename is for hosting on GitHub pages */}
         <BrowserRouter basename='/'>
-          {/* Used for getting / setting query parameters */}
           <QueryParamProvider ReactRouterRoute={Route}>
             <ScrollToTop />
             <HotKeysWrapper>
               <ThemeWrapper>
                 <GlobalStyle />
-                <Navigation>
+                <NavigationWrapper>
                   <Switch>
                     <Route path='/new'>
                       <New />
@@ -64,7 +63,7 @@ function App(): JSX.Element {
                       <Welcome />
                     </Route>
                   </Switch>
-                </Navigation>
+                </NavigationWrapper>
               </ThemeWrapper>
             </HotKeysWrapper>
           </QueryParamProvider>

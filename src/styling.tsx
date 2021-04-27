@@ -34,6 +34,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     boxShadow: `2px 2px 22px 0px ${shadowColor}`,
     boxShadowIntense: `2px 2px 22px 0px ${shadowColorIntense}`,
+    containerWidth: 40,
     margin: 1,
     radius: '9px',
     colors: {
@@ -60,6 +61,8 @@ declare module 'styled-components' {
     boxShadowIntense: string;
     /** Base margin */
     margin: number;
+    /** Width of the container, in units */
+    containerWidth: number;
     /** Roundness of some elements / Border radius */
     radius: string;
     /** All theme colors */
@@ -84,6 +87,7 @@ declare module 'styled-components' {
   }
 }
 
+/** Adds basic styles for the entire app */
 export const GlobalStyle = createGlobalStyle`
 
   body {

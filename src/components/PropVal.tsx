@@ -11,13 +11,14 @@ type Props = {
 };
 
 const PropValRow = styled.div`
-  display: block;
-  margin-bottom: ${props => props.theme.margin}rem;
+  display: flex;
+  flex-direction: row;
 `;
 
 const PropertyLabel = styled.span`
   font-weight: bold;
   display: block;
+  width: 8rem;
 `;
 
 /** A single Property / Value renderer */
@@ -31,9 +32,11 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
   return (
     <PropValRow>
       <AtomicLink url={propertyURL}>
-        <PropertyLabel title={property.description}>{property.shortname || propertyURL}</PropertyLabel>
+        <PropertyLabel title={property.description}>{property.shortname || propertyURL}:</PropertyLabel>
       </AtomicLink>
-      <ValueComp value={value} datatype={property.datatype} />
+      <div>
+        <ValueComp value={value} datatype={property.datatype} />
+      </div>
     </PropValRow>
   );
 }

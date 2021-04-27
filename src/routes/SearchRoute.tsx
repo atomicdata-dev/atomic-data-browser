@@ -1,17 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { useSearch } from '../helpers/useSearch';
-import ResourceInline from '../components/datatypes/ResourceInline';
-import { Card } from '../components/Card';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL } from '../helpers/navigation';
+import ResourceCard from '../components/ResourceCard';
 
 type SearchProps = {
   query: string;
 };
 
-const MAX_COUNT = 30;
+const MAX_COUNT = 50;
 /** Full text search route */
 export function Search({ query }: SearchProps): JSX.Element {
   const [selectedIndex, setSelected] = useState(0);
@@ -73,13 +72,14 @@ export function Search({ query }: SearchProps): JSX.Element {
     <ContainerNarrow ref={htmlElRef}>
       {results.length == 0 && <p>No results found for {query}</p>}
       {results.map((hit, index) => {
-        const resource = hit.item;
         return (
-          <Card about={resource.subject} key={`${index}${selectedIndex}`} selected={index == selectedIndex}>
-            <h3>
-              <ResourceInline key={resource.subject} subject={resource.subject} />
-            </h3>
-          </Card>
+          <ResourceCard
+            initialInView={index < 5}
+            small
+            subject={hit.item.subject}
+            key={`${hit.item.subject}${index}`}
+            highlight={index == selectedIndex}
+          />
         );
       })}
     </ContainerNarrow>

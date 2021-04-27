@@ -33,6 +33,7 @@
     "react-colorful": "^5.1.1",
     "react-hotkeys-hook": "^3.1.0",
     "react-icons": "^4.2.0",
+    "react-intersection-observer": "^8.31.1",
     "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
     "snowpack-plugin-baseurl-handler": "^0.0.3",

@@ -1,21 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../atomic-react/hooks';
-import { ResourceStatus } from '../atomic-lib/resource';
+import { Resource, ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import Markdown from './datatypes/Markdown';
 import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';
 import { Card } from './Card';
-import CollectionCard from './classes/CollectionCard';
-import { ErrorLook } from './datatypes/ResourceInline';
+import CollectionCard from '../views/CollectionCard';
+import { ErrorLook } from './ResourceInline';
 
-type Props = {
+interface Props extends CardPropsBase {
+  /** The subject URL - the identifier of the resource. */
   subject: string;
-};
+}
+
+interface CardPropsBase {
+  /** If true, only some basic details are shown */
+  small?: boolean;
+  /** Show a highlight border */
+  highlight?: boolean;
+  /** An HTML reference */
+  ref?: any;
+  /** If you expect to render this card in the initial view (e.g. it's in the top of some list) */
+  initialInView?: boolean;
+}
+
+/** The properties passed to every CardView */
+export interface CardViewProps extends CardPropsBase {
+  /** The full Resource to be displayed */
+  resource: Resource;
+}
 
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
-function ResourceCard({ subject }: Props): JSX.Element {
+function ResourceCard(props: Props): JSX.Element {
+  const { subject, initialInView } = props;
+  const [isShown, setIsShown] = useState(false);
+  // The (more expensive) ResourceCardInner is only rendered when the component is in view.
+  const { ref, inView } = useInView({
+    threshold: 0,
+    initialInView,
+  });
+  if (inView && !isShown) {
+    setIsShown(true);
+  }
+  return (
+    <Card ref={ref} {...props} about={subject}>
+      {isShown ? (
+        <ResourceCardInner {...props} />
+      ) : (
+        <>
+          <h2>
+            <AtomicLink url={subject}>{subject}</AtomicLink>
+          </h2>
+          <p>Resource is loading...</p>
+        </>
+      )}
+    </Card>
+  );
+}
+
+function ResourceCardInner(props: Props): JSX.Element {
+  const { small, subject } = props;
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
@@ -23,34 +70,27 @@ function ResourceCard({ subject }: Props): JSX.Element {
 
   const status = resource.getStatus();
   if (status == ResourceStatus.loading) {
-    return (
-      <Card about={subject}>
-        <p>Loading...</p>
-      </Card>
-    );
+    return <p>Loading...</p>;
   }
   if (status == ResourceStatus.error) {
-    return (
-      <Card about={subject}>
-        <ErrorLook>{resource.getError().message}</ErrorLook>
-      </Card>
-    );
+    return <ErrorLook>{resource.getError().message}</ErrorLook>;
   }
 
+  /** Check if there exists a View for this Class. These should be registered in `../views` */
   switch (klass) {
     case urls.classes.collection:
-      return <CollectionCard resource={resource} />;
+      return <CollectionCard resource={resource} {...props} />;
   }
 
   return (
-    <Card about={subject}>
+    <React.Fragment>
       <AtomicLink url={subject}>
         <h2>{title}</h2>
       </AtomicLink>
       <ClassDetail resource={resource} />
       {description && <Markdown text={description} />}
-      <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />
-    </Card>
+      {!small && <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />}
+    </React.Fragment>
   );
 }
 

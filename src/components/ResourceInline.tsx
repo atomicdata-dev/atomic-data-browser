@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { urls } from '../../helpers/urls';
-import { useString, useResource, useTitle } from '../../atomic-react/hooks';
-import { ResourceStatus } from '../../atomic-lib/resource';
-import AtomicLink from '../Link';
+import { urls } from '../helpers/urls';
+import { useString, useResource, useTitle } from '../atomic-react/hooks';
+import { ResourceStatus } from '../atomic-lib/resource';
+import AtomicLink from './Link';
 
 type Props = {
   subject: string;

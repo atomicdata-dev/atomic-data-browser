@@ -72,12 +72,16 @@ This app is a client, but has no persistent storage. Run `atomic-server`
 - **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
 - **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
+- **Accessing the store** can be done in your browser with the global `store` object. For
+- **Creating views** for new types of Resources should be done in `/views`. Check the README.md in that folder.
 
 ## Directory structure
 
 - **components**: project specific components.
   - **datatypes**: for viewing atomic datatypes.
   - **forms**: for handling forms and form fields
+- **views**: components that render specific Classes. See [the views README](src/views/README.md)
+- **routes**: components that use the Router to decide what to render.
 - **helpers**: projects-specific helper functions
 - **atomic-lib**: general atomic data library, containing thins like a store, parsing, sending requests, the Resource model, datatype validations and creating Commits. Should not contain any react-specific code.
 - **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data.

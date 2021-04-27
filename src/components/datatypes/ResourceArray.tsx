@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ResourceInline from './ResourceInline';
+import ResourceInline from '../ResourceInline';
 
 type Props = {
   subjects: string[];

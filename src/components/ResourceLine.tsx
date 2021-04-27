@@ -2,7 +2,7 @@ import React from 'react';
 import { urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../atomic-react/hooks';
 import { ResourceStatus } from '../atomic-lib/resource';
-import { ErrorLook } from '../components/datatypes/ResourceInline';
+import { ErrorLook } from './ResourceInline';
 
 type Props = {
   subject: string;

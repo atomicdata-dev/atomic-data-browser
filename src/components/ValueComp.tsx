@@ -1,7 +1,7 @@
 import React from 'react';
 import { Datatype } from '../atomic-lib/datatypes';
 import { Value } from '../atomic-lib/value';
-import ResourceInline from './datatypes/ResourceInline';
+import ResourceInline from './ResourceInline';
 import DateTime from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';
 import Nestedresource from './datatypes/NestedResource';

@@ -15,7 +15,7 @@ interface AddressBarProps {
 }
 
 /** Wraps the entire app and adds a navbar at the bottom or the top */
-export function Navigation({ children }: AddressBarProps): JSX.Element {
+export function NavigationWrapper({ children }: AddressBarProps): JSX.Element {
   const { navbarTop } = useSettings();
 
   return (
@@ -43,10 +43,10 @@ function NavBar() {
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating } = useSettings();
+  const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useHotkeys('/', e => {
     e.preventDefault();
-    history.push('/');
     //@ts-ignore this does seem callable
     inputRef.current.select();
   });
@@ -94,28 +94,36 @@ function NavBar() {
 
   return (
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
-      <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
-        <FaHome />
-      </ButtonBar>
-      <ButtonBar type='button' title='Go back' onClick={history.goBack}>
-        <FaArrowLeft />
-      </ButtonBar>
-      <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
-        <FaArrowRight />
-      </ButtonBar>
+      {showButtons && (
+        <React.Fragment>
+          <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
+            <FaHome />
+          </ButtonBar>
+          <ButtonBar type='button' title='Go back' onClick={history.goBack}>
+            <FaArrowLeft />
+          </ButtonBar>
+          <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
+            <FaArrowRight />
+          </ButtonBar>
+        </React.Fragment>
+      )}
       <input
         ref={inputRef}
         type='text'
         name='search'
         aria-label='Search'
         onClick={handleSelect}
+        onFocus={() => setShowButtons(false)}
+        onBlur={() => setShowButtons(true)}
         value={subject || ''}
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      <ButtonBar type='button' title='Create a new Resource (n)' onClick={() => handleNavigation('/new')}>
-        <FaPlus />
-      </ButtonBar>
+      {showButtons && (
+        <ButtonBar type='button' title='Create a new Resource (n)' onClick={() => handleNavigation('/new')}>
+          <FaPlus />
+        </ButtonBar>
+      )}
     </ConditionalNavbar>
   );
 }
@@ -133,7 +141,7 @@ const NavBarBase = styled.form<NavBarStyledProps>`
   height: 2.5rem;
   display: flex;
   border: solid 1px ${props => props.theme.colors.bg2};
-  background-color: ${props => props.theme.colors.bg1};
+  background-color: ${props => props.theme.colors.bg};
 
   /* Search bar and buttons */
   input {
@@ -149,6 +157,7 @@ const NavBarBase = styled.form<NavBarStyledProps>`
     min-width: 1rem;
     background-color: ${props => props.theme.colors.bg};
     outline: 0;
+    border-radius: 999px;
 
     &:hover {
       box-shadow: inset 0 0 0 2px ${props => transparentize(0.6, props.theme.colors.main)};
@@ -175,21 +184,23 @@ const NavBarBase = styled.form<NavBarStyledProps>`
   }
 `;
 
+/** Width of the floating navbar in rem */
 const NavBarFloating = styled(NavBarBase)`
   box-shadow: ${props => props.theme.boxShadow};
+  box-sizing: border-box;
   border-radius: 999px;
   overflow: hidden;
   max-width: calc(100% - 2rem);
-  width: 40rem;
+  width: ${props => props.theme.containerWidth + 1}rem;
   margin: auto;
   /* Center fixed item */
   left: 50%;
-  margin-left: -20rem; /* Negative half of width. */
-  margin-right: -20rem; /* Negative half of width. */
+  margin-left: -${props => (props.theme.containerWidth + 1) / 2}rem;
+  margin-right: -${props => (props.theme.containerWidth + 1) / 2}rem;
   top: ${props => (props.top ? '2rem' : 'auto')};
   bottom: ${props => (props.top ? 'auto' : '2rem')};
 
-  @media (max-width: 40rem) {
+  @media (max-width: ${props => props.theme.containerWidth}rem) {
     max-width: calc(100% - 1rem);
     left: auto;
     right: auto;

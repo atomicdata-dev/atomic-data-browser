@@ -7,7 +7,7 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-// Create a provider for components to consume and subscribe to changes
+/** Create a provider for components to consume and subscribe to changes */
 export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element => {
   const [darkMode, setDarkMode] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
@@ -25,16 +25,16 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
 
 /** A bunch of getters and setters for client-side app settings */
 interface AppSettings {
-  // Whether the App should render in dark mode. Checks user preferences.
+  /** Whether the App should render in dark mode. Checks user preferences. */
   darkMode: boolean;
   setDarkMode: (b: boolean) => void;
-  // CSS value for the primary color
+  /** CSS value for the primary color */
   mainColor: string;
   setMainColor: (s: string) => void;
-  // If the navbar should be at the top of the page
+  /** If the navbar should be at the top of the page */
   navbarTop: boolean;
   setNavbarTop: (s: boolean) => void;
-  // If the navbar should be floating instead of being fixed at the top or bottom
+  /** If the navbar should be floating instead of being fixed at the top or bottom */
   navbarFloating: boolean;
   setNavbarFloating: (s: boolean) => void;
 }

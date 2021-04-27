@@ -5,14 +5,14 @@ import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
 import Markdown from './datatypes/Markdown';
-import Collection from './classes/CollectionPage';
+import Collection from '../views/CollectionPage';
 import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
 import { useHistory } from 'react-router-dom';
 import { editURL } from '../helpers/navigation';
 import { Button } from './Button';
-import { ErrorLook } from './datatypes/ResourceInline';
-import EndpointPage from './classes/EndpointPage';
+import { ErrorLook } from './ResourceInline';
+import EndpointPage from '../views/EndpointPage';
 
 type Props = {
   subject: string;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { urls } from '../helpers/urls';
 import { useProperty, useValue, useResource } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
-import ResourceInline from './datatypes/ResourceInline';
+import ResourceInline from './ResourceInline';
 import ValueComp from './ValueComp';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';

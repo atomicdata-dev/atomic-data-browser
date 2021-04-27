@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { properties } from '../helpers/urls';
 import { useString } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
-import ResourceInline from './datatypes/ResourceInline';
+import ResourceInline from './ResourceInline';
 
 type Props = {
   resource: Resource;

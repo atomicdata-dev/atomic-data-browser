@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useArray, useResource, useStore, useString, useTitle } from '../../atomic-react/hooks';
-import { Resource } from '../../atomic-lib/resource';
-import { ContainerNarrow } from '../Containers';
-import { properties } from '../../helpers/urls';
-import Markdown from '../datatypes/Markdown';
-import ResourceField from '../forms/ResourceField';
-import { Button } from '../Button';
-import { openURL } from '../../helpers/navigation';
+import { useArray, useResource, useStore, useString, useTitle } from '../atomic-react/hooks';
+import { Resource } from '../atomic-lib/resource';
+import { ContainerNarrow } from '../components/Containers';
+import { properties } from '../helpers/urls';
+import Markdown from '../components/datatypes/Markdown';
+import ResourceField from '../components/forms/ResourceField';
+import { Button } from '../components/Button';
+import { openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 
 type EndpointProps = {

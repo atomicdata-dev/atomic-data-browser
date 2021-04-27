@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Resource } from '../atomic-lib/resource';
 import PropVal from './PropVal';
 
@@ -8,10 +9,14 @@ type Props = {
   except?: string[];
 };
 
+const AllPropsWrapper = styled.div`
+  margin-bottom: ${props => props.theme.margin}rem;
+`;
+
 /** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */
 function AllProps({ resource, except = [] }: Props): JSX.Element {
   return (
-    <React.Fragment>
+    <AllPropsWrapper>
       {[...resource.getPropVals()].map(
         ([prop, val]): JSX.Element => {
           if (except.includes(prop)) {
@@ -20,7 +25,7 @@ function AllProps({ resource, except = [] }: Props): JSX.Element {
           return <PropVal key={prop} propertyURL={prop} value={val} />;
         },
       )}
-    </React.Fragment>
+    </AllPropsWrapper>
   );
 }
 
