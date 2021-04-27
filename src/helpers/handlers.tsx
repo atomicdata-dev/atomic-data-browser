@@ -24,7 +24,7 @@ export function handleInfo(e: Error): void {
 
 export function initBugsnag() {
   Bugsnag.start({
-    apiKey: getSnowpackEnv('BUGSNAG_KEY'),
+    apiKey: '0b41fa51d1367cdfc1165ccf7436467f',
     plugins: [new BugsnagPluginReact()],
   });
   return Bugsnag.getPlugin('react').createErrorBoundary(React);
