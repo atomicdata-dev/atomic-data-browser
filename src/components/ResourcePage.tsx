@@ -13,6 +13,7 @@ import { editURL } from '../helpers/navigation';
 import { Button } from './Button';
 import { ErrorLook } from './ResourceInline';
 import EndpointPage from '../views/EndpointPage';
+import { ValueForm } from './forms/ValueForm';
 
 type Props = {
   subject: string;
@@ -54,7 +55,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
     <ContainerNarrow about={subject}>
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
-      {description && <Markdown text={description} />}
+      <ValueForm resource={resource} propertyURL={urls.properties.description} />
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA, properties.name]} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}

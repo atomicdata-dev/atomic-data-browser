@@ -13,20 +13,52 @@ import AtomicLink from '../components/Link';
 import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';
 
-/** Form for instantiating a new Resource from some Class */
+/** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
   // Class related data
   const [classSubject] = useQueryParam('classSubject', StringParam);
-  const [klass] = useResource(classSubject);
-  const klassTitle = useTitle(klass);
-  const [klassDescription] = useString(klass, properties.description);
   // For selecting a class
   const [classInput, setClassInput] = useState<string>(null);
+  const history = useHistory();
+
+  function handleClassSet(e) {
+    e.preventDefault();
+    history.push(newURL(classInput));
+  }
+
+  return (
+    <ContainerNarrow>
+      {classSubject ? (
+        <NewForm classSubject={classSubject} />
+      ) : (
+        <form onSubmit={handleClassSet}>
+          <h1>Create something new</h1>
+          <>
+            <NewIntanceButton klass={urls.classes.class} />
+            <NewIntanceButton klass={urls.classes.property} />
+          </>
+          <p>... or enter the URL of an existing Class:</p>
+          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
+        </form>
+      )}
+    </ContainerNarrow>
+  );
+}
+
+interface NewFormProps {
+  classSubject: string;
+}
+
+/** Form for instantiating a new Resource from some Class */
+function NewForm({ classSubject }: NewFormProps): JSX.Element {
+  const [klass] = useResource(classSubject);
+
+  const klassTitle = useTitle(klass);
+  const [klassDescription] = useString(klass, properties.description);
   /** Set the URL of the newly created subject. Will be a random string at first. */
   const [newSubject, setNewSubject] = useState<string>(null);
 
   const [subjectErr, setSubjectErr] = useState<Error>(null);
-  const history = useHistory();
   const store = useStore();
 
   if (newSubject == undefined) {
@@ -39,15 +71,12 @@ function New(): JSX.Element {
     resource.setStatus(ResourceStatus.ready);
   }
 
+  console.log('class subject', klass.getSubject());
+
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
   if (currentClass.length == 0) {
     resource.set(properties.isA, [klass.getSubject()], store);
-  }
-
-  function handleClassSet(e) {
-    e.preventDefault();
-    history.push(newURL(classInput));
   }
 
   /** Changes the URL of a subject. Updates the store */
@@ -63,48 +92,28 @@ function New(): JSX.Element {
   }
 
   return (
-    <ContainerNarrow>
-      {classSubject ? (
-        <>
-          <h2>
-            new <AtomicLink url={classSubject}>{klassTitle}</AtomicLink>
-          </h2>
-          {klassDescription && <Markdown text={klassDescription} />}
-          <Field
-            error={subjectErr}
-            label='subject'
-            helper='The identifier of the resource. This also determines where the resource is saved, by default.'
-          >
-            <InputWrapper>
-              <InputStyled
-                value={newSubject || null}
-                onChange={e => handleSetSubject(e.target.value)}
-                placeholder={'URL of the new resource...'}
-              />
-            </InputWrapper>
-          </Field>
-          {/* Key is required for re-rendering when subject changes */}
-          <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} />
-        </>
-      ) : (
-        <form onSubmit={handleClassSet}>
-          <h1>Create something new</h1>
-          <Examples />
-          <p>... or enter the URL of an existing Class:</p>
-          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
-        </form>
-      )}
-    </ContainerNarrow>
+    <>
+      <h2>
+        new <AtomicLink url={classSubject}>{klassTitle}</AtomicLink>
+      </h2>
+      {klassDescription && <Markdown text={klassDescription} />}
+      <Field
+        error={subjectErr}
+        label='subject'
+        helper='The identifier of the resource. This also determines where the resource is saved, by default.'
+      >
+        <InputWrapper>
+          <InputStyled
+            value={newSubject || null}
+            onChange={e => handleSetSubject(e.target.value)}
+            placeholder={'URL of the new resource...'}
+          />
+        </InputWrapper>
+      </Field>
+      {/* Key is required for re-rendering when subject changes */}
+      <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} />
+    </>
   );
 }
 
 export default New;
-
-function Examples(): JSX.Element {
-  return (
-    <>
-      <NewIntanceButton klass={urls.classes.class} />
-      <NewIntanceButton klass={urls.classes.property} />
-    </>
-  );
-}

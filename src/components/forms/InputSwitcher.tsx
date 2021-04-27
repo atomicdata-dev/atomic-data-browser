@@ -8,33 +8,33 @@ import InputMarkdown from './InputMarkdown';
 import InputNumber from './InputNumber';
 import InputBoolean from './InputBoolean';
 
-export default function InputSwitcher({ resource, property, required }: InputProps): JSX.Element {
-  switch (property.datatype) {
+export default function InputSwitcher(props: InputProps): JSX.Element {
+  switch (props.property.datatype) {
     case Datatype.STRING: {
-      return <InputString resource={resource} property={property} required={required} />;
+      return <InputString {...props} />;
     }
     case Datatype.MARKDOWN: {
-      return <InputMarkdown resource={resource} property={property} required={required} />;
+      return <InputMarkdown {...props} />;
     }
     case Datatype.SLUG: {
-      return <InputString resource={resource} property={property} required={required} />;
+      return <InputString {...props} />;
     }
     // TODO: DateTime selector
     case Datatype.TIMESTAMP:
     case Datatype.INTEGER: {
-      return <InputNumber resource={resource} property={property} required={required} />;
+      return <InputNumber {...props} />;
     }
     case Datatype.ATOMIC_URL: {
-      return <InputResource resource={resource} property={property} required={required} />;
+      return <InputResource {...props} />;
     }
     case Datatype.RESOURCEARRAY: {
-      return <InputResourceArray resource={resource} property={property} required={required} />;
+      return <InputResourceArray {...props} />;
     }
     case Datatype.BOOLEAN: {
-      return <InputBoolean resource={resource} property={property} required={required} />;
+      return <InputBoolean {...props} />;
     }
     default: {
-      return <InputString resource={resource} property={property} required={required} />;
+      return <InputString {...props} />;
     }
   }
 }

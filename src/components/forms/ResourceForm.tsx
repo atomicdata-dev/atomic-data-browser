@@ -89,6 +89,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
       {requires.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} required />;
       })}
+      <em>optional fields:</em>
       {recommends.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} />;
       })}

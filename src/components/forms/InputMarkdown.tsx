@@ -3,7 +3,7 @@ import { useString } from '../../atomic-react/hooks';
 import { InputProps } from './ResourceField';
 import { ErrMessage, InputWrapper, TextAreaStyled } from './InputStyles';
 
-export default function InputMarkdown({ resource, property, required }: InputProps): JSX.Element {
+export default function InputMarkdown({ resource, property, required, autoFocus }: InputProps): JSX.Element {
   const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
 
@@ -15,7 +15,7 @@ export default function InputMarkdown({ resource, property, required }: InputPro
   return (
     <>
       <InputWrapper>
-        <TextAreaStyled rows={3} value={value == null ? '' : value} onChange={handleUpdate} required={required} />
+        <TextAreaStyled rows={3} value={value == null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} />
       </InputWrapper>
       {value !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
       {value == '' && <ErrMessage>Required</ErrMessage>}

@@ -76,6 +76,7 @@ export function useResources(subjects: string[]): Map<string, Resource> {
   return resources;
 }
 
+/** Hook for using a Property. Will return null if the Property is not yet loaded */
 export function useProperty(subject: string): Property | null {
   const [propR] = useResource(subject);
 

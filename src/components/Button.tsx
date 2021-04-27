@@ -36,7 +36,6 @@ export const ButtonBase = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   font-size: 1rem;
   cursor: pointer;
   border: none;

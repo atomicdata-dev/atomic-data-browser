@@ -10,6 +10,7 @@ import ClassDetail from './ClassDetail';
 import { Card } from './Card';
 import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
+import { ValueForm } from './forms/ValueForm';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -22,6 +23,7 @@ interface CardPropsBase {
   /** Show a highlight border */
   highlight?: boolean;
   /** An HTML reference */
+  // @eslint-ignore
   ref?: any;
   /** If you expect to render this card in the initial view (e.g. it's in the top of some list) */
   initialInView?: boolean;
@@ -88,7 +90,8 @@ function ResourceCardInner(props: Props): JSX.Element {
         <h2>{title}</h2>
       </AtomicLink>
       <ClassDetail resource={resource} />
-      {description && <Markdown text={description} />}
+      <ValueForm resource={resource} propertyURL={urls.properties.description} />
+      {/* {description && <Markdown text={description} />} */}
       {!small && <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />}
     </React.Fragment>
   );

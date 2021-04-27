@@ -18,11 +18,11 @@ function AllProps({ resource, except = [] }: Props): JSX.Element {
   return (
     <AllPropsWrapper>
       {[...resource.getPropVals()].map(
-        ([prop, val]): JSX.Element => {
+        ([prop, _val]): JSX.Element => {
           if (except.includes(prop)) {
             return null;
           }
-          return <PropVal key={prop} propertyURL={prop} value={val} />;
+          return <PropVal key={prop} propertyURL={prop} resource={resource} />;
         },
       )}
     </AllPropsWrapper>

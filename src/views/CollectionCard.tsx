@@ -3,7 +3,7 @@ import { properties } from '../helpers/urls';
 import { useArray, useString, useTitle } from '../atomic-react/hooks';
 import Markdown from '../components/datatypes/Markdown';
 import AtomicLink from '../components/Link';
-import { Card, CardInsideFull, CardRow } from '../components/Card';
+import { CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from '../components/ResourceInline';
 import { CardViewProps } from '../components/ResourceCard';
 

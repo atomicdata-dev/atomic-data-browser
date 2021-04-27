@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useProperty } from '../atomic-react/hooks';
-import { Value } from '../atomic-lib/value';
 import AtomicLink from './Link';
-import ValueComp from './ValueComp';
+import { Resource } from '../atomic-lib/resource';
+import { ValueForm } from './forms/ValueForm';
 
 type Props = {
   propertyURL: string;
-  value: Value;
+  resource: Resource;
 };
 
 const PropValRow = styled.div`
@@ -21,8 +21,8 @@ const PropertyLabel = styled.span`
   width: 8rem;
 `;
 
-/** A single Property / Value renderer */
-function PropVal({ propertyURL, value }: Props): JSX.Element {
+/** A single Property / Value renderer that shows a label on the left, and the value on the right. The value is editable. */
+function PropVal({ propertyURL, resource }: Props): JSX.Element {
   const property = useProperty(propertyURL);
 
   if (property == null) {
@@ -34,9 +34,7 @@ function PropVal({ propertyURL, value }: Props): JSX.Element {
       <AtomicLink url={propertyURL}>
         <PropertyLabel title={property.description}>{property.shortname || propertyURL}:</PropertyLabel>
       </AtomicLink>
-      <div>
-        <ValueComp value={value} datatype={property.datatype} />
-      </div>
+      <ValueForm resource={resource} propertyURL={propertyURL} />
     </PropValRow>
   );
 }

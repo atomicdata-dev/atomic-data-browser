@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { urls } from '../helpers/urls';
-import { useProperty, useValue, useResource } from '../atomic-react/hooks';
+import { useResource } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import ResourceInline from './ResourceInline';
-import ValueComp from './ValueComp';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { Button } from './Button';
+import { ValueForm } from './forms/ValueForm';
 
 type TableProps = {
   /** A Collection Resource with a filter-value set */
@@ -77,7 +77,6 @@ function HeaderItem({ subject }: HeaderItemProps) {
     if (sortBy == subject) {
       if (sortDesc == 'true') {
         setSortDesc(null);
-        // setSortBy(null);
       } else {
         setSortDesc('true');
       }
@@ -128,17 +127,9 @@ type CellProps = {
 };
 
 function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
-  const [value] = useValue(resource, propUrl);
-  const fullprop = useProperty(propUrl);
-  if (value == null) {
-    return <CellStyled />;
-  }
-  if (fullprop == null) {
-    return <CellStyled />;
-  }
   return (
     <CellStyled>
-      <ValueComp key={propUrl} value={value} datatype={fullprop.datatype} />
+      <ValueForm key={propUrl} resource={resource} propertyURL={propUrl} />
     </CellStyled>
   );
 }

@@ -42,6 +42,7 @@ export type InputProps = {
   /** The property of the resource that is being edited */
   property: Property;
   required?: boolean;
+  autoFocus?: boolean;
 };
 
 interface IFieldProps {
