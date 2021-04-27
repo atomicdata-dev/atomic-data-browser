@@ -96,6 +96,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.fontFamily};
     line-height: 1.5em;
     word-wrap: break-word;
+    overflow-wrap: anywhere;
   }
 
   /** Pretty dark mode transition */
