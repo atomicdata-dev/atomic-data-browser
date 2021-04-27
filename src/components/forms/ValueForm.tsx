@@ -48,6 +48,7 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
       setEditMode(false);
     } catch (e) {
       setErr(e);
+      setEditMode(true);
     }
   }
 
