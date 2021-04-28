@@ -131,6 +131,7 @@ then pass in React when available to construct your error boundary
   cursor: pointer;
   border: none;
   outline: none;
+  font-size: 1rem;
   margin: 0;
   -webkit-appearance: none;
   background-color: initial;
@@ -139,7 +140,6 @@ then pass in React when available to construct your error boundary
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
   background-color: ${e=>e.theme.colors.main};
   color: ${e=>e.theme.colors.bg};
   /* transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color; */
