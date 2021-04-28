@@ -22,6 +22,10 @@ export function DropdownMenu(): JSX.Element {
     setIsActive(!isActive);
   }
 
+  function handleNavigation(to: string) {
+    history.push(to);
+  }
+
   return (
     <MenuContainer>
       <ButtonBar rightPadding selected={isActive} ref={triggerRef} type='button' onClick={handleClick}>
