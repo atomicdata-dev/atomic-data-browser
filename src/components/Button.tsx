@@ -41,6 +41,7 @@ export const ButtonClean = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
+  font-size: 1rem;
   margin: 0;
   -webkit-appearance: none;
   background-color: initial;
@@ -52,7 +53,6 @@ export const ButtonBase = styled(ButtonClean)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
   /* transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color; */
