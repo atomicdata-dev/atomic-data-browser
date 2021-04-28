@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { FaBars } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,6 +14,9 @@ export function DropdownMenu(): JSX.Element {
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+  useHotkeys('esc', () => {
+    setIsActive(false);
+  });
 
   function handleClick() {
     const triggerRect = triggerRef.current.getBoundingClientRect();
