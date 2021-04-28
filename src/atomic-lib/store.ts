@@ -1,12 +1,15 @@
 import { Resource, ResourceStatus } from './resource';
-import { checkValidURL, fetchResource } from './client';
+import { tryValidURL, fetchResource } from './client';
 import { urls } from '../helpers/urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
 
 type callback = (resource: Resource) => void;
 
-/** An in memory store that has a bunch of useful methods for retrieving and */
+/**
+ * An in memory store that has a bunch of useful methods for retrieving Atomic Data Resources. It is also resposible for keeping the
+ * Resources in sync with Subscribers (components that use the Resource), and for managing the current Agent (User).
+ */
 export class Store {
   /** The default store URL, where to send commits and where to create new instances */
   baseUrl: string;
@@ -34,7 +37,7 @@ export class Store {
     return `${this.getBaseUrl()}/things/${random}`;
   }
 
-  /** Fetches a resource by URL. Does not do anything if the resource is already present, even if it has errored */
+  /** Fetches a resource by URL. Does not do anything by default if the resource is already present, even if it has errored */
   async fetchResource(
     /** The resource URL to be fetched */
     subject: string,
@@ -166,7 +169,7 @@ export class Store {
 
   /** Sets the Base URL, without the trailing slash. */
   setBaseUrl(baseUrl: string): void {
-    checkValidURL(baseUrl);
+    tryValidURL(baseUrl);
     if (baseUrl.substr(-1) == '/') {
       throw new Error('baseUrl should not have a trailing slash');
     }

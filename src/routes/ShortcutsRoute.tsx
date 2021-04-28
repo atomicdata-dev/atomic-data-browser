@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ContainerNarrow } from '../components/Containers';
 
+/** List of all the keyboard shorcuts */
 export const Shortcuts: React.FunctionComponent = () => {
   return (
     <ContainerNarrow>

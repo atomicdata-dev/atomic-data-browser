@@ -1,5 +1,5 @@
 import { urls } from '../helpers/urls';
-import { checkValidURL } from './client';
+import { tryValidURL } from './client';
 import { JSVals, Value } from './value';
 
 export enum Datatype {
@@ -87,7 +87,7 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
         err = 'Not a string. Should be a URL';
         break;
       }
-      checkValidURL(value);
+      tryValidURL(value);
       break;
     }
     case Datatype.RESOURCEARRAY: {
@@ -97,7 +97,7 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       }
       value.map((item, index) => {
         try {
-          checkValidURL(item);
+          tryValidURL(item);
         } catch (e) {
           const arrError: ArrayError = new Error(`Invalid URL`);
           arrError.index = index;

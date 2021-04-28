@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEdit } from 'react-icons/fa';
 import styled from 'styled-components';
 import { Resource } from '../../atomic-lib/resource';
@@ -20,6 +21,15 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
   const property = useProperty(propertyURL);
   const [value] = useValue(resource, propertyURL);
   const store = useStore();
+  useHotkeys(
+    'esc',
+    () => {
+      setEditMode(false);
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+    },
+  );
   const [err, setErr] = useState<Error>(null);
   const haveAgent = store.getAgent() !== null;
 

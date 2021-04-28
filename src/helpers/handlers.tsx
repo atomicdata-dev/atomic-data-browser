@@ -1,7 +1,7 @@
 import Bugsnag from '@bugsnag/js';
-import BugsnagPluginReact from '@bugsnag/plugin-react';
+import BugsnagPluginReact, { BugsnagErrorBoundary } from '@bugsnag/plugin-react';
 import React from 'react';
-import { getSnowpackEnv, isDev } from '../config';
+import { isDev } from '../config';
 
 export function handleError(e: Error): void {
   console.error(e);
@@ -22,10 +22,11 @@ export function handleInfo(e: Error): void {
   }
 }
 
-export function initBugsnag() {
+export function initBugsnag(): BugsnagErrorBoundary {
   Bugsnag.start({
     apiKey: '0b41fa51d1367cdfc1165ccf7436467f',
     plugins: [new BugsnagPluginReact()],
+    releaseStage: isDev ? 'development' : 'production',
   });
   return Bugsnag.getPlugin('react').createErrorBoundary(React);
 }

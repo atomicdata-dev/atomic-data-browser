@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { checkValidURL } from '../atomic-lib/client';
+import { tryValidURL } from '../atomic-lib/client';
 import ResourcePage from '../components/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './SearchRoute';
@@ -14,7 +14,7 @@ const Show: React.FunctionComponent = () => {
     return <Welcome />;
   }
   try {
-    checkValidURL(subject);
+    tryValidURL(subject);
     return <ResourcePage key={subject} subject={subject} />;
   } catch (e) {
     return <Search query={subject} />;

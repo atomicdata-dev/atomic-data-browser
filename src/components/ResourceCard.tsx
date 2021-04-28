@@ -4,7 +4,6 @@ import { properties, urls } from '../helpers/urls';
 import { useString, useResource, useTitle } from '../atomic-react/hooks';
 import { Resource, ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
-import Markdown from './datatypes/Markdown';
 import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';
 import { Card } from './Card';

@@ -102,6 +102,8 @@ export const GlobalStyle = createGlobalStyle`
   /** Pretty dark mode transition */
   input, button, body {
     transition: all .2s ease;
+    /* Don't overflow input elements */
+    overflow-wrap: normal;
   }
 
   a {

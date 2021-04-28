@@ -4,7 +4,6 @@ import { useString, useResource, useTitle, useStore } from '../atomic-react/hook
 import { ResourceStatus } from '../atomic-lib/resource';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
-import Markdown from './datatypes/Markdown';
 import Collection from '../views/CollectionPage';
 import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
@@ -24,7 +23,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   const history = useHistory();
-  const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);
   const store = useStore();
 
@@ -55,7 +53,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
     <ContainerNarrow about={subject}>
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
-      <ValueForm resource={resource} propertyURL={urls.properties.description} />
+      <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA, properties.name]} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}

@@ -1,6 +1,6 @@
 import { handleError } from '../helpers/handlers';
 import { properties } from '../helpers/urls';
-import { checkValidURL, postCommit } from './client';
+import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
 import { Store } from './store';
@@ -161,7 +161,7 @@ export class Resource {
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
   setSubject(subject: string): void {
-    checkValidURL(subject);
+    tryValidURL(subject);
     this.commitBuilder.subject = subject;
     this.subject = subject;
   }

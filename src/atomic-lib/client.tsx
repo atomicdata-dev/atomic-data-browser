@@ -15,10 +15,7 @@ export async function fetchResource(
   // We set the status to ready. This is overwrited when an error happens.
   resource.setStatus(ResourceStatus.ready);
   try {
-    if (!checkValidURL(subject)) {
-      const err = new Error(`Invalid URL: ${subject}`);
-      resource.setError(err);
-    }
+    tryValidURL(subject);
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Accept', 'application/ad+json');
     let url = subject;
@@ -69,11 +66,20 @@ export async function postCommit(
 }
 
 /** Throws an error if the URL is not valid */
-export function checkValidURL(subject: string): boolean {
+export function tryValidURL(subject: string): void {
   try {
     new URL(subject);
-  } catch {
-    throw new Error(`Not a valid URL: ${subject}`);
+  } catch (e) {
+    throw new Error(`Not a valid URL: ${subject}. ${e}`);
   }
-  return true;
+}
+
+/** Returns true if a URL is valid. */
+export function isValidURL(subject: string): boolean {
+  try {
+    tryValidURL(subject);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
