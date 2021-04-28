@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Agent } from '../atomic-lib/agent';
 import { Card } from '../components/Card';
 import { useSettings } from '../helpers/AppSettings';
+import { NavStyleButton } from '../components/NavStyleButton';
 
 const Settings: React.FunctionComponent = () => {
   const store = useStore();
@@ -50,8 +51,11 @@ const Settings: React.FunctionComponent = () => {
       <Card>
         <h2>Look & feel</h2>
         <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</Button>
-        {!navbarFloating && <Button onClick={() => setNavbarTop(!navbarTop)}>navbar to {navbarTop ? 'bottom' : 'top'}</Button>}
-        {!navbarTop && <Button onClick={() => setNavbarFloating(!navbarFloating)}>{navbarFloating ? 'fixed' : 'floating'} navbar</Button>}
+        <LabelStyled>Navigation bar position</LabelStyled>
+        <NavStyleButton floating />
+        <NavStyleButton />
+        <NavStyleButton top />
+        <LabelStyled>Main color</LabelStyled>
         <MainColorPicker />
         <br />
       </Card>
