@@ -50,11 +50,11 @@ const Settings: React.FunctionComponent = () => {
       <h1>Settings</h1>
       <Card>
         <h2>Look & feel</h2>
-        <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'} dark mode</Button>
+        <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'disable' : 'enable'} dark mode</Button>
         <LabelStyled>Navigation bar position</LabelStyled>
-        <NavStyleButton floating />
-        <NavStyleButton />
-        <NavStyleButton top />
+        <NavStyleButton floating={true} top={false} title='Floating' />
+        <NavStyleButton floating={false} top={false} title='Bottom' />
+        <NavStyleButton floating={false} top={true} title='Top' />
         <LabelStyled>Main color</LabelStyled>
         <MainColorPicker />
         <br />

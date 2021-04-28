@@ -6,6 +6,8 @@ import InputSwitcher from './InputSwitcher';
 import { Property } from '../../atomic-lib/store';
 import { InputStyled } from './InputStyles';
 import Field from './Field';
+import Markdown from '../datatypes/Markdown';
+import styled from 'styled-components';
 
 /** A form field with a label */
 function ResourceField({ propertyURL, resource, required }: IFieldProps): JSX.Element {
@@ -20,18 +22,28 @@ function ResourceField({ propertyURL, resource, required }: IFieldProps): JSX.El
   }
 
   return (
-    <Field
-      helper={[
-        property.description,
-        ' ',
-        <AtomicLink key={propertyURL} url={propertyURL}>
-          Go to Property
-        </AtomicLink>,
-      ]}
-      label={property.shortname}
-    >
+    <Field helper={<HelperText text={property.description} link={property.subject} />} label={property.shortname}>
       <InputSwitcher resource={resource} property={property} required={required} />
     </Field>
+  );
+}
+
+interface HelperTextProps {
+  text: string;
+  link: string;
+}
+
+const HelperTextWraper = styled.div`
+  position: relative;
+  margin-bottom: 0rem;
+`;
+
+function HelperText({ text, link }: HelperTextProps) {
+  return (
+    <HelperTextWraper>
+      <Markdown text={text} />
+      <AtomicLink url={link}>Go to Property</AtomicLink>
+    </HelperTextWraper>
   );
 }
 

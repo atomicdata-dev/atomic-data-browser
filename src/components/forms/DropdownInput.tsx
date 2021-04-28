@@ -21,7 +21,7 @@ interface DropDownListProps {
 }
 
 /** An input for selecting a value from a dropdown menu. This component assumes that values are Resource IDs. */
-export function DropDownList({ allowOther, required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
+export function DropdownInput({ allowOther, required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
   const themeContext = useContext(ThemeContext);
 
   function stateReducer(state, changes) {

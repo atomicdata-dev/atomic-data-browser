@@ -74,6 +74,7 @@ This app is a client, but has no persistent storage. Run `atomic-server`
 - **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
 - **Accessing the store** can be done in your browser with the global `store` object. For
 - **Creating views** for new types of Resources should be done in `/views`. Check the README.md in that folder.
+- **Fetching & processing** is done in this order. The UI renders some component that uses `useResource`, and passes a `subject` URL. This is probably first the one that's shown in the navigation bar. This resource is fetched (unless it's already in the store) as a `JSON-AD` object, after which it is put in the Store without any changes. The Parser does not perform validation checks - that would make the application slower. After the resource is added to the store, subscribers (users of that resource, such as Components with the `useResource` hook) will be notified of changes. The component will re-render, and the props can now be used.
 
 ## Directory structure
 

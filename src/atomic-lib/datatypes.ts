@@ -2,6 +2,7 @@ import { urls } from '../helpers/urls';
 import { tryValidURL } from './client';
 import { JSVals, Value } from './value';
 
+/** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 export enum Datatype {
   ATOMIC_URL,
   BOOLEAN,

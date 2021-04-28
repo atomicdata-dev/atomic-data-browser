@@ -30,6 +30,7 @@ export const InputWrapper = styled.div`
 `;
 
 const inputStyle = css`
+  height: 2rem;
   flex: 1;
   color: ${props => props.theme.colors.text};
   font-size: 1em;

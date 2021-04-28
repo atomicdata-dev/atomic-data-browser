@@ -3,31 +3,29 @@ import styled from 'styled-components';
 import { useSettings } from '../helpers/AppSettings';
 
 interface NavBarButtonProps {
-  top?: boolean;
-  floating?: boolean;
+  top: boolean;
+  floating: boolean;
+  title: string;
 }
 
-export function NavStyleButton({ top, floating }: NavBarButtonProps): JSX.Element {
+/** Button used for indicating where the navbar will be placed */
+export function NavStyleButton({ top, floating, title }: NavBarButtonProps): JSX.Element {
   const { navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } = useSettings();
+
+  console.log(navbarFloating, navbarTop);
 
   return (
     <NavStyleButtonStyling
+      title={title}
       current={navbarTop == top && navbarFloating == floating}
       onClick={() => {
         setNavbarTop(top);
         setNavbarFloating(floating);
       }}
-      width='80'
-      height='80'
-      viewBox='0 0 80 80'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
     >
-      {floating ? (
-        <rect x='10' y='60' width='60' height='10' rx='5' fill='#A6A6A6' />
-      ) : (
-        <rect x='0' y={top ? '0' : '70'} width='80' height='10' fill='#A6A6A6' />
-      )}
+      <svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        {floating ? <rect x='10' y='60' width='60' height='10' rx='5' /> : <rect x='0' y={top ? '0' : '70'} width='80' height='10' />}
+      </svg>
     </NavStyleButtonStyling>
   );
 }
@@ -36,10 +34,9 @@ interface NavStyleButtonStylingProps {
   current: boolean;
 }
 
-const NavStyleButtonStyling = styled.svg<NavStyleButtonStylingProps>`
-  cursor: pointer;
+const NavStyleButtonStyling = styled.button<NavStyleButtonStylingProps>`
   rect {
-    fill: ${p => p.theme.colors.main};
+    fill: ${p => (p.current ? p.theme.colors.main : p.theme.colors.bg2)};
   }
   &:hover {
     border-color: ${p => p.theme.colors.mainLight};
@@ -47,7 +44,13 @@ const NavStyleButtonStyling = styled.svg<NavStyleButtonStylingProps>`
   &:active {
     border-color: ${p => p.theme.colors.mainDark};
   }
-  border: solid 5px ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
+  cursor: pointer;
+  border: solid 1px ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
   margin-right: 1rem;
-  border-radius: 5px;
+  margin-bottom: 1rem;
+  border-radius: ${props => props.theme.radius};
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  line-height: 0;
 `;

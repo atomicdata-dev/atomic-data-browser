@@ -10,12 +10,22 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: boolean;
   /** If it needs margins */
   margins?: boolean;
+  /** Minimal styling */
+  clean?: boolean;
+  /** In the navbar */
+  bar?: boolean;
 }
 
-export function Button({ children, icon, ...props }: ButtonProps): JSX.Element {
+export function Button({ bar, children, clean, icon, ...props }: ButtonProps): JSX.Element {
   let Comp = ButtonMargin;
   if (icon) {
     Comp = ButtonIcon;
+  }
+  if (clean) {
+    Comp = ButtonClean;
+  }
+  if (bar) {
+    Comp = ButtonBar;
   }
 
   return (
@@ -31,19 +41,25 @@ export function Button({ children, icon, ...props }: ButtonProps): JSX.Element {
 //   subtle?: boolean;
 // }
 
+/** Extremly minimal set of button properties */
+export const ButtonClean = styled.button`
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin: 0;
+  -webkit-appearance: none;
+  background-color: initial;
+`;
+
 /** Base button style. You're likely to want to use ButtonMargin in most places */
-export const ButtonBase = styled.button`
+export const ButtonBase = styled(ButtonClean)`
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  margin: 0;
-  -webkit-appearance: none;
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
-  outline: none;
   /* transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color; */
 
   /** Prevent sticky hover buttons on touch devices */
@@ -72,13 +88,19 @@ export const ButtonBase = styled.button`
   }
 `;
 
+interface ButtonBarProps {
+  leftPadding?: boolean;
+  rightPadding?: boolean;
+  selected?: boolean;
+}
+
 /** Button inside the navigation bar */
-export const ButtonBar = styled(ButtonBase)`
-  /* min-width: 2.5rem; */
+export const ButtonBar = styled(ButtonBase) <ButtonBarProps>`
   padding: 0.7rem;
   border: none;
-  color: ${props => props.theme.colors.main};
-  background-color: ${props => props.theme.colors.bg};
+  color: ${p => (p.selected ? p.theme.colors.bg : p.theme.colors.main)};
+  background-color: ${p => (p.selected ? p.theme.colors.main : p.theme.colors.bg)};
+  height: auto;
 
   &:hover:not([disabled]),
   /* &:active:not([disabled]), */
@@ -86,12 +108,8 @@ export const ButtonBar = styled(ButtonBase)`
     transform: scale(1);
   }
 
-  &:first-child {
-    padding-left: 1.2rem;
-  }
-  &:last-child {
-    padding-right: 1.2rem;
-  }
+  padding-left: ${p => (p.leftPadding ? '1.2rem' : '')};
+  padding-right: ${p => (p.rightPadding ? '1.2rem' : '')};
 `;
 
 /** Button with some basic margins around it */
@@ -99,7 +117,7 @@ export const ButtonBar = styled(ButtonBase)`
 export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   padding: 0.4rem;
   margin-bottom: ${props => props.theme.margin}rem;
-  border-radius: 999px;
+  border-radius: ${props => props.theme.radius};
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   box-shadow: ${props => props.theme.boxShadow};

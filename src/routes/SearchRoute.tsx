@@ -31,9 +31,11 @@ export function Search({ query }: SearchProps): JSX.Element {
     e => {
       e.preventDefault();
       const subject = htmlElRef.current.children[selectedIndex].getAttribute('about');
-      //@ts-ignore blur does exist though
-      document?.activeElement?.blur();
-      history.push(openURL(subject));
+      if (subject) {
+        //@ts-ignore blur does exist though
+        document?.activeElement?.blur();
+        history.push(openURL(subject));
+      }
     },
     { enableOnTags: ['INPUT'] },
   );

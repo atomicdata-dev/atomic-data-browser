@@ -3,7 +3,7 @@ import { useArray, useResource, useStore, useTitle } from '../../atomic-react/ho
 import { urls } from '../../helpers/urls';
 import { ArrayError } from '../../atomic-lib/datatypes';
 import { ErrMessage } from './InputStyles';
-import { DropDownList } from './Dropdownlist';
+import { DropdownInput } from './DropdownInput';
 
 interface ResourceSelectorProps {
   /** Whether a certain type of Class is required here. Pass the URL of the class. Is used for constructing a list of options. */
@@ -59,7 +59,7 @@ export function ResourceSelector({
 
   return (
     <>
-      <DropDownList
+      <DropdownInput
         allowOther
         placeholder={placeholder}
         required={required}

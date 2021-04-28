@@ -9,6 +9,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
+import { DropdownMenu } from './DropdownMenu';
 
 interface AddressBarProps {
   children: React.ReactNode;
@@ -96,7 +97,7 @@ function NavBar() {
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       {showButtons && (
         <React.Fragment>
-          <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
+          <ButtonBar leftPadding type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
             <FaHome />
           </ButtonBar>
           <ButtonBar type='button' title='Go back' onClick={history.goBack}>
@@ -120,9 +121,9 @@ function NavBar() {
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
       {showButtons && (
-        <ButtonBar type='button' title='Create a new Resource (n)' onClick={() => handleNavigation('/new')}>
-          <FaPlus />
-        </ButtonBar>
+        <>
+          <DropdownMenu />
+        </>
       )}
     </ConditionalNavbar>
   );
