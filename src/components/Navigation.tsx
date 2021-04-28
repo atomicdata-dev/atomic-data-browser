@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaHome, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaHome, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL } from '../helpers/navigation';
@@ -120,11 +120,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      {showButtons && (
-        <>
-          <DropdownMenu />
-        </>
-      )}
+      {showButtons && <DropdownMenu />}
     </ConditionalNavbar>
   );
 }

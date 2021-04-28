@@ -22,8 +22,7 @@ interface CardPropsBase {
   /** Show a highlight border */
   highlight?: boolean;
   /** An HTML reference */
-  // @eslint-ignore
-  ref?: any;
+  ref?: React.RefObject<HTMLElement>;
   /** If you expect to render this card in the initial view (e.g. it's in the top of some list) */
   initialInView?: boolean;
 }
@@ -47,6 +46,7 @@ function ResourceCard(props: Props): JSX.Element {
     setIsShown(true);
   }
   return (
+    // eslint-disable-next-line
     <Card ref={ref} {...props} about={subject}>
       {isShown ? (
         <ResourceCardInner {...props} />
@@ -66,7 +66,6 @@ function ResourceCardInner(props: Props): JSX.Element {
   const { small, subject } = props;
   const [resource] = useResource(subject);
   const title = useTitle(resource);
-  const [description] = useString(resource, properties.description);
   const [klass] = useString(resource, properties.isA);
 
   const status = resource.getStatus();

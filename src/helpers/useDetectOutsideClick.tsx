@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 /** Hook for handling closing when clicking outside of an element */
-export const useDetectOutsideClick = (el, initialState) => {
-  const [isActive, setIsActive] = useState(initialState);
+export function useDetectOutsideClick(el: React.RefObject<HTMLElement>, initialState: boolean): [boolean, (boolean) => void] {
+  const [isActive, setIsActive] = useState<boolean>(initialState);
 
   useEffect(() => {
     const onClick = e => {
@@ -23,4 +23,4 @@ export const useDetectOutsideClick = (el, initialState) => {
   }, [isActive, el]);
 
   return [isActive, setIsActive];
-};
+}

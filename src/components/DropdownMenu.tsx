@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { FaBars, FaPlus } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDetectOutsideClick } from '../helpers/useDetectOutsideClick';
 import { Button, ButtonBar } from './Button';
 
 /** Menu that opens on click and shows a bunch of items. Closes on Escape and on clicking outside */
-export function DropdownMenu() {
+export function DropdownMenu(): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
   const history = useHistory();
@@ -20,10 +20,6 @@ export function DropdownMenu() {
     setX(triggerRect.x - menuRect.width + triggerRect.width);
     setY(triggerRect.y - menuRect.height);
     setIsActive(!isActive);
-  }
-
-  function handleNavigation(to: string) {
-    history.push(to);
   }
 
   return (
@@ -114,7 +110,6 @@ const Menu = styled.nav<MenuProps>`
   background: ${p => p.theme.colors.bg};
   border: solid 1px ${props => props.theme.colors.bg2};
   border-radius: 8px;
-  /* border-bottom-right-radius: 0; */
   position: fixed;
   z-index: 1;
   top: ${p => p.y}px;
@@ -124,6 +119,3 @@ const Menu = styled.nav<MenuProps>`
   opacity: ${p => (p.isActive ? 1 : 0)};
   visibility: ${p => (p.isActive ? 'visible' : 'hidden')};
 `;
-function handleNavigation(arg0: string): void {
-  throw new Error('Function not implemented.');
-}

@@ -12,7 +12,7 @@ import { NavStyleButton } from '../components/NavStyleButton';
 
 const Settings: React.FunctionComponent = () => {
   const store = useStore();
-  const { darkMode, setDarkMode, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } = useSettings();
+  const { darkMode, setDarkMode } = useSettings();
   const [agentSubject, setCurrentAgent] = useState<string>(null);
   const [privateKey, setCurrentPrivateKey] = useState<string>('');
   const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
@@ -49,7 +49,7 @@ const Settings: React.FunctionComponent = () => {
     <ContainerNarrow>
       <h1>Settings</h1>
       <Card>
-        <h2>Look & feel</h2>
+        <h2>Look and feel</h2>
         <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'disable' : 'enable'} dark mode</Button>
         <LabelStyled>Navigation bar position</LabelStyled>
         <NavStyleButton floating={true} top={false} title='Floating' />

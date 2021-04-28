@@ -12,20 +12,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   margins?: boolean;
   /** Minimal styling */
   clean?: boolean;
-  /** In the navbar */
-  bar?: boolean;
 }
 
-export function Button({ bar, children, clean, icon, ...props }: ButtonProps): JSX.Element {
+export function Button({ children, clean, icon, ...props }: ButtonProps): JSX.Element {
   let Comp = ButtonMargin;
   if (icon) {
     Comp = ButtonIcon;
   }
   if (clean) {
     Comp = ButtonClean;
-  }
-  if (bar) {
-    Comp = ButtonBar;
   }
 
   return (
@@ -95,6 +90,7 @@ interface ButtonBarProps {
 }
 
 /** Button inside the navigation bar */
+// eslint-disable-next-line prettier/prettier
 export const ButtonBar = styled(ButtonBase) <ButtonBarProps>`
   padding: 0.7rem;
   border: none;

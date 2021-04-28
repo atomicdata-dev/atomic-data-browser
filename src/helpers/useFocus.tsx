@@ -1,7 +1,7 @@
-import { MutableRefObject, useRef } from 'react';
+import { useRef } from 'react';
 
 /** Hook for programmaticall setting focus */
-export const useFocus = (): [MutableRefObject<unknown>, () => void] => {
+export const useFocus = (): [React.RefObject<unknown>, () => void] => {
   const htmlElRef = useRef(null);
   const setFocus = () => {
     htmlElRef.current && htmlElRef.current.focus();
