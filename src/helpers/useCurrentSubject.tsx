@@ -1,20 +1,27 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 
-type setFunc = (newValue: string | ((latestValue: string) => string), updateType?: 'replace' | 'push' | 'replaceIn' | 'pushIn') => void;
+type setFunc = (latestValue: string) => void;
 
-/**
- * Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. Setting the current URL
- * is always done with a query parameter.
- */
+/** Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. */
 export function useCurrentSubject(): [string, setFunc] {
   const [subjectQ, setSubjectQ] = useQueryParam('subject', StringParam);
+  const history = useHistory();
   const { pathname, search } = useLocation();
-  if (subjectQ == undefined) {
-    return [window.location.origin + pathname + search, setSubjectQ];
+
+  function handleSetSubject(subject: string) {
+    const url = new URL(subject);
+    if (window.location.origin == url.origin) {
+      history.push(url.pathname + url.search);
+    } else {
+      setSubjectQ(subject);
+    }
   }
-  return [subjectQ, setSubjectQ];
+  if (subjectQ == undefined) {
+    return [window.location.origin + pathname + search, handleSetSubject];
+  }
+  return [subjectQ, handleSetSubject];
 }
 
 /** Hook for getting and setting a query param from the current Subject */
