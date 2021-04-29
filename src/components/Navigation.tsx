@@ -91,6 +91,14 @@ function NavBar() {
     history.push(to);
   };
 
+  /** Hide buttons if the input element is quite small */
+  function maybeHideButtons() {
+    //@ts-ignore this does seem callable
+    if (inputRef.current.getBoundingClientRect().width < 280) {
+      setShowButtons(false);
+    }
+  }
+
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
   return (
@@ -114,7 +122,7 @@ function NavBar() {
         name='search'
         aria-label='Search'
         onClick={handleSelect}
-        onFocus={() => setShowButtons(false)}
+        onFocus={maybeHideButtons}
         onBlur={() => setShowButtons(true)}
         value={subject || ''}
         onChange={handleChange}
