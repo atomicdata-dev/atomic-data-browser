@@ -437,7 +437,7 @@ then pass in React when available to construct your error boundary
     box-shadow: inset ${e=>e.theme.boxShadowIntense};
   }
 `,zl=me(ih)`
-  background-color: ${e=>e.theme.colors.bg1};
+  background-color: ${e=>e.theme.colors.bg};
   color: ${e=>e.theme.colors.text};
   flex: 0;
   height: auto;
@@ -476,7 +476,7 @@ then pass in React when available to construct your error boundary
   margin-bottom: 0.2rem;
 `,Zt=me.div`
   display: flex;
-  background-color: ${e=>e.theme.colors.bg1};
+  /* background-color: ${e=>e.theme.colors.bg}; */
   border: solid 1px ${e=>e.theme.colors.bg2};
   border-radius: ${e=>e.theme.radius};
   overflow: hidden;
@@ -489,9 +489,9 @@ then pass in React when available to construct your error boundary
   border: none;
   --webkit-appearance: none;
   display: block;
-  background-color: ${e=>e.theme.colors.bg1};
+  background-color: ${e=>e.theme.colors.bg};
   /* Invisible border, but useful because you need to set :focus styles with Input tags */
-  border: solid 1px ${e=>e.theme.colors.bg1};
+  border: solid 1px ${e=>e.theme.colors.bg};
   /* border-radius: ${e=>e.theme.radius}; */
   outline: none;
   box-sizing: border-box;
@@ -526,9 +526,10 @@ then pass in React when available to construct your error boundary
 `,rO=me.div`
   display: flex;
   flex-direction: column;
-  background-color: ${e=>e.theme.colors.bg1};
+  background-color: ${e=>e.theme.colors.bg};
   border: solid 1px ${e=>e.theme.colors.bg2};
   border-radius: ${e=>e.theme.radius};
+  box-shadow: ${e=>e.theme.boxShadowIntense};
   position: absolute;
   z-index: 1000;
   max-height: 30rem;
@@ -538,8 +539,8 @@ then pass in React when available to construct your error boundary
 `,nO=me.li`
   display: flex;
   flex-direction: row;
-  background-color: ${e=>e.theme.colors.bg1};
-  border: solid 1px ${e=>e.theme.colors.bg2};
+  background-color: ${e=>e.theme.colors.bg};
+  border-bottom: solid 1px ${e=>e.theme.colors.bg2};
   cursor: pointer;
   margin: 0;
   padding: 0.3rem;
@@ -557,6 +558,7 @@ then pass in React when available to construct your error boundary
     margin: 0;
   }
 `;function pm({resource:e,property:t,required:r}){let[n,i]=su(e,t.subject),[a,o]=_e(null);function u(l){if(l.target.value==""){i(null);return}let c=+l.target.value;i(c,o)}return v.createElement(v.Fragment,null,v.createElement(Zt,null,v.createElement(bt,{placeholder:"Enter a number...",type:"number",value:n??NaN,onChange:u,required:r})),n!==null&&a&&v.createElement(Qe,null,a.message),n==null&&v.createElement(Qe,null,"Required"))}function hm({resource:e,property:t,required:r}){let[n,i]=E1(e,t.subject),[a,o]=_e(null);function u(l){i(l.target.checked,o)}return v.createElement(v.Fragment,null,v.createElement(bt,{type:"checkbox",checked:n,onChange:u,required:r}),a&&v.createElement(Qe,null,a.message))}function Fu(e){switch(e.property.datatype){case Xe.STRING:return v.createElement(yu,{...e});case Xe.MARKDOWN:return v.createElement(fm,{...e});case Xe.SLUG:return v.createElement(yu,{...e});case Xe.TIMESTAMP:case Xe.INTEGER:return v.createElement(pm,{...e});case Xe.ATOMIC_URL:return v.createElement(Bb,{...e});case Xe.RESOURCEARRAY:return v.createElement(Oh,{...e});case Xe.BOOLEAN:return v.createElement(hm,{...e});default:return v.createElement(yu,{...e})}}function ni({resource:e,propertyURL:t}){let[r,n]=_e(!1),i=Ta(t),[a]=Ma(e,t),o=st();ht("esc",()=>{n(!1)},{enableOnTags:["INPUT","TEXTAREA","SELECT"]});let[u,l]=_e(null),c=o.getAgent()!==null;if(!a)return null;if(!i)return v.createElement("span",{title:`loading ${t}...`},"...");if(!r)return v.createElement(mm,null,v.createElement(Zw,{value:a,datatype:i.datatype}),v.createElement(t9,{title:"Edit value"},v.createElement(U1,{onClick:()=>n(!r)})));function d(){try{(async()=>await e.save(o))(),e.save(o),n(!1)}catch(m){l(m),n(!0)}}return v.createElement(mm,null,v.createElement(Fu,{resource:e,property:i,autoFocus:!0}),v.createElement(it,{disabled:!c,title:c?"Save the edits":"You cannot save - there is no Agent set. Go to settings.",onClick:d},"Save"),v.createElement(it,{subtle:!0,onClick:()=>n(!1)},"Cancel"),u&&v.createElement(Qe,null,u.message))}var mm=me.div`
+  /* Used for positioning the edit button*/
   position: relative;
 `,t9=me.div`
   position: absolute;
