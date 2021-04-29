@@ -23,7 +23,7 @@ export const LabelHelper = styled.label`
 /** A wrapper for inputs, for example when you want to add a button to some field */
 export const InputWrapper = styled.div`
   display: flex;
-  background-color: ${props => props.theme.colors.bg1};
+  /* background-color: ${props => props.theme.colors.bg}; */
   border: solid 1px ${props => props.theme.colors.bg2};
   border-radius: ${props => props.theme.radius};
   overflow: hidden;
@@ -38,9 +38,9 @@ const inputStyle = css`
   border: none;
   --webkit-appearance: none;
   display: block;
-  background-color: ${props => props.theme.colors.bg1};
+  background-color: ${props => props.theme.colors.bg};
   /* Invisible border, but useful because you need to set :focus styles with Input tags */
-  border: solid 1px ${props => props.theme.colors.bg1};
+  border: solid 1px ${props => props.theme.colors.bg};
   /* border-radius: ${props => props.theme.radius}; */
   outline: none;
   box-sizing: border-box;

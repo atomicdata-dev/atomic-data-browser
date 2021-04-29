@@ -122,9 +122,10 @@ const DropDownWrapperWrapper = styled.ul`
 const DropDownWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${props => props.theme.colors.bg1};
+  background-color: ${props => props.theme.colors.bg};
   border: solid 1px ${props => props.theme.colors.bg2};
   border-radius: ${props => props.theme.radius};
+  box-shadow: ${props => props.theme.boxShadowIntense};
   position: absolute;
   z-index: 1000;
   max-height: 30rem;
@@ -137,8 +138,8 @@ const DropDownWrapper = styled.div`
 const DropDownItem = styled.li`
   display: flex;
   flex-direction: row;
-  background-color: ${props => props.theme.colors.bg1};
-  border: solid 1px ${props => props.theme.colors.bg2};
+  background-color: ${props => props.theme.colors.bg};
+  border-bottom: solid 1px ${props => props.theme.colors.bg2};
   cursor: pointer;
   margin: 0;
   padding: 0.3rem;
