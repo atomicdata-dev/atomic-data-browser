@@ -31,7 +31,7 @@ export function DropdownMenu(): JSX.Element {
   }
 
   return (
-    <MenuContainer>
+    <>
       <ButtonBar rightPadding selected={isActive} ref={triggerRef} type='button' onClick={handleClick}>
         <FaBars />
       </ButtonBar>
@@ -82,13 +82,9 @@ export function DropdownMenu(): JSX.Element {
           Discord (community)
         </MenuItem>
       </Menu>
-    </MenuContainer>
+    </>
   );
 }
-
-const MenuContainer = styled.div`
-  position: relative;
-`;
 
 interface MenuProps {
   isActive: boolean;
