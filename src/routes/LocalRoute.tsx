@@ -8,8 +8,6 @@ function Local(): JSX.Element {
 
   const subject = window.location.origin + pathname + search;
 
-  console.log(subject);
-
   // The key makes sure the component re-renders when it changes
   return <ResourcePage key={subject} subject={subject} />;
 }
