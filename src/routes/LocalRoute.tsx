@@ -6,8 +6,10 @@ import ResourcePage from '../components/ResourcePage';
 function Local(): JSX.Element {
   const { pathname, search } = useLocation();
 
+  const subject = window.location.origin + pathname + search;
+
   // The key makes sure the component re-renders when it changes
-  return <ResourcePage key={pathname} subject={window.location.origin + pathname + search} />;
+  return <ResourcePage key={subject} subject={subject} />;
 }
 
 export default Local;
