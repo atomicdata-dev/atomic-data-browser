@@ -22,7 +22,13 @@ export function DropdownMenu(): JSX.Element {
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
     setX(triggerRect.x - menuRect.width + triggerRect.width);
-    setY(triggerRect.y - menuRect.height);
+    const topPos = triggerRect.y - menuRect.height;
+    // If the top is outside of the screen, render it below
+    if (topPos < 0) {
+      setY(triggerRect.y + triggerRect.height);
+    } else {
+      setY(topPos);
+    }
     setIsActive(!isActive);
   }
 
