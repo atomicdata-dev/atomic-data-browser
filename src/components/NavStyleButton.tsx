@@ -12,8 +12,6 @@ interface NavBarButtonProps {
 export function NavStyleButton({ top, floating, title }: NavBarButtonProps): JSX.Element {
   const { navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } = useSettings();
 
-  console.log(navbarFloating, navbarTop);
-
   return (
     <NavStyleButtonStyling
       title={title}
