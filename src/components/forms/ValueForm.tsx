@@ -92,10 +92,14 @@ const EditButton = styled.div`
   right: 100%;
   cursor: pointer;
   opacity: 0;
-  ${ValueFormWrapper}:hover & {
-    opacity: 0.5;
-    &:hover {
-      opacity: 1;
+
+  /** Only show hover edit button on mouse devices, prevents having to tap twice on some mobile devices */
+  @media (hover: hover) and (pointer: fine) {
+    ${ValueFormWrapper}:hover & {
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 `;
