@@ -6,7 +6,7 @@ import { openURL } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useCurrentSubject } from '../helpers/useCurrentSubject';
+import { useCurrentSubjectQueryParam } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { DropdownMenu } from './DropdownMenu';
@@ -40,7 +40,7 @@ const Content = styled.div<ContentProps>`
 
 /** Persistently shown navigation bar */
 function NavBar() {
-  const [subject, setSubject] = useCurrentSubject();
+  const [subject, setSubject] = useCurrentSubjectQueryParam();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating } = useSettings();

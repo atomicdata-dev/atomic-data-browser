@@ -4,9 +4,13 @@ import { StringParam, useQueryParam } from 'use-query-params';
 
 type setFunc = (latestValue: string) => void;
 
+export function useCurrentSubjectQueryParam(): [string, setFunc] {
+  return useQueryParam('subject', StringParam);
+}
+
 /** Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. */
 export function useCurrentSubject(): [string, setFunc] {
-  const [subjectQ, setSubjectQ] = useQueryParam('subject', StringParam);
+  const [subjectQ, setSubjectQ] = useCurrentSubjectQueryParam();
   const history = useHistory();
   const { pathname, search } = useLocation();
 
