@@ -26,6 +26,9 @@ export default function InputMarkdown({ resource, property }: InputProps): JSX.E
 }
 
 const YamdeStyling = styled.div`
+  display: flex;
+  flex: 1;
+
   .yamde-0-2-1 {
     margin: 0;
   }

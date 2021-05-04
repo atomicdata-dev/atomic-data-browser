@@ -61,7 +61,7 @@ export function DropdownInput({ allowOther, required, initial, placeholder, onRe
       }): JSX.Element => (
         <DropDownStyled>
           <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
-            <InputStyled {...getInputProps()} required={required} placeholder={placeholder} />
+            <InputStyled size={5} {...getInputProps()} required={required} placeholder={placeholder} />
             {selectedItem ? (
               //@ts-ignore issue with types from Downshift
               <ButtonInput type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
@@ -132,6 +132,7 @@ const DropDownWrapper = styled.div`
   overflow-y: auto;
   left: 0;
   right: 0;
+  min-width: 10rem;
 `;
 
 /** A wrapper all dropdown items */
