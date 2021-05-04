@@ -264,7 +264,7 @@ then pass in React when available to construct your error boundary
     line-height: 1.5em;
     word-wrap: break-word;
     overflow-wrap: anywhere;
-    /* margin: 0; */
+    margin: 0;
   }
 
   /** Pretty dark mode transition */
