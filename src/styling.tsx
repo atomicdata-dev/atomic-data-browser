@@ -97,7 +97,7 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5em;
     word-wrap: break-word;
     overflow-wrap: anywhere;
-    /* margin: 0; */
+    margin: 0;
   }
 
   /** Pretty dark mode transition */
