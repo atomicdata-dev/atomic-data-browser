@@ -72,6 +72,7 @@ export const ButtonBase = styled(ButtonClean)`
   &:active:not([disabled]) {
     transition: all 0s;
     background-color: ${props => props.theme.colors.mainDark};
+    color: ${props => props.theme.colors.bg};
     /* transition: 0s transform, 0s background-color; */
     transform: scale(1);
   }
