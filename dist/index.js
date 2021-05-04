@@ -372,6 +372,7 @@ then pass in React when available to construct your error boundary
   &:active:not([disabled]) {
     transition: all 0s;
     background-color: ${e=>e.theme.colors.mainDark};
+    color: ${e=>e.theme.colors.bg};
     /* transition: 0s transform, 0s background-color; */
     transform: scale(1);
   }
