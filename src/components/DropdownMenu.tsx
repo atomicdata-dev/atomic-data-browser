@@ -87,6 +87,15 @@ export function DropdownMenu(): JSX.Element {
         >
           Discord (community)
         </MenuItem>
+        <MenuItem
+          clean
+          onClick={() => {
+            setIsActive(false);
+            window.open('https://docs.atomicdata.dev');
+          }}
+        >
+          Documentation
+        </MenuItem>
       </Menu>
     </>
   );
