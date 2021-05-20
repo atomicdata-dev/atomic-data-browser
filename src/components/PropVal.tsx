@@ -4,6 +4,8 @@ import { useProperty } from '../atomic-react/hooks';
 import AtomicLink from './Link';
 import { Resource } from '../atomic-lib/resource';
 import { ValueForm } from './forms/ValueForm';
+import { ErrorLook } from './ResourceInline';
+import { truncateUrl } from '../helpers/truncate';
 
 type Props = {
   propertyURL: string;
@@ -13,6 +15,7 @@ type Props = {
 const PropValRow = styled.div`
   display: flex;
   flex-direction: row;
+  word-wrap: break-word;
 `;
 
 const PropertyLabel = styled.span`
@@ -29,10 +32,14 @@ function PropVal({ propertyURL, resource }: Props): JSX.Element {
     return null;
   }
 
+  const truncated = truncateUrl(propertyURL, 10, true);
+
   return (
     <PropValRow>
       <AtomicLink url={propertyURL}>
-        <PropertyLabel title={property.description}>{property.shortname || propertyURL}:</PropertyLabel>
+        <PropertyLabel title={property.description}>
+          {property.error ? <ErrorLook>{truncated}</ErrorLook> : property.shortname || truncated}:
+        </PropertyLabel>
       </AtomicLink>
       <ValueForm resource={resource} propertyURL={propertyURL} />
     </PropValRow>

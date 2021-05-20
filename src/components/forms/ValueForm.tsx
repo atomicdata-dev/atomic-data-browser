@@ -84,6 +84,7 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
 const ValueFormWrapper = styled.div`
   /* Used for positioning the edit button*/
   position: relative;
+  flex: 1;
 `;
 
 const EditButton = styled.div`

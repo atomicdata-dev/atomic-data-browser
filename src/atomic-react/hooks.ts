@@ -4,7 +4,7 @@ import React from 'react';
 import { Resource, ResourceStatus } from '../atomic-lib/resource';
 import { handleInfo } from '../helpers/handlers';
 import { JSVals, Value } from '../atomic-lib/value';
-import { datatypeFromUrl } from '../atomic-lib/datatypes';
+import { Datatype, datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
 
@@ -76,12 +76,25 @@ export function useResources(subjects: string[]): Map<string, Resource> {
   return resources;
 }
 
-/** Hook for using a Property. Will return null if the Property is not yet loaded */
+/**
+ * Hook for using a Property. Will return null if the Property is not yet loaded, and add Error strings to shortname and description if
+ * something goes wrong.
+ */
 export function useProperty(subject: string): Property | null {
   const [propR] = useResource(subject);
 
   if (!propR.isReady()) {
-    return null;
+    if (propR.getError() !== undefined) {
+      return {
+        subject,
+        datatype: Datatype.STRING,
+        shortname: 'error',
+        description: 'Error getting Property. ' + propR.getError().message,
+        error: propR.getError(),
+      };
+    } else {
+      return null;
+    }
   }
 
   const datatypeUrl = propR.get(urls.properties.datatype)?.toString();

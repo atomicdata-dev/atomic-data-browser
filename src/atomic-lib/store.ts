@@ -200,4 +200,6 @@ export class Property {
   shortname: string;
   description: string;
   classType?: string;
+  /** If the Property cannot be found or parsed, this will contain the error */
+  error?: Error;
 }

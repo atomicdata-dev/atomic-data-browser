@@ -27,7 +27,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
     return (
       <AtomicLink url={subject}>
         <ErrorLook about={subject} title={resource.getError().message}>
-          Error: {subject}
+          {subject}
         </ErrorLook>
       </AtomicLink>
     );
