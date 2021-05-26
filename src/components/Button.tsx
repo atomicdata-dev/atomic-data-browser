@@ -80,8 +80,7 @@ export const ButtonBase = styled(ButtonClean)`
   &:disabled {
     cursor: default;
     display: auto;
-    background-color: ${props => desaturate(0.5, props.theme.colors.mainDark)};
-    color: ${props => props.theme.colors.bg2};
+    opacity: 0.5;
   }
 `;
 

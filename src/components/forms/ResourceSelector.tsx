@@ -43,6 +43,8 @@ export function ResourceSelector({
     // Pass the error setter for validation purposes
     // Pass the Error handler to its parent, so validation errors appear locally
     setSubject(newval ? newval : '', setError);
+    // Reset the error every time anything changes
+    setError(null);
   }
 
   if (options.length == 0) {
@@ -58,7 +60,7 @@ export function ResourceSelector({
   }
 
   return (
-    <>
+    <div style={{ flex: '1' }}>
       <DropdownInput
         allowOther
         placeholder={placeholder}
@@ -70,7 +72,7 @@ export function ResourceSelector({
       />
       {value !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
       {value == '' && <ErrMessage>Required</ErrMessage>}
-    </>
+    </div>
   );
 }
 

@@ -71,8 +71,6 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
     resource.setStatus(ResourceStatus.ready);
   }
 
-  console.log('class subject', klass.getSubject());
-
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
   if (currentClass.length == 0) {
