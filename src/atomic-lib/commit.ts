@@ -14,13 +14,14 @@ export interface CommitBuilderI {
 /** A Commit without signature */
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
-  set?: Record<string, JSVals>;
-  remove?: string[];
+  set: Record<string, JSVals>;
+  remove: string[];
   destroy?: boolean;
 
   constructor(subject: string) {
     this.subject = subject;
     this.set = {};
+    this.remove = [];
   }
 
   async sign(privateKey: string, agentSubject: string): Promise<Commit> {
@@ -50,6 +51,13 @@ function replaceKey(o: Commit | CommitPreSigned, oldKey: string, newKey: string)
 
 /** Takes a commit and serializes it deterministically. Is used both for signing Commits as well as serializing them. */
 export function serializeDeterministically(commit: CommitPreSigned | Commit): string {
+  // Remove empty arrays, objects, false values from root
+  if (commit.remove?.length == 0) {
+    delete commit.remove;
+  }
+  if (commit.set?.length == 0) {
+    delete commit.remove;
+  }
   replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
   replaceKey(commit, 'subject', urls.properties.commit.subject);
   replaceKey(commit, 'set', urls.properties.commit.set);
@@ -58,7 +66,6 @@ export function serializeDeterministically(commit: CommitPreSigned | Commit): st
   replaceKey(commit, 'remove', urls.properties.commit.remove);
   replaceKey(commit, 'destroy', urls.properties.commit.destroy);
   commit[urls.properties.isA] = [urls.classes.commit];
-
   return stringify(commit);
 }
 
@@ -73,6 +80,7 @@ export const signAt = async (commitBuilder: CommitBuilderI, agent: string, priva
     signer: agent,
   };
   const serializedCommit = serializeDeterministically(commitPreSigned);
+  console.log('serializedCommit', serializedCommit);
   const signature = await signToBase64(serializedCommit, privateKey);
   const commitPostSigned: Commit = {
     ...commitPreSigned,

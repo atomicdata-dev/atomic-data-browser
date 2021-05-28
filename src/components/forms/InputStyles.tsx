@@ -6,18 +6,18 @@ export const FieldStyled = styled.div`
 
 export const LabelWrapper = styled.div`
   display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
 `;
 
 export const LabelStyled = styled.label`
   font-weight: bold;
   display: block;
-  margin-bottom: 0.2rem;
 `;
 
 export const LabelHelper = styled.label`
   font-size: 0.9em;
   display: block;
-  margin-bottom: 0.2rem;
 `;
 
 /** A wrapper for inputs, for example when you want to add a button to some field */

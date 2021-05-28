@@ -107,7 +107,11 @@ export class Resource {
     // Delete from this resource
     this.propvals.delete(propertyUrl);
     // Delete possible item from the commitbuilder set object
-    delete this.commitBuilder.set[propertyUrl];
+    try {
+      delete this.commitBuilder.set[propertyUrl];
+    } catch (e) {
+      console.log('Item not present in commitbuilder.set');
+    }
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);
   }

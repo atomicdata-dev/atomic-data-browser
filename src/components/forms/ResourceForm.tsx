@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Resource, ResourceStatus } from '../../atomic-lib/resource';
 import { useArray, useResource, useStore, useString } from '../../atomic-react/hooks';
@@ -36,7 +36,24 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   const [saving, setSaving] = useState(false);
   const history = useHistory();
   const [newProperty, setNewProperty] = useState<string>(null);
+  /** A list of custom properties, set by the User while editing this form */
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
+  const [otherProps, setOtherProps] = useState<string[]>([]);
+
+  /** Builds otherProps */
+  useEffect(() => {
+    const prps = [];
+    const allProps = Array.from(resource.getPropVals().keys());
+    // Iterate over all properties. If a property does not exist in requires or recommends, add it to otherprops
+    for (const prop of allProps) {
+      const propIsNotRenderedYet = !(requires.includes(prop) || recommends.includes(prop));
+      if (propIsNotRenderedYet) {
+        prps.push(prop);
+      }
+    }
+    setOtherProps(prps.concat(tempOtherProps));
+    // I actually want to run this useEffect every time the requires / recommends array changes, but that leads to a weird loop, so that's what the length is for
+  }, [resource, tempOtherProps, requires.length, recommends.length]);
 
   if (resourceStatus == ResourceStatus.loading) {
     return <>Loading resource...</>;
@@ -44,34 +61,17 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   if (resourceStatus == ResourceStatus.error) {
     return <ErrMessage>{resource.getError().message}</ErrMessage>;
   }
-  // if (classStatus == ResourceStatus.loading) {
-  //   return <>Loading class...</>;
-  // }
-  // if (classStatus == ResourceStatus.error) {
-  //   return <ErrMessage>Error in class. {klass.getError().message}</ErrMessage>;
-  // }
+  if (classStatus == ResourceStatus.loading) {
+    return <>Loading class...</>;
+  }
+  if (classStatus == ResourceStatus.error) {
+    return <ErrMessage>Error in class. {klass.getError().message}</ErrMessage>;
+  }
   if (klassIsa && klassIsa !== classes.class) {
     return (
       <ErrMessage>{classSubject} is not a Class. Only resources with valid classes can be created or edited at this moment.</ErrMessage>
     );
   }
-
-  // Iterate over all properties. If a property does not exist in requires or recommends, add it to otherprops
-  // TODO: Should be an array of all properties of the resources that have not been included in the recommended and required fields
-  const otherProps = tempOtherProps;
-  // if (otherProps.length == 0) {
-  // console.log(requires, recommends);
-  for (const key of Array.from(resource.getPropVals().keys())) {
-    const keyIsInEither = requires.includes(key) || recommends.includes(key);
-    console.log(key, keyIsInEither);
-    if (!(requires.includes(key) || recommends.includes(key) || otherProps.includes(key))) {
-      otherProps.push(key);
-    }
-  }
-
-  console.log('requires', requires);
-  console.log('recommends', recommends);
-  console.log('otherprops', otherProps);
 
   async function save() {
     setErr(null);
@@ -88,9 +88,10 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     }
   }
 
-  function handleAddProp(e) {
+  function handleAddProp() {
+    console.log('handleAddProp called');
     setNewPropErr(null);
-    if (otherProps.includes(newProperty) || requires.includes(newProperty) || recommends.includes(newProperty)) {
+    if (tempOtherProps.includes(newProperty) || requires.includes(newProperty) || recommends.includes(newProperty)) {
       setNewPropErr(new Error('That property already exists in this resource. It can only be added once.'));
     } else {
       setTempOtherProps(tempOtherProps.concat(newProperty));
@@ -103,6 +104,12 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     save();
   }
 
+  function handleDelete(propertyURL: string) {
+    console.log('handleDelete called');
+    resource.removePropVal(propertyURL);
+    setTempOtherProps(tempOtherProps.filter(prop => prop != propertyURL));
+  }
+
   let warning = null;
 
   if (!resource.getSubject().includes(store.getBaseUrl())) {
@@ -113,18 +120,22 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
   }
 
+  console.log('otherprops len', otherProps.length);
+
   return (
     <form about={resource.getSubject()}>
       {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
+      {requires.length > 0 && <em title='These properties are marked as Required by the Class of the Resource'>required fields:</em>}
       {requires.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} required />;
       })}
-      {recommends.length > 0 && <em>optional fields:</em>}
+      {recommends.length > 0 && <em title='These properties are marked as Recommended in the Class of the Resource.'>optional fields:</em>}
       {recommends.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} />;
       })}
-      {Array.from(otherProps).map(property => {
-        return <ResourceField key={property} propertyURL={property} resource={resource} />;
+      {otherProps.length > 0 && <em title='These properties are not present in any of the Classes of the Resource.'>other fields:</em>}
+      {otherProps.map(property => {
+        return <ResourceField key={property} propertyURL={property} resource={resource} handleDelete={() => handleDelete(property)} />;
       })}
       <LabelStyled>add another property...</LabelStyled>
       <PropertyAdder>

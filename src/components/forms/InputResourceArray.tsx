@@ -5,6 +5,7 @@ import { ButtonMargin } from '../Button';
 import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
+import { FaPlus } from 'react-icons/fa';
 
 export default function InputResourceArray({ resource, property, required }: InputProps): JSX.Element {
   const [array, setArray] = useArray(resource, property.subject);
@@ -41,8 +42,8 @@ export default function InputResourceArray({ resource, property, required }: Inp
           handleRemove={() => handleRemove(index)}
         />
       ))}
-      <ButtonMargin subtle type='button' onClick={handleAdd}>
-        {'add'}
+      <ButtonMargin title='Add an item to this list' subtle type='button' onClick={handleAdd}>
+        <FaPlus />
       </ButtonMargin>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
       {array == [] && <ErrMessage>Required</ErrMessage>}
