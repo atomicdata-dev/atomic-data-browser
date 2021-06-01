@@ -22,6 +22,7 @@ type ResourceFormProps = {
 export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX.Element {
   const [isAArray] = useArray(resource, properties.isA);
   if (classSubject == undefined && isAArray?.length > 0) {
+    // This is not entirely accurate, as Atomic Data supports having multiple classes for a single resource.
     classSubject = isAArray[0];
   }
   const [klass] = useResource(classSubject);

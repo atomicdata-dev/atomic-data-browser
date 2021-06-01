@@ -12,6 +12,8 @@ import { ResourceStatus } from '../atomic-lib/resource';
 import AtomicLink from '../components/Link';
 import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';
+import { ResourceSelector } from '../components/forms/ResourceSelector';
+import { Button } from '../components/Button';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -19,7 +21,10 @@ function New(): JSX.Element {
   const [classSubject] = useQueryParam('classSubject', StringParam);
   // For selecting a class
   const [classInput, setClassInput] = useState<string>(null);
+  const [error, setError] = useState<Error>(null);
   const history = useHistory();
+  const [classFull] = useResource(classInput);
+  const [className] = useString(classFull, urls.properties.shortname);
 
   function handleClassSet(e) {
     e.preventDefault();
@@ -33,12 +38,21 @@ function New(): JSX.Element {
       ) : (
         <form onSubmit={handleClassSet}>
           <h1>Create something new</h1>
-          <>
-            <NewIntanceButton klass={urls.classes.class} />
-            <NewIntanceButton klass={urls.classes.property} />
-          </>
-          <p>... or enter the URL of an existing Class:</p>
-          <InputStyled value={classInput || null} onChange={e => setClassInput(e.target.value)} placeholder={'Enter a Class URL...'} />
+          <ResourceSelector
+            setSubject={setClassInput}
+            value={classInput}
+            error={error}
+            setError={setError}
+            classType={urls.classes.class}
+          />
+          <br />
+          {classInput && <Button onClick={handleClassSet}>new {className}</Button>}
+          {!classInput && (
+            <>
+              <NewIntanceButton klass={urls.classes.class} />
+              <NewIntanceButton klass={urls.classes.property} />
+            </>
+          )}
         </form>
       )}
     </ContainerNarrow>

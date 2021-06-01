@@ -53,7 +53,7 @@ export function ResourceSelector({
 
   let placeholder = 'Enter an Atomic URL...';
   if (classType && classTypeTitle?.length > 0) {
-    placeholder = `Enter a ${classTypeTitle} URL...`;
+    placeholder = `Select a ${classTypeTitle} or enter a ${classTypeTitle} URL...`;
   }
   if (!requiredClass.isReady()) {
     placeholder = 'Loading Class...';

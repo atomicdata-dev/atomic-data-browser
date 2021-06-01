@@ -32,4 +32,9 @@ const YamdeStyling = styled.div`
   .yamde-0-2-1 {
     margin: 0;
   }
+
+  .contentArea-0-2-8 textarea,
+  .preview-0-2-9 {
+    background: ${p => p.theme.colors.bg};
+  }
 `;
