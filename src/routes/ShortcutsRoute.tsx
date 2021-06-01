@@ -25,6 +25,9 @@ export const Shortcuts: React.FunctionComponent = () => {
         <code>n</code> <b>n</b>ew resource
       </p>
       <p>
+        <code>m</code> open <b>m</b>enu
+      </p>
+      <p>
         <code>s</code> go to <b>s</b>ettings
       </p>
       <p>

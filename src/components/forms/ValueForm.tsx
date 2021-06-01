@@ -71,10 +71,10 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
         title={haveAgent ? 'Save the edits' : 'You cannot save - there is no Agent set. Go to settings.'}
         onClick={handleSave}
       >
-        Save
+        save
       </Button>
       <Button subtle onClick={() => setEditMode(false)}>
-        Cancel
+        cancel
       </Button>
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </ValueFormWrapper>

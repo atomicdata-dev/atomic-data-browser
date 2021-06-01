@@ -6,7 +6,10 @@ import styled from 'styled-components';
 import { useDetectOutsideClick } from '../helpers/useDetectOutsideClick';
 import { Button, ButtonBar } from './Button';
 
-/** Menu that opens on click and shows a bunch of items. Closes on Escape and on clicking outside */
+/**
+ * Menu that opens on click and shows a bunch of items. Closes on Escape and on clicking outside. Use arrow keys to select items, and open
+ * items on Enter. Renders the Dropdown on a place where there is room on screen.
+ */
 export function DropdownMenu(): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
@@ -14,11 +17,97 @@ export function DropdownMenu(): JSX.Element {
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
-  useHotkeys('esc', () => {
-    setIsActive(false);
-  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const menuItemLength = 6;
+  // if the keyboard is used to navigate the menu items
+  const [useKeys, setUseKeys] = useState(false);
+  // Close the menu
+  useHotkeys(
+    'esc',
+    () => {
+      handleClose();
+    },
+    { enabled: isActive },
+  );
+  // Toggle menu
+  useHotkeys(
+    'm',
+    () => {
+      handleToggle(), setUseKeys(true);
+    },
+    {},
+    [isActive],
+  );
+  // Click / open the item
+  useHotkeys(
+    'enter',
+    e => {
+      e.preventDefault();
+      defaultMenuItems[selectedIndex].onClick();
+      handleClose();
+    },
+    { enabled: isActive },
+    [selectedIndex],
+  );
+  // Move up (or to bottom if at top)
+  useHotkeys(
+    'up',
+    e => {
+      e.preventDefault();
+      setUseKeys(true);
+      const newSelected = selectedIndex > 0 ? selectedIndex - 1 : menuItemLength - 1;
+      setSelectedIndex(newSelected);
+    },
+    { enabled: isActive },
+    [selectedIndex],
+  );
+  // Move down (or to top if at bottom)
+  useHotkeys(
+    'down',
+    e => {
+      e.preventDefault();
+      setUseKeys(true);
+      const newSelected = selectedIndex == menuItemLength - 1 ? 0 : selectedIndex + 1;
+      setSelectedIndex(newSelected);
+    },
+    { enabled: isActive },
+    [selectedIndex],
+  );
 
-  function handleClick() {
+  const defaultMenuItems = [
+    {
+      label: 'New Resource',
+      onClick: () => {
+        handleNavigation('/new');
+      },
+    },
+    {
+      label: 'Shortcuts',
+      onClick: () => {
+        handleNavigation('/shortcuts');
+      },
+    },
+    {
+      label: 'Settings',
+      onClick: () => {
+        handleNavigation('/settings');
+      },
+    },
+    {
+      label: 'Github',
+      onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
+    },
+    {
+      label: 'Discord',
+      onClick: () => window.open('https://discord.gg/a72Rv2P'),
+    },
+    {
+      label: 'Docs',
+      onClick: () => window.open('https://docs.atomicdata.dev'),
+    },
+  ];
+
+  function handleToggle() {
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
     setX(triggerRect.x - menuRect.width + triggerRect.width);
@@ -29,73 +118,47 @@ export function DropdownMenu(): JSX.Element {
     } else {
       setY(topPos);
     }
-    setIsActive(!isActive);
+    isActive ? handleClose() : setIsActive(true);
   }
 
   function handleNavigation(to: string) {
     history.push(to);
   }
 
+  function handleClose() {
+    setIsActive(false);
+    // Whenever the menu closes, assume that the next one will be opened with mouse
+    setUseKeys(false);
+    // Always reset to the top item on close
+    setSelectedIndex(0);
+  }
+
   return (
     <>
-      <ButtonBar rightPadding selected={isActive} ref={triggerRef} type='button' onClick={handleClick}>
+      <ButtonBar
+        rightPadding
+        selected={isActive}
+        ref={triggerRef}
+        type='button'
+        onClick={() => {
+          setUseKeys(false);
+          handleToggle();
+        }}
+      >
         <FaBars />
       </ButtonBar>
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            handleNavigation('/new');
-          }}
-        >
-          New Resource
-        </MenuItem>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            handleNavigation('/shortcuts');
-          }}
-        >
-          Shortcuts
-        </MenuItem>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            handleNavigation('/settings');
-          }}
-        >
-          Settings
-        </MenuItem>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            window.open('https://github.com/joepio/atomic-data-browser');
-          }}
-        >
-          Github (source code)
-        </MenuItem>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            window.open('https://discord.gg/a72Rv2P');
-          }}
-        >
-          Discord (community)
-        </MenuItem>
-        <MenuItem
-          clean
-          onClick={() => {
-            setIsActive(false);
-            window.open('https://docs.atomicdata.dev');
-          }}
-        >
-          Documentation
-        </MenuItem>
+        {defaultMenuItems.map(({ label, onClick }, i) => (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              onClick();
+            }}
+            key={label}
+            label={label}
+            selected={useKeys && selectedIndex == i}
+          />
+        ))}
       </Menu>
     </>
   );
@@ -107,12 +170,31 @@ interface MenuProps {
   y: number;
 }
 
-const MenuItem = styled(Button)`
+interface MenuItemProps {
+  onClick: () => any;
+  label?: string;
+  selected: boolean;
+}
+
+function MenuItem({ onClick, label, selected }: MenuItemProps) {
+  return (
+    <MenuItemStyled clean onClick={onClick} selected={selected}>
+      {label}
+    </MenuItemStyled>
+  );
+}
+
+interface MenuItemStyledProps {
+  selected: boolean;
+}
+
+// eslint-disable-next-line prettier/prettier
+const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
   display: block;
   height: 2rem;
   width: 100%;
   text-align: left;
-  color: ${p => p.theme.colors.text};
+  color: ${p => (p.selected ? p.theme.colors.main : p.theme.colors.text)};
   padding: 0.8rem;
   height: auto;
 
