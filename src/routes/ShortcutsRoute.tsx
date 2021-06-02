@@ -7,10 +7,13 @@ export const Shortcuts: React.FunctionComponent = () => {
     <ContainerNarrow>
       <h1>Keyboard shortcuts</h1>
       <p>
-        <code>/</code> focus navbar / search
+        <code>/</code> search
       </p>
       <p>
-        <code>?</code> show keyboard shortcuts
+        <code>\</code> show or hide the sidebar
+      </p>
+      <p>
+        <code>?</code> show these keyboard shortcuts
       </p>
       <p>
         <code>e</code> <b>e</b>dit resource at cursor

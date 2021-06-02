@@ -4,6 +4,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { isValidURL } from '../atomic-lib/client';
+import { useSettings } from '../helpers/AppSettings';
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ type Props = {
 function HotKeysWrapper({ children }: Props): JSX.Element {
   const history = useHistory();
   const [subject] = useCurrentSubject();
+  const { sideBarLocked, setSideBarLocked } = useSettings();
 
   useHotkeys('e', () => {
     const found = getSubjectFromDom();
@@ -39,6 +41,14 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
   useHotkeys('shift+/', () => {
     history.push('/shortcuts');
   });
+  useHotkeys(
+    '\\',
+    () => {
+      setSideBarLocked(!sideBarLocked);
+    },
+    {},
+    [sideBarLocked],
+  );
 
   return <>{children}</>;
 }

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useContext } from 'react';
 import { useDarkMode } from './useDarkMode';
 import { useLocalStorage } from './useLocalStorage';
@@ -13,10 +13,25 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
   const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
   const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
+  const [sideBarLocked, setSideBarLocked] = useLocalStorage('sideBarOpen', false);
+  const [previewSideBar, setPreviewSideBar] = useState(false);
 
   return (
     <SettingsContext.Provider
-      value={{ darkMode, setDarkMode, mainColor, setMainColor, navbarTop, setNavbarTop, navbarFloating, setNavbarFloating }}
+      value={{
+        darkMode,
+        setDarkMode,
+        mainColor,
+        setMainColor,
+        navbarTop,
+        setNavbarTop,
+        navbarFloating,
+        setNavbarFloating,
+        sideBarLocked,
+        setSideBarLocked,
+        previewSideBar,
+        setPreviewSideBar,
+      }}
     >
       {props.children}
     </SettingsContext.Provider>
@@ -37,6 +52,12 @@ interface AppSettings {
   /** If the navbar should be floating instead of being fixed at the top or bottom */
   navbarFloating: boolean;
   setNavbarFloating: (s: boolean) => void;
+  /** If the Sidebar should be locked to the side */
+  sideBarLocked: boolean;
+  setSideBarLocked: (s: boolean) => void;
+  /** If the Sidebar should be a bit visible to the side */
+  previewSideBar: boolean;
+  setPreviewSideBar: (s: boolean) => void;
 }
 
 /** Hook for using App Settings, such as theme and darkmode */

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaHome, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaHome, FaArrowLeft, FaArrowRight, FaBars } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL } from '../helpers/navigation';
@@ -10,6 +10,7 @@ import { useCurrentSubjectQueryParam } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
+import { SideBar } from './SideBar';
 
 interface AddressBarProps {
   children: React.ReactNode;
@@ -22,7 +23,10 @@ export function NavigationWrapper({ children }: AddressBarProps): JSX.Element {
   return (
     <>
       {navbarTop && <NavBar />}
-      <Content topPadding={navbarTop}>{children}</Content>
+      <SideBarWrapper>
+        <SideBar />
+        <Content topPadding={navbarTop}>{children}</Content>
+      </SideBarWrapper>
       {!navbarTop && <NavBar />}
     </>
   );
@@ -33,9 +37,12 @@ interface ContentProps {
 }
 
 const Content = styled.div<ContentProps>`
+  display: block;
+  flex: 1;
   transition: all 0.2s;
   margin-top: ${props => (props.topPadding ? '2rem' : '0')};
   margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
+  overflow-y: auto;
 `;
 
 /** Persistently shown navigation bar */
@@ -43,7 +50,7 @@ function NavBar() {
   const [subject, setSubject] = useCurrentSubjectQueryParam();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
-  const { navbarTop, navbarFloating } = useSettings();
+  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, setPreviewSideBar } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useHotkeys('/', e => {
@@ -144,7 +151,18 @@ function NavBar() {
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       {showButtons && (
         <React.Fragment>
-          <ButtonBar leftPadding type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
+          <ButtonBar
+            leftPadding
+            type='button'
+            title='Open sidebar'
+            onClick={() => setSideBarLocked(!sideBarLocked)}
+            onMouseEnter={() => setPreviewSideBar(true)}
+            onMouseLeave={() => setPreviewSideBar(false)}
+            title='Always show / hide sidebar (\)'
+          >
+            <FaBars />
+          </ButtonBar>
+          <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
             <FaHome />
           </ButtonBar>
           <ButtonBar type='button' title='Go back' onClick={history.goBack}>
@@ -261,4 +279,24 @@ const NavBarFixed = styled(NavBarBase)`
   border-width: 0;
   border-bottom: ${props => (props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
   border-top: ${props => (!props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
+`;
+
+const SideBarWrapper = styled('div')`
+  display: flex;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+const SideBarHoverDetector = styled('div')`
+  z-index: 1;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
 `;
