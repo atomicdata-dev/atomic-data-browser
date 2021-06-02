@@ -8,6 +8,7 @@ import { ButtonMargin } from '../components/Button';
 import { editURL, openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
+import Parent from '../components/Parent';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -31,6 +32,7 @@ function Data(): JSX.Element {
 
   return (
     <ContainerNarrow about={subject}>
+      <Parent resource={resource} />
       <h1>data view</h1>
       <h3>
         subject: <AtomicLink url={subject}>{subject}</AtomicLink>

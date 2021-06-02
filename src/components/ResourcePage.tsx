@@ -13,6 +13,8 @@ import { Button } from './Button';
 import { ErrorLook } from './ResourceInline';
 import EndpointPage from '../views/EndpointPage';
 import { ValueForm } from './forms/ValueForm';
+import Parent from './Parent';
+import DrivePage from '../views/DrivePage';
 
 type Props = {
   subject: string;
@@ -47,14 +49,20 @@ function ResourcePage({ subject }: Props): JSX.Element {
       return <Collection resource={resource} />;
     case urls.classes.endpoint:
       return <EndpointPage resource={resource} />;
+    case urls.classes.drive:
+      return <DrivePage resource={resource} />;
   }
 
   return (
     <ContainerNarrow about={subject}>
+      <Parent resource={resource} />
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={properties.description} />
-      <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA, properties.name]} />
+      <AllProps
+        resource={resource}
+        except={[properties.shortname, properties.description, properties.isA, properties.name, properties.parent]}
+      />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
       <Button onClick={() => history.push(editURL(subject))}>edit</Button>

@@ -6,6 +6,7 @@ export const classes = {
   property: 'https://atomicdata.dev/classes/Property',
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',
+  drive: 'https://atomicdata.dev/classes/Drive',
 };
 
 export const properties = {
@@ -38,6 +39,10 @@ export const properties = {
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
+  parent: 'https://atomicdata.dev/properties/parent',
+  read: 'https://atomicdata.dev/properties/read',
+  write: 'https://atomicdata.dev/properties/write',
+  children: 'https://atomicdata.dev/properties/children',
 };
 
 export const datatypes = {

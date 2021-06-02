@@ -15,6 +15,7 @@ import ResourceCard from '../components/ResourceCard';
 import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
+import Parent from '../components/Parent';
 
 type CollectionProps = {
   resource: Resource;
@@ -97,6 +98,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
 
   return (
     <ContainerFull about={resource.getSubject()}>
+      <Parent resource={resource} />
       <h1>{title}</h1>
       <Button subtle onClick={handleToggleView}>
         {displayStyleString(nextDisplayStyle())} view
@@ -147,7 +149,7 @@ const GridItem = styled.div`
   margin: 0;
   /* display: grid; */
   /* grid-template-rows: 1fr auto; */
-  margin-bottom: ${props => props.theme.margin}rem;
+  /* margin-bottom: ${props => props.theme.margin}rem; */
   break-inside: avoid;
   word-break: break-word;
 `;
