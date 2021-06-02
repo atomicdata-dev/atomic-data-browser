@@ -7,14 +7,13 @@ import { ContainerNarrow } from './Containers';
 import Collection from '../views/CollectionPage';
 import ClassDetail from './ClassDetail';
 import NewInstanceButton from './NewInstanceButton';
-import { useHistory } from 'react-router-dom';
-import { editURL } from '../helpers/navigation';
 import { Button } from './Button';
 import { ErrorLook } from './ResourceInline';
 import EndpointPage from '../views/EndpointPage';
 import { ValueForm } from './forms/ValueForm';
 import Parent from './Parent';
 import DrivePage from '../views/DrivePage';
+import ResourceContextMenu from './ResourceContextMenu';
 
 type Props = {
   subject: string;
@@ -24,7 +23,6 @@ type Props = {
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
-  const history = useHistory();
   const [klass] = useString(resource, properties.isA);
   const store = useStore();
 
@@ -56,7 +54,10 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <ContainerNarrow about={subject}>
       <Parent resource={resource} />
-      <h1>{title}</h1>
+      <h1>
+        {title}
+        <ResourceContextMenu hide={['view']} resource={resource} />
+      </h1>
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps
@@ -65,7 +66,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
       />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
-      <Button onClick={() => history.push(editURL(subject))}>edit</Button>
     </ContainerNarrow>
   );
 }

@@ -16,6 +16,7 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
+import ResourceContextMenu from '../components/ResourceContextMenu';
 
 type CollectionProps = {
   resource: Resource;
@@ -31,7 +32,6 @@ const displayStyleString = (style: DisplayStyle): string => {
   switch (style) {
     case DisplayStyle.CARDLIST: {
       return 'cards';
-      break;
     }
     case DisplayStyle.TABLE: {
       return 'table';
@@ -99,7 +99,10 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   return (
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
-      <h1>{title}</h1>
+      <h1>
+        {title}
+        <ResourceContextMenu hide={['view']} resource={resource} />
+      </h1>
       <Button subtle onClick={handleToggleView}>
         {displayStyleString(nextDisplayStyle())} view
       </Button>

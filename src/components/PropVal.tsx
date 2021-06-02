@@ -12,13 +12,13 @@ type Props = {
   resource: Resource;
 };
 
-const PropValRow = styled.div`
+export const PropValRow = styled.div`
   display: flex;
   flex-direction: row;
   word-wrap: break-word;
 `;
 
-const PropertyLabel = styled.span`
+export const PropertyLabel = styled.span`
   font-weight: bold;
   display: block;
   width: 8rem;

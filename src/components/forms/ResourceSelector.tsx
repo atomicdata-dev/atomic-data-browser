@@ -71,7 +71,7 @@ export function ResourceSelector({
         initial={value}
       />
       {value !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
-      {value == '' && <ErrMessage>Required</ErrMessage>}
+      {required && value == '' && <ErrMessage>Required</ErrMessage>}
     </div>
   );
 }

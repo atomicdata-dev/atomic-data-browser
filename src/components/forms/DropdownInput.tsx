@@ -92,7 +92,7 @@ export function DropdownInput({ allowOther, required, initial, placeholder, onRe
                         index,
                         item,
                         style: {
-                          backgroundColor: highlightedIndex === index ? themeContext.colors.main : themeContext.colors.bg1,
+                          backgroundColor: highlightedIndex === index ? themeContext.colors.main : themeContext.colors.bg,
                           color: highlightedIndex === index ? themeContext.colors.bg : themeContext.colors.text,
                         },
                       })}

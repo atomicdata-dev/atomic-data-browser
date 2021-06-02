@@ -9,7 +9,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useCurrentSubjectQueryParam } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
-import { DropdownMenu } from './DropdownMenu';
+import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 
 interface AddressBarProps {
   children: React.ReactNode;
@@ -101,6 +101,45 @@ function NavBar() {
 
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
+  const defaultMenuItems: MenuItemProps[] = [
+    {
+      label: 'New Resource',
+      helper: 'Create a new Resource, based on a Class',
+      onClick: () => {
+        handleNavigation('/new');
+      },
+    },
+    {
+      label: 'Shortcuts',
+      helper: 'View the keyboard shortcuts',
+      onClick: () => {
+        handleNavigation('/shortcuts');
+      },
+    },
+    {
+      label: 'Settings',
+      helper: 'Edit the theme, current Agent, and more.',
+      onClick: () => {
+        handleNavigation('/settings');
+      },
+    },
+    {
+      label: 'Github',
+      helper: 'View the source code for this application',
+      onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
+    },
+    {
+      label: 'Discord',
+      helper: 'Chat with the Atomic Data community',
+      onClick: () => window.open('https://discord.gg/a72Rv2P'),
+    },
+    {
+      label: 'Docs',
+      helper: 'View the Atomic Data documentation',
+      onClick: () => window.open('https://docs.atomicdata.dev'),
+    },
+  ];
+
   return (
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       {showButtons && (
@@ -128,7 +167,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      {showButtons && <DropdownMenu />}
+      {showButtons && <DropdownMenu items={defaultMenuItems} />}
     </ConditionalNavbar>
   );
 }

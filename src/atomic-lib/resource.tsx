@@ -1,4 +1,4 @@
-import { handleError } from '../helpers/handlers';
+import { handleError, handleWarning } from '../helpers/handlers';
 import { properties } from '../helpers/urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
@@ -110,7 +110,7 @@ export class Resource {
     try {
       delete this.commitBuilder.set[propertyUrl];
     } catch (e) {
-      console.log('Item not present in commitbuilder.set');
+      handleWarning('Item not present in commitbuilder.set');
     }
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);

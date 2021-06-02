@@ -80,7 +80,6 @@ export const signAt = async (commitBuilder: CommitBuilderI, agent: string, priva
     signer: agent,
   };
   const serializedCommit = serializeDeterministically(commitPreSigned);
-  console.log('serializedCommit', serializedCommit);
   const signature = await signToBase64(serializedCommit, privateKey);
   const commitPostSigned: Commit = {
     ...commitPreSigned,

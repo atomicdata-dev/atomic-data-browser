@@ -17,7 +17,6 @@ import { Button } from '../components/Button';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
-  // Class related data
   const [classSubject] = useQueryParam('classSubject', StringParam);
   // For selecting a class
   const [classInput, setClassInput] = useState<string>(null);
@@ -49,8 +48,8 @@ function New(): JSX.Element {
           {classInput && <Button onClick={handleClassSet}>new {className}</Button>}
           {!classInput && (
             <>
-              <NewIntanceButton klass={urls.classes.class} />
-              <NewIntanceButton klass={urls.classes.property} />
+              <NewIntanceButton klass={urls.classes.class} subtle />
+              <NewIntanceButton klass={urls.classes.property} subtle />
             </>
           )}
         </form>

@@ -65,9 +65,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   if (classStatus == ResourceStatus.loading) {
     return <>Loading class...</>;
   }
-  if (classStatus == ResourceStatus.error) {
-    return <ErrMessage>Error in class. {klass.getError().message}</ErrMessage>;
-  }
   if (klassIsa && klassIsa !== classes.class) {
     return (
       <ErrMessage>{classSubject} is not a Class. Only resources with valid classes can be created or edited at this moment.</ErrMessage>
@@ -90,7 +87,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   }
 
   function handleAddProp() {
-    console.log('handleAddProp called');
     setNewPropErr(null);
     if (tempOtherProps.includes(newProperty) || requires.includes(newProperty) || recommends.includes(newProperty)) {
       setNewPropErr(new Error('That property already exists in this resource. It can only be added once.'));
@@ -106,7 +102,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   }
 
   function handleDelete(propertyURL: string) {
-    console.log('handleDelete called');
     resource.removePropVal(propertyURL);
     setTempOtherProps(tempOtherProps.filter(prop => prop != propertyURL));
   }
@@ -121,11 +116,12 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
   }
 
-  console.log('otherprops len', otherProps.length);
-
   return (
     <form about={resource.getSubject()}>
       {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
+      {classStatus == ResourceStatus.error && (
+        <ErrMessage>Error in class. {klass.getError().message}. You can still edit the resource, though.</ErrMessage>
+      )}
       {requires.length > 0 && <em title='These properties are marked as Required by the Class of the Resource'>required fields:</em>}
       {requires.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} required />;

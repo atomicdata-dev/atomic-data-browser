@@ -1,24 +1,29 @@
 import React, { useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { FaBars } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom';
+import { FaEllipsisV } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useDetectOutsideClick } from '../helpers/useDetectOutsideClick';
 import { Button, ButtonBar } from './Button';
+
+interface DropdownMenuProps {
+  /** The list of menu items */
+  items: MenuItemProps[];
+  /** The Component that should be clicked to open the menu. Must accept an onClick handler . */
+  // children: React.ReactNode;
+}
 
 /**
  * Menu that opens on click and shows a bunch of items. Closes on Escape and on clicking outside. Use arrow keys to select items, and open
  * items on Enter. Renders the Dropdown on a place where there is room on screen.
  */
-export function DropdownMenu(): JSX.Element {
+export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
-  const history = useHistory();
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const menuItemLength = 6;
+  const menuItemLength = items.length;
   // if the keyboard is used to navigate the menu items
   const [useKeys, setUseKeys] = useState(false);
   // Close the menu
@@ -43,7 +48,7 @@ export function DropdownMenu(): JSX.Element {
     'enter',
     e => {
       e.preventDefault();
-      defaultMenuItems[selectedIndex].onClick();
+      items[selectedIndex].onClick();
       handleClose();
     },
     { enabled: isActive },
@@ -69,43 +74,11 @@ export function DropdownMenu(): JSX.Element {
       setUseKeys(true);
       const newSelected = selectedIndex == menuItemLength - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
+      return false;
     },
     { enabled: isActive },
     [selectedIndex],
   );
-
-  const defaultMenuItems = [
-    {
-      label: 'New Resource',
-      onClick: () => {
-        handleNavigation('/new');
-      },
-    },
-    {
-      label: 'Shortcuts',
-      onClick: () => {
-        handleNavigation('/shortcuts');
-      },
-    },
-    {
-      label: 'Settings',
-      onClick: () => {
-        handleNavigation('/settings');
-      },
-    },
-    {
-      label: 'Github',
-      onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
-    },
-    {
-      label: 'Discord',
-      onClick: () => window.open('https://discord.gg/a72Rv2P'),
-    },
-    {
-      label: 'Docs',
-      onClick: () => window.open('https://docs.atomicdata.dev'),
-    },
-  ];
 
   function handleToggle() {
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -119,10 +92,6 @@ export function DropdownMenu(): JSX.Element {
       setY(topPos);
     }
     isActive ? handleClose() : setIsActive(true);
-  }
-
-  function handleNavigation(to: string) {
-    history.push(to);
   }
 
   function handleClose() {
@@ -145,16 +114,17 @@ export function DropdownMenu(): JSX.Element {
           handleToggle();
         }}
       >
-        <FaBars />
+        <FaEllipsisV />
       </ButtonBar>
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
-        {defaultMenuItems.map(({ label, onClick }, i) => (
+        {items.map(({ label, onClick, helper, id }, i) => (
           <MenuItem
             onClick={() => {
               handleClose();
               onClick();
             }}
-            key={label}
+            key={id}
+            helper={helper}
             label={label}
             selected={useKeys && selectedIndex == i}
           />
@@ -170,15 +140,20 @@ interface MenuProps {
   y: number;
 }
 
-interface MenuItemProps {
+export interface MenuItemProps {
   onClick: () => any;
-  label?: string;
+  label: string;
+  helper?: string;
+  id?: string;
+}
+
+interface MenuItemPropsExtended extends MenuItemProps {
   selected: boolean;
 }
 
-function MenuItem({ onClick, label, selected }: MenuItemProps) {
+export function MenuItem({ onClick, label, selected, helper }: MenuItemPropsExtended) {
   return (
-    <MenuItemStyled clean onClick={onClick} selected={selected}>
+    <MenuItemStyled clean onClick={onClick} selected={selected} title={helper}>
       {label}
     </MenuItemStyled>
   );
@@ -194,9 +169,10 @@ const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
   height: 2rem;
   width: 100%;
   text-align: left;
-  color: ${p => (p.selected ? p.theme.colors.main : p.theme.colors.text)};
+  color: ${p => p.theme.colors.text};
   padding: 0.8rem;
   height: auto;
+  background-color: ${p => (p.selected ? p.theme.colors.bg1 : p.theme.colors.bg)};
 
   &:hover {
     background-color: ${p => p.theme.colors.bg1};
