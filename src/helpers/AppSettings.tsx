@@ -14,7 +14,6 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
   const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
   const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
   const [sideBarLocked, setSideBarLocked] = useLocalStorage('sideBarOpen', false);
-  const [previewSideBar, setPreviewSideBar] = useState(false);
 
   return (
     <SettingsContext.Provider
@@ -29,8 +28,6 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
         setNavbarFloating,
         sideBarLocked,
         setSideBarLocked,
-        previewSideBar,
-        setPreviewSideBar,
       }}
     >
       {props.children}
@@ -55,9 +52,6 @@ interface AppSettings {
   /** If the Sidebar should be locked to the side */
   sideBarLocked: boolean;
   setSideBarLocked: (s: boolean) => void;
-  /** If the Sidebar should be a bit visible to the side */
-  previewSideBar: boolean;
-  setPreviewSideBar: (s: boolean) => void;
 }
 
 /** Hook for using App Settings, such as theme and darkmode */

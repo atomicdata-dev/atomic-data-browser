@@ -11,6 +11,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   margins?: boolean;
   /** Minimal styling */
   clean?: boolean;
+  onClick: () => unknown;
 }
 
 export function Button({ children, clean, icon, ...props }: ButtonProps): JSX.Element {

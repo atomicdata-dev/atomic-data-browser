@@ -26,5 +26,10 @@ export function useHover<T>(): [MutableRefObject<T>, boolean] {
     [ref.current], // Recall only if ref changes
   );
 
+  // don't hover on touch screen devices
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    return [ref, false];
+  }
+
   return [ref, value];
 }

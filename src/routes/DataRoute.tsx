@@ -6,7 +6,6 @@ import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import Parent from '../components/Parent';
-import ResourceContextMenu from '../components/ResourceContextMenu';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 
 /** Renders the data of some Resource */
@@ -25,10 +24,7 @@ function Data(): JSX.Element {
   return (
     <ContainerNarrow about={subject}>
       <Parent resource={resource} />
-      <h1>
-        data view
-        <ResourceContextMenu hide={['data']} resource={resource} />
-      </h1>
+      <h1>data view</h1>
       <PropValRow>
         <PropertyLabel>subject:</PropertyLabel>
         <AtomicLink url={subject}>{subject}</AtomicLink>

@@ -11,6 +11,8 @@ import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 import { SideBar } from './SideBar';
+import ResourceContextMenu from './ResourceContextMenu';
+import { useResource } from '../atomic-react/hooks';
 
 interface AddressBarProps {
   children: React.ReactNode;
@@ -39,7 +41,6 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   display: block;
   flex: 1;
-  transition: all 0.2s;
   margin-top: ${props => (props.topPadding ? '2rem' : '0')};
   margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
   overflow-y: auto;
@@ -48,6 +49,7 @@ const Content = styled.div<ContentProps>`
 /** Persistently shown navigation bar */
 function NavBar() {
   const [subject, setSubject] = useCurrentSubjectQueryParam();
+  const [resource] = useResource(subject);
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, setPreviewSideBar } = useSettings();
@@ -108,57 +110,13 @@ function NavBar() {
 
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
-  const defaultMenuItems: MenuItemProps[] = [
-    {
-      label: 'New Resource',
-      helper: 'Create a new Resource, based on a Class',
-      onClick: () => {
-        handleNavigation('/new');
-      },
-    },
-    {
-      label: 'Shortcuts',
-      helper: 'View the keyboard shortcuts',
-      onClick: () => {
-        handleNavigation('/shortcuts');
-      },
-    },
-    {
-      label: 'Settings',
-      helper: 'Edit the theme, current Agent, and more.',
-      onClick: () => {
-        handleNavigation('/settings');
-      },
-    },
-    {
-      label: 'Github',
-      helper: 'View the source code for this application',
-      onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
-    },
-    {
-      label: 'Discord',
-      helper: 'Chat with the Atomic Data community',
-      onClick: () => window.open('https://discord.gg/a72Rv2P'),
-    },
-    {
-      label: 'Docs',
-      helper: 'View the Atomic Data documentation',
-      onClick: () => window.open('https://docs.atomicdata.dev'),
-    },
-  ];
+  console.log('resource is ready', resource.isReady());
 
   return (
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       {showButtons && (
         <React.Fragment>
-          <ButtonBar
-            leftPadding
-            type='button'
-            onClick={() => setSideBarLocked(!sideBarLocked)}
-            onMouseEnter={() => setPreviewSideBar(true)}
-            onMouseLeave={() => setPreviewSideBar(false)}
-            title='Show / hide sidebar (\)'
-          >
+          <ButtonBar leftPadding type='button' onClick={() => setSideBarLocked(!sideBarLocked)} title='Show / hide sidebar (\)'>
             <FaBars />
           </ButtonBar>
           <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
@@ -184,7 +142,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      {showButtons && <DropdownMenu items={defaultMenuItems} />}
+      {showButtons && subject && <ResourceContextMenu hide={['view']} subject={subject} />}
     </ConditionalNavbar>
   );
 }
@@ -196,7 +154,7 @@ interface NavBarStyledProps {
 
 /** Don't use this directly - use NavBarFloating or NavBarFixed */
 const NavBarBase = styled.form<NavBarStyledProps>`
-  transition: all 0.2s;
+  /* transition: all 0.2s; */
   position: fixed;
   z-index: 100;
   height: 2.5rem;

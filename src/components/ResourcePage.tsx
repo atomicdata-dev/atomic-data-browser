@@ -54,10 +54,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <ContainerNarrow about={subject}>
       <Parent resource={resource} />
-      <h1>
-        {title}
-        <ResourceContextMenu hide={['view']} resource={resource} />
-      </h1>
+      <h1>{title}</h1>
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps

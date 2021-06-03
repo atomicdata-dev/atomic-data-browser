@@ -99,10 +99,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   return (
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
-      <h1>
-        {title}
-        <ResourceContextMenu hide={['view']} resource={resource} />
-      </h1>
+      <h1>{title}</h1>
       <Button subtle onClick={handleToggleView}>
         {displayStyleString(nextDisplayStyle())} view
       </Button>

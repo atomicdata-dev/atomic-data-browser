@@ -46,6 +46,11 @@ export class Resource {
     return this.status == ResourceStatus.ready;
   }
 
+  /** Checks if the resource newly created, and thus not yet saved */
+  isNew(): boolean {
+    return this.status == ResourceStatus.new;
+  }
+
   /** Get a Value by its property */
   get(propUrl: string): Value | null {
     const result = this.propvals.get(propUrl);

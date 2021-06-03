@@ -98,11 +98,12 @@ export const GlobalStyle = createGlobalStyle`
     word-wrap: break-word;
     overflow-wrap: anywhere;
     margin: 0;
+    /** Pretty dark mode transition */
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
   }
 
-  /** Pretty dark mode transition */
   input, button, body {
-    transition: all .2s ease;
+    /* transition: background .2s ease, border-color .2s ease, color .2s ease; */
     /* Don't overflow input elements */
     overflow-wrap: normal;
   }
