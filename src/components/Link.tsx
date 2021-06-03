@@ -7,38 +7,37 @@ import { useStore } from '../atomic-react/hooks';
 
 type Props = {
   children?: ReactNode;
-  url: string;
+  subject: string;
 };
 
 /** Renders an openable Resource. Only for Atomic Resources. */
-function AtomicLink({ children, url: urlString }: Props): JSX.Element {
+function AtomicLink({ children, subject }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
   const store = useStore();
-  store.fetchResource(urlString);
-
-  const url = new URL(urlString);
+  store.fetchResource(subject);
 
   const handleClick = e => {
+    const url = new URL(subject);
     e.preventDefault();
-    if (currentUrl == urlString) {
+    if (currentUrl == subject) {
       return;
     }
     if (window.location.origin == url.origin) {
       const path = url.pathname + url.search;
       history.push(path);
     } else {
-      history.push(openURL(urlString));
+      history.push(openURL(subject));
     }
   };
 
   return (
     <LinkView
-      about={urlString}
+      about={subject}
       onClick={handleClick}
-      href={urlString}
-      disabled={currentUrl == urlString}
-      tabIndex={currentUrl == urlString ? -1 : 0}
+      href={subject}
+      disabled={currentUrl == subject}
+      tabIndex={currentUrl == subject ? -1 : 0}
     >
       {children}
     </LinkView>

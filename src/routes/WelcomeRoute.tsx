@@ -48,13 +48,13 @@ export const Welcome: React.FunctionComponent = () => {
       <h2>Things to visit</h2>
       <ul>
         <li>
-          <AtomicLink url='https://atomicdata.dev/collections/collection'>List of lists</AtomicLink>
+          <AtomicLink subject='https://atomicdata.dev/collections/collection'>List of lists</AtomicLink>
         </li>
         <li>
-          <AtomicLink url='https://atomicdata.dev/collections/class'>List of Classes</AtomicLink>
+          <AtomicLink subject='https://atomicdata.dev/collections/class'>List of Classes</AtomicLink>
         </li>
         <li>
-          <AtomicLink url='https://atomicdata.dev/collections/property'>List of Properties</AtomicLink>
+          <AtomicLink subject='https://atomicdata.dev/collections/property'>List of Properties</AtomicLink>
         </li>
       </ul>
       <h2>Run your own server</h2>
@@ -65,7 +65,7 @@ export const Welcome: React.FunctionComponent = () => {
         <code>docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server</code>
       </p>
       <p>
-        ...and visit <AtomicLink url='http://localhost'>localhost</AtomicLink>.
+        ...and visit <AtomicLink subject='http://localhost'>localhost</AtomicLink>.
       </p>
       <h2>Join the community</h2>
       <p>

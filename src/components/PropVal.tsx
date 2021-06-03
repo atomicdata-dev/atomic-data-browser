@@ -36,7 +36,7 @@ function PropVal({ propertyURL, resource }: Props): JSX.Element {
 
   return (
     <PropValRow>
-      <AtomicLink url={propertyURL}>
+      <AtomicLink subject={propertyURL}>
         <PropertyLabel title={property.description}>
           {property.error ? <ErrorLook>{truncated}</ErrorLook> : property.shortname || truncated}:
         </PropertyLabel>

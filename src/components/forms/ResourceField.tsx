@@ -46,7 +46,7 @@ function HelperText({ text, link }: HelperTextProps) {
   return (
     <HelperTextWraper>
       <Markdown text={text} />
-      <AtomicLink url={link}>Go to Property</AtomicLink>
+      <AtomicLink subject={link}>Go to Property</AtomicLink>
     </HelperTextWraper>
   );
 }

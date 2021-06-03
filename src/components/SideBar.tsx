@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import * as React from 'react';
 import { useArray, useResource, useStore, useTitle } from '../atomic-react/hooks';
 import { properties } from '../helpers/urls';
-import ResourceInline from './ResourceInline';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
 import { useHistory } from 'react-router-dom';
 import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
+import { ResourceSideBar } from './ResourceSideBar';
 
 export function SideBar(): JSX.Element {
   const store = useStore();
@@ -20,16 +20,16 @@ export function SideBar(): JSX.Element {
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const windowSize = useWindowSize();
 
-  const defaultMenuItems: MenuItemProps[] = [
+  const appMenuItems: MenuItemProps[] = [
     {
-      label: 'new Resource',
+      label: 'new resource',
       helper: 'Create a new Resource, based on a Class',
       onClick: () => {
         history.push('/new');
       },
     },
     {
-      label: 'shortcuts',
+      label: 'keyboard shortcuts',
       helper: 'View the keyboard shortcuts',
       onClick: () => {
         history.push('/shortcuts');
@@ -42,6 +42,16 @@ export function SideBar(): JSX.Element {
         history.push('/settings');
       },
     },
+    {
+      label: 'about',
+      helper: 'Welcome page, tells about this app',
+      onClick: () => {
+        history.push('/');
+      },
+    },
+  ];
+
+  const aboutMenuItems: MenuItemProps[] = [
     {
       label: 'github',
       helper: 'View the source code for this application',
@@ -59,56 +69,56 @@ export function SideBar(): JSX.Element {
     },
   ];
 
-  function allowLock(): boolean {
+  function isWideScreen(): boolean {
     return windowSize.width > 600;
   }
 
-  function maybeCloseSideBar() {
+  /** This is called when the user presses a menu Item, which should result in a closed menu in mobile context */
+  function handleCloseSideBarMayb() {
     // If the window is small, close the sidebar on click
-    if (!allowLock()) {
+    if (!isWideScreen()) {
       setSideBarLocked(false);
     }
   }
 
+  function renderMenuItem(item: MenuItemProps) {
+    return (
+      <SideBarItem
+        key={item.label}
+        title={item.helper}
+        clean
+        onClick={() => {
+          item.onClick();
+          handleCloseSideBarMayb();
+        }}
+      >
+        {item.label}
+      </SideBarItem>
+    );
+  }
+
   return (
-    <SideBarStyled
-      ref={ref}
-      locked={windowSize.width > 600 && sideBarLocked}
-      exposed={sideBarLocked || hoveringOverSideBar}
-      topPadding={navbarTop}
-    >
-      <SideBarHeader>{title}</SideBarHeader>
-      {children.map(child => {
-        return (
-          <SideBarItem
-            clean
-            key={child}
-            onClick={() => {
-              maybeCloseSideBar();
-            }}
-          >
-            <ResourceInline subject={child} />
-          </SideBarItem>
-        );
-      })}
-      {children.length == 0 && <span>No children in this Drive</span>}
-      <SideBarHeader>app</SideBarHeader>
-      {defaultMenuItems.map(item => {
-        return (
-          <SideBarItem
-            key={item.label}
-            title={item.helper}
-            clean
-            onClick={() => {
-              item.onClick();
-              maybeCloseSideBar();
-            }}
-          >
-            {item.label}
-          </SideBarItem>
-        );
-      })}
-    </SideBarStyled>
+    <SideBarContainer>
+      <SideBarStyled
+        ref={ref}
+        locked={windowSize.width > 600 && sideBarLocked}
+        exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
+        topPadding={navbarTop}
+        bottomPadding={!navbarTop}
+      >
+        <SideBarHeader>{title}</SideBarHeader>
+        {children.map(child => {
+          return <ResourceSideBar key={child} subject={child} handleClose={handleCloseSideBarMayb} />;
+        })}
+        <SideBarBottom>
+          <SideBarHeader>app</SideBarHeader>
+          {appMenuItems.map(renderMenuItem)}
+          <SideBarHeader>atomic data</SideBarHeader>
+          {aboutMenuItems.map(renderMenuItem)}
+        </SideBarBottom>
+      </SideBarStyled>
+      {sideBarLocked && !isWideScreen() && <SideBarOverlay onClick={() => setSideBarLocked(false)} />}
+    </SideBarContainer>
   );
 }
 
@@ -116,6 +126,7 @@ interface SideBarStyledProps {
   locked: boolean;
   exposed: boolean;
   topPadding: boolean;
+  bottomPadding: boolean;
 }
 
 // eslint-disable-next-line prettier/prettier
@@ -125,34 +136,67 @@ const SideBarStyled = styled('div') <SideBarStyledProps>`
   background: ${p => p.theme.colors.bg};
   border-right: solid 1px ${p => p.theme.colors.bg2};
   transition: opacity 0.3s, left 0.3s;
-  left: ${p => (p.exposed ? '0' : '-14.5rem')};
+  left: ${p => (p.exposed ? '0' : -p.theme.sideBarWidth + 0.5 + 'rem')};
   /* When the user is hovering, show half opacity */
   opacity: ${p => (p.exposed ? 1 : 0)};
   height: 100vh;
-  width: 15rem;
-  padding-top: ${p => (p.topPadding ? '3rem' : '1rem')};
+  width: ${p => p.theme.sideBarWidth}rem;
+  padding-top: ${p => (p.topPadding ? '3rem' : '0')};
+  padding-bottom: ${p => (p.bottomPadding ? '3rem' : '${props => props.theme.margin}rem')};
   position: ${p => (p.locked ? 'relative' : 'absolute')};
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 const SideBarHeader = styled('div')`
-  margin-top: 1rem;
+  margin-top: ${props => props.theme.margin}rem;
   margin-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: ${props => props.theme.margin}rem;
+  padding-right: ${props => props.theme.margin}rem;
   font-size: 1.4rem;
   font-weight: bold;
 `;
 
-const SideBarItem = styled(Button)`
-  padding-left: 1rem;
-  padding-right: 1rem;
+const SideBarBottom = styled('div')`
+  flex: 1;
+  flex-direction: column;
+  justify-items: flex-end;
+  display: flex;
+  justify-content: end;
+`;
+
+/** Just needed for positioning the overlay */
+const SideBarContainer = styled('div')`
+  position: relative;
+`;
+
+/** Shown on mobile devices to close the panel */
+const SideBarOverlay = styled('div')`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+`;
+
+export const SideBarItem = styled(Button)`
+  padding-left: ${props => props.theme.margin}rem;
+  padding-right: ${props => props.theme.margin}rem;
   display: flex;
   min-height: 1.6rem;
   align-items: center;
   justify-content: flex-start;
-  color: ${p => p.theme.colors.text};
+  color: ${p => p.theme.colors.textLight};
+
+  &:disabled {
+    background-color: ${p => p.theme.colors.bg1};
+  }
 
   &:hover {
     background-color: ${p => p.theme.colors.bg1};

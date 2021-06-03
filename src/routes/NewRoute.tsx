@@ -105,7 +105,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   return (
     <>
       <h2>
-        new <AtomicLink url={classSubject}>{klassTitle}</AtomicLink>
+        new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>
       </h2>
       {klassDescription && <Markdown text={klassDescription} />}
       <Field

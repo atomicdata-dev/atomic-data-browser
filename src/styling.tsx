@@ -35,6 +35,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     boxShadow: `2px 2px 22px 0px ${shadowColor}`,
     boxShadowIntense: `2px 2px 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,
+    sideBarWidth: 15,
     margin: 1,
     radius: '9px',
     colors: {
@@ -46,6 +47,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       bg2: darkMode ? lighten(0.3)(bg) : darken(0.2)(bg),
       text,
       text1: darkMode ? darken(0.1)(text) : lighten(0.1)(text),
+      textLight: darkMode ? darken(0.4)(text) : lighten(0.4)(text),
       alert: '#cf5b5b',
     },
   };
@@ -61,8 +63,10 @@ declare module 'styled-components' {
     boxShadowIntense: string;
     /** Base margin */
     margin: number;
-    /** Width of the container, in units */
+    /** Width of the container, in rem */
     containerWidth: number;
+    /** Width of the sidebar, in rem */
+    sideBarWidth: number;
     /** Roundness of some elements / Border radius */
     radius: string;
     /** All theme colors */
@@ -81,6 +85,8 @@ declare module 'styled-components' {
       text: string;
       /** Sublty different hue of the main text color */
       text1: string;
+      /** Lighter shade of text */
+      textLight: string;
       /** Error / warning color */
       alert: string;
     };

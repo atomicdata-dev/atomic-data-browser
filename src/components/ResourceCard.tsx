@@ -53,7 +53,7 @@ function ResourceCard(props: Props): JSX.Element {
       ) : (
         <>
           <h2>
-            <AtomicLink url={subject}>{subject}</AtomicLink>
+            <AtomicLink subject={subject}>{subject}</AtomicLink>
           </h2>
           <p>Resource is loading...</p>
         </>
@@ -84,7 +84,7 @@ function ResourceCardInner(props: Props): JSX.Element {
 
   return (
     <React.Fragment>
-      <AtomicLink url={subject}>
+      <AtomicLink subject={subject}>
         <h2>{title}</h2>
       </AtomicLink>
       <ClassDetail resource={resource} />

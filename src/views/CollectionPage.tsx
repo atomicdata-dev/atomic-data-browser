@@ -16,7 +16,6 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
-import ResourceContextMenu from '../components/ResourceContextMenu';
 
 type CollectionProps = {
   resource: Resource;

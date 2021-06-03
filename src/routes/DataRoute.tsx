@@ -27,7 +27,7 @@ function Data(): JSX.Element {
       <h1>data view</h1>
       <PropValRow>
         <PropertyLabel>subject:</PropertyLabel>
-        <AtomicLink url={subject}>{subject}</AtomicLink>
+        <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
       <AllProps resource={resource} />
     </ContainerNarrow>

@@ -9,10 +9,8 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useCurrentSubjectQueryParam } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
-import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
-import { useResource } from '../atomic-react/hooks';
 
 interface AddressBarProps {
   children: React.ReactNode;
@@ -49,10 +47,9 @@ const Content = styled.div<ContentProps>`
 /** Persistently shown navigation bar */
 function NavBar() {
   const [subject, setSubject] = useCurrentSubjectQueryParam();
-  const [resource] = useResource(subject);
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
-  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, setPreviewSideBar } = useSettings();
+  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useHotkeys('/', e => {
@@ -87,6 +84,10 @@ function NavBar() {
     e.target.select();
   }
 
+  /** Checks if the app is running in PWA / stand alone mode or in a browser */
+  const isInStandaloneMode = () =>
+    window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+
   const handleSubmit = event => {
     event.preventDefault();
     //@ts-ignore this does seem callable
@@ -110,8 +111,6 @@ function NavBar() {
 
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
-  console.log('resource is ready', resource.isReady());
-
   return (
     <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
       {showButtons && (
@@ -122,12 +121,16 @@ function NavBar() {
           <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
             <FaHome />
           </ButtonBar>
-          <ButtonBar type='button' title='Go back' onClick={history.goBack}>
-            <FaArrowLeft />
-          </ButtonBar>
-          <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
-            <FaArrowRight />
-          </ButtonBar>
+          {isInStandaloneMode() && (
+            <>
+              <ButtonBar type='button' title='Go back' onClick={history.goBack}>
+                <FaArrowLeft />
+              </ButtonBar>{' '}
+              <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
+                <FaArrowRight />
+              </ButtonBar>
+            </>
+          )}
         </React.Fragment>
       )}
       <input
@@ -177,11 +180,15 @@ const NavBarBase = styled.form<NavBarStyledProps>`
     background-color: ${props => props.theme.colors.bg};
     outline: 0;
     border-radius: 999px;
+    color: ${p => p.theme.colors.textLight};
 
     &:hover {
+      color: ${p => p.theme.colors.text};
       box-shadow: inset 0 0 0 2px ${props => transparentize(0.6, props.theme.colors.main)};
     }
+
     &:focus {
+      color: ${p => p.theme.colors.text};
       outline: none;
       box-shadow: inset 0 0 0 2px ${props => props.theme.colors.main};
       /* border-radius: ${props => props.theme.radius}; */

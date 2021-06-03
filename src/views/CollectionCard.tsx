@@ -15,7 +15,7 @@ function CollectionCard({ resource, small }: CardViewProps): JSX.Element {
 
   return (
     <React.Fragment>
-      <AtomicLink url={resource.getSubject()}>
+      <AtomicLink subject={resource.getSubject()}>
         <h2>{title}</h2>
       </AtomicLink>
       {description && <Markdown text={description} />}

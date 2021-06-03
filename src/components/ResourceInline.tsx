@@ -25,7 +25,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return (
-      <AtomicLink url={subject}>
+      <AtomicLink subject={subject}>
         <ErrorLook about={subject} title={resource.getError().message}>
           {subject}
         </ErrorLook>
@@ -34,7 +34,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
   }
 
   return (
-    <AtomicLink url={subject}>
+    <AtomicLink subject={subject}>
       <span title={description ? description : null}>{title}</span>
     </AtomicLink>
   );
