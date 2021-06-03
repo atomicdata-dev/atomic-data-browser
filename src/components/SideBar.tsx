@@ -103,9 +103,8 @@ export function SideBar(): JSX.Element {
         ref={ref}
         locked={windowSize.width > 600 && sideBarLocked}
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
-        topPadding={navbarTop}
-        bottomPadding={!navbarTop}
       >
+        {navbarTop ? <PaddingBig /> : null}
         <SideBarHeader>{title}</SideBarHeader>
         {children.map(child => {
           return <ResourceSideBar key={child} subject={child} handleClose={handleCloseSideBarMayb} />;
@@ -116,6 +115,7 @@ export function SideBar(): JSX.Element {
           <SideBarHeader>atomic data</SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
+        {navbarTop ? <PaddingSmall /> : <PaddingBig />}
       </SideBarStyled>
       {sideBarLocked && !isWideScreen() && <SideBarOverlay onClick={() => setSideBarLocked(false)} />}
     </SideBarContainer>
@@ -125,13 +125,19 @@ export function SideBar(): JSX.Element {
 interface SideBarStyledProps {
   locked: boolean;
   exposed: boolean;
-  topPadding: boolean;
-  bottomPadding: boolean;
 }
+
+const PaddingSmall = styled('div')`
+  min-height: 1rem;
+`;
+
+const PaddingBig = styled('div')`
+  min-height: 3rem;
+`;
 
 // eslint-disable-next-line prettier/prettier
 const SideBarStyled = styled('div') <SideBarStyledProps>`
-  z-index: 2;
+  z-index: 10;
   box-sizing: border-box;
   background: ${p => p.theme.colors.bg};
   border-right: solid 1px ${p => p.theme.colors.bg2};
@@ -141,8 +147,6 @@ const SideBarStyled = styled('div') <SideBarStyledProps>`
   opacity: ${p => (p.exposed ? 1 : 0)};
   height: 100vh;
   width: ${p => p.theme.sideBarWidth}rem;
-  padding-top: ${p => (p.topPadding ? '3rem' : '0')};
-  padding-bottom: ${p => (p.bottomPadding ? '3rem' : '${props => props.theme.margin}rem')};
   position: ${p => (p.locked ? 'relative' : 'absolute')};
   display: flex;
   flex-direction: column;
