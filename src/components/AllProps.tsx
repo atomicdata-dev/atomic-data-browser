@@ -18,6 +18,7 @@ function AllProps({ resource, except = [] }: Props): JSX.Element {
   return (
     <AllPropsWrapper>
       {[...resource.getPropVals()].map(
+        // This is a place where you might want to use the _val, because of performance. However, we currently don't, because of the form renderer.
         ([prop, _val]): JSX.Element => {
           if (except.includes(prop)) {
             return null;

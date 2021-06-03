@@ -154,11 +154,10 @@ function NavBar() {
           <ButtonBar
             leftPadding
             type='button'
-            title='Open sidebar'
             onClick={() => setSideBarLocked(!sideBarLocked)}
             onMouseEnter={() => setPreviewSideBar(true)}
             onMouseLeave={() => setPreviewSideBar(false)}
-            title='Always show / hide sidebar (\)'
+            title='Show / hide sidebar (\)'
           >
             <FaBars />
           </ButtonBar>
@@ -289,14 +288,4 @@ const SideBarWrapper = styled('div')`
   bottom: 0;
   left: 0;
   right: 0;
-`;
-
-const SideBarHoverDetector = styled('div')`
-  z-index: 1;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 5px;
 `;

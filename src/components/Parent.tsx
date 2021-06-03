@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { properties } from '../helpers/urls';
-import { useResource, useString, useTitle } from '../atomic-react/hooks';
+import { useString, useTitle } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';
 import ResourceInline from './ResourceInline';
 
@@ -13,11 +13,9 @@ type Props = {
 function Parent({ resource }: Props): JSX.Element {
   const [parent] = useString(resource, properties.parent);
   const title = useTitle(resource);
-  // const [parentsParent] = useResource(parent);
 
   return (
     <React.Fragment>
-      {/* {parentsParent.isReady() && <Parent resource={parentsParent} />} */}
       {parent && (
         <List>
           <Breadcrumb>

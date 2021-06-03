@@ -6,7 +6,7 @@ import ResourceInline from './ResourceInline';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 
-export function SideBar() {
+export function SideBar(): JSX.Element {
   const store = useStore();
   const [drive] = useResource(store.baseUrl);
   const [children] = useArray(drive, properties.children);
@@ -36,6 +36,7 @@ interface SideBarStyledProps {
   topPadding: boolean;
 }
 
+// eslint-disable-next-line prettier/prettier
 const SideBarStyled = styled('div') <SideBarStyledProps>`
   z-index: 2;
   box-sizing: border-box;
@@ -54,5 +55,3 @@ const SideBarItem = styled('div')`
   padding-left: 1rem;
   padding-right: 1rem;
 `;
-
-const SubtleSideBarItem = styled('div')``;

@@ -141,7 +141,7 @@ interface MenuProps {
 }
 
 export interface MenuItemProps {
-  onClick: () => any;
+  onClick: () => unknown;
   label: string;
   helper?: string;
   id?: string;
@@ -151,7 +151,7 @@ interface MenuItemPropsExtended extends MenuItemProps {
   selected: boolean;
 }
 
-export function MenuItem({ onClick, label, selected, helper }: MenuItemPropsExtended) {
+export function MenuItem({ onClick, label, selected, helper }: MenuItemPropsExtended): JSX.Element {
   return (
     <MenuItemStyled clean onClick={onClick} selected={selected} title={helper}>
       {label}
