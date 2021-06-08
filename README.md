@@ -66,10 +66,10 @@ This app is a client, but has no persistent storage. Run `atomic-server`
 
 ## Understanding & contributing to the code
 
+- **Routing** is firstly done using React Router, and secondly using the ResourcePage component. This component checks the Class of the Resource, and decides which view is most suitable. Users can open Data views and Edit forms for any resource.
 - **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
 - **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
 - **Hooks** are used wherever possible. This means functional components, instead of old-style Class components. Hooks tend to use a pattern similar to React's own `useState`, which means that two terms are returned: the first one contains the current value, and the second one is a function for setting the value.
-- **Routing** is done using React Router. Ultimately, the resource URL should resolve into its view in this app.
 - **Document** your components and properties! Explain your thinking when doing something non-trivial.
 - **Resources** should have a `about={subject}` tag in HTML elements / DOM nodes, which can be used for debugging and RDFa parsing. This means that you can press `e` to edit anything you're hovering on, or press `d` to show the data!
 - **Accessing the store** can be done in your browser with the global `store` object. For

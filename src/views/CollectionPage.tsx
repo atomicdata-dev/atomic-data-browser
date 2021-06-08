@@ -16,27 +16,22 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
+import { FaTable, FaThLarge } from 'react-icons/fa';
 
 type CollectionProps = {
   resource: Resource;
 };
 
-enum DisplayStyle {
-  TABLE,
-  CARDLIST,
-}
-
-/** Returns the name for a displaystyle */
-const displayStyleString = (style: DisplayStyle): string => {
-  switch (style) {
-    case DisplayStyle.CARDLIST: {
-      return 'cards';
-    }
-    case DisplayStyle.TABLE: {
-      return 'table';
-    }
-  }
-};
+const displayStyles = [
+  {
+    id: 'cards',
+    icon: <FaThLarge />,
+  },
+  {
+    id: 'table',
+    icon: <FaTable />,
+  },
+];
 
 /** A View for collections. Contains logic for switching between various views. */
 function Collection({ resource }: CollectionProps): JSX.Element {
@@ -44,8 +39,8 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [description] = useString(resource, properties.description);
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
-  const defaultView = viewportWidth < 700 ? DisplayStyle.CARDLIST : DisplayStyle.TABLE;
-  const [displayStyle, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
+  const defaultView = viewportWidth < 700 ? 0 : 1;
+  const [displayStyleIndex, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
   const [klass] = useString(resource, properties.collection.value);
   // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
@@ -63,9 +58,17 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [recommendedProps] = useArray(classResource, properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
 
-  const handleToggleView = () => {
-    setDisplayStyle(nextDisplayStyle());
-  };
+  function handleToggleView() {
+    setDisplayStyle(getNextDisplayStyleIndex());
+  }
+
+  function getNextDisplayStyleIndex() {
+    let newIndex = displayStyleIndex + 1;
+    if (newIndex >= displayStyles.length) {
+      newIndex = 0;
+    }
+    return newIndex;
+  }
 
   function handlePrevPage() {
     if (currentPage !== 0) {
@@ -83,43 +86,38 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     setSortBy(by);
   }
 
-  const nextDisplayStyle = (): DisplayStyle => {
-    switch (displayStyle) {
-      case DisplayStyle.CARDLIST: {
-        return DisplayStyle.TABLE;
-      }
-      case DisplayStyle.TABLE: {
-        return DisplayStyle.CARDLIST;
-      }
-    }
-  };
-  useHotkeys('v', handleToggleView, {}, [displayStyle]);
+  const displayStyle = displayStyles[displayStyleIndex];
+  const nextDisplayStyle = displayStyles[getNextDisplayStyleIndex()];
+
+  useHotkeys('v', handleToggleView, {}, [displayStyleIndex]);
 
   return (
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
-      <Button subtle onClick={handleToggleView}>
-        {displayStyleString(nextDisplayStyle())} view
-      </Button>
-      {klass && <NewInstanceButton subtle klass={klass} />}
-      {totalPages > 1 && (
-        <>
-          <Button subtle onClick={handlePrevPage} disabled={currentPage == 0}>
-            prev page
-          </Button>
-          <Button subtle onClick={handleNextPage} disabled={currentPage == totalPages - 1}>
-            next page
-          </Button>
-        </>
-      )}
-      <DropDownMini>
-        <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
-      </DropDownMini>
+      <ButtonsBar>
+        <Button subtle onClick={handleToggleView} title={`set view to ${nextDisplayStyle.id}`}>
+          {nextDisplayStyle.icon}
+        </Button>
+        {klass && <NewInstanceButton subtle klass={klass} />}
+        {totalPages > 1 && (
+          <>
+            <Button subtle onClick={handlePrevPage} disabled={currentPage == 0}>
+              prev page
+            </Button>
+            <Button subtle onClick={handleNextPage} disabled={currentPage == totalPages - 1}>
+              next page
+            </Button>
+          </>
+        )}
+        <DropDownMini>
+          <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
+        </DropDownMini>
+      </ButtonsBar>
       {description && <Markdown text={description} />}
       {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
-      {displayStyle == DisplayStyle.CARDLIST && <CardList members={members} />}
-      {displayStyle == DisplayStyle.TABLE && <Table resource={resource} members={members} columns={propsArrayFull} />}
+      {displayStyle.id == 'cards' && <CardList members={members} />}
+      {displayStyle.id == 'table' && <Table resource={resource} members={members} columns={propsArrayFull} />}
     </ContainerFull>
   );
 }
@@ -151,6 +149,10 @@ const GridItem = styled.div`
   /* margin-bottom: ${props => props.theme.margin}rem; */
   break-inside: avoid;
   word-break: break-word;
+`;
+
+const ButtonsBar = styled.div`
+  display: flex;
 `;
 
 /** A grid with columns and dynamic height items. Unfortunately, it does not work properly with safari, where shadows appear cropped */

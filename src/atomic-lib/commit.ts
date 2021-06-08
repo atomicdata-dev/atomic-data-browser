@@ -104,6 +104,22 @@ export const generatePublicKeyFromPrivate = async (privateKey: string): Promise<
   const privateKeyArrayBuffer = decode(privateKey);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
   const publickey = await ed.getPublicKey(privateKeyBytes);
-  const signatureBase64 = encode(publickey);
-  return signatureBase64;
+  const publicBase64 = encode(publickey);
+  return publicBase64;
 };
+
+interface KeyPair {
+  publicKey: string;
+  privateKey: string;
+}
+
+export async function generateKeyPair(): Promise<KeyPair> {
+  const privateBytes = ed.utils.randomPrivateKey();
+  const publicBytes = await ed.getPublicKey(privateBytes);
+  const privateKey = encode(privateBytes);
+  const publicKey = encode(publicBytes);
+  return {
+    publicKey,
+    privateKey,
+  };
+}

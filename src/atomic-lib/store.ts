@@ -65,8 +65,8 @@ export class Store {
     return this.baseUrl;
   }
 
-  /** Returns the Currently set Agent, throws an error if there is none. Make sure to first run `store.setAgent()`. */
-  getAgent(): Agent {
+  /** Returns the Currently set Agent, returns null if there is none. Make sure to first run `store.setAgent()`. */
+  getAgent(): Agent | null {
     if (this.agent == undefined) {
       return null;
     }

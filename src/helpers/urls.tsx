@@ -7,6 +7,8 @@ export const classes = {
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',
   drive: 'https://atomicdata.dev/classes/Drive',
+  redirect: 'https://atomicdata.dev/classes/Redirect',
+  invite: 'https://atomicdata.dev/classes/Invite',
 };
 
 export const properties = {
@@ -16,6 +18,7 @@ export const properties = {
   requires: 'https://atomicdata.dev/properties/requires',
   name: 'https://atomicdata.dev/properties/name',
   classType: 'https://atomicdata.dev/properties/classtype',
+  createdBy: 'https://atomicdata.dev/properties/createdBy',
   collection: {
     members: 'https://atomicdata.dev/properties/collection/members',
     currentPage: 'https://atomicdata.dev/properties/collection/currentPage',
@@ -36,6 +39,18 @@ export const properties = {
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
+  },
+  redirect: {
+    destination: 'https://atomicdata.dev/properties/destination',
+    redirectAgent: 'https://atomicdata.dev/properties/invite/redirectAgent',
+  },
+  invite: {
+    agent: 'https://atomicdata.dev/properties/invite/agent',
+    publicKey: 'https://atomicdata.dev/properties/invite/publicKey',
+    target: 'https://atomicdata.dev/properties/invite/target',
+    usagesLeft: 'https://atomicdata.dev/properties/invite/usagesLeft',
+    users: 'https://atomicdata.dev/properties/invite/users',
+    write: 'https://atomicdata.dev/properties/invite/write',
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '../atomic-lib/client';
+import { useStore } from '../atomic-react/hooks';
 import { editURL, dataURL, openURL } from '../helpers/navigation';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 
@@ -12,6 +13,7 @@ type Props = {
 
 /** Dropdown menu that opens a bunch of actions for some resource */
 function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
+  const store = useStore();
   const history = useHistory();
 
   if (subject == undefined) {
@@ -30,6 +32,12 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       label: 'data view',
       helper: 'View the resource and its properties in the Data View. (d)',
       onClick: () => history.push(dataURL(subject)),
+    },
+    {
+      id: 'refresh',
+      label: 'refresh',
+      helper: 'Fetch the resouce again from the server, possibly see new changes.',
+      onClick: () => store.fetchResource(subject, true),
     },
   ];
 

@@ -63,8 +63,6 @@ export const ButtonBase = styled(ButtonClean)`
   @media (hover: hover) and (pointer: fine) {
     &:hover:not([disabled]),
     &:focus-visible:not([disabled]) {
-      background-color: ${props => props.theme.colors.mainLight};
-      color: ${props => props.theme.colors.bg};
       transform: scale(1.05);
       outline: 0;
     }
@@ -121,13 +119,14 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   box-shadow: ${props => props.theme.boxShadow};
   display: inline-flex;
   margin-right: ${props => props.theme.margin}rem;
-  background-color: ${props => (props.subtle ? props.theme.colors.bg : props.theme.colors.main)};
-  border: solid 1px ${props => props.theme.colors.main};
-  color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.bg)};
-  border: solid 1px ${props => props.theme.colors.main};
+  background-color: ${props => (props.subtle ? 'transparent' : props.theme.colors.main)};
+  color: ${props => (props.subtle ? props.theme.colors.textLight : props.theme.colors.bg)};
+  border: solid 1px ${props => (props.subtle ? props.theme.colors.bg2 : props.theme.colors.main)};
 
   &:hover:not([disabled]) {
     box-shadow: ${props => props.theme.boxShadowIntense};
+    background-color: ${props => (props.subtle ? 'initial' : props.theme.colors.mainLight)};
+    color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.bg)};
   }
 
   &:active:not([disabled]) {

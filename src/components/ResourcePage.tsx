@@ -13,7 +13,8 @@ import EndpointPage from '../views/EndpointPage';
 import { ValueForm } from './forms/ValueForm';
 import Parent from './Parent';
 import DrivePage from '../views/DrivePage';
-import ResourceContextMenu from './ResourceContextMenu';
+import RedirectPage from '../views/RedirectPage';
+import InvitePage from '../views/InvitePage';
 
 type Props = {
   subject: string;
@@ -49,6 +50,10 @@ function ResourcePage({ subject }: Props): JSX.Element {
       return <EndpointPage resource={resource} />;
     case urls.classes.drive:
       return <DrivePage resource={resource} />;
+    case urls.classes.redirect:
+      return <RedirectPage resource={resource} />;
+    case urls.classes.invite:
+      return <InvitePage resource={resource} />;
   }
 
   return (

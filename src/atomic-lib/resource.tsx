@@ -149,6 +149,8 @@ export class Resource {
     this.propvals.set(prop, newVal);
     // Add the change to the Commit Builder, so we can commit our changes later
     this.commitBuilder.set[prop] = newVal.toNative(fullProp.datatype);
+    // If the property has been removed before, undo that
+    this.commitBuilder.remove = this.commitBuilder.remove.filter(item => item == prop);
     return newVal;
   }
 

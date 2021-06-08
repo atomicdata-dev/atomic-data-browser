@@ -6,7 +6,7 @@ import { openURL } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useCurrentSubjectQueryParam } from '../helpers/useCurrentSubject';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
@@ -46,7 +46,7 @@ const Content = styled.div<ContentProps>`
 
 /** Persistently shown navigation bar */
 function NavBar() {
-  const [subject, setSubject] = useCurrentSubjectQueryParam();
+  const [subject, setSubject] = useCurrentSubject();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } = useSettings();
