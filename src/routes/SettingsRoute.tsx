@@ -12,29 +12,37 @@ import { NavStyleButton } from '../components/NavStyleButton';
 
 const Settings: React.FunctionComponent = () => {
   const store = useStore();
-  const { darkMode, setDarkMode } = useSettings();
+  const { darkMode, setDarkMode, agent, setAgent } = useSettings();
   const [agentSubject, setCurrentAgent] = useState<string>(null);
   const [privateKey, setCurrentPrivateKey] = useState<string>('');
   const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
   const [agentErr, setErrAgent] = useState<Error>(null);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
 
-  if (agentSubject == null)
+  if (agentSubject == null) {
     try {
-      setCurrentAgent(store.getAgent().subject);
-      setCurrentPrivateKey(store.getAgent().privateKey);
+      setCurrentAgent(agent.subject);
+      setCurrentPrivateKey(agent.privateKey);
     } catch (err) {
       // setErrAgent(err);
       setCurrentAgent('');
     }
+  }
 
   function handleSetAgent() {
     try {
       const agent = new Agent(agentSubject, privateKey);
-      store.setAgent(agent);
+      setAgent(agent);
     } catch (e) {
       setErrAgent(e);
     }
+  }
+
+  function handleResetAgent() {
+    setAgent(null);
+    setErrAgent(null);
+    setCurrentAgent(null);
+    setCurrentPrivateKey('');
   }
 
   function handleSetBaseUrl() {
@@ -80,6 +88,7 @@ const Settings: React.FunctionComponent = () => {
           <ErrMessage>{agentErr?.message}</ErrMessage>
         </FieldStyled>
         <Button onClick={handleSetAgent}>save agent</Button>
+        <Button onClick={handleResetAgent}>reset agent</Button>
       </Card>
       <Card>
         <h2>Base URL</h2>

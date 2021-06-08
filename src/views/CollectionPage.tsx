@@ -153,6 +153,7 @@ const GridItem = styled.div`
 
 const ButtonsBar = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 /** A grid with columns and dynamic height items. Unfortunately, it does not work properly with safari, where shadows appear cropped */

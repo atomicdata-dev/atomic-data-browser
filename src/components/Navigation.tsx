@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaHome, FaArrowLeft, FaArrowRight, FaBars } from 'react-icons/fa';
+import { FaHome, FaArrowLeft, FaArrowRight, FaBars, FaUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL } from '../helpers/navigation';
@@ -12,12 +12,12 @@ import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 
-interface AddressBarProps {
+interface NavWrapperProps {
   children: React.ReactNode;
 }
 
 /** Wraps the entire app and adds a navbar at the bottom or the top */
-export function NavigationWrapper({ children }: AddressBarProps): JSX.Element {
+export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
   const { navbarTop } = useSettings();
 
   return (
@@ -51,6 +51,7 @@ function NavBar() {
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
+  const { agent } = useSettings();
 
   useHotkeys('/', e => {
     e.preventDefault();
@@ -109,6 +110,8 @@ function NavBar() {
     }
   }
 
+  console.log(history);
+
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
   return (
@@ -121,6 +124,11 @@ function NavBar() {
           <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
             <FaHome />
           </ButtonBar>
+          {agent && (
+            <ButtonBar type='button' onClick={() => handleNavigation(openURL(agent.subject))} title='Show current User'>
+              <FaUser />
+            </ButtonBar>
+          )}
           {isInStandaloneMode() && (
             <>
               <ButtonBar type='button' title='Go back' onClick={history.goBack}>

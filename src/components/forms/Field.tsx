@@ -13,13 +13,13 @@ function Field({ label, helper, children, error, handleDelete }: IFieldProps): J
         <LabelStyled>
           {label}{' '}
           {helper && (
-            <ButtonIcon type='button' onClick={() => setCollapsed(!collapsedHelper)} style={{ marginRight: '.2rem' }}>
+            <ButtonIcon subtle type='button' onClick={() => setCollapsed(!collapsedHelper)} style={{ marginRight: '.2rem' }}>
               <FaInfo />
             </ButtonIcon>
           )}
         </LabelStyled>
         {handleDelete && (
-          <ButtonIcon title='Delete this property' type='button' onClick={() => handleDelete('test')}>
+          <ButtonIcon subtle title='Delete this property' type='button' onClick={() => handleDelete('test')}>
             <FaTrash />
           </ButtonIcon>
         )}

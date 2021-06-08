@@ -3,10 +3,11 @@ import { Resource } from '../atomic-lib/resource';
 import { ContainerNarrow } from '../components/Containers';
 import { properties } from '../helpers/urls';
 import { ValueForm } from '../components/forms/ValueForm';
-import { useStore, useString } from '../atomic-react/hooks';
+import { useString } from '../atomic-react/hooks';
 import { openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 import { ErrorLook } from '../components/ResourceInline';
+import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;
@@ -17,14 +18,13 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
   const [destination] = useString(resource, properties.redirect.destination);
   const [redirectAgent] = useString(resource, properties.redirect.redirectAgent);
   const history = useHistory();
-  const store = useStore();
+  const { agent, setAgent } = useSettings();
 
   if (redirectAgent) {
     // If there is an agent without a Subject, that is because the Browser has just sent a query param to the invite resource, as part of the invite process
-    const foundAgent = store.getAgent();
-    if (foundAgent && !foundAgent.subject) {
-      foundAgent.subject = redirectAgent;
-      store.setAgent(foundAgent);
+    if (agent && !agent.subject) {
+      agent.subject = redirectAgent;
+      setAgent(agent);
     }
   }
 

@@ -20,6 +20,17 @@ type Props = {
   subject: string;
 };
 
+/** The properties that are shown in an alternative, custom way in default views */
+export const defaulHiddenProps = [
+  properties.shortname,
+  properties.description,
+  properties.isA,
+  properties.name,
+  properties.parent,
+  properties.write,
+  properties.read,
+];
+
 /** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
@@ -62,10 +73,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
       <h1>{title}</h1>
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={properties.description} />
-      <AllProps
-        resource={resource}
-        except={[properties.shortname, properties.description, properties.isA, properties.name, properties.parent]}
-      />
+      <AllProps resource={resource} except={defaulHiddenProps} />
       {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
       {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
     </ContainerNarrow>

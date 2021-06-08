@@ -10,6 +10,7 @@ import { Card } from './Card';
 import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
 import { ValueForm } from './forms/ValueForm';
+import { defaulHiddenProps } from './ResourcePage';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -90,7 +91,7 @@ function ResourceCardInner(props: Props): JSX.Element {
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={urls.properties.description} />
       {/* {description && <Markdown text={description} />} */}
-      {!small && <AllProps resource={resource} except={[properties.shortname, properties.description, properties.isA]} />}
+      {!small && <AllProps resource={resource} except={defaulHiddenProps} />}
     </React.Fragment>
   );
 }

@@ -26,14 +26,14 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? 'black' : 'white';
   const text = darkMode ? 'white' : 'black';
-  const shadowColor = darkMode ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,0.1)';
-  const shadowColorIntense = darkMode ? 'rgba(255,255,255,.3)' : 'rgba(0,0,0,0.3)';
+  const shadowColor = darkMode ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,0.07)';
+  const shadowColorIntense = darkMode ? 'rgba(255,255,255,.3)' : 'rgba(0,0,0,0.2)';
 
   return {
     darkMode,
     fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    boxShadow: `2px 2px 22px 0px ${shadowColor}`,
-    boxShadowIntense: `2px 2px 22px 0px ${shadowColorIntense}`,
+    boxShadow: `0 0 10px 0px ${shadowColor}`,
+    boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,
     sideBarWidth: 15,
     margin: 1,

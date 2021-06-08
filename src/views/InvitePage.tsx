@@ -3,13 +3,14 @@ import { Resource } from '../atomic-lib/resource';
 import { ContainerNarrow } from '../components/Containers';
 import { properties } from '../helpers/urls';
 import { ValueForm } from '../components/forms/ValueForm';
-import { useBoolean, useStore, useString } from '../atomic-react/hooks';
+import { useBoolean, useString } from '../atomic-react/hooks';
 import ResourceInline from '../components/ResourceInline';
 import { Button } from '../components/Button';
 import { useHistory } from 'react-router-dom';
 import { openURL } from '../helpers/navigation';
 import { generateKeyPair } from '../atomic-lib/commit';
 import { Agent } from '../atomic-lib/agent';
+import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;
@@ -21,13 +22,13 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
   const [usagesLeft] = useString(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);
   const history = useHistory();
-  const store = useStore();
+  const { agent, setAgent } = useSettings();
 
-  const agentSubject = store.getAgent()?.subject;
+  const agentSubject = agent?.subject;
   if (agentSubject) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
     if (history.action != 'POP') {
-      handleAccept(null, store.getAgent().subject);
+      handleAccept(null, agent.subject);
     }
   }
 
@@ -37,7 +38,7 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
   async function handleNew() {
     const keypair = await generateKeyPair();
     const newAgent = new Agent(keypair.privateKey);
-    store.setAgent(newAgent);
+    setAgent(newAgent);
     const publicKey = await newAgent.getPublicKey();
     handleAccept(publicKey);
   }
@@ -60,7 +61,7 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
         Invite to {write ? 'edit' : 'view'} <ResourceInline subject={target} />
       </h1>
       <Button onClick={handleNew}>Accept as new user</Button>
-      {agentSubject && <Button onClick={handleAccept}>Accept as current Agent</Button>}
+      {agentSubject && <Button onClick={() => handleAccept(null, agentSubject)}>Accept as current Agent</Button>}
       <p>({usagesLeft} usages left)</p>
     </ContainerNarrow>
   );

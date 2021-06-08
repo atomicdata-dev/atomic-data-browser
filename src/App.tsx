@@ -7,7 +7,7 @@ import { GlobalStyle, ThemeWrapper } from './styling';
 import { StoreContext } from './atomic-react/hooks';
 import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';
-import { NavigationWrapper } from './components/Navigation';
+import { NavWrapper } from './components/Navigation';
 import Settings from './routes/SettingsRoute';
 import { Agent } from './atomic-lib/agent';
 import { getSnowpackEnv, isDev } from './config';
@@ -41,7 +41,7 @@ function App(): JSX.Element {
               <HotKeysWrapper>
                 <ThemeWrapper>
                   <GlobalStyle />
-                  <NavigationWrapper>
+                  <NavWrapper>
                     <Switch>
                       <Route path='/new'>
                         <New />
@@ -66,7 +66,7 @@ function App(): JSX.Element {
                         <Welcome />
                       </Route>
                     </Switch>
-                  </NavigationWrapper>
+                  </NavWrapper>
                 </ThemeWrapper>
               </HotKeysWrapper>
             </QueryParamProvider>

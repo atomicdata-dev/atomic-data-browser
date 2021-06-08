@@ -42,6 +42,8 @@ export const ButtonClean = styled.button`
   border: none;
   outline: none;
   font-size: 1rem;
+  padding: 0;
+  color: inherit;
   margin: 0;
   -webkit-appearance: none;
   background-color: initial;
@@ -57,7 +59,7 @@ export const ButtonBase = styled(ButtonClean)`
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
   white-space: nowrap;
-  /* transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color; */
+  transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color;
 
   /** Prevent sticky hover buttons on touch devices */
   @media (hover: hover) and (pointer: fine) {
@@ -137,7 +139,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
 /** Button that only shows an icon */
 export const ButtonIcon = styled(ButtonMargin)`
   box-shadow: ${props => props.theme.boxShadow};
-  border: none;
+  /* border: none; */
   border-radius: 999px;
   font-size: 0.8em;
   width: 1.3rem;
