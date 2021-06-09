@@ -117,7 +117,7 @@ export function SideBar(): JSX.Element {
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
       </SideBarStyled>
-      {sideBarLocked && !isWideScreen() && <SideBarOverlay onClick={() => setSideBarLocked(false)} />}
+      <SideBarOverlay onClick={() => setSideBarLocked(false)} visible={sideBarLocked && !isWideScreen()} />
     </SideBarContainer>
   );
 }
@@ -125,6 +125,10 @@ export function SideBar(): JSX.Element {
 interface SideBarStyledProps {
   locked: boolean;
   exposed: boolean;
+}
+
+interface SideBarOverlayProps {
+  visible: boolean;
 }
 
 const PaddingSmall = styled('div')`
@@ -176,14 +180,17 @@ const SideBarContainer = styled('div')`
 `;
 
 /** Shown on mobile devices to close the panel */
-const SideBarOverlay = styled('div')`
+// eslint-disable-next-line prettier/prettier
+const SideBarOverlay = styled('div') <SideBarOverlayProps>`
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s;
+  background-color: ${p => (p.visible ? 'rgba(0, 0, 0, .5)' : 'rgba(0, 0, 0, 0.0)')};
+  pointer-events: ${p => (p.visible ? 'auto' : 'none')};
   height: 100%;
   cursor: pointer;
   z-index: 1;

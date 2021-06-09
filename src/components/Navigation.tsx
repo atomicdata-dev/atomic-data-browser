@@ -42,6 +42,8 @@ const Content = styled.div<ContentProps>`
   margin-top: ${props => (props.topPadding ? '2rem' : '0')};
   margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
   overflow-y: auto;
+  /* For smooth navbar position adjustments */
+  transition: margin 0.2s;
 `;
 
 /** Persistently shown navigation bar */
@@ -153,7 +155,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      {showButtons && subject && <ResourceContextMenu hide={['view']} subject={subject} />}
+      {showButtons && subject && <ResourceContextMenu subject={subject} />}
     </ConditionalNavbar>
   );
 }

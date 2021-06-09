@@ -93,17 +93,23 @@ interface ButtonBarProps {
 
 /** Button inside the navigation bar */
 // eslint-disable-next-line prettier/prettier
-export const ButtonBar = styled(ButtonBase) <ButtonBarProps>`
-  padding: 0.7rem;
-  border: none;
-  color: ${p => (p.selected ? p.theme.colors.bg : p.theme.colors.main)};
-  background-color: ${p => (p.selected ? p.theme.colors.main : p.theme.colors.bg)};
-  height: auto;
+export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
+  padding-right: 0.7rem;
+  padding-left: 0.7rem;
+  /* border: none; */
+  color: ${p => p.theme.colors.main};
+  background-color: ${p => (p.selected ? p.theme.colors.bg2 : p.theme.colors.bg)};
+  height: 100%;
 
   &:hover:not([disabled]),
   /* &:active:not([disabled]), */
   &:focus-visible:not([disabled]) {
     transform: scale(1);
+    background-color: ${p => p.theme.colors.bg1};
+  }
+
+  &:active:not([disabled]) {
+    background-color: ${p => p.theme.colors.bg2};
   }
 
   padding-left: ${p => (p.leftPadding ? '1.2rem' : '')};
@@ -129,6 +135,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
     box-shadow: ${props => props.theme.boxShadowIntense};
     background-color: ${props => (props.subtle ? 'initial' : props.theme.colors.mainLight)};
     color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.bg)};
+    border-color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.mainLight)};
   }
 
   &:active:not([disabled]) {
