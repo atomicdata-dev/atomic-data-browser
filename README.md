@@ -21,6 +21,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - Add properties to existing resource
 - **Other**
   - Sidebar for easy navigation
+  - Dark mode, customize navbar placement and theme color
   - Accept [Atomic Invites](https://docs.atomicdata.dev/invitations.html), which generates keys and sets a new current User
   - Responsive, accessible, keyboard controls
 
