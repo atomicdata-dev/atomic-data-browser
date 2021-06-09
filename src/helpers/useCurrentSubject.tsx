@@ -8,8 +8,10 @@ export function useCurrentSubjectQueryParam(): [string, setFunc] {
   return useQueryParam('subject', StringParam);
 }
 
+const defaultPaths = ['/new', '/', '/settings'];
+
 /** Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. */
-export function useCurrentSubject(): [string, setFunc] {
+export function useCurrentSubject(): [string | null, setFunc] {
   const [subjectQ, setSubjectQ] = useCurrentSubjectQueryParam();
   const history = useHistory();
   const { pathname, search } = useLocation();
@@ -23,6 +25,9 @@ export function useCurrentSubject(): [string, setFunc] {
     }
   }
   if (subjectQ == undefined) {
+    if (defaultPaths.includes(pathname)) {
+      return [null, handleSetSubject];
+    }
     return [window.location.origin + pathname + search, handleSetSubject];
   }
   return [subjectQ, handleSetSubject];

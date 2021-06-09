@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '../atomic-lib/client';
-import { useStore } from '../atomic-react/hooks';
+import { useResource, useStore } from '../atomic-react/hooks';
 import { editURL, dataURL, openURL } from '../helpers/navigation';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 
@@ -15,6 +15,7 @@ type Props = {
 function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   const store = useStore();
   const history = useHistory();
+  // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 
   if (subject == undefined) {
     return null;
@@ -22,6 +23,14 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
 
   if (!isValidURL(subject)) {
     return null;
+  }
+
+  function handleDestroy() {
+    if (window.confirm('Are you sure you want to permanently delete this resource?')) {
+      const resource = store.getResourceLoading(subject);
+      resource.destroy(store);
+      history.push('/');
+    }
   }
 
   const items: MenuItemProps[] = [
@@ -38,6 +47,12 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       label: 'refresh',
       helper: 'Fetch the resouce again from the server, possibly see new changes.',
       onClick: () => store.fetchResource(subject, true),
+    },
+    {
+      id: 'delete',
+      label: 'delete',
+      helper: 'Fetch the resouce again from the server, possibly see new changes.',
+      onClick: handleDestroy,
     },
   ];
 

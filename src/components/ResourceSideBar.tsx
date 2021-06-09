@@ -49,7 +49,7 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return (
-      <SideBarItem clean onClick={handleClick} disabled={active}>
+      <SideBarItem clean onClick={handleClick} disabled={active} resource={subject}>
         <ErrorLook about={subject} title={resource.getError().message}>
           {subject}
         </ErrorLook>
@@ -58,7 +58,7 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
   }
 
   return (
-    <SideBarItem clean onClick={handleClick} disabled={active}>
+    <SideBarItem clean onClick={handleClick} disabled={active} resource={subject}>
       <span title={description ? description : null}>{title}</span>
     </SideBarItem>
   );

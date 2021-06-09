@@ -159,6 +159,7 @@ export const ButtonIcon = styled(ButtonMargin)`
 
 /** A button inside an input field */
 export const ButtonInput = styled(ButtonBase)`
+  padding: 0 0.5rem;
   background-color: ${props => props.theme.colors.bg};
   color: ${props => props.theme.colors.text};
   flex: 0;
