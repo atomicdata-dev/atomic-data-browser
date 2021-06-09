@@ -194,6 +194,7 @@ const SideBarOverlay = styled('div') <SideBarOverlayProps>`
   height: 100%;
   cursor: pointer;
   z-index: 1;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 export const SideBarItem = styled(Button)`
