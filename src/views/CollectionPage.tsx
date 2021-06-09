@@ -16,7 +16,7 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
-import { FaTable, FaThLarge } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaTable, FaThLarge } from 'react-icons/fa';
 
 type CollectionProps = {
   resource: Resource;
@@ -42,6 +42,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const defaultView = viewportWidth < 700 ? 0 : 1;
   const [displayStyleIndex, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
+  // TODO: this is not a correct assumption, as the value can be all sorts of non-classes!
   const [klass] = useString(resource, properties.collection.value);
   // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
   const [currentPage] = useNumber(resource, properties.collection.currentPage);
@@ -72,13 +73,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
 
   function handlePrevPage() {
     if (currentPage !== 0) {
-      () => setPage(currentPage - 1);
+      setPage(currentPage - 1);
     }
   }
 
   function handleNextPage() {
     if (currentPage !== totalPages - 1) {
-      () => setPage(currentPage + 1);
+      setPage(currentPage + 1);
     }
   }
 
@@ -90,26 +91,30 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const nextDisplayStyle = displayStyles[getNextDisplayStyleIndex()];
 
   useHotkeys('v', handleToggleView, {}, [displayStyleIndex]);
+  useHotkeys('right', handleNextPage, {}, [currentPage]);
+  useHotkeys('left', handlePrevPage, {}, [currentPage]);
+
+  const Pagination = () => (
+    <>
+      <Button subtle onClick={handlePrevPage} title='previous page (left arrow)' disabled={currentPage == 0}>
+        <FaArrowLeft />
+      </Button>
+      <Button subtle onClick={handleNextPage} title='next page (right arrow)' disabled={currentPage == totalPages - 1}>
+        <FaArrowRight />
+      </Button>
+    </>
+  );
 
   return (
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
       <ButtonsBar>
-        <Button subtle onClick={handleToggleView} title={`set view to ${nextDisplayStyle.id}`}>
+        {totalPages > 1 && <Pagination />}
+        <Button subtle onClick={handleToggleView} title={`use ${nextDisplayStyle.id} view`}>
           {nextDisplayStyle.icon}
         </Button>
-        {klass && <NewInstanceButton subtle klass={klass} />}
-        {totalPages > 1 && (
-          <>
-            <Button subtle onClick={handlePrevPage} disabled={currentPage == 0}>
-              prev page
-            </Button>
-            <Button subtle onClick={handleNextPage} disabled={currentPage == totalPages - 1}>
-              next page
-            </Button>
-          </>
-        )}
+        {klass && <NewInstanceButton subtle icon klass={klass} />}
         <DropDownMini>
           <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
         </DropDownMini>
@@ -118,6 +123,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
       {displayStyle.id == 'cards' && <CardList members={members} />}
       {displayStyle.id == 'table' && <Table resource={resource} members={members} columns={propsArrayFull} />}
+      {totalPages > 1 && <Pagination />}
     </ContainerFull>
   );
 }
