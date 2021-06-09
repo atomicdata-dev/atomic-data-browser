@@ -9,26 +9,20 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 
 **[demo on atomicdata.dev](https://atomicdata.dev/)**
 
-## Progress
+## Features
 
-- [x] **View data**
-  - [x] Fetch atomic data
-  - [x] Parse [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html)
-  - [x] Render atomic data
-  - [x] Render properties as labels
-  - [x] Datatype dependent renders
-  - [x] Table view
-  - [x] Navigate collections (sorting / pagination)
-- [x] **Edit data**
-  - [x] Commit implementation
-  - [x] Instantiate new Resources
-  - [x] Validate form fields
-  - [x] Set default agent / base server
-  - [x] Edit resources (Sign and Post Commits after editing an atom)
-  - [x] Press `e` to open a resource's edit form
-  - [ ] Add properties to existing resource
-- [ ] Resolve atomic paths
-- [ ] Split up and publish as useful NPM package(s) (atomic-lib, atomic-react?)
+- **View data**
+  - Fetch atomic data from `atomic-server` and parse [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html)
+  - Render [properties](https://atomicdata.dev/classes/Property) from any resource
+  - Table view with sorting / pagination powered by [collections](https://atomicdata.dev/classes/Collection)
+- **Edit data**
+  - Create, send and sign [Atomic Commits](https://docs.atomicdata.dev/commits/intro.html)
+  - Form for creating resources, include datatype validation and [Atomic Schema](https://docs.atomicdata.dev/schema/intro.html) checks
+  - Add properties to existing resource
+- **Other**
+  - Sidebar for easy navigation
+  - Accept [Atomic Invites](https://docs.atomicdata.dev/invitations.html), which generates keys and sets a new current User
+  - Responsive, accessible, keyboard controls
 
 ## Running locally
 
