@@ -748,6 +748,7 @@ then pass in React when available to construct your error boundary
   height: 100%;
   cursor: pointer;
   z-index: 1;
+  -webkit-tap-highlight-color: transparent;
 `,Dc=le(Ne)`
   padding-left: ${e=>e.theme.margin}rem;
   padding-right: ${e=>e.theme.margin}rem;
