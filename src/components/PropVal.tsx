@@ -15,7 +15,11 @@ type Props = {
 export const PropValRow = styled.div`
   display: flex;
   flex-direction: row;
-  word-wrap: break-word;
+  word-break: break-word;
+  @media screen and (max-width: 500px) {
+    margin-bottom: 0.5rem;
+    flex-direction: column;
+  }
 `;
 
 export const PropertyLabel = styled.span`

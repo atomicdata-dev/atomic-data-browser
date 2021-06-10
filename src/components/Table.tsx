@@ -121,6 +121,12 @@ const RowStyled = styled.tr`
   border-top: solid 1px ${props => props.theme.colors.bg2};
 `;
 
+const CellContainer = styled.div`
+  overflow: auto;
+  /* Not a pretty solution, but it's better than having really large cells. */
+  height: 5rem;
+`;
+
 type CellProps = {
   prop: string;
   resource: Resource;
@@ -129,7 +135,9 @@ type CellProps = {
 function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
   return (
     <CellStyled>
-      <ValueForm key={propUrl} resource={resource} propertyURL={propUrl} />
+      <CellContainer>
+        <ValueForm key={propUrl} resource={resource} propertyURL={propUrl} />
+      </CellContainer>
     </CellStyled>
   );
 }

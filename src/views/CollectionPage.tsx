@@ -166,7 +166,6 @@ const ButtonsBar = styled.div`
 const Masonry = styled.div`
   column-count: 1;
   column-gap: ${props => props.theme.margin}rem;
-  margin: ${props => props.theme.margin}rem auto;
   overflow: visible;
   box-sizing: border-box;
 

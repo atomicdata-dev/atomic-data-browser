@@ -6,8 +6,8 @@ import { ValueForm } from '../components/forms/ValueForm';
 import { useString } from '../atomic-react/hooks';
 import { openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
-import { ErrorLook } from '../components/ResourceInline';
 import { useSettings } from '../helpers/AppSettings';
+import AllProps from '../components/AllProps';
 
 type DrivePageProps = {
   resource: Resource;
@@ -39,9 +39,8 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
     <ContainerNarrow about={resource.getSubject()}>
       <ValueForm resource={resource} propertyURL={properties.description} />
       <h1>Redirect</h1>
-      <ErrorLook>If this remains visible, the redirect is not working properly.</ErrorLook>
-      <a href={destination}>to</a>
-      <a href={redirectAgent}>redirect Agent</a>
+      <p>This page should redirect you automatically (unless you have just pressed the back button)</p>
+      <AllProps resource={resource} />
     </ContainerNarrow>
   );
 }
