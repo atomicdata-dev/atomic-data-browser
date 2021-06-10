@@ -21,9 +21,8 @@ export function Search({ query }: SearchProps): JSX.Element {
   /** Moves to the card at the selected index */
   function moveTo(index: number) {
     setSelected(index);
-    const offset = -40;
-    const y = htmlElRef.current.children[index].getBoundingClientRect().top + window.pageYOffset + offset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    const currentElm = htmlElRef.current.children[index];
+    currentElm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   useHotkeys(

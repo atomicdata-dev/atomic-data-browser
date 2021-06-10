@@ -126,7 +126,8 @@ const RowStyled = styled.tr`
 const CellContainer = styled.div`
   overflow: auto;
   /* Not a pretty solution, but it's better than having really large cells. */
-  height: 5rem;
+  max-height: 5rem;
+  max-width: 40rem;
 `;
 
 type CellProps = {
@@ -150,8 +151,8 @@ type CellStyledProps = {
 
 const CellStyled = styled.td<CellStyledProps>`
   padding: 0.3rem;
+  vertical-align: top;
   font-weight: ${props => (props.header ? 'bold' : ``)};
-  /* word-break: keep-all; */
   white-space: ${props => (props.header ? 'nowrap' : ``)};
 `;
 

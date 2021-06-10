@@ -65,17 +65,16 @@ export const ButtonBase = styled(ButtonClean)`
   @media (hover: hover) and (pointer: fine) {
     &:hover:not([disabled]),
     &:focus-visible:not([disabled]) {
-      transform: scale(1.05);
+      color: ${props => props.theme.colors.main};
+      border-color: ${props => props.theme.colors.main};
       outline: 0;
     }
   }
 
   &:active:not([disabled]) {
     transition: all 0s;
-    background-color: ${props => props.theme.colors.mainDark};
-    color: ${props => props.theme.colors.bg};
-    /* transition: 0s transform, 0s background-color; */
-    transform: scale(1);
+    /* background-color: ${props => props.theme.colors.mainDark}; */
+    /* color: ${props => props.theme.colors.bg}; */
   }
 
   &:disabled {
@@ -104,7 +103,6 @@ export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
   &:hover:not([disabled]),
   /* &:active:not([disabled]), */
   &:focus-visible:not([disabled]) {
-    transform: scale(1);
     background-color: ${p => p.theme.colors.bg1};
   }
 
@@ -124,7 +122,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   border-radius: ${props => props.theme.radius};
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
-  box-shadow: ${props => props.theme.boxShadow};
+  box-shadow: ${props => (props.subtle ? props.theme.boxShadow : 'none')};
   display: inline-flex;
   margin-right: ${props => props.theme.margin}rem;
   background-color: ${props => (props.subtle ? 'transparent' : props.theme.colors.main)};
@@ -145,8 +143,8 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
 
 /** Button that only shows an icon */
 export const ButtonIcon = styled(ButtonMargin)`
-  box-shadow: ${props => props.theme.boxShadow};
-  /* border: none; */
+  box-shadow: none;
+  border-color: transparent;
   border-radius: 999px;
   font-size: 0.8em;
   width: 1.3rem;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '../atomic-lib/client';
-import { useResource, useStore } from '../atomic-react/hooks';
+import { useStore } from '../atomic-react/hooks';
 import { editURL, dataURL, openURL } from '../helpers/navigation';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 
