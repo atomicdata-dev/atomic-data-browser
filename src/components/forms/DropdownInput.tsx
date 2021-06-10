@@ -154,6 +154,7 @@ const DropDownItem = styled.li`
 `;
 
 /** A wrapper for wrapping around the dropdown if you want it tiny */
-export const DropDownMini = styled.li`
+export const DropDownMini = styled.div`
   display: inline-flex;
+  margin-bottom: 1rem;
 `;
