@@ -85,11 +85,13 @@ function HeaderItem({ subject }: HeaderItemProps) {
     }
   }
 
+  const thisPropIsSorted = sortBy == subject;
+
   return (
     <CellStyled header>
       <ResourceInline subject={subject} />{' '}
-      <Button onClick={handleToggleSort} subtle icon>
-        {sortBy == subject ? sortDesc == 'true' ? <FaSortDown /> : <FaSortUp /> : <FaSort />}
+      <Button onClick={handleToggleSort} subtle={!thisPropIsSorted} icon>
+        {thisPropIsSorted ? sortDesc == 'true' ? <FaSortDown /> : <FaSortUp /> : <FaSort />}
       </Button>
     </CellStyled>
   );

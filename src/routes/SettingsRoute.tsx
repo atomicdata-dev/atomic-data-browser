@@ -71,8 +71,8 @@ const Settings: React.FunctionComponent = () => {
         <h2>Agent</h2>
         <p>
           An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
-          Creating an Agent currently requires setting up an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>
-          .
+          You can host and manage your an Agent by running an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>.
+          Alternatively, you can use an Invite to get a guest Agent on someone else's Atomic Server.
         </p>
         <FieldStyled>
           <LabelStyled>Agent Subject URL</LabelStyled>

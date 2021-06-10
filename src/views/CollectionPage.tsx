@@ -152,9 +152,9 @@ const GridItem = styled.div`
   margin: 0;
   /* display: grid; */
   /* grid-template-rows: 1fr auto; */
-  /* margin-bottom: ${props => props.theme.margin}rem; */
-  break-inside: avoid;
   word-break: break-word;
+  overflow: hidden; /* fix for Firefox */
+  break-inside: avoid-column;
 `;
 
 const ButtonsBar = styled.div`
