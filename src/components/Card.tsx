@@ -29,3 +29,8 @@ export const CardInsideFull = styled.div`
   margin-left: -${props => props.theme.margin}rem;
   margin-right: -${props => props.theme.margin}rem;
 `;
+
+export const Margin = styled.div`
+  display: block;
+  height: ${props => props.theme.margin}rem;
+`;

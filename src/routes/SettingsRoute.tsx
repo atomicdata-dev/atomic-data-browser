@@ -5,45 +5,16 @@ import { Button } from '../components/Button';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useStore } from '../atomic-react/hooks';
 import { useState } from 'react';
-import { Agent } from '../atomic-lib/agent';
 import { Card } from '../components/Card';
 import { useSettings } from '../helpers/AppSettings';
 import { NavStyleButton } from '../components/NavStyleButton';
+import SettingsAgent from '../components/SettingsAgent';
 
 const Settings: React.FunctionComponent = () => {
   const store = useStore();
-  const { darkMode, setDarkMode, agent, setAgent } = useSettings();
-  const [agentSubject, setCurrentAgent] = useState<string>(null);
-  const [privateKey, setCurrentPrivateKey] = useState<string>('');
+  const { darkMode, setDarkMode } = useSettings();
   const [baseUrl, setBaseUrl] = useState<string>(store.getBaseUrl());
-  const [agentErr, setErrAgent] = useState<Error>(null);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
-
-  if (agentSubject == null) {
-    try {
-      setCurrentAgent(agent.subject);
-      setCurrentPrivateKey(agent.privateKey);
-    } catch (err) {
-      // setErrAgent(err);
-      setCurrentAgent('');
-    }
-  }
-
-  function handleSetAgent() {
-    try {
-      const agent = new Agent(agentSubject, privateKey);
-      setAgent(agent);
-    } catch (e) {
-      setErrAgent(e);
-    }
-  }
-
-  function handleResetAgent() {
-    setAgent(null);
-    setErrAgent(null);
-    setCurrentAgent(null);
-    setCurrentPrivateKey('');
-  }
 
   function handleSetBaseUrl() {
     try {
@@ -67,29 +38,7 @@ const Settings: React.FunctionComponent = () => {
         <MainColorPicker />
         <br />
       </Card>
-      <Card>
-        <h2>Agent</h2>
-        <p>
-          An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
-          You can host and manage your an Agent by running an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>.
-          Alternatively, you can use an Invite to get a guest Agent on someone else's Atomic Server.
-        </p>
-        <FieldStyled>
-          <LabelStyled>Agent Subject URL</LabelStyled>
-          <InputWrapper>
-            <InputStyled value={agentSubject} onChange={e => setCurrentAgent(e.target.value)} />
-          </InputWrapper>
-        </FieldStyled>
-        <FieldStyled>
-          <LabelStyled>Private Key</LabelStyled>
-          <InputWrapper>
-            <InputStyled value={privateKey} onChange={e => setCurrentPrivateKey(e.target.value)} />
-          </InputWrapper>
-          <ErrMessage>{agentErr?.message}</ErrMessage>
-        </FieldStyled>
-        <Button onClick={handleSetAgent}>save agent</Button>
-        <Button onClick={handleResetAgent}>reset agent</Button>
-      </Card>
+      <SettingsAgent />
       <Card>
         <h2>Base URL</h2>
         <p>The Base URL is the address of your Atomic Server. If you create something new, this is where the commit will be sent to.</p>

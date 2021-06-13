@@ -28,3 +28,12 @@ export class Agent {
     return this.publicKey;
   }
 }
+
+/** Parses a base64 JSON object containing a privateKey and subject. Throws when fails. */
+export function parseSecret(secretB64: string): Agent {
+  const agentBytes = atob(secretB64);
+  const parsed = JSON.parse(agentBytes);
+  const { privateKey, subject } = parsed;
+  const agent = new Agent(privateKey, subject);
+  return agent;
+}
