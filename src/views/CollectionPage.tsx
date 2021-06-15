@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { properties } from '../helpers/urls';
-import { useLocalStorage } from '../helpers/useLocalStorage';
+import { useLocalStorage } from '../atomic-react/useLocalStorage';
 import { useViewport } from '../helpers/useMedia';
 import { useArray, useNumber, useResource, useString, useTitle } from '../atomic-react/hooks';
 import { Resource } from '../atomic-lib/resource';

@@ -6,8 +6,8 @@ import { ValueForm } from '../components/forms/ValueForm';
 import { useString } from '../atomic-react/hooks';
 import { openURL } from '../helpers/navigation';
 import { useHistory } from 'react-router-dom';
-import { useSettings } from '../helpers/AppSettings';
 import AllProps from '../components/AllProps';
+import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;

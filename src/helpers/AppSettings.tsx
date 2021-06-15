@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Agent } from '../atomic-lib/agent';
 import { useDarkMode } from './useDarkMode';
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '../atomic-react/useLocalStorage';
+import { useCurrentAgent } from '../atomic-react/useCurrentAgent';
 
 interface ProviderProps {
   children: ReactNode;
@@ -15,7 +16,7 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
   const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
   const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
   const [sideBarLocked, setSideBarLocked] = useLocalStorage('sideBarOpen', false);
-  const [agent, setAgent] = useLocalStorage('agent', null);
+  const [agent, setAgent] = useCurrentAgent();
 
   return (
     <SettingsContext.Provider
@@ -56,8 +57,9 @@ interface AppSettings {
   /** If the Sidebar should be locked to the side */
   sideBarLocked: boolean;
   setSideBarLocked: (s: boolean) => void;
-  agent: Agent;
-  setAgent: (a: Agent) => void;
+  /** The currently signed in Agent */
+  agent: Agent | null;
+  setAgent: (a: Agent | null) => void;
 }
 
 /** Hook for using App Settings, such as theme and darkmode */

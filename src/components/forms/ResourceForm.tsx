@@ -141,7 +141,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
         </Button>
         <ResourceSelector
           value={null}
-          setSubject={(set, _handleErr) => setNewProperty(set)}
+          setSubject={(set, _setNewPropErr) => setNewProperty(set)}
           // TODO error handling
           error={newPropErr}
           setError={setNewPropErr}

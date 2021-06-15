@@ -48,6 +48,16 @@ const inputStyle = css`
   border-top-left-radius: ${props => props.theme.radius};
   border-bottom-left-radius: ${props => props.theme.radius};
 
+  &:disabled {
+    background-color: ${props => props.theme.colors.bg1};
+    border-color: ${props => props.theme.colors.bg1};
+    color: ${props => props.theme.colors.textLight};
+
+    &:hover {
+      border-color: ${props => props.theme.colors.bg1};
+    }
+  }
+
   &:hover {
     border-color: ${props => props.theme.colors.main};
   }

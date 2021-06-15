@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { handleError } from './handlers';
+import { handleError } from '../helpers/handlers';
 
+/**
+ * Hook for storing information to LocalStorage. Note that if you use this same hook in multiple component instances, these will *not* share
+ * state! If you want that behavior, you should use this hook inside a Context object.
+ */
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) => void] {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Button, ButtonInput } from '../components/Button';
-import { FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
+import { InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
 import { useState } from 'react';
-import { Agent, parseSecret } from '../atomic-lib/agent';
+import { Agent } from '../atomic-lib/agent';
 import { Card, Margin } from '../components/Card';
-import { useSettings } from '../helpers/AppSettings';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
 import ResourceInline from './ResourceInline';
 import Field from './forms/Field';
+import { useSettings } from '../helpers/AppSettings';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -16,37 +16,57 @@ const SettingsAgent: React.FunctionComponent = () => {
   const [error, setError] = useState<Error>(null);
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
-  const [secret, setSecret] = useState<string | null>(null);
+  const [secret, setSecret] = useState<string>('');
+
+  // When there is an agent, set the advanced values
+  // Otherwise, reset the secret value
+  React.useEffect(() => {
+    if (agent !== null) {
+      fillAdvanced();
+    } else {
+      setSecret('');
+    }
+  }, [agent]);
 
   // When the key or subject changes, update the secret
   React.useEffect(() => {
-    if (agent) {
-      const secret = buildSecret();
-      setSecret(secret);
-      try {
-        setSubject(agent.subject);
-        setCurrentPrivateKey(agent.privateKey);
-      } catch (err) {
-        setError(err);
-        setSubject('');
-      }
-    }
-  }, [subject, privateKey, agent]);
+    renewSecret();
+  }, [subject, privateKey]);
 
-  function handleSave() {
-    try {
-      const agent = new Agent(privateKey, subject);
-      setAgent(agent);
-    } catch (e) {
-      setError(e);
+  function renewSecret() {
+    if (agent) {
+      const secret = agent.buildSecret();
+      setSecret(secret);
     }
   }
 
-  function handleReset() {
+  function fillAdvanced() {
+    try {
+      setSubject(agent.subject);
+      setCurrentPrivateKey(agent.privateKey);
+    } catch (e) {
+      const err = new Error('Cannot fill subject and privatekey fields.' + e);
+      setError(err);
+      setSubject('');
+    }
+  }
+
+  async function handleSave() {
+    try {
+      const agent = new Agent(privateKey, subject);
+      await agent.getPublicKey();
+      setAgent(agent);
+    } catch (e) {
+      const err = new Error('Invalid Agent' + e);
+      setError(err);
+      setAgent(null);
+    }
+  }
+
+  function handleSignOut() {
     if (window.confirm('Sure you want to remove and reset the current Agent?')) {
       setAgent(null);
       setError(null);
-      setSecret('');
       setSubject('');
       setCurrentPrivateKey('');
     }
@@ -54,8 +74,9 @@ const SettingsAgent: React.FunctionComponent = () => {
 
   /** Called when the secret or the subject is updated manually */
   function handleUpdateAgent() {
+    renewSecret();
+    setError(null);
     handleSave();
-    setSecret('');
   }
 
   function handleCopy() {
@@ -70,91 +91,114 @@ const SettingsAgent: React.FunctionComponent = () => {
       return;
     }
     try {
-      const agent = parseSecret(updateSecret);
+      const agent = Agent.fromSecret(updateSecret);
       setAgent(agent);
       setError(null);
       setCurrentPrivateKey(agent.privateKey);
       setSubject(agent.subject);
     } catch (e) {
-      setError(e);
+      const err = new Error('Invalid secret. ' + e);
+      setError(err);
     }
-  }
-
-  function buildSecret() {
-    if (agent && agent.privateKey && agent.subject) {
-      const objJsonStr = JSON.stringify(agent);
-      return btoa(objJsonStr);
-    }
-    return '';
   }
 
   return (
     <Card>
-      <h2>Agent</h2>
-      <p>
-        An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
-        You can host and manage your an Agent by running an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>.
-        Alternatively, you can use an Invite to get a guest Agent on someone else{"'s"} Atomic Server. The `secret` is a single, long string
-        of characters that encodes both the Subject and the Private Key. Store it safely, and don{"'"}t share it with others.
-      </p>
-      <Field label='Agent Secret' error={error}>
-        <InputWrapper>
-          <InputStyled value={secret} onChange={e => handleUpdateSecret(e.target.value)} type={showPrivateKey ? 'text' : 'password'} />
-          <ButtonInput title={showPrivateKey ? 'Hide secret' : 'Show secret'} onClick={() => setShowPrivateKey(!showPrivateKey)}>
-            {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
-          </ButtonInput>
-          <ButtonInput onClick={handleCopy}>copy</ButtonInput>
-        </InputWrapper>
-      </Field>
-      {advanced ? (
-        <React.Fragment>
-          <FieldStyled>
-            <LabelStyled>Agent Subject URL</LabelStyled>
-            <InputWrapper>
-              <InputStyled
-                value={subject}
-                onChange={e => {
-                  setSubject(e.target.value);
-                  handleUpdateAgent();
-                }}
-              />
-            </InputWrapper>
-          </FieldStyled>
-          <FieldStyled>
-            <LabelStyled>Private Key</LabelStyled>
-            <InputWrapper>
-              <InputStyled
-                type={showPrivateKey ? 'text' : 'password'}
-                value={privateKey}
-                onChange={e => {
-                  setCurrentPrivateKey(e.target.value);
-                  handleUpdateAgent();
-                }}
-              />
-              <ButtonInput
-                title={showPrivateKey ? 'Hide private key' : 'Show private key'}
-                onClick={() => setShowPrivateKey(!showPrivateKey)}
-              >
-                {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
+      <form>
+        <h2>Agent</h2>
+        <p>
+          An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
+        </p>
+        {agent ? (
+          <>
+            <LabelStyled>
+              <FaUser /> You{"'"}re signed in as
+            </LabelStyled>
+            <ResourceInline subject={agent.subject} />
+            <Margin />
+          </>
+        ) : (
+          <p>
+            You can create your own Agent by hosting an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>.
+            Alternatively, you can use an Invite to get a guest Agent on someone else{"'s"} Atomic Server.
+          </p>
+        )}
+        <Field
+          label={agent ? 'Agent Secret' : 'Enter your Agent Secret'}
+          helper={
+            "The Agent Secret is a long string of characters that encodes both the Subject and the Private Key. You can think of it as a combined username + password. Store it safely, and don't share it with others."
+          }
+          error={error}
+        >
+          <InputWrapper>
+            <InputStyled
+              value={secret}
+              onChange={e => handleUpdateSecret(e.target.value)}
+              type={showPrivateKey ? 'text' : 'password'}
+              disabled={agent !== null}
+              name='secret'
+              id='current-password'
+              autocomplete='current-password'
+            />
+            <ButtonInput
+              type='button'
+              title={showPrivateKey ? 'Hide secret' : 'Show secret'}
+              onClick={() => setShowPrivateKey(!showPrivateKey)}
+            >
+              {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
+            </ButtonInput>
+            <ButtonInput type='button' title={advanced ? 'Hide advanced' : 'Show advanced'} onClick={() => setAdvanced(!advanced)}>
+              <FaCog />
+            </ButtonInput>
+            {agent && (
+              <ButtonInput type='button' onClick={handleCopy}>
+                copy
               </ButtonInput>
-            </InputWrapper>
-          </FieldStyled>
-        </React.Fragment>
-      ) : null}
-      {/* <Button onClick={handleSave}>save</Button> */}
-      <Button subtle onClick={handleReset}>
-        reset
-      </Button>
-      <Button subtle onClick={() => setAdvanced(!advanced)}>
-        {advanced ? 'disable advanced' : 'show advanced'}
-      </Button>
-      {subject && (
-        <>
-          <LabelStyled>Current Agent</LabelStyled>
-          <ResourceInline subject={subject} />
-          <Margin />
-        </>
-      )}
+            )}
+          </InputWrapper>
+        </Field>
+        {advanced ? (
+          <React.Fragment>
+            <Field label='Subject URL' helper={'The link to your Agent, e.g. https://atomicdata.dev/agents/someAgent'} error={error}>
+              <InputWrapper>
+                <InputStyled
+                  disabled={agent !== null}
+                  value={subject}
+                  onChange={e => {
+                    setSubject(e.target.value);
+                    handleUpdateAgent();
+                  }}
+                />
+              </InputWrapper>
+            </Field>
+            <Field label='Private Key' helper={'The private key of the Agent, which is a Base64 encoded string.'} error={error}>
+              <InputWrapper>
+                <InputStyled
+                  disabled={agent !== null}
+                  type={showPrivateKey ? 'text' : 'password'}
+                  value={privateKey}
+                  onChange={e => {
+                    setCurrentPrivateKey(e.target.value);
+                    handleUpdateAgent();
+                  }}
+                />
+                <ButtonInput
+                  type='button'
+                  title={showPrivateKey ? 'Hide private key' : 'Show private key'}
+                  onClick={() => setShowPrivateKey(!showPrivateKey)}
+                >
+                  {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
+                </ButtonInput>
+              </InputWrapper>
+            </Field>
+          </React.Fragment>
+        ) : null}
+        {agent && (
+          <Button subtle title='Sign out with current Agent and reset this form' onClick={handleSignOut}>
+            sign out
+          </Button>
+        )}
+      </form>
     </Card>
   );
 };

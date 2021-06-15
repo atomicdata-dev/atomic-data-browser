@@ -7,7 +7,7 @@ import { JSVals, Value } from '../atomic-lib/value';
 import { Datatype, datatypeFromUrl } from '../atomic-lib/datatypes';
 import { urls } from '../helpers/urls';
 import { truncateUrl } from '../helpers/truncate';
-import { useSettings } from '../helpers/AppSettings';
+import { Agent } from '../atomic-lib/agent';
 
 /**
  * Hook for getting and updating a Resource in a React component. Will try to fetch the subject and add its parsed values to the store.
@@ -242,12 +242,6 @@ export function useDate(resource: Resource, propertyURL: string): Date | null {
 /** Preffered way of using the store in a Component. */
 export function useStore(): Store {
   const store = React.useContext(StoreContext);
-  const { agent } = useSettings();
-
-  // If the agent changes, make sure to change the store!
-  useEffect(() => {
-    store.setAgent(agent);
-  }, [agent]);
 
   if (store == undefined) {
     throw new Error(

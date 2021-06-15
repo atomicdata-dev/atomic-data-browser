@@ -51,9 +51,8 @@ function NavBar() {
   const [subject, setSubject] = useCurrentSubject();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
-  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } = useSettings();
+  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
-  const { agent } = useSettings();
 
   useHotkeys('/', e => {
     e.preventDefault();
@@ -111,8 +110,6 @@ function NavBar() {
       setShowButtons(false);
     }
   }
-
-  console.log(history);
 
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
