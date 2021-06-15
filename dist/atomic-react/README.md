@@ -33,6 +33,18 @@ Now, your Store can be accessed in React's context, which you can use the `atomi
 const [resource] = useResource('https://atomicdata.dev/classes/Agent');
 // The title takes either the Title, the Shortname or the URL of the resource
 const title = useTitle(resource);
-// Take a property and use it as a string
-const [description] = useString(resource, 'https://atomicdata.dev/properties/description');
+// All useValue / useString / useArray / useBoolean hooks have a getter and a setter.
+// Use the setter in forms.
+const [description, setDescription] = useString(resource, 'https://atomicdata.dev/properties/description');
+// The current Agent is the signed in user, inluding their private key. This enables you to create Commits and update data on a server.
+const [agent, setAgent] = useCurrentAgent();
+
+return (
+  <>
+    <h1>{title}</h2>
+    <textarea value={description} onChange={e => setDescription(e.target.value)} />
+    <button type={button} onClick={resource.save}>Save & commit</button>
+  </>
+)
+
 ```
