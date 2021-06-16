@@ -42,9 +42,11 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
     <ContainerNarrow about={resource.getSubject()}>
       <h1>{title} endpoint</h1>
       {description && <Markdown text={description} />}
-      {parameters.map(param => {
-        return <ResourceField key={param} propertyURL={param} resource={virtualResource} />;
-      })}
+      <form onSubmit={constructSubject}>
+        {parameters.map((param, i) => {
+          return <ResourceField key={param} propertyURL={param} resource={virtualResource} autofocus={i == 0} />;
+        })}
+      </form>
       <Button onClick={constructSubject}>Open</Button>
     </ContainerNarrow>
   );

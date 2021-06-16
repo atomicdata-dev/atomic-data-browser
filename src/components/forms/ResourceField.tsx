@@ -10,7 +10,7 @@ import Markdown from '../datatypes/Markdown';
 import styled from 'styled-components';
 
 /** A form field with a label */
-function ResourceField({ handleDelete, propertyURL, resource, required }: IFieldProps): JSX.Element {
+function ResourceField({ handleDelete, propertyURL, resource, required, autofocus }: IFieldProps): JSX.Element {
   const property = useProperty(propertyURL);
 
   if (property == null) {
@@ -27,7 +27,7 @@ function ResourceField({ handleDelete, propertyURL, resource, required }: IField
       label={property.shortname}
       handleDelete={handleDelete}
     >
-      <InputSwitcher resource={resource} property={property} required={required} />
+      <InputSwitcher resource={resource} property={property} required={required} autofocus={autofocus} />
     </Field>
   );
 }
@@ -57,8 +57,10 @@ export type InputProps = {
   resource: Resource;
   /** The property of the resource that is being edited */
   property: Property;
+  /** Whether the field must have a valid value before submitting */
   required?: boolean;
-  autoFocus?: boolean;
+  /** Whether the field should be focused on render */
+  autofocus?: boolean;
 };
 
 interface IFieldProps {
@@ -68,6 +70,8 @@ interface IFieldProps {
   resource: Resource;
   /** Whether the field must have a valid value before submitting */
   required?: boolean;
+  /** Whether the field should be focused on render */
+  autofocus?: boolean;
   /** This function will be called when the delete icon is clicked. This should remove the item from any parent list */
   handleDelete?: () => unknown;
 }

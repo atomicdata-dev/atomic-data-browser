@@ -16,7 +16,8 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
-import { FaArrowLeft, FaArrowRight, FaTable, FaThLarge } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaInfo, FaTable, FaThLarge } from 'react-icons/fa';
+import Link from '../components/Link';
 
 type CollectionProps = {
   resource: Resource;
@@ -58,6 +59,11 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [requiredProps] = useArray(classResource, properties.requires);
   const [recommendedProps] = useArray(classResource, properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
+
+  // Info about the current Class
+  const [classDescription] = useString(classResource, properties.description);
+  const [classTitle] = useString(classResource, properties.shortname);
+  const [showClassDescription, setShowClassDescription] = React.useState(false);
 
   function handleToggleView() {
     setDisplayStyle(getNextDisplayStyleIndex());
@@ -115,14 +121,40 @@ function Collection({ resource }: CollectionProps): JSX.Element {
           {nextDisplayStyle.icon}
         </Button>
         {klass && <NewInstanceButton subtle icon klass={klass} />}
+        {klass && (
+          <Button
+            subtle
+            onClick={() => setShowClassDescription(!showClassDescription)}
+            title={showClassDescription ? `Hide ${classTitle} info` : `Show ${classTitle} info`}
+          >
+            <FaInfo />
+          </Button>
+        )}
         <DropDownMini>
           <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
         </DropDownMini>
       </ButtonsBar>
-      {description && <Markdown text={description} />}
-      {/* <input type='number' placeholder='page size' value={pageSizeI} onChange={e => setPageSize(e.target.value)} /> */}
-      {displayStyle.id == 'cards' && <CardList members={members} />}
-      {displayStyle.id == 'table' && <Table resource={resource} members={members} columns={propsArrayFull} />}
+      {description && <Markdown text={description} margin />}
+      {showClassDescription && klass && (
+        <>
+          <Link subject={klass}>
+            <h3>{classTitle}</h3>
+          </Link>
+          <Markdown text={classDescription} margin />
+        </>
+      )}
+      {members.length == 0 ? (
+        klass ? (
+          <NewInstanceButton klass={klass} parent={resource.getSubject()} />
+        ) : (
+          <>empty</>
+        )
+      ) : (
+        <>
+          {displayStyle.id == 'cards' && <CardList members={members} />}
+          {displayStyle.id == 'table' && <Table resource={resource} members={members} columns={propsArrayFull} />}
+        </>
+      )}
       {totalPages > 1 && <Pagination />}
     </ContainerFull>
   );

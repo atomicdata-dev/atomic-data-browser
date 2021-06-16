@@ -17,7 +17,8 @@ export function openURL(subject: string): string {
   return constructURL('/show', 'subject', subject);
 }
 
-export function newURL(classUrl: string): string {
+export function newURL(classUrl: string, parentURL?: string): string {
+  // TODO: handle parentURL
   return constructURL('/new', 'classSubject', classUrl);
 }
 
