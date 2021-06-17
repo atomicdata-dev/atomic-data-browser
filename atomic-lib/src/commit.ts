@@ -1,7 +1,7 @@
 import ed from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
 import { decode, encode } from 'base64-arraybuffer';
-import { urls } from '../atomic-data-browser/helpers/urls';
+import { urls } from './urls';
 import { JSVals } from './value';
 
 export interface CommitBuilderI {

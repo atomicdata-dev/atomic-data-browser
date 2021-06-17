@@ -4,7 +4,7 @@ import { Resource, ResourceStatus } from '../../../atomic-lib/resource';
 import { useArray, useResource, useStore, useString } from '../../../atomic-react/hooks';
 import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
-import { classes, properties, urls } from '../../helpers/urls';
+import { classes, properties, urls } from '../../../../atomic-lib/src/urls';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
 import { ErrMessage, LabelStyled } from './InputStyles';

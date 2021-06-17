@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useArray, useResource, useStore, useString, useTitle } from '../../../atomic-react/hooks';
-import { Resource } from '../../../atomic-lib/resource';
+import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
+import { Resource } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../helpers/urls';
+import { properties } from '../../../atomic-lib/src/urls';
 import Markdown from '../components/datatypes/Markdown';
 import ResourceField from '../components/forms/ResourceField';
 import { Button } from '../components/Button';

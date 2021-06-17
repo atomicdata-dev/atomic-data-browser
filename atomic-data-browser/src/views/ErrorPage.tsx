@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Resource } from '../../../atomic-lib/resource';
+import { Resource } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
 import { ErrorLook } from '../components/ResourceInline';
 

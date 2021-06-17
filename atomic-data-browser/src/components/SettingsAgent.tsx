@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, ButtonInput } from './Button';
 import { InputStyled, InputWrapper, LabelStyled } from './forms/InputStyles';
 import { useState } from 'react';
-import { Agent } from '../../atomic-lib/agent';
+import { Agent } from '@tomic/lib';
 import { Card, Margin } from './Card';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
 import ResourceInline from './ResourceInline';

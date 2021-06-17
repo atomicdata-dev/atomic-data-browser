@@ -1,11 +1,10 @@
+import { truncateUrl, Resource } from '@tomic/lib';
+import { useProperty } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
-import { useProperty } from '../../atomic-react/hooks';
 import AtomicLink from './Link';
-import { Resource } from '../../atomic-lib/resource';
 import { ValueForm } from './forms/ValueForm';
 import { ErrorLook } from './ResourceInline';
-import { truncateUrl } from '../helpers/truncate';
 
 type Props = {
   propertyURL: string;

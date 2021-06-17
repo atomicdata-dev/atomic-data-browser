@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { Resource } from '../../../atomic-lib/resource';
+import { Resource, Agent, generateKeyPair } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../helpers/urls';
+import { properties } from '../../../atomic-lib/src/urls';
 import { ValueForm } from '../components/forms/ValueForm';
-import { useBoolean, useString } from '../../../atomic-react/hooks';
+import { useBoolean, useString } from '@tomic/react';
 import ResourceInline from '../components/ResourceInline';
 import { Button } from '../components/Button';
 import { useHistory } from 'react-router-dom';
 import { openURL } from '../helpers/navigation';
-import { generateKeyPair } from '../../../atomic-lib/commit';
-import { Agent } from '../../../atomic-lib/agent';
 import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {

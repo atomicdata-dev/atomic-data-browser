@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { properties, urls } from '../helpers/urls';
+import { properties, urls } from '../../../atomic-lib/src/urls';
 import { useString, useResource, useTitle } from '../../atomic-react/hooks';
 import { Resource, ResourceStatus } from '../../atomic-lib/resource';
 import AllProps from './AllProps';

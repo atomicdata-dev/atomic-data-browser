@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Resource } from '../../atomic-lib/resource';
+import { Resource } from '@tomic/lib';
 import PropVal from './PropVal';
 
 type Props = {

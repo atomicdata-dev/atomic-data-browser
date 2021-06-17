@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle } from '../../atomic-react/hooks';
-import { Resource, ResourceStatus } from '../../atomic-lib/resource';
+import { useString, useResource, useTitle } from '@tomic/react';
+import { Resource, ResourceStatus } from '@tomic/lib';
 import AllProps from './AllProps';
 import AtomicLink from './Link';
 import ClassDetail from './ClassDetail';

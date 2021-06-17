@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { useArray, useResource, useStore, useTitle } from '../../atomic-react/hooks';
-import { properties } from '../helpers/urls';
+import { properties } from '../../../atomic-lib/src/urls';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';

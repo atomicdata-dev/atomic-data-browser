@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useArray, useResource, useStore, useTitle } from '../../../atomic-react/hooks';
-import { urls } from '../../helpers/urls';
+import { urls } from '../../../../atomic-lib/src/urls';
 import { ArrayError } from '../../../atomic-lib/datatypes';
 import { ErrMessage } from './InputStyles';
 import { DropdownInput } from './DropdownInput';

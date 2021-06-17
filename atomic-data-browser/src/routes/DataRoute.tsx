@@ -1,6 +1,6 @@
 import React from 'react';
-import { useResource } from '../../atomic-react/hooks';
-import { ResourceStatus } from '../../atomic-lib/resource';
+import { useResource } from '@tomic/react';
+import { ResourceStatus } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';

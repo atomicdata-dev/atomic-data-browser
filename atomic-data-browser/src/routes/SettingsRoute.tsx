@@ -3,7 +3,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { HexColorPicker } from 'react-colorful';
 import { Button } from '../components/Button';
 import { ErrMessage, FieldStyled, InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
-import { useStore } from '../../atomic-react/hooks';
+import { useStore } from '@tomic/react';
 import { useState } from 'react';
 import { Card } from '../components/Card';
 import { useSettings } from '../helpers/AppSettings';

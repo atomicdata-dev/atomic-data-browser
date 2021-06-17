@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { newURL } from '../helpers/navigation';
-import { useResource, useTitle } from '../../atomic-react/hooks';
+import { useResource, useTitle } from '@tomic/react';
 import { Button } from './Button';
 import { FaPlus } from 'react-icons/fa';
 

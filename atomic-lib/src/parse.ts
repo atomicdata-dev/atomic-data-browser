@@ -1,4 +1,3 @@
-import { handleError } from '../atomic-data-browser/helpers/handlers';
 import { Resource, ResourceStatus } from './resource';
 import { Value } from './value';
 
@@ -28,7 +27,7 @@ export function parseJsonADResource(string: string, resource: Resource): void {
     resource.setStatus(ResourceStatus.ready);
   } catch (e) {
     resource.setError(e);
-    handleError(e);
+    throw e;
   }
   return;
 }

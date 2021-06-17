@@ -2,6 +2,8 @@
   "name": "@tomic/root",
   "private": true,
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "@types/node": "^14.14.41",
+    "lerna": "^4.0.0",
+    "typescript": "^4.2.4"
   }
 }

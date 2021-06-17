@@ -1,4 +1,4 @@
-import { urls } from '../atomic-data-browser/helpers/urls';
+import { urls } from './urls';
 import { tryValidURL } from './client';
 import { JSVals, Value } from './value';
 

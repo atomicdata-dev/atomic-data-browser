@@ -1,6 +1,5 @@
 import React from 'react';
-import { Datatype } from '../../atomic-lib/datatypes';
-import { Value } from '../../atomic-lib/value';
+import { Value, Datatype } from '@tomic/lib';
 import ResourceInline from './ResourceInline';
 import DateTime from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';

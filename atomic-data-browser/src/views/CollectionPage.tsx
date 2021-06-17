@@ -2,11 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
 
-import { properties } from '../helpers/urls';
-import { useLocalStorage } from '../../../atomic-react/useLocalStorage';
+import { properties } from '../../../atomic-lib/src/urls';
 import { useViewport } from '../helpers/useMedia';
-import { useArray, useNumber, useResource, useString, useTitle } from '../../../atomic-react/hooks';
-import { Resource } from '../../../atomic-lib/resource';
+import { useArray, useNumber, useResource, useString, useTitle, useLocalStorage } from '@tomic/react';
+import { Resource } from '@tomic/lib';
 import { Button } from '../components/Button';
 import { ContainerFull } from '../components/Containers';
 import Markdown from '../components/datatypes/Markdown';

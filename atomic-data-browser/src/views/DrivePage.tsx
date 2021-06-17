@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useArray, useTitle } from '../../../atomic-react/hooks';
-import { Resource } from '../../../atomic-lib/resource';
+import { useArray, useTitle } from '@tomic/react';
+import { Resource } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../helpers/urls';
+import { properties } from '../../../atomic-lib/src/urls';
 import { CardRow } from '../components/Card';
 import ResourceInline from '../components/ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';

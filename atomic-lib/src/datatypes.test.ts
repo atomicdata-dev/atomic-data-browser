@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { urls } from '../atomic-data-browser/helpers/urls';
+import { urls } from './urls';
 import { Datatype, validate } from './datatypes';
 
 describe('Datatypes', () => {

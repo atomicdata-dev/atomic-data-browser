@@ -2,7 +2,7 @@ import React from 'react';
 import { Resource } from '../../atomic-lib/resource';
 import { useStore } from '../../atomic-react/hooks';
 import { QuickScore } from 'quick-score';
-import { urls } from './urls';
+import { urls } from '../../../atomic-lib/src/urls';
 import { Store } from '../../atomic-lib/store';
 
 /**

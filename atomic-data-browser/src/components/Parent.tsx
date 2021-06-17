@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { properties } from '../helpers/urls';
+import { properties } from '../../../atomic-lib/src/urls';
 import { useString, useTitle } from '../../atomic-react/hooks';
 import { Resource } from '../../atomic-lib/resource';
 import ResourceInline from './ResourceInline';

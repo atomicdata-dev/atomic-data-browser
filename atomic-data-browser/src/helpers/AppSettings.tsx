@@ -1,9 +1,8 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { Agent } from '../../atomic-lib/agent';
+import { Agent } from '@tomic/lib';
 import { useDarkMode } from './useDarkMode';
-import { useLocalStorage } from '../../atomic-react/useLocalStorage';
-import { useCurrentAgent } from '../../atomic-react/useCurrentAgent';
+import { useLocalStorage, useCurrentAgent } from '@tomic/react';
 
 interface ProviderProps {
   children: ReactNode;

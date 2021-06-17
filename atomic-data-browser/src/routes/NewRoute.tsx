@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { properties, urls } from '../helpers/urls';
+import { properties, urls } from '../../../atomic-lib/src/urls';
 import { newURL } from '../helpers/navigation';
 import { useArray, useResource, useStore, useString, useTitle } from '../../atomic-react/hooks';
 import { ContainerNarrow } from '../components/Containers';

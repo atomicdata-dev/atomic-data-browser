@@ -2,8 +2,8 @@ import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { Store, Agent } from 'atomic-lib';
-import { StoreContext } from 'atomic-react';
+import { Store, Agent } from '@tomic/lib';
+import { StoreContext } from '@tomic/react';
 import { GlobalStyle, ThemeWrapper } from './styling';
 import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';

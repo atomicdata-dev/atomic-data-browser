@@ -1,5 +1,4 @@
-import { handleError, handleWarning } from '../atomic-data-browser/helpers/handlers';
-import { properties } from '../atomic-data-browser/helpers/urls';
+import { properties } from './urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
@@ -115,7 +114,7 @@ export class Resource {
     try {
       delete this.commitBuilder.set[propertyUrl];
     } catch (e) {
-      handleWarning('Item not present in commitbuilder.set');
+      console.log('Item not present in commitbuilder.set');
     }
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);
@@ -166,8 +165,8 @@ export class Resource {
 
   setError(e: Error): void {
     this.setStatus(ResourceStatus.error);
-    handleError(e);
     this.error = e;
+    throw e;
   }
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */

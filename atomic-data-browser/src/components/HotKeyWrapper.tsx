@@ -3,7 +3,7 @@ import { dataURL, editURL, getSubjectFromDom } from '../helpers/navigation';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { isValidURL } from '../../atomic-lib/client';
+import { isValidURL } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
 
 type Props = {

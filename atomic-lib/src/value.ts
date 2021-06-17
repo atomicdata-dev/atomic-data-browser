@@ -89,7 +89,11 @@ export class Value {
     if (typeof this.val == 'string') {
       return this.val;
     }
+    if (this.val instanceof Date) {
+      throw new Error(`Not a resource: ${this.val}, is a Date`);
+    }
     if (typeof this.val == 'object') {
+      //@ts-ignore
       return this.val;
     }
     if (typeof this.val !== 'object') {

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { handleError } from '../atomic-data-browser/helpers/handlers';
 
 /**
  * Hook for storing information to LocalStorage. Note that if you use this same hook in multiple component instances, these will *not* share
@@ -16,7 +15,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) 
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
-      handleError(error);
+      console.log(error);
       return initialValue;
     }
   });
@@ -33,7 +32,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) 
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
       // A more advanced implementation would handle the error case
-      handleError(error);
+      console.log(error);
     }
   };
 

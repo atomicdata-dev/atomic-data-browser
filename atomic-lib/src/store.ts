@@ -1,6 +1,6 @@
 import { Resource, ResourceStatus } from './resource';
 import { tryValidURL, fetchResource } from './client';
-import { urls } from '../atomic-data-browser/helpers/urls';
+import { urls } from './urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
 

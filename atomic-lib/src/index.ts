@@ -6,3 +6,5 @@ export * from './parse';
 export * from './resource';
 export * from './store';
 export * from './value';
+export * from './urls';
+export * from './truncate';

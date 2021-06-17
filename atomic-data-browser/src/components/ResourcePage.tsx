@@ -1,5 +1,5 @@
 import React from 'react';
-import { properties, urls } from '../helpers/urls';
+import { properties, urls } from '../../../atomic-lib/src/urls';
 import { useString, useResource, useTitle, useStore } from '../../atomic-react/hooks';
 import { ResourceStatus } from '../../atomic-lib/resource';
 import AllProps from './AllProps';

@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Property, Store } from '../atomic-lib/store';
+import { Property, Store, Resource, ResourceStatus, JSVals, Value, Datatype, datatypeFromUrl, urls, truncateUrl } from '@tomic/lib';
 import React from 'react';
-import { Resource, ResourceStatus } from '../atomic-lib/resource';
-import { handleInfo } from '../atomic-data-browser/helpers/handlers';
-import { JSVals, Value } from '../atomic-lib/value';
-import { Datatype, datatypeFromUrl } from '../atomic-lib/datatypes';
-import { urls } from '../atomic-data-browser/helpers/urls';
-import { truncateUrl } from '../atomic-data-browser/helpers/truncate';
-import { Agent } from '../atomic-lib/agent';
 
 /**
  * Hook for getting and updating a Resource in a React component. Will try to fetch the subject and add its parsed values to the store.
@@ -161,7 +154,7 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
   try {
     value = resource.get(propertyURL);
   } catch (e) {
-    handleInfo(e);
+    console.log(e);
   }
   // If it didn't work, return null to be more explicit
   if (value == undefined) {
@@ -234,7 +227,7 @@ export function useDate(resource: Resource, propertyURL: string): Date | null {
   try {
     return value.toDate();
   } catch (e) {
-    handleInfo(e);
+    console.log(e);
     return null;
   }
 }

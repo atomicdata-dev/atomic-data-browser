@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { urls } from '../atomic-data-browser/helpers/urls';
+import { urls } from './urls';
 import { Resource } from './resource';
 import { Store } from './store';
 import { Value } from './value';
