@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "atomic-lib",
+    "atomic-react"
+  ],
+  "version": "0.0.0"
+}
