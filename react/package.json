@@ -1,13 +1,13 @@
 {
   "name": "@tomic/react",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
   },
   "dependencies": {
-    "@tomic/lib": "^0.0.4",
+    "@tomic/lib": "^0.0.5",
     "react": "^17.0.2"
   },
   "author": "Joep Meindertsma",
