@@ -33,6 +33,7 @@ Demo on [atomicdata.dev](https://atomicdata.dev)!
 
 Issues and PR's are welcome!
 And join our [Discord][discord-url]!
+See [Contribute.md](CONTRIBUTE.md)
 
 [discord-badge]: https://img.shields.io/discord/723588174747533393.svg?logo=discord
 [discord-url]: https://discord.gg/a72Rv2P
