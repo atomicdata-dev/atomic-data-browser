@@ -1,9 +1,9 @@
-# Atomic-React
+# @tomic/react
 
 _note: this README is being worked on before the actual library is published as an NPM package, so modules might not resolve_
 
 A library for viewing and creating Atomic Data.
-Should be used in conjunction with `atomic-lib`.
+Should be used in conjunction with `@tomic/lib`.
 
 ## Setup
 
@@ -11,7 +11,7 @@ When initializing your App, initialize the store, which will contain all data.
 Wrap your App in a `StoreContext.Provider`, and pass the newly initialized store to it.
 
 ```ts
-import { StoreContext, store } from 'atomic-react';
+import { StoreContext, store } from '@tomic/react';
 
 const store = new Store();
 
