@@ -8,5 +8,6 @@
     "tsc": "tsc"
   },
   "author": "Joep Meindertsma",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "e8e490ee7a97d0b3f8c429d7fd487947fdfba8b5"
 }

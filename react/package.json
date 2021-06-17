@@ -7,9 +7,11 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@tomic/lib": "file:../lib"
+    "@tomic/lib": "file:../lib",
+    "react": "^17.0.2"
   },
   "author": "Joep Meindertsma",
   "license": "MIT",
-  "main": "lib/index.js"
+  "main": "lib/index.js",
+  "gitHead": "e8e490ee7a97d0b3f8c429d7fd487947fdfba8b5"
 }
