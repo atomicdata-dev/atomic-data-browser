@@ -1,4 +1,4 @@
-# Atomic-ts
+# Atomic Data Typescript
 
 [![Discord chat][discord-badge]][discord-url]
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
@@ -10,20 +10,20 @@ This repo consists of three components: a javascript / typescript library, and a
 
 Core library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
-[→ Read more](atomic-lib/README.md)
+[→ Read more](lib/README.md)
 
 ## `@tomic/react`
 
 React library with many useful hooks for rendering and editing Atomic Data.
 
-[→ Read more](atomic-react/README.md)
+[→ Read more](react/README.md)
 
 ## `atomic-data-browser`
 
 A fully-loaded GUI for viewing, editing and browsing Atomic Data.
 Demo on [atomicdata.dev](https://atomicdata.dev)!
 
-[→ Read more](atomic-data-browser/README.md)
+[→ Read more](browser/README.md)
 
 ## Also check out
 

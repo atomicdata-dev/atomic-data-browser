@@ -1,0 +1,15 @@
+{
+  "name": "@tomic/react",
+  "version": "0.0.2",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@tomic/lib": "file:../lib"
+  },
+  "author": "Joep Meindertsma",
+  "license": "MIT",
+  "main": "lib/index.js"
+}

@@ -8,5 +8,7 @@ And join our [Discord][discord-url]!
 
 ## Publishing
 
+- Install `lerna`
+- `lerna bootstrap`
 - `npm run pulish`
 - Versions should match `atomic-rs`
