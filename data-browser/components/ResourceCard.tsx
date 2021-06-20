@@ -70,10 +70,10 @@ function ResourceCardInner(props: Props): JSX.Element {
   const [klass] = useString(resource, properties.isA);
 
   const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (status === ResourceStatus.loading) {
     return <p>Loading...</p>;
   }
-  if (status == ResourceStatus.error) {
+  if (status === ResourceStatus.error) {
     return <ErrorLook>{resource.getError().message}</ErrorLook>;
   }
 

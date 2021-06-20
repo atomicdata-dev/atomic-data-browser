@@ -16,6 +16,8 @@ Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 React library with many useful hooks for rendering and editing Atomic Data.
 
+[**demo + template on codesandbox**!](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
+
 [→ Read more](react/README.md)
 
 ## `atomic-data-browser`
