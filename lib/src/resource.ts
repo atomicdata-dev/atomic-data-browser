@@ -163,10 +163,11 @@ export class Resource {
     this.status = status;
   }
 
+  /** Sets the error on the Resource. Does not Throw. */
   setError(e: Error): void {
     this.setStatus(ResourceStatus.error);
     this.error = e;
-    throw e;
+    // throw e;
   }
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
