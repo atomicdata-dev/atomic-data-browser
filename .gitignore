@@ -9,3 +9,4 @@ snowpack.key
 .husky
 */lib
 */dist
+*/yarn-error.log

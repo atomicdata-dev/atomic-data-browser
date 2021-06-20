@@ -8,7 +8,7 @@ This repo consists of three components: a javascript / typescript library, and a
 
 ## `@tomic/lib`
 
-Core library with `Store`, `Commit`, `JSON-AD` parsing, and more.
+Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 [→ Read more](lib/README.md)
 

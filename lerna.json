@@ -4,5 +4,7 @@
     "react"
   ],
   "version": "0.0.7",
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "private": true,
+  "useWorkspaces": true
 }

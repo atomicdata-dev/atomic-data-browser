@@ -6,10 +6,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-    "tsc": "tsc"
+    "tsc": "tsc --build",
+    "start": "tsc --build --watch"
   },
   "dependencies": {
-    "@tomic/lib": "file:../lib/dist",
+    "@tomic/lib": "^0.0.7",
     "@types/react-dom": "^17.0.3",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",

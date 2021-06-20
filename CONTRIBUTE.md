@@ -12,3 +12,8 @@ And join our [Discord][discord-url]!
 - `lerna bootstrap`
 - `npm run publish`
 - Versions should match `atomic-rs`
+
+## Understanding lerna, snowpack, yarn workspaces
+
+This monorepo is orchestrated with lerna an yarn workspaces.
+Read [this article](https://medium.com/ah-technology/a-guide-through-the-wild-wild-west-of-setting-up-a-mono-repo-with-typescript-lerna-and-yarn-ed6a1e5467a) if you want to understand how this all works!
