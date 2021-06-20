@@ -12,7 +12,6 @@
   },
   "author": "Joep Meindertsma",
   "license": "MIT",
-  "gitHead": "a29691d7e1ed9c41a774fafa8833914d1c1dc63f",
   "publishConfig": {
     "access": "public"
   },
