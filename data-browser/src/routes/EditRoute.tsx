@@ -38,7 +38,7 @@ export function Edit(): JSX.Element {
         <>
           <h1>
             edit {title}
-            <ResourceContextMenu resource={resource} hide={['edit']} />
+            <ResourceContextMenu subject={subject} hide={['edit']} />
           </h1>
           <Button onClick={handleDestroy} subtle>
             delete

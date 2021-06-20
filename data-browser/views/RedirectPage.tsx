@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Resource } from '../../../atomic-lib/resource';
+import { Resource } from '../@tomic/lib';
 import { ContainerNarrow } from '../../components/Containers';
 import { properties } from '../../helpers/urls';
 import { ValueForm } from '../../components/forms/ValueForm';
-import { useString } from '../../../atomic-react/hooks';
+import { useString } from '@tomic/react';
 import { openURL } from '../../helpers/navigation';
 import { useHistory } from 'react-router-dom';
 import AllProps from '../../components/AllProps';

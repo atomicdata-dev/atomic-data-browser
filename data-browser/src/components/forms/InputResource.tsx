@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputProps } from './ResourceField';
-import { useString } from '../../../atomic-react/hooks';
+import { useString } from '@tomic/react';
 import { ResourceSelector } from './ResourceSelector';
 
 /** Input field for a single Resource. Renders a dropdown select menu. */

@@ -8,3 +8,4 @@ snowpack.crt
 snowpack.key
 .husky
 */lib
+*/dist

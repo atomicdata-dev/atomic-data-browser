@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { useProperty } from '../../../atomic-react/hooks';
-import { Resource } from '../../../atomic-lib/resource';
+import { useProperty } from '@tomic/react';
+import { Resource, Property } from '@tomic/lib';
 import AtomicLink from '../Link';
 import InputSwitcher from './InputSwitcher';
-import { Property } from '../../../atomic-lib/store';
 import { InputStyled } from './InputStyles';
 import Field from './Field';
 import Markdown from '../datatypes/Markdown';

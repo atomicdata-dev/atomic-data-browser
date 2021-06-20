@@ -1,7 +1,7 @@
 import React from 'react';
 import { properties, urls } from '../helpers/urls';
-import { useString, useResource, useTitle, useStore } from '../../atomic-react/hooks';
-import { ResourceStatus } from '../../atomic-lib/resource';
+import { useString, useResource, useTitle, useStore } from '@tomic/react';
+import { ResourceStatus } from '@tomic/lib';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
 import Collection from '../src/views/CollectionPage';

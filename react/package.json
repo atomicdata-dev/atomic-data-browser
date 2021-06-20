@@ -4,15 +4,24 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
+    "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "tsc": "tsc"
   },
   "dependencies": {
-    "@tomic/lib": "^0.0.5",
+    "@tomic/lib": "file:../dist",
+    "@types/react-dom": "^17.0.3",
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "react": "^17.0.2"
   },
   "author": "Joep Meindertsma",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "gitHead": "a29691d7e1ed9c41a774fafa8833914d1c1dc63f",
   "publishConfig": {
     "access": "public"

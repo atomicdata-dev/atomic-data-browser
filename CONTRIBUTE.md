@@ -10,5 +10,5 @@ And join our [Discord][discord-url]!
 
 - Install `lerna`
 - `lerna bootstrap`
-- `npm run pulish`
+- `npm run publish`
 - Versions should match `atomic-rs`

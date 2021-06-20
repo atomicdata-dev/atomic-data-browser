@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Resource, ResourceStatus } from '../../../atomic-lib/resource';
-import { useArray, useResource, useStore, useString } from '../../../atomic-react/hooks';
+import { Resource, ResourceStatus } from '@tomic/lib';
+import { useArray, useResource, useStore, useString } from '@tomic/react';
 import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { classes, properties, urls } from '../../../../lib/src/urls';

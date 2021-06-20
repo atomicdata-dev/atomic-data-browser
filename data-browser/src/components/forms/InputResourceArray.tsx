@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrayError } from '../../../atomic-lib/datatypes';
-import { useArray } from '../../../atomic-react/hooks';
+import { ArrayError } from '@tomic/lib';
+import { useArray } from '@tomic/react';
 import { ButtonMargin } from '../Button';
 import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';

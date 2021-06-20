@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { properties } from '../../helpers/urls';
-import { useArray, useString, useTitle } from '../../../atomic-react/hooks';
+import { useArray, useString, useTitle } from '@tomic/react';
 import Markdown from '../../components/datatypes/Markdown';
 import AtomicLink from '../../components/Link';
 import { CardInsideFull, CardRow } from '../../components/Card';

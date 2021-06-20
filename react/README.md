@@ -12,6 +12,7 @@ Wrap your App in a `StoreContext.Provider`, and pass the newly initialized store
 
 ```ts
 import { StoreContext, store } from '@tomic/react';
+import { Store } from '@tomic/lib';
 
 const store = new Store();
 

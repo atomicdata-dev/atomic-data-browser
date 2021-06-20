@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useString } from '../../../atomic-react/hooks';
+import { useString } from '@tomic/react';
 import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
 

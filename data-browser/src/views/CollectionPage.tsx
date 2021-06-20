@@ -133,13 +133,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
           <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
         </DropDownMini>
       </ButtonsBar>
-      {description && <Markdown text={description} margin />}
+      {description && <Markdown text={description} />}
       {showClassDescription && klass && (
         <>
           <Link subject={klass}>
             <h3>{classTitle}</h3>
           </Link>
-          <Markdown text={classDescription} margin />
+          <Markdown text={classDescription} />
         </>
       )}
       {members.length == 0 ? (

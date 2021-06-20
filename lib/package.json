@@ -2,9 +2,12 @@
   "name": "@tomic/lib",
   "version": "0.0.5",
   "description": "",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
+    "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "tsc": "tsc"
   },
   "author": "Joep Meindertsma",
@@ -12,5 +15,16 @@
   "gitHead": "a29691d7e1ed9c41a774fafa8833914d1c1dc63f",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@types/json-stable-stringify": "^1.0.32",
+    "base64-arraybuffer": "^0.2.0",
+    "json-stable-stringify": "^1.0.1",
+    "noble-ed25519": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.19",
+    "chai": "^4.3.4",
+    "typescript": "^4.2.4"
   }
 }
