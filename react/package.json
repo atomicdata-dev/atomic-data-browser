@@ -1,6 +1,6 @@
 {
   "name": "@tomic/react",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
     "start": "tsc --build --watch"
   },
   "dependencies": {
-    "@tomic/lib": "^0.0.8",
+    "@tomic/lib": "^0.0.9",
     "@types/react-dom": "^17.0.3",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
