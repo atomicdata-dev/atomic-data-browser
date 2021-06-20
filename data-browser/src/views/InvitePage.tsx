@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Resource, Agent, generateKeyPair } from '@tomic/lib';
-import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../../../lib/src/urls';
-import { ValueForm } from '../components/forms/ValueForm';
+import { Resource, Agent, generateKeyPair, properties } from '@tomic/lib';
 import { useBoolean, useString } from '@tomic/react';
+import { useHistory } from 'react-router-dom';
+
+import { ContainerNarrow } from '../components/Containers';
+import { ValueForm } from '../components/forms/ValueForm';
 import ResourceInline from '../components/ResourceInline';
 import { Button } from '../components/Button';
-import { useHistory } from 'react-router-dom';
 import { openURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
 

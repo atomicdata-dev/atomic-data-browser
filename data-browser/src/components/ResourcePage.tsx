@@ -1,7 +1,6 @@
 import React from 'react';
-import { properties, urls } from '../../../lib/src/urls';
 import { useString, useResource, useTitle, useStore } from '@tomic/react';
-import { ResourceStatus } from '@tomic/lib';
+import { ResourceStatus, properties, urls } from '@tomic/lib';
 import AllProps from './AllProps';
 import { ContainerNarrow } from './Containers';
 import Collection from '../views/CollectionPage';

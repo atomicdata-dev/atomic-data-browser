@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Resource, ResourceStatus } from '@tomic/lib';
+import { Resource, ResourceStatus, classes, properties, urls } from '@tomic/lib';
 import { useArray, useResource, useStore, useString } from '@tomic/react';
 import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
-import { classes, properties, urls } from '../../../../lib/src/urls';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
 import { ErrMessage, LabelStyled } from './InputStyles';

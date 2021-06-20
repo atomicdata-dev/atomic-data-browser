@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
-import { properties } from '../../../lib/src/urls';
+import { properties } from '@tomic/lib';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';

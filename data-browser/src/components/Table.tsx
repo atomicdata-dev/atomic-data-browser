@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { urls } from '../../../lib/src/urls';
 import { useResource } from '@tomic/react';
-import { Resource } from '@tomic/lib';
+import { Resource, urls } from '@tomic/lib';
 import ResourceInline from './ResourceInline';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';

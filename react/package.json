@@ -9,7 +9,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@tomic/lib": "file:../dist",
+    "@tomic/lib": "file:../lib/dist",
     "@types/react-dom": "^17.0.3",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
@@ -25,5 +25,8 @@
   "gitHead": "a29691d7e1ed9c41a774fafa8833914d1c1dc63f",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.4"
   }
 }

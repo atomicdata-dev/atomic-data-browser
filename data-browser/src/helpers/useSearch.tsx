@@ -1,8 +1,7 @@
 import React from 'react';
-import { Resource, Store } from '@tomic/lib';
+import { Resource, Store, urls } from '@tomic/lib';
 import { useStore } from '@tomic/react';
 import { QuickScore } from 'quick-score';
-import { urls } from '../../../lib/src/urls';
 
 /**
  * Allows for full-text search of all resources in the store. use `index.search(query)` to perform the search. Returns null or the

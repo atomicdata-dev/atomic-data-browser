@@ -6,7 +6,7 @@
     "@types/node": "^14.14.41",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "chai": "^4.3.4",
-    "eslint": "^7.23.0",
+    "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.1",
@@ -22,7 +22,7 @@
     "tsc": "lerna run tsc"
   },
   "dependencies": {
-    "@tomic/lib": "file:lib",
-    "@tomic/react": "file:react"
+    "@tomic/lib": "file:lib/dist",
+    "@tomic/react": "file:react/dist"
   }
 }

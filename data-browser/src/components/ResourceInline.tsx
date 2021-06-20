@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { urls } from '../../../lib/src/urls';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { ResourceStatus } from '@tomic/lib';
+import { ResourceStatus, urls } from '@tomic/lib';
 import AtomicLink from './Link';
 
 type Props = {

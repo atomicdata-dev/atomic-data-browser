@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
-import { Resource } from '@tomic/lib';
+import { Resource, properties } from '@tomic/lib';
+import { useHistory } from 'react-router-dom';
+
 import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../../../lib/src/urls';
 import Markdown from '../components/datatypes/Markdown';
 import ResourceField from '../components/forms/ResourceField';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
-import { useHistory } from 'react-router-dom';
 
 type EndpointProps = {
   resource: Resource;

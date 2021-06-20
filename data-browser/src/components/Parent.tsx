@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { properties } from '../../../lib/src/urls';
 import { useString, useTitle } from '@tomic/react';
-import { Resource } from '@tomic/lib';
+import { properties, Resource } from '@tomic/lib';
 import ResourceInline from './ResourceInline';
 
 type Props = {

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
-
-import { properties } from '../../../lib/src/urls';
-import { useViewport } from '../helpers/useMedia';
 import { useArray, useNumber, useResource, useString, useTitle, useLocalStorage } from '@tomic/react';
-import { Resource } from '@tomic/lib';
+import { Resource, properties } from '@tomic/lib';
+import { FaArrowLeft, FaArrowRight, FaInfo, FaTable, FaThLarge } from 'react-icons/fa';
+
+import { useViewport } from '../helpers/useMedia';
 import { Button } from '../components/Button';
 import { ContainerFull } from '../components/Containers';
 import Markdown from '../components/datatypes/Markdown';
@@ -15,7 +15,6 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
-import { FaArrowLeft, FaArrowRight, FaInfo, FaTable, FaThLarge } from 'react-icons/fa';
 import Link from '../components/Link';
 
 type CollectionProps = {

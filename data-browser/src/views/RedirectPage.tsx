@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { Resource } from '@tomic/lib';
-import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../../../lib/src/urls';
-import { ValueForm } from '../components/forms/ValueForm';
+import { Resource, properties } from '@tomic/lib';
 import { useString } from '@tomic/react';
-import { openURL } from '../helpers/navigation';
+import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { ContainerNarrow } from '../components/Containers';
+import { ValueForm } from '../components/forms/ValueForm';
+import { openURL } from '../helpers/navigation';
 import AllProps from '../components/AllProps';
 import { useSettings } from '../helpers/AppSettings';
 

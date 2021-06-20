@@ -1,7 +1,6 @@
-import { ArrayError } from '@tomic/lib';
+import { ArrayError, urls } from '@tomic/lib';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
 import React, { Dispatch, SetStateAction } from 'react';
-import { urls } from '../../../../lib/src/urls';
 import { ErrMessage } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 

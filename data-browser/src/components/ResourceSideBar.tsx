@@ -1,7 +1,6 @@
 import React from 'react';
-import { urls } from '../../../lib/src/urls';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { ResourceStatus } from '@tomic/lib';
+import { ResourceStatus, urls } from '@tomic/lib';
 import { ErrorLook } from './ResourceInline';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';

@@ -1,14 +1,14 @@
+import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
+import { ResourceStatus, properties, urls } from '@tomic/lib';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { properties, urls } from '../../../lib/src/urls';
+
 import { newURL } from '../helpers/navigation';
-import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { InputStyled, InputWrapper } from '../components/forms/InputStyles';
 import NewIntanceButton from '../components/NewInstanceButton';
 import { ResourceForm } from '../components/forms/ResourceForm';
-import { ResourceStatus } from '@tomic/lib';
 import AtomicLink from '../components/Link';
 import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';

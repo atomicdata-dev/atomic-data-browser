@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useArray, useTitle } from '@tomic/react';
-import { Resource } from '@tomic/lib';
+import { Resource, properties } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
-import { properties } from '../../../lib/src/urls';
 import { CardRow } from '../components/Card';
 import ResourceInline from '../components/ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
