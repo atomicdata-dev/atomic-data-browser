@@ -24,10 +24,10 @@
     "typescript": "^4.2.4"
   },
   "scripts": {
+    "start": "yarn workspace @tomic/data-browser start",
     "prepare": "",
     "publish": "lerna run tsc && lerna publish",
     "tsc": "lerna run tsc",
-    "start": "lerna run --parallel start ",
     "setup-dev": "yarn && yarn bootstrap && yarn link-all && yarn build",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",

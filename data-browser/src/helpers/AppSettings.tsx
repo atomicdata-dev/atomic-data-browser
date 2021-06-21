@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { useContext } from 'react';
 import { Agent } from '@tomic/lib';
 import { useDarkMode } from './useDarkMode';

@@ -10,7 +10,7 @@
     "start": "tsc --build --watch"
   },
   "dependencies": {
-    "@tomic/lib": "^0.0.10",
+    "@tomic/lib": "*",
     "@types/react-dom": "^17.0.3",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
@@ -21,8 +21,9 @@
   },
   "author": "Joep Meindertsma",
   "license": "MIT",
+  "source": "src/index.ts",
   "main": "src/index.ts",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "publishConfig": {
     "access": "public"
   },

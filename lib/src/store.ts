@@ -46,6 +46,8 @@ export class Store {
     /** Fetch it from the `/path` endpoint of your baseURL. This effectively is a proxy / cache. */
     fromProxy?: boolean,
   ): Promise<Resource> {
+
+
     if (forceRefresh || this.resources.get(subject) == undefined) {
       const fetched = await fetchResource(subject, fromProxy && this.getBaseUrl());
       this.addResource(fetched);
