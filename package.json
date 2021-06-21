@@ -24,15 +24,9 @@
   "name": "@tomic/root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "link-all": "yarn unlink-all && lerna exec --parallel yarn link",
-    "prepare": "",
     "publish": "lerna run tsc && lerna publish",
-    "setup-dev": "yarn && yarn bootstrap && yarn link-all && yarn build",
     "start": "yarn workspace @tomic/data-browser start",
-    "tsc": "lerna run tsc",
-    "unlink-all": "lerna exec --parallel --bail=false yarn unlink"
+    "tsc": "lerna run tsc"
   },
   "workspaces": {
     "packages": [
