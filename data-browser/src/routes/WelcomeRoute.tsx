@@ -67,6 +67,14 @@ export const Welcome: React.FunctionComponent = () => {
       <p>
         ...and visit <AtomicLink subject='http://localhost'>localhost</AtomicLink>.
       </p>
+      <h2>Build a react front-end app</h2>
+      <p>
+        Use the{' '}
+        <AtomicLink href='https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx'>
+          atomic-data-react-template
+        </AtomicLink>{' '}
+        on codesandbox to build a front-end app!
+      </p>
       <h2>Join the community</h2>
       <p>
         Atomic Data is open and fully powered by volunteers. We&apos;re looking for people who want to help discuss various design
