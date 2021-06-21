@@ -25,6 +25,7 @@
   "private": true,
   "scripts": {
     "lint": "lerna run lint",
+    "build": "lerna run build",
     "test": "lerna run test",
     "publish": "lerna run tsc && lerna publish",
     "start": "yarn workspace @tomic/data-browser start",
