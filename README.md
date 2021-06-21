@@ -29,7 +29,7 @@ Demo on [atomicdata.dev](https://atomicdata.dev)!
 
 ## Also check out
 
-- [Atomic](https://github.com/joepio/atomic), a rust library, server and cli for Atomic Data.
+- [atomic-data-rs](https://github.com/joepio/atomic-data-rs), a rust **library**, **server** and **cli** for Atomic Data.
 
 ## Contribute
 

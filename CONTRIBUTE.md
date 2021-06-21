@@ -9,11 +9,12 @@ And join our [Discord][discord-url]!
 ## Publishing
 
 - Install `lerna`
-- `lerna bootstrap`
-- `npm run publish`
-- Versions should match `atomic-rs`
+- `npm run publish` (not yarn, since that does not support publishing to npm right now)
+- Versions should match `atomic-data-rs`
 
 ## Understanding lerna, snowpack, yarn workspaces
 
-This monorepo is orchestrated with lerna an yarn workspaces.
-Read [this article](https://medium.com/ah-technology/a-guide-through-the-wild-wild-west-of-setting-up-a-mono-repo-with-typescript-lerna-and-yarn-ed6a1e5467a) if you want to understand how this all works!
+This monorepo is orchestrated with lerna and yarn workspaces.
+Lerna is only used for publishing and handling versions.
+Yarn workspaces are used to share dependencies.
+Snowpack targets `.ts` files which enables hot reload / hot module replacement, which is great for developing the data browser and the libraries at the same time.
