@@ -105,7 +105,6 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   return (
     <>
       <ButtonBar
-        rightPadding
         selected={isActive}
         ref={triggerRef}
         type='button'

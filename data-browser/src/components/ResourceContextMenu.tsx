@@ -58,11 +58,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
 
   const filteredItems = hide ? items.filter(item => !hide.includes(item.id)) : items;
 
-  return (
-    <span style={{ float: 'right' }}>
-      <DropdownMenu items={filteredItems} />
-    </span>
-  );
+  return <DropdownMenu items={filteredItems} />;
 }
 
 export default ResourceContextMenu;

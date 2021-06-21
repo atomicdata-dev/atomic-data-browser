@@ -138,6 +138,7 @@ function NavBar() {
               </ButtonBar>
             </>
           )}
+          {showButtons && subject && <ResourceContextMenu subject={subject} />}
         </React.Fragment>
       )}
       <input
@@ -152,7 +153,6 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
-      {showButtons && subject && <ResourceContextMenu subject={subject} />}
     </ConditionalNavbar>
   );
 }
