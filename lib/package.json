@@ -7,7 +7,10 @@
   },
   "description": "",
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "@types/json-stable-stringify": "^1.0.32",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
     "typescript": "^4.2.4"
   },
   "license": "MIT",
@@ -21,7 +24,7 @@
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "start": "tsc --build --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "tsc": "tsc --build"
   },
   "source": "src/index.ts",

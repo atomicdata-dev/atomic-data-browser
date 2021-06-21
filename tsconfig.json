@@ -7,7 +7,7 @@
             "@tomic/react/*": [
                 "react/src/*"
             ]
-        }
+        },
     },
     "files": [],
     "references": [
