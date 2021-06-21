@@ -22,8 +22,8 @@
   "dependencies": {
     "@bugsnag/js": "^7.9.2",
     "@bugsnag/plugin-react": "^7.9.2",
-    "@tomic/lib": "*",
-    "@tomic/react": "*",
+    "@tomic/lib": "^0.0.11",
+    "@tomic/react": "^0.0.11",
     "@types/react-dom": "^17.0.3",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
@@ -68,5 +68,5 @@
       "pre-push": "yarn lint && npm test"
     }
   },
-  "version": "0.0.10"
+  "version": "0.0.11"
 }
