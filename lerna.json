@@ -1,0 +1,10 @@
+{
+  "packages": [
+    "lib",
+    "react"
+  ],
+  "version": "0.0.11",
+  "npmClient": "yarn",
+  "private": true,
+  "useWorkspaces": true
+}

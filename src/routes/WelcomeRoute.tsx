@@ -38,6 +38,13 @@ export const Welcome: React.FunctionComponent = () => {
         The back-end of this app is <a href='https://github.com/joepio/atomic'>atomic-server</a>, which you can think of as an open source,
         web-native database.
       </p>
+      <p>
+        You can edit app settings, such as current user and theme color at{' '}
+        <LinkView onClick={() => history.push('/settings')}>/settings</LinkView>.
+      </p>
+      <p>
+        Check out the keyboard shortcuts at <LinkView onClick={() => history.push('/shortcuts')}>/shortcuts</LinkView>.
+      </p>
       <h2>Things to visit</h2>
       <ul>
         <li>
@@ -60,8 +67,6 @@ export const Welcome: React.FunctionComponent = () => {
       <p>
         ...and visit <AtomicLink subject='http://localhost'>localhost</AtomicLink>.
       </p>
-      <h2>Build a react front-end app</h2>
-      <p>Use the <a href="https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx">atomic-data-react-template</a> on codesandbox to build a front-end app!</p>
       <h2>Join the community</h2>
       <p>
         Atomic Data is open and fully powered by volunteers. We&apos;re looking for people who want to help discuss various design
