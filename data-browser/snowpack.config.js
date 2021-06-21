@@ -42,6 +42,8 @@ module.exports = {
     // Used for the `crypto` node library for signing commits
     polyfillNode: true,
   },
+  // Fix https://giters.com/snowpackjs/snowpack/issues/3218?amp=1
+  workspaceRoot: "../",
   devOptions: {},
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-data-browser/',

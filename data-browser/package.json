@@ -1,4 +1,5 @@
 {
+  "name": "@tomic/data-browser",
   "license": "MIT",
   "homepage": "https://joepio.github.io/atomic-data-browser/",
   "private": true,
@@ -43,18 +44,14 @@
     "yamde": "^1.5.0"
   },
   "devDependencies": {
-    "@esm-bundle/chai": "4.3.4",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-react-refresh": "^2.4.2",
     "@snowpack/plugin-run-script": "^2.3.0",
     "@snowpack/plugin-webpack": "^2.3.1",
     "@snowpack/web-test-runner-plugin": "0.2.2",
-    "@testing-library/react": "11.2.6",
     "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "@web/test-runner": "^0.12.18",
-    "@web/test-runner-puppeteer": "^0.9.3",
     "eslint-watch": "^7.0.0",
     "gh-pages": "^3.1.0",
     "lerna": "^4.0.0",
@@ -71,6 +68,5 @@
       "pre-push": "yarn lint && npm test"
     }
   },
-  "name": "atomic-data-browser",
   "version": "0.0.10"
 }
