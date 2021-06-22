@@ -167,7 +167,7 @@ const SideBarHeader = styled('div')`
 `;
 
 const SideBarBottom = styled('div')`
-  flex: 1;
+  margin-top: auto;
   flex-direction: column;
   justify-items: flex-end;
   display: flex;
