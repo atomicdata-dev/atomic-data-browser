@@ -16,20 +16,21 @@ Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 React library with many useful hooks for rendering and editing Atomic Data.
 
-[**demo + template on codesandbox**!](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
+[**demo + template on codesandbox**](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
 
 [→ Read more](react/README.md)
 
 ## `atomic-data-browser`
 
 A fully-loaded GUI for viewing, editing and browsing Atomic Data.
-Demo on [atomicdata.dev](https://atomicdata.dev)!
+
+**demo on [atomicdata.dev](https://atomicdata.dev)**
 
 [→ Read more](browser/README.md)
 
 ## Also check out
 
-- [atomic-data-rs](https://github.com/joepio/atomic-data-rs), a rust **library**, **server** and **cli** for Atomic Data.
+- [atomic-data-rust](https://github.com/joepio/atomic-data-rs), a rust [**library**](https://crates.io/crates/atomic-lib), [**server**](https://crates.io/crates/atomic-server) and [**cli**](https://crates.io/crates/atomic-cli) for Atomic Data.
 
 ## Contribute
 
