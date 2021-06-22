@@ -4,7 +4,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Create, share, fetch and model linked [Atomic Data](https://atomicdata.dev)!
-This repo consists of three components: a javascript / typescript library, and a GUI: Atomic-Data Browser.
+This repo consists of three components: a javascript / typescript library, a react library, and a complete GUI: Atomic-Data Browser.
 
 ## `@tomic/lib`
 
