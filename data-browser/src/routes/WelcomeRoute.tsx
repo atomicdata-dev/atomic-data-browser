@@ -2,13 +2,20 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink, { LinkView } from '../components/Link';
+import { useSettings } from '../helpers/AppSettings';
+
+// @ts-ignore
+import logoBlack from '../../public/atomic_data_logo_base.svg';
+// @ts-ignore
+import logoWhite from '../../public/atomic_data_logo_inverted.svg';
 
 export const Welcome: React.FunctionComponent = () => {
   const history = useHistory();
+  const { darkMode } = useSettings();
 
   return (
     <ContainerNarrow>
-      <h1>Atomic Data</h1>
+      <img src={darkMode ? logoWhite : logoBlack} alt='Atomic Data' style={{ width: '30rem', maxWidth: '100%' }} />
       <p>
         <em>
           The easiest way to <b>create</b>, <b>share</b> and <b>model</b> linked data.
