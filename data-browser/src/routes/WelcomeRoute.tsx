@@ -15,7 +15,7 @@ export const Welcome: React.FunctionComponent = () => {
 
   return (
     <ContainerNarrow>
-      <img src={darkMode ? logoWhite : logoBlack} alt='Atomic Data' style={{ width: '30rem', maxWidth: '100%' }} />
+      <img src={darkMode ? logoWhite : logoBlack} alt='Atomic Data' style={{ width: '30rem', maxWidth: '100%', marginBottom: '1rem' }} />
       <p>
         <em>
           The easiest way to <b>create</b>, <b>share</b> and <b>model</b> linked data.

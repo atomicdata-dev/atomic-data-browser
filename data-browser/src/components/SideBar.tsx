@@ -10,6 +10,11 @@ import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 
+// @ts-ignore
+import logoBlack from '../../public/atomic_data_logo_base.svg';
+// @ts-ignore
+import logoWhite from '../../public/atomic_data_logo_inverted.svg';
+
 export function SideBar(): JSX.Element {
   const store = useStore();
   const [drive] = useResource(store.baseUrl);
@@ -17,7 +22,7 @@ export function SideBar(): JSX.Element {
   const history = useHistory();
   const title = useTitle(drive);
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>();
-  const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
+  const { darkMode, navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const windowSize = useWindowSize();
 
   const appMenuItems: MenuItemProps[] = [
@@ -42,6 +47,9 @@ export function SideBar(): JSX.Element {
         history.push('/settings');
       },
     },
+  ];
+
+  const aboutMenuItems: MenuItemProps[] = [
     {
       label: 'about',
       helper: 'Welcome page, tells about this app',
@@ -49,9 +57,6 @@ export function SideBar(): JSX.Element {
         history.push('/');
       },
     },
-  ];
-
-  const aboutMenuItems: MenuItemProps[] = [
     {
       label: 'github',
       helper: 'View the source code for this application',
@@ -112,7 +117,16 @@ export function SideBar(): JSX.Element {
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(renderMenuItem)}
-          <SideBarHeader>atomic data</SideBarHeader>
+          <SideBarHeader>
+            <img
+              onClick={() => {
+                history.push('/');
+              }}
+              src={darkMode ? logoWhite : logoBlack}
+              alt='Atomic Data'
+              style={{ height: '1.1rem', maxWidth: '100%' }}
+            />
+          </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
