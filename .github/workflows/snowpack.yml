@@ -15,22 +15,23 @@ jobs:
       #   uses: actions/setup-node@v1
       #   with:
       #     node-version: 14.x
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install # will run `yarn install` command
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: lint # will run `yarn build` command
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: build # will run `yarn test` command
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: test # will run `yarn test` command
-      # - run: yarn
-      # - run: yarn lint
-      # - run: yarn test
-      # - run: yarn build
+      - uses: bahmutov/npm-install@v1
+      # - uses: borales/actions-yarn@v2.3.0
+      #   with:
+      #     cmd: install # will run `yarn install` command
+      # - uses: borales/actions-yarn@v2.3.0
+      #   with:
+      #     cmd: lint # will run `yarn build` command
+      # - uses: borales/actions-yarn@v2.3.0
+      #   with:
+      #     cmd: build # will run `yarn test` command
+      # - uses: borales/actions-yarn@v2.3.0
+      #   with:
+      #     cmd: test # will run `yarn test` command
+      - run: yarn
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
