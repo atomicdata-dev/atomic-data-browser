@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
-    "module": "es2020",
+    // would prefer es2020, but this is needed for jest
+    "module": "commonjs",
+    // required by jest
     "esModuleInterop": true,
+    // required by jest
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "target": "es2020",
     "jsx": "preserve",

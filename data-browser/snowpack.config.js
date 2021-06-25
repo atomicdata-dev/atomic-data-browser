@@ -41,9 +41,10 @@ module.exports = {
     // source: 'remote',
     // Used for the `crypto` node library for signing commits
     polyfillNode: true,
+    knownEntrypoints: ['noble-ed25519', 'json-stable-stringify', 'base64-arraybuffer'],
   },
   // Fix https://giters.com/snowpackjs/snowpack/issues/3218?amp=1
-  workspaceRoot: "../",
+  workspaceRoot: '../',
   devOptions: {},
   buildOptions: {
     baseUrl: 'https://joepio.github.io/atomic-data-browser/',

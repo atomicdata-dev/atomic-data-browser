@@ -1,6 +1,6 @@
-import ed from 'noble-ed25519';
+import { sign, getPublicKey, utils } from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
-import { decode, encode } from 'base64-arraybuffer';
+import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { urls } from './urls';
 import { JSVals } from './value';
 
@@ -90,21 +90,21 @@ export const signAt = async (commitBuilder: CommitBuilderI, agent: string, priva
 
 /** Signs a string using a base64 encoded ed25519 private key. Outputs a base64 encoded ed25519 signature */
 export const signToBase64 = async (message: string, privateKeyBase64: string): Promise<string> => {
-  const privateKeyArrayBuffer = decode(privateKeyBase64);
+  const privateKeyArrayBuffer = decodeB64(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
   const utf8Encode = new TextEncoder();
   const messageBytes: Uint8Array = utf8Encode.encode(message);
-  const signatureHex = await ed.sign(messageBytes, privateKeyBytes);
-  const signatureBase64 = encode(signatureHex);
+  const signatureHex = await sign(messageBytes, privateKeyBytes);
+  const signatureBase64 = encodeB64(signatureHex);
   return signatureBase64;
 };
 
 /** From base64 encoded private key */
 export const generatePublicKeyFromPrivate = async (privateKey: string): Promise<string> => {
-  const privateKeyArrayBuffer = decode(privateKey);
+  const privateKeyArrayBuffer = decodeB64(privateKey);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
-  const publickey = await ed.getPublicKey(privateKeyBytes);
-  const publicBase64 = encode(publickey);
+  const publickey = await getPublicKey(privateKeyBytes);
+  const publicBase64 = encodeB64(publickey);
   return publicBase64;
 };
 
@@ -114,10 +114,10 @@ interface KeyPair {
 }
 
 export async function generateKeyPair(): Promise<KeyPair> {
-  const privateBytes = ed.utils.randomPrivateKey();
-  const publicBytes = await ed.getPublicKey(privateBytes);
-  const privateKey = encode(privateBytes);
-  const publicKey = encode(publicBytes);
+  const privateBytes = utils.randomPrivateKey();
+  const publicBytes = await getPublicKey(privateBytes);
+  const privateKey = encodeB64(privateBytes);
+  const publicKey = encodeB64(publicBytes);
   return {
     publicKey,
     privateKey,

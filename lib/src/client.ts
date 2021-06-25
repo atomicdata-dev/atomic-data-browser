@@ -24,6 +24,9 @@ export async function fetchResource(
       newURL.searchParams.set('path', subject);
       url = newURL.href;
     }
+    if (window.fetch == undefined) {
+      throw new Error(`No window object available this lib currently requires the DOM for fetching`);
+    }
     const response = await window.fetch(url, {
       headers: requestHeaders,
     });
