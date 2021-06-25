@@ -25,7 +25,7 @@
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "start": "tsc --build --watch",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' ../node_modules/jest/bin/jest.js",
     "tsc": "tsc --build"
   },
   "source": "src/index.ts",
