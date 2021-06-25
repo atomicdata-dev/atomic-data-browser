@@ -9,11 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
-
-// @ts-ignore
-import logoBlack from '../../public/atomic_data_logo_base.svg';
-// @ts-ignore
-import logoWhite from '../../public/atomic_data_logo_inverted.svg';
+import { Logo } from './Logo';
 
 export function SideBar(): JSX.Element {
   const store = useStore();
@@ -118,14 +114,15 @@ export function SideBar(): JSX.Element {
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(renderMenuItem)}
           <SideBarHeader>
-            <img
+            <Logo style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }} />
+            {/* <img
               onClick={() => {
                 history.push('/');
               }}
               src={darkMode ? logoWhite : logoBlack}
               alt='Atomic Data'
               style={{ height: '1.1rem', maxWidth: '100%' }}
-            />
+            /> */}
           </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
