@@ -16,6 +16,7 @@
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
+    "jest": "^27.0.5",
     "lerna": "^4.0.0",
     "prettier": "2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
