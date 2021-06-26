@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSettings } from '../helpers/AppSettings';
 
+/** The Atomic Data logo as SVG. Smart enough to use the theme's dark mode */
 export function Logo({ ...props }) {
   const { darkMode } = useSettings();
   const fill = darkMode ? 'white' : 'black';

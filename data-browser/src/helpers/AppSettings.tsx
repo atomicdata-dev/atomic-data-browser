@@ -43,7 +43,8 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
 interface AppSettings {
   /** Whether the App should render in dark mode. Checks user preferences. */
   darkMode: boolean;
-  setDarkMode: (b: boolean) => void;
+  /** When calling this with undefined (no arguments), it uses the browser's preference */
+  setDarkMode: (b?: boolean) => void;
   /** CSS value for the primary color */
   mainColor: string;
   setMainColor: (s: string) => void;

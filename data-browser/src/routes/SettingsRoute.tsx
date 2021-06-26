@@ -29,7 +29,11 @@ const Settings: React.FunctionComponent = () => {
       <h1>Settings</h1>
       <Card>
         <h2>Look and feel</h2>
-        <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'disable' : 'enable'} dark mode</Button>
+        <LabelStyled>Dark mode</LabelStyled>
+        <Button onClick={() => setDarkMode(!darkMode)}>{darkMode ? 'turn off' : 'turn on'}</Button>
+        <Button onClick={() => setDarkMode(null)} title="Use the browser's / OS dark mode settings">
+          auto
+        </Button>
         <LabelStyled>Navigation bar position</LabelStyled>
         <NavStyleButton floating={true} top={false} title='Floating' />
         <NavStyleButton floating={false} top={false} title='Bottom' />
