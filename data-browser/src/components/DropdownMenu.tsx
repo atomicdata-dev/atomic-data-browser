@@ -107,6 +107,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
       <ButtonBar
         selected={isActive}
         ref={triggerRef}
+        title='Open menu (m)'
         type='button'
         onClick={() => {
           setUseKeys(false);

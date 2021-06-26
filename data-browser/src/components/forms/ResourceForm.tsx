@@ -125,7 +125,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
 
   return (
     <form about={resource.getSubject()}>
-      {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
       {classStatus == ResourceStatus.error && (
         <ErrMessage>Error in class. {klass.getError().message}. You can still edit the resource, though.</ErrMessage>
       )}
@@ -165,14 +164,13 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           <ResourceField propertyURL={properties.read} resource={resource} />
         </AdvancedBlock>
       )}
-      {agent && (
-        <Button onClick={handleSubmit} disabled={saving}>
-          {saving ? 'wait...' : 'save'}
-        </Button>
-      )}
+      <Button onClick={handleSubmit} disabled={!agent || saving}>
+        {saving ? 'wait...' : 'save'}
+      </Button>
       <Button subtle onClick={() => setShowAdvanced(!showAdvanced)}>
         {showAdvanced ? 'hide' : 'show'} advanced
       </Button>
+      {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );

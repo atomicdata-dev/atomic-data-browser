@@ -42,7 +42,7 @@ export default function InputResourceArray({ resource, property, required }: Inp
           handleRemove={() => handleRemove(index)}
         />
       ))}
-      <Button title='Add an item to this list' subtle type='button' onClick={handleAdd}>
+      <Button title='Add an item to this list' subtle type='button' onClick={handleAdd} style={{ marginBottom: '-1rem' }}>
         <FaPlus />
       </Button>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}

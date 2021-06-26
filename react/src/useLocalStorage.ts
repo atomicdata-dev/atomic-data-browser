@@ -15,7 +15,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) 
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
-      console.log(error);
+      console.log(`Error finding ${key} in localStorage:`, error);
       return initialValue;
     }
   });

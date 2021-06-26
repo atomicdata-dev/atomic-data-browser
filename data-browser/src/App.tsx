@@ -8,6 +8,7 @@ import { GlobalStyle, ThemeWrapper } from './styling';
 import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';
 import { NavWrapper } from './components/Navigation';
+import { MetaSetter } from './components/MetaSetter';
 import Settings from './routes/SettingsRoute';
 import { getSnowpackEnv, isDev } from './config';
 import { handleWarning, initBugsnag } from './helpers/handlers';
@@ -38,6 +39,7 @@ function App(): JSX.Element {
               <HotKeysWrapper>
                 <ThemeWrapper>
                   <GlobalStyle />
+                  <MetaSetter />
                   <NavWrapper>
                     <Switch>
                       <Route path='/new'>
