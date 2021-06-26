@@ -37,6 +37,8 @@ const inputStyle = css`
   padding: ${props => props.theme.margin / 2}rem;
   border: none;
   --webkit-appearance: none;
+  /* Remove iOS inner shadow */
+  box-shadow: none;
   display: block;
   background-color: ${props => props.theme.colors.bg};
   /* Invisible border, but useful because you need to set :focus styles with Input tags */
