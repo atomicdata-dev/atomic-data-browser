@@ -24,7 +24,7 @@ function ValueComp({ value, datatype }: Props): JSX.Element {
     case Datatype.DATE:
       return <DateTime date={value.toDate()} />;
     case Datatype.MARKDOWN:
-      return <Markdown text={value.toString()} />;
+      return <Markdown text={value.toString()} noMargin />;
     case Datatype.RESOURCEARRAY:
       return <ResourceArray subjects={value.toArray()} />;
     case Datatype.TIMESTAMP:

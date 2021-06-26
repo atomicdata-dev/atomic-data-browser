@@ -1,4 +1,4 @@
-import { Resource, properties } from '@tomic/lib';
+import { Resource, properties, classes } from '@tomic/lib';
 import { useString } from '@tomic/react';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -20,6 +20,7 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
   const history = useHistory();
   const { agent, setAgent } = useSettings();
 
+  // This should probably be placed in a useEffect
   if (redirectAgent) {
     // If there is an agent without a Subject, that is because the Browser has just sent a query param to the invite resource, as part of the invite process
     if (agent && !agent.subject) {
@@ -40,7 +41,7 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
       <ValueForm resource={resource} propertyURL={properties.description} />
       <h1>Redirect</h1>
       <p>This page should redirect you automatically (unless you have just pressed the back button)</p>
-      <AllProps resource={resource} />
+      <AllProps resource={resource} except={[properties.isA]} />
     </ContainerNarrow>
   );
 }

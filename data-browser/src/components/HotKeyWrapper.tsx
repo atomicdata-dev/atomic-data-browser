@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { dataURL, editURL, getSubjectFromDom } from '../helpers/navigation';
+import { dataURL, editURL } from '../helpers/navigation';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
@@ -17,18 +17,22 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
   const [subject] = useCurrentSubject();
   const { sideBarLocked, setSideBarLocked } = useSettings();
 
-  useHotkeys('e', () => {
-    const found = getSubjectFromDom();
-    if (found) {
-      history.push(editURL(found));
-    } else if (subject) {
+  useHotkeys(
+    'e',
+    () => {
       isValidURL(subject) && history.push(editURL(subject));
-    }
-  });
-  useHotkeys('d', () => {
-    const found = getSubjectFromDom();
-    found && history.push(dataURL(found));
-  });
+    },
+    {},
+    [subject],
+  );
+  useHotkeys(
+    'd',
+    () => {
+      isValidURL(subject) && history.push(dataURL(subject));
+    },
+    {},
+    [subject],
+  );
   useHotkeys('h', () => {
     history.push('/');
   });

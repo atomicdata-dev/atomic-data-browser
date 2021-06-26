@@ -29,6 +29,10 @@ export class CommitBuilder implements CommitBuilderI {
     const commit = await signAt(this, agentSubject, privateKey, now);
     return commit;
   }
+
+  hasUnsavedChanges(): boolean {
+    return Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0;
+  }
 }
 
 interface CommitPreSigned extends CommitBuilderI {

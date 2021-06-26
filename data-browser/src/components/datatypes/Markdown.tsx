@@ -4,20 +4,26 @@ import styled from 'styled-components';
 
 type Props = {
   text: string;
+  /** By default, all bottom Markdown elements have some margin (e.g. the last paragraph). If you set noMargin, this is corrected. */
+  noMargin?: boolean;
 };
 
 /** Renders a markdown value */
-function Markdown({ text }: Props): JSX.Element {
+function Markdown({ text, noMargin }: Props): JSX.Element {
   return (
-    <MarkdownWrapper>
+    <MarkdownWrapper noMargin={noMargin}>
       <ReactMarkdown>{text}</ReactMarkdown>
     </MarkdownWrapper>
   );
 }
 
-const MarkdownWrapper = styled.div`
+interface MarkdownWrapperProps {
+  noMargin?: boolean;
+}
+
+const MarkdownWrapper = styled.div<MarkdownWrapperProps>`
   /* Corrects the margin added by <p> and other HTML elements */
-  margin-bottom: -${p => p.theme.margin}rem;
+  margin-bottom: -${p => (p.noMargin ? p.theme.margin : 0)}rem;
 `;
 
 export default Markdown;

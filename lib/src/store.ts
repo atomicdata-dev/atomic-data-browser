@@ -176,7 +176,7 @@ export class Store {
     this.baseUrl = baseUrl;
   }
 
-  /** Registers a callback for when the a resource is updated. */
+  /** Registers a callback for when the a resource is updated. When you call this, you should probably also call .unsubscribe some time later. */
   subscribe(subject: string, callback: callback): void {
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {

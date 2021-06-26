@@ -117,6 +117,21 @@ type handleValidationErrorType = (val: JSVals, callback?: (e: Error) => unknown)
 export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationErrorType] {
   const [val, set] = useState<Value>(null);
   const store = useStore();
+  const subject = resource.getSubject();
+
+  // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
+  useEffect(() => {
+    function handleNotify(updated: Resource) {
+      // When a change happens, set the new Resource.
+      set(updated.get(propertyURL));
+    }
+    store.subscribe(subject, handleNotify);
+
+    return () => {
+      // When the component is unmounted, unsubscribe from the store.
+      store.unsubscribe(subject, handleNotify);
+    };
+  }, [store]);
 
   /** Validates the value. If it fails, it calls the function in the second Argument. Pass null to remove existing value. */
   function validateAndSet(newVal: JSVals, handleValidationError?: (e: Error) => unknown) {
@@ -134,6 +149,7 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
       try {
         await resource.set(propertyURL, newVal, store);
         handleValidationError && handleValidationError(null);
+        store.notify(resource);
       } catch (e) {
         handleValidationError && handleValidationError(e);
       }

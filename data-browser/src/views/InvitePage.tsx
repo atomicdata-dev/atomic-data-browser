@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Resource, Agent, generateKeyPair, properties } from '@tomic/lib';
-import { useBoolean, useString } from '@tomic/react';
+import { useBoolean, useNumber, useString } from '@tomic/react';
 import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
@@ -17,12 +17,13 @@ type DrivePageProps = {
 /** A View that opens an invite */
 function InvitePage({ resource }: DrivePageProps): JSX.Element {
   const [target] = useString(resource, properties.invite.target);
-  const [usagesLeft] = useString(resource, properties.invite.usagesLeft);
+  const [usagesLeft] = useNumber(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);
   const history = useHistory();
   const { agent, setAgent } = useSettings();
 
   const agentSubject = agent?.subject;
+
   if (agentSubject) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
     if (history.action != 'POP') {
@@ -58,9 +59,18 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
       <h1>
         Invite to {write ? 'edit' : 'view'} <ResourceInline subject={target} />
       </h1>
-      <Button onClick={handleNew}>Accept as new user</Button>
-      {agentSubject && <Button onClick={() => handleAccept(null, agentSubject)}>Accept as current Agent</Button>}
-      <p>({usagesLeft} usages left)</p>
+      {usagesLeft == 0 ? (
+        <p>Sorry, this Invite has no usages left. Ask for a new one.</p>
+      ) : (
+        <>
+          {agentSubject ? (
+            <Button onClick={() => handleAccept(null, agentSubject)}>Accept as current Agent</Button>
+          ) : (
+            <Button onClick={handleNew}>Accept as new user</Button>
+          )}
+          {usagesLeft && <p>({usagesLeft} usages left)</p>}
+        </>
+      )}
     </ContainerNarrow>
   );
 }

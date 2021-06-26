@@ -75,6 +75,11 @@ export class Resource {
     }
   }
 
+  /** Returns the current Commit Builder, which describes the pending changes of the resource */
+  getCommitBuilder(): CommitBuilder {
+    return this.commitBuilder;
+  }
+
   /** Returns the Error of the Resource */
   getError(): Error {
     return this.error;

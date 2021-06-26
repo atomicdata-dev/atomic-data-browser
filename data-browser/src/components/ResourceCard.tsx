@@ -87,7 +87,6 @@ function ResourceCardInner(props: Props): JSX.Element {
         <h2>{title}</h2>
       </AtomicLink>
       <ValueForm resource={resource} propertyURL={urls.properties.description} />
-      {/* {description && <Markdown text={description} />} */}
       {!small && <AllProps resource={resource} except={defaulHiddenProps} />}
     </React.Fragment>
   );
