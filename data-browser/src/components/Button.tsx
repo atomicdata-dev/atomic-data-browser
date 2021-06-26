@@ -95,10 +95,11 @@ interface ButtonBarProps {
 export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
   padding-right: 0.7rem;
   padding-left: 0.7rem;
-  /* border: none; */
   color: ${p => p.theme.colors.main};
   background-color: ${p => (p.selected ? p.theme.colors.bg2 : p.theme.colors.bg)};
   height: 100%;
+  display: flex;
+  align-items: center;
 
   &:hover:not([disabled]),
   /* &:active:not([disabled]), */

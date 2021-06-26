@@ -6,7 +6,7 @@ import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
-import { ErrMessage, LabelStyled } from './InputStyles';
+import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
@@ -158,7 +158,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
       </Field>
       {showAdvanced && (
         <AdvancedBlock>
-          <h2>Advanced settings</h2>
+          <h2>advanced</h2>
           <ResourceField propertyURL={properties.isA} resource={resource} />
           <ResourceField propertyURL={properties.parent} resource={resource} />
           <ResourceField propertyURL={properties.write} resource={resource} />
@@ -180,7 +180,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
 
 const AdvancedBlock = styled.div`
   border: solid 1px ${props => props.theme.colors.bg2};
-  /* background-color: ${p => p.theme.colors.bg1}; */
   padding: ${p => p.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};

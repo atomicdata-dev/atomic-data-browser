@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { FaHome, FaArrowLeft, FaArrowRight, FaBars, FaUser } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
@@ -19,13 +20,21 @@ interface NavWrapperProps {
 /** Wraps the entire app and adds a navbar at the bottom or the top */
 export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
   const { navbarTop } = useSettings();
+  const contentRef = React.useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    contentRef?.current?.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <>
       {navbarTop && <NavBar />}
       <SideBarWrapper>
         <SideBar />
-        <Content topPadding={navbarTop}>{children}</Content>
+        <Content ref={contentRef} topPadding={navbarTop}>
+          {children}
+        </Content>
       </SideBarWrapper>
       {!navbarTop && <NavBar />}
     </>

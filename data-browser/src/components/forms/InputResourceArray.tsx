@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrayError } from '@tomic/lib';
 import { useArray } from '@tomic/react';
-import { ButtonMargin } from '../Button';
+import { Button } from '../Button';
 import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
@@ -42,9 +42,9 @@ export default function InputResourceArray({ resource, property, required }: Inp
           handleRemove={() => handleRemove(index)}
         />
       ))}
-      <ButtonMargin title='Add an item to this list' subtle type='button' onClick={handleAdd}>
+      <Button title='Add an item to this list' subtle type='button' onClick={handleAdd}>
         <FaPlus />
-      </ButtonMargin>
+      </Button>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
       {array == [] && <ErrMessage>Required</ErrMessage>}
     </>
