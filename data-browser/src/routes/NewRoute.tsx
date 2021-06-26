@@ -14,6 +14,7 @@ import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';
 import { ResourceSelector } from '../components/forms/ResourceSelector';
 import { Button } from '../components/Button';
+import { FaCog, FaInfo } from 'react-icons/fa';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -70,6 +71,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [klassDescription] = useString(klass, properties.description);
   /** Set the URL of the newly created subject. Will be a random string at first. */
   const [newSubject, setNewSubject] = useState<string>(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
@@ -105,9 +107,12 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   return (
     <>
       <h2>
-        new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>
+        new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>{' '}
+        <Button onClick={() => setShowDetails(!showDetails)} icon subtle={!showDetails} title='Toggle show Class details'>
+          <FaInfo />
+        </Button>
       </h2>
-      {klassDescription && <Markdown text={klassDescription} />}
+      {showDetails && klassDescription && <Markdown text={klassDescription} />}
       <Field
         error={subjectErr}
         label='subject'

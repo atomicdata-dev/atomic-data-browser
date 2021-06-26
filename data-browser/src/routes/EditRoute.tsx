@@ -6,8 +6,8 @@ import { ContainerNarrow } from '../components/Containers';
 import { InputStyled } from '../components/forms/InputStyles';
 import { ResourceForm } from '../components/forms/ResourceForm';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import ResourceContextMenu from '../components/ResourceContextMenu';
 import { Button } from '../components/Button';
+import { FaCog } from 'react-icons/fa';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
@@ -18,6 +18,7 @@ export function Edit(): JSX.Element {
   const [subjectInput, setSubjectInput] = useState<string>(null);
   const history = useHistory();
   const store = useStore();
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   function handleClassSet(e) {
     e.preventDefault();
@@ -36,13 +37,7 @@ export function Edit(): JSX.Element {
       {/* Key is required for re-rendering when subject changes */}
       {subject ? (
         <>
-          <h1>
-            edit {title}
-            <ResourceContextMenu subject={subject} hide={['edit']} />
-          </h1>
-          <Button onClick={handleDestroy} subtle>
-            delete
-          </Button>
+          <h1>edit {title}</h1>
           <ResourceForm resource={resource} key={subject} />
         </>
       ) : (

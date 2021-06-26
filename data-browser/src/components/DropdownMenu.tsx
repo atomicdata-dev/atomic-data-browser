@@ -169,7 +169,7 @@ const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
   width: 100%;
   text-align: left;
   color: ${p => p.theme.colors.text};
-  padding: 0.8rem;
+  padding: 0.4rem 0.7rem;
   height: auto;
   background-color: ${p => (p.selected ? p.theme.colors.bg1 : p.theme.colors.bg)};
 
@@ -185,6 +185,8 @@ const Menu = styled.nav<MenuProps>`
   overflow: hidden;
   background: ${p => p.theme.colors.bg};
   border: solid 1px ${props => props.theme.colors.bg2};
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
   border-radius: 8px;
   position: fixed;
   z-index: 1;

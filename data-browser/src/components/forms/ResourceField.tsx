@@ -25,6 +25,7 @@ function ResourceField({ handleDelete, propertyURL, resource, required, autofocu
       helper={<HelperText text={property.description} link={property.subject} />}
       label={property.shortname}
       handleDelete={handleDelete}
+      required={required}
     >
       <InputSwitcher resource={resource} property={property} required={required} autofocus={autofocus} />
     </Field>

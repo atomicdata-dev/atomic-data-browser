@@ -40,10 +40,11 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   /** A list of custom properties, set by the User while editing this form */
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   /** Builds otherProps */
   useEffect(() => {
-    const prps = [];
+    let prps = [];
     const allProps = Array.from(resource.getPropVals().keys());
     // Iterate over all properties. If a property does not exist in requires or recommends, add it to otherprops
     for (const prop of allProps) {
@@ -52,6 +53,11 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
         prps.push(prop);
       }
     }
+    // The `is-a` property is not very useful in most cases, only show it if explicitly set
+    prps = prps.filter(prop => prop !== properties.isA);
+    prps = prps.filter(prop => prop !== properties.parent);
+    prps = prps.filter(prop => prop !== properties.read);
+    prps = prps.filter(prop => prop !== properties.write);
     setOtherProps(prps.concat(tempOtherProps));
     // I actually want to run this useEffect every time the requires / recommends array changes, but that leads to a weird loop, so that's what the length is for
   }, [resource, tempOtherProps, requires.length, recommends.length]);
@@ -123,15 +129,12 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
       {classStatus == ResourceStatus.error && (
         <ErrMessage>Error in class. {klass.getError().message}. You can still edit the resource, though.</ErrMessage>
       )}
-      {requires.length > 0 && <em title='These properties are marked as Required by the Class of the Resource'>required fields:</em>}
       {requires.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} required />;
       })}
-      {recommends.length > 0 && <em title='These properties are marked as Recommended in the Class of the Resource.'>optional fields:</em>}
       {recommends.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} />;
       })}
-      {otherProps.length > 0 && <em title='These properties are not present in any of the Classes of the Resource.'>other fields:</em>}
       {otherProps.map(property => {
         return <ResourceField key={property} propertyURL={property} resource={resource} handleDelete={() => handleDelete(property)} />;
       })}
@@ -153,15 +156,36 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           />
         </PropertyAdder>
       </Field>
+      {showAdvanced && (
+        <AdvancedBlock>
+          <h2>Advanced settings</h2>
+          <ResourceField propertyURL={properties.isA} resource={resource} />
+          <ResourceField propertyURL={properties.parent} resource={resource} />
+          <ResourceField propertyURL={properties.write} resource={resource} />
+          <ResourceField propertyURL={properties.read} resource={resource} />
+        </AdvancedBlock>
+      )}
       {agent && (
         <Button onClick={handleSubmit} disabled={saving}>
           {saving ? 'wait...' : 'save'}
         </Button>
       )}
+      <Button subtle onClick={() => setShowAdvanced(!showAdvanced)}>
+        {showAdvanced ? 'hide' : 'show'} advanced
+      </Button>
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );
 }
+
+const AdvancedBlock = styled.div`
+  border: solid 1px ${props => props.theme.colors.bg2};
+  /* background-color: ${p => p.theme.colors.bg1}; */
+  padding: ${p => p.theme.margin}rem;
+  padding-bottom: 0;
+  border-radius: ${props => props.theme.radius};
+  margin-bottom: ${p => p.theme.margin}rem;
+`;
 
 const PropertyAdder = styled.div`
   display: flex;

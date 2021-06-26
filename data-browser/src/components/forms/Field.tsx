@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaInfo, FaTrash } from 'react-icons/fa';
+import { FaAsterisk, FaInfo, FaTrash } from 'react-icons/fa';
+import styled from 'styled-components';
 import { ButtonIcon } from '../Button';
 import { ErrMessage, FieldStyled, LabelHelper, LabelStyled, LabelWrapper } from './InputStyles';
 
 /** High level form field skeleton. Pass the actual input as a child component. */
-function Field({ label, helper, children, error, handleDelete }: IFieldProps): JSX.Element {
+function Field({ label, helper, children, error, handleDelete, required }: IFieldProps): JSX.Element {
   const [collapsedHelper, setCollapsed] = useState(true);
 
   return (
@@ -13,9 +14,20 @@ function Field({ label, helper, children, error, handleDelete }: IFieldProps): J
         <LabelStyled>
           {label}{' '}
           {helper && (
-            <ButtonIcon subtle type='button' onClick={() => setCollapsed(!collapsedHelper)} style={{ marginRight: '.2rem' }}>
+            <ButtonIcon
+              subtle={collapsedHelper}
+              type='button'
+              onClick={() => setCollapsed(!collapsedHelper)}
+              style={{ marginRight: '.2rem' }}
+              title='Show helper'
+            >
               <FaInfo />
             </ButtonIcon>
+          )}
+          {required && (
+            <IconWrapper title='Required field'>
+              <FaAsterisk />
+            </IconWrapper>
           )}
         </LabelStyled>
         {handleDelete && (
@@ -24,12 +36,22 @@ function Field({ label, helper, children, error, handleDelete }: IFieldProps): J
           </ButtonIcon>
         )}
       </LabelWrapper>
-      {!collapsedHelper && <LabelHelper>{helper}</LabelHelper>}
+      {!collapsedHelper && (
+        <LabelHelper>
+          {helper}
+          {required && <p>Required field.</p>}
+        </LabelHelper>
+      )}
       {children}
       {error && <ErrMessage title={`Error: ${JSON.stringify(error)}`}>{error.message}</ErrMessage>}
     </FieldStyled>
   );
 }
+
+const IconWrapper = styled.span`
+  font-size: 0.8rem;
+  color: ${props => props.theme.colors.textLight};
+`;
 
 interface IFieldProps {
   /** Label */
@@ -38,6 +60,8 @@ interface IFieldProps {
   helper?: React.ReactNode;
   /** Here goes the input */
   children: React.ReactNode;
+  /** If the field is requires. Shows an aterisk with hover text */
+  required?: boolean;
   /** The error to be shown in the component */
   error?: Error;
   /** This function will be called when the delete icon is clicked. This should remove the item from any parent list */

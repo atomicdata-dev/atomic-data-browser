@@ -146,7 +146,7 @@ export const ButtonIcon = styled(ButtonMargin)`
   box-shadow: none;
   border-color: transparent;
   border-radius: 999px;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   width: 1.3rem;
   height: 1.3rem;
   display: inline-flex;
