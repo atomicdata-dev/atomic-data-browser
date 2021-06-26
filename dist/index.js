@@ -482,6 +482,8 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
   padding: ${e=>e.theme.margin/2}rem;
   border: none;
   --webkit-appearance: none;
+  /* Remove iOS inner shadow */
+  box-shadow: none;
   display: block;
   background-color: ${e=>e.theme.colors.bg};
   /* Invisible border, but useful because you need to set :focus styles with Input tags */
