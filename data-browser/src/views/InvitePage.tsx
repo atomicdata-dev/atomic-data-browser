@@ -68,7 +68,7 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
           ) : (
             <Button onClick={handleNew}>Accept as new user</Button>
           )}
-          {usagesLeft && <p>({usagesLeft} usages left)</p>}
+          {!isNaN(usagesLeft) && <p>({usagesLeft} usages left)</p>}
         </>
       )}
     </ContainerNarrow>
