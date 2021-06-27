@@ -5,7 +5,7 @@ import { ButtonIcon } from '../Button';
 import { ErrMessage, FieldStyled, LabelHelper, LabelStyled, LabelWrapper } from './InputStyles';
 
 /** High level form field skeleton. Pass the actual input as a child component. */
-function Field({ label, helper, children, error, handleDelete, required }: IFieldProps): JSX.Element {
+function Field({ label, helper, children, error, handleDelete, required, disabled }: IFieldProps): JSX.Element {
   const [collapsedHelper, setCollapsed] = useState(true);
 
   return (
@@ -30,7 +30,7 @@ function Field({ label, helper, children, error, handleDelete, required }: IFiel
             </IconWrapper>
           )}
         </LabelStyled>
-        {handleDelete && (
+        {!disabled && handleDelete && (
           <ButtonIcon subtle title='Delete this property' type='button' onClick={() => handleDelete('test')}>
             <FaTrash />
           </ButtonIcon>
@@ -62,6 +62,7 @@ interface IFieldProps {
   children: React.ReactNode;
   /** If the field is requires. Shows an aterisk with hover text */
   required?: boolean;
+  disabled?: boolean;
   /** The error to be shown in the component */
   error?: Error;
   /** This function will be called when the delete icon is clicked. This should remove the item from any parent list */

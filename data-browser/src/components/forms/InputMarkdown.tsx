@@ -6,7 +6,7 @@ import Yamde from 'yamde';
 import { useSettings } from '../../helpers/AppSettings';
 import styled from 'styled-components';
 
-export default function InputMarkdown({ resource, property }: InputProps): JSX.Element {
+export default function InputMarkdown({ resource, property, ...props }: InputProps): JSX.Element {
   const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
   const { darkMode } = useSettings();
@@ -15,7 +15,7 @@ export default function InputMarkdown({ resource, property }: InputProps): JSX.E
     <>
       <InputWrapper>
         <YamdeStyling>
-          <Yamde value={value} handler={e => setVale(e, setErr)} theme={darkMode ? 'dark' : 'light'} />
+          <Yamde value={value} handler={e => setVale(e, setErr)} theme={darkMode ? 'dark' : 'light'} {...props} />
         </YamdeStyling>
         {/* <TextAreaStyled rows={3} value={value == null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} /> */}
       </InputWrapper>

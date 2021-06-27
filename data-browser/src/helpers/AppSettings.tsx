@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useContext } from 'react';
 import { Agent } from '@tomic/lib';
-import { useDarkMode } from './useDarkMode';
+import { DarkModeOption, useDarkMode } from './useDarkMode';
 import { useLocalStorage, useCurrentAgent } from '@tomic/react';
 
 interface ProviderProps {
@@ -10,7 +10,7 @@ interface ProviderProps {
 
 /** Create a provider for components to consume and subscribe to changes */
 export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element => {
-  const [darkMode, setDarkMode] = useDarkMode();
+  const [darkMode, setDarkMode, darkModeSetting] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
   const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
   const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
@@ -21,6 +21,7 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
     <SettingsContext.Provider
       value={{
         darkMode,
+        darkModeSetting,
         setDarkMode,
         mainColor,
         setMainColor,
@@ -43,6 +44,8 @@ export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element =>
 interface AppSettings {
   /** Whether the App should render in dark mode. Checks user preferences. */
   darkMode: boolean;
+  /** 'always', 'never' or 'auto' */
+  darkModeSetting: DarkModeOption;
   /** When calling this with undefined (no arguments), it uses the browser's preference */
   setDarkMode: (b?: boolean) => void;
   /** CSS value for the primary color */

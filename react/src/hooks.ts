@@ -260,5 +260,34 @@ export function useStore(): Store {
   return store;
 }
 
+/** Checks if the current user can edit this resource */
+export function useCanWrite(resource: Resource, agent?: string): [boolean | null, string] {
+  const store = useStore();
+  const [canWrite, setCanWrite] = useState<boolean | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  // If the subject changes, make sure to change the resource!
+  useEffect(() => {
+    if (agent == undefined) {
+      setMsg('No agent set');
+      setCanWrite(false);
+      return;
+    }
+    setMsg('Checking write rights...');
+    async function tryCanWrite() {
+      const canWriteAsync = await resource.canWrite(store, agent);
+      setCanWrite(canWriteAsync);
+      if (canWriteAsync) {
+        setMsg('You have the correct rights');
+      } else {
+        setMsg("You don't have write rights in this resource or its parents");
+      }
+    }
+    tryCanWrite();
+  }, [resource, agent]);
+
+  return [canWrite, msg];
+}
+
 /** The context must be provided by wrapping a high level React element in <StoreContext.Provider value={new Store}> */
 export const StoreContext = React.createContext<Store>(undefined);

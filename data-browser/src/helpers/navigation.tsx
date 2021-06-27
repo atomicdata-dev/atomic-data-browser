@@ -1,3 +1,5 @@
+import { paths } from '../routes/paths';
+
 /** Constructs a URL string with a route, a query Parameter and a value */
 function constructURL(
   /** The base path, e.g. '/new' */
@@ -14,20 +16,20 @@ function constructURL(
 }
 
 export function openURL(subject: string): string {
-  return constructURL('/show', 'subject', subject);
+  return constructURL(paths.show, 'subject', subject);
 }
 
 export function newURL(classUrl: string, parentURL?: string): string {
   // TODO: handle parentURL
-  return constructURL('/new', 'classSubject', classUrl);
+  return constructURL(paths.new, 'classSubject', classUrl);
 }
 
 export function editURL(subject: string): string {
-  return constructURL('/edit', 'subject', subject);
+  return constructURL(paths.edit, 'subject', subject);
 }
 
 export function dataURL(subject: string): string {
-  return constructURL('/data', 'subject', subject);
+  return constructURL(paths.data, 'subject', subject);
 }
 
 /** Takes the cursor position, finds the nearest `about=` attributes in DOM nodes */

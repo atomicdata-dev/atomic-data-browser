@@ -1,5 +1,5 @@
 import { Resource, properties, classes } from '@tomic/lib';
-import { useString } from '@tomic/react';
+import { useStore, useString } from '@tomic/react';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
   const [redirectAgent] = useString(resource, properties.redirect.redirectAgent);
   const history = useHistory();
   const { agent, setAgent } = useSettings();
+  const store = useStore();
 
   // This should probably be placed in a useEffect
   if (redirectAgent) {
@@ -32,6 +33,8 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
   if (destination) {
     // go to the destination, unless the user just hit the back button
     if (history.action != 'POP') {
+      // Fetch that resource again
+      store.fetchResource(destination, true);
       history.push(openURL(destination));
     }
   }

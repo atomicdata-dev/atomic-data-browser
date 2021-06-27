@@ -133,7 +133,7 @@ function NavBar() {
             <FaHome />
           </ButtonBar>
           {agent && (
-            <ButtonBar type='button' onClick={() => handleNavigation(openURL(agent.subject))} title='Show current User'>
+            <ButtonBar type='button' onClick={() => handleNavigation('/app/agent')} title='Show current User'>
               <FaUser />
             </ButtonBar>
           )}

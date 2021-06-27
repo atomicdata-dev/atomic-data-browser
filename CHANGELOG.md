@@ -17,14 +17,23 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Dark mode syncs with user
 - Scroll to top on page change #47
 - Improve keyboard shortcuts for edit / data view #52
+- Move Agent settings to sidebar item
+- Add rights check
+- Change routes and settings structure
+- Add Disabled state to form fields
+- Improved hotkey handling
+- Fix edit subject in resource form
 
 ### @tomic/react
 
-- Resources will update when properties change
+- Resources will update when properties change (notify listeners on update)
+- clean up package.json / dependencies
+- Add rights check hook
 
 ### @tomic/lib
 
 - Add `getCommitBuilder` and `hasChanges` function to `resource` and `commitBuilder`
+- Add rights check to resource
 
 ## v0.0.11
 

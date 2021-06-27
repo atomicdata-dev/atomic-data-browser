@@ -5664,7 +5664,7 @@ eslint-watch@^7.0.0:
     optionator "^0.9.1"
     source-map-support "^0.5.13"
 
-eslint@^7.23.0, eslint@^7.29.0:
+eslint@^7.29.0:
   version "7.29.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.29.0.tgz#ee2a7648f2e729485e4d0bd6383ec1deabc8b3c0"
   integrity sha512-82G/JToB9qIy/ArBzIWG9xvvwL3R86AlCjtGw+A29OMZDqhTybz/MByORSukGxeI+YPCR4coYyITKk8BFH9nDA==

@@ -11,13 +11,13 @@ type PropVals = Map<string, Value>;
 /** The various basic states that an in-memory Resource can be in. */
 export enum ResourceStatus {
   /** Fetching has started, but no response was received */
-  loading,
+  loading = 'loading',
   /** If something went wrong while fetching or parsing */
-  error,
+  error = 'error',
   /** Fetched, parsed, stored and ready for usage */
-  ready,
+  ready = 'ready',
   /** Newly created, not saved to the store */
-  new,
+  new = 'new',
 }
 
 /** Describes an Atomic Resource, which has a Subject URL and a bunch of Property / Value combinations. */
@@ -38,6 +38,23 @@ export class Resource {
     this.subject = subject;
     this.propvals = new Map();
     this.commitBuilder = new CommitBuilder(subject);
+  }
+
+  /** Checks if the agent has write rights by traversing the graph. Recursive function. */
+  async canWrite(store: Store, agent: string): Promise<boolean> {
+    const writeArray = this.get(properties.write)?.toArray();
+
+    if (writeArray && writeArray.includes(agent)) {
+      return true;
+    }
+    const parentSubject = this.get(properties.parent)?.toString();
+    if (parentSubject == undefined) {
+      return false;
+    }
+    const parent: Resource = await store.getResourceAsync(parentSubject);
+    // The recursive part
+    const canWrite = await parent.canWrite(store, agent);
+    return canWrite;
   }
 
   /** Checks if the resource is both loaded and free from errors */

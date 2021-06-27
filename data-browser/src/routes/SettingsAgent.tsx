@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Button, ButtonInput } from './Button';
-import { InputStyled, InputWrapper, LabelStyled } from './forms/InputStyles';
 import { useState } from 'react';
 import { Agent } from '@tomic/lib';
-import { Card, Margin } from './Card';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
-import ResourceInline from './ResourceInline';
-import Field from './forms/Field';
 import { useSettings } from '../helpers/AppSettings';
+import { InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
+import { ButtonInput, Button } from '../components/Button';
+import { Margin } from '../components/Card';
+import Field from '../components/forms/Field';
+import ResourceInline from '../components/ResourceInline';
+import { ContainerNarrow } from '../components/Containers';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -103,9 +104,9 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   return (
-    <Card>
+    <ContainerNarrow>
       <form>
-        <h2>Agent</h2>
+        <h1>User Settings</h1>
         <p>
           An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
         </p>
@@ -199,7 +200,7 @@ const SettingsAgent: React.FunctionComponent = () => {
           </Button>
         )}
       </form>
-    </Card>
+    </ContainerNarrow>
   );
 };
 

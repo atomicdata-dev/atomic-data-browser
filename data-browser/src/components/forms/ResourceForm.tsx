@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Resource, ResourceStatus, classes, properties, urls } from '@tomic/lib';
-import { useArray, useResource, useStore, useString } from '@tomic/react';
+import { useArray, useCanWrite, useResource, useStore, useString } from '@tomic/react';
 import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
@@ -10,6 +10,7 @@ import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
+import { useSettings } from '../../helpers/AppSettings';
 
 type ResourceFormProps = {
   /** Optionally sets the isA Class of a resource. Really useful when creating a new instance of some resource */
@@ -41,6 +42,19 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const { agent } = useSettings();
+  const [canWrite, canWriteErr] = useCanWrite(resource, agent?.subject);
+  const [disabled, setDisabled] = useState(false);
+
+  // Sets agent warning / eror
+  useEffect(() => {
+    if (canWrite == false) {
+      setErr(new Error(`Cannot save: ${canWriteErr}.`));
+      setDisabled(true);
+    } else {
+      setErr(null);
+    }
+  }, [canWrite, canWriteErr, agent]);
 
   /** Builds otherProps */
   useEffect(() => {
@@ -113,29 +127,27 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
     setTempOtherProps(tempOtherProps.filter(prop => prop != propertyURL));
   }
 
-  let warning = null;
-
-  if (!resource.getSubject().includes(store.getBaseUrl())) {
-    warning = `You're trying to edit / create a resource (${resource.getSubject()}) outside of your Base URL (${store.getBaseUrl()}). You might not have the rights to edit this.`;
-  }
-  const agent = store.getAgent();
-  if (agent == null) {
-    warning = `No Agent has been set. You can't edit or post resources. Go to the settings page (press 's') and enter an Agent.`;
-  }
-
   return (
     <form about={resource.getSubject()}>
       {classStatus == ResourceStatus.error && (
         <ErrMessage>Error in class. {klass.getError().message}. You can still edit the resource, though.</ErrMessage>
       )}
       {requires.map(property => {
-        return <ResourceField key={property} propertyURL={property} resource={resource} required />;
+        return <ResourceField key={property} propertyURL={property} resource={resource} disabled={disabled} required />;
       })}
       {recommends.map(property => {
-        return <ResourceField key={property} propertyURL={property} resource={resource} />;
+        return <ResourceField key={property} propertyURL={property} resource={resource} disabled={disabled} />;
       })}
       {otherProps.map(property => {
-        return <ResourceField key={property} propertyURL={property} resource={resource} handleDelete={() => handleDelete(property)} />;
+        return (
+          <ResourceField
+            key={property}
+            propertyURL={property}
+            resource={resource}
+            disabled={disabled}
+            handleDelete={() => handleDelete(property)}
+          />
+        );
       })}
       <Field
         label='add another property...'
@@ -162,15 +174,15 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           <ResourceField propertyURL={properties.parent} resource={resource} />
           <ResourceField propertyURL={properties.write} resource={resource} />
           <ResourceField propertyURL={properties.read} resource={resource} />
+          <Button onClick={() => setDisabled(false)}>Override rights check</Button>
         </AdvancedBlock>
       )}
-      <Button onClick={handleSubmit} disabled={!agent || saving}>
+      <Button onClick={handleSubmit} disabled={disabled || saving}>
         {saving ? 'wait...' : 'save'}
       </Button>
       <Button subtle onClick={() => setShowAdvanced(!showAdvanced)}>
         {showAdvanced ? 'hide' : 'show'} advanced
       </Button>
-      {warning && <ErrMessage>⚠️{warning}</ErrMessage>}
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );

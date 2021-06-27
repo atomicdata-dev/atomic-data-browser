@@ -8,10 +8,11 @@ export function useCurrentSubjectQueryParam(): [string, setFunc] {
   return useQueryParam('subject', StringParam);
 }
 
-const defaultPaths = ['/new', '/', '/settings'];
-
 /** Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. */
-export function useCurrentSubject(): [string | null, setFunc] {
+export function useCurrentSubject(
+  /** Replace URL instead of push it, so it does not get added to history */
+  replace?: boolean,
+): [string | null, setFunc] {
   const [subjectQ, setSubjectQ] = useCurrentSubjectQueryParam();
   const history = useHistory();
   const { pathname, search } = useLocation();
@@ -19,13 +20,18 @@ export function useCurrentSubject(): [string | null, setFunc] {
   function handleSetSubject(subject: string) {
     const url = new URL(subject);
     if (window.location.origin == url.origin) {
-      history.push(url.pathname + url.search);
+      if (replace) {
+        history.replace(url.pathname + url.search);
+      } else {
+        history.push(url.pathname + url.search);
+      }
     } else {
+      // TODO: Handle replace
       setSubjectQ(subject);
     }
   }
   if (subjectQ == undefined) {
-    if (defaultPaths.includes(pathname)) {
+    if (pathname.startsWith('/app/')) {
       return [null, handleSetSubject];
     }
     return [window.location.origin + pathname + search, handleSetSubject];

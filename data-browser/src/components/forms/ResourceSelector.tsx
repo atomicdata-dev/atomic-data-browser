@@ -19,6 +19,7 @@ interface ResourceSelectorProps {
   error: Error;
   /** Set an ArrayError. A special type, because the parent needs to know where in the Array the error occurred */
   setError: Dispatch<SetStateAction<ArrayError>>;
+  disabled?: boolean;
 }
 
 /** Form field for selecting a single resource. Needs external subject & setSubject properties */
@@ -30,6 +31,7 @@ export function ResourceSelector({
   error,
   setError,
   classType,
+  disabled,
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource(getCollectionURL(classType));
@@ -68,6 +70,7 @@ export function ResourceSelector({
         options={options}
         onRemove={handleRemove}
         initial={value}
+        disabled={disabled}
       />
       {value !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
       {required && value == '' && <ErrMessage>Required</ErrMessage>}

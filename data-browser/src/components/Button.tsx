@@ -93,8 +93,8 @@ interface ButtonBarProps {
 /** Button inside the navigation bar */
 // eslint-disable-next-line prettier/prettier
 export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
-  padding-right: 0.7rem;
-  padding-left: 0.7rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
   color: ${p => p.theme.colors.main};
   background-color: ${p => (p.selected ? p.theme.colors.bg2 : p.theme.colors.bg)};
   height: 100%;

@@ -3,18 +3,19 @@ import { tryValidURL } from './client';
 import { JSVals, Value } from './value';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
+// TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
 export enum Datatype {
-  ATOMIC_URL,
-  BOOLEAN,
-  DATE,
-  FLOAT,
-  INTEGER,
-  MARKDOWN,
-  RESOURCEARRAY,
-  SLUG,
-  STRING,
-  TIMESTAMP,
-  UNKNOWN,
+  ATOMIC_URL = 'https://atomicdata.dev/datatypes/atomicURL',
+  BOOLEAN = 'https://atomicdata.dev/datatypes/boolean',
+  DATE = 'https://atomicdata.dev/datatypes/date',
+  FLOAT = 'https://atomicdata.dev/datatypes/float',
+  INTEGER = 'https://atomicdata.dev/datatypes/integer',
+  MARKDOWN = 'https://atomicdata.dev/datatypes/markdown',
+  RESOURCEARRAY = 'https://atomicdata.dev/datatypes/resourceArray',
+  SLUG = 'https://atomicdata.dev/datatypes/slug',
+  STRING = 'https://atomicdata.dev/datatypes/string',
+  TIMESTAMP = 'https://atomicdata.dev/datatypes/timestamp',
+  UNKNOWN = 'unknown',
 }
 
 /** Convert a URL to a Datatype */

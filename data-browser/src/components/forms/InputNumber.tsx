@@ -3,7 +3,7 @@ import { useNumber } from '@tomic/react';
 import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
 
-export default function InputNumber({ resource, property, required }: InputProps): JSX.Element {
+export default function InputNumber({ resource, property, ...props }: InputProps): JSX.Element {
   const [value, setValue] = useNumber(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
 
@@ -20,13 +20,7 @@ export default function InputNumber({ resource, property, required }: InputProps
   return (
     <>
       <InputWrapper>
-        <InputStyled
-          placeholder='Enter a number...'
-          type='number'
-          value={value == null ? NaN : value}
-          onChange={handleUpdate}
-          required={required}
-        />
+        <InputStyled placeholder='Enter a number...' type='number' value={value == null ? NaN : value} onChange={handleUpdate} {...props} />
       </InputWrapper>
       {value !== null && err && <ErrMessage>{err.message}</ErrMessage>}
       {value == null && <ErrMessage>Required</ErrMessage>}

@@ -10,6 +10,7 @@ import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
+import { FaCog, FaKeyboard, FaPlus, FaUser } from 'react-icons/fa';
 
 export function SideBar(): JSX.Element {
   const store = useStore();
@@ -18,29 +19,40 @@ export function SideBar(): JSX.Element {
   const history = useHistory();
   const title = useTitle(drive);
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>();
-  const { darkMode, navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
+  const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const windowSize = useWindowSize();
 
   const appMenuItems: MenuItemProps[] = [
     {
+      icon: <FaPlus />,
       label: 'new resource',
       helper: 'Create a new Resource, based on a Class',
       onClick: () => {
-        history.push('/new');
+        history.push('/app/new');
       },
     },
     {
+      icon: <FaUser />,
+      label: 'user settings',
+      helper: 'See and edit the current Agent / User',
+      onClick: () => {
+        history.push('/app/agent');
+      },
+    },
+    {
+      icon: <FaCog />,
+      label: 'theme settings',
+      helper: 'Edit the theme, current Agent, and more.',
+      onClick: () => {
+        history.push('/app/theme');
+      },
+    },
+    {
+      icon: <FaKeyboard />,
       label: 'keyboard shortcuts',
       helper: 'View the keyboard shortcuts',
       onClick: () => {
-        history.push('/shortcuts');
-      },
-    },
-    {
-      label: 'settings',
-      helper: 'Edit the theme, current Agent, and more.',
-      onClick: () => {
-        history.push('/settings');
+        history.push('/app/shortcuts');
       },
     },
   ];
@@ -93,6 +105,7 @@ export function SideBar(): JSX.Element {
           handleCloseSideBarMayb();
         }}
       >
+        {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
         {item.label}
       </SideBarItem>
     );
@@ -115,14 +128,6 @@ export function SideBar(): JSX.Element {
           {appMenuItems.map(renderMenuItem)}
           <SideBarHeader>
             <Logo style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }} />
-            {/* <img
-              onClick={() => {
-                history.push('/');
-              }}
-              src={darkMode ? logoWhite : logoBlack}
-              alt='Atomic Data'
-              style={{ height: '1.1rem', maxWidth: '100%' }}
-            /> */}
           </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
@@ -223,5 +228,11 @@ export const SideBarItem = styled(Button)`
 
   &:hover {
     background-color: ${p => p.theme.colors.bg1};
+    color: ${p => p.theme.colors.text};
   }
+`;
+
+const SideBarIcon = styled.span`
+  display: flex;
+  margin-right: 0.5rem;
 `;

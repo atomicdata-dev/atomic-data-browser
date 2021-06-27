@@ -8,6 +8,16 @@ This repo consists of three components: a javascript / typescript library, a rea
 
 ## `@tomic/lib`
 
+<a href="https://www.npmjs.com/package/@tomic/lib" target="_blank">
+  <img src="https://img.shields.io/npm/v/@tomic/lib?color=cc3534" />
+</a>
+<a href="https://www.npmjs.com/package/@tomic/lib" target="_blank">
+  <img src="https://img.shields.io/npm/dm/@tomic/lib?color=%2344cc10" />
+</a>
+<a href="https://bundlephobia.com/result?p=@tomic/lib" target="_blank">
+  <img src="https://badgen.net/bundlephobia/minzip/@tomic/lib">
+</a>
+
 Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 [→ Read more](lib/README.md)

@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { isValidURL } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
+import { paths } from '../routes/paths';
 
 type Props = {
   children: React.ReactNode;
@@ -37,13 +38,16 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     history.push('/');
   });
   useHotkeys('n', () => {
-    history.push('/new');
+    history.push(paths.new);
   });
-  useHotkeys('s', () => {
-    history.push('/settings');
+  useHotkeys('u', () => {
+    history.push(paths.agentSettings);
+  });
+  useHotkeys('t', () => {
+    history.push(paths.themeSettings);
   });
   useHotkeys('shift+/', () => {
-    history.push('/shortcuts');
+    history.push(paths.shortcuts);
   });
   useHotkeys(
     '\\',

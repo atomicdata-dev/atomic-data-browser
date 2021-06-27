@@ -14,7 +14,8 @@ import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';
 import { ResourceSelector } from '../components/forms/ResourceSelector';
 import { Button } from '../components/Button';
-import { FaCog, FaInfo } from 'react-icons/fa';
+import { FaInfo } from 'react-icons/fa';
+import { useCurrentSubject } from '../helpers/useCurrentSubject';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -66,11 +67,12 @@ interface NewFormProps {
 /** Form for instantiating a new Resource from some Class */
 function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [klass] = useResource(classSubject);
+  const [newSubject, setNewSubject] = useCurrentSubject(true);
 
   const klassTitle = useTitle(klass);
   const [klassDescription] = useString(klass, properties.description);
   /** Set the URL of the newly created subject. Will be a random string at first. */
-  const [newSubject, setNewSubject] = useState<string>(null);
+  // const [newSubject, setNewSubject] = useState<string>(null);
   const [showDetails, setShowDetails] = useState(false);
 
   const [subjectErr, setSubjectErr] = useState<Error>(null);

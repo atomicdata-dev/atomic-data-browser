@@ -7,7 +7,7 @@ import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import { FaPlus } from 'react-icons/fa';
 
-export default function InputResourceArray({ resource, property, required }: InputProps): JSX.Element {
+export default function InputResourceArray({ resource, property, ...props }: InputProps): JSX.Element {
   const [array, setArray] = useArray(resource, property.subject);
   const [err, setErr] = useState<ArrayError>(null);
 
@@ -38,8 +38,8 @@ export default function InputResourceArray({ resource, property, required }: Inp
           error={err?.index == index && err}
           setError={setErr}
           classType={property.classType}
-          required={required}
           handleRemove={() => handleRemove(index)}
+          {...props}
         />
       ))}
       <Button title='Add an item to this list' subtle type='button' onClick={handleAdd} style={{ marginBottom: '-1rem' }}>

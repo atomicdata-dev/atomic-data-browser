@@ -18,10 +18,20 @@ interface DropDownListProps {
   placeholder?: string;
   /** If true, allows other-than-options values. Will still validate the input, though. */
   allowOther?: boolean;
+  disabled?: boolean;
 }
 
 /** An input for selecting a value from a dropdown menu. This component assumes that values are Resource IDs. */
-export function DropdownInput({ allowOther, required, initial, placeholder, onRemove, onUpdate, options }: DropDownListProps): JSX.Element {
+export function DropdownInput({
+  allowOther,
+  required,
+  initial,
+  placeholder,
+  onRemove,
+  onUpdate,
+  options,
+  disabled,
+}: DropDownListProps): JSX.Element {
   const themeContext = useContext(ThemeContext);
 
   function stateReducer(state, changes) {
@@ -61,7 +71,7 @@ export function DropdownInput({ allowOther, required, initial, placeholder, onRe
       }): JSX.Element => (
         <DropDownStyled>
           <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
-            <InputStyled size={5} {...getInputProps()} required={required} placeholder={placeholder} />
+            <InputStyled disabled={disabled} size={5} {...getInputProps()} required={required} placeholder={placeholder} />
             {selectedItem ? (
               //@ts-ignore issue with types from Downshift
               <ButtonInput type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>

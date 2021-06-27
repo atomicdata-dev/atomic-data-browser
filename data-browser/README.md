@@ -75,7 +75,7 @@ vim .env
 - **helpers**: projects-specific helper functions
 - **atomic-lib**: general atomic data library, containing logic for the store, parsing, sending requests, the Resource model, datatype validations, creating Commits and more. Should not contain any react-specific code.
 - **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data. Contains re-usable react specific logic.
-- **routes**: components that are fed into the React Router as main Routes (e.g. `/new`, `/settings`).
+- **routes**: components that are fed into the React Router as main Routes (e.g. `/show`, `/app/theme`).
 
 ## Contribute
 

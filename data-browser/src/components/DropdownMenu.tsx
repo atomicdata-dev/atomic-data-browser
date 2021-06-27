@@ -145,6 +145,7 @@ export interface MenuItemProps {
   label: string;
   helper?: string;
   id?: string;
+  icon?: React.ReactNode;
 }
 
 interface MenuItemPropsExtended extends MenuItemProps {

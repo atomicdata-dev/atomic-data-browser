@@ -9,7 +9,7 @@ import Show from './routes/ShowRoute';
 import New from './routes/NewRoute';
 import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
-import Settings from './routes/SettingsRoute';
+import { SettingsTheme } from './routes/SettingsTheme';
 import { getSnowpackEnv, isDev } from './config';
 import { handleWarning, initBugsnag } from './helpers/handlers';
 import { Edit } from './routes/EditRoute';
@@ -19,6 +19,8 @@ import { Shortcuts } from './routes/ShortcutsRoute';
 import { Welcome } from './routes/WelcomeRoute';
 import Local from './routes/LocalRoute';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
+import SettingsAgent from './routes/SettingsAgent';
+import { paths } from './routes/paths';
 
 /** Initialize the store */
 const store = new Store();
@@ -42,22 +44,25 @@ function App(): JSX.Element {
                   <MetaSetter />
                   <NavWrapper>
                     <Switch>
-                      <Route path='/new'>
+                      <Route path={paths.new}>
                         <New />
                       </Route>
-                      <Route path='/edit'>
-                        <Edit />
+                      <Route path={paths.themeSettings}>
+                        <SettingsTheme />
                       </Route>
-                      <Route path='/data'>
-                        <Data />
+                      <Route path={paths.agentSettings}>
+                        <SettingsAgent />
                       </Route>
-                      <Route path='/settings'>
-                        <Settings />
-                      </Route>
-                      <Route path='/shortcuts'>
+                      <Route path={paths.shortcuts}>
                         <Shortcuts />
                       </Route>
-                      <Route path='/show'>
+                      <Route path={paths.data}>
+                        <Data />
+                      </Route>
+                      <Route path={paths.edit}>
+                        <Edit />
+                      </Route>
+                      <Route path={paths.show}>
                         <Show />
                       </Route>
                       <Route path='/:path' component={Local} />
