@@ -161,6 +161,7 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           </Button>
           <ResourceSelector
             value={null}
+            disabled={disabled}
             setSubject={(set, _setNewPropErr) => setNewProperty(set)}
             // TODO error handling
             error={newPropErr}
@@ -176,7 +177,6 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           <ResourceField propertyURL={properties.parent} resource={resource} />
           <ResourceField propertyURL={properties.write} resource={resource} />
           <ResourceField propertyURL={properties.read} resource={resource} />
-          <Button onClick={() => setDisabled(false)}>Override rights check</Button>
         </AdvancedBlock>
       )}
       <Button onClick={handleSubmit} disabled={disabled || saving}>
@@ -185,6 +185,11 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
       <Button subtle onClick={() => setShowAdvanced(!showAdvanced)}>
         {showAdvanced ? 'hide' : 'show'} advanced
       </Button>
+      {disabled && (
+        <Button subtle onClick={() => setDisabled(false)}>
+          enable editing
+        </Button>
+      )}
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );

@@ -97,8 +97,6 @@ if (isDev()) {
     handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
     const agent = new Agent(getSnowpackEnv('AGENT'), getSnowpackEnv('PRIVATE_KEY'));
     store.setAgent(agent);
-  } else {
-    handleWarning(`No AGENT and PRIVATE_KEY found in .env, Agent not set.`);
   }
 
   const baseUrl = getSnowpackEnv('BASE_URL');

@@ -15,7 +15,7 @@ export default function InputMarkdown({ resource, property, ...props }: InputPro
     <>
       <InputWrapper>
         <YamdeStyling>
-          <Yamde value={value} handler={e => setVale(e, setErr)} theme={darkMode ? 'dark' : 'light'} {...props} />
+          <Yamde value={value ? value : ''} handler={e => setVale(e, setErr)} theme={darkMode ? 'dark' : 'light'} {...props} />
         </YamdeStyling>
         {/* <TextAreaStyled rows={3} value={value == null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} /> */}
       </InputWrapper>

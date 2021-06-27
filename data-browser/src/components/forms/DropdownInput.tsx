@@ -74,17 +74,17 @@ export function DropdownInput({
             <InputStyled disabled={disabled} size={5} {...getInputProps()} required={required} placeholder={placeholder} />
             {selectedItem ? (
               //@ts-ignore issue with types from Downshift
-              <ButtonInput type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
+              <ButtonInput disabled={disabled} type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
                 clear
               </ButtonInput>
             ) : null}
             {options.length > 0 && (
-              <ButtonInput type='button' {...getToggleButtonProps()} title='toggle menu' aria-label={'toggle menu'}>
+              <ButtonInput disabled={disabled} type='button' {...getToggleButtonProps()} title='toggle menu' aria-label={'toggle menu'}>
                 <FaCaretDown />
               </ButtonInput>
             )}
             {onRemove !== undefined && (
-              <ButtonInput type='button' onClick={onRemove} title='remove item' aria-label='remove item'>
+              <ButtonInput disabled={disabled} type='button' onClick={onRemove} title='remove item' aria-label='remove item'>
                 <FaTrash />
               </ButtonInput>
             )}

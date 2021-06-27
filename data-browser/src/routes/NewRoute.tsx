@@ -1,5 +1,5 @@
 import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
-import { ResourceStatus, properties, urls } from '@tomic/lib';
+import { ResourceStatus, properties, urls, tryValidURL } from '@tomic/lib';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -68,6 +68,7 @@ interface NewFormProps {
 function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [klass] = useResource(classSubject);
   const [newSubjectDirect, setNewSubject] = useQueryParam('newSubject', StringParam);
+  // Improves performance while changing the subject
   const newSubject = useDebounce(newSubjectDirect, 200);
 
   const klassTitle = useTitle(klass);
@@ -79,7 +80,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
 
-  if (newSubject == undefined) {
+  if (newSubjectDirect == undefined) {
     setNewSubject(store.createSubject());
   }
 
@@ -99,7 +100,6 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   function handleSetSubject(url: string) {
     setSubjectErr(null);
     try {
-      // store.addResource(resource);
       store.renameSubject(resource.getSubject(), url);
     } catch (e) {
       setSubjectErr(e);

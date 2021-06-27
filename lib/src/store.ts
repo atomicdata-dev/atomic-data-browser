@@ -153,6 +153,7 @@ export class Store {
 
   /** Changes the Subject of a Resource */
   renameSubject(oldSubject: string, newSubject: string): void {
+    tryValidURL(newSubject);
     const found = this.resources.get(oldSubject);
     if (found == undefined) {
       throw new Error(`Subject does not exist in store: ${oldSubject}`);

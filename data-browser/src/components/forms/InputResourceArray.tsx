@@ -42,7 +42,14 @@ export default function InputResourceArray({ resource, property, ...props }: Inp
           {...props}
         />
       ))}
-      <Button title='Add an item to this list' subtle type='button' onClick={handleAdd} style={{ marginBottom: '-1rem' }}>
+      <Button
+        disabled={props.disabled}
+        title='Add an item to this list'
+        subtle
+        type='button'
+        onClick={handleAdd}
+        style={{ marginBottom: '-1rem' }}
+      >
         <FaPlus />
       </Button>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
