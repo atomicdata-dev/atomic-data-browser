@@ -131,7 +131,7 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
       // When the component is unmounted, unsubscribe from the store.
       store.unsubscribe(subject, handleNotify);
     };
-  }, [store]);
+  }, [store, resource, subject]);
 
   /** Validates the value. If it fails, it calls the function in the second Argument. Pass null to remove existing value. */
   function validateAndSet(newVal: JSVals, handleValidationError?: (e: Error) => unknown) {
