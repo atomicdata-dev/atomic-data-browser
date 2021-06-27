@@ -11,6 +11,7 @@ import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
 import { useSettings } from '../../helpers/AppSettings';
+import { useDebounce } from '../../helpers/useDebounce';
 
 type ResourceFormProps = {
   /** Optionally sets the isA Class of a resource. Really useful when creating a new instance of some resource */
@@ -43,7 +44,8 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   const [otherProps, setOtherProps] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { agent } = useSettings();
-  const [canWrite, canWriteErr] = useCanWrite(resource, agent?.subject);
+  const debouncedResource = useDebounce(resource, 5000);
+  const [canWrite, canWriteErr] = useCanWrite(debouncedResource, agent?.subject);
   const [disabled, setDisabled] = useState(false);
 
   // Sets agent warning / eror

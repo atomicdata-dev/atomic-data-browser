@@ -65,7 +65,7 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
 
   return (
     <ValueFormWrapper>
-      <InputSwitcher resource={resource} property={property} autofocus />
+      <InputSwitcher resource={resource} property={property} autoFocus />
       <Button
         disabled={!haveAgent}
         title={haveAgent ? 'Save the edits' : 'You cannot save - there is no Agent set. Go to settings.'}
