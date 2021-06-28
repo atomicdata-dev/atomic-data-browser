@@ -10,12 +10,16 @@ export function MetaSetter() {
   const { mainColor, darkMode } = useSettings();
   const [subject] = useCurrentSubject();
   const [resource] = useResource(subject);
-  const title = useTitle(resource);
-  const [description] = useString(resource, properties.description);
+  let title = useTitle(resource);
+  let [description] = useString(resource, properties.description);
+  const hasResource = resource.isReady();
+
+  title = hasResource && title ? title : 'Atomic Data';
+  description = hasResource && description ? description : 'The easiest way to create and share linked data.';
 
   return (
     <Helmet>
-      <title>{title ? title : 'Atomic Data'}</title>
+      <title>{title}</title>
       <meta name='theme-color' content={darkMode ? 'black' : 'white'} />
       <meta name='msapplication-TileColor' content={mainColor} />
       <meta name='description' content={description} />
