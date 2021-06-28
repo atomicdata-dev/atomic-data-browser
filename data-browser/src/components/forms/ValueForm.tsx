@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEdit } from 'react-icons/fa';
 import styled from 'styled-components';
-import { Resource } from '../@tomic/lib';
-import { useCanWrite, useProperty, useStore, useValue } from '@tomic/react';
+import { Resource } from '@tomic/lib';
+import { useProperty, useStore, useValue } from '@tomic/react';
 import { Button } from '../Button';
 import ValueComp from '../ValueComp';
 import { ErrMessage } from './InputStyles';
@@ -34,8 +34,6 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
   );
   const [err, setErr] = useState<Error>(null);
   const haveAgent = agent !== null;
-  // WARNING: This could be a _huge_ perforamnce hit
-  const [canEdit] = useCanWrite(resource, agent.subject);
 
   if (!value) {
     return null;
@@ -43,10 +41,6 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
 
   if (!property) {
     return <span title={`loading ${propertyURL}...`}>...</span>;
-  }
-
-  if (!canEdit) {
-    return <ValueComp value={value} datatype={property.datatype} />;
   }
 
   if (!editMode) {

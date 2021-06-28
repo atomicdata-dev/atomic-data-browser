@@ -39,13 +39,6 @@ export const Welcome: React.FunctionComponent = () => {
         The back-end of this app is <a href='https://github.com/joepio/atomic'>atomic-server</a>, which you can think of as an open source,
         web-native database.
       </p>
-      <p>
-        You can edit app settings, such as current user and theme color at{' '}
-        <LinkView onClick={() => history.push('/settings')}>/settings</LinkView>.
-      </p>
-      <p>
-        Check out the keyboard shortcuts at <LinkView onClick={() => history.push('/shortcuts')}>/shortcuts</LinkView>.
-      </p>
       <h2>Things to visit</h2>
       <ul>
         <li>

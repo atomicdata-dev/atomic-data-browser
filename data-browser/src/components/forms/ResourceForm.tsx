@@ -6,22 +6,26 @@ import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
-import { ErrMessage } from './InputStyles';
+import { ErrMessage, LabelStyled } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
 import { useSettings } from '../../helpers/AppSettings';
 import { useDebounce } from '../../helpers/useDebounce';
+import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
 type ResourceFormProps = {
   /** Optionally sets the isA Class of a resource. Really useful when creating a new instance of some resource */
   classSubject?: string;
+  /** Optionally sets the parent of the new resource */
+  parent?: string;
   /** Resource that is to be changed or created */
   resource: Resource;
 };
 
 /** Form for editing and creating a Resource */
-export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX.Element {
+export function ResourceForm({ classSubject, resource: resourceIn, parent }: ResourceFormProps): JSX.Element {
+  const [resource] = useResource(resourceIn.getSubject());
   const [isAArray] = useArray(resource, properties.isA);
   if (classSubject == undefined && isAArray?.length > 0) {
     // This is not entirely accurate, as Atomic Data supports having multiple classes for a single resource.
@@ -47,16 +51,26 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
   const debouncedResource = useDebounce(resource, 5000);
   const [canWrite, canWriteErr] = useCanWrite(debouncedResource, agent?.subject);
   const [disabled, setDisabled] = useState(false);
+  const [_resoureceParent, setResourceParent] = useString(resource, properties.parent);
 
   // Sets agent warning / eror
   useEffect(() => {
     if (canWrite == false) {
       setErr(new Error(`Cannot save: ${canWriteErr}.`));
-      setDisabled(true);
+      // TODO: This is being reset too often, which sucks
+      // setDisabled(true);
     } else {
       setErr(null);
     }
   }, [canWrite, canWriteErr, agent]);
+
+  // Sets the parent
+  useEffect(() => {
+    console.log('useParent', parent);
+    if (parent) {
+      setResourceParent(parent);
+    }
+  }, [parent, resource]);
 
   /** Builds otherProps */
   useEffect(() => {
@@ -170,20 +184,24 @@ export function ResourceForm({ classSubject, resource }: ResourceFormProps): JSX
           />
         </PropertyAdder>
       </Field>
+      <Button
+        title={'show / hide advanced form fields'}
+        clean
+        style={{ display: 'flex', marginBottom: '1rem', alignItems: 'center' }}
+        onClick={() => setShowAdvanced(!showAdvanced)}
+      >
+        <strong>advanced options {showAdvanced ? <FaCaretDown /> : <FaCaretRight />}</strong>
+      </Button>
       {showAdvanced && (
-        <AdvancedBlock>
-          <h2>advanced</h2>
+        <>
           <ResourceField propertyURL={properties.isA} resource={resource} />
           <ResourceField propertyURL={properties.parent} resource={resource} />
           <ResourceField propertyURL={properties.write} resource={resource} />
           <ResourceField propertyURL={properties.read} resource={resource} />
-        </AdvancedBlock>
+        </>
       )}
       <Button onClick={handleSubmit} disabled={disabled || saving}>
         {saving ? 'wait...' : 'save'}
-      </Button>
-      <Button subtle onClick={() => setShowAdvanced(!showAdvanced)}>
-        {showAdvanced ? 'hide' : 'show'} advanced
       </Button>
       {disabled && (
         <Button subtle onClick={() => setDisabled(false)}>

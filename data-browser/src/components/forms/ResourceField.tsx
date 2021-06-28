@@ -3,7 +3,7 @@ import { useProperty } from '@tomic/react';
 import { Resource, Property } from '@tomic/lib';
 import AtomicLink from '../Link';
 import InputSwitcher from './InputSwitcher';
-import { InputStyled } from './InputStyles';
+import { InputStyled, InputWrapper } from './InputStyles';
 import Field from './Field';
 import Markdown from '../datatypes/Markdown';
 import styled from 'styled-components';
@@ -15,7 +15,9 @@ function ResourceField({ handleDelete, propertyURL, resource, required, autoFocu
   if (property == null) {
     return (
       <Field label='loading...'>
-        <InputStyled disabled placeholder='loading property...' />
+        <InputWrapper>
+          <InputStyled disabled={disabled} placeholder='loading property...' />
+        </InputWrapper>
       </Field>
     );
   }

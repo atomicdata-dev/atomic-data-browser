@@ -1,6 +1,6 @@
 import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
 import { ResourceStatus, properties, urls, tryValidURL } from '@tomic/lib';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 
@@ -15,7 +15,7 @@ import Field from '../components/forms/Field';
 import { ResourceSelector } from '../components/forms/ResourceSelector';
 import { Button } from '../components/Button';
 import { FaInfo } from 'react-icons/fa';
-import { useDebounce } from '../helpers/useDebounce';
+import { useSettings } from '../helpers/AppSettings';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -26,10 +26,11 @@ function New(): JSX.Element {
   const history = useHistory();
   const [classFull] = useResource(classInput);
   const [className] = useString(classFull, urls.properties.shortname);
+  const { agent } = useSettings();
 
   function handleClassSet(e) {
     e.preventDefault();
-    history.push(newURL(classInput));
+    history.push(newURL(classInput, agent?.subject));
   }
 
   return (
@@ -67,28 +68,15 @@ interface NewFormProps {
 /** Form for instantiating a new Resource from some Class */
 function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [klass] = useResource(classSubject);
-  const [newSubjectDirect, setNewSubject] = useQueryParam('newSubject', StringParam);
-  // Improves performance while changing the subject
-  const newSubject = useDebounce(newSubjectDirect, 200);
-
+  // TODO: Don't push to history, but replace, because currenlty back is broken
+  const [newSubject, setNewSubject] = useQueryParam('newSubject', StringParam);
+  const [parentSubject] = useQueryParam('parent', StringParam);
   const klassTitle = useTitle(klass);
   const [klassDescription] = useString(klass, properties.description);
-  /** Set the URL of the newly created subject. Will be a random string at first. */
-  // const [newSubject, setNewSubject] = useState<string>(null);
   const [showDetails, setShowDetails] = useState(false);
-
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
-
-  if (newSubjectDirect == undefined) {
-    setNewSubject(store.createSubject());
-  }
-
-  const [resource] = useResource(newSubject);
-  // Set the resource to ready - it's new, so it should be ready, even if it 500s at the server
-  if (resource.getStatus() !== ResourceStatus.ready) {
-    resource.setStatus(ResourceStatus.ready);
-  }
+  const [resource] = useResource(newSubject, true);
 
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
@@ -97,14 +85,16 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   }
 
   /** Changes the URL of a subject. Updates the store */
-  function handleSetSubject(url: string) {
+  // Should be debounced as it is quite expensive, but getting that to work turned out to be really hard
+  async function handleSetSubject(url: string) {
     setSubjectErr(null);
     try {
-      store.renameSubject(resource.getSubject(), url);
+      // Expensive!
+      await store.renameSubject(resource.getSubject(), url);
+      setNewSubject(url);
     } catch (e) {
       setSubjectErr(e);
     }
-    setNewSubject(url);
   }
 
   return (
@@ -123,14 +113,14 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
       >
         <InputWrapper>
           <InputStyled
-            value={newSubjectDirect || null}
+            value={newSubject || ''}
             onChange={e => handleSetSubject(e.target.value)}
             placeholder={'URL of the new resource...'}
           />
         </InputWrapper>
       </Field>
       {/* Key is required for re-rendering when subject changes */}
-      <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} />
+      <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} parent={parentSubject} />
     </>
   );
 }

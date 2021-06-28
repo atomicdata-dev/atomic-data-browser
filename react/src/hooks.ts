@@ -6,9 +6,9 @@ import React from 'react';
  * Hook for getting and updating a Resource in a React component. Will try to fetch the subject and add its parsed values to the store.
  * Always returns a Resource and a setter for a Resource, even if the input is undefined or not a valid atomic URL.
  */
-export function useResource(subject: string): [Resource, (resource: Resource) => void] {
+export function useResource(subject: string, newResource?: boolean): [Resource, (resource: Resource) => void] {
   const store = useStore();
-  const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject));
+  const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject, newResource));
 
   /** Callback function to update the Resource with this value. Overwrites existing. */
   // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
@@ -18,7 +18,7 @@ export function useResource(subject: string): [Resource, (resource: Resource) =>
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
-    setResource(store.getResourceLoading(subject));
+    setResource(store.getResourceLoading(subject, newResource));
   }, [subject, store]);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -189,9 +189,11 @@ export function useString(resource: Resource, propertyURL: string): [string | nu
 }
 
 /** Returns the most fitting title / name for a Resource */
-export function useTitle(resource: Resource): string {
+export function useTitle(resource: Resource, truncateLength?: number): string {
   const [title] = useString(resource, urls.properties.name);
   const [shortname] = useString(resource, urls.properties.shortname);
+  // TODO: truncate non urls
+  truncateLength = truncateLength ? truncateLength : 40;
   if (resource.getStatus() == ResourceStatus.loading) {
     return '...';
   }

@@ -31,10 +31,21 @@ export class Store {
     this.notify(resource);
   }
 
-  /** Creates a random URL */
-  createSubject(): string {
+  /** Checks if a subject is free to use */
+  async checkSubjectTaken(subject: string): Promise<boolean> {
+    const r = await this.getResourceAsync(subject);
+    if (r.isReady()) {
+      return true;
+    }
+    // TODO: IMPLEMENT
+    return false;
+  }
+
+  /** Creates a random URL. Add a classnme (e.g. 'persons') to make a nicer name */
+  createSubject(className?: string): string {
     const random = Math.random().toString(36).substring(2);
-    return `${this.getBaseUrl()}/things/${random}`;
+    className = className ? className : 'things';
+    return `${this.getBaseUrl()}/${className}/${random}`;
   }
 
   /** Fetches a resource by URL. Does not do anything by default if the resource is already present, even if it has errored */
@@ -77,18 +88,20 @@ export class Store {
    * Gets a resource by URL. Fetches and parses it if it's not available in the store. Instantly returns an empty loading resource, while
    * the fetching is done in the background . If the subject is undefined, an empty non-saved resource will be returned.
    */
-  getResourceLoading(subject: string): Resource {
+  getResourceLoading(subject: string, newResource?: boolean): Resource | null {
     if (subject == undefined) {
-      const newR = new Resource(undefined);
-      newR.setStatus(ResourceStatus.ready);
+      const newR = new Resource(undefined, newResource);
+      newR.setStatus(ResourceStatus.new);
       return newR;
     }
     const found = this.resources.get(subject);
     if (found == undefined) {
-      this.fetchResource(subject);
-      const newR = new Resource(subject);
-      newR.setStatus(ResourceStatus.loading);
-      this.resources.set(subject, newR);
+      const newR = new Resource(subject, newResource);
+      this.addResource(newR);
+      if (newResource) {
+        return newR;
+      }
+      this.fetchResource(subject, true);
       return newR;
     }
     return found;
@@ -151,15 +164,18 @@ export class Store {
     this.resources.delete(subject);
   }
 
-  /** Changes the Subject of a Resource */
-  renameSubject(oldSubject: string, newSubject: string): void {
+  /** Changes the Subject of a Resource. Checks if the new name is already taken, throws an error if so. */
+  async renameSubject(oldSubject: string, newSubject: string): Promise<void> {
     tryValidURL(newSubject);
-    const found = this.resources.get(oldSubject);
-    if (found == undefined) {
-      throw new Error(`Subject does not exist in store: ${oldSubject}`);
+    const old = this.resources.get(oldSubject);
+    if (old == undefined) {
+      throw new Error(`Old subject does not exist in store: ${oldSubject}`);
     }
-    found.setSubject(newSubject);
-    this.resources.set(newSubject, found);
+    if (await this.checkSubjectTaken(newSubject)) {
+      throw new Error(`New subject name is already taken: ${newSubject}`);
+    }
+    old.setSubject(newSubject);
+    this.resources.set(newSubject, old);
     this.removeResource(oldSubject);
   }
 

@@ -19,9 +19,15 @@ export function openURL(subject: string): string {
   return constructURL(paths.show, 'subject', subject);
 }
 
-export function newURL(classUrl: string, parentURL?: string): string {
+export function newURL(classUrl: string, parentURL?: string, subject?: string): string {
+  // return constructURL(paths.new, 'classSubject', classUrl);
   // TODO: handle parentURL
-  return constructURL(paths.new, 'classSubject', classUrl);
+  const navTo = new URL(location.origin);
+  navTo.pathname = paths.new;
+  navTo.searchParams.append('classSubject', classUrl);
+  parentURL && navTo.searchParams.append('parent', parentURL);
+  subject && navTo.searchParams.append('newSubject', subject);
+  return paths.new + navTo.search;
 }
 
 export function editURL(subject: string): string {

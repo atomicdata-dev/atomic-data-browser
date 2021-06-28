@@ -19,8 +19,6 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
   const history = useHistory();
-  // const store = useStore();
-  // store.fetchResource(subject);
 
   const active = currentUrl == subject;
 

@@ -1,5 +1,5 @@
 import { properties } from './urls';
-import { tryValidURL, postCommit } from './client';
+import { tryValidURL, postCommit, fetchResource } from './client';
 import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
 import { Store } from './store';
@@ -26,15 +26,16 @@ export class Resource {
   private propvals: PropVals;
   /** If the resource could not be fetched, we put that info here. */
   private error?: Error;
+  // Is true for locally created, unsaved resources
+  new: boolean;
   private status: ResourceStatus;
   private commitBuilder: CommitBuilder;
 
-  constructor(subject: string) {
+  constructor(subject: string, newResource?: boolean) {
     if (subject == undefined) {
-      subject = `local:resource/` + Math.random().toString(32);
-      this.status = ResourceStatus.new;
+      subject = `undefined`;
     }
-
+    this.new = newResource ? true : false;
     this.subject = subject;
     this.propvals = new Map();
     this.commitBuilder = new CommitBuilder(subject);
@@ -60,11 +61,6 @@ export class Resource {
   /** Checks if the resource is both loaded and free from errors */
   isReady(): boolean {
     return this.status == ResourceStatus.ready;
-  }
-
-  /** Checks if the resource newly created, and thus not yet saved */
-  isNew(): boolean {
-    return this.status == ResourceStatus.new;
   }
 
   /** Get a Value by its property */

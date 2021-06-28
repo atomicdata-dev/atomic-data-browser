@@ -26,7 +26,8 @@ export function initBugsnag(): BugsnagErrorBoundary {
   Bugsnag.start({
     apiKey: '0b41fa51d1367cdfc1165ccf7436467f',
     plugins: [new BugsnagPluginReact()],
-    releaseStage: isDev ? 'development' : 'production',
+    releaseStage: isDev() ? 'development' : 'production',
+    autoDetectErrors: !isDev(),
   });
   return Bugsnag.getPlugin('react').createErrorBoundary(React);
 }

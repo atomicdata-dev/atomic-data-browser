@@ -12,8 +12,6 @@ export async function fetchResource(
   from?: string,
 ): Promise<Resource> {
   const resource = new Resource(subject);
-  // We set the status to ready. This is overwritten when an error happens.
-  resource.setStatus(ResourceStatus.ready);
   try {
     tryValidURL(subject);
     const requestHeaders: HeadersInit = new Headers();
