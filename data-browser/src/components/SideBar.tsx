@@ -11,6 +11,7 @@ import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
 import { FaCog, FaKeyboard, FaPlus, FaUser } from 'react-icons/fa';
+import { paths } from '../routes/paths';
 
 export function SideBar(): JSX.Element {
   const store = useStore();
@@ -26,33 +27,33 @@ export function SideBar(): JSX.Element {
     {
       icon: <FaPlus />,
       label: 'new resource',
-      helper: 'Create a new Resource, based on a Class',
+      helper: 'Create a new Resource, based on a Class (n)',
       onClick: () => {
-        history.push('/app/new');
+        history.push(paths.new);
       },
     },
     {
       icon: <FaUser />,
       label: 'user settings',
-      helper: 'See and edit the current Agent / User',
+      helper: 'See and edit the current Agent / User (u)',
       onClick: () => {
-        history.push('/app/agent');
+        history.push(paths.agentSettings);
       },
     },
     {
       icon: <FaCog />,
       label: 'theme settings',
-      helper: 'Edit the theme, current Agent, and more.',
+      helper: 'Edit the theme, current Agent, and more. (t)',
       onClick: () => {
-        history.push('/app/theme');
+        history.push(paths.themeSettings);
       },
     },
     {
       icon: <FaKeyboard />,
       label: 'keyboard shortcuts',
-      helper: 'View the keyboard shortcuts',
+      helper: 'View the keyboard shortcuts (?)',
       onClick: () => {
-        history.push('/app/shortcuts');
+        history.push(paths.shortcuts);
       },
     },
   ];
@@ -221,6 +222,9 @@ export const SideBarItem = styled(Button)`
   align-items: center;
   justify-content: flex-start;
   color: ${p => p.theme.colors.textLight};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:disabled {
     background-color: ${p => p.theme.colors.bg1};
