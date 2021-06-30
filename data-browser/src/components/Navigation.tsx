@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FaHome, FaArrowLeft, FaArrowRight, FaBars, FaUser } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { openURL } from '../helpers/navigation';
+import { openURL, searchURL } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -12,6 +12,8 @@ import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
+import { tryValidURL } from '@tomic/lib';
+import { useQueryParam, StringParam } from 'use-query-params';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -57,11 +59,21 @@ const Content = styled.div<ContentProps>`
 
 /** Persistently shown navigation bar */
 function NavBar() {
-  const [subject, setSubject] = useCurrentSubject();
+  const [subject] = useCurrentSubject();
+  const [input, setInput] = useState<string>('');
+  const [query] = useQueryParam('query', StringParam);
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
+
+  useEffect(() => {
+    setInput(query);
+  }, [query]);
+
+  useEffect(() => {
+    setInput(subject);
+  }, [subject]);
 
   useHotkeys('/', e => {
     e.preventDefault();
@@ -81,14 +93,18 @@ function NavBar() {
 
   useHotkeys('/', e => {
     e.preventDefault();
-    //@ts-ignore this does seem callable
-    setSubject[''];
     setInputFocus();
   });
 
   function handleChange(e) {
-    // Replace instead of push to make the back-button behavior better.
-    history.replace(openURL(e.target.value));
+    setInput(e.target.value);
+    try {
+      tryValidURL(e.target.value);
+      // Replace instead of push to make the back-button behavior better.
+      history.replace(openURL(e.target.value));
+    } catch (_err) {
+      history.replace(searchURL(e.target.value));
+    }
   }
 
   function handleSelect(e) {
@@ -123,7 +139,7 @@ function NavBar() {
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
   return (
-    <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit}>
+    <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit} autoComplete='off'>
       {showButtons && (
         <React.Fragment>
           <ButtonBar leftPadding type='button' onClick={() => setSideBarLocked(!sideBarLocked)} title='Show / hide sidebar (\)'>
@@ -151,6 +167,7 @@ function NavBar() {
         </React.Fragment>
       )}
       <input
+        autoComplete='false'
         ref={inputRef}
         type='text'
         name='search'
@@ -158,7 +175,7 @@ function NavBar() {
         onClick={handleSelect}
         onFocus={maybeHideButtons}
         onBlur={() => setShowButtons(true)}
-        value={subject || ''}
+        value={input || ''}
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />

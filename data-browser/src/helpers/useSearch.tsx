@@ -50,7 +50,7 @@ interface SearchIndex {
   search: (query: string) => Hit[];
 }
 
-interface Hit {
+export interface Hit {
   item: FoundResource;
 }
 

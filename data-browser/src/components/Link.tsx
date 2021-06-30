@@ -34,16 +34,10 @@ function AtomicLink({ children, subject, href }: Props): JSX.Element {
       return;
     }
     e.preventDefault();
-    const url = new URL(subject);
     if (currentUrl == subject) {
       return;
     }
-    if (window.location.origin == url.origin) {
-      const path = url.pathname + url.search;
-      history.push(path);
-    } else {
-      history.push(openURL(subject));
-    }
+    history.push(openURL(subject));
   };
 
   const isOnCurrentPage = subject && currentUrl == subject;

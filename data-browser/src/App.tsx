@@ -6,6 +6,7 @@ import { Store, Agent } from '@tomic/lib';
 import { StoreContext } from '@tomic/react';
 import { GlobalStyle, ThemeWrapper } from './styling';
 import Show from './routes/ShowRoute';
+import { Search } from './routes/SearchRoute';
 import New from './routes/NewRoute';
 import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
@@ -21,6 +22,7 @@ import Local from './routes/LocalRoute';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import SettingsAgent from './routes/SettingsAgent';
 import { paths } from './routes/paths';
+import ErrorPage from './views/ErrorPage';
 
 /** Initialize the store */
 const store = new Store();
@@ -32,14 +34,14 @@ const ErrorBoundary = initBugsnag();
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
   return (
-    <ErrorBoundary>
-      <StoreContext.Provider value={store}>
-        <AppSettingsContextProvider>
-          {/* Basename is for hosting on GitHub pages */}
-          <BrowserRouter basename='/'>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <HotKeysWrapper>
-                <ThemeWrapper>
+    <StoreContext.Provider value={store}>
+      <AppSettingsContextProvider>
+        {/* Basename is for hosting on GitHub pages */}
+        <BrowserRouter basename='/'>
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <HotKeysWrapper>
+              <ThemeWrapper>
+                <ErrorBoundary FallbackComponent={ErrorPage}>
                   <GlobalStyle />
                   <MetaSetter />
                   <NavWrapper>
@@ -65,19 +67,20 @@ function App(): JSX.Element {
                       <Route path={paths.show}>
                         <Show />
                       </Route>
+                      <Route path={paths.search} component={Search} />
                       <Route path='/:path' component={Local} />
                       <Route path='/'>
                         <Welcome />
                       </Route>
                     </Switch>
                   </NavWrapper>
-                </ThemeWrapper>
-              </HotKeysWrapper>
-            </QueryParamProvider>
-          </BrowserRouter>
-        </AppSettingsContextProvider>
-      </StoreContext.Provider>
-    </ErrorBoundary>
+                </ErrorBoundary>
+              </ThemeWrapper>
+            </HotKeysWrapper>
+          </QueryParamProvider>
+        </BrowserRouter>
+      </AppSettingsContextProvider>
+    </StoreContext.Provider>
   );
 }
 

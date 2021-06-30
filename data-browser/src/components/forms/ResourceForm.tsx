@@ -66,7 +66,6 @@ export function ResourceForm({ classSubject, resource: resourceIn, parent }: Res
 
   // Sets the parent
   useEffect(() => {
-    console.log('useParent', parent);
     if (parent) {
       setResourceParent(parent);
     }

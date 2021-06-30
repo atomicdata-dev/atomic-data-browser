@@ -1,3 +1,4 @@
+import { StringParam, useQueryParam } from 'use-query-params';
 import { paths } from '../routes/paths';
 
 /** Constructs a URL string with a route, a query Parameter and a value */
@@ -15,10 +16,27 @@ function constructURL(
   return path + navTo.search;
 }
 
+/** Constructs a URL for opening a resource form. */
 export function openURL(subject: string): string {
-  return constructURL(paths.show, 'subject', subject);
+  const url = new URL(subject);
+  if (window.location.origin == url.origin) {
+    const path = url.pathname + url.search;
+    return path;
+  } else {
+    return constructURL(paths.show, 'subject', subject);
+  }
 }
 
+export function searchURL(query: string): string {
+  return constructURL(paths.search, 'query', query);
+}
+
+/** A hook containing a getter and a setter for the current 'query' search param */
+export function useSearchQuery() {
+  return useQueryParam('query', StringParam);
+}
+
+/** Constructs a URL for the New Resource form */
 export function newURL(classUrl: string, parentURL?: string, subject?: string): string {
   // return constructURL(paths.new, 'classSubject', classUrl);
   // TODO: handle parentURL

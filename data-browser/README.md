@@ -55,7 +55,7 @@ vim .env
 
 ## Understanding & contributing to the code
 
-- **Routing** is firstly done using React Router, and secondly using the ResourcePage component. This component checks the Class of the Resource, and decides which view is most suitable. Users can open Data views and Edit forms for any resource.
+- **Routing** is firstly done using React Router, and secondly using the ResourcePage component. This component checks the Class of the Resource, and decides which view is most suitable. Users can open Data views and Edit forms for any resource. We have some basic routes for showing, editing, and searching. Many of these routes use query parameters. The `/app` routes should be used for most app functionality, which will make the chance of having path collisions with a server smaller.
 - **Styling** is done using [styled components](https://styled-components.com/). The theme settings in `Styling.tsx` desribe colors, border radius and margin size. Use these as variables in components to make sure that users can change style preferences (e.g. dark mode, accent color, font, margin size)
 - **Data fetching** is handled by the `Store`, which makes sure that you don't ask twice for the same resource and let's other resources know that things have changed.
 - **Hooks** are used wherever possible. This means functional components, instead of old-style Class components. Hooks tend to use a pattern similar to React's own `useState`, which means that two terms are returned: the first one contains the current value, and the second one is a function for setting the value.
@@ -64,6 +64,7 @@ vim .env
 - **Creating views** for new types of Resources should be done in `/views`. Check the README.md in that folder.
 - **Fetching & processing** is done in this order. The UI renders some component that uses `useResource`, and passes a `subject` URL. This is probably first the one that's shown in the navigation bar. This resource is fetched (unless it's already in the store) as a `JSON-AD` object, after which it is put in the Store without any changes. The Parser does not perform validation checks - that would make the application slower. After the resource is added to the store, subscribers (users of that resource, such as Components with the `useResource` hook) will be notified of changes. The component will re-render, and the props can now be used.
 - **Accessing the store from the browser console** can be done in develop mode in your browser with the global `store` object.
+- **Forms** use the various value hooks (e.g. `useString`) for maintaining actual resource state. When the form input changes, the new value will be `.set()` on the `Resource`, and this will throw an error if there is a validation error. These should be catched by passing an error handler to the `useString` hook.
 
 ## Directory structure
 

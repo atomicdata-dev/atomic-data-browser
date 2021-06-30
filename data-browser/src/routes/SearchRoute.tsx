@@ -1,24 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
-import { useSearch } from '../helpers/useSearch';
+import { Hit, useSearch } from '../helpers/useSearch';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
-import { openURL } from '../helpers/navigation';
+import { openURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../components/ResourceCard';
-
-type SearchProps = {
-  query: string;
-};
+import { useDebounce } from '../helpers/useDebounce';
 
 const MAX_COUNT = 50;
 /** Full text search route */
-export function Search({ query }: SearchProps): JSX.Element {
+export function Search(): JSX.Element {
+  const [query] = useSearchQuery();
+  // TODO: This would feel even snappier if we'd use a throttle instead of a debounce
+  const debouncedQuery = useDebounce(query, 50);
   const [selectedIndex, setSelected] = useState(0);
   const index = useSearch();
   const history = useHistory();
   const htmlElRef = useRef(null);
+  const [results, setResults] = useState<Hit[]>([]);
 
-  /** Moves to the card at the selected index */
+  useEffect(() => {
+    if (index == null) {
+      return;
+    }
+    const resultsIn = index.search(debouncedQuery);
+    const tooMany = resultsIn.length > MAX_COUNT;
+    const results = resultsIn;
+    if (tooMany) {
+      setResults(results.slice(0, MAX_COUNT));
+    } else {
+      setResults(resultsIn);
+    }
+  }, [index, debouncedQuery]);
+
+  /** Moves the viewport to the card at the selected index */
   function moveTo(index: number) {
     setSelected(index);
     const currentElm = htmlElRef.current.children[index];
@@ -58,20 +73,21 @@ export function Search({ query }: SearchProps): JSX.Element {
   );
 
   if (index == null) {
-    return <p>Building search index...</p>;
-  }
-
-  const resultsIn = index.search(query);
-
-  const tooMany = resultsIn.length > MAX_COUNT;
-  let results = resultsIn;
-  if (tooMany) {
-    results = results.slice(0, MAX_COUNT);
+    return (
+      <ContainerNarrow>
+        <p>Building search index...</p>
+      </ContainerNarrow>
+    );
   }
 
   return (
     <ContainerNarrow ref={htmlElRef}>
-      {results.length == 0 && <p>No results found for {query}</p>}
+      {results.length == 0 && (
+        <p>
+          No results found for {query}. Keep in mind that at this moment, this only searches the data that has already been loaded into your
+          browser during this session.{' '}
+        </p>
+      )}
       {results.map((hit, index) => {
         return (
           <ResourceCard

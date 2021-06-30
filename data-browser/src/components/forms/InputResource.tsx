@@ -7,7 +7,6 @@ import { ResourceSelector } from './ResourceSelector';
 export function InputResource({ resource, property, ...props }: InputProps): JSX.Element {
   const [subject, setSubject] = useString(resource, property.subject);
   const [error, setError] = useState<Error>(null);
-  console.log('inputresource', resource, property.subject);
   return (
     <ResourceSelector error={error} setError={setError} classType={property.classType} setSubject={setSubject} value={subject} {...props} />
   );

@@ -8,6 +8,7 @@ export default function InputNumber({ resource, property, ...props }: InputProps
   const [err, setErr] = useState<Error>(null);
 
   function handleUpdate(e) {
+    console.log('handleupdate', e.target.value);
     if (e.target.value == '') {
       setValue(null);
       return;
@@ -20,7 +21,13 @@ export default function InputNumber({ resource, property, ...props }: InputProps
   return (
     <>
       <InputWrapper>
-        <InputStyled placeholder='Enter a number...' type='number' value={value == null ? NaN : value} onChange={handleUpdate} {...props} />
+        <InputStyled
+          placeholder='Enter a number...'
+          type='number'
+          value={value == null ? '' : Number.isNaN(value) ? '' : value}
+          onChange={handleUpdate}
+          {...props}
+        />
       </InputWrapper>
       {value !== null && err && <ErrMessage>{err.message}</ErrMessage>}
       {value == null && <ErrMessage>Required</ErrMessage>}

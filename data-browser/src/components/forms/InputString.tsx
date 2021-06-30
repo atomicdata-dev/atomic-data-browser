@@ -16,7 +16,7 @@ export default function InputString({ resource, property, ...props }: InputProps
   return (
     <>
       <InputWrapper>
-        <InputStyled value={value == null ? '' : value} onChange={handleUpdate} {...props} />
+        <InputStyled value={value == undefined ? '' : value} onChange={handleUpdate} {...props} />
       </InputWrapper>
       {value !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
       {value == '' && <ErrMessage>Required</ErrMessage>}

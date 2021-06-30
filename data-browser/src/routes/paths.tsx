@@ -3,7 +3,8 @@ export const paths = {
   themeSettings: '/app/theme',
   new: '/app/new',
   shortcuts: '/app/shortcuts',
-  show: '/show',
-  data: '/data',
-  edit: '/edit',
+  search: '/app/search',
+  show: '/app/show',
+  data: '/app/data',
+  edit: '/app/edit',
 };
