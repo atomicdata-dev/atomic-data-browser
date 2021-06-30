@@ -36,7 +36,7 @@ A fully-loaded GUI for viewing, editing and browsing Atomic Data.
 
 **demo on [atomicdata.dev](https://atomicdata.dev)**
 
-[→ Read more](browser/README.md)
+[→ Read more](data-browser/README.md)
 
 ## Also check out
 
