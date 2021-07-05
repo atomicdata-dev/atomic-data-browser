@@ -1,10 +1,18 @@
-# Atomic Data Typescript
+![Atomic Data Browser](./logo.svg)
 
 [![Discord chat][discord-badge]][discord-url]
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Create, share, fetch and model linked [Atomic Data](https://atomicdata.dev)!
 This repo consists of three components: a javascript / typescript library, a react library, and a complete GUI: Atomic-Data Browser.
+
+## `atomic-data-browser`
+
+A GUI for viewing, editing and browsing Atomic Data.
+
+**demo on [atomicdata.dev](https://atomicdata.dev)**
+
+[→ Read more](data-browser/README.md)
 
 ## `@tomic/lib`
 
@@ -24,19 +32,22 @@ Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 ## `@tomic/react`
 
+<a href="https://www.npmjs.com/package/@tomic/react" target="_blank">
+  <img src="https://img.shields.io/npm/v/@tomic/react?color=cc3534" />
+</a>
+<a href="https://www.npmjs.com/package/@tomic/react" target="_blank">
+  <img src="https://img.shields.io/npm/dm/@tomic/react?color=%2344cc10" />
+</a>
+<a href="https://bundlephobia.com/result?p=@tomic/react" target="_blank">
+  <img src="https://badgen.net/bundlephobia/minzip/@tomic/react">
+</a>
+
+
 React library with many useful hooks for rendering and editing Atomic Data.
 
 [**demo + template on codesandbox**](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
 
 [→ Read more](react/README.md)
-
-## `atomic-data-browser`
-
-A fully-loaded GUI for viewing, editing and browsing Atomic Data.
-
-**demo on [atomicdata.dev](https://atomicdata.dev)**
-
-[→ Read more](data-browser/README.md)
 
 ## Also check out
 
