@@ -29,7 +29,7 @@ const store = new Store();
 /** Defaulting to the current URL's origin will make sense in most non-dev environments */
 store.setBaseUrl(window.location.origin);
 /** Setup bugsnag for error handling */
-const ErrorBoundary = initBugsnag();
+// const ErrorBoundary = initBugsnag();
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
@@ -41,40 +41,40 @@ function App(): JSX.Element {
           <QueryParamProvider ReactRouterRoute={Route}>
             <HotKeysWrapper>
               <ThemeWrapper>
-                <ErrorBoundary FallbackComponent={ErrorPage}>
-                  <GlobalStyle />
-                  <MetaSetter />
-                  <NavWrapper>
-                    <Switch>
-                      <Route path={paths.new}>
-                        <New />
-                      </Route>
-                      <Route path={paths.themeSettings}>
-                        <SettingsTheme />
-                      </Route>
-                      <Route path={paths.agentSettings}>
-                        <SettingsAgent />
-                      </Route>
-                      <Route path={paths.shortcuts}>
-                        <Shortcuts />
-                      </Route>
-                      <Route path={paths.data}>
-                        <Data />
-                      </Route>
-                      <Route path={paths.edit}>
-                        <Edit />
-                      </Route>
-                      <Route path={paths.show}>
-                        <Show />
-                      </Route>
-                      <Route path={paths.search} component={Search} />
-                      <Route path='/:path' component={Local} />
-                      <Route path='/'>
-                        <Welcome />
-                      </Route>
-                    </Switch>
-                  </NavWrapper>
-                </ErrorBoundary>
+                {/* <ErrorBoundary FallbackComponent={ErrorPage}> */}
+                <GlobalStyle />
+                <MetaSetter />
+                <NavWrapper>
+                  <Switch>
+                    <Route path={paths.new}>
+                      <New />
+                    </Route>
+                    <Route path={paths.themeSettings}>
+                      <SettingsTheme />
+                    </Route>
+                    <Route path={paths.agentSettings}>
+                      <SettingsAgent />
+                    </Route>
+                    <Route path={paths.shortcuts}>
+                      <Shortcuts />
+                    </Route>
+                    <Route path={paths.data}>
+                      <Data />
+                    </Route>
+                    <Route path={paths.edit}>
+                      <Edit />
+                    </Route>
+                    <Route path={paths.show}>
+                      <Show />
+                    </Route>
+                    <Route path={paths.search} component={Search} />
+                    <Route path='/:path' component={Local} />
+                    <Route path='/'>
+                      <Welcome />
+                    </Route>
+                  </Switch>
+                </NavWrapper>
+                {/* </ErrorBoundary> */}
               </ThemeWrapper>
             </HotKeysWrapper>
           </QueryParamProvider>

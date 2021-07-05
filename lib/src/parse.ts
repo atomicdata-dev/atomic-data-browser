@@ -26,6 +26,7 @@ export function parseJsonADResource(string: string, resource: Resource): void {
     }
     resource.setStatus(ResourceStatus.ready);
   } catch (e) {
+    e.message = 'Failed parsing JSON ' + e.message;
     resource.setError(e);
     throw e;
   }

@@ -56,7 +56,8 @@ export function ResourceSelector({
   if (classType && classTypeTitle?.length > 0) {
     placeholder = `Select a ${classTypeTitle} or enter a ${classTypeTitle} URL...`;
   }
-  if (!requiredClass.isReady()) {
+
+  if (classType && !requiredClass.isReady()) {
     placeholder = 'Loading Class...';
   }
 

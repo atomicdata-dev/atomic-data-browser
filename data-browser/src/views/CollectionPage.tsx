@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useArray, useNumber, useResource, useString, useTitle, useLocalStorage } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
+import { Resource, properties, urls, classes } from '@tomic/lib';
 import { FaArrowLeft, FaArrowRight, FaInfo, FaTable, FaThLarge } from 'react-icons/fa';
 
 import { useViewport } from '../helpers/useMedia';
@@ -41,8 +41,8 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const defaultView = viewportWidth < 700 ? 0 : 1;
   const [displayStyleIndex, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
   const [members] = useArray(resource, properties.collection.members);
-  // TODO: this is not a correct assumption, as the value can be all sorts of non-classes!
-  const [klass] = useString(resource, properties.collection.value);
+  const [valueFilter] = useString(resource, properties.collection.value);
+  const [propertyFilter] = useString(resource, properties.collection.property);
   // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
   const [currentPage] = useNumber(resource, properties.collection.currentPage);
   const [totalPages] = useNumber(resource, properties.collection.totalPages);
@@ -53,7 +53,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
   // If that happens, we need a different approach to rendering the Headers
-  const [classResource] = useResource(klass);
+  const [classResource] = useResource(valueFilter);
   const [requiredProps] = useArray(classResource, properties.requires);
   const [recommendedProps] = useArray(classResource, properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);
@@ -62,6 +62,8 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [classDescription] = useString(classResource, properties.description);
   const [classTitle] = useString(classResource, properties.shortname);
   const [showClassDescription, setShowClassDescription] = React.useState(false);
+
+  const isClass = valueFilter && propertyFilter == properties.isA;
 
   function handleToggleView() {
     setDisplayStyle(getNextDisplayStyleIndex());
@@ -118,8 +120,8 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         <Button subtle onClick={handleToggleView} title={`use ${nextDisplayStyle.id} view`}>
           {nextDisplayStyle.icon}
         </Button>
-        {klass && <NewInstanceButton subtle icon klass={klass} />}
-        {klass && (
+        {isClass && <NewInstanceButton subtle icon klass={valueFilter} />}
+        {isClass && (
           <Button
             subtle
             onClick={() => setShowClassDescription(!showClassDescription)}
@@ -128,22 +130,24 @@ function Collection({ resource }: CollectionProps): JSX.Element {
             <FaInfo />
           </Button>
         )}
-        <DropDownMini>
-          <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
-        </DropDownMini>
+        {isClass && (
+          <DropDownMini>
+            <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
+          </DropDownMini>
+        )}
       </ButtonsBar>
       {description && <Markdown text={description} />}
-      {showClassDescription && klass && (
+      {showClassDescription && valueFilter && (
         <>
-          <Link subject={klass}>
+          <Link subject={valueFilter}>
             <h3>{classTitle}</h3>
           </Link>
           <Markdown text={classDescription} />
         </>
       )}
       {members.length == 0 ? (
-        klass ? (
-          <NewInstanceButton klass={klass} parent={resource.getSubject()} />
+        valueFilter ? (
+          <NewInstanceButton klass={valueFilter} parent={resource.getSubject()} />
         ) : (
           <>empty</>
         )

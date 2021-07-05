@@ -2,9 +2,10 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '@tomic/lib';
 import { useCanWrite, useResource, useStore } from '@tomic/react';
-import { editURL, dataURL, openURL } from '../helpers/navigation';
+import { editURL, dataURL, openURL, versionsURL } from '../helpers/navigation';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 import { useSettings } from '../helpers/AppSettings';
+import { paths } from '../routes/paths';
 
 type Props = {
   subject: string;
@@ -38,8 +39,15 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   }
 
   const items: MenuItemProps[] = [
-    { id: 'view', label: 'normal view', helper: 'Open the regular, default View.', onClick: () => history.push(openURL(subject)) },
     {
+      disabled: history.location.pathname.startsWith(paths.show),
+      id: 'view',
+      label: 'normal view',
+      helper: 'Open the regular, default View.',
+      onClick: () => history.push(openURL(subject)),
+    },
+    {
+      disabled: history.location.pathname.startsWith(paths.data),
       id: 'data',
       label: 'data view',
       helper: 'View the resource and its properties in the Data View. (d)',
@@ -51,17 +59,27 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       helper: 'Fetch the resouce again from the server, possibly see new changes.',
       onClick: () => store.fetchResource(subject, true),
     },
-  ];
-
-  if (canWrite) {
-    items.push({ id: 'edit', label: 'edit', helper: 'Open the edit form. (e)', onClick: () => history.push(editURL(subject)) });
-    items.push({
+    {
+      disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
+      id: 'edit',
+      label: 'edit',
+      helper: 'Open the edit form. (e)',
+      onClick: () => history.push(editURL(subject)),
+    },
+    {
+      disabled: !canWrite,
       id: 'delete',
       label: 'delete',
       helper: 'Fetch the resouce again from the server, possibly see new changes.',
       onClick: handleDestroy,
-    });
-  }
+    },
+    {
+      id: 'versions',
+      label: 'versions',
+      helper: 'Show the versions of this resource',
+      onClick: () => history.push(versionsURL(subject, store.getBaseUrl())),
+    },
+  ];
 
   const filteredItems = hide ? items.filter(item => !hide.includes(item.id)) : items;
 

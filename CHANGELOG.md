@@ -2,6 +2,13 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
+## v0.0.15
+
+- Add Version button to menu
+- Disable menu buttons that are not usable
+- Improve error view in cards
+- Only show plus icon in suitable collections
+
 ## v0.0.12
 
 ### atomic-data-browser

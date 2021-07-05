@@ -32,7 +32,7 @@ export async function fetchResource(
     if (response.status == 200) {
       parseJsonADResource(body, resource);
     } else {
-      const error = new Error(`${subject} returned ${response.status}. Server: ${body}`);
+      const error = new Error(`${response.status} error: ${body}`);
       resource.setError(error);
     }
   } catch (e) {

@@ -72,7 +72,14 @@ function ResourceCardInner(props: Props): JSX.Element {
     return <p>Loading...</p>;
   }
   if (status == ResourceStatus.error) {
-    return <ErrorLook>{resource.getError().message}</ErrorLook>;
+    return (
+      <ErrorLook>
+        <AtomicLink subject={subject}>
+          <h2>{title}</h2>
+        </AtomicLink>
+        {resource.getError().message}
+      </ErrorLook>
+    );
   }
 
   /** Check if there exists a View for this Class. These should be registered in `../views` */

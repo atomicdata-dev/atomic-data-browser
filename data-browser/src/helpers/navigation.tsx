@@ -56,6 +56,14 @@ export function dataURL(subject: string): string {
   return constructURL(paths.data, 'subject', subject);
 }
 
+/** Constructs the URL for the `all-versions` endpoint. Assumes the current URL supports that endpoint */
+export function versionsURL(subject: string, baseURL: string): string {
+  const url = new URL(baseURL);
+  url.pathname = paths.allVersions;
+  url.searchParams.append('subject', subject);
+  return openURL(url.toString());
+}
+
 /** Takes the cursor position, finds the nearest `about=` attributes in DOM nodes */
 export function getSubjectFromDom(): string | null {
   const found: string[] = [];

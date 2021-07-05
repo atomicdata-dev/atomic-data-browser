@@ -117,12 +117,13 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
         <FaEllipsisV />
       </ButtonBar>
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
-        {items.map(({ label, onClick, helper, id }, i) => (
+        {items.map(({ label, onClick, helper, id, disabled }, i) => (
           <MenuItem
             onClick={() => {
               handleClose();
               onClick();
             }}
+            disabled={disabled}
             key={id}
             helper={helper}
             label={label}
@@ -146,15 +147,16 @@ export interface MenuItemProps {
   helper?: string;
   id?: string;
   icon?: React.ReactNode;
+  disabled?: boolean;
 }
 
 interface MenuItemPropsExtended extends MenuItemProps {
   selected: boolean;
 }
 
-export function MenuItem({ onClick, label, selected, helper }: MenuItemPropsExtended): JSX.Element {
+export function MenuItem({ onClick, label, selected, helper, disabled }: MenuItemPropsExtended): JSX.Element {
   return (
-    <MenuItemStyled clean onClick={onClick} selected={selected} title={helper}>
+    <MenuItemStyled clean onClick={onClick} selected={selected} title={helper} disabled={disabled}>
       {label}
     </MenuItemStyled>
   );
@@ -174,12 +176,20 @@ const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
   padding: 0.4rem 0.7rem;
   height: auto;
   background-color: ${p => (p.selected ? p.theme.colors.bg1 : p.theme.colors.bg)};
+  text-decoration: ${p => (p.selected ? 'underline' : 'none')};
 
   &:hover {
     background-color: ${p => p.theme.colors.bg1};
   }
   &:active {
     background-color: ${p => p.theme.colors.bg2};
+  }
+  &:disabled {
+    color: ${p => p.theme.colors.textLight};
+    &:hover {
+      cursor: 'default';
+    }
+    background-color: ${p => p.theme.colors.bg};
   }
 `;
 

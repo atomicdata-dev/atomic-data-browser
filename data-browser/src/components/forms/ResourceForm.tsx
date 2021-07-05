@@ -6,7 +6,7 @@ import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
-import { ErrMessage, LabelStyled } from './InputStyles';
+import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
