@@ -15,6 +15,7 @@ function Data(): JSX.Element {
   const [resource] = useResource(subject);
   const status = resource.getStatus();
   const [textResponse, setTextResponse] = useState(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   if (status == ResourceStatus.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
@@ -29,6 +30,12 @@ function Data(): JSX.Element {
     const resp = await window.fetch(subject, { headers: requestHeaders });
     const body = await resp.text();
     setTextResponse(body);
+    setIsCopied(false);
+  }
+
+  function copyToClipboard() {
+    setIsCopied(true);
+    navigator.clipboard.writeText(textResponse);
   }
 
   return (
@@ -58,7 +65,7 @@ function Data(): JSX.Element {
       {textResponse && (
         <>
           <CodeBlock>{textResponse}</CodeBlock>
-          <Button onClick={() => navigator.clipboard.writeText(textResponse)}>Copy to clipboard</Button>
+          <Button onClick={copyToClipboard}>{isCopied ? 'Copied!' : 'Copy to clipboard'}</Button>
         </>
       )}
     </ContainerNarrow>
