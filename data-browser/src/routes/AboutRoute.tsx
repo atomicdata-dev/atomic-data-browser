@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink, { LinkView } from '../components/Link';
+import AtomicLink from '../components/Link';
 import { Logo } from '../components/Logo';
 
-export const Welcome: React.FunctionComponent = () => {
-  const history = useHistory();
-
+export const About: React.FunctionComponent = () => {
   return (
     <ContainerNarrow>
       <Logo style={{ width: '30rem', maxWidth: '100%', marginBottom: '1rem' }} />

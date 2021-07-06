@@ -23,7 +23,7 @@ export const Shortcuts: React.FunctionComponent = () => {
         <Key>d</Key> show <b>d</b>ata for resource
       </p>
       <p>
-        <Key>h</Key> go <b>h</b>ome
+        <Key>a</Key> show <b>a</b>bout page
       </p>
       <p>
         <Key>n</Key> <b>n</b>ew resource

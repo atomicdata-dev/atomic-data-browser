@@ -7,5 +7,6 @@ export const paths = {
   show: '/app/show',
   data: '/app/data',
   edit: '/app/edit',
+  about: '/app/about',
   allVersions: '/all-versions',
 };

@@ -34,7 +34,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     {},
     [subject],
   );
-  useHotkeys('h', () => {
+  useHotkeys('a', () => {
     history.push('/');
   });
   useHotkeys('n', () => {

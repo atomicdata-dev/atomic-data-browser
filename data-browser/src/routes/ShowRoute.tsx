@@ -3,7 +3,7 @@ import { tryValidURL } from '@tomic/lib';
 import ResourcePage from '../components/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './SearchRoute';
-import { Welcome } from './WelcomeRoute';
+import { About } from './AboutRoute';
 
 /** Renders either the Welcome page, an Individual resource, or search results. */
 const Show: React.FunctionComponent = () => {
@@ -11,7 +11,7 @@ const Show: React.FunctionComponent = () => {
   const [subject] = useCurrentSubject();
 
   if (subject == undefined || subject == '') {
-    return <Welcome />;
+    return <About />;
   }
   try {
     tryValidURL(subject);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaHome, FaArrowLeft, FaArrowRight, FaBars, FaUser } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaBars, FaUser, FaInfo } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL, searchURL } from '../helpers/navigation';
@@ -14,6 +14,7 @@ import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 import { tryValidURL } from '@tomic/lib';
 import { useQueryParam, StringParam } from 'use-query-params';
+import { paths } from '../routes/paths';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -145,11 +146,11 @@ function NavBar() {
           <ButtonBar leftPadding type='button' onClick={() => setSideBarLocked(!sideBarLocked)} title='Show / hide sidebar (\)'>
             <FaBars />
           </ButtonBar>
-          <ButtonBar type='button' onClick={() => handleNavigation('/')} title='Go home (h)'>
-            <FaHome />
+          <ButtonBar type='button' onClick={() => handleNavigation(paths.about)} title='Show about page (a)'>
+            <FaInfo />
           </ButtonBar>
           {agent && (
-            <ButtonBar type='button' onClick={() => handleNavigation('/app/agent')} title='Show current User'>
+            <ButtonBar type='button' onClick={() => handleNavigation(paths.agentSettings)} title='Show current User'>
               <FaUser />
             </ButtonBar>
           )}

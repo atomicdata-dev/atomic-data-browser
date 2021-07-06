@@ -10,7 +10,7 @@ import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
-import { FaCog, FaKeyboard, FaPlus, FaUser } from 'react-icons/fa';
+import { FaCog, FaExternalLinkAlt, FaInfo, FaKeyboard, FaPlus, FaUser } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 
 export function SideBar(): JSX.Element {
@@ -56,27 +56,34 @@ export function SideBar(): JSX.Element {
         history.push(paths.shortcuts);
       },
     },
-  ];
-
-  const aboutMenuItems: MenuItemProps[] = [
     {
+      icon: <FaInfo />,
       label: 'about',
       helper: 'Welcome page, tells about this app',
       onClick: () => {
         history.push('/');
       },
     },
+  ];
+
+  const aboutMenuItems: MenuItemProps[] = [
     {
+      // icon: <FaGithub />,
+      icon: <FaExternalLinkAlt />,
       label: 'github',
       helper: 'View the source code for this application',
       onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
     },
     {
+      // icon: <FaDiscord />,
+      icon: <FaExternalLinkAlt />,
       label: 'discord',
       helper: 'Chat with the Atomic Data community',
       onClick: () => window.open('https://discord.gg/a72Rv2P'),
     },
     {
+      // icon: <FaBook />,
+      icon: <FaExternalLinkAlt />,
       label: 'docs',
       helper: 'View the Atomic Data documentation',
       onClick: () => window.open('https://docs.atomicdata.dev'),
