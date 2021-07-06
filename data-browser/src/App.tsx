@@ -1,27 +1,17 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import { Store, Agent } from '@tomic/lib';
 import { StoreContext } from '@tomic/react';
 import { GlobalStyle, ThemeWrapper } from './styling';
-import Show from './routes/ShowRoute';
-import { Search } from './routes/SearchRoute';
-import New from './routes/NewRoute';
+import { Routes } from './routes/Routes';
 import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
-import { SettingsTheme } from './routes/SettingsTheme';
 import { getSnowpackEnv, isDev } from './config';
 import { handleWarning, initBugsnag } from './helpers/handlers';
-import { Edit } from './routes/EditRoute';
 import HotKeysWrapper from './components/HotKeyWrapper';
-import Data from './routes/DataRoute';
-import { Shortcuts } from './routes/ShortcutsRoute';
-import { About as About } from './routes/AboutRoute';
-import Local from './routes/LocalRoute';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
-import SettingsAgent from './routes/SettingsAgent';
-import { paths } from './routes/paths';
 import ErrorPage from './views/ErrorPage';
 
 /** Initialize the store */
@@ -45,37 +35,7 @@ function App(): JSX.Element {
                   <GlobalStyle />
                   <MetaSetter />
                   <NavWrapper>
-                    <Switch>
-                      <Route path={paths.new}>
-                        <New />
-                      </Route>
-                      <Route path={paths.themeSettings}>
-                        <SettingsTheme />
-                      </Route>
-                      <Route path={paths.agentSettings}>
-                        <SettingsAgent />
-                      </Route>
-                      <Route path={paths.shortcuts}>
-                        <Shortcuts />
-                      </Route>
-                      <Route path={paths.data}>
-                        <Data />
-                      </Route>
-                      <Route path={paths.edit}>
-                        <Edit />
-                      </Route>
-                      <Route path={paths.show}>
-                        <Show />
-                      </Route>
-                      <Route path={paths.about}>
-                        <About />
-                      </Route>
-                      <Route path={paths.search} component={Search} />
-                      <Route path='/:path' component={Local} />
-                      <Route exact path='/'>
-                        <Redirect to={paths.about} />
-                      </Route>
-                    </Switch>
+                    <Routes />
                   </NavWrapper>
                 </ErrorBoundary>
               </ThemeWrapper>

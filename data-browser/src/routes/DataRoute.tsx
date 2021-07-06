@@ -16,6 +16,7 @@ function Data(): JSX.Element {
   const status = resource.getStatus();
   const [textResponse, setTextResponse] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [err, setErr] = useState(null);
 
   if (status == ResourceStatus.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
@@ -27,9 +28,15 @@ function Data(): JSX.Element {
   async function fetchAs(contentType: string) {
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Accept', contentType);
-    const resp = await window.fetch(subject, { headers: requestHeaders });
-    const body = await resp.text();
-    setTextResponse(body);
+    setErr(new Error('loading...'));
+    try {
+      const resp = await window.fetch(subject, { headers: requestHeaders });
+      const body = await resp.text();
+      setTextResponse(body);
+      setErr(null);
+    } catch (e) {
+      setErr(e);
+    }
     setIsCopied(false);
   }
 
@@ -62,7 +69,8 @@ function Data(): JSX.Element {
           Turtle / N-triples / N3
         </Button>
       </div>
-      {textResponse && (
+      {err && <p>{err.message}</p>}
+      {!err && textResponse && (
         <>
           <CodeBlock>{textResponse}</CodeBlock>
           <Button onClick={copyToClipboard}>{isCopied ? 'Copied!' : 'Copy to clipboard'}</Button>
