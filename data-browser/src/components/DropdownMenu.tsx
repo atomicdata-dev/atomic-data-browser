@@ -83,13 +83,19 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   function handleToggle() {
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
-    setX(triggerRect.x - menuRect.width + triggerRect.width);
     const topPos = triggerRect.y - menuRect.height;
     // If the top is outside of the screen, render it below
     if (topPos < 0) {
       setY(triggerRect.y + triggerRect.height);
     } else {
       setY(topPos);
+    }
+    const leftPos = triggerRect.x - menuRect.width;
+    // If the left is outside of the screen, render it to the right
+    if (leftPos < 0) {
+      setX(triggerRect.x);
+    } else {
+      setX(triggerRect.x - menuRect.width + triggerRect.width);
     }
     isActive ? handleClose() : setIsActive(true);
   }
