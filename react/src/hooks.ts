@@ -65,7 +65,7 @@ export function useResources(subjects: string[]): Map<string, Resource> {
       subjects.map(subject => store.unsubscribe(subject, handleNotify));
     };
     // maybe add resources here
-  }, [subjects, resources, store]);
+  }, [subjects, store]);
 
   return resources;
 }
@@ -250,7 +250,7 @@ export function useDate(resource: Resource, propertyURL: string): Date | null {
   }
 }
 
-/** Preffered way of using the store in a Component. */
+/** Preffered way of using the store in a Component or Hook */
 export function useStore(): Store {
   const store = React.useContext(StoreContext);
 

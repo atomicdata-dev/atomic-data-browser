@@ -1,37 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
-import { Hit, useSearch } from '../helpers/useSearch';
+import { useSearch } from '../helpers/useSearch';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../components/ResourceCard';
-import { useDebounce } from '../helpers/useDebounce';
+import AtomicLink from '../components/Link';
 
-const MAX_COUNT = 50;
+const MAX_COUNT = 30;
+
 /** Full text search route */
 export function Search(): JSX.Element {
   const [query] = useSearchQuery();
-  // TODO: This would feel even snappier if we'd use a throttle instead of a debounce
-  const debouncedQuery = useDebounce(query, 50);
   const [selectedIndex, setSelected] = useState(0);
-  const index = useSearch();
+  let results = useSearch(query);
   const history = useHistory();
   const htmlElRef = useRef(null);
-  const [results, setResults] = useState<Hit[]>([]);
 
-  useEffect(() => {
-    if (index == null) {
-      return;
-    }
-    const resultsIn = index.search(debouncedQuery);
-    const tooMany = resultsIn.length > MAX_COUNT;
-    const results = resultsIn;
-    if (tooMany) {
-      setResults(results.slice(0, MAX_COUNT));
-    } else {
-      setResults(resultsIn);
-    }
-  }, [index, debouncedQuery]);
+  const tooMany = results.length > MAX_COUNT;
+  if (tooMany) {
+    results = results.slice(0, MAX_COUNT);
+  }
 
   /** Moves the viewport to the card at the selected index */
   function moveTo(index: number) {
@@ -72,33 +61,24 @@ export function Search(): JSX.Element {
     { enableOnTags: ['INPUT'] },
   );
 
-  if (index == null) {
-    return (
-      <ContainerNarrow>
-        <p>Building search index...</p>
-      </ContainerNarrow>
-    );
-  }
-
   return (
     <ContainerNarrow ref={htmlElRef}>
       {results.length == 0 && (
         <p>
           No results found for {query}. Keep in mind that at this moment, this only searches the data that has already been loaded into your
-          browser during this session.{' '}
+          browser during this session. <AtomicLink subject={'https://atomicdata.dev/collections'}>Load in some resources</AtomicLink> and
+          try again!
         </p>
       )}
-      {results.map((hit, index) => {
-        return (
-          <ResourceCard
-            initialInView={index < 5}
-            small
-            subject={hit.item.subject}
-            key={`${hit.item.subject}${index}`}
-            highlight={index == selectedIndex}
-          />
-        );
-      })}
+      {results.map((hit, index) => (
+        <ResourceCard
+          initialInView={index < 5}
+          small
+          subject={hit.item.subject}
+          key={`${hit.item.subject}${index}`}
+          highlight={index == selectedIndex}
+        />
+      ))}
     </ContainerNarrow>
   );
 }

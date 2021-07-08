@@ -6,10 +6,11 @@ import AtomicLink from './Link';
 
 type Props = {
   subject: string;
+  untabbable?: boolean;
 };
 
 /** Renders a Resource in a small, inline link. */
-function ResourceInline({ subject }: Props): JSX.Element {
+function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
@@ -24,7 +25,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
   }
   if (status == ResourceStatus.error) {
     return (
-      <AtomicLink subject={subject}>
+      <AtomicLink subject={subject} untabbable={untabbable}>
         <ErrorLook about={subject} title={resource.getError().message}>
           {subject}
         </ErrorLook>
@@ -33,7 +34,7 @@ function ResourceInline({ subject }: Props): JSX.Element {
   }
 
   return (
-    <AtomicLink subject={subject}>
+    <AtomicLink subject={subject} untabbable={untabbable}>
       <span title={description ? description : null}>{title}</span>
     </AtomicLink>
   );

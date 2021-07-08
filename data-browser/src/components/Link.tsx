@@ -13,10 +13,11 @@ type Props = {
   subject?: string;
   /** An http URL to some (external) resource, opened in a new tab and fetched as HTML */
   href?: string;
+  untabbable?: boolean;
 };
 
 /** Renders a link. Either a subject or a href is required */
-function AtomicLink({ children, subject, href }: Props): JSX.Element {
+function AtomicLink({ children, subject, href, untabbable }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
   const store = useStore();
@@ -48,7 +49,7 @@ function AtomicLink({ children, subject, href }: Props): JSX.Element {
       onClick={handleClick}
       href={subject ? subject : href}
       disabled={isOnCurrentPage}
-      tabIndex={isOnCurrentPage ? -1 : 0}
+      tabIndex={isOnCurrentPage || untabbable ? -1 : 0}
     >
       {children}
       {href && <FaExternalLinkAlt />}

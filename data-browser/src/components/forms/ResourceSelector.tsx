@@ -80,7 +80,7 @@ export function ResourceSelector({
 }
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
-function getCollectionURL(classtypeUrl: string): string {
+export function getCollectionURL(classtypeUrl: string): string {
   switch (classtypeUrl) {
     case urls.classes.property:
       return 'https://atomicdata.dev/collections/property';
