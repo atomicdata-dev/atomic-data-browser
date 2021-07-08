@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight, FaBars, FaUser, FaInfo } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { openURL, searchURL } from '../helpers/navigation';
+import { openURL, searchURL, useSearchQuery } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -62,7 +62,7 @@ const Content = styled.div<ContentProps>`
 function NavBar() {
   const [subject] = useCurrentSubject();
   const [input, setInput] = useState<string>('');
-  const [query] = useQueryParam('query', StringParam);
+  const [query] = useSearchQuery();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } = useSettings();
@@ -73,7 +73,8 @@ function NavBar() {
   }, [query]);
 
   useEffect(() => {
-    setInput(subject);
+    // Prevents setting an empty input if the first letter of a query has just been typed
+    !query && setInput(subject);
   }, [subject]);
 
   useHotkeys('/', e => {

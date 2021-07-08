@@ -1,32 +1,61 @@
 import React from 'react';
-import { Resource, Store, urls } from '@tomic/lib';
-import { useStore } from '@tomic/react';
+import { isValidURL, Resource, urls } from '@tomic/lib';
+import { useResources, useStore } from '@tomic/react';
 import { QuickScore } from 'quick-score';
+import { useDebounce } from './useDebounce';
 
 /**
- * Allows for full-text search of all resources in the store. use `index.search(query)` to perform the search. Returns null or the
- * QuickScore index containing all subjects in the store. Does not index Commits or non-ready resources.
+ * Pass a query and an set of pre-defined subjects. If you don't pass these subjects, it will search all subjects. Use the 'disabled'
+ * argument to disable this very expensive hook as much as possible
  */
-export const useSearch = (): null | SearchIndex => {
-  const store = useStore();
+export function useSearch(query: string, subjects?: string[], disabled?: boolean): Hit[] {
   const [index, setIndex] = React.useState<SearchIndex>(null);
+  const [results, setResults] = React.useState<Hit[]>([]);
+  const store = useStore();
+  let resources = useResources(subjects || []);
+  const debouncedQuery = useDebounce(query, 40);
+
+  if (subjects == undefined) {
+    resources = store.resources;
+  }
 
   React.useEffect(() => {
-    const index = constructIndex(store);
-    setIndex(index);
-  }, [store]);
+    if (disabled) {
+      return;
+    }
+    setIndex(constructIndex(resources));
+  }, [resources, disabled]);
+
+  React.useEffect(() => {
+    if (disabled) {
+      return;
+    }
+    if (index == null) {
+      return;
+    }
+    // For some reason, searching for a URL as query takes infinitely long..?
+    if (isValidURL(debouncedQuery)) {
+      return;
+    }
+
+    const searchResults = index && index.search(debouncedQuery);
+    setResults(searchResults);
+  }, [debouncedQuery, index, disabled]);
 
   // Return the width so we can use it in our components
-  return index;
-};
+  return results;
+}
 
 /** Constructs a QuickScore search index from all resources in the store. Does not index commits or resources that are not ready */
-function constructIndex(store: Store): SearchIndex {
-  const resourceMap: Map<string, Resource> = store.resources;
-  const subjectArray = Array.from(resourceMap.values());
-  const dataArray = subjectArray.map(resource => {
+function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
+  const resources = Array.from(resourceMap.values());
+  const dataArray = resources.map(resource => {
     // Don't index resources that are loading / errored
     if (!resource.isReady()) return '';
+    // ... or have no subject
+    if (resource.getSubject() == undefined) {
+      return '';
+    }
     // Don't index commits
     if (resource.getClasses().includes(urls.classes.commit)) {
       return '';

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCaretDown, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
+import { useSearch } from '../../helpers/useSearch';
 import { ButtonInput } from '../Button';
 import ResourceInline from '../ResourceInline';
 import ResourceLine from '../ResourceLine';
@@ -42,7 +43,26 @@ export function DropdownInput({
   // hides the mouse cursor interactions with elements
   const [useKeys, setUseKeys] = useState<boolean>(false);
   const dropdownRef = useRef(null);
-  const results = options.filter(item => !inputValue || item.includes(inputValue));
+  const results = useSearch(inputValue, options, !isOpen && !isFocus);
+
+  // Close the dropdown when the user clicks outside of it
+  useEffect(() => {
+    const onClick = e => {
+      // If the active element exists and is clicked outside of
+      if (!isFocus && dropdownRef.current !== null && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(!isOpen);
+      }
+    };
+
+    // If the item is active (ie open) then listen for clicks outside
+    if (isOpen) {
+      window.addEventListener('click', onClick);
+    }
+
+    return () => {
+      window.removeEventListener('click', onClick);
+    };
+  }, [isOpen, dropdownRef, isFocus]);
 
   // Select the item
   useHotkeys(
@@ -50,7 +70,7 @@ export function DropdownInput({
     e => {
       e.preventDefault();
       if (results.length > 0) {
-        handleSelectItem(results[selectedIndex]);
+        handleSelectItem(results[selectedIndex].item.subject);
       } else {
         handleSelectItem(inputValue);
       }
@@ -107,9 +127,9 @@ export function DropdownInput({
     const val = e.target.value;
     setInputValue(val);
     setUseKeys(true);
-    if (selectedIndex > results.length - 1) {
-      setSelectedIndex(0);
-    }
+    setIsFocus(true);
+    setIsOpen(true);
+    setSelectedIndex(0);
     if (val == '') {
       setSelectedItem(null);
     } else {
@@ -156,7 +176,7 @@ export function DropdownInput({
         <ResourceInputOverlayWrapper>
           {selectedItem && !isFocus && (
             <InputOverlay>
-              <ResourceInline subject={selectedItem} />
+              <ResourceInline subject={selectedItem} untabbable />
             </InputOverlay>
           )}
           <InputStyled
@@ -193,8 +213,13 @@ export function DropdownInput({
           <DropDownWrapper ref={dropdownRef}>
             {results.length > 0 ? (
               results.map((item, index) => (
-                <DropDownItem onClick={() => handleSelectItem(item)} key={item} selected={index == selectedIndex} useKeys={useKeys}>
-                  <ResourceLine subject={item} />
+                <DropDownItem
+                  onClick={() => handleSelectItem(item.item.subject)}
+                  key={item.item.subject}
+                  selected={index == selectedIndex}
+                  useKeys={useKeys}
+                >
+                  <ResourceLine subject={item.item.subject} />
                 </DropDownItem>
               ))
             ) : (
@@ -260,7 +285,6 @@ const DropDownItem = styled.li<DropDownItemProps>`
   ${props =>
     props.selected &&
     css`
-      text-decoration: 'underline';
       background-color: ${props => props.theme.colors.main};
       color: ${props => props.theme.colors.bg};
     `}

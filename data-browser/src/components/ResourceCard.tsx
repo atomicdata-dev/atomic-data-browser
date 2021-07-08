@@ -36,7 +36,7 @@ export interface CardViewProps extends CardPropsBase {
 function ResourceCard(props: Props): JSX.Element {
   const { subject, initialInView } = props;
   const [isShown, setIsShown] = useState(false);
-  // The (more expensive) ResourceCardInner is only rendered when the component is in view.
+  // The (more expensive) ResourceCardInner is only rendered when the component has been in View
   const { ref, inView } = useInView({
     threshold: 0,
     initialInView,

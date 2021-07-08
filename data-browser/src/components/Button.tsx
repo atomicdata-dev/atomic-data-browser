@@ -65,7 +65,6 @@ export const ButtonBase = styled(ButtonClean)`
   @media (hover: hover) and (pointer: fine) {
     &:hover:not([disabled]),
     &:focus-visible:not([disabled]) {
-      color: ${props => props.theme.colors.main};
       border-color: ${props => props.theme.colors.main};
       outline: 0;
     }
@@ -172,6 +171,16 @@ export const ButtonInput = styled(ButtonBase)`
   height: auto;
   border-left: solid 1px ${props => props.theme.colors.bg2};
   border-radius: 0;
+
+  /** Prevent sticky hover buttons on touch devices */
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]),
+    &:focus-visible:not([disabled]) {
+      color: ${props => props.theme.colors.main};
+      background-color: ${props => props.theme.colors.bg1};
+    }
+  }
 
   &:last-child {
     border-radius: ${props => props.theme.radius};
