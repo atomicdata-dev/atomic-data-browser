@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { FaCaretDown, FaTrash } from 'react-icons/fa';
+import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { useSearch } from '../../helpers/useSearch';
 import { ButtonInput } from '../Button';
@@ -43,6 +43,7 @@ export function DropdownInput({
   // hides the mouse cursor interactions with elements
   const [useKeys, setUseKeys] = useState<boolean>(false);
   const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
   const results = useSearch(inputValue, options, !isOpen && !isFocus);
 
   // Close the dropdown when the user clicks outside of it
@@ -147,6 +148,7 @@ export function DropdownInput({
     setInputValue('');
     setSelectedItem(null);
     onUpdate(null);
+    inputRef.current.focus();
   }
 
   function handleSelectItem(item: string) {
@@ -196,6 +198,7 @@ export function DropdownInput({
             // That would also allow for a richer resource view in the input
             value={inputValue}
             onChange={handleInputChange}
+            ref={inputRef}
           />
         </ResourceInputOverlayWrapper>
         {selectedItem ? (
@@ -206,10 +209,10 @@ export function DropdownInput({
             title='clear selection'
             aria-label='clear selection'
           >
-            clear
+            <FaTimes />
           </ButtonInput>
         ) : null}
-        {options.length > 0 && (
+        {options.length > 0 && selectedItem == undefined && (
           <ButtonInput
             disabled={disabled}
             type='button'

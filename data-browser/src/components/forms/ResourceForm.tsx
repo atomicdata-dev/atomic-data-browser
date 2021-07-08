@@ -24,7 +24,7 @@ import styled from 'styled-components';
 import Field from './Field';
 import { useSettings } from '../../helpers/AppSettings';
 import { useDebounce } from '../../helpers/useDebounce';
-import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
+import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
 
 type ResourceFormProps = {
   /**
@@ -224,8 +224,13 @@ export function ResourceForm({
         helper='In Atomic Data, any Resource could have any single Property. Use this field to add new property-value combinations to your resource.'
       >
         <PropertyAdder>
-          <Button subtle disabled={!newProperty} onClick={handleAddProp}>
-            add
+          <Button
+            subtle
+            disabled={!newProperty}
+            onClick={handleAddProp}
+            title='Add this property'
+          >
+            <FaPlus />
           </Button>
           <ResourceSelector
             value={null}
