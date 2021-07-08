@@ -3,7 +3,11 @@ import { useBoolean } from '@tomic/react';
 import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled } from './InputStyles';
 
-export default function InputBoolean({ resource, property, ...props }: InputProps): JSX.Element {
+export default function InputBoolean({
+  resource,
+  property,
+  ...props
+}: InputProps): JSX.Element {
   const [value, setValue] = useBoolean(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
 
@@ -13,7 +17,12 @@ export default function InputBoolean({ resource, property, ...props }: InputProp
 
   return (
     <>
-      <InputStyled type='checkbox' checked={value} onChange={handleUpdate} {...props} />
+      <InputStyled
+        type='checkbox'
+        checked={value}
+        onChange={handleUpdate}
+        {...props}
+      />
       {err && <ErrMessage>{err.message}</ErrMessage>}
     </>
   );

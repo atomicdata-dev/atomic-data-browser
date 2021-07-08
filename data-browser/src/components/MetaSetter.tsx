@@ -6,7 +6,7 @@ import { useSettings } from '../helpers/AppSettings';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 
 /** Sets various HTML meta tags, depending on the currently opened resource */
-export function MetaSetter() {
+export function MetaSetter(): JSX.Element {
   const { mainColor, darkMode } = useSettings();
   const [subject] = useCurrentSubject();
   const [resource] = useResource(subject);
@@ -15,7 +15,10 @@ export function MetaSetter() {
   const hasResource = resource.isReady();
 
   title = hasResource && title ? title : 'Atomic Data';
-  description = hasResource && description ? description : 'The easiest way to create and share linked data.';
+  description =
+    hasResource && description
+      ? description
+      : 'The easiest way to create and share linked data.';
 
   return (
     <Helmet>

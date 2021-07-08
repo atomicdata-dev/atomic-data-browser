@@ -1,6 +1,12 @@
-import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
-import { ResourceStatus, properties, urls, tryValidURL } from '@tomic/lib';
-import React, { useEffect, useState } from 'react';
+import {
+  useArray,
+  useResource,
+  useStore,
+  useString,
+  useTitle,
+} from '@tomic/react';
+import { properties, urls } from '@tomic/lib';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 
@@ -48,7 +54,9 @@ function New(): JSX.Element {
             classType={urls.classes.class}
           />
           <br />
-          {classInput && <Button onClick={handleClassSet}>new {className}</Button>}
+          {classInput && (
+            <Button onClick={handleClassSet}>new {className}</Button>
+          )}
           {!classInput && (
             <>
               <NewIntanceButton klass={urls.classes.class} subtle />
@@ -101,7 +109,12 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
     <>
       <h2>
         new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>{' '}
-        <Button onClick={() => setShowDetails(!showDetails)} icon subtle={!showDetails} title='Toggle show Class details'>
+        <Button
+          onClick={() => setShowDetails(!showDetails)}
+          icon
+          subtle={!showDetails}
+          title='Toggle show Class details'
+        >
           <FaInfo />
         </Button>
       </h2>
@@ -120,7 +133,12 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
         </InputWrapper>
       </Field>
       {/* Key is required for re-rendering when subject changes */}
-      <ResourceForm resource={resource} classSubject={classSubject} key={`${classSubject}+${newSubject}`} parent={parentSubject} />
+      <ResourceForm
+        resource={resource}
+        classSubject={classSubject}
+        key={`${classSubject}+${newSubject}`}
+        parent={parentSubject}
+      />
     </>
   );
 }

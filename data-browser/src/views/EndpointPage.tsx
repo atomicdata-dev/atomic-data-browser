@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { useArray, useResource, useStore, useString, useTitle } from '@tomic/react';
+import {
+  useArray,
+  useResource,
+  useStore,
+  useString,
+  useTitle,
+} from '@tomic/react';
 import { Resource, properties } from '@tomic/lib';
 import { useHistory } from 'react-router-dom';
 
@@ -44,7 +50,14 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       {description && <Markdown text={description} />}
       <form onSubmit={constructSubject}>
         {parameters.map((param, i) => {
-          return <ResourceField key={param} propertyURL={param} resource={virtualResource} autoFocus={i == 0} />;
+          return (
+            <ResourceField
+              key={param}
+              propertyURL={param}
+              resource={virtualResource}
+              autoFocus={i == 0}
+            />
+          );
         })}
       </form>
       <Button onClick={constructSubject}>Open</Button>

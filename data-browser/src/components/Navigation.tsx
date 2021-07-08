@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaArrowLeft, FaArrowRight, FaBars, FaUser, FaInfo } from 'react-icons/fa';
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaBars,
+  FaUser,
+  FaInfo,
+} from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { openURL, searchURL, useSearchQuery } from '../helpers/navigation';
@@ -13,7 +19,6 @@ import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 import { tryValidURL } from '@tomic/lib';
-import { useQueryParam, StringParam } from 'use-query-params';
 import { paths } from '../routes/paths';
 
 interface NavWrapperProps {
@@ -65,7 +70,13 @@ function NavBar() {
   const [query] = useSearchQuery();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
-  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } = useSettings();
+  const {
+    navbarTop,
+    navbarFloating,
+    sideBarLocked,
+    setSideBarLocked,
+    agent,
+  } = useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useEffect(() => {
@@ -75,7 +86,7 @@ function NavBar() {
   useEffect(() => {
     // Prevents setting an empty input if the first letter of a query has just been typed
     !query && setInput(subject);
-  }, [subject]);
+  }, [subject, query]);
 
   useHotkeys('/', e => {
     e.preventDefault();
@@ -115,7 +126,9 @@ function NavBar() {
 
   /** Checks if the app is running in PWA / stand alone mode or in a browser */
   const isInStandaloneMode = () =>
-    window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone ||
+    document.referrer.includes('android-app://');
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -141,17 +154,35 @@ function NavBar() {
   const ConditionalNavbar = navbarFloating ? NavBarFloating : NavBarFixed;
 
   return (
-    <ConditionalNavbar top={navbarTop} floating={navbarFloating} onSubmit={handleSubmit} autoComplete='off'>
+    <ConditionalNavbar
+      top={navbarTop}
+      floating={navbarFloating}
+      onSubmit={handleSubmit}
+      autoComplete='off'
+    >
       {showButtons && (
         <React.Fragment>
-          <ButtonBar leftPadding type='button' onClick={() => setSideBarLocked(!sideBarLocked)} title='Show / hide sidebar (\)'>
+          <ButtonBar
+            leftPadding
+            type='button'
+            onClick={() => setSideBarLocked(!sideBarLocked)}
+            title='Show / hide sidebar (\)'
+          >
             <FaBars />
           </ButtonBar>
-          <ButtonBar type='button' onClick={() => handleNavigation(paths.about)} title='Show about page (a)'>
+          <ButtonBar
+            type='button'
+            onClick={() => handleNavigation(paths.about)}
+            title='Show about page (a)'
+          >
             <FaInfo />
           </ButtonBar>
           {agent && (
-            <ButtonBar type='button' onClick={() => handleNavigation(paths.agentSettings)} title='Show current User'>
+            <ButtonBar
+              type='button'
+              onClick={() => handleNavigation(paths.agentSettings)}
+              title='Show current User'
+            >
               <FaUser />
             </ButtonBar>
           )}
@@ -160,7 +191,11 @@ function NavBar() {
               <ButtonBar type='button' title='Go back' onClick={history.goBack}>
                 <FaArrowLeft />
               </ButtonBar>{' '}
-              <ButtonBar type='button' title='Go forward' onClick={history.goForward}>
+              <ButtonBar
+                type='button'
+                title='Go forward'
+                onClick={history.goForward}
+              >
                 <FaArrowRight />
               </ButtonBar>
             </>
@@ -170,6 +205,7 @@ function NavBar() {
       )}
       <input
         autoComplete='false'
+        // @ts-ignore this seems to work fine
         ref={inputRef}
         type='text'
         name='search'
@@ -219,7 +255,8 @@ const NavBarBase = styled.form<NavBarStyledProps>`
 
     &:hover {
       color: ${p => p.theme.colors.text};
-      box-shadow: inset 0 0 0 2px ${props => transparentize(0.6, props.theme.colors.main)};
+      box-shadow: inset 0 0 0 2px
+        ${props => transparentize(0.6, props.theme.colors.main)};
     }
 
     &:focus {
@@ -264,8 +301,10 @@ const NavBarFixed = styled(NavBarBase)`
   left: 0;
   right: 0;
   border-width: 0;
-  border-bottom: ${props => (props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
-  border-top: ${props => (!props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none')};
+  border-bottom: ${props =>
+    props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none'};
+  border-top: ${props =>
+    !props.top ? 'solid 1px ' + props.theme.colors.bg2 : 'none'};
 `;
 
 const SideBarWrapper = styled('div')`

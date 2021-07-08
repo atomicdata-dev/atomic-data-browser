@@ -1,6 +1,6 @@
 {
   "editor.rulers": [
-    140
+    80
   ],
   "files.exclude": {
     "**/.git": true,
@@ -22,9 +22,14 @@
   "eslint.packageManager": "yarn",
   "eslint.quiet": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
   },
   "jest.enableInlineErrorMessages": true,
   "jest.showCoverageOnLoad": true,
-  "jest.runAllTestsFirst": false
+  "jest.runAllTestsFirst": false,
+  "eslint.workingDirectories": [
+    "./data-browser",
+    "./react",
+    "./lib"
+  ]
 }

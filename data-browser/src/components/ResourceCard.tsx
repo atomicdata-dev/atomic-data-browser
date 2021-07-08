@@ -22,7 +22,10 @@ interface CardPropsBase {
   highlight?: boolean;
   /** An HTML reference */
   ref?: React.RefObject<HTMLElement>;
-  /** If you expect to render this card in the initial view (e.g. it's in the top of some list) */
+  /**
+   * If you expect to render this card in the initial view (e.g. it's in the top
+   * of some list)
+   */
   initialInView?: boolean;
 }
 
@@ -32,7 +35,10 @@ export interface CardViewProps extends CardPropsBase {
   resource: Resource;
 }
 
-/** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
+/**
+ * Renders a Resource and all its Properties in a random order. Title
+ * (shortname) is rendered prominently at the top.
+ */
 function ResourceCard(props: Props): JSX.Element {
   const { subject, initialInView } = props;
   const [isShown, setIsShown] = useState(false);
@@ -93,7 +99,10 @@ function ResourceCardInner(props: Props): JSX.Element {
       <AtomicLink subject={subject}>
         <h2>{title}</h2>
       </AtomicLink>
-      <ValueForm resource={resource} propertyURL={urls.properties.description} />
+      <ValueForm
+        resource={resource}
+        propertyURL={urls.properties.description}
+      />
       {!small && <AllProps resource={resource} except={defaulHiddenProps} />}
     </React.Fragment>
   );

@@ -1,9 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useArray, useNumber, useResource, useString, useTitle, useLocalStorage } from '@tomic/react';
-import { Resource, properties, urls, classes } from '@tomic/lib';
-import { FaArrowLeft, FaArrowRight, FaInfo, FaTable, FaThLarge } from 'react-icons/fa';
+import {
+  useArray,
+  useNumber,
+  useResource,
+  useString,
+  useTitle,
+  useLocalStorage,
+} from '@tomic/react';
+import { Resource, properties } from '@tomic/lib';
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaInfo,
+  FaTable,
+  FaThLarge,
+} from 'react-icons/fa';
 
 import { useViewport } from '../helpers/useMedia';
 import { Button } from '../components/Button';
@@ -39,7 +52,10 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? 0 : 1;
-  const [displayStyleIndex, setDisplayStyle] = useLocalStorage('CollectionDisplayStyle', defaultView);
+  const [displayStyleIndex, setDisplayStyle] = useLocalStorage(
+    'CollectionDisplayStyle',
+    defaultView,
+  );
   const [members] = useArray(resource, properties.collection.members);
   const [valueFilter] = useString(resource, properties.collection.value);
   const [propertyFilter] = useString(resource, properties.collection.property);
@@ -102,10 +118,20 @@ function Collection({ resource }: CollectionProps): JSX.Element {
 
   const Pagination = () => (
     <>
-      <Button subtle onClick={handlePrevPage} title='previous page (left arrow)' disabled={currentPage == 0}>
+      <Button
+        subtle
+        onClick={handlePrevPage}
+        title='previous page (left arrow)'
+        disabled={currentPage == 0}
+      >
         <FaArrowLeft />
       </Button>
-      <Button subtle onClick={handleNextPage} title='next page (right arrow)' disabled={currentPage == totalPages - 1}>
+      <Button
+        subtle
+        onClick={handleNextPage}
+        title='next page (right arrow)'
+        disabled={currentPage == totalPages - 1}
+      >
         <FaArrowRight />
       </Button>
     </>
@@ -117,7 +143,11 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       <h1>{title}</h1>
       <ButtonsBar>
         {totalPages > 1 && <Pagination />}
-        <Button subtle onClick={handleToggleView} title={`use ${nextDisplayStyle.id} view`}>
+        <Button
+          subtle
+          onClick={handleToggleView}
+          title={`use ${nextDisplayStyle.id} view`}
+        >
           {nextDisplayStyle.icon}
         </Button>
         {isClass && <NewInstanceButton subtle icon klass={valueFilter} />}
@@ -125,14 +155,23 @@ function Collection({ resource }: CollectionProps): JSX.Element {
           <Button
             subtle
             onClick={() => setShowClassDescription(!showClassDescription)}
-            title={showClassDescription ? `Hide ${classTitle} info` : `Show ${classTitle} info`}
+            title={
+              showClassDescription
+                ? `Hide ${classTitle} info`
+                : `Show ${classTitle} info`
+            }
           >
             <FaInfo />
           </Button>
         )}
         {isClass && (
           <DropDownMini>
-            <DropdownInput placeholder={'sort by...'} initial={sortBy} options={propsArrayFull} onUpdate={handleSetSort} />
+            <DropdownInput
+              placeholder={'sort by...'}
+              initial={sortBy}
+              options={propsArrayFull}
+              onUpdate={handleSetSort}
+            />
           </DropDownMini>
         )}
       </ButtonsBar>
@@ -147,14 +186,23 @@ function Collection({ resource }: CollectionProps): JSX.Element {
       )}
       {members.length == 0 ? (
         valueFilter ? (
-          <NewInstanceButton klass={valueFilter} parent={resource.getSubject()} />
+          <NewInstanceButton
+            klass={valueFilter}
+            parent={resource.getSubject()}
+          />
         ) : (
           <>empty</>
         )
       ) : (
         <>
           {displayStyle.id == 'cards' && <CardList members={members} />}
-          {displayStyle.id == 'table' && <Table resource={resource} members={members} columns={propsArrayFull} />}
+          {displayStyle.id == 'table' && (
+            <Table
+              resource={resource}
+              members={members}
+              columns={propsArrayFull}
+            />
+          )}
         </>
       )}
       {totalPages > 1 && <Pagination />}
@@ -174,7 +222,11 @@ function CardList({ members }: CardListProps): JSX.Element {
     <Masonry>
       {members.map((member, index) => (
         <GridItem key={member}>
-          <ResourceCard initialInView={index < 10} key={member} subject={member} />
+          <ResourceCard
+            initialInView={index < 10}
+            key={member}
+            subject={member}
+          />
         </GridItem>
       ))}
     </Masonry>
@@ -196,7 +248,10 @@ const ButtonsBar = styled.div`
   flex-wrap: wrap;
 `;
 
-/** A grid with columns and dynamic height items. Unfortunately, it does not work properly with safari, where shadows appear cropped */
+/**
+ * A grid with columns and dynamic height items. Unfortunately, it does not work
+ * properly with safari, where shadows appear cropped
+ */
 const Masonry = styled.div`
   column-count: 1;
   column-gap: ${props => props.theme.margin}rem;

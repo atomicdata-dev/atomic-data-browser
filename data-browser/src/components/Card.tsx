@@ -14,14 +14,16 @@ export const Card = styled.div<CardProps>`
   margin-bottom: ${props => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
-  border-color: ${props => (props.highlight ? props.theme.colors.main : props.theme.colors.bg2)};
+  border-color: ${props =>
+    props.highlight ? props.theme.colors.main : props.theme.colors.bg2};
 `;
 
 /** A Row in a Card. Should probably be used inside a CardInsideFull */
 export const CardRow = styled.div`
   display: block;
   border-top: solid 1px ${props => props.theme.colors.bg2};
-  padding: ${props => props.theme.margin / 3}rem ${props => props.theme.margin}rem;
+  padding: ${props => props.theme.margin / 3}rem
+    ${props => props.theme.margin}rem;
 `;
 
 /** A block inside a Card which has full width */

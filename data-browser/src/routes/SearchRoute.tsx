@@ -33,7 +33,9 @@ export function Search(): JSX.Element {
     'enter',
     e => {
       e.preventDefault();
-      const subject = htmlElRef.current.children[selectedIndex].getAttribute('about');
+      const subject = htmlElRef.current.children[selectedIndex].getAttribute(
+        'about',
+      );
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();
@@ -55,7 +57,10 @@ export function Search(): JSX.Element {
     'down',
     e => {
       e.preventDefault();
-      const newSelected = selectedIndex == results.length - 1 ? results.length - 1 : selectedIndex + 1;
+      const newSelected =
+        selectedIndex == results.length - 1
+          ? results.length - 1
+          : selectedIndex + 1;
       moveTo(newSelected);
     },
     { enableOnTags: ['INPUT'] },
@@ -65,9 +70,13 @@ export function Search(): JSX.Element {
     <ContainerNarrow ref={htmlElRef}>
       {results.length == 0 && (
         <p>
-          No results found for {query}. Keep in mind that at this moment, this only searches the data that has already been loaded into your
-          browser during this session. <AtomicLink subject={'https://atomicdata.dev/collections'}>Load in some resources</AtomicLink> and
-          try again!
+          No results found for {query}. Keep in mind that at this moment, this
+          only searches the data that has already been loaded into your browser
+          during this session.{' '}
+          <AtomicLink subject={'https://atomicdata.dev/collections'}>
+            Load in some resources
+          </AtomicLink>{' '}
+          and try again!
         </p>
       )}
       {results.map((hit, index) => (

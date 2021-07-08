@@ -7,7 +7,11 @@ import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import { FaPlus } from 'react-icons/fa';
 
-export default function InputResourceArray({ resource, property, ...props }: InputProps): JSX.Element {
+export default function InputResourceArray({
+  resource,
+  property,
+  ...props
+}: InputProps): JSX.Element {
   const [array, setArray] = useArray(resource, property.subject);
   const [err, setErr] = useState<ArrayError>(null);
 
@@ -34,7 +38,9 @@ export default function InputResourceArray({ resource, property, ...props }: Inp
         <ResourceSelector
           key={`${property.subject}${index}${subject}`}
           value={subject}
-          setSubject={(set, handleErr) => handleSetSubject(set, handleErr, index)}
+          setSubject={(set, handleErr) =>
+            handleSetSubject(set, handleErr, index)
+          }
           error={err?.index == index && err}
           setError={setErr}
           classType={property.classType}

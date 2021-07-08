@@ -6,13 +6,15 @@ export function useHover<T>(): [MutableRefObject<T>, boolean] {
   const [value, setValue] = useState<boolean>(false);
 
   const ref = useRef<T | null>(null);
+  const { current } = ref;
 
   const handleMouseOver = (): void => setValue(true);
   const handleMouseOut = (): void => setValue(false);
 
   useEffect(
     () => {
-      const node: any = ref.current;
+      // eslint-disable-next-line
+      const node: any = current;
       if (node) {
         node.addEventListener('mouseover', handleMouseOver);
         node.addEventListener('mouseout', handleMouseOut);
@@ -23,7 +25,7 @@ export function useHover<T>(): [MutableRefObject<T>, boolean] {
         };
       }
     },
-    [ref.current], // Recall only if ref changes
+    [current], // Recall only if ref changes
   );
 
   // don't hover on touch screen devices

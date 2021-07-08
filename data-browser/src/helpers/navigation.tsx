@@ -32,12 +32,17 @@ export function searchURL(query: string): string {
 }
 
 /** A hook containing a getter and a setter for the current 'query' search param */
+// eslint-disable-next-line
 export function useSearchQuery() {
   return useQueryParam('query', StringParam);
 }
 
 /** Constructs a URL for the New Resource form */
-export function newURL(classUrl: string, parentURL?: string, subject?: string): string {
+export function newURL(
+  classUrl: string,
+  parentURL?: string,
+  subject?: string,
+): string {
   // return constructURL(paths.new, 'classSubject', classUrl);
   // TODO: handle parentURL
   const navTo = new URL(location.origin);
@@ -56,7 +61,10 @@ export function dataURL(subject: string): string {
   return constructURL(paths.data, 'subject', subject);
 }
 
-/** Constructs the URL for the `all-versions` endpoint. Assumes the current URL supports that endpoint */
+/**
+ * Constructs the URL for the `all-versions` endpoint. Assumes the current URL
+ * supports that endpoint
+ */
 export function versionsURL(subject: string, baseURL: string): string {
   const url = new URL(baseURL);
   url.pathname = paths.allVersions;

@@ -11,7 +11,10 @@ import { Button } from '../components/Button';
 
 const MAX_COUNT = 5;
 
-/** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
+/**
+ * Renders a Resource and all its Properties in a random order. Title
+ * (shortname) is rendered prominently at the top.
+ */
 function CollectionCard({ resource, small }: CardViewProps): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
@@ -42,7 +45,9 @@ function CollectionCard({ resource, small }: CardViewProps): JSX.Element {
           {tooMany && (
             <CardRow>
               <Button clean onClick={() => setShowMore(!showAll)}>
-                {showAll ? 'show less' : `show ${members.length - MAX_COUNT} more`}
+                {showAll
+                  ? 'show less'
+                  : `show ${members.length - MAX_COUNT} more`}
               </Button>
             </CardRow>
           )}

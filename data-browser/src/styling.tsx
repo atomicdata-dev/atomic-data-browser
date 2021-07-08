@@ -1,4 +1,8 @@
-import { createGlobalStyle, DefaultTheme, ThemeProvider } from 'styled-components';
+import {
+  createGlobalStyle,
+  DefaultTheme,
+  ThemeProvider,
+} from 'styled-components';
 import { darken, lighten } from 'polished';
 import '../public/reset.css';
 import React from 'react';
@@ -10,7 +14,10 @@ interface ThemeWrapperProps {
   children: React.ReactNode;
 }
 
-/** Provides the theme for all components below. Make sure to wrap this inside SettingsContext */
+/**
+ * Provides the theme for all components below. Make sure to wrap this inside
+ * SettingsContext
+ */
 export const ThemeWrapper = ({ children }: ThemeWrapperProps): JSX.Element => {
   const { mainColor, darkMode } = useContext(SettingsContext);
 
@@ -27,11 +34,14 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const bg = darkMode ? 'black' : 'white';
   const text = darkMode ? 'white' : 'black';
   const shadowColor = darkMode ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,0.07)';
-  const shadowColorIntense = darkMode ? 'rgba(255,255,255,.3)' : 'rgba(0,0,0,0.2)';
+  const shadowColorIntense = darkMode
+    ? 'rgba(255,255,255,.3)'
+    : 'rgba(0,0,0,0.2)';
 
   return {
     darkMode,
-    fontFamily: "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    fontFamily:
+      "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     boxShadow: `0 0 10px 0px ${shadowColor}`,
     boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,

@@ -61,7 +61,10 @@ if (isDev()) {
   const agentPrivateKey = getSnowpackEnv('PRIVATE_KEY');
   if (agentSubject && agentPrivateKey) {
     handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
-    const agent = new Agent(getSnowpackEnv('AGENT'), getSnowpackEnv('PRIVATE_KEY'));
+    const agent = new Agent(
+      getSnowpackEnv('AGENT'),
+      getSnowpackEnv('PRIVATE_KEY'),
+    );
     store.setAgent(agent);
   }
 
@@ -70,7 +73,9 @@ if (isDev()) {
     store.setBaseUrl(baseUrl);
     handleWarning(`Set baseURL ${baseUrl} from .env`);
   } else {
-    handleWarning(`No BASE_URL found in .env, defaulting to ${store.getBaseUrl()}`);
+    handleWarning(
+      `No BASE_URL found in .env, defaulting to ${store.getBaseUrl()}`,
+    );
   }
 
   // You can access the Store from your console in dev mode!

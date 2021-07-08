@@ -11,10 +11,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   margins?: boolean;
   /** Minimal styling */
   clean?: boolean;
-  onClick: (...a: any) => unknown;
+  onClick: (...a: unknown[]) => unknown;
 }
 
-export function Button({ children, clean, icon, ...props }: ButtonProps): JSX.Element {
+export function Button({
+  children,
+  clean,
+  icon,
+  ...props
+}: ButtonProps): JSX.Element {
   let Comp = ButtonMargin;
   if (icon) {
     Comp = ButtonIcon;
@@ -95,7 +100,8 @@ export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   color: ${p => p.theme.colors.main};
-  background-color: ${p => (p.selected ? p.theme.colors.bg2 : p.theme.colors.bg)};
+  background-color: ${p =>
+    p.selected ? p.theme.colors.bg2 : p.theme.colors.bg};
   height: 100%;
   display: flex;
   align-items: center;
@@ -125,15 +131,22 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   box-shadow: ${props => (props.subtle ? props.theme.boxShadow : 'none')};
   display: inline-flex;
   margin-right: ${props => props.theme.margin}rem;
-  background-color: ${props => (props.subtle ? 'transparent' : props.theme.colors.main)};
-  color: ${props => (props.subtle ? props.theme.colors.textLight : props.theme.colors.bg)};
-  border: solid 1px ${props => (props.subtle ? props.theme.colors.bg2 : props.theme.colors.main)};
+  background-color: ${props =>
+    props.subtle ? 'transparent' : props.theme.colors.main};
+  color: ${props =>
+    props.subtle ? props.theme.colors.textLight : props.theme.colors.bg};
+  border: solid 1px
+    ${props =>
+      props.subtle ? props.theme.colors.bg2 : props.theme.colors.main};
 
   &:hover:not([disabled]) {
     box-shadow: ${props => props.theme.boxShadowIntense};
-    background-color: ${props => (props.subtle ? 'initial' : props.theme.colors.mainLight)};
-    color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.bg)};
-    border-color: ${props => (props.subtle ? props.theme.colors.main : props.theme.colors.mainLight)};
+    background-color: ${props =>
+      props.subtle ? 'initial' : props.theme.colors.mainLight};
+    color: ${props =>
+      props.subtle ? props.theme.colors.main : props.theme.colors.bg};
+    border-color: ${props =>
+      props.subtle ? props.theme.colors.main : props.theme.colors.mainLight};
   }
 
   &:active:not([disabled]) {

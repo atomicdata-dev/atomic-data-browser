@@ -8,13 +8,17 @@ import { Button, ButtonBar } from './Button';
 interface DropdownMenuProps {
   /** The list of menu items */
   items: MenuItemProps[];
-  /** The Component that should be clicked to open the menu. Must accept an onClick handler . */
+  /**
+   * The Component that should be clicked to open the menu. Must accept an
+   * onClick handler .
+   */
   // children: React.ReactNode;
 }
 
 /**
- * Menu that opens on click and shows a bunch of items. Closes on Escape and on clicking outside. Use arrow keys to select items, and open
- * items on Enter. Renders the Dropdown on a place where there is room on screen.
+ * Menu that opens on click and shows a bunch of items. Closes on Escape and on
+ * clicking outside. Use arrow keys to select items, and open items on Enter.
+ * Renders the Dropdown on a place where there is room on screen.
  */
 export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   const dropdownRef = useRef(null);
@@ -60,7 +64,8 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected = selectedIndex > 0 ? selectedIndex - 1 : menuItemLength - 1;
+      const newSelected =
+        selectedIndex > 0 ? selectedIndex - 1 : menuItemLength - 1;
       setSelectedIndex(newSelected);
     },
     { enabled: isActive },
@@ -72,7 +77,8 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected = selectedIndex == menuItemLength - 1 ? 0 : selectedIndex + 1;
+      const newSelected =
+        selectedIndex == menuItemLength - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
       return false;
     },
@@ -160,9 +166,21 @@ interface MenuItemPropsExtended extends MenuItemProps {
   selected: boolean;
 }
 
-export function MenuItem({ onClick, label, selected, helper, disabled }: MenuItemPropsExtended): JSX.Element {
+export function MenuItem({
+  onClick,
+  label,
+  selected,
+  helper,
+  disabled,
+}: MenuItemPropsExtended): JSX.Element {
   return (
-    <MenuItemStyled clean onClick={onClick} selected={selected} title={helper} disabled={disabled}>
+    <MenuItemStyled
+      clean
+      onClick={onClick}
+      selected={selected}
+      title={helper}
+      disabled={disabled}
+    >
       {label}
     </MenuItemStyled>
   );
@@ -181,7 +199,8 @@ const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
   color: ${p => p.theme.colors.text};
   padding: 0.4rem 0.7rem;
   height: auto;
-  background-color: ${p => (p.selected ? p.theme.colors.bg1 : p.theme.colors.bg)};
+  background-color: ${p =>
+    p.selected ? p.theme.colors.bg1 : p.theme.colors.bg};
   text-decoration: ${p => (p.selected ? 'underline' : 'none')};
 
   &:hover {

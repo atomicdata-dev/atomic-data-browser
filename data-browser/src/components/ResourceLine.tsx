@@ -18,7 +18,11 @@ function ResourceLine({ subject }: Props): JSX.Element {
     return <span about={subject}>Loading...</span>;
   }
   if (status == ResourceStatus.error) {
-    return <ErrorLook about={subject}>Error: {resource.getError().message}</ErrorLook>;
+    return (
+      <ErrorLook about={subject}>
+        Error: {resource.getError().message}
+      </ErrorLook>
+    );
   }
 
   const TRUNCATE_LENGTH = 40;

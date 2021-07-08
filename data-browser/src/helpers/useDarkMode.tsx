@@ -10,19 +10,31 @@ export enum DarkModeOption {
   auto = 'auto',
 }
 
-/** A hook for using dark mode. Sets using local storage. The second argument can be called with true, false or undefined (which uses the OS default) */
-export const useDarkMode = (): [boolean, Dispatch<boolean | undefined>, DarkModeOption] => {
+/**
+ * A hook for using dark mode. Sets using local storage. The second argument can
+ * be called with true, false or undefined (which uses the OS default)
+ */
+export const useDarkMode = (): [
+  boolean,
+  Dispatch<boolean | undefined>,
+  DarkModeOption,
+] => {
   let def = false;
   if (checkPrefersDark()) {
     def = true;
   }
   const [dark, setDark] = useState(def);
-  const [darkLocal, setDarkLocal] = useLocalStorage<DarkModeOption>('darkMode', DarkModeOption.auto);
+  const [darkLocal, setDarkLocal] = useLocalStorage<DarkModeOption>(
+    'darkMode',
+    DarkModeOption.auto,
+  );
 
   // Is called when user changes color scheme
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    setDarkBoth(e.matches ? true : false);
-  });
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', e => {
+      setDarkBoth(e.matches ? true : false);
+    });
 
   /** True, false or auto (if undefined) */
   function setDarkBoth(a?: boolean) {
@@ -52,5 +64,8 @@ export const useDarkMode = (): [boolean, Dispatch<boolean | undefined>, DarkMode
 };
 
 function checkPrefersDark() {
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return (
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 }

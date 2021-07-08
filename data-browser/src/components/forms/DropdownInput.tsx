@@ -18,14 +18,14 @@ interface DropDownListProps {
   /** Is called when the entire value is removed. Renders a trashcan button if passed */
   onRemove?: () => unknown;
   placeholder?: string;
-  /** If true, allows other-than-options values. Will still validate the input, though. */
-  allowOther?: boolean;
   disabled?: boolean;
 }
 
-/** Renders an input field with a dropdown menu. You can search through the items, select them from a list, clear the entire thing */
+/**
+ * Renders an input field with a dropdown menu. You can search through the
+ * items, select them from a list, clear the entire thing
+ */
 export function DropdownInput({
-  allowOther,
   required,
   initial,
   placeholder,
@@ -49,7 +49,11 @@ export function DropdownInput({
   useEffect(() => {
     const onClick = e => {
       // If the active element exists and is clicked outside of
-      if (!isFocus && dropdownRef.current !== null && !dropdownRef.current.contains(e.target)) {
+      if (
+        !isFocus &&
+        dropdownRef.current !== null &&
+        !dropdownRef.current.contains(e.target)
+      ) {
         setIsOpen(!isOpen);
       }
     };
@@ -95,7 +99,8 @@ export function DropdownInput({
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected = selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
+      const newSelected =
+        selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
       setSelectedIndex(newSelected);
       scrollIntoView(newSelected);
     },
@@ -109,7 +114,8 @@ export function DropdownInput({
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected = selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
+      const newSelected =
+        selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
       scrollIntoView(newSelected);
       return false;
@@ -193,17 +199,35 @@ export function DropdownInput({
           />
         </ResourceInputOverlayWrapper>
         {selectedItem ? (
-          <ButtonInput disabled={disabled} type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
+          <ButtonInput
+            disabled={disabled}
+            type='button'
+            onClick={clearSelection}
+            title='clear selection'
+            aria-label='clear selection'
+          >
             clear
           </ButtonInput>
         ) : null}
         {options.length > 0 && (
-          <ButtonInput disabled={disabled} type='button' onClick={() => setIsOpen(!isOpen)} title='toggle menu' aria-label={'toggle menu'}>
+          <ButtonInput
+            disabled={disabled}
+            type='button'
+            onClick={() => setIsOpen(!isOpen)}
+            title='toggle menu'
+            aria-label={'toggle menu'}
+          >
             <FaCaretDown />
           </ButtonInput>
         )}
         {onRemove !== undefined && (
-          <ButtonInput disabled={disabled} type='button' onClick={onRemove} title='remove item' aria-label='remove item'>
+          <ButtonInput
+            disabled={disabled}
+            type='button'
+            onClick={onRemove}
+            title='remove item'
+            aria-label='remove item'
+          >
             <FaTrash />
           </ButtonInput>
         )}
@@ -223,7 +247,10 @@ export function DropdownInput({
                 </DropDownItem>
               ))
             ) : (
-              <DropDownItem onClick={() => handleSelectItem(inputValue)} useKeys={useKeys}>
+              <DropDownItem
+                onClick={() => handleSelectItem(inputValue)}
+                useKeys={useKeys}
+              >
                 Set {inputValue} as value
               </DropDownItem>
             )}

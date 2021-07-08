@@ -27,7 +27,10 @@ export const PropertyLabel = styled.span`
   width: 8rem;
 `;
 
-/** A single Property / Value renderer that shows a label on the left, and the value on the right. The value is editable. */
+/**
+ * A single Property / Value renderer that shows a label on the left, and the
+ * value on the right. The value is editable.
+ */
 function PropVal({ propertyURL, resource }: Props): JSX.Element {
   const property = useProperty(propertyURL);
 
@@ -41,7 +44,12 @@ function PropVal({ propertyURL, resource }: Props): JSX.Element {
     <PropValRow>
       <AtomicLink subject={propertyURL}>
         <PropertyLabel title={property.description}>
-          {property.error ? <ErrorLook>{truncated}</ErrorLook> : property.shortname || truncated}:
+          {property.error ? (
+            <ErrorLook>{truncated}</ErrorLook>
+          ) : (
+            property.shortname || truncated
+          )}
+          :
         </PropertyLabel>
       </AtomicLink>
       <ValueForm resource={resource} propertyURL={propertyURL} />

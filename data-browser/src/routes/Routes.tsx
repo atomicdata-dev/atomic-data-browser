@@ -14,7 +14,7 @@ import SettingsAgent from './SettingsAgent';
 import { paths } from './paths';
 
 /** Handles the browser URL navigation paths */
-export function Routes() {
+export function Routes(): JSX.Element {
   return (
     <Switch>
       <Route path={paths.new}>

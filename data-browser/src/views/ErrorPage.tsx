@@ -12,10 +12,17 @@ type ErrorPageProps = {
   clearError: () => void;
 };
 
-function ErrorPage({ resource, children, error, clearError }: ErrorPageProps): JSX.Element {
+function ErrorPage({
+  resource,
+  children,
+  error,
+  clearError,
+}: ErrorPageProps): JSX.Element {
   return (
     <ContainerNarrow resource={resource?.getSubject()}>
-      <ErrorLook>{children ? children : JSON.stringify(error?.message)}</ErrorLook>
+      <ErrorLook>
+        {children ? children : JSON.stringify(error?.message)}
+      </ErrorLook>
       <div>
         <Button onClick={clearError}>Clear error</Button>
         <Button onClick={window.location.reload}>Reload page</Button>

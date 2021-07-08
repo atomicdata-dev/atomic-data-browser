@@ -9,8 +9,17 @@ interface NavBarButtonProps {
 }
 
 /** Button used for indicating where the navbar will be placed */
-export function NavStyleButton({ top, floating, title }: NavBarButtonProps): JSX.Element {
-  const { navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } = useSettings();
+export function NavStyleButton({
+  top,
+  floating,
+  title,
+}: NavBarButtonProps): JSX.Element {
+  const {
+    navbarTop,
+    setNavbarTop,
+    navbarFloating,
+    setNavbarFloating,
+  } = useSettings();
 
   return (
     <NavStyleButtonStyling
@@ -21,8 +30,18 @@ export function NavStyleButton({ top, floating, title }: NavBarButtonProps): JSX
         setNavbarFloating(floating);
       }}
     >
-      <svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'>
-        {floating ? <rect x='10' y='60' width='60' height='10' rx='5' /> : <rect x='0' y={top ? '0' : '70'} width='80' height='10' />}
+      <svg
+        width='80'
+        height='80'
+        viewBox='0 0 80 80'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        {floating ? (
+          <rect x='10' y='60' width='60' height='10' rx='5' />
+        ) : (
+          <rect x='0' y={top ? '0' : '70'} width='80' height='10' />
+        )}
       </svg>
     </NavStyleButtonStyling>
   );
@@ -43,7 +62,8 @@ const NavStyleButtonStyling = styled.button<NavStyleButtonStylingProps>`
     border-color: ${p => p.theme.colors.mainDark};
   }
   cursor: pointer;
-  border: solid 1px ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
+  border: solid 1px
+    ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
   margin-right: 1rem;
   margin-bottom: 1rem;
   border-radius: ${props => props.theme.radius};

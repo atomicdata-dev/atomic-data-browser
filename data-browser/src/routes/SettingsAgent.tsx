@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { Agent } from '@tomic/lib';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
 import { useSettings } from '../helpers/AppSettings';
-import { InputStyled, InputWrapper, LabelStyled } from '../components/forms/InputStyles';
+import {
+  InputStyled,
+  InputWrapper,
+  LabelStyled,
+} from '../components/forms/InputStyles';
 import { ButtonInput, Button } from '../components/Button';
 import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
@@ -65,7 +69,9 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   function handleSignOut() {
-    if (window.confirm('Sure you want to remove and reset the current Agent?')) {
+    if (
+      window.confirm('Sure you want to remove and reset the current Agent?')
+    ) {
       setAgent(null);
       setError(null);
       setSubject('');
@@ -108,7 +114,8 @@ const SettingsAgent: React.FunctionComponent = () => {
       <form>
         <h1>User Settings</h1>
         <p>
-          An Agent is a user, consisting of a Subject (its URL) and Private Key. Together, these can be used to edit data and sign Commits.
+          An Agent is a user, consisting of a Subject (its URL) and Private Key.
+          Together, these can be used to edit data and sign Commits.
         </p>
         {agent ? (
           <>
@@ -120,8 +127,12 @@ const SettingsAgent: React.FunctionComponent = () => {
           </>
         ) : (
           <p>
-            You can create your own Agent by hosting an <a href='https://github.com/joepio/atomic/tree/master/server'>atomic-server</a>.
-            Alternatively, you can use an Invite to get a guest Agent on someone else{"'s"} Atomic Server.
+            You can create your own Agent by hosting an{' '}
+            <a href='https://github.com/joepio/atomic/tree/master/server'>
+              atomic-server
+            </a>
+            . Alternatively, you can use an Invite to get a guest Agent on
+            someone else{"'s"} Atomic Server.
           </p>
         )}
         <Field
@@ -139,7 +150,7 @@ const SettingsAgent: React.FunctionComponent = () => {
               disabled={agent !== null}
               name='secret'
               id='current-password'
-              autocomplete='current-password'
+              autoComplete='current-password'
             />
             <ButtonInput
               type='button'
@@ -148,7 +159,11 @@ const SettingsAgent: React.FunctionComponent = () => {
             >
               {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
             </ButtonInput>
-            <ButtonInput type='button' title={advanced ? 'Hide advanced' : 'Show advanced'} onClick={() => setAdvanced(!advanced)}>
+            <ButtonInput
+              type='button'
+              title={advanced ? 'Hide advanced' : 'Show advanced'}
+              onClick={() => setAdvanced(!advanced)}
+            >
               <FaCog />
             </ButtonInput>
             {agent && (
@@ -160,7 +175,13 @@ const SettingsAgent: React.FunctionComponent = () => {
         </Field>
         {advanced ? (
           <React.Fragment>
-            <Field label='Subject URL' helper={'The link to your Agent, e.g. https://atomicdata.dev/agents/someAgent'} error={error}>
+            <Field
+              label='Subject URL'
+              helper={
+                'The link to your Agent, e.g. https://atomicdata.dev/agents/someAgent'
+              }
+              error={error}
+            >
               <InputWrapper>
                 <InputStyled
                   disabled={agent !== null}
@@ -172,7 +193,13 @@ const SettingsAgent: React.FunctionComponent = () => {
                 />
               </InputWrapper>
             </Field>
-            <Field label='Private Key' helper={'The private key of the Agent, which is a Base64 encoded string.'} error={error}>
+            <Field
+              label='Private Key'
+              helper={
+                'The private key of the Agent, which is a Base64 encoded string.'
+              }
+              error={error}
+            >
               <InputWrapper>
                 <InputStyled
                   disabled={agent !== null}
@@ -185,7 +212,9 @@ const SettingsAgent: React.FunctionComponent = () => {
                 />
                 <ButtonInput
                   type='button'
-                  title={showPrivateKey ? 'Hide private key' : 'Show private key'}
+                  title={
+                    showPrivateKey ? 'Hide private key' : 'Show private key'
+                  }
                   onClick={() => setShowPrivateKey(!showPrivateKey)}
                 >
                   {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
@@ -195,7 +224,11 @@ const SettingsAgent: React.FunctionComponent = () => {
           </React.Fragment>
         ) : null}
         {agent && (
-          <Button subtle title='Sign out with current Agent and reset this form' onClick={handleSignOut}>
+          <Button
+            subtle
+            title='Sign out with current Agent and reset this form'
+            onClick={handleSignOut}
+          >
             sign out
           </Button>
         )}

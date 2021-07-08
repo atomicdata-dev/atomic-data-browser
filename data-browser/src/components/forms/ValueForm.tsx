@@ -16,8 +16,14 @@ interface ValueFormProps {
   propertyURL: string;
 }
 
-/** A form for a single Value. Presents a normal value, but let's the user click on a button to turn it into an input. */
-export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Element {
+/**
+ * A form for a single Value. Presents a normal value, but let's the user click
+ * on a button to turn it into an input.
+ */
+export function ValueForm({
+  resource,
+  propertyURL,
+}: ValueFormProps): JSX.Element {
   const [editMode, setEditMode] = useState(false);
   const property = useProperty(propertyURL);
   const [value] = useValue(resource, propertyURL);
@@ -70,7 +76,11 @@ export function ValueForm({ resource, propertyURL }: ValueFormProps): JSX.Elemen
       <InputSwitcher resource={resource} property={property} autoFocus />
       <Button
         disabled={!haveAgent}
-        title={haveAgent ? 'Save the edits' : 'You cannot save - there is no Agent set. Go to settings.'}
+        title={
+          haveAgent
+            ? 'Save the edits'
+            : 'You cannot save - there is no Agent set. Go to settings.'
+        }
         onClick={handleSave}
       >
         save

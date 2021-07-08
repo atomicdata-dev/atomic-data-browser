@@ -21,10 +21,16 @@ export const SettingsTheme: React.FunctionComponent = () => {
       >
         🌓 auto
       </Button>
-      <Button subtle={!(darkModeSetting == DarkModeOption.always)} onClick={() => setDarkMode(true)}>
+      <Button
+        subtle={!(darkModeSetting == DarkModeOption.always)}
+        onClick={() => setDarkMode(true)}
+      >
         🌑 on
       </Button>
-      <Button subtle={!(darkModeSetting == DarkModeOption.never)} onClick={() => setDarkMode(false)}>
+      <Button
+        subtle={!(darkModeSetting == DarkModeOption.never)}
+        onClick={() => setDarkMode(false)}
+      >
         🌕 off
       </Button>
       <LabelStyled>Navigation bar position</LabelStyled>
@@ -41,5 +47,7 @@ export const SettingsTheme: React.FunctionComponent = () => {
 const MainColorPicker = () => {
   const { mainColor, setMainColor } = useSettings();
 
-  return <HexColorPicker color={mainColor} onChange={val => setMainColor(val)} />;
+  return (
+    <HexColorPicker color={mainColor} onChange={val => setMainColor(val)} />
+  );
 };

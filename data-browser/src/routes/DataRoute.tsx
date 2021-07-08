@@ -53,7 +53,9 @@ function Data(): JSX.Element {
         <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
       <AllProps resource={resource} />
-      {resource.getCommitBuilder().hasUnsavedChanges() ? '⚠️ contains uncommitted changes' : null}
+      {resource.getCommitBuilder().hasUnsavedChanges()
+        ? '⚠️ contains uncommitted changes'
+        : null}
       <div>
         <span>Fetch as: </span>
         <Button subtle onClick={() => fetchAs('application/ad+json')}>
@@ -73,7 +75,9 @@ function Data(): JSX.Element {
       {!err && textResponse && (
         <>
           <CodeBlock>{textResponse}</CodeBlock>
-          <Button onClick={copyToClipboard}>{isCopied ? 'Copied!' : 'Copy to clipboard'}</Button>
+          <Button onClick={copyToClipboard}>
+            {isCopied ? 'Copied!' : 'Copy to clipboard'}
+          </Button>
         </>
       )}
     </ContainerNarrow>

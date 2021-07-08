@@ -5,24 +5,39 @@ import { ErrMessage } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 
 interface ResourceSelectorProps {
-  /** Whether a certain type of Class is required here. Pass the URL of the class. Is used for constructing a list of options. */
+  /**
+   * Whether a certain type of Class is required here. Pass the URL of the
+   * class. Is used for constructing a list of options.
+   */
   classType?: string;
   /** If true, the form will show an error if it is left empty. */
   required?: boolean;
-  /** Take the second argument of a `useString` hook and pass the setString part to this property */
-  setSubject: (subject: string, errHandler: Dispatch<SetStateAction<Error>>) => void;
+  /**
+   * Take the second argument of a `useString` hook and pass the setString part
+   * to this property
+   */
+  setSubject: (
+    subject: string,
+    errHandler: Dispatch<SetStateAction<Error>>,
+  ) => void;
   /** The value (URL of the Resource that is selected) */
   value: string;
   /** A function to remove this item. Only relevant in arrays. */
   handleRemove?: () => void;
   /** Only pass an error if it is applicable to this specific field */
   error: Error;
-  /** Set an ArrayError. A special type, because the parent needs to know where in the Array the error occurred */
+  /**
+   * Set an ArrayError. A special type, because the parent needs to know where
+   * in the Array the error occurred
+   */
   setError: Dispatch<SetStateAction<ArrayError>>;
   disabled?: boolean;
 }
 
-/** Form field for selecting a single resource. Needs external subject & setSubject properties */
+/**
+ * Form field for selecting a single resource. Needs external subject &
+ * setSubject properties
+ */
 export function ResourceSelector({
   required,
   setSubject,
@@ -35,7 +50,10 @@ export function ResourceSelector({
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource(getCollectionURL(classType));
-  let [options] = useArray(classesCollection, urls.properties.collection.members);
+  let [options] = useArray(
+    classesCollection,
+    urls.properties.collection.members,
+  );
   const [requiredClass] = useResource(classType);
   const classTypeTitle = useTitle(requiredClass);
   const store = useStore();

@@ -16,7 +16,13 @@ type NewIntanceButtonProps = {
 };
 
 /** A button for creating a new instance of some thing */
-function NewIntanceButton({ klass, subtle, icon, parent, children }: NewIntanceButtonProps): JSX.Element {
+function NewIntanceButton({
+  klass,
+  subtle,
+  icon,
+  parent,
+  children,
+}: NewIntanceButtonProps): JSX.Element {
   const [resource] = useResource(klass);
   const title = useTitle(resource);
   const history = useHistory();
@@ -30,7 +36,9 @@ function NewIntanceButton({ klass, subtle, icon, parent, children }: NewIntanceB
 
   return (
     <Button
-      onClick={() => history.push(newURL(klass, parent, store.createSubject(shortname)))}
+      onClick={() =>
+        history.push(newURL(klass, parent, store.createSubject(shortname)))
+      }
       subtle={subtle}
       title={`Create a new ${title}`}
     >

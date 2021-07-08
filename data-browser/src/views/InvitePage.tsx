@@ -64,7 +64,9 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
       ) : (
         <>
           {agentSubject ? (
-            <Button onClick={() => handleAccept(null, agentSubject)}>Accept as current Agent</Button>
+            <Button onClick={() => handleAccept(null, agentSubject)}>
+              Accept as current Agent
+            </Button>
           ) : (
             <Button onClick={handleNew}>Accept as new user</Button>
           )}

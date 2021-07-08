@@ -31,7 +31,11 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   }
 
   function handleDestroy() {
-    if (window.confirm('Are you sure you want to permanently delete this resource?')) {
+    if (
+      window.confirm(
+        'Are you sure you want to permanently delete this resource?',
+      )
+    ) {
       const resource = store.getResourceLoading(subject);
       resource.destroy(store);
       history.push('/');
@@ -56,7 +60,8 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
     {
       id: 'refresh',
       label: 'refresh',
-      helper: 'Fetch the resouce again from the server, possibly see new changes.',
+      helper:
+        'Fetch the resouce again from the server, possibly see new changes.',
       onClick: () => store.fetchResource(subject, true),
     },
     {
@@ -70,7 +75,8 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       disabled: !canWrite,
       id: 'delete',
       label: 'delete',
-      helper: 'Fetch the resouce again from the server, possibly see new changes.',
+      helper:
+        'Fetch the resouce again from the server, possibly see new changes.',
       onClick: handleDestroy,
     },
     {
@@ -81,7 +87,9 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
     },
   ];
 
-  const filteredItems = hide ? items.filter(item => !hide.includes(item.id)) : items;
+  const filteredItems = hide
+    ? items.filter(item => !hide.includes(item.id))
+    : items;
 
   return <DropdownMenu items={filteredItems} />;
 }

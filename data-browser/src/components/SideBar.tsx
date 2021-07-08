@@ -10,7 +10,14 @@ import { MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
-import { FaCog, FaExternalLinkAlt, FaInfo, FaKeyboard, FaPlus, FaUser } from 'react-icons/fa';
+import {
+  FaCog,
+  FaExternalLinkAlt,
+  FaInfo,
+  FaKeyboard,
+  FaPlus,
+  FaUser,
+} from 'react-icons/fa';
 import { paths } from '../routes/paths';
 
 export function SideBar(): JSX.Element {
@@ -72,7 +79,8 @@ export function SideBar(): JSX.Element {
       icon: <FaExternalLinkAlt />,
       label: 'github',
       helper: 'View the source code for this application',
-      onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
+      onClick: () =>
+        window.open('https://github.com/joepio/atomic-data-browser'),
     },
     {
       // icon: <FaDiscord />,
@@ -94,7 +102,10 @@ export function SideBar(): JSX.Element {
     return windowSize.width > 600;
   }
 
-  /** This is called when the user presses a menu Item, which should result in a closed menu in mobile context */
+  /**
+   * This is called when the user presses a menu Item, which should result in a
+   * closed menu in mobile context
+   */
   function handleCloseSideBarMayb() {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
@@ -129,19 +140,30 @@ export function SideBar(): JSX.Element {
         {navbarTop ? <PaddingBig /> : null}
         <SideBarHeader>{title}</SideBarHeader>
         {children.map(child => {
-          return <ResourceSideBar key={child} subject={child} handleClose={handleCloseSideBarMayb} />;
+          return (
+            <ResourceSideBar
+              key={child}
+              subject={child}
+              handleClose={handleCloseSideBarMayb}
+            />
+          );
         })}
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(renderMenuItem)}
           <SideBarHeader>
-            <Logo style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }} />
+            <Logo
+              style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }}
+            />
           </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
       </SideBarStyled>
-      <SideBarOverlay onClick={() => setSideBarLocked(false)} visible={sideBarLocked && !isWideScreen()} />
+      <SideBarOverlay
+        onClick={() => setSideBarLocked(false)}
+        visible={sideBarLocked && !isWideScreen()}
+      />
     </SideBarContainer>
   );
 }
@@ -213,7 +235,8 @@ const SideBarOverlay = styled('div') <SideBarOverlayProps>`
   right: 0;
   width: 100vw;
   transition: background-color 0.2s;
-  background-color: ${p => (p.visible ? 'rgba(0, 0, 0, .5)' : 'rgba(0, 0, 0, 0.0)')};
+  background-color: ${p =>
+    p.visible ? 'rgba(0, 0, 0, .5)' : 'rgba(0, 0, 0, 0.0)'};
   pointer-events: ${p => (p.visible ? 'auto' : 'none')};
   height: 100%;
   cursor: pointer;

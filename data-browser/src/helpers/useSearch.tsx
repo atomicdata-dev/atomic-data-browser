@@ -5,10 +5,15 @@ import { QuickScore } from 'quick-score';
 import { useDebounce } from './useDebounce';
 
 /**
- * Pass a query and an set of pre-defined subjects. If you don't pass these subjects, it will search all subjects. Use the 'disabled'
- * argument to disable this very expensive hook as much as possible
+ * Pass a query and an set of pre-defined subjects. If you don't pass these
+ * subjects, it will search all subjects. Use the 'disabled' argument to disable
+ * this very expensive hook as much as possible
  */
-export function useSearch(query: string, subjects?: string[], disabled?: boolean): Hit[] {
+export function useSearch(
+  query: string,
+  subjects?: string[],
+  disabled?: boolean,
+): Hit[] {
   const [index, setIndex] = React.useState<SearchIndex>(null);
   const [results, setResults] = React.useState<Hit[]>([]);
   const store = useStore();
@@ -46,7 +51,10 @@ export function useSearch(query: string, subjects?: string[], disabled?: boolean
   return results;
 }
 
-/** Constructs a QuickScore search index from all resources in the store. Does not index commits or resources that are not ready */
+/**
+ * Constructs a QuickScore search index from all resources in the store. Does
+ * not index commits or resources that are not ready
+ */
 function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
   const resources = Array.from(resourceMap.values());
   const dataArray = resources.map(resource => {
@@ -61,7 +69,9 @@ function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
       return '';
     }
     // QuickScore can't handle URLs as keys, so I serialize all values of propvals to a single string. https://github.com/fwextensions/quick-score/issues/11
-    const propvalsString = JSON.stringify(Array.from(resource.getPropVals().values()).sort().join(' \n '));
+    const propvalsString = JSON.stringify(
+      Array.from(resource.getPropVals().values()).sort().join(' \n '),
+    );
     const searchResource: FoundResource = {
       subject: resource.getSubject(),
       valuesArray: propvalsString,

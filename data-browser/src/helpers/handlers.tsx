@@ -1,5 +1,7 @@
 import Bugsnag from '@bugsnag/js';
-import BugsnagPluginReact, { BugsnagErrorBoundary } from '@bugsnag/plugin-react';
+import BugsnagPluginReact, {
+  BugsnagErrorBoundary,
+} from '@bugsnag/plugin-react';
 import React from 'react';
 import { isDev } from '../config';
 

@@ -17,7 +17,12 @@ type Props = {
 };
 
 /** Renders a link. Either a subject or a href is required */
-function AtomicLink({ children, subject, href, untabbable }: Props): JSX.Element {
+function AtomicLink({
+  children,
+  subject,
+  href,
+  untabbable,
+}: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
   const store = useStore();
@@ -63,7 +68,8 @@ type Proppies = {
 
 /** Look clickable, should be used for opening things only - not interactions. */
 export const LinkView = styled.a<Proppies>`
-  color: ${props => (props.disabled ? props.theme.colors.text : props.theme.colors.main)};
+  color: ${props =>
+    props.disabled ? props.theme.colors.text : props.theme.colors.main};
   text-decoration: none;
   cursor: pointer;
   pointer-events: ${props => (props.disabled ? 'none' : 'inherit')};

@@ -9,12 +9,20 @@ interface ProviderProps {
 }
 
 /** Create a provider for components to consume and subscribe to changes */
-export const AppSettingsContextProvider = (props: ProviderProps): JSX.Element => {
+export const AppSettingsContextProvider = (
+  props: ProviderProps,
+): JSX.Element => {
   const [darkMode, setDarkMode, darkModeSetting] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
   const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
-  const [navbarFloating, setNavbarFloating] = useLocalStorage('navbarFloating', false);
-  const [sideBarLocked, setSideBarLocked] = useLocalStorage('sideBarOpen', false);
+  const [navbarFloating, setNavbarFloating] = useLocalStorage(
+    'navbarFloating',
+    false,
+  );
+  const [sideBarLocked, setSideBarLocked] = useLocalStorage(
+    'sideBarOpen',
+    false,
+  );
   const [agent, setAgent] = useCurrentAgent();
 
   return (
@@ -71,5 +79,8 @@ export const useSettings = (): AppSettings => {
   return settings;
 };
 
-/** The context must be provided by wrapping a high level React element in <SettingsContext.Provider value={new AppSettings}> */
+/**
+ * The context must be provided by wrapping a high level React element in
+ * <SettingsContext.Provider value={new AppSettings}>
+ */
 export const SettingsContext = React.createContext<AppSettings>(null);

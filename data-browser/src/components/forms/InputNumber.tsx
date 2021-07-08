@@ -3,7 +3,11 @@ import { useNumber } from '@tomic/react';
 import { InputProps } from './ResourceField';
 import { ErrMessage, InputStyled, InputWrapper } from './InputStyles';
 
-export default function InputNumber({ resource, property, ...props }: InputProps): JSX.Element {
+export default function InputNumber({
+  resource,
+  property,
+  ...props
+}: InputProps): JSX.Element {
   const [value, setValue] = useNumber(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
 

@@ -2,10 +2,24 @@ import React, { useState } from 'react';
 import { FaAsterisk, FaInfo, FaTrash } from 'react-icons/fa';
 import styled from 'styled-components';
 import { ButtonIcon } from '../Button';
-import { ErrMessage, FieldStyled, LabelHelper, LabelStyled, LabelWrapper } from './InputStyles';
+import {
+  ErrMessage,
+  FieldStyled,
+  LabelHelper,
+  LabelStyled,
+  LabelWrapper,
+} from './InputStyles';
 
 /** High level form field skeleton. Pass the actual input as a child component. */
-function Field({ label, helper, children, error, handleDelete, required, disabled }: IFieldProps): JSX.Element {
+function Field({
+  label,
+  helper,
+  children,
+  error,
+  handleDelete,
+  required,
+  disabled,
+}: IFieldProps): JSX.Element {
   const [collapsedHelper, setCollapsed] = useState(true);
 
   return (
@@ -31,7 +45,12 @@ function Field({ label, helper, children, error, handleDelete, required, disable
           )}
         </LabelStyled>
         {!disabled && handleDelete && (
-          <ButtonIcon subtle title='Delete this property' type='button' onClick={() => handleDelete('test')}>
+          <ButtonIcon
+            subtle
+            title='Delete this property'
+            type='button'
+            onClick={() => handleDelete('test')}
+          >
             <FaTrash />
           </ButtonIcon>
         )}
@@ -43,7 +62,11 @@ function Field({ label, helper, children, error, handleDelete, required, disable
         </LabelHelper>
       )}
       {children}
-      {error && <ErrMessage title={`Error: ${JSON.stringify(error)}`}>{error.message}</ErrMessage>}
+      {error && (
+        <ErrMessage title={`Error: ${JSON.stringify(error)}`}>
+          {error.message}
+        </ErrMessage>
+      )}
     </FieldStyled>
   );
 }
@@ -65,7 +88,10 @@ interface IFieldProps {
   disabled?: boolean;
   /** The error to be shown in the component */
   error?: Error;
-  /** This function will be called when the delete icon is clicked. This should remove the item from any parent list */
+  /**
+   * This function will be called when the delete icon is clicked. This should
+   * remove the item from any parent list
+   */
   handleDelete?: (url: string) => unknown;
 }
 

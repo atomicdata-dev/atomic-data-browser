@@ -30,7 +30,10 @@ export const defaulHiddenProps = [
   properties.read,
 ];
 
-/** Renders a Resource and all its Properties in a random order. Title (shortname) is rendered prominently at the top. */
+/**
+ * Renders a Resource and all its Properties in a random order. Title
+ * (shortname) is rendered prominently at the top.
+ */
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
@@ -47,8 +50,12 @@ function ResourcePage({ subject }: Props): JSX.Element {
         <h1>⚠️ {title}</h1>
         <ErrorLook>{resource.getError().message}</ErrorLook>
         <br />
-        <Button onClick={() => store.fetchResource(subject, true)}>Retry</Button>
-        <Button onClick={() => store.fetchResource(subject, true, true)}>Use proxy</Button>
+        <Button onClick={() => store.fetchResource(subject, true)}>
+          Retry
+        </Button>
+        <Button onClick={() => store.fetchResource(subject, true, true)}>
+          Use proxy
+        </Button>
       </ContainerNarrow>
     );
   }

@@ -8,7 +8,10 @@ export function useCurrentSubjectQueryParam(): [string, setFunc] {
   return useQueryParam('subject', StringParam);
 }
 
-/** Returns and sets the current Location. Tries the `subject` query parameter, otherwise uses the full current URL. */
+/**
+ * Returns and sets the current Location. Tries the `subject` query parameter,
+ * otherwise uses the full current URL.
+ */
 export function useCurrentSubject(
   /** Replace URL instead of push it, so it does not get added to history */
   replace?: boolean,

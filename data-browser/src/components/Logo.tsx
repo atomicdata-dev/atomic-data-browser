@@ -1,13 +1,22 @@
 import React from 'react';
 import { useSettings } from '../helpers/AppSettings';
 
+interface LogoProps {
+  style: React.CSSProperties;
+}
+
 /** The Atomic Data logo as SVG. Smart enough to use the theme's dark mode */
-export function Logo({ ...props }) {
+export function Logo({ style }: LogoProps): JSX.Element {
   const { darkMode } = useSettings();
   const fill = darkMode ? 'white' : 'black';
 
   return (
-    <svg viewBox='0 0 647 75' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+    <svg
+      style={style}
+      viewBox='0 0 647 75'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         d='M57.512 58.4H23.712L17.264 74H0L32.448 1.19995H49.088L81.64 74H63.96L57.512 58.4ZM52.208 45.608L40.664 17.736L29.12 45.608H52.208Z'
         fill={fill}
@@ -52,7 +61,14 @@ export function Logo({ ...props }) {
         fill={fill}
       />
       <defs>
-        <linearGradient id='paint0_linear' x1='156.17' y1='19.364' x2='143.442' y2='6.63604' gradientUnits='userSpaceOnUse'>
+        <linearGradient
+          id='paint0_linear'
+          x1='156.17'
+          y1='19.364'
+          x2='143.442'
+          y2='6.63604'
+          gradientUnits='userSpaceOnUse'
+        >
           <stop stopColor='#033049' />
           <stop offset='1' stopColor='#00C2FF' />
         </linearGradient>

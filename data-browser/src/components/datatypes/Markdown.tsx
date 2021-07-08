@@ -4,7 +4,10 @@ import styled from 'styled-components';
 
 type Props = {
   text: string;
-  /** By default, all bottom Markdown elements have some margin (e.g. the last paragraph). If you set noMargin, this is corrected. */
+  /**
+   * By default, all bottom Markdown elements have some margin (e.g. the last
+   * paragraph). If you set noMargin, this is corrected.
+   */
   noMargin?: boolean;
 };
 

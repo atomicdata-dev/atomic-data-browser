@@ -16,7 +16,10 @@ type TableProps = {
   columns: string[];
 };
 
-/** A table view for Collections. Header shows properties of the first class of the collection */
+/**
+ * A table view for Collections. Header shows properties of the first class of
+ * the collection
+ */
 function Table({ resource, members, columns }: TableProps): JSX.Element {
   // Don't show the shortname, it's already shown in the first row.
   const propsArray = columns.filter(item => item !== urls.properties.shortname);
@@ -31,7 +34,9 @@ function Table({ resource, members, columns }: TableProps): JSX.Element {
       {members.length > 0 ? (
         <tbody>
           {members.map(member => {
-            return <Row propsArray={propsArray} key={member} subject={member} />;
+            return (
+              <Row propsArray={propsArray} key={member} subject={member} />
+            );
           })}
         </tbody>
       ) : (
@@ -90,7 +95,15 @@ function HeaderItem({ subject }: HeaderItemProps) {
     <CellStyled header>
       <ResourceInline subject={subject} />{' '}
       <Button onClick={handleToggleSort} subtle={!thisPropIsSorted} icon>
-        {thisPropIsSorted ? sortDesc == 'true' ? <FaSortDown /> : <FaSortUp /> : <FaSort />}
+        {thisPropIsSorted ? (
+          sortDesc == 'true' ? (
+            <FaSortDown />
+          ) : (
+            <FaSortUp />
+          )
+        ) : (
+          <FaSort />
+        )}
       </Button>
     </CellStyled>
   );

@@ -1,4 +1,4 @@
-import { Resource, properties, classes } from '@tomic/lib';
+import { Resource, properties } from '@tomic/lib';
 import { useStore, useString } from '@tomic/react';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +16,10 @@ type DrivePageProps = {
 /** A View that redirects!. */
 function RedirectPage({ resource }: DrivePageProps): JSX.Element {
   const [destination] = useString(resource, properties.redirect.destination);
-  const [redirectAgent] = useString(resource, properties.redirect.redirectAgent);
+  const [redirectAgent] = useString(
+    resource,
+    properties.redirect.redirectAgent,
+  );
   const history = useHistory();
   const { agent, setAgent } = useSettings();
   const store = useStore();
@@ -43,7 +46,10 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
     <ContainerNarrow about={resource.getSubject()}>
       <ValueForm resource={resource} propertyURL={properties.description} />
       <h1>Redirect</h1>
-      <p>This page should redirect you automatically (unless you have just pressed the back button)</p>
+      <p>
+        This page should redirect you automatically (unless you have just
+        pressed the back button)
+      </p>
       <AllProps resource={resource} except={[properties.isA]} />
     </ContainerNarrow>
   );
