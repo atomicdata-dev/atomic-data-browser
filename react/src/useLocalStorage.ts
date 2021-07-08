@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
 /**
- * Hook for storing information to LocalStorage. Note that if you use this same hook in multiple component instances, these will *not* share
- * state! If you want that behavior, you should use this hook inside a Context object.
+ * Hook for storing information to LocalStorage. Note that if you use this same
+ * hook in multiple component instances, these will *not* share state! If you
+ * want that behavior, you should use this hook inside a Context object.
  */
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T,
+): [T, (arg0: T) => void] {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -25,7 +29,8 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (arg0: T) 
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       // Allow value to be a function so we have same API as useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
       // Save state
       setStoredValue(valueToStore);
       // Save to local storage

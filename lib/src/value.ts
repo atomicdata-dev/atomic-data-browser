@@ -2,24 +2,42 @@ import { Datatype } from './datatypes';
 import { Resource } from './resource';
 
 /** All the types that a Value might contain */
-export type JSVals = string | Date | number | string[] | Date | Resource | boolean;
+export type JSVals =
+  | string
+  | Date
+  | number
+  | string[]
+  | Date
+  | Resource
+  | boolean;
 
-/** A Nested Resource is an Anonymous resource, without a subject URL of its own. However, it does contain values. */
+/**
+ * A Nested Resource is an Anonymous resource, without a subject URL of its own.
+ * However, it does contain values.
+ */
 export type NestedResource = Map<string, JSVals>;
 
 /** Atomic Data Value. Can be any datatype: https://atomicdata.dev/classes/Datatype */
 export class Value {
   private val: JSVals;
 
-  /** Createes a new Vales, makes (possibly incorrect) assumptions about its Datatype based on the input value */
+  /**
+   * Createes a new Vales, makes (possibly incorrect) assumptions about its
+   * Datatype based on the input value
+   */
   constructor(val: JSVals) {
     if (val === null || val === undefined) {
-      throw Error(`New Value cannot be null or undefined, is a ${typeof this.val}`);
+      throw Error(
+        `New Value cannot be null or undefined, is a ${typeof this.val}`,
+      );
     }
     this.val = val;
   }
 
-  /** Tries to convert the value as an array of resources, which can be both URLs or Nested Resources. Throws an error when fails */
+  /**
+   * Tries to convert the value as an array of resources, which can be both URLs
+   * or Nested Resources. Throws an error when fails
+   */
   toArray(): string[] {
     if (this.val.constructor == Array) {
       return this.val;
@@ -35,7 +53,10 @@ export class Value {
     return this.val;
   }
 
-  /** Tries to convert the value (timestamp or date) to a JS Date. Throws an error when fails. */
+  /**
+   * Tries to convert the value (timestamp or date) to a JS Date. Throws an
+   * error when fails.
+   */
   toDate(): Date {
     // If it's a unix epoch timestamp...
     if (typeof this.val == 'number') {
@@ -46,7 +67,9 @@ export class Value {
     if (typeof this.val == 'string') {
       return new Date(this.val.toString());
     }
-    throw new Error(`Cannot be converted into Date: ${this.val}, is a ${typeof this.val}`);
+    throw new Error(
+      `Cannot be converted into Date: ${this.val}, is a ${typeof this.val}`,
+    );
   }
 
   /** Converts value to its native JS(ON) counterpart */

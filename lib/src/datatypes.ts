@@ -80,7 +80,8 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
         break;
       }
       if (value.match(slug_regex) == null) {
-        err = 'Not a valid slug. Only lowercase letters and numbers with dashes `-` between them';
+        err =
+          'Not a valid slug. Only lowercase letters and numbers with dashes `-` between them';
       }
       break;
     }

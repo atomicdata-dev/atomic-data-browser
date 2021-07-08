@@ -20,7 +20,10 @@ export enum ResourceStatus {
   new = 'new',
 }
 
-/** Describes an Atomic Resource, which has a Subject URL and a bunch of Property / Value combinations. */
+/**
+ * Describes an Atomic Resource, which has a Subject URL and a bunch of Property
+ * / Value combinations.
+ */
 export class Resource {
   private subject: string;
   private propvals: PropVals;
@@ -88,7 +91,10 @@ export class Resource {
     }
   }
 
-  /** Returns the current Commit Builder, which describes the pending changes of the resource */
+  /**
+   * Returns the current Commit Builder, which describes the pending changes of
+   * the resource
+   */
   getCommitBuilder(): CommitBuilder {
     return this.commitBuilder;
   }
@@ -139,8 +145,8 @@ export class Resource {
   }
 
   /**
-   * Commits the changes and sends the Commit to the resource's `/commit` endpoint. Returns the new Url if succesful, throws an error if
-   * things go wrong
+   * Commits the changes and sends the Commit to the resource's `/commit`
+   * endpoint. Returns the new Url if succesful, throws an error if things go wrong
    */
   async save(store: Store): Promise<string> {
     const agent = store.getAgent();
@@ -148,7 +154,10 @@ export class Resource {
       throw new Error('No agent has been set, you cannot save.');
     }
     // TODO: Check if all required props are there
-    const commit = await this.commitBuilder.sign(agent.privateKey, agent.subject);
+    const commit = await this.commitBuilder.sign(
+      agent.privateKey,
+      agent.subject,
+    );
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     await postCommit(commit, endpoint);
     // When all succeeds, save it
@@ -157,8 +166,9 @@ export class Resource {
   }
 
   /**
-   * Set a Property, Value combination and perform a validation. Will throw if property is not valid for the datatype. Will fetch the
-   * datatype if it's not available.
+   * Set a Property, Value combination and perform a validation. Will throw if
+   * property is not valid for the datatype. Will fetch the datatype if it's not
+   * available.
    */
   async set(prop: string, value: JSVals, store: Store): Promise<Value> {
     const fullProp = await store.getProperty(prop);
@@ -167,7 +177,9 @@ export class Resource {
     // Add the change to the Commit Builder, so we can commit our changes later
     this.commitBuilder.set[prop] = newVal.toNative(fullProp.datatype);
     // If the property has been removed before, undo that
-    this.commitBuilder.remove = this.commitBuilder.remove.filter(item => item == prop);
+    this.commitBuilder.remove = this.commitBuilder.remove.filter(
+      item => item == prop,
+    );
     return newVal;
   }
 

@@ -4,7 +4,8 @@ import { Agent } from './agent';
 describe('Agent', () => {
   it('Constructs valid ', async () => {
     const validPrivateKey = 'CapMWIhFUT+w7ANv9oCPqrHrwZpkP2JhzF9JnyT6WcI=';
-    const validSubject = 'https://atomicdata.dev/agents/PLwTOXVvQdHYpaLEq5IozLNeUBdXMVchKjFwFfamBlo=';
+    const validSubject =
+      'https://atomicdata.dev/agents/PLwTOXVvQdHYpaLEq5IozLNeUBdXMVchKjFwFfamBlo=';
     const validAgent = () => new Agent(validPrivateKey, validSubject);
     expect(validAgent).not.to.throw();
     // Can't get this to throw yet

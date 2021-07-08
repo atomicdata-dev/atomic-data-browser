@@ -1,5 +1,11 @@
 import { expect } from 'chai';
-import { CommitBuilderI, generatePublicKeyFromPrivate, serializeDeterministically, signAt, signToBase64 } from './commit';
+import {
+  CommitBuilderI,
+  generatePublicKeyFromPrivate,
+  serializeDeterministically,
+  signAt,
+  signToBase64,
+} from './commit';
 
 describe('temporarily empty test', () => {
   it('', () => {

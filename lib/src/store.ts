@@ -7,8 +7,10 @@ import { Agent } from './agent';
 type callback = (resource: Resource) => void;
 
 /**
- * An in memory store that has a bunch of useful methods for retrieving Atomic Data Resources. It is also resposible for keeping the
- * Resources in sync with Subscribers (components that use the Resource), and for managing the current Agent (User).
+ * An in memory store that has a bunch of useful methods for retrieving Atomic
+ * Data Resources. It is also resposible for keeping the Resources in sync with
+ * Subscribers (components that use the Resource), and for managing the current
+ * Agent (User).
  */
 export class Store {
   /** The default store URL, where to send commits and where to create new instances */
@@ -48,17 +50,26 @@ export class Store {
     return `${this.getBaseUrl()}/${className}/${random}`;
   }
 
-  /** Fetches a resource by URL. Does not do anything by default if the resource is already present, even if it has errored */
+  /**
+   * Fetches a resource by URL. Does not do anything by default if the resource
+   * is already present, even if it has errored
+   */
   async fetchResource(
     /** The resource URL to be fetched */
     subject: string,
     /** Always fetch the resource, even if there is one in the store */
     forceRefresh?: boolean,
-    /** Fetch it from the `/path` endpoint of your baseURL. This effectively is a proxy / cache. */
+    /**
+     * Fetch it from the `/path` endpoint of your baseURL. This effectively is a
+     * proxy / cache.
+     */
     fromProxy?: boolean,
   ): Promise<Resource> {
     if (forceRefresh || this.resources.get(subject) == undefined) {
-      const fetched = await fetchResource(subject, fromProxy && this.getBaseUrl());
+      const fetched = await fetchResource(
+        subject,
+        fromProxy && this.getBaseUrl(),
+      );
       this.addResource(fetched);
       return fetched;
     }
@@ -76,7 +87,10 @@ export class Store {
     return this.baseUrl;
   }
 
-  /** Returns the Currently set Agent, returns null if there is none. Make sure to first run `store.setAgent()`. */
+  /**
+   * Returns the Currently set Agent, returns null if there is none. Make sure
+   * to first run `store.setAgent()`.
+   */
   getAgent(): Agent | null {
     if (this.agent == undefined) {
       return null;
@@ -85,8 +99,10 @@ export class Store {
   }
 
   /**
-   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Instantly returns an empty loading resource, while
-   * the fetching is done in the background . If the subject is undefined, an empty non-saved resource will be returned.
+   * Gets a resource by URL. Fetches and parses it if it's not available in the
+   * store. Instantly returns an empty loading resource, while the fetching is
+   * done in the background . If the subject is undefined, an empty non-saved
+   * resource will be returned.
    */
   getResourceLoading(subject: string, newResource?: boolean): Resource | null {
     if (subject == undefined) {
@@ -108,8 +124,9 @@ export class Store {
   }
 
   /**
-   * Gets a resource by URL. Fetches and parses it if it's not available in the store. Not recommended to use this for rendering, because it
-   * might cause resources to be fetched multiple times.
+   * Gets a resource by URL. Fetches and parses it if it's not available in the
+   * store. Not recommended to use this for rendering, because it might cause
+   * resources to be fetched multiple times.
    */
   async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
@@ -129,15 +146,21 @@ export class Store {
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
-      throw new Error(`Property ${subject} has no datatype: ${resource.getPropVals()}`);
+      throw new Error(
+        `Property ${subject} has no datatype: ${resource.getPropVals()}`,
+      );
     }
     const shortname = resource.get(urls.properties.shortname);
     if (shortname == null) {
-      throw new Error(`Property ${subject} has no shortname: ${resource.getPropVals()}`);
+      throw new Error(
+        `Property ${subject} has no shortname: ${resource.getPropVals()}`,
+      );
     }
     const description = resource.get(urls.properties.description);
     if (description == null) {
-      throw new Error(`Property ${subject} has no shortname: ${resource.getPropVals()}`);
+      throw new Error(
+        `Property ${subject} has no shortname: ${resource.getPropVals()}`,
+      );
     }
     const classTypeURL = resource.get(urls.properties.classType)?.toString();
     prop.classType = classTypeURL;
@@ -164,7 +187,10 @@ export class Store {
     this.resources.delete(subject);
   }
 
-  /** Changes the Subject of a Resource. Checks if the new name is already taken, throws an error if so. */
+  /**
+   * Changes the Subject of a Resource. Checks if the new name is already taken,
+   * throws an error if so.
+   */
   async renameSubject(oldSubject: string, newSubject: string): Promise<void> {
     tryValidURL(newSubject);
     const old = this.resources.get(oldSubject);
@@ -193,7 +219,10 @@ export class Store {
     this.baseUrl = baseUrl;
   }
 
-  /** Registers a callback for when the a resource is updated. When you call this, you should probably also call .unsubscribe some time later. */
+  /**
+   * Registers a callback for when the a resource is updated. When you call
+   * this, you should probably also call .unsubscribe some time later.
+   */
   subscribe(subject: string, callback: callback): void {
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {

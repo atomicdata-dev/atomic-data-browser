@@ -1,14 +1,32 @@
 import { useState, useEffect } from 'react';
-import { Property, Store, Resource, ResourceStatus, JSVals, Value, Datatype, datatypeFromUrl, urls, truncateUrl } from '@tomic/lib';
+import {
+  Property,
+  Store,
+  Resource,
+  ResourceStatus,
+  JSVals,
+  Value,
+  Datatype,
+  datatypeFromUrl,
+  urls,
+  truncateUrl,
+} from '@tomic/lib';
 import React from 'react';
 
 /**
- * Hook for getting and updating a Resource in a React component. Will try to fetch the subject and add its parsed values to the store.
- * Always returns a Resource and a setter for a Resource, even if the input is undefined or not a valid atomic URL.
+ * Hook for getting and updating a Resource in a React component. Will try to
+ * fetch the subject and add its parsed values to the store. Always returns a
+ * Resource and a setter for a Resource, even if the input is undefined or not a
+ * valid atomic URL.
  */
-export function useResource(subject: string, newResource?: boolean): [Resource, (resource: Resource) => void] {
+export function useResource(
+  subject: string,
+  newResource?: boolean,
+): [Resource, (resource: Resource) => void] {
   const store = useStore();
-  const [resource, setResource] = useState<Resource>(store.getResourceLoading(subject, newResource));
+  const [resource, setResource] = useState<Resource>(
+    store.getResourceLoading(subject, newResource),
+  );
 
   /** Callback function to update the Resource with this value. Overwrites existing. */
   // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
@@ -38,7 +56,10 @@ export function useResource(subject: string, newResource?: boolean): [Resource, 
   return [resource, update];
 }
 
-/** Converts an array of Atomic URL strings to an array of Resources. Could take a long time. */
+/**
+ * Converts an array of Atomic URL strings to an array of Resources. Could take
+ * a long time.
+ */
 export function useResources(subjects: string[]): Map<string, Resource> {
   const [resources, setResources] = useState(new Map());
   const store = useStore();
@@ -71,8 +92,8 @@ export function useResources(subjects: string[]): Map<string, Resource> {
 }
 
 /**
- * Hook for using a Property. Will return null if the Property is not yet loaded, and add Error strings to shortname and description if
- * something goes wrong.
+ * Hook for using a Property. Will return null if the Property is not yet
+ * loaded, and add Error strings to shortname and description if something goes wrong.
  */
 export function useProperty(subject: string): Property | null {
   const [propR] = useResource(subject);
@@ -108,13 +129,21 @@ export function useProperty(subject: string): Property | null {
 }
 
 /** A callback function for setting validation error messages */
-type handleValidationErrorType = (val: JSVals, callback?: (e: Error) => unknown) => void;
+type handleValidationErrorType = (
+  val: JSVals,
+  callback?: (e: Error) => unknown,
+) => void;
 
 /**
- * Returns a Value (can be string, array, more or null) and a Setter. Value will be null if the Resource isn't loaded yet. The setter takes
- * two arguments - the first one a native JS representation of the new value, the second one a callback function for handling validation errors.
+ * Returns a Value (can be string, array, more or null) and a Setter. Value will
+ * be null if the Resource isn't loaded yet. The setter takes two arguments -
+ * the first one a native JS representation of the new value, the second one a
+ * callback function for handling validation errors.
  */
-export function useValue(resource: Resource, propertyURL: string): [Value | null, handleValidationErrorType] {
+export function useValue(
+  resource: Resource,
+  propertyURL: string,
+): [Value | null, handleValidationErrorType] {
   const [val, set] = useState<Value>(null);
   const store = useStore();
   const subject = resource.getSubject();
@@ -133,8 +162,14 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
     };
   }, [store, resource, subject]);
 
-  /** Validates the value. If it fails, it calls the function in the second Argument. Pass null to remove existing value. */
-  function validateAndSet(newVal: JSVals, handleValidationError?: (e: Error) => unknown) {
+  /**
+   * Validates the value. If it fails, it calls the function in the second
+   * Argument. Pass null to remove existing value.
+   */
+  function validateAndSet(
+    newVal: JSVals,
+    handleValidationError?: (e: Error) => unknown,
+  ) {
     if (newVal == null) {
       // remove the value
       resource.removePropVal(propertyURL);
@@ -144,7 +179,10 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
     const valFromNewVal = new Value(newVal);
     set(valFromNewVal);
 
-    /** Validates and sets a property / value combination. Will invoke the callback if the value is not valid. */
+    /**
+     * Validates and sets a property / value combination. Will invoke the
+     * callback if the value is not valid.
+     */
     async function setAsync() {
       try {
         await resource.set(propertyURL, newVal, store);
@@ -179,8 +217,14 @@ export function useValue(resource: Resource, propertyURL: string): [Value | null
   return [value, validateAndSet];
 }
 
-/** Hook for getting and setting a stringified representation of an Atom in a React component */
-export function useString(resource: Resource, propertyURL: string): [string | null, (string: string, handleValidationErrorType?) => void] {
+/**
+ * Hook for getting and setting a stringified representation of an Atom in a
+ * React component
+ */
+export function useString(
+  resource: Resource,
+  propertyURL: string,
+): [string | null, (string: string, handleValidationErrorType?) => void] {
   const [val, setVal] = useValue(resource, propertyURL);
   if (val == null) {
     return [null, setVal];
@@ -210,8 +254,14 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
   return subject;
 }
 
-/** Hook for getting all URLs for some array. Returns the current Array (defaults to empty array) and a callback for validation errors. */
-export function useArray(resource: Resource, propertyURL: string): [string[] | null, handleValidationErrorType] {
+/**
+ * Hook for getting all URLs for some array. Returns the current Array (defaults
+ * to empty array) and a callback for validation errors.
+ */
+export function useArray(
+  resource: Resource,
+  propertyURL: string,
+): [string[] | null, handleValidationErrorType] {
   const [value, set] = useValue(resource, propertyURL);
   if (value == null) {
     return [[], set];
@@ -219,7 +269,10 @@ export function useArray(resource: Resource, propertyURL: string): [string[] | n
   return [value.toArray(), set];
 }
 
-export function useNumber(resource: Resource, propertyURL: string): [number | null, handleValidationErrorType] {
+export function useNumber(
+  resource: Resource,
+  propertyURL: string,
+): [number | null, handleValidationErrorType] {
   const [value, set] = useValue(resource, propertyURL);
   if (value == null) {
     return [NaN, set];
@@ -228,7 +281,10 @@ export function useNumber(resource: Resource, propertyURL: string): [number | nu
 }
 
 /** Returns true or false. */
-export function useBoolean(resource: Resource, propertyURL: string): [boolean | null, handleValidationErrorType] {
+export function useBoolean(
+  resource: Resource,
+  propertyURL: string,
+): [boolean | null, handleValidationErrorType] {
   const [value, set] = useValue(resource, propertyURL);
   if (value == null) {
     return [false, set];
@@ -263,7 +319,10 @@ export function useStore(): Store {
 }
 
 /** Checks if the current user can edit this resource */
-export function useCanWrite(resource: Resource, agent?: string): [boolean | null, string] {
+export function useCanWrite(
+  resource: Resource,
+  agent?: string,
+): [boolean | null, string] {
   const store = useStore();
   const [canWrite, setCanWrite] = useState<boolean | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
@@ -291,5 +350,8 @@ export function useCanWrite(resource: Resource, agent?: string): [boolean | null
   return [canWrite, msg];
 }
 
-/** The context must be provided by wrapping a high level React element in <StoreContext.Provider value={new Store}> */
+/**
+ * The context must be provided by wrapping a high level React element in
+ * <StoreContext.Provider value={new Store}>
+ */
 export const StoreContext = React.createContext<Store>(undefined);

@@ -1,5 +1,12 @@
-/** Makes URLs shorter and removes the schema. Hides the hostname if it's equal to the window hostname */
-export function truncateUrl(url: string, num: number, truncateBack?: boolean): string {
+/**
+ * Makes URLs shorter and removes the schema. Hides the hostname if it's equal
+ * to the window hostname
+ */
+export function truncateUrl(
+  url: string,
+  num: number,
+  truncateBack?: boolean,
+): string {
   // Remove the schema, the https:// part
   let noSchema = url.replace(/(^\w+:|^)\/\//, '');
   if (noSchema.startsWith(window.location.hostname)) {

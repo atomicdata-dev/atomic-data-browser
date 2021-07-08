@@ -1,7 +1,10 @@
 import { tryValidURL } from './client';
 import { generatePublicKeyFromPrivate } from './commit';
 
-/** An Agent is a user or machine that can write data to an Atomic Server. An Agent *might* not have subject, sometimes. */
+/**
+ * An Agent is a user or machine that can write data to an Atomic Server. An
+ * Agent *might* not have subject, sometimes.
+ */
 export class Agent {
   privateKey: string;
   publicKey?: string;
@@ -24,13 +27,19 @@ export class Agent {
     return this.publicKey;
   }
 
-  /** Returns a base64 encoded JSON object containing the Subject and the Private Key. Used for signing in with one string */
+  /**
+   * Returns a base64 encoded JSON object containing the Subject and the Private
+   * Key. Used for signing in with one string
+   */
   public buildSecret(): string {
     const objJsonStr = JSON.stringify(this);
     return btoa(objJsonStr);
   }
 
-  /** Parses a base64 JSON object containing a privateKey and subject, and constructs an Agent from that. */
+  /**
+   * Parses a base64 JSON object containing a privateKey and subject, and
+   * constructs an Agent from that.
+   */
   static fromSecret(secretB64: string): Agent {
     const agentBytes = atob(secretB64);
     const parsed = JSON.parse(agentBytes);

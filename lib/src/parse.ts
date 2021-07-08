@@ -12,7 +12,9 @@ export function parseJsonADResource(string: string, resource: Resource): void {
           throw new Error("'@id' field must be a string");
         }
         if (subject !== resource.getSubject()) {
-          throw new Error(`Resource has wrong subject in @id. Received subject was ${subject}, expected ${resource.getSubject()}.`);
+          throw new Error(
+            `Resource has wrong subject in @id. Received subject was ${subject}, expected ${resource.getSubject()}.`,
+          );
         }
         resource.setSubject(subject);
         continue;
@@ -21,7 +23,11 @@ export function parseJsonADResource(string: string, resource: Resource): void {
         const val = new Value(jsonObject[key]);
         resource.setUnsafe(key, val);
       } catch (e) {
-        throw new Error(`Failed creating value for key ${key} in resource ${resource.getSubject()}. ${e.message}`);
+        throw new Error(
+          `Failed creating value for key ${key} in resource ${resource.getSubject()}. ${
+            e.message
+          }`,
+        );
       }
     }
     resource.setStatus(ResourceStatus.ready);

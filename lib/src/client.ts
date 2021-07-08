@@ -1,14 +1,18 @@
 import { Commit, serializeDeterministically } from './commit';
 import { parseJsonADResource } from './parse';
-import { Resource, ResourceStatus } from './resource';
+import { Resource } from './resource';
 
 /**
- * Fetches and Parses a Resource. Can fetch through another atomic server if you pass the `from` argument, which should be the baseURL of an
- * Atomic Server. Does not add it to the store. If you need that, use `Store.fetchResource`.
+ * Fetches and Parses a Resource. Can fetch through another atomic server if you
+ * pass the `from` argument, which should be the baseURL of an Atomic Server.
+ * Does not add it to the store. If you need that, use `Store.fetchResource`.
  */
 export async function fetchResource(
   subject: string,
-  /** Base URL of an atomic server. Uses the `/path` endpoint to indirectly fetch through that server. */
+  /**
+   * Base URL of an atomic server. Uses the `/path` endpoint to indirectly fetch
+   * through that server.
+   */
   from?: string,
 ): Promise<Resource> {
   const resource = new Resource(subject);
@@ -23,7 +27,9 @@ export async function fetchResource(
       url = newURL.href;
     }
     if (window.fetch == undefined) {
-      throw new Error(`No window object available this lib currently requires the DOM for fetching`);
+      throw new Error(
+        `No window object available this lib currently requires the DOM for fetching`,
+      );
     }
     const response = await window.fetch(url, {
       headers: requestHeaders,
@@ -58,7 +64,9 @@ export async function postCommit(
     });
     const body = await response.text();
     if (response.status !== 200) {
-      throw new Error(`Commit failed. Server replied with ${response.status}: ${body}`);
+      throw new Error(
+        `Commit failed. Server replied with ${response.status}: ${body}`,
+      );
     }
     return body;
   } catch (e) {

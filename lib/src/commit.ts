@@ -31,7 +31,9 @@ export class CommitBuilder implements CommitBuilderI {
   }
 
   hasUnsavedChanges(): boolean {
-    return Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0;
+    return (
+      Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0
+    );
   }
 }
 
@@ -46,15 +48,28 @@ export interface Commit extends CommitPreSigned {
 }
 
 /** Replaces a key in a Commit. Ignores it if it's not there */
-function replaceKey(o: Commit | CommitPreSigned, oldKey: string, newKey: string) {
+function replaceKey(
+  o: Commit | CommitPreSigned,
+  oldKey: string,
+  newKey: string,
+) {
   if (oldKey in o && oldKey !== newKey) {
-    Object.defineProperty(o, newKey, Object.getOwnPropertyDescriptor(o, oldKey));
+    Object.defineProperty(
+      o,
+      newKey,
+      Object.getOwnPropertyDescriptor(o, oldKey),
+    );
     delete o[oldKey];
   }
 }
 
-/** Takes a commit and serializes it deterministically. Is used both for signing Commits as well as serializing them. */
-export function serializeDeterministically(commit: CommitPreSigned | Commit): string {
+/**
+ * Takes a commit and serializes it deterministically. Is used both for signing
+ * Commits as well as serializing them.
+ */
+export function serializeDeterministically(
+  commit: CommitPreSigned | Commit,
+): string {
   // Remove empty arrays, objects, false values from root
   if (commit.remove?.length == 0) {
     delete commit.remove;
@@ -74,7 +89,12 @@ export function serializeDeterministically(commit: CommitPreSigned | Commit): st
 }
 
 /** Creates a signature for a Commit using the private Key of some Agent. */
-export const signAt = async (commitBuilder: CommitBuilderI, agent: string, privateKey: string, createdAt: number): Promise<Commit> => {
+export const signAt = async (
+  commitBuilder: CommitBuilderI,
+  agent: string,
+  privateKey: string,
+  createdAt: number,
+): Promise<Commit> => {
   if (agent == undefined) {
     throw new Error('No agent passed to sign commit');
   }
@@ -92,8 +112,14 @@ export const signAt = async (commitBuilder: CommitBuilderI, agent: string, priva
   return commitPostSigned;
 };
 
-/** Signs a string using a base64 encoded ed25519 private key. Outputs a base64 encoded ed25519 signature */
-export const signToBase64 = async (message: string, privateKeyBase64: string): Promise<string> => {
+/**
+ * Signs a string using a base64 encoded ed25519 private key. Outputs a base64
+ * encoded ed25519 signature
+ */
+export const signToBase64 = async (
+  message: string,
+  privateKeyBase64: string,
+): Promise<string> => {
   const privateKeyArrayBuffer = decodeB64(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
   const utf8Encode = new TextEncoder();
@@ -104,7 +130,9 @@ export const signToBase64 = async (message: string, privateKeyBase64: string): P
 };
 
 /** From base64 encoded private key */
-export const generatePublicKeyFromPrivate = async (privateKey: string): Promise<string> => {
+export const generatePublicKeyFromPrivate = async (
+  privateKey: string,
+): Promise<string> => {
   const privateKeyArrayBuffer = decodeB64(privateKey);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
   const publickey = await getPublicKey(privateKeyBytes);
