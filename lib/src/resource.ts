@@ -1,5 +1,5 @@
 import { properties } from './urls';
-import { tryValidURL, postCommit, fetchResource } from './client';
+import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
 import { Store } from './store';

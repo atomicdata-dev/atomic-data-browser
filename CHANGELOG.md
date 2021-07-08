@@ -2,8 +2,10 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
-## v0.0.15
+## v0.24.0
 
+- Match version number of [atomic-data-rust](https://github.com/joepio/atomic-data-rust)
+- Improve resource selector dropdown, show previews, remove dependency
 - Add Version button to menu
 - Disable menu buttons that are not usable
 - Improve error view in cards
