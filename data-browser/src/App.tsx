@@ -1,9 +1,10 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
-
+import { Toaster } from 'react-hot-toast';
 import { Store, Agent } from '@tomic/lib';
 import { StoreContext } from '@tomic/react';
+
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { Routes } from './routes/Routes';
 import { NavWrapper } from './components/Navigation';
@@ -33,6 +34,7 @@ function App(): JSX.Element {
               <ThemeWrapper>
                 <ErrorBoundary FallbackComponent={ErrorPage}>
                   <GlobalStyle />
+                  <Toaster />
                   <MetaSetter />
                   <NavWrapper>
                     <Routes />

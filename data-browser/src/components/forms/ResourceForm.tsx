@@ -25,6 +25,7 @@ import Field from './Field';
 import { useSettings } from '../../helpers/AppSettings';
 import { useDebounce } from '../../helpers/useDebounce';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 type ResourceFormProps = {
   /**
@@ -143,10 +144,12 @@ export function ResourceForm({
       setSaving(false);
       // Redirect to created / edited resource
       history.push(openURL(newUrlString));
+      toast.success('Resource saved');
     } catch (e) {
       handleError(e);
       setErr(e);
       setSaving(false);
+      toast.error(e.message);
     }
   }
 

@@ -5,6 +5,7 @@ import { useCanWrite, useResource, useStore } from '@tomic/react';
 import { editURL, dataURL, openURL, versionsURL } from '../helpers/navigation';
 import { DropdownMenu, MenuItemProps } from './DropdownMenu';
 import { useSettings } from '../helpers/AppSettings';
+import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
 
 type Props = {
@@ -30,15 +31,20 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
     return null;
   }
 
-  function handleDestroy() {
+  async function handleDestroy() {
     if (
       window.confirm(
         'Are you sure you want to permanently delete this resource?',
       )
     ) {
       const resource = store.getResourceLoading(subject);
-      resource.destroy(store);
-      history.push('/');
+      try {
+        const res = await resource.destroy(store);
+        toast.success('Resource deleted!');
+        history.push('/');
+      } catch (error) {
+        toast.error(error.message);
+      }
     }
   }
 

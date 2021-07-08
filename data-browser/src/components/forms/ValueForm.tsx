@@ -9,6 +9,7 @@ import ValueComp from '../ValueComp';
 import { ErrMessage } from './InputStyles';
 import InputSwitcher from './InputSwitcher';
 import { useSettings } from '../../helpers/AppSettings';
+import toast from 'react-hot-toast';
 
 interface ValueFormProps {
   // Maybe pass Value instead of Resource?
@@ -65,9 +66,11 @@ export function ValueForm({
       (async () => await resource.save(store))();
       resource.save(store);
       setEditMode(false);
+      toast.success('Resource saved');
     } catch (e) {
       setErr(e);
       setEditMode(true);
+      toast.error(e.message);
     }
   }
 

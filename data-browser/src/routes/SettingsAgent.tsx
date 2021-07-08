@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Agent } from '@tomic/lib';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
+
 import { useSettings } from '../helpers/AppSettings';
 import {
   InputStyled,
@@ -17,7 +18,7 @@ import { ContainerNarrow } from '../components/Containers';
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
   const [subject, setSubject] = useState<string>('');
-  const [privateKey, setCurrentPrivateKey] = useState<string>('');
+  const [privateKey, setPrivateKey] = useState<string>('');
   const [error, setError] = useState<Error>(null);
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
@@ -48,23 +49,11 @@ const SettingsAgent: React.FunctionComponent = () => {
   function fillAdvanced() {
     try {
       setSubject(agent.subject);
-      setCurrentPrivateKey(agent.privateKey);
+      setPrivateKey(agent.privateKey);
     } catch (e) {
       const err = new Error('Cannot fill subject and privatekey fields.' + e);
       setError(err);
       setSubject('');
-    }
-  }
-
-  async function handleSave() {
-    try {
-      const agent = new Agent(privateKey, subject);
-      await agent.getPublicKey();
-      setAgent(agent);
-    } catch (e) {
-      const err = new Error('Invalid Agent' + e);
-      setError(err);
-      setAgent(null);
     }
   }
 
@@ -75,21 +64,31 @@ const SettingsAgent: React.FunctionComponent = () => {
       setAgent(null);
       setError(null);
       setSubject('');
-      setCurrentPrivateKey('');
+      setPrivateKey('');
     }
   }
 
   /** Called when the secret or the subject is updated manually */
-  function handleUpdateAgent() {
+  function handleUpdateSubjectAndKey() {
     renewSecret();
     setError(null);
-    handleSave();
+
+    try {
+      const agent = new Agent(privateKey, subject);
+      agent.getPublicKey();
+      setAgent(agent);
+    } catch (e) {
+      const err = new Error('Invalid Agent' + e);
+      setError(err);
+      setAgent(null);
+    }
   }
 
   function handleCopy() {
     navigator.clipboard.writeText(secret);
   }
 
+  /** When the Secret updates, parse it and try if the */
   function handleUpdateSecret(updateSecret: string) {
     setSecret(updateSecret);
     if (updateSecret == '') {
@@ -97,11 +96,12 @@ const SettingsAgent: React.FunctionComponent = () => {
       setError(null);
       return;
     }
+    setError(null);
+
     try {
       const agent = Agent.fromSecret(updateSecret);
       setAgent(agent);
-      setError(null);
-      setCurrentPrivateKey(agent.privateKey);
+      setPrivateKey(agent.privateKey);
       setSubject(agent.subject);
     } catch (e) {
       const err = new Error('Invalid secret. ' + e);
@@ -188,7 +188,7 @@ const SettingsAgent: React.FunctionComponent = () => {
                   value={subject}
                   onChange={e => {
                     setSubject(e.target.value);
-                    handleUpdateAgent();
+                    handleUpdateSubjectAndKey();
                   }}
                 />
               </InputWrapper>
@@ -206,8 +206,8 @@ const SettingsAgent: React.FunctionComponent = () => {
                   type={showPrivateKey ? 'text' : 'password'}
                   value={privateKey}
                   onChange={e => {
-                    setCurrentPrivateKey(e.target.value);
-                    handleUpdateAgent();
+                    setPrivateKey(e.target.value);
+                    handleUpdateSubjectAndKey();
                   }}
                 />
                 <ButtonInput

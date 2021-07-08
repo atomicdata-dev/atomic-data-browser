@@ -8,7 +8,7 @@ import { useLocalStorage } from './useLocalStorage';
  * Only use this hook once inside your app! The best place to use this, is
  * somewhere inside your synchronized application state
  */
-export const useCurrentAgent = (): [Agent | null, (agent: Agent) => void] => {
+export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // Localstorage for cross-session persistence of JSON object
   const [agentJSON, setAgentJSON] = useLocalStorage<Agent | null>(
     'agent',
@@ -21,6 +21,7 @@ export const useCurrentAgent = (): [Agent | null, (agent: Agent) => void] => {
 
   // When the localStorage JSON agent is updated, also update the in-memory agent
   useEffect(() => {
+    console.log('agentJSON:', agentJSON);
     if (agentJSON == null) {
       setAgent(null);
       return;

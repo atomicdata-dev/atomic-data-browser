@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { Agent } from '@tomic/lib';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
 import { useLocalStorage, useCurrentAgent } from '@tomic/react';
+import toast from 'react-hot-toast';
 
 interface ProviderProps {
   children: ReactNode;
@@ -25,6 +26,17 @@ export const AppSettingsContextProvider = (
   );
   const [agent, setAgent] = useCurrentAgent();
 
+  const setAgentToast = (agent: Agent) => {
+    try {
+      setAgent(agent);
+      agent?.subject && toast.success('Signed in!');
+      agent == null && toast.success('Signed out.');
+    } catch (e) {
+      toast.error('Agent setting failed: ' + e.message);
+      console.log(e);
+    }
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -40,7 +52,7 @@ export const AppSettingsContextProvider = (
         sideBarLocked,
         setSideBarLocked,
         agent,
-        setAgent,
+        setAgent: setAgentToast,
       }}
     >
       {props.children}
