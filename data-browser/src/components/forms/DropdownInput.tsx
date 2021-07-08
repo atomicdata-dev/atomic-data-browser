@@ -1,10 +1,11 @@
-import Downshift from 'downshift';
-import React, { useContext } from 'react';
+import React, { useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCaretDown, FaTrash } from 'react-icons/fa';
-import styled, { ThemeContext } from 'styled-components';
+import styled from 'styled-components';
 import { ButtonInput } from '../Button';
+import ResourceInline from '../ResourceInline';
 import ResourceLine from '../ResourceLine';
-import { InputStyled, InputWrapper } from './InputStyles';
+import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
 
 interface DropDownListProps {
   required?: boolean;
@@ -21,7 +22,7 @@ interface DropDownListProps {
   disabled?: boolean;
 }
 
-/** An input for selecting a value from a dropdown menu. This component assumes that values are Resource IDs. */
+/** Renders an input field with a dropdown menu. You can search through the items, select them from a list, clear the entire thing */
 export function DropdownInput({
   allowOther,
   required,
@@ -32,92 +33,179 @@ export function DropdownInput({
   options,
   disabled,
 }: DropDownListProps): JSX.Element {
-  const themeContext = useContext(ThemeContext);
+  const [inputValue, setInputValue] = useState<string>(initial ? initial : '');
+  const [selectedItem, setSelectedItem] = useState<string | undefined>(initial);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isFocus, setIsFocus] = useState<boolean>(false);
+  const dropdownRef = useRef(null);
+  // if the keyboard is used to navigate the dropdown items
+  const results = options.filter(item => !inputValue || item.includes(inputValue));
 
-  function stateReducer(state, changes) {
-    // Prevent reset of input on blur
-    if (
-      (allowOther && changes.type === Downshift.stateChangeTypes.blurButton) ||
-      changes.type === Downshift.stateChangeTypes.mouseUp ||
-      changes.type === Downshift.stateChangeTypes.blurInput
-    ) {
-      return {
-        ...changes,
-        selectedItem: state.inputValue,
-      };
+  useHotkeys(
+    'enter',
+    e => {
+      e.preventDefault();
+      if (results.length > 0) {
+        handleSelectItem(results[selectedIndex]);
+      } else {
+        handleSelectItem(inputValue);
+      }
+      // items[selectedIndex].onClick();
+      // handleClose();
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  useHotkeys(
+    'esc',
+    e => {
+      e.preventDefault();
+      setIsOpen(false);
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+  );
+
+  // Move up (or to bottom if at top)
+  useHotkeys(
+    'up',
+    e => {
+      e.preventDefault();
+      const newSelected = selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
+      setSelectedIndex(newSelected);
+      scrollIntoView(newSelected);
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  // Move down (or to top if at bottom)
+  useHotkeys(
+    'down',
+    e => {
+      e.preventDefault();
+      const newSelected = selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
+      setSelectedIndex(newSelected);
+      scrollIntoView(newSelected);
+      return false;
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  function scrollIntoView(index: number) {
+    const currentElm = dropdownRef?.current?.children[index];
+    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    setInputValue(val);
+    if (val == '') {
+      setSelectedItem(null);
+    } else {
+      setSelectedItem(val);
     }
-    return changes;
+  }
+
+  function clearSelection() {
+    setInputValue('');
+    setSelectedItem(null);
+    onUpdate(null);
+  }
+
+  function handleSelectItem(item: string) {
+    console.log('handle', item);
+    setInputValue(item);
+    setSelectedItem(item);
+    onUpdate(item);
+    setIsOpen(false);
+  }
+
+  function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+    setSelectedIndex(0);
+    setIsFocus(true);
+    setIsOpen(true);
+    e.target.select();
+    // This delay helps make sure the entire text is selected
+    setTimeout(function () {
+      e.target.select();
+    }, 20);
+  }
+
+  function handleBlur() {
+    setIsFocus(false);
+    // for some reason this prevents that no item can be selected from the dropdown.
+    // HandleBlur is called before the setInput handle is called, so the click on the DropdownInput is not caught.
+    setTimeout(function () {
+      setIsOpen(false);
+    }, 150);
   }
 
   return (
-    <Downshift
-      initialSelectedItem={initial ? initial : ''}
-      onChange={selection => onUpdate(selection)}
-      itemToString={item => (item ? item : '')}
-      stateReducer={stateReducer}
-    >
-      {({
-        clearSelection,
-        getInputProps,
-        getItemProps,
-        // getLabelProps,
-        getMenuProps,
-        getToggleButtonProps,
-        isOpen,
-        inputValue,
-        highlightedIndex,
-        selectedItem,
-        getRootProps,
-      }): JSX.Element => (
-        <DropDownStyled>
-          <InputWrapper {...getRootProps({}, { suppressRefError: true })}>
-            <InputStyled disabled={disabled} size={5} {...getInputProps()} required={required} placeholder={placeholder} />
-            {selectedItem ? (
-              //@ts-ignore issue with types from Downshift
-              <ButtonInput disabled={disabled} type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
-                clear
-              </ButtonInput>
-            ) : null}
-            {options.length > 0 && (
-              <ButtonInput disabled={disabled} type='button' {...getToggleButtonProps()} title='toggle menu' aria-label={'toggle menu'}>
-                <FaCaretDown />
-              </ButtonInput>
+    <DropDownStyled>
+      <InputWrapper>
+        <ResourceInputOverlayWrapper>
+          {selectedItem && !isFocus && (
+            <InputOverlay>
+              <ResourceInline subject={selectedItem} />
+            </InputOverlay>
+          )}
+          <InputStyled
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            disabled={disabled}
+            size={5}
+            required={required}
+            placeholder={placeholder}
+            // This might not be the most pretty approach, maybe I should use an overlay element
+            // That would also allow for a richer resource view in the input
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </ResourceInputOverlayWrapper>
+        {selectedItem ? (
+          <ButtonInput disabled={disabled} type='button' onClick={clearSelection} title='clear selection' aria-label='clear selection'>
+            clear
+          </ButtonInput>
+        ) : null}
+        {options.length > 0 && (
+          <ButtonInput disabled={disabled} type='button' onClick={() => setIsOpen(!isOpen)} title='toggle menu' aria-label={'toggle menu'}>
+            <FaCaretDown />
+          </ButtonInput>
+        )}
+        {onRemove !== undefined && (
+          <ButtonInput disabled={disabled} type='button' onClick={onRemove} title='remove item' aria-label='remove item'>
+            <FaTrash />
+          </ButtonInput>
+        )}
+      </InputWrapper>{' '}
+      <DropDownWrapperWrapper>
+        {isOpen ? (
+          <DropDownWrapper ref={dropdownRef}>
+            {results.length > 0 ? (
+              results.map((item, index) => (
+                <DropDownItem onClick={() => handleSelectItem(item)} key={item} selected={index == selectedIndex}>
+                  <ResourceLine subject={item} />
+                </DropDownItem>
+              ))
+            ) : (
+              <DropDownItem>Could not find {inputValue}...</DropDownItem>
             )}
-            {onRemove !== undefined && (
-              <ButtonInput disabled={disabled} type='button' onClick={onRemove} title='remove item' aria-label='remove item'>
-                <FaTrash />
-              </ButtonInput>
-            )}
-          </InputWrapper>{' '}
-          <DropDownWrapperWrapper {...getMenuProps()}>
-            {options.length > 0 && isOpen ? (
-              <DropDownWrapper>
-                {options
-                  .filter(item => !inputValue || item.includes(inputValue))
-                  .map((item, index) => (
-                    <DropDownItem
-                      key={item}
-                      {...getItemProps({
-                        key: item,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor: highlightedIndex === index ? themeContext.colors.main : themeContext.colors.bg,
-                          color: highlightedIndex === index ? themeContext.colors.bg : themeContext.colors.text,
-                        },
-                      })}
-                    >
-                      <ResourceLine subject={item} />
-                    </DropDownItem>
-                  ))}
-              </DropDownWrapper>
-            ) : null}
-          </DropDownWrapperWrapper>
-        </DropDownStyled>
-      )}
-    </Downshift>
+          </DropDownWrapper>
+        ) : null}
+      </DropDownWrapperWrapper>
+    </DropDownStyled>
   );
 }
+
+/** A wrapper all dropdown items */
+const ResourceInputOverlayWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex: 1;
+`;
 
 /** A wrapper all dropdown items */
 const DropDownStyled = styled.div`
@@ -145,15 +233,21 @@ const DropDownWrapper = styled.div`
   min-width: 10rem;
 `;
 
+interface DropDownItemProps {
+  selected?: boolean;
+}
+
 /** A wrapper all dropdown items */
-const DropDownItem = styled.li`
+const DropDownItem = styled.li<DropDownItemProps>`
   display: flex;
   flex-direction: row;
-  background-color: ${props => props.theme.colors.bg};
   border-bottom: solid 1px ${props => props.theme.colors.bg2};
   cursor: pointer;
   margin: 0;
   padding: 0.3rem;
+  text-decoration: ${p => (p.selected ? 'underline' : 'none')};
+  background-color: ${p => (p.selected ? p.theme.colors.main : p.theme.colors.bg)};
+  color: ${p => (p.selected ? p.theme.colors.bg : 'inherit')};
 
   &:hover,
   &:active,

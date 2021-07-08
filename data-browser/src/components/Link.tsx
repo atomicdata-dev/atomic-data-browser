@@ -65,7 +65,7 @@ export const LinkView = styled.a<Proppies>`
   color: ${props => (props.disabled ? props.theme.colors.text : props.theme.colors.main)};
   text-decoration: none;
   cursor: pointer;
-  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
+  pointer-events: ${props => (props.disabled ? 'none' : 'inherit')};
 
   svg {
     margin-left: 0.3rem;
