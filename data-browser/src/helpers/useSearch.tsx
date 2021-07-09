@@ -18,7 +18,11 @@ export function useSearch(
   const [results, setResults] = React.useState<Hit[]>([]);
   const store = useStore();
   let resources = useResources(subjects || []);
+  // Calculate the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, 40);
+  // The Resources prop can change very quickly, as multiple resources can be fetched in a short timespan.
+  // This will cause the search index to be rebuilt every time, so we debounce the resources.
+  const resourcesD = useDebounce(resources, 100);
 
   if (subjects == undefined) {
     resources = store.resources;
@@ -28,8 +32,8 @@ export function useSearch(
     if (disabled) {
       return;
     }
-    setIndex(constructIndex(resources));
-  }, [resources, disabled]);
+    setIndex(constructIndex(resourcesD));
+  }, [resourcesD, disabled]);
 
   React.useEffect(() => {
     if (disabled) {
@@ -46,6 +50,8 @@ export function useSearch(
     const searchResults = index && index.search(debouncedQuery);
     setResults(searchResults);
   }, [debouncedQuery, index, disabled]);
+
+  console.log('results', results.length);
 
   // Return the width so we can use it in our components
   return results;

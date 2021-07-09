@@ -44,7 +44,6 @@ export function DropdownInput({
   const [useKeys, setUseKeys] = useState<boolean>(false);
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
-  const results = useSearch(inputValue, options, !isOpen && !isFocus);
 
   // Close the dropdown when the user clicks outside of it
   useEffect(() => {
@@ -69,21 +68,6 @@ export function DropdownInput({
     };
   }, [isOpen, dropdownRef, isFocus]);
 
-  // Select the item
-  useHotkeys(
-    'enter',
-    e => {
-      e.preventDefault();
-      if (results.length > 0) {
-        handleSelectItem(results[selectedIndex].item.subject);
-      } else {
-        handleSelectItem(inputValue);
-      }
-    },
-    { enabled: isOpen, enableOnTags: ['INPUT'] },
-    [selectedIndex],
-  );
-
   // Close the menu
   useHotkeys(
     'esc',
@@ -93,42 +77,6 @@ export function DropdownInput({
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
   );
-
-  // Move up (or to bottom if at top)
-  useHotkeys(
-    'up',
-    e => {
-      e.preventDefault();
-      setUseKeys(true);
-      const newSelected =
-        selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
-      setSelectedIndex(newSelected);
-      scrollIntoView(newSelected);
-    },
-    { enabled: isOpen, enableOnTags: ['INPUT'] },
-    [selectedIndex],
-  );
-
-  // Move down (or to top if at bottom)
-  useHotkeys(
-    'down',
-    e => {
-      e.preventDefault();
-      setUseKeys(true);
-      const newSelected =
-        selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
-      setSelectedIndex(newSelected);
-      scrollIntoView(newSelected);
-      return false;
-    },
-    { enabled: isOpen, enableOnTags: ['INPUT'] },
-    [selectedIndex],
-  );
-
-  function scrollIntoView(index: number) {
-    const currentElm = dropdownRef?.current?.children[index];
-    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
@@ -149,13 +97,6 @@ export function DropdownInput({
     setSelectedItem(null);
     onUpdate(null);
     inputRef.current.focus();
-  }
-
-  function handleSelectItem(item: string) {
-    setInputValue(item);
-    setSelectedItem(item);
-    onUpdate(item);
-    setIsOpen(false);
   }
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -237,30 +178,137 @@ export function DropdownInput({
       </InputWrapper>{' '}
       <DropDownWrapperWrapper onMouseEnter={() => setUseKeys(false)}>
         {isOpen ? (
-          <DropDownWrapper ref={dropdownRef}>
-            {results.length > 0 ? (
-              results.map((item, index) => (
-                <DropDownItem
-                  onClick={() => handleSelectItem(item.item.subject)}
-                  key={item.item.subject}
-                  selected={index == selectedIndex}
-                  useKeys={useKeys}
-                >
-                  <ResourceLine subject={item.item.subject} />
-                </DropDownItem>
-              ))
-            ) : (
-              <DropDownItem
-                onClick={() => handleSelectItem(inputValue)}
-                useKeys={useKeys}
-              >
-                Set {inputValue} as value
-              </DropDownItem>
-            )}
-          </DropDownWrapper>
+          <DropDownItemsMenu
+            options={options}
+            dropdownRef={dropdownRef}
+            selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
+            setInputValue={setInputValue}
+            setSelectedItem={setSelectedItem}
+            onUpdate={onUpdate}
+            setIsOpen={setIsOpen}
+            isOpen={isOpen}
+            useKeys={useKeys}
+            setUseKeys={setUseKeys}
+            inputValue={inputValue}
+          />
         ) : null}
       </DropDownWrapperWrapper>
     </DropDownStyled>
+  );
+}
+
+interface DropDownItemsMenuProps {
+  dropdownRef: React.Ref<HTMLDivElement>;
+  options: string[];
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
+  useKeys: boolean;
+  setUseKeys: (useKeys: boolean) => void;
+  inputValue: string;
+  setInputValue: (inputValue: string) => void;
+  setSelectedItem: (item: string | null) => void;
+  onUpdate: (item: string | null) => void;
+  setIsOpen: (isOpen: boolean) => void;
+  isOpen: boolean;
+}
+
+function DropDownItemsMenu({
+  dropdownRef,
+  inputValue,
+  isOpen,
+  onUpdate,
+  options,
+  selectedIndex,
+  setInputValue,
+  setIsOpen,
+  setSelectedIndex,
+  setSelectedItem,
+  setUseKeys,
+  useKeys,
+}: DropDownItemsMenuProps): JSX.Element {
+  const results = useSearch(inputValue, options);
+
+  function scrollIntoView(index: number) {
+    const currentElm = dropdownRef?.current?.children[index];
+    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function handleSelectItem(item: string) {
+    setInputValue(item);
+    setSelectedItem(item);
+    onUpdate(item);
+    setIsOpen(false);
+  }
+
+  // Select the item
+  useHotkeys(
+    'enter',
+    e => {
+      e.preventDefault();
+      if (results.length > 0) {
+        handleSelectItem(results[selectedIndex].item.subject);
+      } else {
+        handleSelectItem(inputValue);
+      }
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  // Move up (or to bottom if at top)
+  useHotkeys(
+    'up',
+    e => {
+      e.preventDefault();
+      setUseKeys(true);
+      const newSelected =
+        selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
+      setSelectedIndex(newSelected);
+      scrollIntoView(newSelected);
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  // Move down (or to top if at bottom)
+  useHotkeys(
+    'down',
+    e => {
+      e.preventDefault();
+      setUseKeys(true);
+      const newSelected =
+        selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
+      setSelectedIndex(newSelected);
+      scrollIntoView(newSelected);
+      return false;
+    },
+    { enabled: isOpen, enableOnTags: ['INPUT'] },
+    [selectedIndex],
+  );
+
+  return (
+    <DropDownWrapper ref={dropdownRef}>
+      {results.length > 0 ? (
+        results.map((item, index) => (
+          <DropDownItem
+            onClick={() => handleSelectItem(item.item.subject)}
+            key={item.item.subject}
+            selected={index == selectedIndex}
+            useKeys={useKeys}
+          >
+            <ResourceLine subject={item.item.subject} />
+          </DropDownItem>
+        ))
+      ) : (
+        <DropDownItem
+          onClick={() => handleSelectItem(inputValue)}
+          useKeys={useKeys}
+        >
+          Set {inputValue} as value
+        </DropDownItem>
+      )}
+    </DropDownWrapper>
   );
 }
 

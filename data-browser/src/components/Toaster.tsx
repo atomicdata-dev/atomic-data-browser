@@ -25,6 +25,7 @@ export function Toaster() {
           toast={t}
           style={{
             ...t.style,
+            border: `solid 1px ${theme.colors.bg2}`,
             position: 'relative',
             animation: t.visible
               ? 'toast-enter .5s ease'
