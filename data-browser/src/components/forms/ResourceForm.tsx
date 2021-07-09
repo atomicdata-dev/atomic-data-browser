@@ -149,7 +149,7 @@ export function ResourceForm({
       handleError(e);
       setErr(e);
       setSaving(false);
-      toast.error(e.message);
+      toast.error('Could not save resource');
     }
   }
 
