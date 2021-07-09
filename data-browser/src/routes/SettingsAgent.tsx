@@ -59,7 +59,9 @@ const SettingsAgent: React.FunctionComponent = () => {
 
   function handleSignOut() {
     if (
-      window.confirm('Sure you want to remove and reset the current Agent?')
+      window.confirm(
+        "If you sign out, your secret will be removed. If you haven't saved your secret somewhere, you will lose access to this User. Are you sure you want to sign out?",
+      )
     ) {
       setAgent(null);
       setError(null);

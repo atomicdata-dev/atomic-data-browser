@@ -178,4 +178,14 @@ export const GlobalStyle = createGlobalStyle`
   b {
     font-weight: bold;
   }
+
+  @keyframes toast-enter {
+    0%   {left:110%;}
+    100% {left:0;}
+  }
+
+  @keyframes toast-exit {
+    0%   {left:0;}
+    100% {left:110%;}
+  }
 `;

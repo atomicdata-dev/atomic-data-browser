@@ -2,7 +2,7 @@ import React from 'react';
 import toast, { ToastBar, Toaster as ReactHotToast } from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 import { useTheme } from 'styled-components';
-import { Button } from './Button';
+import { Button, ButtonInput } from './Button';
 
 /**
  * Makes themed toast notifications available in the Context. Render this
@@ -21,19 +21,25 @@ export function Toaster() {
       }}
     >
       {t => (
-        <ToastBar toast={t}>
+        <ToastBar
+          toast={t}
+          style={{
+            ...t.style,
+            position: 'relative',
+            animation: t.visible
+              ? 'toast-enter .5s ease'
+              : 'toast-exit 1s ease',
+          }}
+        >
           {({ icon, message }) => (
             <>
               {icon}
               {message}
               {t.type !== 'loading' && (
                 <Button
-                  icon
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                  }}
+                  title='Clear'
+                  noMargins
+                  subtle
                   onClick={() => toast.dismiss(t.id)}
                 >
                   <FaTimes />

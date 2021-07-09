@@ -76,7 +76,7 @@ export function ValueForm({
     } catch (e) {
       setErr(e);
       setEditMode(true);
-      toast.error(e.message);
+      toast.error('Could not save resource...');
     }
   }
 

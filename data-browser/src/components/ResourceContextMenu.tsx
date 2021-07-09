@@ -39,7 +39,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
     ) {
       const resource = store.getResourceLoading(subject);
       try {
-        const res = await resource.destroy(store);
+        await resource.destroy(store);
         toast.success('Resource deleted!');
         history.push('/');
       } catch (error) {
