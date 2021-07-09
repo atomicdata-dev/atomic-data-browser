@@ -61,10 +61,16 @@ export function ValueForm({
     );
   }
 
-  function handleSave() {
+  function handleCancel() {
+    setErr(null);
+    setEditMode(false);
+    // Should this maybe also remove the edits to the resource?
+    // https://github.com/joepio/atomic-data-browser/issues/36
+  }
+
+  async function handleSave() {
     try {
-      (async () => await resource.save(store))();
-      resource.save(store);
+      await resource.save(store);
       setEditMode(false);
       toast.success('Resource saved');
     } catch (e) {
@@ -88,7 +94,7 @@ export function ValueForm({
       >
         save
       </Button>
-      <Button subtle onClick={() => setEditMode(false)}>
+      <Button subtle onClick={handleCancel}>
         cancel
       </Button>
       {err && <ErrMessage>{err.message}</ErrMessage>}
