@@ -19,6 +19,7 @@ export default function InputResourceArray({
     array.push(null);
     const newArray = array;
     setArray(newArray);
+    // TODO: Add focus when adding a new item
   }
 
   function handleRemove(index: number) {

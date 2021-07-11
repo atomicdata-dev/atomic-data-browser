@@ -227,6 +227,7 @@ export function ResourceForm({
         helper='In Atomic Data, any Resource could have any single Property. Use this field to add new property-value combinations to your resource.'
       >
         <PropertyAdder>
+          {/* TODO: When adding a property, clear the form. Make the button optional / remove it. */}
           <Button
             subtle
             disabled={!newProperty}

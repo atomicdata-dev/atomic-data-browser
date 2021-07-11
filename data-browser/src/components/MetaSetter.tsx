@@ -24,6 +24,11 @@ export function MetaSetter(): JSX.Element {
     <Helmet>
       <title>{title}</title>
       <meta name='theme-color' content={darkMode ? 'black' : 'white'} />
+      <meta name='theme-color' content={darkMode ? 'black' : 'white'} />
+      <meta
+        name='apple-mobile-web-app-status-bar-style'
+        content={darkMode ? 'black' : 'default'}
+      />
       <meta name='msapplication-TileColor' content={mainColor} />
       <meta name='description' content={description} />
       <meta property='og:title' content={title} />

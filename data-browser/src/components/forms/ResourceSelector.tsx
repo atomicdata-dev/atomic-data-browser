@@ -13,8 +13,9 @@ interface ResourceSelectorProps {
   /** If true, the form will show an error if it is left empty. */
   required?: boolean;
   /**
-   * Take the second argument of a `useString` hook and pass the setString part
-   * to this property
+   * This callback is called when the Subject Changes. You can pass an Error
+   * Handler as the second argument to set an error message. Take the second
+   * argument of a `useString` hook and pass the setString part to this property
    */
   setSubject: (
     subject: string,
@@ -82,7 +83,6 @@ export function ResourceSelector({
   return (
     <div style={{ flex: '1' }}>
       <DropdownInput
-        allowOther
         placeholder={placeholder}
         required={required}
         onUpdate={handleUpdate}

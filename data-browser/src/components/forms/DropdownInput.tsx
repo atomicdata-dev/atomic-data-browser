@@ -199,7 +199,7 @@ export function DropdownInput({
 }
 
 interface DropDownItemsMenuProps {
-  dropdownRef: React.Ref<HTMLDivElement>;
+  dropdownRef: React.MutableRefObject<null>;
   options: string[];
   selectedIndex: number;
   setSelectedIndex: (index: number) => void;
@@ -213,6 +213,20 @@ interface DropDownItemsMenuProps {
   isOpen: boolean;
 }
 
+function scrollIntoView(
+  index: number,
+  dropdownRef: React.MutableRefObject<null>,
+) {
+  // @ts-ignore
+  const currentElm = dropdownRef?.current?.children[index];
+  currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/**
+ * The actual Items of the dropdown are quite expensive to calculate, as they
+ * require building a search index from potentially unfetched resources. That is
+ * why this component is only rendered if needed
+ */
 function DropDownItemsMenu({
   dropdownRef,
   inputValue,
@@ -228,11 +242,6 @@ function DropDownItemsMenu({
   useKeys,
 }: DropDownItemsMenuProps): JSX.Element {
   const results = useSearch(inputValue, options);
-
-  function scrollIntoView(index: number) {
-    const currentElm = dropdownRef?.current?.children[index];
-    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
 
   function handleSelectItem(item: string) {
     setInputValue(item);
@@ -265,7 +274,7 @@ function DropDownItemsMenu({
       const newSelected =
         selectedIndex > 0 ? selectedIndex - 1 : results.length - 1;
       setSelectedIndex(newSelected);
-      scrollIntoView(newSelected);
+      scrollIntoView(newSelected, dropdownRef);
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
     [selectedIndex],
@@ -280,7 +289,7 @@ function DropDownItemsMenu({
       const newSelected =
         selectedIndex == results.length - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
-      scrollIntoView(newSelected);
+      scrollIntoView(newSelected, dropdownRef);
       return false;
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
