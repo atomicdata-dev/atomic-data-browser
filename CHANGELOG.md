@@ -6,6 +6,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 
 - Improve resource selector dropdown, show previews, remove dependency #60
 - Add toast notifications #63
+- Enable `resource.save()` with custom agent
 
 ## v0.24.0
 

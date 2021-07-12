@@ -205,7 +205,11 @@ export class Store {
     this.removeResource(oldSubject);
   }
 
-  /** Sets the current Agent, used for signing commits */
+  /**
+   * Sets the current Agent, used for signing commits. Warning: doing this
+   * stores the Private Key of the Agent in memory. This might have security
+   * implications for your application.
+   */
   setAgent(agent: Agent): void {
     this.agent = agent;
   }

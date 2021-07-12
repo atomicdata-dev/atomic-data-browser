@@ -4,6 +4,7 @@ import { CommitBuilder } from './commit';
 import { validate } from './datatypes';
 import { Store } from './store';
 import { JSVals, Value } from './value';
+import { Agent } from './agent';
 
 /** Contains the PropertyURL / Value combinations */
 type PropVals = Map<string, Value>;
@@ -120,10 +121,15 @@ export class Resource {
   }
 
   /** Removes the resource form both the server and locally */
-  async destroy(store: Store): Promise<void> {
+  async destroy(store: Store, agent?: Agent): Promise<void> {
     const newCommitBuilder = new CommitBuilder(this.getSubject());
     newCommitBuilder.destroy = true;
-    const agent = store.getAgent();
+    if (agent == undefined) {
+      agent = store.getAgent();
+    }
+    if (agent == undefined) {
+      throw new Error('No agent has been set or passed, you cannot save this.');
+    }
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     await postCommit(commit, endpoint);
@@ -146,12 +152,16 @@ export class Resource {
 
   /**
    * Commits the changes and sends the Commit to the resource's `/commit`
-   * endpoint. Returns the new Url if succesful, throws an error if things go wrong
+   * endpoint. Returns the new Url if succesful, throws an error if things go
+   * wrong. If you don't pass an Agent explicitly, the default Agent of the
+   * Store is used.
    */
-  async save(store: Store): Promise<string> {
-    const agent = store.getAgent();
+  async save(store: Store, agent?: Agent): Promise<string> {
     if (!agent) {
-      throw new Error('No agent has been set, you cannot save.');
+      agent = store.getAgent();
+    }
+    if (!agent) {
+      throw new Error('No agent has been set or passed, you cannot save.');
     }
     // TODO: Check if all required props are there
     const commit = await this.commitBuilder.sign(
