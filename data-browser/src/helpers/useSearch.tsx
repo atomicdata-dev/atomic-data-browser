@@ -22,11 +22,10 @@ export function useSearch(
   const debouncedQuery = useDebounce(query, 40);
   // The Resources prop can change very quickly, as multiple resources can be fetched in a short timespan.
   // This will cause the search index to be rebuilt every time, so we debounce the resources.
-  const resourcesD = useDebounce(resources, 100);
-
   if (subjects == undefined) {
     resources = store.resources;
   }
+  const resourcesD = useDebounce(resources, 100);
 
   React.useEffect(() => {
     if (disabled) {
@@ -51,8 +50,6 @@ export function useSearch(
     setResults(searchResults);
   }, [debouncedQuery, index, disabled]);
 
-  console.log('results', results.length);
-
   // Return the width so we can use it in our components
   return results;
 }
@@ -63,16 +60,16 @@ export function useSearch(
  */
 function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
   const resources = Array.from(resourceMap.values());
-  const dataArray = resources.map(resource => {
+  const dataArray = resources.reduce((array, resource) => {
     // Don't index resources that are loading / errored
-    if (!resource.isReady()) return '';
+    if (!resource.isReady()) return array;
     // ... or have no subject
     if (resource.getSubject() == undefined) {
-      return '';
+      return array;
     }
     // Don't index commits
     if (resource.getClasses().includes(urls.classes.commit)) {
-      return '';
+      return array;
     }
     // QuickScore can't handle URLs as keys, so I serialize all values of propvals to a single string. https://github.com/fwextensions/quick-score/issues/11
     const propvalsString = JSON.stringify(
@@ -82,8 +79,9 @@ function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
       subject: resource.getSubject(),
       valuesArray: propvalsString,
     };
-    return searchResource;
-  });
+    array.push(searchResource);
+    return array;
+  }, []);
   // QuickScore requires explicit keys to search through. These should match the keys in FoundResource
   const qsOpts = { keys: ['subject', 'valuesArray'] };
   const qs = new QuickScore(dataArray, qsOpts);
