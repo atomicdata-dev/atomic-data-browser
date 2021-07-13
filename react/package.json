@@ -2,7 +2,7 @@
   "author": "Joep Meindertsma",
   "description": "",
   "devDependencies": {
-    "@tomic/lib": "^0.24.0",
+    "@tomic/lib": "^0.24.2",
     "react": "^17.0.2",
     "typescript": "^4.3.4"
   },
@@ -25,5 +25,5 @@
   },
   "source": "src/index.ts",
   "types": "dist/src/index.d.ts",
-  "version": "0.24.0"
+  "version": "0.24.2"
 }
