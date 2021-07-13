@@ -30,7 +30,8 @@ export function parseJsonADResource(
         resource.setUnsafe(key, val);
       } catch (e) {
         throw new Error(
-          `Failed creating value for key ${key} in resource ${resource.getSubject()}. ${e.message
+          `Failed creating value for key ${key} in resource ${resource.getSubject()}. ${
+            e.message
           }`,
         );
       }
