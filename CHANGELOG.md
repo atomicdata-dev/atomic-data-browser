@@ -8,7 +8,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Add toast notifications #63
 - Enable `resource.save()` with custom agent
 - Add JSON AD array parser
-- Add `default_store.json` resource to the browser to make things snappier
+- ~~Add `default_store.json` resource to the browser to make things snappier~~ removed
 - Improve type checking for value initialization and serialization types
 - Improve view for nested resources
 
