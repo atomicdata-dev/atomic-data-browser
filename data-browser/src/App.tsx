@@ -11,7 +11,6 @@ import { MetaSetter } from './components/MetaSetter';
 import { Toaster } from './components/Toaster';
 import { getSnowpackEnv, isDev } from './config';
 import { handleWarning, initBugsnag } from './helpers/handlers';
-import { loadDefaultStore } from './helpers/loadDefaultStore';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import ErrorPage from './views/ErrorPage';
@@ -22,8 +21,11 @@ const store = new Store();
 store.setBaseUrl(window.location.origin);
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
-/** Load the Atomic Data default properties and classes to speed things up */
-loadDefaultStore(store);
+/**
+ * Load the Atomic Data default properties and classes to speed things up
+ * Currently does not work properly
+ */
+// loadDefaultStore(store);
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
