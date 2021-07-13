@@ -123,7 +123,7 @@ export class Value {
   }
 
   /** Returns either the URL of the resource, or the NestedResource itself. */
-  toResource(): string | NestedResource {
+  toResource(): string | Resource {
     if (typeof this.val == 'string') {
       return this.val;
     }
