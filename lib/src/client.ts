@@ -36,7 +36,8 @@ export async function fetchResource(
     });
     const body = await response.text();
     if (response.status == 200) {
-      parseJsonADResource(body, resource);
+      const json = JSON.parse(body);
+      parseJsonADResource(json, resource);
     } else {
       const error = new Error(`${response.status} error: ${body}`);
       resource.setError(error);

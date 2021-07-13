@@ -263,21 +263,21 @@ const Masonry = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: masonry;
     /* grid-gap: ${props => props.theme.margin}rem; */
-    grid-column-gap: ${props => props.theme.margin}rem;
+    grid-column-gap: ${props => props.theme.margin * 2}rem;
   }
 
   /* Masonry on small screens */
-  @media only screen and (min-width: 700px) {
+  @media only screen and (min-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
     column-count: 2;
   }
   /* Masonry on medium-sized screens */
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: 1000px) {
     grid-template-columns: repeat(3, 1fr);
     column-count: 3;
   }
   /* Masonry on large screens */
-  @media only screen and (min-width: 1800px) {
+  @media only screen and (min-width: 1400px) {
     grid-template-columns: repeat(4, 1fr);
     column-count: 4;
   }

@@ -7,6 +7,13 @@ type Props = {
   resource: Resource;
   /** A list of property subjects (URLs) that need not be rendererd */
   except?: string[];
+  /** If set to true, adds a button which opens up a form for each property */
+  editable?: boolean;
+  /**
+   * Render the properties in the left column, and the Values in the right one,
+   * but only on large screens.
+   */
+  columns?: boolean;
 };
 
 const AllPropsWrapper = styled.div`
@@ -14,7 +21,12 @@ const AllPropsWrapper = styled.div`
 `;
 
 /** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */
-function AllProps({ resource, except = [] }: Props): JSX.Element {
+function AllProps({
+  resource,
+  except = [],
+  editable,
+  columns,
+}: Props): JSX.Element {
   return (
     <AllPropsWrapper>
       {[...resource.getPropVals()].map(
@@ -24,7 +36,15 @@ function AllProps({ resource, except = [] }: Props): JSX.Element {
           if (except.includes(prop)) {
             return null;
           }
-          return <PropVal key={prop} propertyURL={prop} resource={resource} />;
+          return (
+            <PropVal
+              columns={columns}
+              key={prop}
+              propertyURL={prop}
+              resource={resource}
+              editable={editable}
+            />
+          );
         },
       )}
     </AllPropsWrapper>

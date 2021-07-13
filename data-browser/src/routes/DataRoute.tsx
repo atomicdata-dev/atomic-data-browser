@@ -52,7 +52,7 @@ function Data(): JSX.Element {
         <PropertyLabel>subject:</PropertyLabel>
         <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
-      <AllProps resource={resource} />
+      <AllProps resource={resource} editable columns />
       {resource.getCommitBuilder().hasUnsavedChanges()
         ? '⚠️ contains uncommitted changes'
         : null}

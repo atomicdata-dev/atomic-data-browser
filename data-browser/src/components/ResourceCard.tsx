@@ -103,7 +103,9 @@ function ResourceCardInner(props: Props): JSX.Element {
         resource={resource}
         propertyURL={urls.properties.description}
       />
-      {!small && <AllProps resource={resource} except={defaulHiddenProps} />}
+      {!small && (
+        <AllProps resource={resource} except={defaulHiddenProps} editable />
+      )}
     </React.Fragment>
   );
 }

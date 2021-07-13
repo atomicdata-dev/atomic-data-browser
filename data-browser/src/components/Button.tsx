@@ -120,7 +120,7 @@ export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
   padding-right: ${p => (p.rightPadding ? '1.2rem' : '')};
 `;
 
-/** Button with some basic margins around it */
+/** Button with some optional margins around it */
 // eslint-disable-next-line prettier/prettier
 export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   padding: 0.4rem;
@@ -141,7 +141,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
     background-color: ${p => (p.subtle ? 'initial' : p.theme.colors.mainLight)};
     color: ${p => (p.subtle ? p.theme.colors.main : p.theme.colors.bg)};
     border-color: ${p =>
-      p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
+    p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
   }
 
   &:active:not([disabled]) {
@@ -174,7 +174,7 @@ export const ButtonIcon = styled(ButtonMargin)`
 export const ButtonInput = styled(ButtonBase)`
   padding: 0 0.5rem;
   background-color: ${props => props.theme.colors.bg};
-  color: ${props => props.theme.colors.text};
+  color: ${props => props.theme.colors.textLight};
   flex: 0;
   height: auto;
   border-left: solid 1px ${props => props.theme.colors.bg2};

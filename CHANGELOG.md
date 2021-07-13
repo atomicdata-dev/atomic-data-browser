@@ -7,6 +7,10 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Improve resource selector dropdown, show previews, remove dependency #60
 - Add toast notifications #63
 - Enable `resource.save()` with custom agent
+- Add JSON AD array parser
+- Add `default_store.json` resource to the browser to make things snappier
+- Improve type checking for value initialization and serialization types
+- Improve view for nested resources
 
 ## v0.24.0
 

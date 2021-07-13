@@ -1,6 +1,6 @@
 import { urls } from './urls';
 import { tryValidURL } from './client';
-import { JSVals, Value } from './value';
+import { JSONValue, JSVals, Value } from './value';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
@@ -119,11 +119,14 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       }
       break;
     }
+    case Datatype.DATE: {
+      throw new Error('Date not yet implemented');
+    }
   }
   if (err !== null) {
     throw new Error(`${err}`);
   }
-  return new Value(value);
+  return new Value(value as JSONValue);
 };
 
 function isArray(val: JSVals): val is [] {

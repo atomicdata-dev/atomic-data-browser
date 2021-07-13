@@ -9,6 +9,7 @@ And join our [Discord][discord-url]!
 ## Publishing
 
 - Install `lerna`
+- Update the `default_store.json`, copy from [`atomic-data-rust`](https://github.com/joepio/atomic-data-rust/blob/master/lib/defaults/default_store.jsonld)
 - `npm run publish` (not yarn, since that does not support publishing to npm right now)
 - Versions should match `atomic-data-rs`
 

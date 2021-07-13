@@ -1,5 +1,11 @@
 import { Datatype } from './datatypes';
+import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
+
+export type JSONPrimitive = string | number | boolean | null;
+export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+export type JSONObject = { [member: string]: JSONValue };
+export type JSONArray = Array<JSONValue>;
 
 /** All the types that a Value might contain */
 export type JSVals =
@@ -11,12 +17,6 @@ export type JSVals =
   | Resource
   | boolean;
 
-/**
- * A Nested Resource is an Anonymous resource, without a subject URL of its own.
- * However, it does contain values.
- */
-export type NestedResource = Map<string, JSVals>;
-
 /** Atomic Data Value. Can be any datatype: https://atomicdata.dev/classes/Datatype */
 export class Value {
   private val: JSVals;
@@ -25,13 +25,28 @@ export class Value {
    * Createes a new Vales, makes (possibly incorrect) assumptions about its
    * Datatype based on the input value
    */
-  constructor(val: JSVals) {
+  constructor(val: JSONValue, path?: string) {
     if (val === null || val === undefined) {
       throw Error(
         `New Value cannot be null or undefined, is a ${typeof this.val}`,
       );
     }
-    this.val = val;
+    if (val instanceof Array) {
+      // Check if all members of array are strings
+      if (val.every(v => typeof v == 'string')) {
+        this.val = val as string[];
+        return;
+      } else {
+        throw new Error(`New Value cannot be an array of mixed types: ${val}`);
+      }
+    }
+    if (typeof val === 'object') {
+      const resourceResource = new Resource(path);
+      parseJsonADResource(val, resourceResource);
+      this.val = resourceResource;
+      return;
+    }
+    this.val = val as JSVals;
   }
 
   /**

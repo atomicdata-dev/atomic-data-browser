@@ -7,7 +7,7 @@ import { JSVals, Value } from './value';
 import { Agent } from './agent';
 
 /** Contains the PropertyURL / Value combinations */
-type PropVals = Map<string, Value>;
+export type PropVals = Map<string, Value>;
 
 /** The various basic states that an in-memory Resource can be in. */
 export enum ResourceStatus {
@@ -35,7 +35,7 @@ export class Resource {
   private status: ResourceStatus;
   private commitBuilder: CommitBuilder;
 
-  constructor(subject: string, newResource?: boolean) {
+  constructor(subject?: string, newResource?: boolean) {
     if (subject == undefined) {
       subject = `undefined`;
     }

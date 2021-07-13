@@ -10,6 +10,7 @@
     "target": "es2020",
     "jsx": "preserve",
     "strictFunctionTypes": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": true,
     // Enables following definitions to source files instead of d.ts files
