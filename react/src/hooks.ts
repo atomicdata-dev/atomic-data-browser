@@ -10,6 +10,7 @@ import {
   datatypeFromUrl,
   urls,
   truncateUrl,
+  JSONValue,
 } from '@tomic/lib';
 import React from 'react';
 
@@ -176,7 +177,7 @@ export function useValue(
       set(null);
       return;
     }
-    const valFromNewVal = new Value(newVal);
+    const valFromNewVal = new Value(newVal as JSONValue);
     set(valFromNewVal);
 
     /**

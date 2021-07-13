@@ -8,14 +8,7 @@ export type JSONObject = { [member: string]: JSONValue };
 export type JSONArray = Array<JSONValue>;
 
 /** All the types that a Value might contain */
-export type JSVals =
-  | string
-  | Date
-  | number
-  | string[]
-  | Date
-  | Resource
-  | boolean;
+export type JSVals = string | number | string[] | Date | Resource | boolean;
 
 /** Atomic Data Value. Can be any datatype: https://atomicdata.dev/classes/Datatype */
 export class Value {
