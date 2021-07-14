@@ -869,7 +869,7 @@ to {
   /* Not a pretty solution, but it's better than having really large cells. */
   max-height: 5rem;
   max-width: 40rem;
-`;function jI({resource:e,prop:t}){return p.createElement(Xc,null,p.createElement(TI,null,p.createElement(gr,{key:t,resource:e,propertyURL:t})))}var Xc=ne.td`
+`;function jI({resource:e,prop:t}){return p.createElement(Xc,null,p.createElement(TI,null,p.createElement(gr,{key:t,resource:e,propertyURL:t,noMargin:!0})))}var Xc=ne.td`
   padding: 0.3rem;
   vertical-align: top;
   font-weight: ${e=>e.header?"bold":""};
