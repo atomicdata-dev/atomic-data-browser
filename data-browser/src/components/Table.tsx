@@ -151,7 +151,12 @@ function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
   return (
     <CellStyled>
       <CellContainer>
-        <ValueForm key={propUrl} resource={resource} propertyURL={propUrl} />
+        <ValueForm
+          key={propUrl}
+          resource={resource}
+          propertyURL={propUrl}
+          noMargin
+        />
       </CellContainer>
     </CellStyled>
   );
