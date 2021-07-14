@@ -15,6 +15,7 @@ interface ValueFormProps {
   // Maybe pass Value instead of Resource?
   resource: Resource;
   propertyURL: string;
+  noMargin?: boolean;
 }
 
 /**
@@ -23,6 +24,7 @@ interface ValueFormProps {
  */
 export function ValueForm({
   resource,
+  noMargin,
   propertyURL,
 }: ValueFormProps): JSX.Element {
   const [editMode, setEditMode] = useState(false);
@@ -53,7 +55,11 @@ export function ValueForm({
   if (!editMode) {
     return (
       <ValueFormWrapper>
-        <ValueComp value={value} datatype={property.datatype} />
+        <ValueComp
+          value={value}
+          datatype={property.datatype}
+          noMargin={noMargin}
+        />
         <EditButton title='Edit value'>
           <FaEdit onClick={() => setEditMode(!editMode)} />
         </EditButton>

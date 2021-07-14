@@ -21,9 +21,10 @@ interface PropValRowProps {
 
 export const PropValRow = styled.div<PropValRowProps>`
   word-break: break-word;
-  margin-bottom: ${p => (p.columns ? 0 : '0.5rem')};
+  margin-bottom: 0.5rem;
 
   @media screen and (min-width: 500px) {
+    margin-bottom: ${p => (p.columns ? 0 : '0.5rem')};
     flex-direction: ${p => (p.columns ? 'row' : 'column')};
     display: ${p => (p.columns ? 'flex' : 'block')};
   }
@@ -66,7 +67,7 @@ function PropVal({
         </PropertyLabel>
       </AtomicLink>
       {editable ? (
-        <ValueForm resource={resource} propertyURL={propertyURL} />
+        <ValueForm resource={resource} propertyURL={propertyURL} noMargin />
       ) : (
         <ValueComp
           datatype={property.datatype}
