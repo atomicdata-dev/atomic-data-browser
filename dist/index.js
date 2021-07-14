@@ -653,7 +653,7 @@ to {
   &:hover {
     text-decoration: underline;
   }
-`,d2=e9;function t9({value:e,datatype:t}){switch(t){case Te.ATOMIC_URL:{let r=e.toResource();return typeof r=="string"?p.createElement(St,{subject:r}):p.createElement(c2,{resource:r})}case Te.DATE:return p.createElement(Dm,{date:e.toDate()});case Te.MARKDOWN:return p.createElement(jr,{text:e.toString(),noMargin:!0});case Te.RESOURCEARRAY:return p.createElement(d2,{subjects:e.toArray()});case Te.TIMESTAMP:return p.createElement(Dm,{date:e.toDate()});default:return p.createElement("div",null,e.toString())}}var xc=t9;var f2=ne.div`
+`,d2=e9;function t9({value:e,datatype:t,noMargin:r}){switch(t){case Te.ATOMIC_URL:{let n=e.toResource();return typeof n=="string"?p.createElement(St,{subject:n}):p.createElement(c2,{resource:n})}case Te.DATE:return p.createElement(Dm,{date:e.toDate()});case Te.MARKDOWN:return p.createElement(jr,{text:e.toString(),noMargin:r});case Te.RESOURCEARRAY:return p.createElement(d2,{subjects:e.toArray()});case Te.TIMESTAMP:return p.createElement(Dm,{date:e.toDate()});default:return p.createElement("div",null,e.toString())}}var xc=t9;var f2=ne.div`
   margin-bottom: ${e=>e.theme.margin}rem;
 `,p2=ne.div`
   display: flex;
@@ -793,7 +793,7 @@ to {
   .preview-0-2-9 {
     background: ${e=>e.theme.colors.bg};
   }
-`;function Wh({resource:e,property:t,...r}){let[n,i]=ea(e,t.subject),[a,o]=ie(null);function u(s){if(console.log("handleupdate",s.target.value),s.target.value==""){i(null);return}let l=+s.target.value;i(l,o)}return p.createElement(p.Fragment,null,p.createElement(er,null,p.createElement(Mt,{placeholder:"Enter a number...",type:"number",value:n==null||Number.isNaN(n)?"":n,onChange:u,...r})),n!==null&&a&&p.createElement(at,null,a.message),n==null&&p.createElement(at,null,"Required"))}function qh({resource:e,property:t,...r}){let[n,i]=Bl(e,t.subject),[a,o]=ie(null);function u(s){i(s.target.checked,o)}return p.createElement(p.Fragment,null,p.createElement(Mt,{type:"checkbox",checked:n,onChange:u,...r}),a&&p.createElement(at,null,a.message))}function Xu(e){switch(e.property.datatype){case Te.STRING:return p.createElement(zu,{...e});case Te.MARKDOWN:return p.createElement(Vh,{...e});case Te.SLUG:return p.createElement(zu,{...e});case Te.TIMESTAMP:case Te.INTEGER:return p.createElement(Wh,{...e});case Te.ATOMIC_URL:return p.createElement(k2,{...e});case Te.RESOURCEARRAY:return p.createElement(lh,{...e});case Te.BOOLEAN:return p.createElement(qh,{...e});default:return p.createElement(zu,{...e})}}function gr({resource:e,propertyURL:t}){let[r,n]=ie(!1),i=Xa(t),[a]=Za(e,t),o=Ze(),{agent:u}=Qe();Ue("esc",()=>{n(!1)},{enableOnTags:["INPUT","TEXTAREA","SELECT"]});let[s,l]=ie(null),d=u!==null;if(!a)return null;if(!i)return p.createElement("span",{title:`loading ${t}...`},"...");if(!r)return p.createElement(Kh,null,p.createElement(xc,{value:a,datatype:i.datatype}),p.createElement(dI,{title:"Edit value"},p.createElement(W3,{onClick:()=>n(!r)})));function h(){l(null),n(!1)}async function g(){try{await e.save(o),n(!1),ir.success("Resource saved")}catch(k){l(k),n(!0),ir.error("Could not save resource...")}}return p.createElement(Kh,null,p.createElement(Xu,{resource:e,property:i,autoFocus:!0}),p.createElement(Se,{disabled:!d,title:d?"Save the edits":"You cannot save - there is no Agent set. Go to settings.",onClick:g},"save"),p.createElement(Se,{subtle:!0,onClick:h},"cancel"),s&&p.createElement(at,null,s.message))}var Kh=ne.div`
+`;function Wh({resource:e,property:t,...r}){let[n,i]=ea(e,t.subject),[a,o]=ie(null);function u(s){if(console.log("handleupdate",s.target.value),s.target.value==""){i(null);return}let l=+s.target.value;i(l,o)}return p.createElement(p.Fragment,null,p.createElement(er,null,p.createElement(Mt,{placeholder:"Enter a number...",type:"number",value:n==null||Number.isNaN(n)?"":n,onChange:u,...r})),n!==null&&a&&p.createElement(at,null,a.message),n==null&&p.createElement(at,null,"Required"))}function qh({resource:e,property:t,...r}){let[n,i]=Bl(e,t.subject),[a,o]=ie(null);function u(s){i(s.target.checked,o)}return p.createElement(p.Fragment,null,p.createElement(Mt,{type:"checkbox",checked:n,onChange:u,...r}),a&&p.createElement(at,null,a.message))}function Xu(e){switch(e.property.datatype){case Te.STRING:return p.createElement(zu,{...e});case Te.MARKDOWN:return p.createElement(Vh,{...e});case Te.SLUG:return p.createElement(zu,{...e});case Te.TIMESTAMP:case Te.INTEGER:return p.createElement(Wh,{...e});case Te.ATOMIC_URL:return p.createElement(k2,{...e});case Te.RESOURCEARRAY:return p.createElement(lh,{...e});case Te.BOOLEAN:return p.createElement(qh,{...e});default:return p.createElement(zu,{...e})}}function gr({resource:e,noMargin:t,propertyURL:r}){let[n,i]=ie(!1),a=Xa(r),[o]=Za(e,r),u=Ze(),{agent:s}=Qe();Ue("esc",()=>{i(!1)},{enableOnTags:["INPUT","TEXTAREA","SELECT"]});let[l,d]=ie(null),h=s!==null;if(!o)return null;if(!a)return p.createElement("span",{title:`loading ${r}...`},"...");if(!n)return p.createElement(Kh,null,p.createElement(xc,{value:o,datatype:a.datatype,noMargin:t}),p.createElement(dI,{title:"Edit value"},p.createElement(W3,{onClick:()=>i(!n)})));function g(){d(null),i(!1)}async function k(){try{await e.save(u),i(!1),ir.success("Resource saved")}catch(E){d(E),i(!0),ir.error("Could not save resource...")}}return p.createElement(Kh,null,p.createElement(Xu,{resource:e,property:a,autoFocus:!0}),p.createElement(Se,{disabled:!h,title:h?"Save the edits":"You cannot save - there is no Agent set. Go to settings.",onClick:k},"save"),p.createElement(Se,{subtle:!0,onClick:g},"cancel"),l&&p.createElement(at,null,l.message))}var Kh=ne.div`
   /* Used for positioning the edit button*/
   position: relative;
   flex: 1;
@@ -816,9 +816,10 @@ to {
   }
 `;var Gh=ne.div`
   word-break: break-word;
-  margin-bottom: ${e=>e.columns?0:"0.5rem"};
+  margin-bottom: 0.5rem;
 
   @media screen and (min-width: 500px) {
+    margin-bottom: ${e=>e.columns?0:"0.5rem"};
     flex-direction: ${e=>e.columns?"row":"column"};
     display: ${e=>e.columns?"flex":"block"};
   }
@@ -826,7 +827,7 @@ to {
   font-weight: bold;
   display: block;
   width: 8rem;
-`;function fI({propertyURL:e,resource:t,editable:r,columns:n}){let i=Xa(e);if(i==null)return null;let a=Fl(e,10,!0);return p.createElement(Gh,{columns:n},p.createElement(it,{subject:e},p.createElement(Qh,{title:i.description},i.error?p.createElement(ar,null,a):i.shortname||a,":")),r?p.createElement(gr,{resource:t,propertyURL:e}):p.createElement(xc,{datatype:i.datatype,value:t.get(e)}))}var Wb=fI;var pI=ne.div`
+`;function fI({propertyURL:e,resource:t,editable:r,columns:n}){let i=Xa(e);if(i==null)return null;let a=Fl(e,10,!0);return p.createElement(Gh,{columns:n},p.createElement(it,{subject:e},p.createElement(Qh,{title:i.description},i.error?p.createElement(ar,null,a):i.shortname||a,":")),r?p.createElement(gr,{resource:t,propertyURL:e,noMargin:!0}):p.createElement(xc,{datatype:i.datatype,value:t.get(e)}))}var Wb=fI;var pI=ne.div`
   margin-bottom: ${e=>e.theme.margin}rem;
 `;function mI({resource:e,except:t=[],editable:r,columns:n}){return p.createElement(pI,null,[...e.getPropVals()].map(([i,a])=>t.includes(i)?null:p.createElement(Wb,{columns:n,key:i,propertyURL:i,resource:e,editable:r})))}var mn=mI;var Ye=ne.div`
   max-width: ${e=>e.theme.containerWidth}rem;
