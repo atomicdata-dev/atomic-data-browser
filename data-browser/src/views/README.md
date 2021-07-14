@@ -10,6 +10,7 @@ Some notes:
 - Every View is passed a `Resource` property. Some ViewType have additional properties, which should be documented here.
 - When naming a View, use the `ClassnameViewType.tsx` naming convention (e.g. `PersonCard`).
 - When adding a ViewType, document it here and implement a generic Resource renderer. Also make sure that it has error handling and adds the `about` RDFa attribute.
+- Views starting with `Resource` in the name are responsible for registering the other class specific Views.
 
 ## View Types
 

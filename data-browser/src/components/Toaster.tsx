@@ -2,13 +2,13 @@ import React from 'react';
 import toast, { ToastBar, Toaster as ReactHotToast } from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 import { useTheme } from 'styled-components';
-import { Button, ButtonInput } from './Button';
+import { Button } from './Button';
 
 /**
  * Makes themed toast notifications available in the Context. Render this
  * somewhere high up in the app
  */
-export function Toaster() {
+export function Toaster(): JSX.Element {
   const theme = useTheme();
   return (
     <ReactHotToast
