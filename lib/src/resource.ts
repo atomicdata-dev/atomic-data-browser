@@ -170,8 +170,9 @@ export class Resource {
     );
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     await postCommit(commit, endpoint);
-    // When all succeeds, save it
+    // If all succeeds, save it and reset the commitbuilder
     store.addResource(this);
+    this.commitBuilder = new CommitBuilder(this.getSubject());
     return this.getSubject();
   }
 

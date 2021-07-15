@@ -14,11 +14,14 @@ import { handleWarning, initBugsnag } from './helpers/handlers';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import ErrorPage from './views/ErrorPage';
+import toast from 'react-hot-toast';
 
 /** Initialize the store */
 const store = new Store();
 /** Defaulting to the current URL's origin will make sense in most non-dev environments */
 store.setBaseUrl(window.location.origin);
+/** Show an error when things go wrong */
+store.errorHandler = e => toast.error(e.message);
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
 /**

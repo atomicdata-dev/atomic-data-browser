@@ -21,6 +21,8 @@ export class Store {
   subscribers: Map<string, Array<callback>>;
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
+  /** Is called when the store encounters an error. */
+  errorHandler?: (e: Error) => unknown;
 
   constructor() {
     this.resources = new Map();
@@ -168,6 +170,10 @@ export class Store {
     prop.description = description.toString();
     prop.datatype = datatypeFromUrl(datatypeUrl.toString());
     return prop;
+  }
+
+  handleError(e: Error) {
+    this.errorHandler(e) || console.error(e);
   }
 
   /** Let's subscribers know that a resource has been changed. Time to update your views! */

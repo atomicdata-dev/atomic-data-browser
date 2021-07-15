@@ -4,6 +4,9 @@ export const classes = {
   commit: 'https://atomicdata.dev/classes/Commit',
   class: 'https://atomicdata.dev/classes/Class',
   document: 'https://atomicdata.dev/classes/Document',
+  elements: {
+    paragraph: 'https://atomicdata.dev/classes/elements/Paragraph',
+  },
   property: 'https://atomicdata.dev/classes/Property',
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',
@@ -39,7 +42,7 @@ export const properties = {
     signature: 'https://atomicdata.dev/properties/signature',
   },
   document: {
-    elements: 'https://atomicdata.dev/properties/document/elements',
+    elements: 'https://atomicdata.dev/property/documents/elements',
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
