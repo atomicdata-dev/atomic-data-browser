@@ -1,14 +1,15 @@
 import React from 'react';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { ResourceStatus, urls } from '@tomic/lib';
-import { ErrorLook } from './ResourceInline';
+import ResourceInline, { ErrorLook } from './ResourceInline';
 
 type Props = {
   subject: string;
+  clickable?: boolean;
 };
 
 /** Renders a Resource in a small line item. Not a link. Useful in dropdown. */
-function ResourceLine({ subject }: Props): JSX.Element {
+function ResourceLine({ subject, clickable }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   let [description] = useString(resource, urls.properties.description);
@@ -32,7 +33,11 @@ function ResourceLine({ subject }: Props): JSX.Element {
 
   return (
     <span about={subject}>
-      <b>{title}</b>
+      {clickable ? (
+        <ResourceInline untabbable subject={subject} />
+      ) : (
+        <b>{title}</b>
+      )}
       {description ? ` - ${description}` : null}
     </span>
   );

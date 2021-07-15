@@ -3,6 +3,7 @@ export const classes = {
   collection: 'https://atomicdata.dev/classes/Collection',
   commit: 'https://atomicdata.dev/classes/Commit',
   class: 'https://atomicdata.dev/classes/Class',
+  document: 'https://atomicdata.dev/classes/Document',
   property: 'https://atomicdata.dev/classes/Property',
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',
@@ -38,7 +39,7 @@ export const properties = {
     signature: 'https://atomicdata.dev/properties/signature',
   },
   document: {
-    elements: 'https://atomicdata.dev/properties/elements',
+    elements: 'https://atomicdata.dev/properties/document/elements',
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',

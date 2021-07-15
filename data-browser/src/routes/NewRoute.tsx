@@ -6,7 +6,7 @@ import {
   useTitle,
 } from '@tomic/react';
 import { properties, urls } from '@tomic/lib';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { StringParam, useQueryParam } from 'use-query-params';
 
@@ -80,11 +80,18 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [newSubject, setNewSubject] = useQueryParam('newSubject', StringParam);
   const [parentSubject] = useQueryParam('parent', StringParam);
   const klassTitle = useTitle(klass);
+  const [klassShortname] = useString(klass, properties.shortname);
   const [klassDescription] = useString(klass, properties.description);
   const [showDetails, setShowDetails] = useState(false);
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
   const [resource] = useResource(newSubject, true);
+
+  useEffect(() => {
+    if (newSubject == undefined) {
+      setNewSubject(store.createSubject(klassShortname));
+    }
+  }, [newSubject]);
 
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
