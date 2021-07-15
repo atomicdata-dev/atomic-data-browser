@@ -21,7 +21,6 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
 
   // When the localStorage JSON agent is updated, also update the in-memory agent
   useEffect(() => {
-    console.log('agentJSON:', agentJSON);
     if (agentJSON == null) {
       setAgent(null);
       return;

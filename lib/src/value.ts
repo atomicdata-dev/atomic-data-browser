@@ -10,13 +10,14 @@ export type JSONArray = Array<JSONValue>;
 /** All the types that a Value might contain */
 export type JSVals = string | number | string[] | Date | Resource | boolean;
 
-/** Atomic Data Value. Can be any datatype: https://atomicdata.dev/classes/Datatype */
+/** Atomic Data Value. Can be any datatype: https://atomicdata.dev/classes/Datatype. */
 export class Value {
   private val: JSVals;
 
   /**
    * Createes a new Vales, makes (possibly incorrect) assumptions about its
-   * Datatype based on the input value
+   * Datatype based on the input value. Does perform *some* validation, but does
+   * not do as much as the `validate` function in Datatype
    */
   constructor(val: JSONValue, path?: string) {
     if (val === null || val === undefined) {
@@ -25,13 +26,9 @@ export class Value {
       );
     }
     if (val instanceof Array) {
-      // Check if all members of array are strings
-      if (val.every(v => typeof v == 'string')) {
-        this.val = val as string[];
-        return;
-      } else {
-        throw new Error(`New Value cannot be an array of mixed types: ${val}`);
-      }
+      // This is not always true, as a value from a form might contain a Null, e.g. when a new entry is made
+      this.val = val as string[];
+      return;
     }
     if (typeof val === 'object') {
       const resourceResource = new Resource(path);
