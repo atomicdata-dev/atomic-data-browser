@@ -5,7 +5,7 @@ import { openURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useStore } from '@tomic/react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../views/ResourceInline';
 
 type Props = {
   children?: ReactNode;

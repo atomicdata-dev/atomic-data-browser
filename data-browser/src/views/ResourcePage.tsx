@@ -1,19 +1,19 @@
 import React from 'react';
 import { useString, useResource, useTitle, useStore } from '@tomic/react';
 import { ResourceStatus, properties, urls } from '@tomic/lib';
-import AllProps from './AllProps';
-import { ContainerNarrow } from './Containers';
+import AllProps from '../components/AllProps';
+import { ContainerNarrow } from '../components/Containers';
 import Collection from '../views/CollectionPage';
-import ClassDetail from './ClassDetail';
-import NewInstanceButton from './NewInstanceButton';
-import { Button } from './Button';
+import ClassDetail from '../components/ClassDetail';
+import NewInstanceButton from '../components/NewInstanceButton';
+import { Button } from '../components/Button';
 import { ErrorLook } from './ResourceInline';
-import EndpointPage from '../views/EndpointPage';
-import { ValueForm } from './forms/ValueForm';
-import Parent from './Parent';
-import DrivePage from '../views/DrivePage';
-import RedirectPage from '../views/RedirectPage';
-import InvitePage from '../views/InvitePage';
+import EndpointPage from './EndpointPage';
+import { ValueForm } from '../components/forms/ValueForm';
+import Parent from '../components/Parent';
+import DrivePage from './DrivePage';
+import RedirectPage from './RedirectPage';
+import InvitePage from './InvitePage';
 
 type Props = {
   subject: string;

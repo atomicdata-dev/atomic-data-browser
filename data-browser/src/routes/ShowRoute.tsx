@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { tryValidURL } from '@tomic/lib';
-import ResourcePage from '../components/ResourcePage';
+import ResourcePage from '../views/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './SearchRoute';
 import { About } from './AboutRoute';

@@ -4,7 +4,7 @@ import { useSearch } from '../helpers/useSearch';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
-import ResourceCard from '../components/ResourceCard';
+import ResourceCard from '../views/ResourceCard';
 import AtomicLink from '../components/Link';
 
 const MAX_COUNT = 30;

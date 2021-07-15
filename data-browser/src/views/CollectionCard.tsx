@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import Markdown from '../components/datatypes/Markdown';
 import AtomicLink from '../components/Link';
 import { CardInsideFull, CardRow } from '../components/Card';
-import ResourceInline from '../components/ResourceInline';
-import { CardViewProps } from '../components/ResourceCard';
+import ResourceInline from './ResourceInline';
+import { CardViewProps } from './ResourceCard';
 import { Button } from '../components/Button';
 
 const MAX_COUNT = 5;

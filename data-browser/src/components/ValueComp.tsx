@@ -1,6 +1,6 @@
 import React from 'react';
 import { Value, Datatype } from '@tomic/lib';
-import ResourceInline from './ResourceInline';
+import ResourceInline from '../views/ResourceInline';
 import DateTime from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';
 import Nestedresource from './datatypes/NestedResource';

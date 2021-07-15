@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useArray, useTitle } from '@tomic/react';
 import { Resource, properties } from '@tomic/lib';
+
 import { ContainerNarrow } from '../components/Containers';
 import { CardRow } from '../components/Card';
-import ResourceInline from '../components/ResourceInline';
+import ResourceInline from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 
 type DrivePageProps = {

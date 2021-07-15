@@ -37,6 +37,9 @@ export const properties = {
     destroy: 'https://atomicdata.dev/properties/destroy',
     signature: 'https://atomicdata.dev/properties/signature',
   },
+  document: {
+    elements: 'https://atomicdata.dev/properties/elements',
+  },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
   },

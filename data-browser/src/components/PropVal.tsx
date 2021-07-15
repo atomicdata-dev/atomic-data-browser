@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AtomicLink from './Link';
 import { ValueForm } from './forms/ValueForm';
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../views/ResourceInline';
 import ValueComp from './ValueComp';
 
 type Props = {

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { Resource, ResourceStatus, properties, urls } from '@tomic/lib';
-import AllProps from './AllProps';
-import AtomicLink from './Link';
-import { Card } from './Card';
+import AllProps from '../components/AllProps';
+import AtomicLink from '../components/Link';
+import { Card } from '../components/Card';
 import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
-import { ValueForm } from './forms/ValueForm';
+import { ValueForm } from '../components/forms/ValueForm';
 import { defaulHiddenProps } from './ResourcePage';
 
 interface Props extends CardPropsBase {

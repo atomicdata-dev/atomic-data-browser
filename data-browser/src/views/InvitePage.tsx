@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
-import ResourceInline from '../components/ResourceInline';
+import ResourceInline from './ResourceInline';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';

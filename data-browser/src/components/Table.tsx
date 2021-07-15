@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useResource } from '@tomic/react';
 import { Resource, urls } from '@tomic/lib';
-import ResourceInline from './ResourceInline';
+import ResourceInline from '../views/ResourceInline';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { Button } from './Button';

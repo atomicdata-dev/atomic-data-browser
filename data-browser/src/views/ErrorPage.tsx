@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Resource } from '@tomic/lib';
+
 import { ContainerNarrow } from '../components/Containers';
-import { ErrorLook } from '../components/ResourceInline';
+import { ErrorLook } from './ResourceInline';
 import { Button } from '../components/Button';
 
 type ErrorPageProps = {

@@ -23,7 +23,7 @@ import { Button } from '../components/Button';
 import { ContainerFull } from '../components/Containers';
 import Markdown from '../components/datatypes/Markdown';
 import NewInstanceButton from '../components/NewInstanceButton';
-import ResourceCard from '../components/ResourceCard';
+import ResourceCard from './ResourceCard';
 import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';

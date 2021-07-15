@@ -4,9 +4,9 @@ import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { useSearch } from '../../helpers/useSearch';
 import { ButtonInput } from '../Button';
-import ResourceInline from '../ResourceInline';
-import ResourceLine from '../ResourceLine';
+import ResourceInline from '../../views/ResourceInline';
 import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
+import ResourceLine from '../../views/ResourceLine';
 
 interface DropDownListProps {
   required?: boolean;

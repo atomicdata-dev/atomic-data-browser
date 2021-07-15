@@ -1,11 +1,11 @@
 import React from 'react';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { ResourceStatus, urls } from '@tomic/lib';
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../views/ResourceInline';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { openURL } from '../helpers/navigation';
-import { SideBarItem } from './SideBar';
+import { SideBarItem } from '../components/SideBar';
 
 type Props = {
   subject: string;

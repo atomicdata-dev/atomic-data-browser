@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useProperty } from '@tomic/react';
 import { Resource, Property } from '@tomic/lib';
-import AtomicLink from '../Link';
-import InputSwitcher from './InputSwitcher';
-import { InputStyled, InputWrapper } from './InputStyles';
+import styled from 'styled-components';
 import Field from './Field';
 import Markdown from '../datatypes/Markdown';
-import styled from 'styled-components';
+import { InputWrapper, InputStyled } from './InputStyles';
+import InputSwitcher from './InputSwitcher';
+import AtomicLink from '../Link';
 
 /** A form field with a label */
 function ResourceField({

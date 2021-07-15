@@ -12,7 +12,7 @@ import {
 import { ButtonInput, Button } from '../components/Button';
 import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
-import ResourceInline from '../components/ResourceInline';
+import ResourceInline from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 
 const SettingsAgent: React.FunctionComponent = () => {
