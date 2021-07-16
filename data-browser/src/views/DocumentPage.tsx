@@ -1,12 +1,19 @@
 import * as React from 'react';
 import { Resource, properties, classes } from '@tomic/lib';
-import { useArray, useStore } from '@tomic/react';
+import { useArray, useStore, useString } from '@tomic/react';
 
 import { ContainerNarrow } from '../components/Containers';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ErrorLook } from './ResourceInline';
-import { Element } from './Element';
+import { Element, ElementPropsBase } from './Element';
 import { useState } from 'react';
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from 'react-sortable-hoc';
+import styled from 'styled-components';
+import { FaGripVertical } from 'react-icons/fa';
 
 type DrivePageProps = {
   resource: Resource;
@@ -19,11 +26,13 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     properties.document.elements,
     true,
   );
+  const [title, setTitle] = useString(resource, properties.name);
   const store = useStore();
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
   const [current, setCurrent] = React.useState<number | null>(null);
 
+  // Always have one element
   React.useEffect(() => {
     if (elements.length == 0) {
       addElement(0);
@@ -40,11 +49,22 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     [current],
   );
 
+  /** Move from title to first element */
+  useHotkeys(
+    'enter',
+    e => {
+      e.preventDefault();
+      focusElement(0);
+    },
+    { enableOnTags: ['INPUT'] },
+    [current],
+  );
+
   useHotkeys(
     'up',
     e => {
       e.preventDefault();
-      setFocusToElement(current - 1);
+      focusElement(current - 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
@@ -54,10 +74,42 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     'down',
     e => {
       e.preventDefault();
-      setFocusToElement(current + 1);
+      focusElement(current + 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
+  );
+
+  // Move current element up
+  useHotkeys(
+    'option+shift+up',
+    e => {
+      e.preventDefault();
+      moveElement(current, current - 1);
+    },
+    { enableOnTags: ['TEXTAREA'] },
+    [current],
+  );
+
+  // Move element down
+  useHotkeys(
+    'option+shift+down',
+    e => {
+      e.preventDefault();
+      moveElement(current, current + 1);
+    },
+    { enableOnTags: ['TEXTAREA'] },
+    [current],
+  );
+
+  // Lose focus
+  useHotkeys(
+    'esc',
+    e => {
+      e.preventDefault();
+      setCurrent(null);
+    },
+    { enableOnTags: ['TEXTAREA'] },
   );
 
   async function addElement(position: number) {
@@ -67,9 +119,9 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     elements.splice(position, 0, elementSubject);
     try {
       setElements(elements);
-      setFocusToElement(position);
+      focusElement(position);
       window.setTimeout(() => {
-        setFocusToElement(position);
+        focusElement(position);
       }, 10);
       const newElement = new Resource(elementSubject, true);
       await newElement.set(properties.isA, [classes.elements.paragraph], store);
@@ -81,12 +133,11 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     }
   }
 
-  function setFocusToElement(number: number) {
-    let goto = number;
-    if (number > elements.length - 1) {
-      goto = 0;
-    } else if (number < 0) {
+  function focusElement(goto: number) {
+    if (goto > elements.length - 1) {
       goto = elements.length - 1;
+    } else if (goto < 0) {
+      goto = 0;
     }
     setCurrent(goto);
     let found = ref?.current?.children[goto]?.getElementsByClassName(
@@ -97,6 +148,10 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     }
     if (found) {
       found.focus();
+      // const strLength = 5;
+      // const textarea = found.getElementsByTagName('textarea')[0];
+      // textarea?.setSelectionRange(strLength, strLength);
+      // console.log(found, textarea);
     } else {
       ref.current.focus();
     }
@@ -105,7 +160,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   async function deleteElement(number: number) {
     elements.splice(number, 1);
     setElements(elements, setErr);
-    setFocusToElement(number - 1);
+    focusElement(number - 1);
   }
 
   /** Sets the subject for a specific element and moves to the next element */
@@ -115,30 +170,160 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     if (index == elements.length - 1) {
       addElement(index + 1);
     } else {
-      setFocusToElement(index + 1);
+      focusElement(index + 1);
     }
+  }
+
+  function moveElement(from: number, to: number) {
+    const element = elements[from];
+    elements.splice(from, 1);
+    elements.splice(to, 0, element);
+    setElements(elements);
+    focusElement(to);
+  }
+
+  function handleSortEnd({ oldIndex, newIndex }) {
+    moveElement(oldIndex, newIndex);
   }
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <h1>Document</h1>
+      <TitleInput
+        placeholder={'set a title'}
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+      />
       {err && <ErrorLook>{err.message}</ErrorLook>}
       <div ref={ref}>
-        {elements.map((element, i) => (
-          <Element
-            index={i}
-            key={element}
-            subject={element}
-            deleteElement={deleteElement}
-            setCurrent={setFocusToElement}
-            current={current}
-            setElement={setElement}
-            last={i == elements.length - 1}
-          />
-        ))}
+        <SortableList
+          onSortEnd={handleSortEnd}
+          items={elements}
+          deleteElement={deleteElement}
+          setCurrent={setCurrent}
+          current={current}
+          setElementSubject={setElement}
+          length={elements.length}
+          useDragHandle
+        />
+        <NewLine />
       </div>
     </ContainerNarrow>
   );
 }
+
+interface SortableListProps extends ElementPropsBase {
+  items: string[];
+  length: number;
+}
+
+const NewLine = styled.div`
+  flex: 1;
+  cursor: pointer;
+`;
+
+const TitleInput = styled.input`
+  border: none;
+  font-weight: bold;
+  font-size: 2rem;
+  display: block;
+  width: 100%;
+  background-color: ${p => p.theme.colors.bg};
+  color: ${p => p.theme.colors.text};
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const SortableList = SortableContainer(
+  ({ items, ...props }: SortableListProps) => {
+    return (
+      <div>
+        {items.map((value, index) => (
+          <SortableItem
+            key={`item-${value}`}
+            index={index}
+            sortIndex={index}
+            value={value}
+            {...props}
+          />
+        ))}
+      </div>
+    );
+  },
+);
+
+interface SortableElementProps extends ElementPropsBase {
+  value: string;
+  index: number;
+  sortIndex: number;
+}
+
+const SortableItem = SortableElement(
+  ({
+    value,
+    sortIndex,
+    deleteElement,
+    setCurrent,
+    current,
+    setElementSubject: setElement,
+  }: SortableElementProps) => (
+    <SortableItemWrapper>
+      <GripItem active={sortIndex == current} />
+      <Element
+        index={sortIndex}
+        key={value}
+        subject={value}
+        deleteElement={deleteElement}
+        setCurrent={setCurrent}
+        current={current}
+        setElementSubject={setElement}
+        active={sortIndex == current}
+      />
+    </SortableItemWrapper>
+  ),
+);
+
+const SortableItemWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+`;
+
+const GripItem = SortableHandle(({ active }: GripItemProps) => {
+  return (
+    <SortHandleStyled active={active}>
+      <FaGripVertical />
+    </SortHandleStyled>
+  );
+});
+
+interface GripItemProps {
+  active: boolean;
+}
+
+const SortHandleStyled = styled.div<GripItemProps>`
+  width: 1rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  opacity: ${p => (p.active ? 0.3 : 0)};
+  position: absolute;
+  left: -1.2rem;
+  bottom: 0;
+  height: 100%;
+  /* TODO fix cursor while dragging */
+  cursor: grab;
+
+  &:drop(active),
+  &:focus,
+  &:active {
+    opacity: 0.5;
+  }
+
+  &:hover {
+    opacity: 0.3;
+  }
+`;
 
 export default DocumentPage;

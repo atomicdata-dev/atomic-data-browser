@@ -59,6 +59,7 @@ function New(): JSX.Element {
           )}
           {!classInput && (
             <>
+              <NewIntanceButton klass={urls.classes.document} subtle />
               <NewIntanceButton klass={urls.classes.class} subtle />
               <NewIntanceButton klass={urls.classes.property} subtle />
             </>

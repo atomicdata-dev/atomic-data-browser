@@ -58,6 +58,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       text,
       text1: darkMode ? darken(0.1)(text) : lighten(0.1)(text),
       textLight: darkMode ? darken(0.4)(text) : lighten(0.4)(text),
+      textLight2: darkMode ? darken(0.8)(text) : lighten(0.8)(text),
       alert: '#cf5b5b',
     },
   };
@@ -97,6 +98,8 @@ declare module 'styled-components' {
       text1: string;
       /** Lighter shade of text */
       textLight: string;
+      /** Lighter shade of text, not accessible for some */
+      textLight2: string;
       /** Error / warning color */
       alert: string;
     };

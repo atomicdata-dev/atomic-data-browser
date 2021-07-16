@@ -152,6 +152,7 @@ export function useValue(
   const store = useStore();
   const subject = resource.getSubject();
   const debounced = useDebounce(val, 100);
+  const [touched, setTouched] = useState(false);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
   useEffect(() => {
@@ -169,9 +170,11 @@ export function useValue(
 
   // Save the resource when the debounced value has changed
   useEffect(() => {
-    if (commit) {
+    // Touched prevents the resource from being saved when it is simplely changed.
+    if (commit && touched) {
       try {
         resource.save(store);
+        setTouched(false);
       } catch (e) {
         store.handleError(e);
       }
@@ -194,6 +197,7 @@ export function useValue(
     }
     const valFromNewVal = new Value(newVal as JSONValue);
     set(valFromNewVal);
+    setTouched(true);
 
     /**
      * Validates and sets a property / value combination. Will invoke the
@@ -243,9 +247,9 @@ export function useString(
   propertyURL: string,
   commit?: boolean,
 ): [
-    string | null,
-    (string: string, handleValidationErrorType?) => Promise<void>,
-  ] {
+  string | null,
+  (string: string, handleValidationErrorType?) => Promise<void>,
+] {
   const [val, setVal] = useValue(resource, propertyURL, commit);
   if (val == null) {
     return [null, setVal];

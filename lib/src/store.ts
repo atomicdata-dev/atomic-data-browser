@@ -172,7 +172,11 @@ export class Store {
     return prop;
   }
 
-  handleError(e: Error) {
+  /**
+   * This is called when Errors occur in some of the library functions. Set your
+   * errorhandler function to `store.errorHandler`.
+   */
+  handleError(e: Error): void {
     this.errorHandler(e) || console.error(e);
   }
 
@@ -233,6 +237,7 @@ export class Store {
    * Registers a callback for when the a resource is updated. When you call
    * this, you should probably also call .unsubscribe some time later.
    */
+  // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
   subscribe(subject: string, callback: callback): void {
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {

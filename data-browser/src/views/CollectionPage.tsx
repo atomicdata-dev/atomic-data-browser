@@ -146,7 +146,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         <Button
           subtle
           onClick={handleToggleView}
-          title={`use ${nextDisplayStyle.id} view`}
+          title={`use ${nextDisplayStyle.id} view (v)`}
         >
           {nextDisplayStyle.icon}
         </Button>
