@@ -133,6 +133,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
             setCurrent={setFocusToElement}
             current={current}
             setElement={setElement}
+            last={i == elements.length - 1}
           />
         ))}
       </div>

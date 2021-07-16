@@ -16,6 +16,8 @@ interface ElementProps {
   setCurrent: (i: number) => void;
   index: number;
   setElement: (i: number, subject: string) => void;
+  // If it's the last item in the array, it will render a hint.
+  last?: boolean;
 }
 
 const searchChar = '@';
@@ -27,6 +29,7 @@ export function Element({
   setCurrent,
   current,
   setElement,
+  last,
 }: ElementProps): JSX.Element {
   const [resource] = useResource(subject);
   const [text, setText] = useString(resource, properties.description, true);
@@ -47,15 +50,16 @@ export function Element({
 
   /** Let the textarea grow */
   function handleResize() {
+    console.log('resize');
     if (ref.current) {
-      ref.current.style.height = '1rem';
+      ref.current.style.height = '0';
       ref.current.style.height = ref.current.scrollHeight + 'px';
     }
   }
 
   React.useEffect((): void => {
     handleResize();
-  }, [ref, text]);
+  }, [ref, text, active]);
 
   useHotkeys(
     'backspace',
@@ -98,9 +102,11 @@ export function Element({
   }
 
   if (!active) {
-    <ElementWrapper active={active} onClick={() => setCurrent(index)}>
-      {text}
-    </ElementWrapper>;
+    return (
+      <ElementWrapper active={active} onClick={() => setCurrent(index)}>
+        {text}
+      </ElementWrapper>
+    );
   }
 
   return (
@@ -112,7 +118,13 @@ export function Element({
         onChange={handleOnChange}
         onFocus={() => setCurrent(index)}
         onBlur={() => setCurrent(null)}
-        placeholder={active ? `Type something (try ${searchChar})` : ''}
+        placeholder={
+          active
+            ? `type something (try ${searchChar})`
+            : last
+              ? '+ new line'
+              : ''
+        }
         // Not working, I think
         autoFocus={current == index}
         value={text ? text : ''}
@@ -176,6 +188,7 @@ const ElementView = styled.textarea<ElementViewProps>`
   resize: none;
   background-color: ${p => p.theme.colors.bg};
   color: ${p => p.theme.colors.text};
+  padding: 0;
   &:focus {
     outline: none;
     ${ElementFocusStyle}
