@@ -174,6 +174,12 @@ const ElementFocusStyle = css`
   outline: none;
 `;
 
+const ElementTextStyle = css`
+  line-height: 1.4rem;
+  font-family: ${p => p.theme.fontFamily};
+  font-size: ${p => p.theme.fontSizeBody}rem;
+`;
+
 const ElementWrapper = styled.div<ElementViewProps>`
   position: relative;
   border: ${p => (p.active ? `solid 1px ${p.theme.colors.bg1}` : 'none')};
@@ -185,7 +191,6 @@ const ElementWrapper = styled.div<ElementViewProps>`
   padding: 0.5rem;
   padding-left: 0rem;
   cursor: text;
-  line-height: 1.4rem;
   min-height: 1.5rem;
   /* Maintain enters / newlines */
   white-space: pre-line;
@@ -193,6 +198,8 @@ const ElementWrapper = styled.div<ElementViewProps>`
   flex-direction: column;
 
   ${p => p.active && ElementFocusStyle}
+
+  ${ElementTextStyle}
 
   &:focus {
     ${ElementFocusStyle}
@@ -217,7 +224,7 @@ interface ElementViewProps {
 }
 
 const ElementView = styled.textarea<ElementViewProps>`
-  line-height: 1.4rem;
+  ${ElementTextStyle}
   border: none;
   width: 100%;
   resize: none;

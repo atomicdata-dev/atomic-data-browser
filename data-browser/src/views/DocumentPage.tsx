@@ -224,11 +224,12 @@ const NewLine = styled.div`
 const TitleInput = styled.input`
   border: none;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: ${p => p.theme.fontSizeH1}rem;
   display: block;
   width: 100%;
   background-color: ${p => p.theme.colors.bg};
   color: ${p => p.theme.colors.text};
+  margin-bottom: ${p => p.theme.margin}rem;
 
   &:focus {
     outline: none;

@@ -45,6 +45,8 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     boxShadow: `0 0 10px 0px ${shadowColor}`,
     boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,
+    fontSizeBody: 1,
+    fontSizeH1: 2,
     sideBarWidth: 15,
     margin: 1,
     radius: '9px',
@@ -70,6 +72,8 @@ declare module 'styled-components' {
     /** If true, make things dark */
     darkMode: boolean;
     fontFamily: string;
+    fontSizeBody: number;
+    fontSizeH1: number;
     boxShadow: string;
     boxShadowIntense: string;
     /** Base margin */
@@ -132,7 +136,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: ${p => p.theme.fontSizeH1}rem;
   }
 
   h2 {
