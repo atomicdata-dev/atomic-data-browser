@@ -2,6 +2,10 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
+## v0.25.0
+
+- Add Document editor ([demo](https://atomicdata.dev/invite/ycj661fdce8)) #2
+
 ## v0.24.2
 
 - Improve resource selector dropdown, show previews, remove dependency #60

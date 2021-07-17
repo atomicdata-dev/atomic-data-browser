@@ -163,6 +163,7 @@ export const GlobalStyle = createGlobalStyle`
   ul {
     margin-top: 0;
     margin-bottom: ${props => props.theme.margin}rem;
+    padding: 0;
 
     li {
       list-style-type: disc;

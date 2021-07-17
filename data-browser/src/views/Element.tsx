@@ -8,6 +8,7 @@ import { useSearch } from '../helpers/useSearch';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 import ResourceLine from './ResourceLine';
 import { useState } from 'react';
+import Markdown from '../components/datatypes/Markdown';
 
 /** Shared between all elements */
 export interface ElementPropsBase {
@@ -28,7 +29,7 @@ interface ElementProps extends ElementPropsBase {
   active: boolean;
 }
 
-const searchChar = '@';
+const searchChar = '/';
 
 export function Element({
   subject,
@@ -133,11 +134,11 @@ export function Element({
       <ElementWrapper
         tabIndex={0}
         active={active}
-        onClick={() => setCurrent(index)}
+        // onClick={() => setCurrent(index)}
         onFocus={() => setCurrent(index)}
         onBlur={() => setCurrent(null)}
       >
-        {text}
+        <Markdown text={text} noMargin />
       </ElementWrapper>
     );
   }
@@ -156,9 +157,8 @@ export function Element({
         autoFocus={active}
         value={text ? text : ''}
       />
-      {active && text?.startsWith(searchChar) && (
-        <SearchElement
-          active={active}
+      {text?.startsWith(searchChar) && (
+        <SearchWidget
           query={text.substring(1)}
           setElement={(s: string) => setElement(index, s)}
         />
@@ -182,12 +182,10 @@ const ElementTextStyle = css`
 
 const ElementWrapper = styled.div<ElementViewProps>`
   position: relative;
-  border: ${p => (p.active ? `solid 1px ${p.theme.colors.bg1}` : 'none')};
   display: block;
   width: 100%;
   border: none;
   resize: none;
-  /* border: ${p => (p.active ? `solid 1px ${p.theme.colors.bg1}` : 'none')}; */
   padding: 0.5rem;
   padding-left: 0rem;
   cursor: text;
@@ -204,19 +202,6 @@ const ElementWrapper = styled.div<ElementViewProps>`
   &:focus {
     ${ElementFocusStyle}
   }
-/*
-  &::after {
-    content: '';
-    display: ${p => (p.active ? 'inline-block' : 'none')};
-    position: absolute;
-    left: -1rem;
-    top: 0;
-    bottom: 0.3rem;
-    background-color: ${p => p.theme.colors.bg1};
-    border-radius: 5px;
-    width: 1rem;
-    /* height: 100%; */
-  } */
 `;
 
 interface ElementViewProps {
@@ -239,22 +224,23 @@ const ElementView = styled.textarea<ElementViewProps>`
 
 interface SearchElementProps {
   query: string;
-  active: boolean;
   setElement: (subject: string) => void;
 }
 
-function SearchElement({ query, setElement, active }: SearchElementProps) {
+/** Allows the user to search for Resources and include these as an Element. */
+function SearchWidget({ query, setElement }: SearchElementProps) {
   const results = useSearch(query);
+  // The currently selected result
   const [index, setIndex] = useState(0);
 
   useHotkeys(
     'tab,enter',
     e => {
       e.preventDefault();
-      setElement(results[0].item.subject);
+      setElement(results[index].item.subject);
     },
-    { enableOnTags: ['TEXTAREA'], enabled: active },
-    [active],
+    { enableOnTags: ['TEXTAREA'] },
+    [],
   );
 
   useHotkeys(
@@ -267,8 +253,8 @@ function SearchElement({ query, setElement, active }: SearchElementProps) {
       }
       setIndex(index - 1);
     },
-    { enableOnTags: ['TEXTAREA'], enabled: active },
-    [active, index],
+    { enableOnTags: ['TEXTAREA'] },
+    [index],
   );
 
   useHotkeys(
@@ -281,8 +267,8 @@ function SearchElement({ query, setElement, active }: SearchElementProps) {
       }
       setIndex(index + 1);
     },
-    { enableOnTags: ['TEXTAREA'], enabled: active },
-    [active, index],
+    { enableOnTags: ['TEXTAREA'] },
+    [index],
   );
 
   if (query == '') {

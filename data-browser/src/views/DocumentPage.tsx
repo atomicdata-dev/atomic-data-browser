@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Resource, properties, classes } from '@tomic/lib';
 import { useArray, useStore, useString } from '@tomic/react';
 
-import { ContainerNarrow } from '../components/Containers';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ErrorLook } from './ResourceInline';
 import { Element, ElementPropsBase } from './Element';
@@ -27,6 +26,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     true,
   );
   const [title, setTitle] = useString(resource, properties.name);
+  const titleRef = React.useRef(null);
   const store = useStore();
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
@@ -64,7 +64,11 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     'up',
     e => {
       e.preventDefault();
-      focusElement(current - 1);
+      if (!current || current === 0) {
+        titleRef.current.focus();
+      } else {
+        focusElement(current - 1);
+      }
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
@@ -74,15 +78,19 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     'down',
     e => {
       e.preventDefault();
-      focusElement(current + 1);
+      if (!current && document.activeElement === titleRef.current) {
+        focusElement(0);
+      } else {
+        focusElement(current + 1);
+      }
     },
-    { enableOnTags: ['TEXTAREA'] },
+    { enableOnTags: ['TEXTAREA', 'INPUT'] },
     [current],
   );
 
   // Move current element up
   useHotkeys(
-    'option+shift+up',
+    'option+up,alt+up',
     e => {
       e.preventDefault();
       moveElement(current, current - 1);
@@ -93,7 +101,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
 
   // Move element down
   useHotkeys(
-    'option+shift+down',
+    'option+down,alt+down',
     e => {
       e.preventDefault();
       moveElement(current, current + 1);
@@ -148,10 +156,6 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     }
     if (found) {
       found.focus();
-      // const strLength = 5;
-      // const textarea = found.getElementsByTagName('textarea')[0];
-      // textarea?.setSelectionRange(strLength, strLength);
-      // console.log(found, textarea);
     } else {
       ref.current.focus();
     }
@@ -186,9 +190,21 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     moveElement(oldIndex, newIndex);
   }
 
+  /** Add a new line, or move to the last line if it is empty */
+  async function handleNewLineMaybe() {
+    const lastSubject = elements[elements.length - 1];
+    const lastElem = await store.getResourceAsync(lastSubject);
+    if (lastElem.get(properties.description)?.toString()?.length == 0) {
+      focusElement(elements.length - 1);
+    } else {
+      addElement(elements.length);
+    }
+  }
+
   return (
-    <ContainerNarrow about={resource.getSubject()}>
+    <DocumentWrapper about={resource.getSubject()}>
       <TitleInput
+        ref={titleRef}
         placeholder={'set a title'}
         value={title}
         onChange={e => setTitle(e.target.value)}
@@ -205,9 +221,9 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
           length={elements.length}
           useDragHandle
         />
-        <NewLine />
       </div>
-    </ContainerNarrow>
+      <NewLine onClick={handleNewLineMaybe} />
+    </DocumentWrapper>
   );
 }
 
@@ -216,9 +232,20 @@ interface SortableListProps extends ElementPropsBase {
   length: number;
 }
 
-const NewLine = styled.div`
+const DocumentWrapper = styled.div`
+  max-width: ${props => props.theme.containerWidth}rem;
+  padding: ${props => props.theme.margin}rem;
+  display: flex;
   flex: 1;
-  cursor: pointer;
+  margin: auto;
+  flex-direction: column;
+  min-height: calc(100vh - 4rem);
+`;
+
+const NewLine = styled.div`
+  height: 20rem;
+  flex: 1;
+  cursor: text;
 `;
 
 const TitleInput = styled.input`
@@ -293,7 +320,7 @@ const SortableItemWrapper = styled.div`
 
 const GripItem = SortableHandle(({ active }: GripItemProps) => {
   return (
-    <SortHandleStyled active={active}>
+    <SortHandleStyled active={active} title={'Grab to re-order'}>
       <FaGripVertical />
     </SortHandleStyled>
   );
@@ -315,6 +342,8 @@ const SortHandleStyled = styled.div<GripItemProps>`
   height: 100%;
   /* TODO fix cursor while dragging */
   cursor: grab;
+  border: solid 1px transparent;
+  border-radius: ${p => p.theme.radius};
 
   &:drop(active),
   &:focus,
@@ -323,7 +352,8 @@ const SortHandleStyled = styled.div<GripItemProps>`
   }
 
   &:hover {
-    opacity: 0.3;
+    border-color: ${p => p.theme.colors.bg2};
+    opacity: 0.5;
   }
 `;
 
