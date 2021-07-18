@@ -30,6 +30,9 @@ interface ElementProps extends ElementPropsBase {
 }
 
 const searchChar = '/';
+const helpChar = '?';
+const linkChar = '[';
+const headerChar = '#';
 
 export function Element({
   subject,
@@ -152,7 +155,7 @@ export function Element({
         onChange={handleOnChange}
         onFocus={() => setCurrent(index)}
         onBlur={() => setCurrent(null)}
-        placeholder={`type something (try ${searchChar})`}
+        placeholder={`type something (try ${helpChar} or ${searchChar})`}
         // Not working, I think
         autoFocus={active}
         value={text ? text : ''}
@@ -162,6 +165,24 @@ export function Element({
           query={text.substring(1)}
           setElement={(s: string) => setElement(index, s)}
         />
+      )}
+      {text?.startsWith(helpChar) && (
+        <HelperWidget
+          query={text.substring(1)}
+          setElement={(s: string) => setElement(index, s)}
+        />
+      )}
+      {text?.startsWith(linkChar) && (
+        <WidgetWrapper>
+          <p>[link text](https://example.com)</p>
+        </WidgetWrapper>
+      )}
+      {text?.startsWith(headerChar) && (
+        <WidgetWrapper>
+          <p># Big Header</p>
+          <p>## Header</p>
+          <p>### Smaller Header</p>
+        </WidgetWrapper>
       )}
       <Err />
     </ElementWrapper>
@@ -222,13 +243,14 @@ const ElementView = styled.textarea<ElementViewProps>`
   }
 `;
 
-interface SearchElementProps {
+interface WidgetProps {
+  // Input without the matched string / character
   query: string;
   setElement: (subject: string) => void;
 }
 
 /** Allows the user to search for Resources and include these as an Element. */
-function SearchWidget({ query, setElement }: SearchElementProps) {
+function SearchWidget({ query, setElement }: WidgetProps) {
   const results = useSearch(query);
   // The currently selected result
   const [index, setIndex] = useState(0);
@@ -272,13 +294,55 @@ function SearchWidget({ query, setElement }: SearchElementProps) {
   );
 
   if (query == '') {
-    return <span>Search something...</span>;
+    return (
+      <WidgetWrapper>
+        <p>Search something...</p>
+      </WidgetWrapper>
+    );
   }
 
   return (
-    <span>
-      <ResourceInline subject={results[index]?.item?.subject} />
-      <span> (press tab to select, left / right to browse)</span>
-    </span>
+    <WidgetWrapper>
+      <p> (press tab to select, left / right to browse)</p>
+      <p>
+        <ResourceInline subject={results[index]?.item?.subject} />
+      </p>
+    </WidgetWrapper>
+  );
+}
+
+const WidgetWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: -1rem;
+  border-radius: ${p => p.theme.radius};
+  border: solid 1px ${p => p.theme.colors.bg2};
+  padding: ${p => p.theme.margin}rem;
+  padding-bottom: 0;
+  background-color: ${p => p.theme.colors.bg1};
+  backdrop-filter: blur(6px);
+  opacity: 0.9;
+  z-index: 1;
+`;
+
+function HelperWidget({ query }: WidgetProps) {
+  return (
+    <WidgetWrapper>
+      {query && <Markdown text={query} />}
+      <p>Try typing these:</p>
+      <p>
+        {'links: '}
+        <code>[clickable link](https://example.com)</code>
+      </p>
+      <p>
+        {'styling:'}
+        <code>**bold** and _cursive_</code>
+      </p>
+      <p>
+        {'headings:'}
+        <code>## Header</code>
+      </p>
+    </WidgetWrapper>
   );
 }
