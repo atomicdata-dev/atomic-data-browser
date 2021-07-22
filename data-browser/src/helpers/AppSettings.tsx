@@ -15,7 +15,7 @@ export const AppSettingsContextProvider = (
 ): JSX.Element => {
   const [darkMode, setDarkMode, darkModeSetting] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
-  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
+  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', true);
   const [navbarFloating, setNavbarFloating] = useLocalStorage(
     'navbarFloating',
     false,

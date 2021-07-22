@@ -163,17 +163,24 @@ export class Resource {
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
     }
-    // TODO: Check if all required props are there
-    const commit = await this.commitBuilder.sign(
-      agent.privateKey,
-      agent.subject,
-    );
-    const endpoint = new URL(this.getSubject()).origin + `/commit`;
-    await postCommit(commit, endpoint);
-    // If all succeeds, save it and reset the commitbuilder
-    store.addResource(this);
+    // Clean up the commitBuilder, but save a backup if the server does not apply the commit.
+    const oldCommitBuilder = this.commitBuilder;
     this.commitBuilder = new CommitBuilder(this.getSubject());
-    return this.getSubject();
+    // Instantly (optimistically) save for local usage
+    // Doing this early is essential for having a snappy UX in the document editor
+    store.addResource(this);
+    // TODO: Check if all required props are there
+    const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
+    const endpoint = new URL(this.getSubject()).origin + `/commit`;
+    try {
+      await postCommit(commit, endpoint);
+      return this.getSubject();
+    } catch (e) {
+      // If it fails, revert to the old resource with the old CommitBuilder
+      this.commitBuilder = oldCommitBuilder;
+      store.addResource(this);
+      throw e;
+    }
   }
 
   /**

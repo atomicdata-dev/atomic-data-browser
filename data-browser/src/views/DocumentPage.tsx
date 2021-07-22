@@ -126,16 +126,17 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     const elementSubject = store.createSubject('element');
     elements.splice(position, 0, elementSubject);
     try {
+      const newElement = new Resource(elementSubject, true);
+      await newElement.set(properties.isA, [classes.elements.paragraph], store);
+      await newElement.set(properties.parent, resource.getSubject(), store);
+      await newElement.set(properties.description, '', store);
+      // Don't await the save - it takes too long
+      newElement.save(store);
       setElements(elements);
       focusElement(position);
       window.setTimeout(() => {
         focusElement(position);
       }, 10);
-      const newElement = new Resource(elementSubject, true);
-      await newElement.set(properties.isA, [classes.elements.paragraph], store);
-      await newElement.set(properties.parent, resource.getSubject(), store);
-      await newElement.set(properties.description, '', store);
-      await newElement.save(store);
     } catch (e) {
       setErr(e);
     }
