@@ -263,7 +263,7 @@ const Masonry = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: masonry;
     /* grid-gap: ${props => props.theme.margin}rem; */
-    grid-column-gap: ${props => props.theme.margin * 2}rem;
+    grid-column-gap: ${props => props.theme.margin}rem;
   }
 
   /* Masonry on small screens */

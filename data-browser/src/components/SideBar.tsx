@@ -248,7 +248,7 @@ export const SideBarItem = styled(Button)`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   display: flex;
-  min-height: 1.6rem;
+  min-height: ${props => props.theme.margin * 0.5 + 1}rem;
   align-items: center;
   justify-content: flex-start;
   color: ${p => p.theme.colors.textLight};

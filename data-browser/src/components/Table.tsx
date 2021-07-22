@@ -50,6 +50,8 @@ const TableStyled = styled.table`
   display: block;
   overflow-y: auto;
   border-collapse: collapse;
+  margin-left: ${p => -p.theme.margin}rem;
+  margin-right: ${p => -p.theme.margin}rem;
 `;
 
 type HeaderProps = {
@@ -167,7 +169,8 @@ type CellStyledProps = {
 };
 
 const CellStyled = styled.td<CellStyledProps>`
-  padding: 0.3rem;
+  padding: ${p => p.theme.margin / 2}rem;
+  padding-left: ${p => p.theme.margin}rem;
   vertical-align: top;
   font-weight: ${props => (props.header ? 'bold' : ``)};
   white-space: ${props => (props.header ? 'nowrap' : ``)};

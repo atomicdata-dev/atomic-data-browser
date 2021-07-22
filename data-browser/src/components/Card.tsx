@@ -11,7 +11,7 @@ export const Card = styled.div<CardProps>`
   border: solid 1px ${props => props.theme.colors.bg2};
   box-shadow: ${props => props.theme.boxShadow};
   padding: ${props => props.theme.margin}rem;
-  margin-bottom: ${props => props.theme.margin * 2}rem;
+  margin-bottom: ${props => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
   border-color: ${props =>
