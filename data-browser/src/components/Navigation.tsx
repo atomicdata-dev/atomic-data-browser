@@ -27,7 +27,7 @@ interface NavWrapperProps {
 
 /** Wraps the entire app and adds a navbar at the bottom or the top */
 export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
-  const { navbarTop } = useSettings();
+  const { navbarTop, navbarFloating } = useSettings();
   const contentRef = React.useRef(null);
   const location = useLocation();
 
@@ -40,7 +40,11 @@ export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
       {navbarTop && <NavBar />}
       <SideBarWrapper>
         <SideBar />
-        <Content ref={contentRef} topPadding={navbarTop}>
+        <Content
+          ref={contentRef}
+          navbarTop={navbarTop}
+          navbarFloating={navbarFloating}
+        >
           {children}
         </Content>
       </SideBarWrapper>
@@ -50,14 +54,16 @@ export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
 }
 
 interface ContentProps {
-  topPadding: boolean;
+  navbarTop: boolean;
+  navbarFloating: boolean;
 }
 
 const Content = styled.div<ContentProps>`
   display: block;
   flex: 1;
-  margin-top: ${props => (props.topPadding ? '2rem' : '0')};
-  margin-bottom: ${props => (props.topPadding ? '0' : '2rem')};
+  margin-top: ${props => (props.navbarTop ? '2rem' : '0')};
+  margin-bottom: ${props =>
+    props.navbarTop || props.navbarFloating ? '0' : '2rem'};
   overflow-y: auto;
   /* For smooth navbar position adjustments */
   transition: margin 0.2s;

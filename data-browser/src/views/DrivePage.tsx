@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useArray, useTitle } from '@tomic/react';
 import { Resource, properties } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
-import { CardRow } from '../components/Card';
+import { Card, CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 
@@ -18,14 +18,18 @@ function DrivePage({ resource }: DrivePageProps): JSX.Element {
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <ValueForm resource={resource} propertyURL={properties.description} />
-      <h1>{title}</h1>
-      {children.map(child => {
-        return (
-          <CardRow key={child}>
-            <ResourceInline subject={child} />
-          </CardRow>
-        );
-      })}
+      <Card>
+        <h1>{title}</h1>
+        <CardInsideFull>
+          {children.map(child => {
+            return (
+              <CardRow key={child}>
+                <ResourceInline subject={child} />
+              </CardRow>
+            );
+          })}
+        </CardInsideFull>
+      </Card>
     </ContainerNarrow>
   );
 }

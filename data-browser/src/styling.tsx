@@ -54,7 +54,9 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       main,
       mainLight: darkMode ? lighten(0.08)(main) : lighten(0.08)(main),
       mainDark: darkMode ? darken(0.08)(main) : darken(0.08)(main),
-      bg,
+      bg: bg,
+      // Use pitch black for dark mode
+      bgBody: darkMode ? bg : darken(0.02)(bg),
       bg1: darkMode ? lighten(0.1)(bg) : darken(0.05)(bg),
       bg2: darkMode ? lighten(0.3)(bg) : darken(0.2)(bg),
       text,
@@ -88,9 +90,13 @@ declare module 'styled-components' {
     colors: {
       /** Main accent color, used for links */
       main: string;
+      /** Slightly lighter version of Main accent color */
       mainLight: string;
+      /** Slightly darker version of Main accent color */
       mainDark: string;
-      /** Absolute background color */
+      /** The background color of the body, which is subtly different from bg */
+      bgBody: string;
+      /** Most common background color */
       bg: string;
       /** Subtle background color */
       bg1: string;
@@ -114,7 +120,7 @@ declare module 'styled-components' {
 export const GlobalStyle = createGlobalStyle`
 
   body {
-    background-color: ${props => props.theme.colors.bg};
+    background-color: ${props => props.theme.colors.bgBody};
     color: ${props => props.theme.colors.text};
     font-family: ${props => props.theme.fontFamily};
     line-height: 1.5em;

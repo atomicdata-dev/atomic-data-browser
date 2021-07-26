@@ -61,6 +61,7 @@ const NavStyleButtonStyling = styled.button<NavStyleButtonStylingProps>`
   &:active {
     border-color: ${p => p.theme.colors.mainDark};
   }
+  background-color: ${props => props.theme.colors.bg};
   cursor: pointer;
   border: solid 1px
     ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
@@ -69,6 +70,5 @@ const NavStyleButtonStyling = styled.button<NavStyleButtonStylingProps>`
   border-radius: ${props => props.theme.radius};
   padding: 0;
   overflow: hidden;
-  background: none;
   line-height: 0;
 `;

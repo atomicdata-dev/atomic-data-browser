@@ -7,6 +7,7 @@ type CardProps = {
 
 /** A Card with a border. */
 export const Card = styled.div<CardProps>`
+  background-color: ${props => props.theme.colors.bg};
   /** Don't put side margins in this component - use a wrapping component */
   border: solid 1px ${props => props.theme.colors.bg2};
   box-shadow: ${props => props.theme.boxShadow};

@@ -5,6 +5,8 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 ## v0.25.0
 
 - Add Document editor ([demo](https://atomicdata.dev/invite/ycj661fdce8)) #2
+- Improved performance and less concurrency bugs while quickly saving resources
+- Improve styling (soft background on light mode)
 
 ## v0.24.2
 

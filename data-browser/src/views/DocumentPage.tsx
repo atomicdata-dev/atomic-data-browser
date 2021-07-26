@@ -234,13 +234,17 @@ interface SortableListProps extends ElementPropsBase {
 }
 
 const DocumentWrapper = styled.div`
-  max-width: ${props => props.theme.containerWidth}rem;
-  padding: ${props => props.theme.margin}rem;
+  background-color: ${p => p.theme.colors.bg};
+  border-left: solid 1px ${p => p.theme.colors.bg2};
+  border-right: solid 1px ${p => p.theme.colors.bg2};
+  max-width: ${p => p.theme.containerWidth}rem;
+  padding: ${p => p.theme.margin}rem;
   display: flex;
   flex: 1;
   margin: auto;
   flex-direction: column;
-  min-height: calc(100vh - 4rem);
+  min-height: 100%;
+  box-sizing: border-box;
 `;
 
 const NewLine = styled.div`
@@ -338,7 +342,7 @@ const SortHandleStyled = styled.div<GripItemProps>`
   align-items: center;
   opacity: ${p => (p.active ? 0.3 : 0)};
   position: absolute;
-  left: -1.2rem;
+  left: -1rem;
   bottom: 0;
   height: 100%;
   /* TODO fix cursor while dragging */
@@ -353,7 +357,6 @@ const SortHandleStyled = styled.div<GripItemProps>`
   }
 
   &:hover {
-    border-color: ${p => p.theme.colors.bg2};
     opacity: 0.5;
   }
 `;

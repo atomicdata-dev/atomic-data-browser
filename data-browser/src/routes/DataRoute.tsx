@@ -86,6 +86,8 @@ function Data(): JSX.Element {
 
 const CodeBlock = styled.pre`
   background-color: ${p => p.theme.colors.bg1};
+  border-radius: ${p => p.theme.radius};
+  border: solid 1px ${p => p.theme.colors.bg2};
   padding: 0.3rem;
   font-family: monospace;
   width: 100%;

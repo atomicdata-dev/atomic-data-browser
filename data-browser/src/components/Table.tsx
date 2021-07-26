@@ -52,6 +52,7 @@ const TableStyled = styled.table`
   border-collapse: collapse;
   margin-left: ${p => -p.theme.margin}rem;
   margin-right: ${p => -p.theme.margin}rem;
+  margin-bottom: ${p => p.theme.margin}rem;
 `;
 
 type HeaderProps = {
@@ -134,7 +135,12 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
 }
 
 const RowStyled = styled.tr`
+  background-color: ${p => p.theme.colors.bg};
   border-top: solid 1px ${props => props.theme.colors.bg2};
+
+  &:last-child {
+    border-bottom: solid 1px ${props => props.theme.colors.bg2};
+  }
 `;
 
 const CellContainer = styled.div`
@@ -174,6 +180,10 @@ const CellStyled = styled.td<CellStyledProps>`
   vertical-align: top;
   font-weight: ${props => (props.header ? 'bold' : ``)};
   white-space: ${props => (props.header ? 'nowrap' : ``)};
+
+  &:last-child {
+    width: 100%;
+  }
 `;
 
 export default Table;
