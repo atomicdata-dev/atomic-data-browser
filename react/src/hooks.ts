@@ -119,6 +119,7 @@ export function useProperty(subject: string): Property | null {
   const shortname = propR.get(urls.properties.shortname).toString();
   const description = propR.get(urls.properties.description).toString();
   const classType = propR.get(urls.properties.classType)?.toString();
+  const isDynamic = !!propR.get(urls.properties.isDynamic)?.toBoolean();
 
   const property: Property = {
     subject,
@@ -126,6 +127,7 @@ export function useProperty(subject: string): Property | null {
     shortname,
     description,
     classType,
+    isDynamic,
   };
   return property;
 }
@@ -247,9 +249,9 @@ export function useString(
   propertyURL: string,
   commit?: boolean,
 ): [
-  string | null,
-  (string: string, handleValidationErrorType?) => Promise<void>,
-] {
+    string | null,
+    (string: string, handleValidationErrorType?) => Promise<void>,
+  ] {
   const [val, setVal] = useValue(resource, propertyURL, commit);
   if (val == null) {
     return [null, setVal];

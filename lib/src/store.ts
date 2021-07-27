@@ -260,7 +260,10 @@ export class Property {
   datatype: Datatype;
   shortname: string;
   description: string;
+  /** https://atomicdata.dev/properties/classType */
   classType?: string;
   /** If the Property cannot be found or parsed, this will contain the error */
   error?: Error;
+  /** https://atomicdata.dev/properties/isDynamic */
+  isDynamic?: boolean;
 }

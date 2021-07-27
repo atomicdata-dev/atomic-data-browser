@@ -61,6 +61,7 @@ export const properties = {
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
+  isDynamic: 'https://atomicdata.dev/properties/isDynamic',
   parent: 'https://atomicdata.dev/properties/parent',
   read: 'https://atomicdata.dev/properties/read',
   write: 'https://atomicdata.dev/properties/write',
