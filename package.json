@@ -26,7 +26,8 @@
   "name": "@tomic/root",
   "private": true,
   "scripts": {
-    "lint": "lerna run lint --fix",
+    "lint": "lerna run lint",
+    "lint-fix": "lerna run lint-fix",
     "build": "lerna run build",
     "test": "lerna run test",
     "publish": "lerna run tsc && lerna publish",

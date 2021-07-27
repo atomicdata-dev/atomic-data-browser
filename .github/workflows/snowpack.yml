@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
       - run: yarn
-      - run: yarn lint
+      - run: yarn lint-fix
       - run: yarn test
       - run: yarn build
       - name: Deploy 🚀
