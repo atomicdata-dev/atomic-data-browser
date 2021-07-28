@@ -24,11 +24,6 @@ store.setBaseUrl(window.location.origin);
 store.errorHandler = e => toast.error(e.message);
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
-/**
- * Load the Atomic Data default properties and classes to speed things up
- * Currently does not work properly
- */
-// loadDefaultStore(store);
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
