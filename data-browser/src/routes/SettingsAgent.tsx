@@ -14,6 +14,7 @@ import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
 import ResourceInline from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
+import AtomicLink from '../components/Link';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -133,8 +134,11 @@ const SettingsAgent: React.FunctionComponent = () => {
             <a href='https://github.com/joepio/atomic/tree/master/server'>
               atomic-server
             </a>
-            . Alternatively, you can use an Invite to get a guest Agent on
-            someone else{"'s"} Atomic Server.
+            . Alternatively, you can use{' '}
+            <AtomicLink subject='https://atomicdata.dev/invites'>
+              an Invite
+            </AtomicLink>{' '}
+            to get a guest Agent on someone else{"'s"} Atomic Server.
           </p>
         )}
         <Field
