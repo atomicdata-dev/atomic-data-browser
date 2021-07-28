@@ -204,10 +204,6 @@ export function useValue(
     const valFromNewVal = new Value(newVal as JSONValue);
     set(valFromNewVal);
     setTouched(true);
-    if (handleValidationError) {
-      console.log('yeah, got a handler!', handleValidationError);
-      setErrHandler(handleValidationError);
-    }
 
     /**
      * Validates and sets a property / value combination. Will invoke the
