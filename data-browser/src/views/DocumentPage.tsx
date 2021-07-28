@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Resource, properties, classes } from '@tomic/lib';
-import { useArray, useStore, useString } from '@tomic/react';
+import { useArray, useCanWrite, useStore, useString } from '@tomic/react';
 
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ErrorLook } from './ResourceInline';
@@ -13,6 +13,7 @@ import {
 } from 'react-sortable-hoc';
 import styled from 'styled-components';
 import { FaGripVertical } from 'react-icons/fa';
+import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;
@@ -31,6 +32,8 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
   const [current, setCurrent] = React.useState<number | null>(null);
+  const { agent } = useSettings();
+  const [canWrite, canWriteMessage] = useCanWrite(resource, agent?.subject);
 
   // Always have one element
   React.useEffect(() => {
@@ -132,7 +135,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
       await newElement.set(properties.description, '', store);
       // Don't await the save - it takes too long
       newElement.save(store);
-      setElements(elements);
+      setElements(elements, setErr);
       focusElement(position);
       window.setTimeout(() => {
         focusElement(position);
@@ -183,7 +186,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     const element = elements[from];
     elements.splice(from, 1);
     elements.splice(to, 0, element);
-    setElements(elements);
+    setElements(elements, setErr);
     focusElement(to);
   }
 
@@ -210,6 +213,9 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
+      {!canWrite && (
+        <ErrorLook>You cannot save edits: {canWriteMessage}</ErrorLook>
+      )}
       {err && <ErrorLook>{err.message}</ErrorLook>}
       <div ref={ref}>
         <SortableList
@@ -238,13 +244,16 @@ const DocumentWrapper = styled.div`
   border-left: solid 1px ${p => p.theme.colors.bg2};
   border-right: solid 1px ${p => p.theme.colors.bg2};
   max-width: ${p => p.theme.containerWidth}rem;
-  padding: ${p => p.theme.margin}rem;
   display: flex;
   flex: 1;
   margin: auto;
   flex-direction: column;
   min-height: 100%;
   box-sizing: border-box;
+  padding: 2rem;
+  @media (max-width: ${props => props.theme.containerWidth}rem) {
+    padding: ${p => p.theme.margin}rem;
+  }
 `;
 
 const NewLine = styled.div`
