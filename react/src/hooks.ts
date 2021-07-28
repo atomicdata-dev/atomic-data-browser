@@ -174,12 +174,16 @@ export function useValue(
   useEffect(() => {
     // Touched prevents the resource from being saved when it is simplely changed.
     if (commit && touched) {
-      try {
-        resource.save(store);
-        setTouched(false);
-      } catch (e) {
-        store.handleError(e);
+      // This weird async wrapping is needed to use await in a react hook.
+      async function save() {
+        try {
+          setTouched(false);
+          await resource.save(store);
+        } catch (e) {
+          store.handleError(e);
+        }
       }
+      save();
     }
   }, [debounced]);
 
@@ -200,6 +204,10 @@ export function useValue(
     const valFromNewVal = new Value(newVal as JSONValue);
     set(valFromNewVal);
     setTouched(true);
+    if (handleValidationError) {
+      console.log('yeah, got a handler!', handleValidationError);
+      setErrHandler(handleValidationError);
+    }
 
     /**
      * Validates and sets a property / value combination. Will invoke the
@@ -351,7 +359,7 @@ export function useStore(): Store {
 export function useCanWrite(
   resource: Resource,
   agent?: string,
-): [boolean | null, string] {
+): [canWrite: boolean | null, message: string] {
   const store = useStore();
   const [canWrite, setCanWrite] = useState<boolean | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
@@ -359,7 +367,7 @@ export function useCanWrite(
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
     if (agent == undefined) {
-      setMsg('No agent set');
+      setMsg('No Agent set');
       setCanWrite(false);
       return;
     }
