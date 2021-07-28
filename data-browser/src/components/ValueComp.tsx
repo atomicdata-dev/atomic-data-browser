@@ -22,14 +22,12 @@ function ValueComp({ value, datatype, noMargin }: Props): JSX.Element {
       }
       return <Nestedresource resource={resource} />;
     }
-    case Datatype.DATE:
+    case (Datatype.DATE, Datatype.TIMESTAMP):
       return <DateTime date={value.toDate()} />;
     case Datatype.MARKDOWN:
       return <Markdown text={value.toString()} noMargin={noMargin} />;
     case Datatype.RESOURCEARRAY:
       return <ResourceArray subjects={value.toArray()} />;
-    case Datatype.TIMESTAMP:
-      return <DateTime date={value.toDate()} />;
     default:
       return <div>{value.toString()}</div>;
   }

@@ -112,6 +112,7 @@ const ValueFormWrapper = styled.div`
   /* Used for positioning the edit button*/
   position: relative;
   flex: 1;
+  word-wrap: break-word;
 `;
 
 const EditButton = styled.div`

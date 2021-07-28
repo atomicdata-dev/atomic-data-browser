@@ -41,7 +41,7 @@ function ResourceField({
         label={property.shortname}
         disabled={disabled}
       >
-        {'This field is calculated server-side, and cannot be edited. '}
+        {'This field is calculated server-side, edits will not be saved. '}
         <Button subtle onClick={() => setCollapsedDynamic(false)}>
           edit anyway
         </Button>
