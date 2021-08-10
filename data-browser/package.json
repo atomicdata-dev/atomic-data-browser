@@ -71,5 +71,5 @@
     "start": "snowpack dev --secure",
     "test": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve"
   },
-  "version": "0.24.2"
+  "version": "0.24.3"
 }
