@@ -21,9 +21,44 @@ const store = new Store();
 /** Defaulting to the current URL's origin will make sense in most non-dev environments */
 store.setBaseUrl(window.location.origin);
 /** Show an error when things go wrong */
-store.errorHandler = e => toast.error(e.message);
+store.errorHandler = e => {
+  console.log(e);
+  if (e.message.length > 100) {
+    e.message = e.message.substring(0, 100) + '...';
+  }
+  toast.error(e.message);
+};
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
+
+if (isDev()) {
+  // These only apply in dev mode
+  const agentSubject = getSnowpackEnv('AGENT');
+  const agentPrivateKey = getSnowpackEnv('PRIVATE_KEY');
+  if (agentSubject && agentPrivateKey) {
+    handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
+    const agent = new Agent(
+      getSnowpackEnv('AGENT'),
+      getSnowpackEnv('PRIVATE_KEY'),
+    );
+    store.setAgent(agent);
+  }
+
+  const baseUrl = getSnowpackEnv('BASE_URL');
+  if (baseUrl !== undefined) {
+    store.setBaseUrl(baseUrl);
+    handleWarning(`Set baseURL ${baseUrl} from .env`);
+  } else {
+    handleWarning(
+      `No BASE_URL found in .env, defaulting to ${store.getBaseUrl()}`,
+    );
+  }
+
+  // You can access the Store from your console in dev mode!
+  window.store = store;
+} else {
+  // These only apply in production
+}
 
 /** Entrypoint of the application. This is where providers go. */
 function App(): JSX.Element {
@@ -58,33 +93,4 @@ declare global {
   interface Window {
     store: Store;
   }
-}
-
-if (isDev()) {
-  // These only apply in dev mode
-  const agentSubject = getSnowpackEnv('AGENT');
-  const agentPrivateKey = getSnowpackEnv('PRIVATE_KEY');
-  if (agentSubject && agentPrivateKey) {
-    handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
-    const agent = new Agent(
-      getSnowpackEnv('AGENT'),
-      getSnowpackEnv('PRIVATE_KEY'),
-    );
-    store.setAgent(agent);
-  }
-
-  const baseUrl = getSnowpackEnv('BASE_URL');
-  if (baseUrl !== undefined) {
-    store.setBaseUrl(baseUrl);
-    handleWarning(`Set baseURL ${baseUrl} from .env`);
-  } else {
-    handleWarning(
-      `No BASE_URL found in .env, defaulting to ${store.getBaseUrl()}`,
-    );
-  }
-
-  // You can access the Store from your console in dev mode!
-  window.store = store;
-} else {
-  // These only apply in production
 }

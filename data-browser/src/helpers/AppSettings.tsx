@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { useContext } from 'react';
 import { Agent } from '@tomic/lib';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
-import { useLocalStorage, useCurrentAgent } from '@tomic/react';
+import { useLocalStorage, useCurrentAgent, useBaseURL } from '@tomic/react';
 import toast from 'react-hot-toast';
 
 interface ProviderProps {
@@ -25,6 +25,7 @@ export const AppSettingsContextProvider = (
     false,
   );
   const [agent, setAgent] = useCurrentAgent();
+  const [baseURL, setBaseURL] = useBaseURL();
 
   const setAgentToast = (agent: Agent) => {
     try {
@@ -40,6 +41,8 @@ export const AppSettingsContextProvider = (
   return (
     <SettingsContext.Provider
       value={{
+        baseURL,
+        setBaseURL,
         darkMode,
         darkModeSetting,
         setDarkMode,
@@ -71,6 +74,9 @@ interface AppSettings {
   /** CSS value for the primary color */
   mainColor: string;
   setMainColor: (s: string) => void;
+  /** The URL that points to the Drive shown in the SideBar */
+  baseURL: string;
+  setBaseURL: (s: string) => void;
   /** If the navbar should be at the top of the page */
   navbarTop: boolean;
   setNavbarTop: (s: boolean) => void;

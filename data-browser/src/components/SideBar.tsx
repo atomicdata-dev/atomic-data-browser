@@ -15,17 +15,16 @@ import {
   FaExternalLinkAlt,
   FaInfo,
   FaKeyboard,
+  FaPencilAlt,
   FaPlus,
   FaUser,
 } from 'react-icons/fa';
 import { paths } from '../routes/paths';
+import { ErrorLook } from '../views/ResourceInline';
 
 export function SideBar(): JSX.Element {
-  const store = useStore();
-  const [drive] = useResource(store.baseUrl);
-  const [children] = useArray(drive, properties.children);
+  const { baseURL } = useSettings();
   const history = useHistory();
-  const title = useTitle(drive);
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>();
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const windowSize = useWindowSize();
@@ -106,7 +105,7 @@ export function SideBar(): JSX.Element {
    * This is called when the user presses a menu Item, which should result in a
    * closed menu in mobile context
    */
-  function handleCloseSideBarMayb() {
+  function handleClickItem() {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
       setSideBarLocked(false);
@@ -121,7 +120,7 @@ export function SideBar(): JSX.Element {
         clean
         onClick={() => {
           item.onClick();
-          handleCloseSideBarMayb();
+          handleClickItem();
         }}
       >
         {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
@@ -138,23 +137,12 @@ export function SideBar(): JSX.Element {
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
       >
         {navbarTop ? <PaddingBig /> : null}
-        <SideBarHeader>{title}</SideBarHeader>
-        {children.map(child => {
-          return (
-            <ResourceSideBar
-              key={child}
-              subject={child}
-              handleClose={handleCloseSideBarMayb}
-            />
-          );
-        })}
+        <SideBarDrive handleClickItem={handleClickItem} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(renderMenuItem)}
           <SideBarHeader>
-            <Logo
-              style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }}
-            />
+            <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
@@ -165,6 +153,44 @@ export function SideBar(): JSX.Element {
         visible={sideBarLocked && !isWideScreen()}
       />
     </SideBarContainer>
+  );
+}
+
+interface SideBarDriveProps {
+  handleClickItem: () => any;
+}
+
+function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
+  const { baseURL } = useSettings();
+  const [drive] = useResource(baseURL);
+  const [children] = useArray(drive, properties.children);
+  const title = useTitle(drive);
+  const history = useHistory();
+
+  return (
+    <>
+      <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
+        {title || baseURL}{' '}
+        <Button onClick={() => history.push(paths.baseURLSettings)} icon subtle>
+          <FaPencilAlt />
+        </Button>
+      </SideBarHeader>
+      {drive.isReady() ? (
+        children.map(child => {
+          return (
+            <ResourceSideBar
+              key={child}
+              subject={child}
+              handleClose={handleClickItem}
+            />
+          );
+        })
+      ) : (
+        <SideBarErr>
+          {drive.getError()?.message || 'Could not load this baseURL'}
+        </SideBarErr>
+      )}
+    </>
   );
 }
 
@@ -183,6 +209,10 @@ const PaddingSmall = styled('div')`
 
 const PaddingBig = styled('div')`
   min-height: 3rem;
+`;
+
+const SideBarErr = styled(ErrorLook)`
+  padding-left: ${props => props.theme.margin}rem;
 `;
 
 // eslint-disable-next-line prettier/prettier

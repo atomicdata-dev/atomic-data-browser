@@ -7,6 +7,8 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Add Document editor ([demo](https://atomicdata.dev/invite/ycj661fdce8)) #2
 - Improved performance and less concurrency bugs while quickly saving resources
 - Improve styling (soft background on light mode)
+- Add baseURL settings page + edit function in top left
+-
 
 ## v0.24.2
 

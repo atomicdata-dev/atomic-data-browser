@@ -5,6 +5,8 @@ import { ContainerNarrow } from '../components/Containers';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
+import { Button } from '../components/Button';
+import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;
@@ -14,11 +16,17 @@ type DrivePageProps = {
 function DrivePage({ resource }: DrivePageProps): JSX.Element {
   const title = useTitle(resource);
   const [children] = useArray(resource, properties.children);
+  const { baseURL, setBaseURL } = useSettings();
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <Card>
         <h1>{title}</h1>
+        {baseURL !== resource.getSubject() && (
+          <Button onClick={() => setBaseURL(resource.getSubject())}>
+            Set as current drive
+          </Button>
+        )}
         <ValueForm resource={resource} propertyURL={properties.description} />
         <CardInsideFull>
           {children.map(child => {

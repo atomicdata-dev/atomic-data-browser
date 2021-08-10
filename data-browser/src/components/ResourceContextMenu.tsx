@@ -71,14 +71,14 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       onClick: () => store.fetchResource(subject, true),
     },
     {
-      disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
+      // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
       id: 'edit',
       label: 'edit',
       helper: 'Open the edit form. (e)',
       onClick: () => history.push(editURL(subject)),
     },
     {
-      disabled: !canWrite,
+      // disabled: !canWrite,
       id: 'delete',
       label: 'delete',
       helper:
