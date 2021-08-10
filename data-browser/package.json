@@ -7,7 +7,7 @@
     "@bugsnag/js": "^7.9.2",
     "@bugsnag/plugin-react": "^7.9.2",
     "@tomic/lib": "^0.24.2",
-    "@tomic/react": "^0.24.2",
+    "@tomic/react": "^0.24.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
