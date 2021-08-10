@@ -10,7 +10,7 @@ import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
 import { Toaster } from './components/Toaster';
 import { getSnowpackEnv, isDev } from './config';
-import { handleWarning, initBugsnag } from './helpers/handlers';
+import { handleError, handleWarning, initBugsnag } from './helpers/handlers';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import ErrorPage from './views/ErrorPage';
@@ -22,7 +22,7 @@ const store = new Store();
 store.setBaseUrl(window.location.origin);
 /** Show an error when things go wrong */
 store.errorHandler = e => {
-  console.log(e);
+  handleError(e);
   if (e.message.length > 100) {
     e.message = e.message.substring(0, 100) + '...';
   }
