@@ -11,7 +11,7 @@ import { Shortcuts } from './ShortcutsRoute';
 import { About as About } from './AboutRoute';
 import Local from './LocalRoute';
 import SettingsAgent from './SettingsAgent';
-import { SettingsBaseURL } from './SettingsBaseURL';
+import { SettingsBaseURL } from './SettingsBase';
 import { paths } from './paths';
 
 /** Handles the browser URL navigation paths */
