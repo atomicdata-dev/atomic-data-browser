@@ -280,7 +280,7 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
   }
   const subject = resource.getSubject();
   if (typeof subject == 'string' && subject.length > 0) {
-    return truncateUrl(subject, 40);
+    return truncateUrl(subject, truncateLength);
   }
   return subject;
 }

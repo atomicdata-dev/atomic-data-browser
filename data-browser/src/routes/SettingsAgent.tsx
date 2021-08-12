@@ -15,6 +15,8 @@ import Field from '../components/forms/Field';
 import ResourceInline from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';
+import { editURL } from '../helpers/navigation';
+import { useHistory } from 'react-router';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -24,6 +26,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
   const [secret, setSecret] = useState<string>('');
+  const history = useHistory();
 
   // When there is an agent, set the advanced values
   // Otherwise, reset the secret value
@@ -125,7 +128,12 @@ const SettingsAgent: React.FunctionComponent = () => {
             <LabelStyled>
               <FaUser /> You{"'"}re signed in as
             </LabelStyled>
-            <ResourceInline subject={agent.subject} />
+            <p>
+              <ResourceInline subject={agent.subject} />
+            </p>
+            <Button onClick={() => history.push(editURL(agent.subject))}>
+              Edit profile
+            </Button>
             <Margin />
           </>
         ) : (
