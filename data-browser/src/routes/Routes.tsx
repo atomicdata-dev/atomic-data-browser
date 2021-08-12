@@ -13,6 +13,7 @@ import Local from './LocalRoute';
 import SettingsAgent from './SettingsAgent';
 import { SettingsBaseURL } from './SettingsBase';
 import { paths } from './paths';
+import ResourcePage from '../views/ResourcePage';
 
 /** Handles the browser URL navigation paths */
 export function Routes(): JSX.Element {
@@ -49,7 +50,7 @@ export function Routes(): JSX.Element {
       <Route path='/:path' component={Local} />
       <Route exact path='/'>
         {/* <Redirect to={paths.about} /> */}
-        <Local />
+        <ResourcePage subject={window.location.origin} />
       </Route>
     </Switch>
   );
