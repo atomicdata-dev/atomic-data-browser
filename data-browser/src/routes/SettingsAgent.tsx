@@ -116,7 +116,6 @@ const SettingsAgent: React.FunctionComponent = () => {
     <ContainerNarrow>
       <form>
         <h1>User Settings</h1>
-        <h2>Agent</h2>
         <p>
           An Agent is a user, consisting of a Subject (its URL) and Private Key.
           Together, these can be used to edit data and sign Commits.

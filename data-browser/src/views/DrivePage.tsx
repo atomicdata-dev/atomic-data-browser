@@ -27,7 +27,7 @@ function DrivePage({ resource }: DrivePageProps): JSX.Element {
       )}
       <ValueForm resource={resource} propertyURL={properties.description} />
       <Card>
-        <p>{title} children:</p>
+        <h3>{title} children:</h3>
         <CardInsideFull>
           {children.map(child => {
             return (
