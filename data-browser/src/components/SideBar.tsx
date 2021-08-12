@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
-import { properties } from '@tomic/lib';
+import { properties, ResourceStatus } from '@tomic/lib';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
@@ -68,7 +68,7 @@ export function SideBar(): JSX.Element {
       label: 'about',
       helper: 'Welcome page, tells about this app',
       onClick: () => {
-        history.push('/');
+        history.push(paths.about);
       },
     },
   ];
@@ -188,7 +188,7 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
             />
           );
         })
-      ) : (
+      ) : drive.getStatus() == ResourceStatus.loading ? null : (
         <SideBarErr>
           {drive.getError()?.message || 'Could not load this baseURL'}
         </SideBarErr>
