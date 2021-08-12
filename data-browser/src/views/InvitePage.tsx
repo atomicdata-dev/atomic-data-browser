@@ -55,10 +55,10 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <ValueForm resource={resource} propertyURL={properties.description} />
       <h1>
         Invite to {write ? 'edit' : 'view'} <ResourceInline subject={target} />
       </h1>
+      <ValueForm resource={resource} propertyURL={properties.description} />
       {usagesLeft == 0 ? (
         <p>Sorry, this Invite has no usages left. Ask for a new one.</p>
       ) : (

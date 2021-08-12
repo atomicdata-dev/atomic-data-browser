@@ -21,6 +21,7 @@ import {
 } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
+import { openURL } from '../helpers/navigation';
 
 export function SideBar(): JSX.Element {
   const { baseURL } = useSettings();
@@ -169,7 +170,10 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
 
   return (
     <>
-      <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
+      <SideBarHeader
+        title={`Your current baseURL is ${baseURL}`}
+        onClick={() => history.push(openURL(baseURL))}
+      >
         {title || baseURL}{' '}
         <Button onClick={() => history.push(paths.baseURLSettings)} icon subtle>
           <FaPencilAlt />

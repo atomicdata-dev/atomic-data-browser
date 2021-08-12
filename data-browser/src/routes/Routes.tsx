@@ -48,7 +48,8 @@ export function Routes(): JSX.Element {
       <Route path={paths.search} component={Search} />
       <Route path='/:path' component={Local} />
       <Route exact path='/'>
-        <Redirect to={paths.about} />
+        {/* <Redirect to={paths.about} /> */}
+        <Local />
       </Route>
     </Switch>
   );
