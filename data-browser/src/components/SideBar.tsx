@@ -170,11 +170,10 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
 
   return (
     <>
-      <SideBarHeader
-        title={`Your current baseURL is ${baseURL}`}
-        onClick={() => history.push(openURL(baseURL))}
-      >
-        {title || baseURL}{' '}
+      <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
+        <Button clean onClick={() => history.push(openURL(baseURL))}>
+          <DriveTitle>{title || baseURL} </DriveTitle>
+        </Button>
         <Button onClick={() => history.push(paths.baseURLSettings)} icon subtle>
           <FaPencilAlt />
         </Button>
@@ -206,6 +205,12 @@ interface SideBarStyledProps {
 interface SideBarOverlayProps {
   visible: boolean;
 }
+
+const DriveTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 1.4rem;
+`;
 
 const PaddingSmall = styled('div')`
   min-height: 1rem;
