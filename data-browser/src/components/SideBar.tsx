@@ -174,7 +174,7 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
         <Button clean onClick={() => history.push(openURL(baseURL))}>
           <DriveTitle>{title || baseURL} </DriveTitle>
         </Button>
-        <Button onClick={() => history.push(paths.baseURLSettings)} icon subtle>
+        <Button onClick={() => history.push(paths.serverSettings)} icon subtle>
           <FaPencilAlt />
         </Button>
       </SideBarHeader>

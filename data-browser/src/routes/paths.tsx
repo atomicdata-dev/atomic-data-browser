@@ -1,7 +1,7 @@
 export const paths = {
   agentSettings: '/app/agent',
   themeSettings: '/app/theme',
-  baseURLSettings: '/app/baseURL',
+  serverSettings: '/app/server',
   new: '/app/new',
   shortcuts: '/app/shortcuts',
   search: '/app/search',

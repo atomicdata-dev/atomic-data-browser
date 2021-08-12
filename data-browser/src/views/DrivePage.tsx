@@ -20,7 +20,6 @@ function DrivePage({ resource }: DrivePageProps): JSX.Element {
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <h1>{title}</h1>
       {baseURL !== resource.getSubject() && (
         <Button onClick={() => setBaseURL(resource.getSubject())}>
           Set as current drive
@@ -28,7 +27,7 @@ function DrivePage({ resource }: DrivePageProps): JSX.Element {
       )}
       <ValueForm resource={resource} propertyURL={properties.description} />
       <Card>
-        <p>Children:</p>
+        <p>{title} children:</p>
         <CardInsideFull>
           {children.map(child => {
             return (

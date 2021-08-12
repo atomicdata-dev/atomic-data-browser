@@ -11,7 +11,7 @@ import { Shortcuts } from './ShortcutsRoute';
 import { About as About } from './AboutRoute';
 import Local from './LocalRoute';
 import SettingsAgent from './SettingsAgent';
-import { SettingsBaseURL } from './SettingsBase';
+import { SettingsServer } from './SettingsServer';
 import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 
@@ -28,8 +28,8 @@ export function Routes(): JSX.Element {
       <Route path={paths.agentSettings}>
         <SettingsAgent />
       </Route>
-      <Route path={paths.baseURLSettings}>
-        <SettingsBaseURL />
+      <Route path={paths.serverSettings}>
+        <SettingsServer />
       </Route>
       <Route path={paths.shortcuts}>
         <Shortcuts />

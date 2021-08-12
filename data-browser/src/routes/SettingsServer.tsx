@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { ContainerNarrow } from '../components/Containers';
 
-export function SettingsBaseURL(): JSX.Element {
+export function SettingsServer(): JSX.Element {
   const { baseURL, setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
@@ -27,14 +27,14 @@ export function SettingsBaseURL(): JSX.Element {
 
   return (
     <ContainerNarrow>
-      <h2>Base URL</h2>
+      <h2>Current Server</h2>
       <p>
-        The Base URL is the address of your Atomic Server. This is the item
-        shown in the sidebar. If you create something new, this is where the
-        commit will be sent to.
+        The Server is the machine hosting Atomic Data. It is the item shown in
+        the sidebar. If you create something new, this is where it will be
+        created by default.
       </p>
       <FieldStyled>
-        <LabelStyled>Base URL</LabelStyled>
+        <LabelStyled>Server URL</LabelStyled>
         <InputWrapper>
           <InputStyled
             value={baseUrlInput}
@@ -47,7 +47,7 @@ export function SettingsBaseURL(): JSX.Element {
         onClick={() => handleSetBaseUrl(baseUrlInput)}
         disabled={baseURL == baseUrlInput}
       >
-        save base URL
+        save
       </Button>
       <p>Or use:</p>
       <Button onClick={() => handleSetBaseUrl('https://atomicdata.dev')} subtle>
