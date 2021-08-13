@@ -46,19 +46,28 @@ export class Resource {
   }
 
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
-  async canWrite(store: Store, agent: string): Promise<boolean> {
+  async canWrite(
+    store: Store,
+    agent: string,
+    child?: string,
+  ): Promise<boolean> {
     const writeArray = this.get(properties.write)?.toArray();
 
     if (writeArray && writeArray.includes(agent)) {
       return true;
     }
     const parentSubject = this.get(properties.parent)?.toString();
+    // This should not happen, but it prevents an infinite loop
+    if (child == parentSubject) {
+      console.warn('Circular parent', child);
+      return true;
+    }
     if (parentSubject == undefined) {
       return false;
     }
     const parent: Resource = await store.getResourceAsync(parentSubject);
     // The recursive part
-    const canWrite = await parent.canWrite(store, agent);
+    const canWrite = await parent.canWrite(store, agent, this.getSubject());
     return canWrite;
   }
 
