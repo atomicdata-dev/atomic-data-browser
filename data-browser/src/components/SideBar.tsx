@@ -138,6 +138,7 @@ export function SideBar(): JSX.Element {
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
       >
         {navbarTop ? <PaddingBig /> : null}
+        {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
         <SideBarDrive handleClickItem={handleClickItem} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
@@ -158,6 +159,7 @@ export function SideBar(): JSX.Element {
 }
 
 interface SideBarDriveProps {
+  /** Closes the sidebar on small screen devices */
   handleClickItem: () => any;
 }
 
@@ -171,7 +173,13 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
   return (
     <>
       <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
-        <Button clean onClick={() => history.push(openURL(baseURL))}>
+        <Button
+          clean
+          onClick={() => {
+            handleClickItem();
+            history.push(openURL(baseURL));
+          }}
+        >
           <DriveTitle>{title || baseURL} </DriveTitle>
         </Button>
         <Button onClick={() => history.push(paths.serverSettings)} icon subtle>
