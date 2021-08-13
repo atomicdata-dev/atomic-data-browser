@@ -32,7 +32,7 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
 
   const agentSubject = agent?.subject;
 
-  if (agentSubject && usagesLeft > 0) {
+  if (agentSubject && usagesLeft && usagesLeft > 0) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
     if (history.action != 'POP') {
       handleAccept(null, agent.subject);
