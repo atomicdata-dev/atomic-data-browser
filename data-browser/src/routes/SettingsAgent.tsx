@@ -82,6 +82,7 @@ const SettingsAgent: React.FunctionComponent = () => {
     try {
       const agent = new Agent(privateKey, subject);
       await agent.getPublicKey();
+      await agent.checkPublicKey();
       setAgent(agent);
     } catch (e) {
       const err = new Error('Invalid Agent' + e);
@@ -94,7 +95,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   /** When the Secret updates, parse it and try if the */
-  function handleUpdateSecret(updateSecret: string) {
+  async function handleUpdateSecret(updateSecret: string) {
     setSecret(updateSecret);
     if (updateSecret == '') {
       setSecret('');
@@ -105,6 +106,7 @@ const SettingsAgent: React.FunctionComponent = () => {
 
     try {
       const agent = Agent.fromSecret(updateSecret);
+      await agent.checkPublicKey();
       setAgent(agent);
       setPrivateKey(agent.privateKey);
       setSubject(agent.subject);

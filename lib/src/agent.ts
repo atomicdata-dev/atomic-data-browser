@@ -1,4 +1,5 @@
-import { tryValidURL } from './client';
+import { properties } from '.';
+import { fetchResource, tryValidURL } from './client';
 import { generatePublicKeyFromPrivate } from './commit';
 
 /**
@@ -34,6 +35,20 @@ export class Agent {
   public buildSecret(): string {
     const objJsonStr = JSON.stringify(this);
     return btoa(objJsonStr);
+  }
+
+  /** Fetches the public key for the agent, checks if it matches with the current one */
+  public async checkPublicKey(): Promise<void> {
+    const fetchedAgent = await fetchResource(this.subject);
+    const fetchedPubKey = fetchedAgent
+      .get(properties.agent.publicKey)
+      .toString();
+    console.log(fetchedPubKey, fetchedAgent, await this.getPublicKey());
+    if (fetchedPubKey !== this.publicKey) {
+      throw new Error(
+        'Fetched publickey does not match current one - is the private key correct?',
+      );
+    }
   }
 
   /**

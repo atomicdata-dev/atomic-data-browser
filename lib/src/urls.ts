@@ -23,6 +23,9 @@ export const properties = {
   name: 'https://atomicdata.dev/properties/name',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',
+  agent: {
+    publicKey: 'https://atomicdata.dev/properties/publicKey',
+  },
   collection: {
     members: 'https://atomicdata.dev/properties/collection/members',
     currentPage: 'https://atomicdata.dev/properties/collection/currentPage',
