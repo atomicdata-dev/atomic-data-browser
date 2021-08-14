@@ -75,18 +75,17 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   /** Called when the secret or the subject is updated manually */
-  function handleUpdateSubjectAndKey() {
+  async function handleUpdateSubjectAndKey() {
     renewSecret();
     setError(null);
 
     try {
       const agent = new Agent(privateKey, subject);
-      agent.getPublicKey();
+      await agent.getPublicKey();
       setAgent(agent);
     } catch (e) {
       const err = new Error('Invalid Agent' + e);
       setError(err);
-      setAgent(null);
     }
   }
 
@@ -194,7 +193,6 @@ const SettingsAgent: React.FunctionComponent = () => {
               helper={
                 'The link to your Agent, e.g. https://atomicdata.dev/agents/someAgent'
               }
-              error={error}
             >
               <InputWrapper>
                 <InputStyled
@@ -212,7 +210,6 @@ const SettingsAgent: React.FunctionComponent = () => {
               helper={
                 'The private key of the Agent, which is a Base64 encoded string.'
               }
-              error={error}
             >
               <InputWrapper>
                 <InputStyled
