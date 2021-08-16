@@ -28,14 +28,11 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 ## Running locally
 
 ```sh
-# Create keys for https (required to run `window.crypto` libraries in the browser):
-npx devcert-cli generate snowpack
-# Rename because snowpack wants .crt
-mv snowpack.cert snowpack.crt
 # Install dependencies
 yarn
 # Run dev server
 yarn start
+# Open browser at http://localhost:8081
 ```
 
 If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent), including its `privateKey` and `subject`.
@@ -51,6 +48,17 @@ docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atom
 # Copy the server, privatekey and agent
 # Edit the newly created .env and paste in the values from above
 vim .env
+```
+
+If you need to run locally using HTTPS:
+
+```sh
+# Create keys for https (required to run `window.crypto` libraries in the browser):
+npx devcert-cli generate snowpack
+# Rename because snowpack wants .crt
+mv snowpack.cert snowpack.crt
+# Start the server using https
+yarn start-https
 ```
 
 ## Understanding & contributing to the code

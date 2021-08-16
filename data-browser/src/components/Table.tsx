@@ -52,6 +52,7 @@ const TableStyled = styled.table`
   margin-left: ${p => -p.theme.margin}rem;
   margin-right: ${p => -p.theme.margin}rem;
   margin-bottom: ${p => p.theme.margin}rem;
+  width: calc(100% + 2rem);
 `;
 
 type HeaderProps = {

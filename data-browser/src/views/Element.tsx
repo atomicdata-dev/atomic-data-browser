@@ -95,7 +95,7 @@ export function Element({
   );
 
   useHotkeys(
-    'cmd+backspace',
+    'cmd+backspace,ctrl+backspace',
     e => {
       if (active) {
         e.preventDefault();
@@ -190,7 +190,6 @@ export function Element({
 }
 
 const ElementFocusStyle = css`
-  /* background-color: ${p => p.theme.colors.bg1}; */
   border-radius: 5px;
   outline: none;
 `;
