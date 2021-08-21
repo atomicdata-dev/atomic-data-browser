@@ -8,6 +8,7 @@
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.22.0",
     "@web/test-runner": "^0.12.18",
+    "@web/test-runner-playwright": "^0.8.8",
     "@web/test-runner-puppeteer": "^0.9.3",
     "chai": "^4.3.4",
     "eslint": "^7.29.0",

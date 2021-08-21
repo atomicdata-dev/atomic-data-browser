@@ -97,7 +97,12 @@ function HeaderItem({ subject }: HeaderItemProps) {
   return (
     <CellHeaderStyled>
       <ResourceInline subject={subject} />{' '}
-      <Button onClick={handleToggleSort} subtle={!thisPropIsSorted} icon>
+      <Button
+        onClick={handleToggleSort}
+        subtle={!thisPropIsSorted}
+        icon
+        data-test={`sort-${subject}`}
+      >
         {thisPropIsSorted ? (
           sortDesc == 'true' ? (
             <FaSortDown />

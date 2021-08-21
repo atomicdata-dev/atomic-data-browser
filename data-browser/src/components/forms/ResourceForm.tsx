@@ -269,7 +269,11 @@ export function ResourceForm({
           <ResourceField propertyURL={properties.read} resource={resource} />
         </>
       )}
-      <Button onClick={handleSubmit} disabled={disabled || saving}>
+      <Button
+        onClick={handleSubmit}
+        disabled={disabled || saving}
+        data-test='save'
+      >
         {saving ? 'wait...' : 'save'}
       </Button>
       {disabled && (

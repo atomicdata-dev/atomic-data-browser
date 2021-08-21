@@ -86,6 +86,15 @@ yarn start-https
 - **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data. Contains re-usable react specific logic.
 - **routes**: components that are fed into the React Router as main Routes (e.g. `/show`, `/app/theme`).
 
+## Testing
+
+There are unit tests (using Jest) and integration / browser / end-to-end (E2E) tests (using Playwright).
+The Playwright tests are located in `tests` and have `.spec` in their filename.
+
+- Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
+- `yarn test-pw` launches the E2E tests, but at this moment require that you're running the server locally.
+- `yarn test-pwd` launches the E2E tests in debug mode (a browser window opens)
+
 ## Contribute
 
 Open a PR, post an issue, but most of all: [join our Discord server](https://discord.gg/a72Rv2P)!

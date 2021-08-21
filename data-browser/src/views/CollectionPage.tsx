@@ -131,6 +131,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         onClick={handleNextPage}
         title='next page (right arrow)'
         disabled={currentPage == totalPages - 1}
+        data-test='next-page'
       >
         <FaArrowRight />
       </Button>

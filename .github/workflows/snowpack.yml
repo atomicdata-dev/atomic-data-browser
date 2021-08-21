@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
+      # This is needed when playwright is used in tests #70
+      # - run: npx playwright install-deps
       - run: yarn
       - run: yarn lint-fix
       - run: yarn test

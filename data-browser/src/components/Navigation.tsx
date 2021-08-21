@@ -214,6 +214,7 @@ function NavBar() {
         // @ts-ignore this seems to work fine
         ref={inputRef}
         type='text'
+        data-test='address-bar'
         name='search'
         aria-label='Search'
         onClick={handleSelect}
