@@ -92,6 +92,7 @@ The tests are located in `tests` and have `.spec` in their filename.
 They use the PlayWright framework and run in the browser.
 
 - Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
+- Install the Playwright dependencies: `npx playwright install-deps`
 - `yarn test` launches the E2E tests
 - `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
 - `yarn test-new` allows you to create new tests by clicking through the app

@@ -81,7 +81,9 @@ test.describe('data-browser', async () => {
     const teststring = `Testline ${new Date().toLocaleTimeString()}`;
     await page.keyboard.type(teststring);
     await page.keyboard.press('Enter');
-    setTimeout(async () => await page.reload(), 1000);
+    // TODO: refresh the page to make sure the commit is saved
+    // setTimeout(async () => await page.reload(), 1000);
+    // await page.reload();
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
   });
 

@@ -11,4 +11,4 @@ snowpack.key
 */dist
 */yarn-error.log
 test-results
-nohup.out
+*/nohup.out
