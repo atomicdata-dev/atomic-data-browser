@@ -25,9 +25,16 @@ jobs:
       - run: nohup yarn start &
       - run: yarn build
       - run: yarn test
-      - name: Deploy (`main` branch only) 🚀
+      - name: Deploy production 🚀
         if: ${{github.ref == refs/heads/main}}
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: data-browser/publish # The folder the action should deploy.
+      - name: Deploy staging 🚀
+        if: ${{github.ref != refs/heads/main}}
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: data-browser/publish
+          target-folder: staging
