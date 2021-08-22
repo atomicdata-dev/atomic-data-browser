@@ -11,13 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          # Required by playwrgith
+          node-version: "14"
       - uses: bahmutov/npm-install@v1
       # This is needed when playwright is used in tests #70
-      # - run: npx playwright install-deps
+      - run: npx playwright install-deps
       - run: yarn
       - run: yarn lint-fix
       - run: yarn test
       - run: yarn build
+      - run: nohup yarn start
+      # Run the back-end for testing
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: joepmeneer/atomic-server:latest
+      - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:

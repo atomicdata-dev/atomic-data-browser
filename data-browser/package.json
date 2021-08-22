@@ -71,9 +71,9 @@
     "predeploy": "snowpack build && touch build/.nojekyll",
     "start": "snowpack dev",
     "start-https": "snowpack dev --secure",
-    "test": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve --playwright --browsers chromium firefox webkit",
-    "test-pw": "playwright test",
-    "test-pwd": "PWDEBUG=1 playwright test"
+    "test-old": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "test": "playwright test",
+    "test-debug": "PWDEBUG=1 playwright test"
   },
   "version": "0.24.3"
 }
