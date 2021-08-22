@@ -86,8 +86,8 @@ test.describe('data-browser', async () => {
     // await page.reload();`
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
     const docTitle = `Document Title ${Math.floor(Math.random() * 100) + 1}`;
-    await page.click('[data-test="document-title"]');
     await page.fill('[data-test="document-title"]', docTitle);
+    await page.click('[data-test="document-title"]', { delay: 100 });
     await expect(page.locator('[data-test="document-title"]')).toBeFocused();
   });
 
