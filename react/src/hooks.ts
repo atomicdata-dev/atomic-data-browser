@@ -51,7 +51,7 @@ export function useResource(
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(subject, handleNotify);
+      store.unsubscribe(resource.getSubject(), handleNotify);
     };
   }, [store, subject]);
 
