@@ -27,6 +27,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: joepmeneer/atomic-server:latest
+          options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init
       - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
