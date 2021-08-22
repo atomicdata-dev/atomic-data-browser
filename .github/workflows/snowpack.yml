@@ -27,7 +27,8 @@ jobs:
         with:
           registry: dockerhub
           image: joepmeneer/atomic-server:latest
-          options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage --init
+          options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage
+          run: /server/atomic-server-bin --init
       - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
