@@ -51,17 +51,17 @@ export const About: React.FunctionComponent = () => {
       <h2>Things to visit</h2>
       <ul>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/collections/collection'>
+          <AtomicLink subject='https://atomicdata.dev/collections'>
             List of lists
           </AtomicLink>
         </li>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/collections/class'>
+          <AtomicLink subject='https://atomicdata.dev/classes'>
             List of Classes
           </AtomicLink>
         </li>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/collections/property'>
+          <AtomicLink subject='https://atomicdata.dev/properties'>
             List of Properties
           </AtomicLink>
         </li>

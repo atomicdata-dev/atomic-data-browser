@@ -7,6 +7,7 @@ export const Shortcuts: React.FunctionComponent = () => {
   return (
     <ContainerNarrow>
       <h1>Keyboard shortcuts</h1>
+      <h3>Global</h3>
       <p>
         <Key>/</Key> search
       </p>
@@ -37,8 +38,19 @@ export const Shortcuts: React.FunctionComponent = () => {
       <p>
         <Key>t</Key> <b>t</b>heme settings
       </p>
+      <h3>Collections</h3>
       <p>
-        <Key>v</Key> toggle <b>v</b>iew (collections only)
+        <Key>v</Key> toggle <b>v</b>iew (table / grid)
+      </p>
+      <h3>Document</h3>
+      <p>
+        <Key>alt</Key>+<Key>up</Key> move line / section up
+      </p>
+      <p>
+        <Key>alt</Key>+<Key>down</Key> move line / section down
+      </p>
+      <p>
+        <Key>ctrl</Key>+<Key>backspace</Key> delete line
       </p>
     </ContainerNarrow>
   );
@@ -46,10 +58,10 @@ export const Shortcuts: React.FunctionComponent = () => {
 
 const Key = styled.code`
   font-size: 1rem;
-  width: 1.7rem;
+  min-width: 1.7rem;
   height: 1.7rem;
   display: inline-flex;
-  padding: 0;
+  padding: 0 0.5rem;
   align-items: center;
   justify-content: center;
   border: solid 1px ${p => p.theme.colors.bg2};

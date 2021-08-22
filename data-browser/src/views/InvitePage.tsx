@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { Resource, Agent, generateKeyPair, properties } from '@tomic/lib';
-import { useBoolean, useNumber, useString } from '@tomic/react';
+import {
+  useBoolean,
+  useNumber,
+  useResource,
+  useString,
+  useTitle,
+} from '@tomic/react';
 import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
@@ -21,13 +27,15 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
   const [write] = useBoolean(resource, properties.invite.write);
   const history = useHistory();
   const { agent, setAgent } = useSettings();
+  const [agentResource] = useResource(agent?.subject);
+  const agentTitle = useTitle(agentResource, 15);
 
   const agentSubject = agent?.subject;
 
-  if (agentSubject) {
+  if (agentSubject && usagesLeft && usagesLeft > 0) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
     if (history.action != 'POP') {
-      handleAccept(null, agent.subject);
+      handleAccept(null, agentSubject);
     }
   }
 
@@ -55,18 +63,20 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <ValueForm resource={resource} propertyURL={properties.description} />
       <h1>
         Invite to {write ? 'edit' : 'view'} <ResourceInline subject={target} />
       </h1>
+      <ValueForm resource={resource} propertyURL={properties.description} />
       {usagesLeft == 0 ? (
-        <p>Sorry, this Invite has no usages left. Ask for a new one.</p>
+        <em>Sorry, this Invite has no usages left. Ask for a new one.</em>
       ) : (
         <>
           {agentSubject ? (
-            <Button onClick={() => handleAccept(null, agentSubject)}>
-              Accept as current Agent
-            </Button>
+            <>
+              <Button onClick={() => handleAccept(null, agentSubject)}>
+                Accept as {agentTitle}
+              </Button>
+            </>
           ) : (
             <Button onClick={handleNew}>Accept as new user</Button>
           )}

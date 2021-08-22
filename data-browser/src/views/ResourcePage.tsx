@@ -14,6 +14,7 @@ import Parent from '../components/Parent';
 import DrivePage from './DrivePage';
 import RedirectPage from './RedirectPage';
 import InvitePage from './InvitePage';
+import DocumentPage from './DocumentPage';
 
 type Props = {
   subject: string;
@@ -71,6 +72,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
       return <RedirectPage resource={resource} />;
     case urls.classes.invite:
       return <InvitePage resource={resource} />;
+    case urls.classes.document:
+      return <DocumentPage resource={resource} />;
   }
 
   return (

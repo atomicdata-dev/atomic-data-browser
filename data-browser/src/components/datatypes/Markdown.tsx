@@ -27,6 +27,10 @@ interface MarkdownWrapperProps {
 const MarkdownWrapper = styled.div<MarkdownWrapperProps>`
   /* Corrects the margin added by <p> and other HTML elements */
   margin-bottom: -${p => (p.noMargin ? p.theme.margin : 0)}rem;
+
+  img {
+    max-width: 100%;
+  }
 `;
 
 export default Markdown;

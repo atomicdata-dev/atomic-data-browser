@@ -3,6 +3,10 @@ export const classes = {
   collection: 'https://atomicdata.dev/classes/Collection',
   commit: 'https://atomicdata.dev/classes/Commit',
   class: 'https://atomicdata.dev/classes/Class',
+  document: 'https://atomicdata.dev/classes/Document',
+  elements: {
+    paragraph: 'https://atomicdata.dev/classes/elements/Paragraph',
+  },
   property: 'https://atomicdata.dev/classes/Property',
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',
@@ -19,6 +23,9 @@ export const properties = {
   name: 'https://atomicdata.dev/properties/name',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',
+  agent: {
+    publicKey: 'https://atomicdata.dev/properties/publicKey',
+  },
   collection: {
     members: 'https://atomicdata.dev/properties/collection/members',
     currentPage: 'https://atomicdata.dev/properties/collection/currentPage',
@@ -38,7 +45,7 @@ export const properties = {
     signature: 'https://atomicdata.dev/properties/signature',
   },
   document: {
-    elements: 'https://atomicdata.dev/properties/elements',
+    elements: 'https://atomicdata.dev/property/documents/elements',
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
@@ -57,6 +64,7 @@ export const properties = {
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
+  isDynamic: 'https://atomicdata.dev/properties/isDynamic',
   parent: 'https://atomicdata.dev/properties/parent',
   read: 'https://atomicdata.dev/properties/read',
   write: 'https://atomicdata.dev/properties/write',

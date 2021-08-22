@@ -131,6 +131,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         onClick={handleNextPage}
         title='next page (right arrow)'
         disabled={currentPage == totalPages - 1}
+        data-test='next-page'
       >
         <FaArrowRight />
       </Button>
@@ -141,12 +142,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
+      {description && <Markdown text={description} />}
       <ButtonsBar>
         {totalPages > 1 && <Pagination />}
         <Button
           subtle
           onClick={handleToggleView}
-          title={`use ${nextDisplayStyle.id} view`}
+          title={`use ${nextDisplayStyle.id} view (v)`}
         >
           {nextDisplayStyle.icon}
         </Button>
@@ -175,7 +177,6 @@ function Collection({ resource }: CollectionProps): JSX.Element {
           </DropDownMini>
         )}
       </ButtonsBar>
-      {description && <Markdown text={description} />}
       {showClassDescription && valueFilter && (
         <>
           <Link subject={valueFilter}>
@@ -263,7 +264,7 @@ const Masonry = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: masonry;
     /* grid-gap: ${props => props.theme.margin}rem; */
-    grid-column-gap: ${props => props.theme.margin * 2}rem;
+    grid-column-gap: ${props => props.theme.margin}rem;
   }
 
   /* Masonry on small screens */

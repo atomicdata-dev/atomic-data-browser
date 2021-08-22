@@ -21,6 +21,7 @@ export function openURL(subject: string): string {
   const url = new URL(subject);
   if (window.location.origin == url.origin) {
     const path = url.pathname + url.search;
+    if (path == '/') return '';
     return path;
   } else {
     return constructURL(paths.show, 'subject', subject);

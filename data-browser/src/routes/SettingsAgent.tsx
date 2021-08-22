@@ -14,6 +14,9 @@ import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
 import ResourceInline from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
+import AtomicLink from '../components/Link';
+import { editURL } from '../helpers/navigation';
+import { useHistory } from 'react-router';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -23,6 +26,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
   const [secret, setSecret] = useState<string>('');
+  const history = useHistory();
 
   // When there is an agent, set the advanced values
   // Otherwise, reset the secret value
@@ -71,18 +75,18 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   /** Called when the secret or the subject is updated manually */
-  function handleUpdateSubjectAndKey() {
+  async function handleUpdateSubjectAndKey() {
     renewSecret();
     setError(null);
 
     try {
       const agent = new Agent(privateKey, subject);
-      agent.getPublicKey();
+      await agent.getPublicKey();
+      await agent.checkPublicKey();
       setAgent(agent);
     } catch (e) {
       const err = new Error('Invalid Agent' + e);
       setError(err);
-      setAgent(null);
     }
   }
 
@@ -91,7 +95,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   /** When the Secret updates, parse it and try if the */
-  function handleUpdateSecret(updateSecret: string) {
+  async function handleUpdateSecret(updateSecret: string) {
     setSecret(updateSecret);
     if (updateSecret == '') {
       setSecret('');
@@ -102,6 +106,7 @@ const SettingsAgent: React.FunctionComponent = () => {
 
     try {
       const agent = Agent.fromSecret(updateSecret);
+      await agent.checkPublicKey();
       setAgent(agent);
       setPrivateKey(agent.privateKey);
       setSubject(agent.subject);
@@ -124,7 +129,12 @@ const SettingsAgent: React.FunctionComponent = () => {
             <LabelStyled>
               <FaUser /> You{"'"}re signed in as
             </LabelStyled>
-            <ResourceInline subject={agent.subject} />
+            <p>
+              <ResourceInline subject={agent.subject} />
+            </p>
+            <Button onClick={() => history.push(editURL(agent.subject))}>
+              Edit profile
+            </Button>
             <Margin />
           </>
         ) : (
@@ -133,8 +143,11 @@ const SettingsAgent: React.FunctionComponent = () => {
             <a href='https://github.com/joepio/atomic/tree/master/server'>
               atomic-server
             </a>
-            . Alternatively, you can use an Invite to get a guest Agent on
-            someone else{"'s"} Atomic Server.
+            . Alternatively, you can use{' '}
+            <AtomicLink subject='https://atomicdata.dev/invites'>
+              an Invite
+            </AtomicLink>{' '}
+            to get a guest Agent on someone else{"'s"} Atomic Server.
           </p>
         )}
         <Field
@@ -182,7 +195,6 @@ const SettingsAgent: React.FunctionComponent = () => {
               helper={
                 'The link to your Agent, e.g. https://atomicdata.dev/agents/someAgent'
               }
-              error={error}
             >
               <InputWrapper>
                 <InputStyled
@@ -200,7 +212,6 @@ const SettingsAgent: React.FunctionComponent = () => {
               helper={
                 'The private key of the Agent, which is a Base64 encoded string.'
               }
-              error={error}
             >
               <InputWrapper>
                 <InputStyled
@@ -230,6 +241,7 @@ const SettingsAgent: React.FunctionComponent = () => {
             subtle
             title='Sign out with current Agent and reset this form'
             onClick={handleSignOut}
+            data-test='sign-out'
           >
             sign out
           </Button>

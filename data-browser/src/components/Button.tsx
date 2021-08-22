@@ -131,7 +131,8 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   padding-right: ${p => p.theme.margin}rem;
   box-shadow: ${p => (p.subtle ? p.theme.boxShadow : 'none')};
   display: inline-flex;
-  background-color: ${p => (p.subtle ? 'transparent' : p.theme.colors.main)};
+  background-color: ${p =>
+    p.subtle ? p.theme.colors.bg : p.theme.colors.main};
   color: ${p => (p.subtle ? p.theme.colors.textLight : p.theme.colors.bg)};
   border: solid 1px
     ${p => (p.subtle ? p.theme.colors.bg2 : p.theme.colors.main)};

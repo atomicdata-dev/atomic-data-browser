@@ -62,7 +62,7 @@ export function ResourceSelector({
   function handleUpdate(newval: string) {
     // Pass the error setter for validation purposes
     // Pass the Error handler to its parent, so validation errors appear locally
-    setSubject(newval ? newval : '', setError);
+    setSubject(newval, setError);
     // Reset the error every time anything changes
     setError(null);
   }
@@ -98,17 +98,19 @@ export function ResourceSelector({
 }
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
-export function getCollectionURL(classtypeUrl: string): string {
+export function getCollectionURL(classtypeUrl: string): string | null {
   switch (classtypeUrl) {
     case urls.classes.property:
-      return 'https://atomicdata.dev/collections/property';
+      return 'https://atomicdata.dev/properties';
     case urls.classes.class:
-      return 'https://atomicdata.dev/collections/class';
+      return 'https://atomicdata.dev/classes';
     case urls.classes.agent:
-      return 'https://atomicdata.dev/collections/agent';
+      return 'https://atomicdata.dev/agents/';
     case urls.classes.commit:
-      return 'https://atomicdata.dev/collections/commit';
+      return 'https://atomicdata.dev/commits';
     case urls.classes.datatype:
-      return 'https://atomicdata.dev/collections/datatype';
+      return 'https://atomicdata.dev/datatypes';
+    default:
+      return null;
   }
 }

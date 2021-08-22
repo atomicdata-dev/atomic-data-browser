@@ -12,11 +12,17 @@ A GUI for viewing, editing and browsing Atomic Data.
 
 **demo on [atomicdata.dev](https://atomicdata.dev)**
 
+```sh
+# To run, simply run the following commands:
+yarn
+yarn start
+```
+
 [→ Read more](data-browser/README.md)
 
 ## `@tomic/lib`
 
-<a href="https://www.npmjs.com/package/@tomic/lib" target="_blank">
+<a href="https://www.npmjs.com/package\/@tomic/lib" target="_blank">
   <img src="https://img.shields.io/npm/v/@tomic/lib?color=cc3534" />
 </a>
 <a href="https://www.npmjs.com/package/@tomic/lib" target="_blank">

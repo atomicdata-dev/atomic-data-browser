@@ -8,6 +8,7 @@
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.22.0",
     "@web/test-runner": "^0.12.18",
+    "@web/test-runner-playwright": "^0.8.8",
     "@web/test-runner-puppeteer": "^0.9.3",
     "chai": "^4.3.4",
     "eslint": "^7.29.0",
@@ -18,6 +19,7 @@
     "husky": "^6.0.0",
     "jest": "^27.0.5",
     "lerna": "^4.0.0",
+    "playwright": "^1.14.0",
     "prettier": "2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
     "ts-jest": "^27.0.3",
@@ -27,6 +29,7 @@
   "private": true,
   "scripts": {
     "lint": "lerna run lint",
+    "lint-fix": "lerna run lint-fix",
     "build": "lerna run build",
     "test": "lerna run test",
     "publish": "lerna run tsc && lerna publish",

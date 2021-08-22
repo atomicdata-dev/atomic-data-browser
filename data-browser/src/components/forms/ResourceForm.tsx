@@ -68,25 +68,27 @@ export function ResourceForm({
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const { agent } = useSettings();
-  const debouncedResource = useDebounce(resource, 5000);
-  const [canWrite, canWriteErr] = useCanWrite(
-    debouncedResource,
-    agent?.subject,
-  );
+  // const { agent } = useSettings();
+  // const debouncedResource = useDebounce(resource, 5000);
+  // const [canWrite, canWriteErr] = useCanWrite(
+  //   debouncedResource,
+  //   agent?.subject,
+  // );
   const [disabled, setDisabled] = useState(false);
   const [, setResourceParent] = useString(resource, properties.parent);
 
   // Sets agent warning / eror
-  useEffect(() => {
-    if (canWrite == false) {
-      setErr(new Error(`Cannot save: ${canWriteErr}.`));
-      // TODO: This is being reset too often, which sucks
-      // setDisabled(true);
-    } else {
-      setErr(null);
-    }
-  }, [canWrite, canWriteErr, agent]);
+  // Currently not reliable
+  // https://github.com/joepio/atomic-data-browser/issues/71
+  // useEffect(() => {
+  //   if (canWrite == false) {
+  //     setErr(new Error(`Cannot save: ${canWriteErr}.`));
+  //     // TODO: This is being reset too often, which sucks
+  //     // setDisabled(true);
+  //   } else {
+  //     setErr(null);
+  //   }
+  // }, [canWrite, canWriteErr, agent]);
 
   // Sets the parent
   useEffect(() => {
@@ -267,7 +269,11 @@ export function ResourceForm({
           <ResourceField propertyURL={properties.read} resource={resource} />
         </>
       )}
-      <Button onClick={handleSubmit} disabled={disabled || saving}>
+      <Button
+        onClick={handleSubmit}
+        disabled={disabled || saving}
+        data-test='save'
+      >
         {saving ? 'wait...' : 'save'}
       </Button>
       {disabled && (

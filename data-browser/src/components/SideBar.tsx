@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
-import { properties } from '@tomic/lib';
+import { properties, ResourceStatus } from '@tomic/lib';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
@@ -15,17 +15,20 @@ import {
   FaExternalLinkAlt,
   FaInfo,
   FaKeyboard,
+  FaPencilAlt,
   FaPlus,
   FaUser,
 } from 'react-icons/fa';
 import { paths } from '../routes/paths';
+import { ErrorLook } from '../views/ResourceInline';
+import { openURL } from '../helpers/navigation';
+
+/** Amount of pixels where the sidebar automatically shows */
+export const SIDEBAR_TOGGLE_WIDTH = 600;
 
 export function SideBar(): JSX.Element {
-  const store = useStore();
-  const [drive] = useResource(store.baseUrl);
-  const [children] = useArray(drive, properties.children);
+  const { baseURL } = useSettings();
   const history = useHistory();
-  const title = useTitle(drive);
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>();
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const windowSize = useWindowSize();
@@ -68,7 +71,7 @@ export function SideBar(): JSX.Element {
       label: 'about',
       helper: 'Welcome page, tells about this app',
       onClick: () => {
-        history.push('/');
+        history.push(paths.about);
       },
     },
   ];
@@ -99,14 +102,14 @@ export function SideBar(): JSX.Element {
   ];
 
   function isWideScreen(): boolean {
-    return windowSize.width > 600;
+    return windowSize.width > SIDEBAR_TOGGLE_WIDTH;
   }
 
   /**
    * This is called when the user presses a menu Item, which should result in a
    * closed menu in mobile context
    */
-  function handleCloseSideBarMayb() {
+  function handleClickItem() {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
       setSideBarLocked(false);
@@ -121,7 +124,7 @@ export function SideBar(): JSX.Element {
         clean
         onClick={() => {
           item.onClick();
-          handleCloseSideBarMayb();
+          handleClickItem();
         }}
       >
         {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
@@ -134,27 +137,17 @@ export function SideBar(): JSX.Element {
     <SideBarContainer>
       <SideBarStyled
         ref={ref}
-        locked={windowSize.width > 600 && sideBarLocked}
+        locked={isWideScreen() && sideBarLocked}
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
       >
         {navbarTop ? <PaddingBig /> : null}
-        <SideBarHeader>{title}</SideBarHeader>
-        {children.map(child => {
-          return (
-            <ResourceSideBar
-              key={child}
-              subject={child}
-              handleClose={handleCloseSideBarMayb}
-            />
-          );
-        })}
+        {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
+        <SideBarDrive handleClickItem={handleClickItem} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(renderMenuItem)}
           <SideBarHeader>
-            <Logo
-              style={{ height: '1.1rem', maxWidth: '100%', align: 'left' }}
-            />
+            <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
           {aboutMenuItems.map(renderMenuItem)}
         </SideBarBottom>
@@ -168,6 +161,60 @@ export function SideBar(): JSX.Element {
   );
 }
 
+interface SideBarDriveProps {
+  /** Closes the sidebar on small screen devices */
+  handleClickItem: () => any;
+}
+
+/** Shows the current Drive, it's children and an option to change to a different Drive */
+function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
+  const { baseURL } = useSettings();
+  const [drive] = useResource(baseURL);
+  const [children] = useArray(drive, properties.children);
+  const title = useTitle(drive);
+  const history = useHistory();
+
+  return (
+    <>
+      <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
+        <Button
+          clean
+          data-test='sidebar-drive-open'
+          onClick={() => {
+            handleClickItem();
+            history.push(openURL(baseURL));
+          }}
+        >
+          <DriveTitle>{title || baseURL} </DriveTitle>
+        </Button>
+        <Button
+          onClick={() => history.push(paths.serverSettings)}
+          icon
+          subtle
+          data-test='sidebar-drive-edit'
+        >
+          <FaPencilAlt />
+        </Button>
+      </SideBarHeader>
+      {drive.isReady() ? (
+        children.map(child => {
+          return (
+            <ResourceSideBar
+              key={child}
+              subject={child}
+              handleClose={handleClickItem}
+            />
+          );
+        })
+      ) : drive.getStatus() == ResourceStatus.loading ? null : (
+        <SideBarErr>
+          {drive.getError()?.message || 'Could not load this baseURL'}
+        </SideBarErr>
+      )}
+    </>
+  );
+}
+
 interface SideBarStyledProps {
   locked: boolean;
   exposed: boolean;
@@ -177,12 +224,22 @@ interface SideBarOverlayProps {
   visible: boolean;
 }
 
+const DriveTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 1.4rem;
+`;
+
 const PaddingSmall = styled('div')`
   min-height: 1rem;
 `;
 
 const PaddingBig = styled('div')`
   min-height: 3rem;
+`;
+
+const SideBarErr = styled(ErrorLook)`
+  padding-left: ${props => props.theme.margin}rem;
 `;
 
 // eslint-disable-next-line prettier/prettier
@@ -248,7 +305,7 @@ export const SideBarItem = styled(Button)`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   display: flex;
-  min-height: 1.6rem;
+  min-height: ${props => props.theme.margin * 0.5 + 1}rem;
   align-items: center;
   justify-content: flex-start;
   color: ${p => p.theme.colors.textLight};

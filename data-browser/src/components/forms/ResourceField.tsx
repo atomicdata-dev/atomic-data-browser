@@ -7,6 +7,8 @@ import Markdown from '../datatypes/Markdown';
 import { InputWrapper, InputStyled } from './InputStyles';
 import InputSwitcher from './InputSwitcher';
 import AtomicLink from '../Link';
+import { useState } from 'react';
+import { Button } from '../Button';
 
 /** A form field with a label */
 function ResourceField({
@@ -18,6 +20,7 @@ function ResourceField({
   disabled,
 }: IFieldProps): JSX.Element {
   const property = useProperty(propertyURL);
+  const [collapsedDynamic, setCollapsedDynamic] = useState(true);
 
   if (property == null) {
     return (
@@ -25,6 +28,23 @@ function ResourceField({
         <InputWrapper>
           <InputStyled disabled={disabled} placeholder='loading property...' />
         </InputWrapper>
+      </Field>
+    );
+  }
+
+  if (property.isDynamic && collapsedDynamic) {
+    return (
+      <Field
+        helper={
+          <HelperText text={property.description} link={property.subject} />
+        }
+        label={property.shortname}
+        disabled={disabled}
+      >
+        {'This field is calculated server-side, edits will not be saved. '}
+        <Button subtle onClick={() => setCollapsedDynamic(false)}>
+          edit anyway
+        </Button>
       </Field>
     );
   }

@@ -21,6 +21,8 @@ export class Store {
   subscribers: Map<string, Array<callback>>;
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
+  /** Is called when the store encounters an error. */
+  errorHandler?: (e: Error) => unknown;
 
   constructor() {
     this.resources = new Map();
@@ -170,6 +172,14 @@ export class Store {
     return prop;
   }
 
+  /**
+   * This is called when Errors occur in some of the library functions. Set your
+   * errorhandler function to `store.errorHandler`.
+   */
+  handleError(e: Error): void {
+    this.errorHandler(e) || console.error(e);
+  }
+
   /** Let's subscribers know that a resource has been changed. Time to update your views! */
   notify(resource: Resource): void {
     const subject = resource.getSubject();
@@ -227,6 +237,7 @@ export class Store {
    * Registers a callback for when the a resource is updated. When you call
    * this, you should probably also call .unsubscribe some time later.
    */
+  // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
   subscribe(subject: string, callback: callback): void {
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {
@@ -249,7 +260,10 @@ export class Property {
   datatype: Datatype;
   shortname: string;
   description: string;
+  /** https://atomicdata.dev/properties/classType */
   classType?: string;
   /** If the Property cannot be found or parsed, this will contain the error */
   error?: Error;
+  /** https://atomicdata.dev/properties/isDynamic */
+  isDynamic?: boolean;
 }

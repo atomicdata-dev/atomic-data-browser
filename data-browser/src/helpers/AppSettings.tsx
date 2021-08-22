@@ -2,8 +2,9 @@ import React, { ReactNode } from 'react';
 import { useContext } from 'react';
 import { Agent } from '@tomic/lib';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
-import { useLocalStorage, useCurrentAgent } from '@tomic/react';
+import { useLocalStorage, useCurrentAgent, useBaseURL } from '@tomic/react';
 import toast from 'react-hot-toast';
+import { SIDEBAR_TOGGLE_WIDTH } from '../components/SideBar';
 
 interface ProviderProps {
   children: ReactNode;
@@ -15,16 +16,17 @@ export const AppSettingsContextProvider = (
 ): JSX.Element => {
   const [darkMode, setDarkMode, darkModeSetting] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
-  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
+  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', true);
   const [navbarFloating, setNavbarFloating] = useLocalStorage(
     'navbarFloating',
     false,
   );
   const [sideBarLocked, setSideBarLocked] = useLocalStorage(
     'sideBarOpen',
-    false,
+    window.innerWidth > SIDEBAR_TOGGLE_WIDTH,
   );
   const [agent, setAgent] = useCurrentAgent();
+  const [baseURL, setBaseURL] = useBaseURL();
 
   const setAgentToast = (agent: Agent) => {
     try {
@@ -40,6 +42,8 @@ export const AppSettingsContextProvider = (
   return (
     <SettingsContext.Provider
       value={{
+        baseURL,
+        setBaseURL,
         darkMode,
         darkModeSetting,
         setDarkMode,
@@ -71,6 +75,9 @@ interface AppSettings {
   /** CSS value for the primary color */
   mainColor: string;
   setMainColor: (s: string) => void;
+  /** The URL that points to the Drive shown in the SideBar */
+  baseURL: string;
+  setBaseURL: (s: string) => void;
   /** If the navbar should be at the top of the page */
   navbarTop: boolean;
   setNavbarTop: (s: boolean) => void;

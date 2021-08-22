@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useResource } from '@tomic/react';
-import { Resource, urls } from '@tomic/lib';
+import styled, { css } from 'styled-components';
+import { useProperty, useResource } from '@tomic/react';
+import { Datatype, Resource, urls } from '@tomic/lib';
 import ResourceInline from '../views/ResourceInline';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -47,9 +47,12 @@ function Table({ resource, members, columns }: TableProps): JSX.Element {
 }
 
 const TableStyled = styled.table`
-  display: block;
   overflow-y: auto;
   border-collapse: collapse;
+  margin-left: ${p => -p.theme.margin}rem;
+  margin-right: ${p => -p.theme.margin}rem;
+  margin-bottom: ${p => p.theme.margin}rem;
+  width: calc(100% + 2rem);
 `;
 
 type HeaderProps = {
@@ -60,7 +63,7 @@ function Header({ columns }: HeaderProps): JSX.Element {
   return (
     <thead>
       <tr>
-        <CellStyled header>subject</CellStyled>
+        <CellHeaderStyled>subject</CellHeaderStyled>
         {columns.map(prop => {
           return <HeaderItem key={prop} subject={prop} />;
         })}
@@ -92,9 +95,14 @@ function HeaderItem({ subject }: HeaderItemProps) {
   const thisPropIsSorted = sortBy == subject;
 
   return (
-    <CellStyled header>
+    <CellHeaderStyled>
       <ResourceInline subject={subject} />{' '}
-      <Button onClick={handleToggleSort} subtle={!thisPropIsSorted} icon>
+      <Button
+        onClick={handleToggleSort}
+        subtle={!thisPropIsSorted}
+        icon
+        data-test={`sort-${subject}`}
+      >
         {thisPropIsSorted ? (
           sortDesc == 'true' ? (
             <FaSortDown />
@@ -105,7 +113,7 @@ function HeaderItem({ subject }: HeaderItemProps) {
           <FaSort />
         )}
       </Button>
-    </CellStyled>
+    </CellHeaderStyled>
   );
 }
 
@@ -132,7 +140,12 @@ function Row({ subject, propsArray }: RowProps): JSX.Element {
 }
 
 const RowStyled = styled.tr`
+  background-color: ${p => p.theme.colors.bg};
   border-top: solid 1px ${props => props.theme.colors.bg2};
+
+  &:last-child {
+    border-bottom: solid 1px ${props => props.theme.colors.bg2};
+  }
 `;
 
 const CellContainer = styled.div`
@@ -162,15 +175,26 @@ function Cell({ resource, prop: propUrl }: CellProps): JSX.Element {
   );
 }
 
-type CellStyledProps = {
-  header?: boolean;
-};
-
-const CellStyled = styled.td<CellStyledProps>`
-  padding: 0.3rem;
+const cellStyles = css`
+  padding: ${p => p.theme.margin / 2}rem;
+  padding-left: ${p => p.theme.margin}rem;
   vertical-align: top;
-  font-weight: ${props => (props.header ? 'bold' : ``)};
-  white-space: ${props => (props.header ? 'nowrap' : ``)};
+
+  &:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+`;
+
+const CellHeaderStyled = styled.th`
+  text-align: left;
+  ${cellStyles}
+  font-weight: bold;
+  white-space: nowrap;
+`;
+
+const CellStyled = styled.td`
+  ${cellStyles}
 `;
 
 export default Table;

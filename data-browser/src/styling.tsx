@@ -45,6 +45,8 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     boxShadow: `0 0 10px 0px ${shadowColor}`,
     boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,
+    fontSizeBody: 1,
+    fontSizeH1: 2,
     sideBarWidth: 15,
     margin: 1,
     radius: '9px',
@@ -52,12 +54,15 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       main,
       mainLight: darkMode ? lighten(0.08)(main) : lighten(0.08)(main),
       mainDark: darkMode ? darken(0.08)(main) : darken(0.08)(main),
-      bg,
+      bg: bg,
+      // Use pitch black for dark mode
+      bgBody: darkMode ? bg : darken(0.02)(bg),
       bg1: darkMode ? lighten(0.1)(bg) : darken(0.05)(bg),
       bg2: darkMode ? lighten(0.3)(bg) : darken(0.2)(bg),
       text,
       text1: darkMode ? darken(0.1)(text) : lighten(0.1)(text),
       textLight: darkMode ? darken(0.4)(text) : lighten(0.4)(text),
+      textLight2: darkMode ? darken(0.8)(text) : lighten(0.8)(text),
       alert: '#cf5b5b',
     },
   };
@@ -69,6 +74,8 @@ declare module 'styled-components' {
     /** If true, make things dark */
     darkMode: boolean;
     fontFamily: string;
+    fontSizeBody: number;
+    fontSizeH1: number;
     boxShadow: string;
     boxShadowIntense: string;
     /** Base margin */
@@ -83,9 +90,13 @@ declare module 'styled-components' {
     colors: {
       /** Main accent color, used for links */
       main: string;
+      /** Slightly lighter version of Main accent color */
       mainLight: string;
+      /** Slightly darker version of Main accent color */
       mainDark: string;
-      /** Absolute background color */
+      /** The background color of the body, which is subtly different from bg */
+      bgBody: string;
+      /** Most common background color */
       bg: string;
       /** Subtle background color */
       bg1: string;
@@ -97,6 +108,8 @@ declare module 'styled-components' {
       text1: string;
       /** Lighter shade of text */
       textLight: string;
+      /** Lighter shade of text, not accessible for some */
+      textLight2: string;
       /** Error / warning color */
       alert: string;
     };
@@ -107,7 +120,7 @@ declare module 'styled-components' {
 export const GlobalStyle = createGlobalStyle`
 
   body {
-    background-color: ${props => props.theme.colors.bg};
+    background-color: ${props => props.theme.colors.bgBody};
     color: ${props => props.theme.colors.text};
     font-family: ${props => props.theme.fontFamily};
     line-height: 1.5em;
@@ -129,7 +142,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: ${p => p.theme.fontSizeH1}rem;
   }
 
   h2 {
@@ -156,6 +169,7 @@ export const GlobalStyle = createGlobalStyle`
   ul {
     margin-top: 0;
     margin-bottom: ${props => props.theme.margin}rem;
+    padding: 0;
 
     li {
       list-style-type: disc;

@@ -7,11 +7,11 @@
     "@bugsnag/js": "^7.9.2",
     "@bugsnag/plugin-react": "^7.9.2",
     "@tomic/lib": "^0.24.2",
-    "@tomic/react": "^0.24.2",
+    "@tomic/react": "^0.24.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
-    "@types/styled-components": "^5.1.9",
+    "@types/styled-components": "^5.1.11",
     "oaf-react-router": "^2.1.1",
     "polished": "^4.1.0",
     "query-string": "^7.0.0",
@@ -26,12 +26,14 @@
     "react-intersection-observer": "^8.31.1",
     "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
+    "react-sortable-hoc": "^2.0.0",
     "snowpack-plugin-baseurl-handler": "^0.0.3",
-    "styled-components": "^5.2.3",
+    "styled-components": "^5.3.0",
     "use-query-params": "^1.2.2",
     "yamde": "^1.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.14.0",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-react-refresh": "^2.4.2",
     "@snowpack/plugin-run-script": "^2.3.0",
@@ -67,8 +69,12 @@
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "predeploy": "snowpack build && touch build/.nojekyll",
-    "start": "snowpack dev --secure",
-    "test": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve"
+    "start": "snowpack dev",
+    "start-https": "snowpack dev --secure",
+    "test-old": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "test": "playwright test",
+    "test-debug": "PWDEBUG=1 playwright test",
+    "test-new": "playwright codegen http://localhost:8080"
   },
-  "version": "0.24.2"
+  "version": "0.24.3"
 }

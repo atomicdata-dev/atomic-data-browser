@@ -58,16 +58,32 @@ function Data(): JSX.Element {
         : null}
       <div>
         <span>Fetch as: </span>
-        <Button subtle onClick={() => fetchAs('application/ad+json')}>
+        <Button
+          subtle
+          onClick={() => fetchAs('application/ad+json')}
+          data-test='fetch-json-ad'
+        >
           JSON-AD
         </Button>
-        <Button subtle onClick={() => fetchAs('application/json')}>
+        <Button
+          subtle
+          onClick={() => fetchAs('application/json')}
+          data-test='fetch-json'
+        >
           JSON
         </Button>
-        <Button subtle onClick={() => fetchAs('application/ld+json')}>
+        <Button
+          subtle
+          onClick={() => fetchAs('application/ld+json')}
+          data-test='fetch-json-ld'
+        >
           JSON-LD
         </Button>
-        <Button subtle onClick={() => fetchAs('text/turtle')}>
+        <Button
+          subtle
+          onClick={() => fetchAs('text/turtle')}
+          data-test='fetch-turtle'
+        >
           Turtle / N-triples / N3
         </Button>
       </div>
@@ -75,7 +91,7 @@ function Data(): JSX.Element {
       {!err && textResponse && (
         <>
           <CodeBlock>{textResponse}</CodeBlock>
-          <Button onClick={copyToClipboard}>
+          <Button onClick={copyToClipboard} data-test='copy-response'>
             {isCopied ? 'Copied!' : 'Copy to clipboard'}
           </Button>
         </>
@@ -86,6 +102,8 @@ function Data(): JSX.Element {
 
 const CodeBlock = styled.pre`
   background-color: ${p => p.theme.colors.bg1};
+  border-radius: ${p => p.theme.radius};
+  border: solid 1px ${p => p.theme.colors.bg2};
   padding: 0.3rem;
   font-family: monospace;
   width: 100%;

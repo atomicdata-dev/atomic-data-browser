@@ -28,14 +28,11 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 ## Running locally
 
 ```sh
-# Create keys for https (required to run `window.crypto` libraries in the browser):
-npx devcert-cli generate snowpack
-# Rename because snowpack wants .crt
-mv snowpack.cert snowpack.crt
 # Install dependencies
 yarn
 # Run dev server
 yarn start
+# Open browser at http://localhost:8081
 ```
 
 If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent), including its `privateKey` and `subject`.
@@ -51,6 +48,17 @@ docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atom
 # Copy the server, privatekey and agent
 # Edit the newly created .env and paste in the values from above
 vim .env
+```
+
+If you need to run locally using HTTPS:
+
+```sh
+# Create keys for https (required to run `window.crypto` libraries in the browser):
+npx devcert-cli generate snowpack
+# Rename because snowpack wants .crt
+mv snowpack.cert snowpack.crt
+# Start the server using https
+yarn start-https
 ```
 
 ## Understanding & contributing to the code
@@ -77,6 +85,26 @@ vim .env
 - **atomic-lib**: general atomic data library, containing logic for the store, parsing, sending requests, the Resource model, datatype validations, creating Commits and more. Should not contain any react-specific code.
 - **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data. Contains re-usable react specific logic.
 - **routes**: components that are fed into the React Router as main Routes (e.g. `/show`, `/app/theme`).
+
+## Testing
+
+The tests are located in `tests` and have `.spec` in their filename.
+They use the PlayWright framework and run in the browser.
+
+- Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
+- Install the Playwright dependencies: `npx playwright install-deps`
+- `yarn test` launches the E2E tests
+- `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
+- `yarn test-new` allows you to create new tests by clicking through the app
+
+## CI
+
+GitHub Action is run on every used for:
+
+- Linting (ESlint)
+- Testing (in the browser, using an `atomic-server` docker image)
+- Building
+- Deploying to GH pages (this JS file is used by default by `atomic-server` instances)
 
 ## Contribute
 

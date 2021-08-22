@@ -46,19 +46,28 @@ export class Resource {
   }
 
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
-  async canWrite(store: Store, agent: string): Promise<boolean> {
+  async canWrite(
+    store: Store,
+    agent: string,
+    child?: string,
+  ): Promise<boolean> {
     const writeArray = this.get(properties.write)?.toArray();
 
     if (writeArray && writeArray.includes(agent)) {
       return true;
     }
     const parentSubject = this.get(properties.parent)?.toString();
+    // This should not happen, but it prevents an infinite loop
+    if (child == parentSubject) {
+      console.warn('Circular parent', child);
+      return true;
+    }
     if (parentSubject == undefined) {
       return false;
     }
     const parent: Resource = await store.getResourceAsync(parentSubject);
     // The recursive part
-    const canWrite = await parent.canWrite(store, agent);
+    const canWrite = await parent.canWrite(store, agent, this.getSubject());
     return canWrite;
   }
 
@@ -163,16 +172,24 @@ export class Resource {
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
     }
-    // TODO: Check if all required props are there
-    const commit = await this.commitBuilder.sign(
-      agent.privateKey,
-      agent.subject,
-    );
-    const endpoint = new URL(this.getSubject()).origin + `/commit`;
-    await postCommit(commit, endpoint);
-    // When all succeeds, save it
+    // Clean up the commitBuilder, but save a backup if the server does not apply the commit.
+    const oldCommitBuilder = this.commitBuilder;
+    this.commitBuilder = new CommitBuilder(this.getSubject());
+    // Instantly (optimistically) save for local usage
+    // Doing this early is essential for having a snappy UX in the document editor
     store.addResource(this);
-    return this.getSubject();
+    // TODO: Check if all required props are there
+    const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
+    const endpoint = new URL(this.getSubject()).origin + `/commit`;
+    try {
+      await postCommit(commit, endpoint);
+      return this.getSubject();
+    } catch (e) {
+      // If it fails, revert to the old resource with the old CommitBuilder
+      this.commitBuilder = oldCommitBuilder;
+      store.addResource(this);
+      throw e;
+    }
   }
 
   /**

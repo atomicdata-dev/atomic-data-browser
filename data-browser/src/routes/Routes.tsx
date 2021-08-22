@@ -11,7 +11,9 @@ import { Shortcuts } from './ShortcutsRoute';
 import { About as About } from './AboutRoute';
 import Local from './LocalRoute';
 import SettingsAgent from './SettingsAgent';
+import { SettingsServer } from './SettingsServer';
 import { paths } from './paths';
+import ResourcePage from '../views/ResourcePage';
 
 /** Handles the browser URL navigation paths */
 export function Routes(): JSX.Element {
@@ -25,6 +27,9 @@ export function Routes(): JSX.Element {
       </Route>
       <Route path={paths.agentSettings}>
         <SettingsAgent />
+      </Route>
+      <Route path={paths.serverSettings}>
+        <SettingsServer />
       </Route>
       <Route path={paths.shortcuts}>
         <Shortcuts />
@@ -43,8 +48,9 @@ export function Routes(): JSX.Element {
       </Route>
       <Route path={paths.search} component={Search} />
       <Route path='/:path' component={Local} />
-      <Route exact path='/'>
-        <Redirect to={paths.about} />
+      <Route exact path=''>
+        {/* <Redirect to={paths.about} /> */}
+        <ResourcePage subject={window.location.origin} />
       </Route>
     </Switch>
   );

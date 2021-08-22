@@ -5,9 +5,12 @@ import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
-import { openURL } from '../helpers/navigation';
+import { editURL, openURL } from '../helpers/navigation';
 import AllProps from '../components/AllProps';
 import { useSettings } from '../helpers/AppSettings';
+import { Button } from '../components/Button';
+import toast from 'react-hot-toast';
+import { paths } from '../routes/paths';
 
 type DrivePageProps = {
   resource: Resource;
@@ -29,6 +32,15 @@ function RedirectPage({ resource }: DrivePageProps): JSX.Element {
     // If there is an agent without a Subject, that is because the Browser has just sent a query param to the invite resource, as part of the invite process
     if (agent && !agent.subject) {
       agent.subject = redirectAgent;
+      toast.success(
+        <div>
+          <p>New User created!</p>
+          <Button onClick={() => history.push(paths.agentSettings)}>
+            User Settings
+          </Button>
+        </div>,
+        { duration: 6000 },
+      );
       setAgent(agent);
     }
   }
