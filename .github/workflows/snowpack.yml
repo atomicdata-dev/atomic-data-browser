@@ -19,11 +19,11 @@ jobs:
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       - run: yarn
-      - run: yarn lint-fix
-      - run: yarn build
-      - run: nohup yarn start &
-      # # Run the back-end for testing
       - run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
+      - run: yarn lint-fix
+      - run: nohup yarn start &
+      - run: yarn build
+      # # Run the back-end for testing
       - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
