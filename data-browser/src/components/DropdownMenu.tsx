@@ -121,6 +121,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
         ref={triggerRef}
         title='Open menu (m)'
         type='button'
+        data-test='context-menu'
         onClick={() => {
           setUseKeys(false);
           handleToggle();

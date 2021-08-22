@@ -173,6 +173,7 @@ function NavBar() {
             type='button'
             onClick={() => setSideBarLocked(!sideBarLocked)}
             title='Show / hide sidebar (\)'
+            data-test='sidebar-toggle'
           >
             <FaBars />
           </ButtonBar>

@@ -19,13 +19,14 @@ jobs:
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       - run: yarn
-      - run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
+      - name: Run atomic-server docker image in background (for testing)
+        run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
       - run: yarn lint-fix
       - run: nohup yarn start &
       - run: yarn build
-      # # Run the back-end for testing
       - run: yarn test
-      - name: Deploy 🚀
+      - name: Deploy (`main` branch only) 🚀
+        if: github.ref = refs/heads/main
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
           branch: gh-pages # The branch the action should deploy to.

@@ -37,6 +37,7 @@ export function SettingsServer(): JSX.Element {
         <LabelStyled>Server URL</LabelStyled>
         <InputWrapper>
           <InputStyled
+            data-test='server-url-input'
             value={baseUrlInput}
             onChange={e => setBaseUrlInput(e.target.value)}
           />
@@ -46,11 +47,16 @@ export function SettingsServer(): JSX.Element {
       <Button
         onClick={() => handleSetBaseUrl(baseUrlInput)}
         disabled={baseURL == baseUrlInput}
+        data-test='server-url-save'
       >
         save
       </Button>
       <p>Or use:</p>
-      <Button onClick={() => handleSetBaseUrl('https://atomicdata.dev')} subtle>
+      <Button
+        onClick={() => handleSetBaseUrl('https://atomicdata.dev')}
+        subtle
+        data-test='server-url-atomic'
+      >
         AtomicData.dev
       </Button>
       <Button onClick={() => handleSetBaseUrl('http://localhost')} subtle>

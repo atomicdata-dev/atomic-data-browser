@@ -35,6 +35,11 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const { agent } = useSettings();
   const [canWrite, canWriteMessage] = useCanWrite(resource, agent?.subject);
 
+  // On init, focus on the last element
+  React.useEffect(() => {
+    setCurrent(elements.length - 1);
+  });
+
   // Always have one element
   React.useEffect(() => {
     if (elements.length == 0) {

@@ -241,6 +241,7 @@ const SettingsAgent: React.FunctionComponent = () => {
             subtle
             title='Sign out with current Agent and reset this form'
             onClick={handleSignOut}
+            data-test='sign-out'
           >
             sign out
           </Button>

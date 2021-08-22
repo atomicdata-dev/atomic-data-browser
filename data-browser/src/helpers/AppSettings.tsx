@@ -4,6 +4,7 @@ import { Agent } from '@tomic/lib';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
 import { useLocalStorage, useCurrentAgent, useBaseURL } from '@tomic/react';
 import toast from 'react-hot-toast';
+import { SIDEBAR_TOGGLE_WIDTH } from '../components/SideBar';
 
 interface ProviderProps {
   children: ReactNode;
@@ -22,7 +23,7 @@ export const AppSettingsContextProvider = (
   );
   const [sideBarLocked, setSideBarLocked] = useLocalStorage(
     'sideBarOpen',
-    false,
+    window.innerWidth > SIDEBAR_TOGGLE_WIDTH,
   );
   const [agent, setAgent] = useCurrentAgent();
   const [baseURL, setBaseURL] = useBaseURL();

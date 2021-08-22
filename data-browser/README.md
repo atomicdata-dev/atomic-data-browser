@@ -88,12 +88,22 @@ yarn start-https
 
 ## Testing
 
-There are unit tests (using Jest) and integration / browser / end-to-end (E2E) tests (using Playwright).
-The Playwright tests are located in `tests` and have `.spec` in their filename.
+The tests are located in `tests` and have `.spec` in their filename.
+They use the PlayWright framework and run in the browser.
 
 - Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
-- `yarn test-pw` launches the E2E tests, but at this moment require that you're running the server locally.
-- `yarn test-pwd` launches the E2E tests in debug mode (a browser window opens)
+- `yarn test` launches the E2E tests
+- `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
+- `yarn test-new` allows you to create new tests by clicking through the app
+
+## CI
+
+GitHub Action is run on every used for:
+
+- Linting (ESlint)
+- Testing (in the browser, using an `atomic-server` docker image)
+- Building
+- Deploying to GH pages (this JS file is used by default by `atomic-server` instances)
 
 ## Contribute
 

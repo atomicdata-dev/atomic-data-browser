@@ -23,6 +23,9 @@ import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
 import { openURL } from '../helpers/navigation';
 
+/** Amount of pixels where the sidebar automatically shows */
+export const SIDEBAR_TOGGLE_WIDTH = 600;
+
 export function SideBar(): JSX.Element {
   const { baseURL } = useSettings();
   const history = useHistory();
@@ -99,7 +102,7 @@ export function SideBar(): JSX.Element {
   ];
 
   function isWideScreen(): boolean {
-    return windowSize.width > 600;
+    return windowSize.width > SIDEBAR_TOGGLE_WIDTH;
   }
 
   /**
@@ -134,7 +137,7 @@ export function SideBar(): JSX.Element {
     <SideBarContainer>
       <SideBarStyled
         ref={ref}
-        locked={windowSize.width > 600 && sideBarLocked}
+        locked={isWideScreen() && sideBarLocked}
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen())}
       >
         {navbarTop ? <PaddingBig /> : null}
@@ -163,6 +166,7 @@ interface SideBarDriveProps {
   handleClickItem: () => any;
 }
 
+/** Shows the current Drive, it's children and an option to change to a different Drive */
 function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
   const { baseURL } = useSettings();
   const [drive] = useResource(baseURL);
@@ -175,6 +179,7 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
       <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
         <Button
           clean
+          data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
             history.push(openURL(baseURL));
@@ -186,7 +191,7 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
           onClick={() => history.push(paths.serverSettings)}
           icon
           subtle
-          data-test='sidebar-drive'
+          data-test='sidebar-drive-edit'
         >
           <FaPencilAlt />
         </Button>
