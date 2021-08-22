@@ -20,7 +20,7 @@ jobs:
       - run: npx playwright install-deps
       - run: yarn --frozen-lockfile
       - name: Run atomic-server docker image in background (for testing)
-        run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
+        run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
       - run: yarn lint-fix
       - run: nohup yarn start &
       - run: yarn build
