@@ -3,6 +3,7 @@ import { tryValidURL, fetchResource } from './client';
 import { urls } from './urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
 import { Agent } from './agent';
+import { startWebsocket } from './websockets';
 
 type callback = (resource: Resource) => void;
 
@@ -21,6 +22,8 @@ export class Store {
   subscribers: Map<string, Array<callback>>;
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
+  /** Current Connection to a WebSocket. Initilaizes on setting baseURL */
+  webSocket: WebSocket;
   /** Is called when the store encounters an error. */
   errorHandler?: (e: Error) => unknown;
 
@@ -231,6 +234,13 @@ export class Store {
       throw new Error('baseUrl should not have a trailing slash');
     }
     this.baseUrl = baseUrl;
+    this.setWebSocket();
+  }
+
+  /** Closes an old websocket and opens a new one to the BaseURL */
+  setWebSocket() {
+    this.webSocket && this.webSocket.close();
+    this.webSocket = startWebsocket(this);
   }
 
   /**
@@ -239,19 +249,48 @@ export class Store {
    */
   // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
   subscribe(subject: string, callback: callback): void {
+    if (subject == undefined) {
+      console.warn('Cannot subscribe to undefined subject');
+      return;
+    }
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {
+      // Only subscribe once
+      this.subscribeWebSocket(subject);
       callbackArray = [];
     }
     callbackArray.push(callback);
     this.subscribers.set(subject, callbackArray);
   }
 
+  subscribeWebSocket(subject: string) {
+    try {
+      this.webSocket.send(`SUBSCRIBE ${subject}`);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  unSubscribeWebSocket(subject: string) {
+    try {
+      this.webSocket.send(`UNSUBSCRIBE ${subject}`);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   /** Unregisters the callback (see `subscribe()`) */
   unsubscribe(subject: string, callback: callback): void {
+    if (subject == undefined) {
+      console.warn('Cannot unsubscribe from undefined subject');
+      return;
+    }
     let callbackArray = this.subscribers.get(subject);
     callbackArray = callbackArray.filter(item => item !== callback);
     this.subscribers.set(subject, callbackArray);
+    if (callbackArray.length == 0) {
+      this.unSubscribeWebSocket(subject);
+    }
   }
 }
 
