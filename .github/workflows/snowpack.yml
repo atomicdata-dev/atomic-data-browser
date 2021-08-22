@@ -10,27 +10,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v2
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     # Required by playwrgith
-      #     node-version: "14"
-      # - uses: bahmutov/npm-install@v1
-      # # This is needed when playwright is used in tests #70
-      # - run: npx playwright install-deps
-      # - run: yarn
-      # - run: yarn lint-fix
-      # - run: yarn build
-      # - run: nohup yarn start &
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          # Required by playwrgith
+          node-version: "14"
+      - uses: bahmutov/npm-install@v1
+      # This is needed when playwright is used in tests #70
+      - run: npx playwright install-deps
+      - run: yarn
+      - run: yarn lint-fix
+      - run: yarn build
+      - run: nohup yarn start &
       # # Run the back-end for testing
-      # - uses: docker://joepmeneer/atomic-server:latest
       - run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
-      # - uses: addnab/docker-run-action@v3
-      #   with:
-      #     registry: dockerhub
-      #     image: joepmeneer/atomic-server:latest
-      #     options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage
-      #     run: /server/atomic-server-bin --init
       - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
