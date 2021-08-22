@@ -23,12 +23,13 @@ jobs:
       # - run: yarn build
       # - run: nohup yarn start &
       # # Run the back-end for testing
-      - uses: addnab/docker-run-action@v3
-        with:
-          registry: dockerhub
-          image: joepmeneer/atomic-server:latest
-          options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage
-          run: /server/atomic-server-bin --init
+      - uses: docker://joepmener/atomic-server:latest
+      # - uses: addnab/docker-run-action@v3
+      #   with:
+      #     registry: dockerhub
+      #     image: joepmeneer/atomic-server:latest
+      #     options: -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage
+      #     run: /server/atomic-server-bin --init
       - run: yarn test
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
