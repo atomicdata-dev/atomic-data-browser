@@ -20,7 +20,6 @@ jobs:
       - run: npx playwright install-deps
       - run: yarn
       - run: yarn lint-fix
-      - run: yarn test
       - run: yarn build
       - run: nohup yarn start
       # Run the back-end for testing

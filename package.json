@@ -19,6 +19,7 @@
     "husky": "^6.0.0",
     "jest": "^27.0.5",
     "lerna": "^4.0.0",
+    "playwright": "^1.14.0",
     "prettier": "2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
     "ts-jest": "^27.0.3",
