@@ -38,7 +38,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   // On init, focus on the last element
   React.useEffect(() => {
     setCurrent(elements.length - 1);
-  });
+  }, []);
 
   // Always have one element
   React.useEffect(() => {
@@ -213,6 +213,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   return (
     <DocumentWrapper about={resource.getSubject()}>
       <TitleInput
+        data-test='document-title'
         ref={titleRef}
         placeholder={'set a title'}
         value={title}

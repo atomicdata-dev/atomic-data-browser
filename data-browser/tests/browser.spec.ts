@@ -83,8 +83,11 @@ test.describe('data-browser', async () => {
     await page.keyboard.press('Enter');
     // TODO: refresh the page to make sure the commit is saved
     // setTimeout(async () => await page.reload(), 1000);
-    // await page.reload();
+    // await page.reload();`
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    const docTitle = `Document Title ${Math.floor(Math.random() * 100) + 1}`;
+    await page.fill('[data-test="document-title"]', docTitle);
+    await expect(page.locator('[data-test="document-title"]')).toBeFocused();
   });
 
   test('search', async ({ page }) => {
