@@ -24,7 +24,7 @@ jobs:
       # - run: nohup yarn start &
       # # Run the back-end for testing
       # - uses: docker://joepmeneer/atomic-server:latest
-      - run: docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init
+      - run: nohop docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
       # - uses: addnab/docker-run-action@v3
       #   with:
       #     registry: dockerhub
