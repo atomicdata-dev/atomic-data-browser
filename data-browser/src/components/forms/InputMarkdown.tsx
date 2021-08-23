@@ -45,5 +45,6 @@ const YamdeStyling = styled.div`
   .contentArea-0-2-8 textarea,
   .preview-0-2-9 {
     background: ${p => p.theme.colors.bg};
+    font-size: ${p => p.theme.fontSizeBody}rem;
   }
 `;
