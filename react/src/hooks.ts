@@ -47,7 +47,7 @@ export function useResource(
       // When a change happens, set the new Resource.
       setResource(updated);
     }
-    store.subscribe(subject, handleNotify);
+    store.subscribe(resource.getSubject(), handleNotify);
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.

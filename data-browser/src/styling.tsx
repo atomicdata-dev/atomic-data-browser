@@ -74,7 +74,9 @@ declare module 'styled-components' {
     /** If true, make things dark */
     darkMode: boolean;
     fontFamily: string;
+    /** Body font size in rem */
     fontSizeBody: number;
+    /** Header font size in rem */
     fontSizeH1: number;
     boxShadow: string;
     boxShadowIntense: string;
