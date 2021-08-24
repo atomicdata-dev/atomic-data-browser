@@ -35,10 +35,9 @@ export class Resource {
   private status: ResourceStatus;
   private commitBuilder: CommitBuilder;
 
-  constructor(subject?: string, newResource?: boolean) {
-    // not sure if this is the way to go. This leads to confusing elements
+  constructor(subject: string, newResource?: boolean) {
     if (subject == undefined) {
-      subject = `undefined:${Math.random()}`;
+      throw new Error('no subject given to resource');
     }
     this.new = newResource ? true : false;
     this.subject = subject;
