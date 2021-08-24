@@ -269,6 +269,7 @@ export function ResourceForm({
           <ResourceField propertyURL={properties.read} resource={resource} />
         </>
       )}
+      {err && <ErrMessage>{err.message}</ErrMessage>}
       <Button
         onClick={handleSubmit}
         disabled={disabled || saving}
@@ -281,7 +282,6 @@ export function ResourceForm({
           enable editing
         </Button>
       )}
-      {err && <ErrMessage>{err.message}</ErrMessage>}
     </form>
   );
 }
