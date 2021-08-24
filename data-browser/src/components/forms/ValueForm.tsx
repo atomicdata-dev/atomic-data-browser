@@ -89,6 +89,7 @@ export function ValueForm({
   return (
     <ValueFormWrapper>
       <InputSwitcher resource={resource} property={property} autoFocus />
+      {err && <ErrMessage>{err.message}</ErrMessage>}
       <Button
         disabled={!haveAgent}
         title={
@@ -103,7 +104,6 @@ export function ValueForm({
       <Button subtle onClick={handleCancel}>
         cancel
       </Button>
-      {err && <ErrMessage>{err.message}</ErrMessage>}
     </ValueFormWrapper>
   );
 }
