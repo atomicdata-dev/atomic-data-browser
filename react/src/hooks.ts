@@ -20,7 +20,7 @@ import { useDebounce } from './useDebounce';
  * fetch the subject and add its parsed values to the store. Always returns a
  * Resource and a setter for a Resource, even if the input is undefined or not a
  * valid atomic URL.
- */
+*/
 export function useResource(
   subject: string,
   newResource?: boolean,

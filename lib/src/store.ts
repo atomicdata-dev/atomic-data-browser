@@ -159,24 +159,24 @@ export class Store {
   async getProperty(subject: string): Promise<Property> {
     const resource = await this.getResourceAsync(subject);
     if (resource == undefined) {
-      this.handleError(`Property ${subject} is not found`);
+      throw Error(`Property ${subject} is not found`);
     }
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
-      this.handleError(
+      throw Error(
         `Property ${subject} has no datatype: ${resource.getPropVals()}`,
       );
     }
     const shortname = resource.get(urls.properties.shortname);
     if (shortname == null) {
-      this.handleError(
+      throw Error(
         `Property ${subject} has no shortname: ${resource.getPropVals()}`,
       );
     }
     const description = resource.get(urls.properties.description);
     if (description == null) {
-      this.handleError(
+      throw Error(
         `Property ${subject} has no shortname: ${resource.getPropVals()}`,
       );
     }
@@ -224,10 +224,10 @@ export class Store {
     tryValidURL(newSubject);
     const old = this.resources.get(oldSubject);
     if (old == undefined) {
-      this.handleError(`Old subject does not exist in store: ${oldSubject}`);
+      throw Error(`Old subject does not exist in store: ${oldSubject}`);
     }
     if (await this.checkSubjectTaken(newSubject)) {
-      this.handleError(`New subject name is already taken: ${newSubject}`);
+      throw Error(`New subject name is already taken: ${newSubject}`);
     }
     old.setSubject(newSubject);
     this.resources.set(newSubject, old);
@@ -247,7 +247,7 @@ export class Store {
   setBaseUrl(baseUrl: string): void {
     tryValidURL(baseUrl);
     if (baseUrl.substr(-1) == '/') {
-      this.handleError('baseUrl should not have a trailing slash');
+      throw Error('baseUrl should not have a trailing slash');
     }
     this.baseUrl = baseUrl;
     this.setWebSocket();
@@ -266,7 +266,7 @@ export class Store {
   // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
   subscribe(subject: string, callback: callback): void {
     if (subject == undefined) {
-      this.handleError('Cannot subscribe to undefined subject');
+      throw Error('Cannot subscribe to undefined subject');
       return;
     }
     let callbackArray = this.subscribers.get(subject);
@@ -280,6 +280,7 @@ export class Store {
   }
 
   subscribeWebSocket(subject: string) {
+    console.log('sub', subject);
     if (subject == unknownSubject) {
       return;
     }
@@ -291,6 +292,7 @@ export class Store {
   }
 
   unSubscribeWebSocket(subject: string) {
+    console.log('unsub', subject);
     if (subject == unknownSubject) {
       return;
     }
@@ -308,10 +310,14 @@ export class Store {
       return;
     }
     let callbackArray = this.subscribers.get(subject);
+    // Remove the function from the callBackArray
     callbackArray = callbackArray.filter(item => item !== callback);
-    this.subscribers.set(subject, callbackArray);
+    // If there are no callbacks left, unsubscribe from the websocket and delete the key from the map
     if (callbackArray.length == 0) {
+      this.subscribers.delete(subject);
       this.unSubscribeWebSocket(subject);
+    } else {
+      this.subscribers.set(subject, callbackArray);
     }
   }
 }
