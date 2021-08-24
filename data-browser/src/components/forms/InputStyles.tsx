@@ -86,6 +86,7 @@ export const ErrMessage = styled.div`
   font-size: 0.8em;
   line-height: 1rem;
   color: ${props => props.theme.colors.alert};
+  margin-bottom: ${p => p.theme.margin}rem;
 `;
 
 /** Wraps an inline resource, which is displayed on top of an input */

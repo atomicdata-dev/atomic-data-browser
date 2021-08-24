@@ -30,6 +30,8 @@ export class Resource {
   private propvals: PropVals;
   /** If the resource could not be fetched, we put that info here. */
   private error?: Error;
+  /** If the commit could not be saved, we put that info here. */
+  public commitError?: Error;
   // Is true for locally created, unsaved resources
   new: boolean;
   private status: ResourceStatus;
@@ -182,11 +184,13 @@ export class Resource {
     const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     try {
+      this.commitError = null;
       await postCommit(commit, endpoint);
       return this.getSubject();
     } catch (e) {
       // If it fails, revert to the old resource with the old CommitBuilder
       this.commitBuilder = oldCommitBuilder;
+      this.commitError = e;
       store.addResource(this);
       throw e;
     }

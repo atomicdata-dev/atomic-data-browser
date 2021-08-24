@@ -57,22 +57,21 @@ export async function postCommit(
   const serialized = serializeDeterministically(commit);
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
+  let response = null;
   try {
-    const response = await window.fetch(endpoint, {
+    response = await window.fetch(endpoint, {
       headers: requestHeaders,
       method: 'POST',
       body: serialized,
     });
-    const body = await response.text();
-    if (response.status !== 200) {
-      throw new Error(
-        `Commit failed. Server replied with ${response.status}: ${body}`,
-      );
-    }
-    return body;
   } catch (e) {
     throw new Error(`Posting Commit to ${endpoint} failed: ${e}`);
   }
+  const body = await response.text();
+  if (response.status !== 200) {
+    throw new Error(body);
+  }
+  return body;
 }
 
 /** Throws an error if the URL is not valid */

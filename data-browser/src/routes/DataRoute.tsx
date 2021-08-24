@@ -8,6 +8,7 @@ import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
+import { ErrMessage } from '../components/forms/InputStyles';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -56,7 +57,11 @@ function Data(): JSX.Element {
       <AllProps resource={resource} editable columns />
       {resource.getCommitBuilder().hasUnsavedChanges() ? (
         <>
-          <p>⚠️ contains uncommitted changes</p>
+          <h2>⚠️ contains uncommitted changes</h2>
+          <p>This means that (some) of your local changes are not yet saved.</p>
+          {resource.commitError && (
+            <ErrMessage>{resource.commitError.message}</ErrMessage>
+          )}
           <Button onClick={() => resource.save(store)}>save</Button>
         </>
       ) : null}

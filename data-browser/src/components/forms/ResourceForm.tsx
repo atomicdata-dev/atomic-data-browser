@@ -141,14 +141,13 @@ export function ResourceForm({
   async function save() {
     setErr(null);
     try {
-      resource.setStatus(ResourceStatus.ready);
+      // resource.setStatus(ResourceStatus.ready);
       const newUrlString = await resource.save(store);
       setSaving(false);
       // Redirect to created / edited resource
       history.push(openURL(newUrlString));
       toast.success('Resource saved');
     } catch (e) {
-      handleError(e);
       setErr(e);
       setSaving(false);
       toast.error('Could not save resource');
