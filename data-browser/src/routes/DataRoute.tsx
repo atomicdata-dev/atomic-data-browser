@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useResource } from '@tomic/react';
+import { useResource, useStore } from '@tomic/react';
 import { ResourceStatus } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
@@ -17,6 +17,7 @@ function Data(): JSX.Element {
   const [textResponse, setTextResponse] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
   const [err, setErr] = useState(null);
+  const store = useStore();
 
   if (status == ResourceStatus.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
@@ -53,9 +54,12 @@ function Data(): JSX.Element {
         <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
       <AllProps resource={resource} editable columns />
-      {resource.getCommitBuilder().hasUnsavedChanges()
-        ? '⚠️ contains uncommitted changes'
-        : null}
+      {resource.getCommitBuilder().hasUnsavedChanges() ? (
+        <>
+          <p>⚠️ contains uncommitted changes</p>
+          <Button onClick={() => resource.save(store)}>save</Button>
+        </>
+      ) : null}
       <div>
         <span>Fetch as: </span>
         <Button
