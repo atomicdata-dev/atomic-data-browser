@@ -8,6 +8,12 @@ import { startWebsocket } from './websockets';
 type callback = (resource: Resource) => void;
 
 /**
+ * If a resource has no subject, it will have this subject. This means that the
+ * Resource is not saved or fetched.
+ */
+const unknownSubject = 'unknown-subject';
+
+/**
  * An in memory store that has a bunch of useful methods for retrieving Atomic
  * Data Resources. It is also resposible for keeping the Resources in sync with
  * Subscribers (components that use the Resource), and for managing the current
@@ -24,12 +30,18 @@ export class Store {
   agent?: Agent;
   /** Current Connection to a WebSocket. Initilaizes on setting baseURL */
   webSocket: WebSocket;
-  /** Is called when the store encounters an error. */
-  errorHandler?: (e: Error) => unknown;
+  /**
+   * Is called when the store encounters an error. By default simply throws the
+   * error, but can be overwritten
+   */
+  public errorHandler: (e: Error) => unknown;
 
   constructor() {
     this.resources = new Map();
     this.subscribers = new Map();
+    this.errorHandler = (e: Error) => {
+      throw e;
+    };
   }
 
   /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
@@ -109,9 +121,10 @@ export class Store {
    * done in the background . If the subject is undefined, an empty non-saved
    * resource will be returned.
    */
-  getResourceLoading(subject: string, newResource?: boolean): Resource | null {
+  getResourceLoading(subject?: string, newResource?: boolean): Resource | null {
+    // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
     if (subject == undefined) {
-      const newR = new Resource(undefined, newResource);
+      const newR = new Resource(unknownSubject, newResource);
       newR.setStatus(ResourceStatus.new);
       return newR;
     }
@@ -146,24 +159,24 @@ export class Store {
   async getProperty(subject: string): Promise<Property> {
     const resource = await this.getResourceAsync(subject);
     if (resource == undefined) {
-      throw new Error(`Property ${subject} is not found`);
+      this.handleError(`Property ${subject} is not found`);
     }
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
-      throw new Error(
+      this.handleError(
         `Property ${subject} has no datatype: ${resource.getPropVals()}`,
       );
     }
     const shortname = resource.get(urls.properties.shortname);
     if (shortname == null) {
-      throw new Error(
+      this.handleError(
         `Property ${subject} has no shortname: ${resource.getPropVals()}`,
       );
     }
     const description = resource.get(urls.properties.description);
     if (description == null) {
-      throw new Error(
+      this.handleError(
         `Property ${subject} has no shortname: ${resource.getPropVals()}`,
       );
     }
@@ -179,7 +192,10 @@ export class Store {
    * This is called when Errors occur in some of the library functions. Set your
    * errorhandler function to `store.errorHandler`.
    */
-  handleError(e: Error): void {
+  handleError(e: Error | string): void {
+    if (typeof e == 'string') {
+      e = new Error(e);
+    }
     this.errorHandler(e) || console.error(e);
   }
 
@@ -202,16 +218,16 @@ export class Store {
 
   /**
    * Changes the Subject of a Resource. Checks if the new name is already taken,
-   * throws an error if so.
+   * errors if so.
    */
   async renameSubject(oldSubject: string, newSubject: string): Promise<void> {
     tryValidURL(newSubject);
     const old = this.resources.get(oldSubject);
     if (old == undefined) {
-      throw new Error(`Old subject does not exist in store: ${oldSubject}`);
+      this.handleError(`Old subject does not exist in store: ${oldSubject}`);
     }
     if (await this.checkSubjectTaken(newSubject)) {
-      throw new Error(`New subject name is already taken: ${newSubject}`);
+      this.handleError(`New subject name is already taken: ${newSubject}`);
     }
     old.setSubject(newSubject);
     this.resources.set(newSubject, old);
@@ -231,7 +247,7 @@ export class Store {
   setBaseUrl(baseUrl: string): void {
     tryValidURL(baseUrl);
     if (baseUrl.substr(-1) == '/') {
-      throw new Error('baseUrl should not have a trailing slash');
+      this.handleError('baseUrl should not have a trailing slash');
     }
     this.baseUrl = baseUrl;
     this.setWebSocket();
@@ -250,7 +266,7 @@ export class Store {
   // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
   subscribe(subject: string, callback: callback): void {
     if (subject == undefined) {
-      console.warn('Cannot subscribe to undefined subject');
+      this.handleError('Cannot subscribe to undefined subject');
       return;
     }
     let callbackArray = this.subscribers.get(subject);
@@ -264,6 +280,9 @@ export class Store {
   }
 
   subscribeWebSocket(subject: string) {
+    if (subject == unknownSubject) {
+      return;
+    }
     try {
       this.webSocket.send(`SUBSCRIBE ${subject}`);
     } catch (e) {
@@ -272,6 +291,9 @@ export class Store {
   }
 
   unSubscribeWebSocket(subject: string) {
+    if (subject == unknownSubject) {
+      return;
+    }
     try {
       this.webSocket.send(`UNSUBSCRIBE ${subject}`);
     } catch (e) {
