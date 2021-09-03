@@ -58,6 +58,8 @@ export const datatypeFromUrl = (url: string): Datatype => {
 };
 
 const slug_regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+// https://stackoverflow.com/a/22061879/2502163
+const dateStringRegex = /^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 
 export interface ArrayError extends Error {
   index?: number;
@@ -120,7 +122,14 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
       break;
     }
     case Datatype.DATE: {
-      throw new Error('Date not yet implemented');
+      if (!isString(value)) {
+        err = 'Not a string';
+        break;
+      }
+      if (value.match(dateStringRegex) == null) {
+        err = 'Not a date string: YYYY-MM-DD';
+      }
+      break;
     }
   }
   if (err !== null) {
