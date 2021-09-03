@@ -20,7 +20,7 @@ import { useDebounce } from './useDebounce';
  * fetch the subject and add its parsed values to the store. Always returns a
  * Resource and a setter for a Resource, even if the input is undefined or not a
  * valid atomic URL.
-*/
+ */
 export function useResource(
   subject: string,
   newResource?: boolean,
@@ -298,7 +298,15 @@ export function useArray(
   if (value == null) {
     return [[], set];
   }
-  return [value.toArray(), set];
+  // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
+  // https://github.com/joepio/atomic-data-browser/issues/85
+  let arr = [];
+  try {
+    arr = value.toArray();
+  } catch (e) {
+    console.log(e);
+  }
+  return [arr, set];
 }
 
 export function useNumber(
