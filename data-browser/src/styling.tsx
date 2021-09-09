@@ -40,8 +40,10 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
 
   return {
     darkMode,
+    fontFamilyHeader:
+      "'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     fontFamily:
-      "'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      "'Open Sans', 'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     boxShadow: `0 0 10px 0px ${shadowColor}`,
     boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
     containerWidth: 40,
@@ -73,6 +75,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     /** If true, make things dark */
     darkMode: boolean;
+    fontFamilyHeader: string;
     fontFamily: string;
     /** Body font size in rem */
     fontSizeBody: number;
@@ -154,6 +157,7 @@ export const GlobalStyle = createGlobalStyle`
   h1,h2,h3,h4,h5,h6 {
     margin-bottom: ${props => props.theme.margin}rem;
     font-weight: bold;
+    font-family: ${p => p.theme.fontFamilyHeader};
     line-height: 1em;
     margin-top: 0;
     word-break: break-word;
