@@ -15,7 +15,7 @@ export enum Datatype {
   SLUG = 'https://atomicdata.dev/datatypes/slug',
   STRING = 'https://atomicdata.dev/datatypes/string',
   TIMESTAMP = 'https://atomicdata.dev/datatypes/timestamp',
-  UNKNOWN = 'unknown',
+  UNKNOWN = 'unknown-datatype',
 }
 
 /** Convert a URL to a Datatype */
@@ -65,7 +65,10 @@ export interface ArrayError extends Error {
   index?: number;
 }
 
-/** Validates a value and its datatype. Throws an error if things are wrong. */
+/**
+ * Validates a value and its datatype. Throws an error if things are wrong.
+ * Returns the Atomic Data Value.
+ */
 export const validate = (value: JSVals, datatype: Datatype): Value => {
   let err = null;
   switch (datatype) {

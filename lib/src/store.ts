@@ -1,4 +1,4 @@
-import { Resource, ResourceStatus } from './resource';
+import { Resource, ResourceStatus, unknownSubject } from './resource';
 import { tryValidURL, fetchResource } from './client';
 import { urls } from './urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
@@ -6,12 +6,6 @@ import { Agent } from './agent';
 import { startWebsocket } from './websockets';
 
 type callback = (resource: Resource) => void;
-
-/**
- * If a resource has no subject, it will have this subject. This means that the
- * Resource is not saved or fetched.
- */
-const unknownSubject = 'unknown-subject';
 
 /**
  * An in memory store that has a bunch of useful methods for retrieving Atomic
@@ -29,6 +23,7 @@ export class Store {
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
   /** Current Connection to a WebSocket. Initilaizes on setting baseURL */
+  // TODO: should this be an array? A user might be viewing data from various servers
   webSocket: WebSocket;
   /**
    * Is called when the store encounters an error. By default simply throws the
@@ -211,7 +206,7 @@ export class Store {
     });
   }
 
-  /** Removes resource from this store */
+  /** Removes (destroys / deletes) resource from this store */
   removeResource(subject: string): void {
     this.resources.delete(subject);
   }
@@ -250,9 +245,11 @@ export class Store {
       throw Error('baseUrl should not have a trailing slash');
     }
     this.baseUrl = baseUrl;
+    // TODO This is not the right place
     this.setWebSocket();
   }
 
+  // TODO: don't do this, have one websocket per domain
   /** Closes an old websocket and opens a new one to the BaseURL */
   setWebSocket() {
     this.webSocket && this.webSocket.close();
@@ -284,8 +281,9 @@ export class Store {
     if (subject == unknownSubject) {
       return;
     }
+    // TODO: check if there is a websocket for this base URL or not
     try {
-      this.webSocket.send(`SUBSCRIBE ${subject}`);
+      this.webSocket?.send(`SUBSCRIBE ${subject}`);
     } catch (e) {
       console.log(e);
     }
@@ -297,7 +295,7 @@ export class Store {
       return;
     }
     try {
-      this.webSocket.send(`UNSUBSCRIBE ${subject}`);
+      this.webSocket?.send(`UNSUBSCRIBE ${subject}`);
     } catch (e) {
       console.log(e);
     }
@@ -315,7 +313,9 @@ export class Store {
     // If there are no callbacks left, unsubscribe from the websocket and delete the key from the map
     if (callbackArray.length == 0) {
       this.subscribers.delete(subject);
-      this.unSubscribeWebSocket(subject);
+      // I think it's best _not_ to call unsubscribeWebsocket, as the user might re-open a subject and then hit an
+      // outdated resource.
+      // this.unSubscribeWebSocket(subject);
     } else {
       this.subscribers.set(subject, callbackArray);
     }

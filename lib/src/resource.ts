@@ -22,6 +22,12 @@ export enum ResourceStatus {
 }
 
 /**
+ * If a resource has no subject, it will have this subject. This means that the
+ * Resource is not saved or fetched.
+ */
+export const unknownSubject = 'unknown-subject';
+
+/**
  * Describes an Atomic Resource, which has a Subject URL and a bunch of Property
  * / Value combinations.
  */
@@ -147,7 +153,7 @@ export class Resource {
     store.removeResource(this.getSubject());
   }
 
-  /** Removes a property value combination from the resource */
+  /** Removes a property value combination from the resource and adds it to the next Commit */
   removePropVal(propertyUrl: string): void {
     // Delete from this resource
     this.propvals.delete(propertyUrl);
@@ -159,6 +165,14 @@ export class Resource {
     }
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);
+  }
+
+  /**
+   * Removes a property value combination from this resource, does not store the
+   * remove action in Commit
+   */
+  removePropValLocally(propertyUrl: string): void {
+    this.propvals.delete(propertyUrl);
   }
 
   /**
@@ -199,7 +213,7 @@ export class Resource {
   /**
    * Set a Property, Value combination and perform a validation. Will throw if
    * property is not valid for the datatype. Will fetch the datatype if it's not
-   * available.
+   * available. Adds the property to the commitbuilder.
    */
   async set(prop: string, value: JSVals, store: Store): Promise<Value> {
     const fullProp = await store.getProperty(prop);
@@ -214,7 +228,10 @@ export class Resource {
     return newVal;
   }
 
-  /** Set a Property, Value combination without performing validations. */
+  /**
+   * Set a Property, Value combination without performing validations or adding
+   * it to the CommitBuilder.
+   */
   setUnsafe(prop: string, val: Value): void {
     this.propvals.set(prop, val);
   }

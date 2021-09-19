@@ -2,7 +2,9 @@ import { sign, getPublicKey, utils } from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { urls } from './urls';
-import { JSVals } from './value';
+import { JSVals, Value } from './value';
+import { Store } from './store';
+import { Resource } from '.';
 
 export interface CommitBuilderI {
   subject: string;
@@ -158,4 +160,43 @@ export async function generateKeyPair(): Promise<KeyPair> {
     publicKey,
     privateKey,
   };
+}
+
+/** Parses a JSON-AD Commit, applies it to the store. Does not perform checks */
+export function parseAndApply(jsonAdObjStr: string, store: Store) {
+  const jsonAdObj = JSON.parse(jsonAdObjStr);
+  // Parses the commit
+  const subject = jsonAdObj[urls.properties.commit.subject];
+  const set = jsonAdObj[urls.properties.commit.set];
+  const remove: string[] | undefined = jsonAdObj[urls.properties.commit.remove];
+  const destroy: boolean | undefined =
+    jsonAdObj[urls.properties.commit.destroy];
+  // const createdAt = jsonAdObj[urls.properties.commit.createdAt];
+  // const signer = jsonAdObj[urls.properties.commit.signer];
+  // const signature = jsonAdObj[urls.properties.commit.signature];
+
+  let resource = store.resources.get(subject);
+
+  // If the resource doesn't exist in the store, create the resource
+  if (resource == undefined) {
+    resource = new Resource(subject);
+  }
+
+  set &&
+    Object.keys(set).forEach(propUrl => {
+      const val = new Value(set[propUrl]);
+      resource.setUnsafe(propUrl, val);
+    });
+
+  remove &&
+    remove.forEach(propUrl => {
+      resource.removePropValLocally(propUrl);
+    });
+
+  if (destroy) {
+    store.removeResource(subject);
+    return;
+  } else {
+    store.addResource(resource);
+  }
 }

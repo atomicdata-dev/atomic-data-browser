@@ -1,3 +1,4 @@
+import { parseAndApply } from './commit';
 import { Store } from './store';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
@@ -8,7 +9,7 @@ export function startWebsocket(store: Store): WebSocket {
   wsURL.pathname = '/ws';
   const client = new WebSocket(wsURL.toString());
   client.onopen = _e => handleOpen(store);
-  client.onmessage = handleMessage;
+  client.onmessage = (ev: MessageEvent) => handleMessage(ev, store);
   client.onerror = handleError;
   client.onclose = handleClose;
   console.log('starting websocket...', client);
@@ -19,11 +20,15 @@ function handleOpen(store: Store) {
   for (const subject in store.subscribers) {
     store.subscribeWebSocket(subject);
   }
-  console.log('websocket opened');
 }
 
-function handleMessage(ev: MessageEvent) {
-  console.log('websocket message:', ev);
+function handleMessage(ev: MessageEvent, store: Store) {
+  if (ev.data.startsWith('COMMIT ')) {
+    const commit = ev.data.slice(7);
+    parseAndApply(commit, store);
+  } else {
+    console.warn('Unknown websocket message:', ev);
+  }
 }
 
 function handleError(ev: Event) {

@@ -17,6 +17,7 @@ export function Toaster(): JSX.Element {
         style: {
           background: theme.colors.bg,
           color: theme.colors.text,
+          wordBreak: 'break-word',
         },
       }}
     >
