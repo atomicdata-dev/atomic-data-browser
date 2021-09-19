@@ -304,7 +304,7 @@ export function useArray(
   try {
     arr = value.toArray();
   } catch (e) {
-    console.log(e);
+    console.log(e, value, propertyURL, resource.getSubject());
   }
   return [arr, set];
 }

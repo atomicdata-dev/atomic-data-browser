@@ -2,6 +2,12 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
+## v0.26.0
+
+- Added WebSockets for live synchronization with server #80
+- Add Commit parsing #80
+- Custom fonts
+
 ## v0.25.4
 
 - Fix bugs when setting Agent, validate public key before setting

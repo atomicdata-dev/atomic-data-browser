@@ -1,4 +1,4 @@
-import { Resource, ResourceStatus } from './resource';
+import { Resource, ResourceStatus, unknownSubject } from './resource';
 import { JSONObject, Value } from './value';
 
 /** Parses an JSON-AD object containing a resoure, adds it to the input Resource */
@@ -30,8 +30,7 @@ export function parseJsonADResource(
         resource.setUnsafe(key, val);
       } catch (e) {
         throw new Error(
-          `Failed creating value for key ${key} in resource ${resource.getSubject()}. ${
-            e.message
+          `Failed creating value for key ${key} in resource ${resource.getSubject()}. ${e.message
           }`,
         );
       }
@@ -51,7 +50,7 @@ export function parseJsonADArray(jsonArray: any[]): Resource[] {
   try {
     // const jsonArray = JSON.parse(string);
     for (const jsonObject of jsonArray) {
-      const resource = new Resource();
+      const resource = new Resource(unknownSubject);
       parseJsonADResource(jsonObject, resource);
       resources.push(resource);
     }

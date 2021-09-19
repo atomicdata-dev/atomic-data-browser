@@ -96,7 +96,7 @@ They use the PlayWright framework and run in the browser.
 - Install the Playwright dependencies: `npx playwright install-deps`
 - `yarn test` launches the E2E tests
 - `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
-- `yarn test-new` allows you to create new tests by clicking through the app
+- `yarn test-new` create new tests by clicking through the app
 
 ## CI
 
