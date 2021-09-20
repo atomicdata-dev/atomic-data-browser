@@ -42,6 +42,11 @@ export class Resource {
   new: boolean;
   private status: ResourceStatus;
   private commitBuilder: CommitBuilder;
+  /**
+   * Every commit that has been applied should be stored here, which prevents
+   * applying the same commit twice
+   */
+  appliedCommitSignatures: Set<string>;
 
   constructor(subject: string, newResource?: boolean) {
     if (subject == undefined) {
@@ -50,6 +55,7 @@ export class Resource {
     this.new = newResource ? true : false;
     this.subject = subject;
     this.propvals = new Map();
+    this.appliedCommitSignatures = new Set();
     this.commitBuilder = new CommitBuilder(subject);
   }
 
@@ -191,11 +197,14 @@ export class Resource {
     // Clean up the commitBuilder, but save a backup if the server does not apply the commit.
     const oldCommitBuilder = this.commitBuilder;
     this.commitBuilder = new CommitBuilder(this.getSubject());
+    this.status == ResourceStatus.ready;
+    const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
+    // Add the signature to the list of applied ones, to prevent applying it again when the server
+    this.appliedCommitSignatures.add(commit.signature);
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResource(this);
     // TODO: Check if all required props are there
-    const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     try {
       this.commitError = null;

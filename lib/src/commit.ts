@@ -173,13 +173,17 @@ export function parseAndApply(jsonAdObjStr: string, store: Store) {
     jsonAdObj[urls.properties.commit.destroy];
   // const createdAt = jsonAdObj[urls.properties.commit.createdAt];
   // const signer = jsonAdObj[urls.properties.commit.signer];
-  // const signature = jsonAdObj[urls.properties.commit.signature];
+  const signature = jsonAdObj[urls.properties.commit.signature];
 
   let resource = store.resources.get(subject);
 
   // If the resource doesn't exist in the store, create the resource
   if (resource == undefined) {
     resource = new Resource(subject);
+  } else {
+    if (resource.appliedCommitSignatures.has(signature)) {
+      return;
+    }
   }
 
   set &&
@@ -197,6 +201,7 @@ export function parseAndApply(jsonAdObjStr: string, store: Store) {
     store.removeResource(subject);
     return;
   } else {
+    resource.appliedCommitSignatures.add(signature);
     store.addResource(resource);
   }
 }
