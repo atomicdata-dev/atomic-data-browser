@@ -17,12 +17,14 @@ export function startWebsocket(store: Store): WebSocket {
 }
 
 function handleOpen(store: Store) {
-  for (const subject in store.subscribers) {
+  // TODO: Add a way to subscribe to multiple resources in one request
+  for (const subject of store.subscribers.keys()) {
     store.subscribeWebSocket(subject);
   }
 }
 
 function handleMessage(ev: MessageEvent, store: Store) {
+  console.log('message', ev.data);
   if (ev.data.startsWith('COMMIT ')) {
     const commit = ev.data.slice(7);
     parseAndApply(commit, store);
