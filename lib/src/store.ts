@@ -8,7 +8,7 @@ import { startWebsocket } from './websockets';
 type callback = (resource: Resource) => void;
 
 /**
- * An in memory store that has a bunch of useful methods for retrieving Atomic
+ * An in memory store that has a bunch of usefful methods for retrieving Atomic
  * Data Resources. It is also resposible for keeping the Resources in sync with
  * Subscribers (components that use the Resource), and for managing the current
  * Agent (User).
@@ -152,6 +152,7 @@ export class Store {
 
   /** Gets a property by URL. */
   async getProperty(subject: string): Promise<Property> {
+    // This leads to multiple fetches!
     const resource = await this.getResourceAsync(subject);
     if (resource == undefined) {
       throw Error(`Property ${subject} is not found`);
@@ -277,20 +278,21 @@ export class Store {
   }
 
   subscribeWebSocket(subject: string) {
-    console.log('sub', subject);
     if (subject == unknownSubject) {
       return;
     }
     // TODO: check if there is a websocket for this base URL or not
     try {
-      this.webSocket?.send(`SUBSCRIBE ${subject}`);
+      // Only subscribe if there's a websocket. When it's opened, all subject will be iterated and subscribed
+      if (this.webSocket?.readyState == WebSocket.OPEN) {
+        this.webSocket?.send(`SUBSCRIBE ${subject}`);
+      }
     } catch (e) {
       console.log(e);
     }
   }
 
   unSubscribeWebSocket(subject: string) {
-    console.log('unsub', subject);
     if (subject == unknownSubject) {
       return;
     }
@@ -310,15 +312,7 @@ export class Store {
     let callbackArray = this.subscribers.get(subject);
     // Remove the function from the callBackArray
     callbackArray = callbackArray.filter(item => item !== callback);
-    // If there are no callbacks left, unsubscribe from the websocket and delete the key from the map
-    if (callbackArray.length == 0) {
-      this.subscribers.delete(subject);
-      // I think it's best _not_ to call unsubscribeWebsocket, as the user might re-open a subject and then hit an
-      // outdated resource.
-      // this.unSubscribeWebSocket(subject);
-    } else {
-      this.subscribers.set(subject, callbackArray);
-    }
+    this.subscribers.set(subject, callbackArray);
   }
 }
 
