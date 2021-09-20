@@ -1,10 +1,14 @@
 import { test, expect, Page } from '@playwright/test';
 
+/**
+ * When set to true, this runs tests that require the server to have a usable
+ * `/setup` invite
+ */
+const initialTest = true;
+
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:8080/');
-    // await page.goto('http://localhost/');
-
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.click('[data-test="sidebar-drive-edit"]');
     await page.click('[data-test="server-url-atomic"]');
@@ -21,8 +25,7 @@ test.describe('data-browser', async () => {
   });
 
   test('switch Server URL', async ({ page }) => {
-    await page.fill('[data-test="server-url-input"]', 'http://localhost');
-    await page.click('[data-test="server-url-save"]');
+    await openLocalhost(page);
     await expect(page.locator('text=demo invite')).not.toBeVisible();
     await page.fill('[data-test="server-url-input"]', 'https://atomicdata.dev');
     await page.click('[data-test="server-url-save"]');
@@ -30,14 +33,7 @@ test.describe('data-browser', async () => {
   });
 
   test('sign in with secret, edit profile, sign out', async ({ page }) => {
-    await page.click('text=user settings');
-    await expect(page.locator('text=edit data and sign Commits')).toBeVisible();
-    const test_agent =
-      'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvbEtJbitRMExVdVBSNk14Y0VkWjZ4T21oNFU0Y3lONnZPcS9SWWtUYXpBMD0iLCJwcml2YXRlS2V5IjoieTAxbWgrM2FoazBWTXdJakw0MFZvQlp3V2owbW5NSHlIOG9HV2E1cHd5OD0ifQ==';
-    await page.click('#current-password');
-    await page.fill('#current-password', test_agent);
-    await expect(page.locator('text=Edit profile')).toBeVisible();
-
+    await signIn(page);
     await editProfileAndCommit(page);
 
     // Sign out
@@ -50,11 +46,6 @@ test.describe('data-browser', async () => {
   });
 
   test('sign up with invite, edit, versions', async ({ page }) => {
-    // Setup initial user (this test can only be run once per server)
-    // await expect(page.locator('text=setup')).toBeVisible();
-    // await page.click('text=setup');
-    // await expect(page.locator('text=no usages left')).toBeVisible();
-
     // Use invite
     await page.click('text=demo invite');
     await page.click('text=Accept as new user');
@@ -135,7 +126,81 @@ test.describe('data-browser', async () => {
     await page.click('[data-test="copy-response"]');
     await expect(page.locator('text=Copied!')).toBeVisible();
   });
+
+  test('localhost setup, create document, edit, page title', async ({
+    page,
+  }) => {
+    await openLocalhost(page);
+    // Setup initial user (this test can only be run once per server)
+    await page.click('[data-test="sidebar-drive-open"]');
+    await expect(page.locator('text=/setup')).toBeVisible();
+    // Don't click on setup - this will take you to a different domain, not to the dev build!
+    // await page.click('text=/setup');
+    await page.fill('[data-test="address-bar"]', 'http://localhost/setup');
+    await signIn(page);
+    if (initialTest) {
+      await expect(page.locator('text=Accept as')).toBeVisible();
+      // await page.click('[data-test="accept-existing"]');
+      await page.click('text=Accept as Test');
+    }
+    // Create a document
+    await page.click('button:has-text("documents")');
+    await page.click('[title="Create a new document"]');
+    await page.click('text=advanced');
+    await page.click('[placeholder="Enter an Atomic URL..."]');
+    await page.keyboard.type('http://localhost');
+    await page.keyboard.press('Enter');
+    await page.click('[data-test="save"]');
+    // commit for saving initial document
+    await page.waitForResponse('http://localhost/commit');
+    // commit for initializing the first element (paragraph)
+    await page.waitForResponse('http://localhost/commit');
+    // commit for adding that element to the document
+    await page.waitForResponse('http://localhost/commit');
+    await page.click('[data-test="document-title"]');
+    const title = 'Nice title';
+    await page.keyboard.type(title);
+    // commit for editing title
+    await page.waitForResponse('http://localhost/commit');
+    // await expect(await page.title()).toEqual(title);
+    await page.press('[data-test="document-title"]', 'Enter');
+    const teststring = `My test: ${new Date().toLocaleTimeString()}`;
+    await page.fill('textarea', teststring);
+    // TODO: Enable these tests!
+    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    // commit editing paragraph
+    await page.waitForResponse('http://localhost/commit');
+    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    await page.reload();
+    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    // TODO: fix page title
+    // await expect(await page.title()).toEqual(title);
+
+    // multi-user
+    // Opens a second browser window, checks the document, watches for updates
+    // const page2 = playwrightLauncherPage.page();
+    // await page2.goto('http://localhost:8080/');
+    // await page2.setViewportSize({ width: 1000, height: 400 });
+  });
 });
+
+/** Signs in using an AtomicData.dev test user */
+async function signIn(page: Page) {
+  await page.click('text=user settings');
+  await expect(page.locator('text=edit data and sign Commits')).toBeVisible();
+  // https://atomicdata.dev/agents/lKIn+Q0LUuPR6MxcEdZ6xOmh4U4cyN6vOq/RYkTazA0=
+  const test_agent =
+    'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvbEtJbitRMExVdVBSNk14Y0VkWjZ4T21oNFU0Y3lONnZPcS9SWWtUYXpBMD0iLCJwcml2YXRlS2V5IjoieTAxbWgrM2FoazBWTXdJakw0MFZvQlp3V2owbW5NSHlIOG9HV2E1cHd5OD0ifQ==';
+  await page.click('#current-password');
+  await page.fill('#current-password', test_agent);
+  await expect(page.locator('text=Edit profile')).toBeVisible();
+  await page.goBack();
+}
+
+async function openLocalhost(page: Page) {
+  await page.click('[data-test="sidebar-drive-edit"]');
+  await page.click('[data-test="server-url-localhost"]');
+}
 
 async function editProfileAndCommit(page: Page) {
   await page.click('text=user settings');
