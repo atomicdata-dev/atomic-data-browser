@@ -41,6 +41,19 @@ export class CommitBuilder implements CommitBuilderI {
       Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0
     );
   }
+
+  /**
+   * Creates a clone of the CommitBuilder. This is required, because I want to
+   * prevent any adjustments to the CommitBuilder while signing, as this could
+   * cause race conditions with wrong signatures
+   */
+  clone(): CommitBuilder {
+    const cm = new CommitBuilder(this.subject);
+    cm.set = this.set;
+    cm.destroy = this.destroy;
+    cm.remove = this.remove;
+    return cm;
+  }
 }
 
 interface CommitPreSigned extends CommitBuilderI {
