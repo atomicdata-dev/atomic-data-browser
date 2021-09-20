@@ -194,8 +194,8 @@ export class Resource {
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
     }
-    // Clean up the commitBuilder, but save a backup if the server does not apply the commit.
-    const oldCommitBuilder = this.commitBuilder;
+    // Cloning the CommitBuilder to prevent race conditions, and keeping a back-up of current state for when things go wrong during posting.
+    const oldCommitBuilder = this.commitBuilder.clone();
     this.commitBuilder = new CommitBuilder(this.getSubject());
     this.status == ResourceStatus.ready;
     const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
