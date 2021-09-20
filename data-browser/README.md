@@ -12,17 +12,21 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 ## Features
 
 - **View data**
-  - Fetch atomic data from `atomic-server` and parse [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html)
+  - Browse and fetch Atomic Data
   - Render [properties](https://atomicdata.dev/classes/Property) from any resource
-  - Table view with sorting / pagination powered by [collections](https://atomicdata.dev/classes/Collection)
+  - Table & Grid views with sorting / pagination powered by [Collections](https://atomicdata.dev/classes/Collection)
+  - Data viewer to render data in [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html), Turtle, JSON-LD, and more.
 - **Edit data**
+  - Dynamic forms for creating and editing resources with datatype validation. Powered by [Atomic Schema](https://docs.atomicdata.dev/schema/intro.html).
   - Create, send and sign [Atomic Commits](https://docs.atomicdata.dev/commits/intro.html)
-  - Form for creating resources, include datatype validation and [Atomic Schema](https://docs.atomicdata.dev/schema/intro.html) checks
-  - Add properties to existing resource
+  - Add properties to existing resources
+  - Accept [Invites](https://docs.atomicdata.dev/invitations.html), manage user [Agents](https://docs.atomicdata.dev/agents.html) (including private keys) and Servers.
+  - All changes are cryptographically signed using Atomic Commits
 - **Other**
-  - Sidebar for easy navigation
-  - UI customization: Dark mode, navbar placement and theme color
-  - Accept [Atomic Invites](https://docs.atomicdata.dev/invitations.html), which generates keys and sets a new current User
+  - Document editor with Markdown & real-time sync / collaboration (using WebSockets)
+  - Collapsible sidebar for easy navigation
+  - Client-side full-text search
+  - UI customization: dark mode, navigation bar placement and theme color
   - Responsive, accessible, keyboard controls
 
 ## Running locally
@@ -92,15 +96,19 @@ yarn start-https
 The tests are located in `tests` and have `.spec` in their filename.
 They use the PlayWright framework and run in the browser.
 
-- Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
+- make sure the data-browser server is running (`yarn start`) at `http://localhost:8080`
+- make sure an [`atomic-server`](https://crates.io/crates/atomic-server/) instance is running at `http://localhost`
+- make sure the `http://localhost/setup` invite has at least one available usage. You can set a higher amount [here](http://localhost/app/edit?subject=http%3A%2F%2Flocalhost%2Fsetup), or run `atomic-server --init` to reset it to 1.
 - Install the Playwright dependencies: `npx playwright install-deps`
-- `yarn test` launches the E2E tests
+- `yarn test` launches the E2E tests (make sure the dev server is running at `http://localhost:8080`)
 - `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
 - `yarn test-new` create new tests by clicking through the app
+- Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
+- `PWDEBUG=1 npx playwright test "browser.spec.ts" -g "create document"` run a specific e2e test in debug mode
 
 ## CI
 
-GitHub Action is run on every used for:
+GitHub Action / Workflow is used for:
 
 - Linting (ESlint)
 - Testing (in the browser, using an `atomic-server` docker image)
