@@ -1,6 +1,6 @@
 import { urls } from './urls';
 import { tryValidURL } from './client';
-import { JSONValue, JSVals, Value } from './value';
+import { JSONValue } from './value';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
@@ -65,11 +65,8 @@ export interface ArrayError extends Error {
   index?: number;
 }
 
-/**
- * Validates a value and its datatype. Throws an error if things are wrong.
- * Returns the Atomic Data Value.
- */
-export const validate = (value: JSVals, datatype: Datatype): Value => {
+/** Validates a value and its datatype. Throws an error if things are wrong. */
+export const validate = (value: JSONValue, datatype: Datatype): void => {
   let err = null;
   switch (datatype) {
     case Datatype.STRING: {
@@ -138,17 +135,16 @@ export const validate = (value: JSVals, datatype: Datatype): Value => {
   if (err !== null) {
     throw new Error(`${err}`);
   }
-  return new Value(value as JSONValue);
 };
 
-function isArray(val: JSVals): val is [] {
+function isArray(val: JSONValue): val is [] {
   return Object.prototype.toString.call(val) === '[object Array]';
 }
 
-function isString(val: JSVals): val is string {
+function isString(val: JSONValue): val is string {
   return typeof val === 'string';
 }
 
-function isNumber(val: JSVals): val is number {
+function isNumber(val: JSONValue): val is number {
   return typeof val === 'number';
 }

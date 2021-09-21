@@ -1,13 +1,14 @@
 import { properties } from './urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
-import { validate } from './datatypes';
+import { validate as validateDatatype } from './datatypes';
 import { Store } from './store';
-import { JSVals, Value } from './value';
+import { valToArray, valToString } from './value';
 import { Agent } from './agent';
+import { JSONValue } from '.';
 
 /** Contains the PropertyURL / Value combinations */
-export type PropVals = Map<string, Value>;
+export type PropVals = Map<string, JSONValue>;
 
 /** The various basic states that an in-memory Resource can be in. */
 export enum ResourceStatus {
@@ -65,12 +66,11 @@ export class Resource {
     agent: string,
     child?: string,
   ): Promise<boolean> {
-    const writeArray = this.get(properties.write)?.toArray();
-
-    if (writeArray && writeArray.includes(agent)) {
+    const writeArray = this.get(properties.write);
+    if (writeArray && valToArray(writeArray).includes(agent)) {
       return true;
     }
-    const parentSubject = this.get(properties.parent)?.toString();
+    const parentSubject = this.get(properties.parent) as string;
     // This should not happen, but it prevents an infinite loop
     if (child == parentSubject) {
       console.warn('Circular parent', child);
@@ -91,7 +91,7 @@ export class Resource {
   }
 
   /** Get a Value by its property */
-  get(propUrl: string): Value | null {
+  get(propUrl: string): JSONValue | null {
     const result = this.propvals.get(propUrl);
     if (result == undefined) {
       // throw new Error(`not found property ${propUrl} in ${this.subject}`);
@@ -108,7 +108,7 @@ export class Resource {
       return [];
     }
     try {
-      const arr = classesVal.toArray();
+      const arr = valToArray(classesVal);
       return arr;
     } catch (e) {
       return [];
@@ -224,24 +224,34 @@ export class Resource {
    * property is not valid for the datatype. Will fetch the datatype if it's not
    * available. Adds the property to the commitbuilder.
    */
-  async set(prop: string, value: JSVals, store: Store): Promise<Value> {
-    const fullProp = await store.getProperty(prop);
-    const newVal = validate(value, fullProp.datatype);
-    this.propvals.set(prop, newVal);
+  async set(
+    prop: string,
+    value: JSONValue,
+    store: Store,
+    /**
+     * Disable validation if you don't need it. It might cause a fetch if the
+     * Property is not present when set is called
+     */
+    validate = true,
+  ): Promise<void> {
+    if (validate) {
+      const fullProp = await store.getProperty(prop);
+      validateDatatype(value, fullProp.datatype);
+    }
+    this.propvals.set(prop, value);
     // Add the change to the Commit Builder, so we can commit our changes later
-    this.commitBuilder.set[prop] = newVal.toNative(fullProp.datatype);
+    this.commitBuilder.set[prop] = value;
     // If the property has been removed before, undo that
     this.commitBuilder.remove = this.commitBuilder.remove.filter(
       item => item == prop,
     );
-    return newVal;
   }
 
   /**
    * Set a Property, Value combination without performing validations or adding
    * it to the CommitBuilder.
    */
-  setUnsafe(prop: string, val: Value): void {
+  setUnsafe(prop: string, val: JSONValue): void {
     this.propvals.set(prop, val);
   }
 

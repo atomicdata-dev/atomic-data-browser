@@ -43,10 +43,15 @@ export function Element({
   active,
 }: ElementProps): JSX.Element {
   const [resource] = useResource(subject);
-  const [text, setText] = useString(resource, properties.description, true);
+  const [err, setErr] = useState(null);
+  const [text, setText] = useString(resource, properties.description, {
+    commit: true,
+    handleValidationError: setErr,
+    validate: false,
+  });
+  console.log('text', text);
   const [klass] = useArray(resource, properties.isA);
   const ref = React.useRef(null);
-  const [err, setErr] = useState(null);
 
   /** If it is not a text element */
   const isAResource =
@@ -55,7 +60,7 @@ export function Element({
   function handleOnChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     handleResize();
     setErr(null);
-    setText(e.target.value, setErr);
+    setText(e.target.value);
   }
 
   /** Let the textarea grow */

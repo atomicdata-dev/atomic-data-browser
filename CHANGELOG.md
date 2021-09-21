@@ -10,6 +10,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Prevent re-applying locally defined commits #90
 - Fix race condition commits #91
 - Added `opts` parameter to react hooks
+- Simplify internal Value model (better performance, less bugs) #88
 
 ## v0.25.4
 

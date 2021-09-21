@@ -24,10 +24,11 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const [elements, setElements] = useArray(
     resource,
     properties.document.elements,
-    { commit: true },
+    { commit: true, validate: false },
   );
   const [title, setTitle] = useString(resource, properties.name, {
     commit: true,
+    validate: false,
   });
   const titleRef = React.useRef(null);
   const store = useStore();
