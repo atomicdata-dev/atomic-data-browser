@@ -59,7 +59,11 @@ export function SettingsServer(): JSX.Element {
       >
         AtomicData.dev
       </Button>
-      <Button onClick={() => handleSetBaseUrl('http://localhost')} subtle>
+      <Button
+        onClick={() => handleSetBaseUrl('http://localhost')}
+        subtle
+        data-test='server-url-localhost'
+      >
         localhost
       </Button>
       <Button onClick={() => handleSetBaseUrl(window.location.origin)} subtle>

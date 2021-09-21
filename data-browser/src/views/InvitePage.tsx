@@ -73,12 +73,17 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
         <>
           {agentSubject ? (
             <>
-              <Button onClick={() => handleAccept(null, agentSubject)}>
+              <Button
+                data-test='accept-existing'
+                onClick={() => handleAccept(null, agentSubject)}
+              >
                 Accept as {agentTitle}
               </Button>
             </>
           ) : (
-            <Button onClick={handleNew}>Accept as new user</Button>
+            <Button data-test='accept-new' onClick={handleNew}>
+              Accept as new user
+            </Button>
           )}
           {!isNaN(usagesLeft) && <p>({usagesLeft} usages left)</p>}
         </>
