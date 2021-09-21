@@ -157,6 +157,9 @@ export class Store {
     if (resource == undefined) {
       throw Error(`Property ${subject} is not found`);
     }
+    if (resource.isReady() == false) {
+      throw Error(`Property ${subject} cannot be loaded`);
+    }
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
     if (datatypeUrl == null) {
