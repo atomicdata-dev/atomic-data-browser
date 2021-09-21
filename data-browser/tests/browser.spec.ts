@@ -127,8 +127,9 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=Copied!')).toBeVisible();
   });
 
-  test('localhost setup, create document, edit, page title', async ({
+  test('localhost setup, create document, edit, page title, websockets', async ({
     page,
+    browser,
   }) => {
     await openLocalhost(page);
     // Setup initial user (this test can only be run once per server)
@@ -148,7 +149,7 @@ test.describe('data-browser', async () => {
     await page.click('[title="Create a new document"]');
     await page.click('text=advanced');
     await page.click('[placeholder="Enter an Atomic URL..."]');
-    await page.keyboard.type('http://localhost');
+    await page.keyboard.type('http://localhost/documents');
     await page.keyboard.press('Enter');
     await page.click('[data-test="save"]');
     // commit for saving initial document
@@ -157,30 +158,43 @@ test.describe('data-browser', async () => {
     await page.waitForResponse('http://localhost/commit');
     // commit for adding that element to the document
     await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(/element/);
     await page.click('[data-test="document-title"]');
     const title = 'Nice title';
+    await page.keyboard.press('Space');
+    await page.keyboard.press('Backspace');
+    await page.waitForTimeout(100);
+    // await page.fill('[data-test="document-title"]', title);
     await page.keyboard.type(title);
+
     // commit for editing title
     await page.waitForResponse('http://localhost/commit');
     // await expect(await page.title()).toEqual(title);
     await page.press('[data-test="document-title"]', 'Enter');
+    await page.waitForTimeout(500);
     const teststring = `My test: ${new Date().toLocaleTimeString()}`;
     await page.fill('textarea', teststring);
-    // TODO: Enable these tests!
-    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
     // commit editing paragraph
     await page.waitForResponse('http://localhost/commit');
-    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
-    await page.reload();
-    // await expect(page.locator(`text=${teststring}`)).toBeVisible();
-    // TODO: fix page title
-    // await expect(await page.title()).toEqual(title);
+    // await page.waitForLoadState('networkidle');
+    await expect(page.locator(`text=${teststring}`)).toBeVisible();
 
     // multi-user
-    // Opens a second browser window, checks the document, watches for updates
-    // const page2 = playwrightLauncherPage.page();
-    // await page2.goto('http://localhost:8080/');
-    // await page2.setViewportSize({ width: 1000, height: 400 });
+    const currentUrl = page.url();
+    const context2 = await browser.newContext();
+    const page2 = await context2.newPage();
+    await page2.goto(currentUrl);
+    await page2.setViewportSize({ width: 1000, height: 400 });
+    await expect(page2.locator(`text=${teststring}`)).toBeVisible();
+    await expect(await page2.title()).toEqual(title);
+
+    // Add a new line on first page, check if it appears on the second
+    await page.keyboard.press('Enter');
+    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse('http://localhost/commit');
+    const syncText = 'New paragraph';
+    await page.keyboard.type(syncText);
+    await expect(page2.locator(`text=${syncText}`)).toBeVisible();
   });
 });
 
