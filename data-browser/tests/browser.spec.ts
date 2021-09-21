@@ -158,7 +158,6 @@ test.describe('data-browser', async () => {
     await page.waitForResponse('http://localhost/commit');
     // commit for adding that element to the document
     await page.waitForResponse('http://localhost/commit');
-    await page.waitForResponse(/element/);
     await page.click('[data-test="document-title"]');
     const title = 'Nice title';
     await page.keyboard.press('Space');

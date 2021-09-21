@@ -4,13 +4,16 @@ import {
   Store,
   Resource,
   ResourceStatus,
-  JSVals,
-  Value,
   Datatype,
   datatypeFromUrl,
   urls,
   truncateUrl,
   JSONValue,
+  valToBoolean,
+  valToNumber,
+  valToDate,
+  valToArray,
+  valToString,
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './useDebounce';
@@ -114,12 +117,12 @@ export function useProperty(subject: string): Property | null {
     }
   }
 
-  const datatypeUrl = propR.get(urls.properties.datatype)?.toString();
+  const datatypeUrl = propR.get(urls.properties.datatype) as string;
   const datatype = datatypeFromUrl(datatypeUrl);
-  const shortname = propR.get(urls.properties.shortname).toString();
-  const description = propR.get(urls.properties.description).toString();
-  const classType = propR.get(urls.properties.classType)?.toString();
-  const isDynamic = !!propR.get(urls.properties.isDynamic)?.toBoolean();
+  const shortname = propR.get(urls.properties.shortname) as string;
+  const description = propR.get(urls.properties.description) as string;
+  const classType = propR.get(urls.properties.classType) as string;
+  const isDynamic = !!propR.get(urls.properties.isDynamic) as boolean;
 
   const property: Property = {
     subject,
@@ -133,7 +136,7 @@ export function useProperty(subject: string): Property | null {
 }
 
 /** A callback function for setting validation error messages */
-type handleValidationErrorType = (val: JSVals) => Promise<void>;
+type handleValidationErrorType = (val: JSONValue) => Promise<void>;
 
 /** Extra options for useValue hooks, mostly related to commits and validation */
 type useValueOptions = {
@@ -168,16 +171,18 @@ export function useValue(
   resource: Resource,
   propertyURL: string,
   /** Saves the resource when the resource is changed, after 100ms */
-  opts: useValueOptions = {
-    commit: false,
-    validate: true,
-    commitDebounce: 100,
-  },
-): [Value | null, handleValidationErrorType] {
-  const [val, set] = useState<Value>(null);
+  opts: useValueOptions = {},
+): [JSONValue | null, handleValidationErrorType] {
+  const {
+    commit = false,
+    validate = true,
+    commitDebounce = 100,
+    handleValidationError,
+  } = opts;
+  const [val, set] = useState<JSONValue>(null);
   const store = useStore();
   const subject = resource.getSubject();
-  const debounced = useDebounce(val, opts.commitDebounce);
+  const debounced = useDebounce(val, commitDebounce);
   const [touched, setTouched] = useState(false);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -197,7 +202,7 @@ export function useValue(
   // Save the resource when the debounced value has changed
   useEffect(() => {
     // Touched prevents the resource from being saved when it is loaded (and not changed)
-    if (opts.commit && touched) {
+    if (commit && touched) {
       // This weird async wrapping is needed to use await in a react hook.
       async function save() {
         try {
@@ -209,21 +214,20 @@ export function useValue(
       }
       save();
     }
-  }, [debounced]);
+  }, [JSON.stringify(debounced)]);
 
   /**
    * Validates the value. If it fails, it calls the function in the second
    * Argument. Pass null to remove existing value.
    */
-  async function validateAndSet(newVal: JSVals): Promise<void> {
+  async function validateAndSet(newVal: JSONValue): Promise<void> {
     if (newVal == null) {
       // remove the value
       resource.removePropVal(propertyURL);
       set(null);
       return;
     }
-    const valFromNewVal = new Value(newVal as JSONValue);
-    set(valFromNewVal);
+    set(newVal);
     setTouched(true);
 
     /**
@@ -231,9 +235,8 @@ export function useValue(
      * callback if the value is not valid.
      */
     async function setAsync() {
-      const { handleValidationError } = opts;
       try {
-        await resource.set(propertyURL, newVal, store);
+        await resource.set(propertyURL, newVal, store, validate);
         handleValidationError && handleValidationError(null);
         // commit && (await resource.save(store));
         store.notify(resource);
@@ -256,6 +259,7 @@ export function useValue(
   // }
   let value = null;
   // Try to actually get the value, log any errorr
+
   try {
     value = resource.get(propertyURL);
   } catch (e) {
@@ -281,7 +285,7 @@ export function useString(
   if (val == null) {
     return [null, setVal];
   }
-  return [val.toString(), setVal];
+  return [valToString(val), setVal];
 }
 
 /** Returns the most fitting title / name for a Resource */
@@ -323,7 +327,7 @@ export function useArray(
   // https://github.com/joepio/atomic-data-browser/issues/85
   let arr = [];
   try {
-    arr = value.toArray();
+    arr = valToArray(value);
   } catch (e) {
     console.log(e, value, propertyURL, resource.getSubject());
   }
@@ -339,7 +343,7 @@ export function useNumber(
   if (value == null) {
     return [NaN, set];
   }
-  return [value.toNumber(), set];
+  return [valToNumber(value), set];
 }
 
 /** Returns true or false. */
@@ -352,7 +356,7 @@ export function useBoolean(
   if (value == null) {
     return [false, set];
   }
-  return [value.toBoolean(), set];
+  return [valToBoolean(value), set];
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
@@ -367,7 +371,7 @@ export function useDate(
     return null;
   }
   try {
-    return value.toDate();
+    return valToDate(value);
   } catch (e) {
     store.handleError(e);
     return null;

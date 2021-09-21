@@ -2,13 +2,12 @@ import { sign, getPublicKey, utils } from 'noble-ed25519';
 import stringify from 'json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { urls } from './urls';
-import { JSVals, Value } from './value';
 import { Store } from './store';
-import { Resource } from '.';
+import { JSONValue, Resource } from '.';
 
 export interface CommitBuilderI {
   subject: string;
-  set?: Record<string, JSVals>;
+  set?: Record<string, JSONValue>;
   remove?: string[];
   destroy?: boolean;
 }
@@ -16,7 +15,7 @@ export interface CommitBuilderI {
 /** A Commit without signature */
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
-  set: Record<string, JSVals>;
+  set: Record<string, JSONValue>;
   remove: string[];
   destroy?: boolean;
 
@@ -215,8 +214,7 @@ export function parseAndApply(jsonAdObjStr: string, store: Store) {
 
   set &&
     Object.keys(set).forEach(propUrl => {
-      const val = new Value(set[propUrl]);
-      resource.setUnsafe(propUrl, val);
+      resource.setUnsafe(propUrl, set[propUrl]);
     });
 
   remove &&
