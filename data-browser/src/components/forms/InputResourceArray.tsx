@@ -12,8 +12,10 @@ export default function InputResourceArray({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [array, setArray] = useArray(resource, property.subject);
   const [err, setErr] = useState<ArrayError>(null);
+  const [array, setArray] = useArray(resource, property.subject, {
+    handleValidationError: setErr,
+  });
 
   function handleAdd() {
     array.push(null);
@@ -30,7 +32,7 @@ export default function InputResourceArray({
 
   function handleSetSubject(value: string, handleErr, index: number) {
     array[index] = value;
-    setArray(array, handleErr);
+    setArray(array);
   }
 
   return (

@@ -8,18 +8,19 @@ export default function InputNumber({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [value, setValue] = useNumber(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
+  const [value, setValue] = useNumber(resource, property.subject, {
+    handleValidationError: setErr,
+  });
 
   function handleUpdate(e) {
-    console.log('handleupdate', e.target.value);
     if (e.target.value == '') {
       setValue(null);
       return;
     }
     const newval = +e.target.value;
     // I pass the error setter for validation purposes
-    setValue(newval, setErr);
+    setValue(newval);
   }
 
   return (

@@ -133,10 +133,29 @@ export function useProperty(subject: string): Property | null {
 }
 
 /** A callback function for setting validation error messages */
-type handleValidationErrorType = (
-  val: JSVals,
-  callback?: (e: Error) => unknown,
-) => Promise<void>;
+type handleValidationErrorType = (val: JSVals) => Promise<void>;
+
+type useValueOptions = {
+  /**
+   * Sends a Commit to the server when the value is changed. Disabled by
+   * default. If this is false, you will need to manually call Resource.save()
+   * to save changes
+   */
+  commit?: boolean;
+  /**
+   * Performs datatype validation. Enabled by default, but this could cause some
+   * slowdown when the first validation is done as the Property needs to be
+   * present in the store, and might have to be fetched
+   */
+  validate?: boolean;
+  /** Amount of milliseconds to wait (debounce) before applying Commit. Defaults to 100. */
+  commitDebounce?: number;
+  /**
+   * A callback function that will be called when the validation fails. For
+   * example, pass a `setError` function.
+   */
+  handleValidationError?: (e: Error) => unknown;
+};
 
 /**
  * Returns a Value (can be string, array, more or null) and a Setter. Value will
@@ -148,12 +167,16 @@ export function useValue(
   resource: Resource,
   propertyURL: string,
   /** Saves the resource when the resource is changed, after 100ms */
-  commit?: boolean,
+  opts: useValueOptions = {
+    commit: false,
+    validate: true,
+    commitDebounce: 100,
+  },
 ): [Value | null, handleValidationErrorType] {
   const [val, set] = useState<Value>(null);
   const store = useStore();
   const subject = resource.getSubject();
-  const debounced = useDebounce(val, 100);
+  const debounced = useDebounce(val, opts.commitDebounce);
   const [touched, setTouched] = useState(false);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -172,8 +195,8 @@ export function useValue(
 
   // Save the resource when the debounced value has changed
   useEffect(() => {
-    // Touched prevents the resource from being saved when it is simplely changed.
-    if (commit && touched) {
+    // Touched prevents the resource from being saved when it is loaded (and not changed)
+    if (opts.commit && touched) {
       // This weird async wrapping is needed to use await in a react hook.
       async function save() {
         try {
@@ -191,10 +214,7 @@ export function useValue(
    * Validates the value. If it fails, it calls the function in the second
    * Argument. Pass null to remove existing value.
    */
-  async function validateAndSet(
-    newVal: JSVals,
-    handleValidationError?: (e: Error) => unknown,
-  ): Promise<void> {
+  async function validateAndSet(newVal: JSVals): Promise<void> {
     if (newVal == null) {
       // remove the value
       resource.removePropVal(propertyURL);
@@ -210,6 +230,7 @@ export function useValue(
      * callback if the value is not valid.
      */
     async function setAsync() {
+      const { handleValidationError } = opts;
       try {
         await resource.set(propertyURL, newVal, store);
         handleValidationError && handleValidationError(null);
@@ -227,9 +248,11 @@ export function useValue(
     return [val, validateAndSet];
   }
   // When the resource isn't ready, return null
-  if (!resource.isReady()) {
-    return [null, validateAndSet];
-  }
+  // Not sure if this was a good idea, it caused issues in rendering
+  // I've disabled it, if this does not present new issues, remove it
+  // if (!resource.isReady()) {
+  //   return [null, validateAndSet];
+  // }
   let value = null;
   // Try to actually get the value, log any errorr
   try {
@@ -251,12 +274,9 @@ export function useValue(
 export function useString(
   resource: Resource,
   propertyURL: string,
-  commit?: boolean,
-): [
-    string | null,
-    (string: string, handleValidationErrorType?) => Promise<void>,
-  ] {
-  const [val, setVal] = useValue(resource, propertyURL, commit);
+  opts?: useValueOptions,
+): [string | null, (string: string) => Promise<void>] {
+  const [val, setVal] = useValue(resource, propertyURL, opts);
   if (val == null) {
     return [null, setVal];
   }
@@ -292,9 +312,9 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
 export function useArray(
   resource: Resource,
   propertyURL: string,
-  commit?: boolean,
+  opts?: useValueOptions,
 ): [string[] | null, handleValidationErrorType] {
-  const [value, set] = useValue(resource, propertyURL, commit);
+  const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [[], set];
   }
@@ -312,8 +332,9 @@ export function useArray(
 export function useNumber(
   resource: Resource,
   propertyURL: string,
+  opts?: useValueOptions,
 ): [number | null, handleValidationErrorType] {
-  const [value, set] = useValue(resource, propertyURL);
+  const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [NaN, set];
   }
@@ -324,8 +345,9 @@ export function useNumber(
 export function useBoolean(
   resource: Resource,
   propertyURL: string,
+  opts?: useValueOptions,
 ): [boolean | null, handleValidationErrorType] {
-  const [value, set] = useValue(resource, propertyURL);
+  const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [false, set];
   }
@@ -333,9 +355,13 @@ export function useBoolean(
 }
 
 /** Hook for getting a stringified representation of an Atom in a React component */
-export function useDate(resource: Resource, propertyURL: string): Date | null {
+export function useDate(
+  resource: Resource,
+  propertyURL: string,
+  opts?: useValueOptions,
+): Date | null {
   const store = useStore();
-  const [value] = useValue(resource, propertyURL);
+  const [value] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return null;
   }
