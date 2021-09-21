@@ -9,6 +9,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Custom fonts
 - Prevent re-applying locally defined commits #90
 - Fix race condition commits #91
+- Added `opts` parameter to react hooks
 
 ## v0.25.4
 

@@ -11,8 +11,10 @@ export default function InputMarkdown({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
+  const [value, setVale] = useString(resource, property.subject, {
+    handleValidationError: setErr,
+  });
   const { darkMode } = useSettings();
 
   return (
@@ -21,7 +23,7 @@ export default function InputMarkdown({
         <YamdeStyling>
           <Yamde
             value={value ? value : ''}
-            handler={e => setVale(e, setErr)}
+            handler={e => setVale(e)}
             theme={darkMode ? 'dark' : 'light'}
             {...props}
           />

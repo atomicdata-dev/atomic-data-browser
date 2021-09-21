@@ -8,13 +8,15 @@ export default function InputString({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [value, setVale] = useString(resource, property.subject);
   const [err, setErr] = useState<Error>(null);
+  const [value, setVale] = useString(resource, property.subject, {
+    handleValidationError: setErr,
+  });
 
   function handleUpdate(e) {
     const newval = e.target.value;
     // I pass the error setter for validation purposes
-    setVale(newval, setErr);
+    setVale(newval);
   }
 
   return (
