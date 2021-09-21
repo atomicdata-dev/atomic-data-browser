@@ -10,7 +10,7 @@ export function startWebsocket(store: Store): WebSocket {
   client.onopen = _e => handleOpen(store);
   client.onmessage = (ev: MessageEvent) => handleMessage(ev, store);
   client.onerror = handleError;
-  client.onclose = handleClose;
+  // client.onclose = handleClose;
   return client;
 }
 
@@ -34,4 +34,4 @@ function handleError(ev: Event) {
   console.log('websocket error:', ev);
 }
 
-function handleClose(ev: CloseEvent) { }
+// function handleClose(ev: CloseEvent) { }
