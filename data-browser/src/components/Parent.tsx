@@ -30,6 +30,9 @@ function Parent({ resource }: Props): JSX.Element {
 
 const Breadcrumb = styled.div`
   margin-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const List = styled.div`
