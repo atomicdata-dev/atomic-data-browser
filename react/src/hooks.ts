@@ -135,6 +135,7 @@ export function useProperty(subject: string): Property | null {
 /** A callback function for setting validation error messages */
 type handleValidationErrorType = (val: JSVals) => Promise<void>;
 
+/** Extra options for useValue hooks, mostly related to commits and validation */
 type useValueOptions = {
   /**
    * Sends a Commit to the server when the value is changed. Disabled by
