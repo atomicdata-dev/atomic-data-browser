@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { Resource, properties, classes } from '@tomic/lib';
-import { useArray, useCanWrite, useStore, useString } from '@tomic/react';
-
-import { useHotkeys } from 'react-hotkeys-hook';
-import { ErrorLook } from './ResourceInline';
-import { Element, ElementPropsBase } from './Element';
 import { useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useArray, useCanWrite, useStore, useString } from '@tomic/react';
 import {
   SortableContainer,
   SortableElement,
@@ -13,6 +10,9 @@ import {
 } from 'react-sortable-hoc';
 import styled from 'styled-components';
 import { FaGripVertical } from 'react-icons/fa';
+
+import { ErrorLook } from './ResourceInline';
+import { Element, ElementPropsBase } from './Element';
 import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
@@ -24,9 +24,11 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const [elements, setElements] = useArray(
     resource,
     properties.document.elements,
-    true,
+    { commit: true },
   );
-  const [title, setTitle] = useString(resource, properties.name);
+  const [title, setTitle] = useString(resource, properties.name, {
+    commit: true,
+  });
   const titleRef = React.useRef(null);
   const store = useStore();
   const ref = React.useRef(null);
@@ -135,16 +137,18 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     elements.splice(position, 0, elementSubject);
     try {
       const newElement = new Resource(elementSubject, true);
-      await newElement.set(properties.isA, [classes.elements.paragraph], store);
-      await newElement.set(properties.parent, resource.getSubject(), store);
-      await newElement.set(properties.description, '', store);
+      await Promise.all([
+        newElement.set(properties.isA, [classes.elements.paragraph], store),
+        newElement.set(properties.parent, resource.getSubject(), store),
+        newElement.set(properties.description, '', store),
+      ]);
       // Don't await the save - it takes too long
       newElement.save(store);
-      setElements(elements, setErr);
+      await setElements(elements);
       focusElement(position);
-      window.setTimeout(() => {
-        focusElement(position);
-      }, 10);
+      // window.setTimeout(() => {
+      //   focusElement(position);
+      // }, 10);
     } catch (e) {
       setErr(e);
     }
@@ -172,14 +176,14 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
 
   async function deleteElement(number: number) {
     elements.splice(number, 1);
-    setElements(elements, setErr);
+    setElements(elements);
     focusElement(number - 1);
   }
 
   /** Sets the subject for a specific element and moves to the next element */
   async function setElement(index: number, subject: string) {
     elements[index] = subject;
-    setElements(elements, setErr);
+    setElements(elements);
     if (index == elements.length - 1) {
       addElement(index + 1);
     } else {
@@ -191,7 +195,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
     const element = elements[from];
     elements.splice(from, 1);
     elements.splice(to, 0, element);
-    setElements(elements, setErr);
+    setElements(elements);
     focusElement(to);
   }
 
