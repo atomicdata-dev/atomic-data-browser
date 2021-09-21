@@ -7,6 +7,8 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Added WebSockets for live synchronization with server #80
 - Add Commit parsing #80
 - Custom fonts
+- Prevent re-applying locally defined commits #90
+- Fix race condition commits #91
 
 ## v0.25.4
 
