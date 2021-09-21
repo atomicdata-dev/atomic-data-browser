@@ -298,7 +298,7 @@ function DropDownItemsMenu({
 
   return (
     <DropDownWrapper ref={dropdownRef}>
-      {results.length > 0 ? (
+      {results.length > 0 &&
         results.map((item, index) => (
           <DropDownItem
             onClick={() => handleSelectItem(item.item.subject)}
@@ -308,15 +308,13 @@ function DropDownItemsMenu({
           >
             <ResourceLine subject={item.item.subject} />
           </DropDownItem>
-        ))
-      ) : (
-        <DropDownItem
-          onClick={() => handleSelectItem(inputValue)}
-          useKeys={useKeys}
-        >
-          Set {inputValue} as value
-        </DropDownItem>
-      )}
+        ))}
+      <DropDownItem
+        onClick={() => handleSelectItem(inputValue)}
+        useKeys={useKeys}
+      >
+        Set {inputValue} as value
+      </DropDownItem>
     </DropDownWrapper>
   );
 }
