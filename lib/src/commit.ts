@@ -32,10 +32,11 @@ export class CommitBuilder implements CommitBuilderI {
    */
   async sign(privateKey: string, agentSubject: string): Promise<Commit> {
     const now: number = Math.round(new Date().getTime());
-    const commit = await signAt(this, agentSubject, privateKey, now);
+    const commit = await signAt(this.clone(), agentSubject, privateKey, now);
     return commit;
   }
 
+  /** Returns true if the CommitBuilder has non-empty changes (set, remove, destroy) */
   hasUnsavedChanges(): boolean {
     return (
       Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0
@@ -96,6 +97,9 @@ export function serializeDeterministically(
   if (commit.set?.length == 0) {
     delete commit.remove;
   }
+  if (commit.destroy == false) {
+    delete commit.destroy;
+  }
   replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
   replaceKey(commit, 'subject', urls.properties.commit.subject);
   replaceKey(commit, 'set', urls.properties.commit.set);
@@ -110,8 +114,11 @@ export function serializeDeterministically(
 /** Creates a signature for a Commit using the private Key of some Agent. */
 export const signAt = async (
   commitBuilder: CommitBuilderI,
+  /** Subject URL of the Agent signing the Commit */
   agent: string,
+  /** Base64 serialized private key matching the public key of the agent */
   privateKey: string,
+  /** Time of signing in millisecons since unix epoch */
   createdAt: number,
 ): Promise<Commit> => {
   if (agent == undefined) {
@@ -130,6 +137,13 @@ export const signAt = async (
   };
   return commitPostSigned;
 };
+
+// /** Checks whether the commit signature is correct */
+// function verifyCommit(commit: Commit, publicKey: string): boolean {
+//   delete commit.signature;
+//   const serializedCommit = serializeDeterministically(commit);
+//   verify();
+// }
 
 /**
  * Signs a string using a base64 encoded ed25519 private key. Outputs a base64
