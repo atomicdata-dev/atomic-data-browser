@@ -26,7 +26,13 @@ function ErrorPage({
       </ErrorLook>
       <div>
         <Button onClick={clearError}>Clear error</Button>
-        <Button onClick={window.location.reload}>Reload page</Button>
+        <Button
+          onClick={() =>
+            window.setTimeout(window.location.reload.bind(window.location), 200)
+          }
+        >
+          Reload page
+        </Button>
       </div>
     </ContainerNarrow>
   );
