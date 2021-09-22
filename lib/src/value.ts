@@ -1,3 +1,4 @@
+import { parseJsonADResource } from '.';
 import { Resource } from './resource';
 
 export type JSONPrimitive = string | number | boolean | null;
@@ -67,9 +68,14 @@ export function valToResource(val: JSONValue): string | Resource {
   if (val instanceof Date) {
     throw new Error(`Not a resource: ${val}, is a Date`);
   }
+  if (val.constructor == Array) {
+    throw new Error(`Not a resource: ${val}, is an Array`);
+  }
   if (typeof val == 'object') {
     //@ts-ignore
-    return val;
+    const resource = new Resource('nested-resource');
+    parseJsonADResource(val as JSONObject, resource);
+    return resource;
   }
   if (typeof val !== 'object') {
     throw new Error(`Not a resource: ${val}, is a ${typeof val}`);

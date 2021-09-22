@@ -49,7 +49,6 @@ export function Element({
     handleValidationError: setErr,
     validate: false,
   });
-  console.log('text', text);
   const [klass] = useArray(resource, properties.isA);
   const ref = React.useRef(null);
 
