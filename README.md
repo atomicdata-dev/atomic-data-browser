@@ -58,6 +58,7 @@ React library with many useful hooks for rendering and editing Atomic Data.
 ## Also check out
 
 - [atomic-data-rust](https://github.com/joepio/atomic-data-rs), a rust [**library**](https://crates.io/crates/atomic-lib), [**server**](https://crates.io/crates/atomic-server) and [**cli**](https://crates.io/crates/atomic-cli) for Atomic Data.
+- [sign up to the Atomic Data Newsletter](http://eepurl.com/hHcRA1)
 
 ## Contribute
 

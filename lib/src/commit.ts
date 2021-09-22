@@ -19,8 +19,11 @@ export class CommitBuilder implements CommitBuilderI {
   remove: string[];
   destroy?: boolean;
 
+  /** Removes any query parameters from the Subject */
   constructor(subject: string) {
-    this.subject = subject;
+    const url = new URL(subject);
+    url.search = null;
+    this.subject = url.toString();
     this.set = {};
     this.remove = [];
   }
