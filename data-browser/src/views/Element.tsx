@@ -147,6 +147,7 @@ export function Element({
         onBlur={() => setCurrent(null)}
       >
         <Markdown text={text} noMargin />
+        <Err />
       </ElementWrapper>
     );
   }

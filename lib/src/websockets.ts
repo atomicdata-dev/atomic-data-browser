@@ -4,7 +4,7 @@ import { Store } from './store';
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(store: Store): WebSocket {
   const wsURL = new URL(store.getBaseUrl());
-  wsURL.protocol = 'ws';
+  wsURL.protocol = 'wss';
   wsURL.pathname = '/ws';
   const client = new WebSocket(wsURL.toString());
   client.onopen = _e => handleOpen(store);
