@@ -92,3 +92,12 @@ export function isValidURL(subject: string): boolean {
     return false;
   }
 }
+
+/**
+ * Removes query params from the URL if it can build a URL. Will return the
+ * normal URL if things go wrong.
+ */
+// TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
+export function removeQueryParamsFromURL(subject: string): string {
+  return subject.split('?')[0];
+}

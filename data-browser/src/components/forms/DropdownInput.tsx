@@ -309,12 +309,14 @@ function DropDownItemsMenu({
             <ResourceLine subject={item.item.subject} />
           </DropDownItem>
         ))}
-      <DropDownItem
-        onClick={() => handleSelectItem(inputValue)}
-        useKeys={useKeys}
-      >
-        Set {inputValue} as value
-      </DropDownItem>
+      {inputValue && (
+        <DropDownItem
+          onClick={() => handleSelectItem(inputValue)}
+          useKeys={useKeys}
+        >
+          Select {inputValue}
+        </DropDownItem>
+      )}
     </DropDownWrapper>
   );
 }

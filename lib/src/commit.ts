@@ -3,7 +3,7 @@ import stringify from 'json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { urls } from './urls';
 import { Store } from './store';
-import { JSONValue, Resource } from '.';
+import { JSONValue, removeQueryParamsFromURL, Resource } from '.';
 
 export interface CommitBuilderI {
   subject: string;
@@ -21,9 +21,7 @@ export class CommitBuilder implements CommitBuilderI {
 
   /** Removes any query parameters from the Subject */
   constructor(subject: string) {
-    const url = new URL(subject);
-    url.search = null;
-    this.subject = url.toString();
+    this.subject = removeQueryParamsFromURL(subject);
     this.set = {};
     this.remove = [];
   }
