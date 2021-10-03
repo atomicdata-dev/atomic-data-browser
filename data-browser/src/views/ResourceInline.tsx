@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { ResourceStatus, urls } from '@tomic/lib';
+import { urls } from '@tomic/lib';
 import AtomicLink from '../components/Link';
 
 type Props = {
@@ -15,15 +15,14 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
-  const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (resource.loading) {
     return (
       <span about={subject} title={`${subject} is loading..`}>
         ...
       </span>
     );
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return (
       <AtomicLink subject={subject} untabbable={untabbable}>
         <ErrorLook about={subject} title={resource.getError().message}>

@@ -41,11 +41,10 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const [klass] = useString(resource, properties.isA);
   const store = useStore();
 
-  const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (resource.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return (
       <ContainerNarrow>
         <h1>⚠️ {title}</h1>

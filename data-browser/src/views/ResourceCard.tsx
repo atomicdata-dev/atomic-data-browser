@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { Resource, ResourceStatus, properties, urls } from '@tomic/lib';
+import { Resource, properties, urls } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import AtomicLink from '../components/Link';
 import { Card } from '../components/Card';
@@ -73,11 +73,10 @@ function ResourceCardInner(props: Props): JSX.Element {
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
 
-  const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (resource.loading) {
     return <p>Loading...</p>;
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return (
       <ErrorLook>
         <AtomicLink subject={subject}>

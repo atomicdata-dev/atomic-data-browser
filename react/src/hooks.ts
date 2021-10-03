@@ -3,7 +3,6 @@ import {
   Property,
   Store,
   Resource,
-  ResourceStatus,
   Datatype,
   datatypeFromUrl,
   urls,
@@ -322,7 +321,7 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
   const [shortname] = useString(resource, urls.properties.shortname);
   // TODO: truncate non urls
   truncateLength = truncateLength ? truncateLength : 40;
-  if (resource.getStatus() == ResourceStatus.loading) {
+  if (!resource.isReady()) {
     return '...';
   }
   if (title !== null) {

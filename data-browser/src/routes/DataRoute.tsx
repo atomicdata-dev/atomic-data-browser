@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useResource, useStore } from '@tomic/react';
-import { ResourceStatus } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';
@@ -14,16 +13,15 @@ import { ErrMessage } from '../components/forms/InputStyles';
 function Data(): JSX.Element {
   const [subject] = useCurrentSubject();
   const [resource] = useResource(subject);
-  const status = resource.getStatus();
   const [textResponse, setTextResponse] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
   const [err, setErr] = useState(null);
   const store = useStore();
 
-  if (status == ResourceStatus.loading) {
-    return <ContainerNarrow>Loading...</ContainerNarrow>;
+  if (resource.loading) {
+    return <ContainerNarrow>Loading {subject}...</ContainerNarrow>;
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
   }
 

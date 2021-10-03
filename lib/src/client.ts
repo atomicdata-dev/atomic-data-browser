@@ -1,3 +1,4 @@
+import { Store } from '.';
 import { Commit, serializeDeterministically } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
@@ -9,6 +10,11 @@ import { Resource } from './resource';
  */
 export async function fetchResource(
   subject: string,
+  /**
+   * Pass the Store if you want to directly add the resource (and its possible
+   * nested child Resources) to the Store.
+   */
+  store?: Store,
   /**
    * Base URL of an atomic server. Uses the `/path` endpoint to indirectly fetch
    * through that server.
@@ -37,7 +43,7 @@ export async function fetchResource(
     const body = await response.text();
     if (response.status == 200) {
       const json = JSON.parse(body);
-      parseJsonADResource(json, resource);
+      parseJsonADResource(json, resource, store);
     } else {
       const error = new Error(`${response.status} error: ${body}`);
       resource.setError(error);
@@ -45,6 +51,7 @@ export async function fetchResource(
   } catch (e) {
     resource.setError(e);
   }
+  resource.loading = false;
   return resource;
 }
 
@@ -99,5 +106,6 @@ export function isValidURL(subject: string): boolean {
  */
 // TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
 export function removeQueryParamsFromURL(subject: string): string {
-  return subject.split('?')[0];
+  // return subject.split('?')[0];
+  return subject;
 }
