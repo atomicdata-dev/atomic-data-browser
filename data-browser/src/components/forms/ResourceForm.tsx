@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  Resource,
-  ResourceStatus,
-  classes,
-  properties,
-  urls,
-} from '@tomic/lib';
+import { Resource, classes, properties, urls } from '@tomic/lib';
 import {
   useArray,
   useCanWrite,
@@ -51,8 +45,6 @@ export function ResourceForm({
   }
   const [klass] = useResource(classSubject);
   const store = useStore();
-  const resourceStatus = resource.getStatus();
-  const classStatus = klass.getStatus();
   const [requires] = useArray(klass, properties.requires);
   const [recommends] = useArray(klass, properties.recommends);
   const [klassIsa] = useString(klass, properties.isA);
@@ -117,13 +109,13 @@ export function ResourceForm({
     // array changes, but that leads to a weird loop, so that's what the length is for
   }, [resource, tempOtherProps, requires.length, recommends.length]);
 
-  if (resourceStatus == ResourceStatus.loading) {
+  if (!resource.new && resource.loading) {
     return <>Loading resource...</>;
   }
-  if (resourceStatus == ResourceStatus.error) {
+  if (resource.error) {
     return <ErrMessage>{resource.getError().message}</ErrMessage>;
   }
-  if (classStatus == ResourceStatus.loading) {
+  if (klass.loading) {
     return <>Loading class...</>;
   }
   if (klassIsa && klassIsa !== classes.class) {
@@ -182,7 +174,7 @@ export function ResourceForm({
 
   return (
     <form about={resource.getSubject()}>
-      {classStatus == ResourceStatus.error && (
+      {klass.error && (
         <ErrMessage>
           Error in class. {klass.getError().message}. You can still edit the
           resource, though.

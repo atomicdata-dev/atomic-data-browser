@@ -1,6 +1,6 @@
 import React from 'react';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { ResourceStatus, urls } from '@tomic/lib';
+import { urls } from '@tomic/lib';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 
 type Props = {
@@ -14,11 +14,10 @@ function ResourceLine({ subject, clickable }: Props): JSX.Element {
   const title = useTitle(resource);
   let [description] = useString(resource, urls.properties.description);
 
-  const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (resource.loading) {
     return <span about={subject}>Loading...</span>;
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return (
       <ErrorLook about={subject}>
         Error: {resource.getError().message}

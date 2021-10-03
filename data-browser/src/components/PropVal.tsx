@@ -1,4 +1,4 @@
-import { truncateUrl, Resource } from '@tomic/lib';
+import { truncateUrl, Resource, Datatype } from '@tomic/lib';
 import { useProperty } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
@@ -47,12 +47,18 @@ function PropVal({
   columns,
 }: Props): JSX.Element {
   const property = useProperty(propertyURL);
+  const truncated = truncateUrl(propertyURL, 10, true);
 
   if (property == null) {
-    return null;
+    return (
+      <PropValRow columns={columns}>
+        <PropertyLabel title={propertyURL + ' could not be loaded'}>
+          <ErrorLook>{truncated}</ErrorLook>
+        </PropertyLabel>
+        <code>{JSON.stringify(resource.get(propertyURL))}</code>
+      </PropValRow>
+    );
   }
-
-  const truncated = truncateUrl(propertyURL, 10, true);
 
   return (
     <PropValRow columns={columns}>

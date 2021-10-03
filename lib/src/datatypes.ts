@@ -145,7 +145,7 @@ export const validate = (value: JSONValue, datatype: Datatype): void => {
   }
 };
 
-function isArray(val: JSONValue): val is [] {
+export function isArray(val: JSONValue): val is [] {
   return Object.prototype.toString.call(val) === '[object Array]';
 }
 

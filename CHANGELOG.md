@@ -2,6 +2,11 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
+## v0.27.0
+
+- Parse nested, named JSON-AD resources
+- Refactor resource status
+
 ## v0.26.2
 
 - Add [Typedoc documentation](https://joepio.github.io/atomic-data-browser/docs/modules.html) #100

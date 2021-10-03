@@ -10,18 +10,6 @@ import { JSONValue } from '.';
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;
 
-/** The various basic states that an in-memory Resource can be in. */
-export enum ResourceStatus {
-  /** Fetching has started, but no response was received */
-  loading = 'loading',
-  /** If something went wrong while fetching or parsing */
-  error = 'error',
-  /** Fetched, parsed, stored and ready for usage */
-  ready = 'ready',
-  /** Newly created, not saved to the store */
-  new = 'new',
-}
-
 /**
  * If a resource has no subject, it will have this subject. This means that the
  * Resource is not saved or fetched.
@@ -36,12 +24,16 @@ export class Resource {
   private subject: string;
   private propvals: PropVals;
   /** If the resource could not be fetched, we put that info here. */
-  private error?: Error;
+  error?: Error;
   /** If the commit could not be saved, we put that info here. */
   public commitError?: Error;
-  // Is true for locally created, unsaved resources
+  /** Is true for locally created, unsaved resources */
   new: boolean;
-  private status: ResourceStatus;
+  /**
+   * Is true when the Resource is currently being fetched, awaiting a response
+   * from the Server
+   */
+  loading: boolean;
   private commitBuilder: CommitBuilder;
   /**
    * Every commit that has been applied should be stored here, which prevents
@@ -54,6 +46,7 @@ export class Resource {
       throw new Error('no subject given to resource');
     }
     this.new = newResource ? true : false;
+    this.loading = false;
     this.subject = subject;
     this.propvals = new Map();
     this.appliedCommitSignatures = new Set();
@@ -104,7 +97,7 @@ export class Resource {
 
   /** Checks if the resource is both loaded and free from errors */
   isReady(): boolean {
-    return this.status == ResourceStatus.ready;
+    return !this.loading && this.error == undefined;
   }
 
   /** Get a Value by its property */
@@ -143,11 +136,6 @@ export class Resource {
   /** Returns the Error of the Resource */
   getError(): Error {
     return this.error;
-  }
-
-  /** Returns the status of the Resource (loading, error, ready) */
-  getStatus(): ResourceStatus {
-    return this.status;
   }
 
   /** Returns the subject URL of the Resource */
@@ -214,7 +202,6 @@ export class Resource {
     // Cloning the CommitBuilder to prevent race conditions, and keeping a back-up of current state for when things go wrong during posting.
     const oldCommitBuilder = this.commitBuilder.clone();
     this.commitBuilder = new CommitBuilder(this.getSubject());
-    this.status == ResourceStatus.ready;
     const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
     // Add the signature to the list of applied ones, to prevent applying it again when the server
     this.appliedCommitSignatures.add(commit.signature);
@@ -272,16 +259,9 @@ export class Resource {
     this.propvals.set(prop, val);
   }
 
-  /** Should be called during loading / parsing a Resource */
-  setStatus(status: ResourceStatus): void {
-    this.status = status;
-  }
-
   /** Sets the error on the Resource. Does not Throw. */
   setError(e: Error): void {
-    this.setStatus(ResourceStatus.error);
     this.error = e;
-    // throw e;
   }
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */

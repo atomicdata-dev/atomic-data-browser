@@ -1,6 +1,6 @@
 import React from 'react';
 import { useString, useResource, useTitle } from '@tomic/react';
-import { ResourceStatus, urls } from '@tomic/lib';
+import { urls } from '@tomic/lib';
 import { ErrorLook } from '../views/ResourceInline';
 import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
@@ -36,15 +36,14 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
     }
   };
 
-  const status = resource.getStatus();
-  if (status == ResourceStatus.loading) {
+  if (resource.loading) {
     return (
       <span about={subject} title={`${subject} is loading..`}>
-        ...
+        loading...
       </span>
     );
   }
-  if (status == ResourceStatus.error) {
+  if (resource.error) {
     return (
       <SideBarItem
         clean

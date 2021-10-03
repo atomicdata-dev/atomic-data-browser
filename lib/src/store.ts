@@ -1,4 +1,4 @@
-import { Resource, ResourceStatus, unknownSubject } from './resource';
+import { Resource, unknownSubject } from './resource';
 import { tryValidURL, fetchResource } from './client';
 import { urls } from './urls';
 import { Datatype, datatypeFromUrl } from './datatypes';
@@ -81,9 +81,9 @@ export class Store {
     if (forceRefresh || this.resources.get(subject) == undefined) {
       const fetched = await fetchResource(
         subject,
+        this,
         fromProxy && this.getBaseUrl(),
       );
-      this.addResource(fetched);
       return fetched;
     }
   }
@@ -121,12 +121,12 @@ export class Store {
     // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
     if (subject == undefined) {
       const newR = new Resource(unknownSubject, newResource);
-      newR.setStatus(ResourceStatus.new);
       return newR;
     }
     const found = this.resources.get(subject);
     if (found == undefined) {
       const newR = new Resource(subject, newResource);
+      newR.loading = true;
       this.addResource(newR);
       if (newResource) {
         return newR;
@@ -256,7 +256,7 @@ export class Store {
 
   // TODO: don't do this, have one websocket per domain
   /** Closes an old websocket and opens a new one to the BaseURL */
-  setWebSocket() {
+  setWebSocket(): void {
     this.webSocket && this.webSocket.close();
     this.webSocket = startWebsocket(this);
   }
@@ -281,7 +281,7 @@ export class Store {
     this.subscribers.set(subject, callbackArray);
   }
 
-  subscribeWebSocket(subject: string) {
+  subscribeWebSocket(subject: string): void {
     if (subject == unknownSubject) {
       return;
     }
@@ -296,7 +296,7 @@ export class Store {
     }
   }
 
-  unSubscribeWebSocket(subject: string) {
+  unSubscribeWebSocket(subject: string): void {
     if (subject == unknownSubject) {
       return;
     }
