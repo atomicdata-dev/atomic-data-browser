@@ -2,6 +2,11 @@
 
 This changelog covers all three packges, as they are (for now) updated as a whole
 
+## v0.26.1
+
+- Fix `wss` websockets
+- Update typescript type exports
+
 ## v0.26.0
 
 - Added WebSockets for live synchronization with server #80
