@@ -9,6 +9,7 @@ And join our [Discord][discord-url]!
 ## Publishing
 
 - Install `lerna`
+- `yarn build` to build typescript files (don't skip this!)
 - `npm run publish` (not yarn, since that does not support publishing to npm right now)
 - Versions should match `atomic-data-rs`
 

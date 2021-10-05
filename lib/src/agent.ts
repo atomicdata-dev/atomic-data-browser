@@ -69,7 +69,7 @@ export class Agent {
   }
 }
 
-interface AgentInterface {
+export interface AgentInterface {
   privateKey: string;
   publicKey?: string;
   subject?: string;
