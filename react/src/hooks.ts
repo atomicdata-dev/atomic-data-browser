@@ -435,7 +435,7 @@ export function useCanWrite(
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
     if (agent == undefined) {
-      agent = agentStore.subject;
+      agent = agentStore?.subject;
     }
     if (agent == undefined) {
       setMsg('No Agent set');
