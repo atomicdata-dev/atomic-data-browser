@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // would prefer es2020, but this is needed for jest
+    "module": "commonjs",
+    // required by jest
+    "esModuleInterop": true,
+    // required by jest
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "target": "es2020",
+    "jsx": "preserve",
+    "strictFunctionTypes": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": true,
+    // Enables following definitions to source files instead of d.ts files
+    "declarationMap": true,
+    // This is a fix for mocha types https://stackoverflow.com/questions/55680391/typescript-error-ts2403-subsequent-variable-declarations-must-have-the-same-typ
+    "skipLibCheck": true,
+    // used in monorepo ts projects to set precendence in compiling tsc things https://dev.to/t7yang/typescript-yarn-workspace-monorepo-1pao
+    "composite": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
+  ]
+}

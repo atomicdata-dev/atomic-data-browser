@@ -1,0 +1,5 @@
+{
+  "entryPointStrategy": "packages",
+  "readme": "DOCS.md",
+  "name": "@tomic"
+}
