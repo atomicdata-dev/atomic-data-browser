@@ -5,7 +5,9 @@
  *
  * ## How to use
  *
- * - Add `@tomic/react` and `@tomic/lib` to your `package.json` `dependencies`.
+ * - Add [`@tomic/react`](https://www.npmjs.com/package/@tomic/react) and
+ *   [`@tomic/lib`](https://www.npmjs.com/package/@tomic/lib) to your
+ *   `package.json` `dependencies`.
  * - Start by initializing a {@link Store}`const store = new Store()` form `@tomic/lib`.
  * - Wrap your React application in a `<StoreContext.Provider value={store}>` component.
  * - Add {@link useResource} and {@link useValue} hooks (e.g. {@link useArray}) to

@@ -71,13 +71,13 @@ export class Resource {
       return true;
     }
     const parentSubject = this.get(properties.parent) as string;
+    if (parentSubject == undefined) {
+      return false;
+    }
     // This should not happen, but it prevents an infinite loop
     if (child == parentSubject) {
       console.warn('Circular parent', child);
       return true;
-    }
-    if (parentSubject == undefined) {
-      return false;
     }
     const parent: Resource = await store.getResourceAsync(parentSubject);
     // The recursive part

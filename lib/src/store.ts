@@ -319,10 +319,17 @@ export class Store {
   }
 }
 
+/**
+ * A Property represents a relationship between a Subject and its Value.
+ * https://atomicdata.dev/classes/Property
+ */
 export class Property {
   subject: string;
+  /** https://atomicdata.dev/properties/datatype */
   datatype: Datatype;
+  /** https://atomicdata.dev/properties/shortname */
   shortname: string;
+  /** https://atomicdata.dev/properties/description */
   description: string;
   /** https://atomicdata.dev/properties/classType */
   classType?: string;

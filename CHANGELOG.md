@@ -6,6 +6,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 
 - Add [Typedoc documentation](https://joepio.github.io/atomic-data-browser/docs/modules.html) #100
 - Fix bug not showing resource form fields
+- Fix circular parent handling in `canWrite`
 
 ## v0.26.1
 

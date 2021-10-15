@@ -33,7 +33,7 @@ export class CommitBuilder implements CommitBuilderI {
 
   /**
    * Signs the commit using the privateKey of the Agent, and returns a full
-   * Commit which is ready to be sent to an Atomic-Server `/commit` endpoint
+   * Commit which is ready to be sent to an Atomic-Server `/commit` endpoint.
    */
   async sign(privateKey: string, agentSubject: string): Promise<Commit> {
     const now: number = Math.round(new Date().getTime());
@@ -73,7 +73,8 @@ interface CommitPreSigned extends CommitBuilderI {
 
 /**
  * A Commit represents a (set of) changes to one specific Resource. See
- * https://atomicdata.dev/classes/Commit
+ * https://atomicdata.dev/classes/Commit If you want to create a Commit, you
+ * should probably use the {@link CommitBuilder} and call `.sign()` on it.
  */
 export interface Commit extends CommitPreSigned {
   /** https://atomicdata.dev/properties/signature */

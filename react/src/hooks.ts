@@ -313,7 +313,10 @@ export function useString(
   return [valToString(val), setVal];
 }
 
-/** Returns the most fitting title / name for a Resource */
+/**
+ * Returns the most fitting title / name for a Resource. This is either the
+ * Name, Shortname or truncated Subject URL of that resource.
+ */
 export function useTitle(resource: Resource, truncateLength?: number): string {
   const [title] = useString(resource, urls.properties.name);
   const [shortname] = useString(resource, urls.properties.shortname);
