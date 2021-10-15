@@ -1,5 +1,6 @@
 {
   "entryPointStrategy": "packages",
   "readme": "DOCS.md",
-  "name": "@tomic"
+  "name": "@tomic",
+  "folder": "data-browser/publish/docs"
 }
