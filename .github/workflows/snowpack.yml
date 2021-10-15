@@ -1,4 +1,4 @@
-name: Snowpack
+name: Lint, build, test, deploy
 on:
   push:
     branches: [master, main]
