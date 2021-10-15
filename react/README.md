@@ -1,11 +1,11 @@
 # @tomic/react: The Atomic Data library for React
 
-_note: this README is being worked on before the actual library is published as an NPM package, so modules might not resolve_
+[**demo + template on codesandbox**!](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
+
+[**docs**](https://joepio.github.io/atomic-data-browser/docs/modules/_tomic_react.html)
 
 A library for viewing and creating Atomic Data.
 Should be used in conjunction with `@tomic/lib`.
-
-[**demo + template on codesandbox**!](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
 
 ## Setup
 
