@@ -136,8 +136,7 @@ export function useProperty(subject: string): Property | null {
   return property;
 }
 
-/** A callback function for setting validation error messages */
-type handleValidationErrorType = (val: JSONValue) => Promise<void>;
+type setValue = (val: JSONValue) => Promise<void>;
 
 /** Extra options for useValue hooks, mostly related to commits and validation */
 type useValueOptions = {
@@ -163,17 +162,42 @@ type useValueOptions = {
 };
 
 /**
- * Returns a Value (can be string, array, more or null) and a Setter. Value will
- * be null if the Resource isn't loaded yet. The setter takes two arguments -
- * the first one a native JS representation of the new value, the second one a
- * callback function for handling validation errors.
+ * Similar to React's `useState` hook. Returns a Value and a Setter as an array
+ * of two items. Value will be null if the Resource isn't loaded yet. The
+ * generated Setter function can be called to set the value. Be sure to look at
+ * the various options for useValueOptions (debounce, commits, error handling).
+ *
+ * ```typescript
+ * // Simple usage:
+ * const [resource] = useResource('https://atomicdata.dev/classes/Agent');
+ * const [shortname, setShortname] = useValue(
+ *   'https://atomicdata.dev/properties/shortname',
+ *   resource,
+ * );
+ * ```
+ *
+ * ```typescript
+ * // With options:
+ * const [resource] = useResource('https://atomicdata.dev/classes/Agent');
+ * const [error, setError] = useState(null);
+ * const [shortname, setShortname] = useValue(
+ *   'https://atomicdata.dev/properties/shortname',
+ *   resource,
+ *   {
+ *     commit: true,
+ *     validate: true,
+ *     commitDebounce: 500,
+ *     handleValidationError: setError,
+ *   },
+ * );
+ * ```
  */
 export function useValue(
   resource: Resource,
   propertyURL: string,
   /** Saves the resource when the resource is changed, after 100ms */
   opts: useValueOptions = {},
-): [JSONValue | null, handleValidationErrorType] {
+): [JSONValue | null, setValue] {
   const {
     commit = false,
     validate = true,
@@ -319,7 +343,7 @@ export function useArray(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string[] | null, handleValidationErrorType] {
+): [string[] | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [[], set];
@@ -340,7 +364,7 @@ export function useNumber(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [number | null, handleValidationErrorType] {
+): [number | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [NaN, set];
@@ -353,7 +377,7 @@ export function useBoolean(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [boolean | null, handleValidationErrorType] {
+): [boolean | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
   if (value == null) {
     return [false, set];
@@ -395,7 +419,10 @@ export function useStore(): Store {
   return store;
 }
 
-/** Checks if the current user can edit this resource */
+/**
+ * Checks if the Agent has the appropriate rights to edit this resource. If you
+ * don't explicitly pass an Agent URL, it will select the current Agent set by the store.
+ */
 export function useCanWrite(
   resource: Resource,
   agent?: string,
