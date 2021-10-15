@@ -42,7 +42,8 @@ export class Store {
   /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
   addResource(resource: Resource): void {
     this.resources.set(resource.getSubject(), resource);
-    this.notify(resource);
+    // We clone
+    this.notify(resource.clone());
   }
 
   /** Checks if a subject is free to use */

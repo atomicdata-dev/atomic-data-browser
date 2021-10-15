@@ -85,6 +85,23 @@ export class Resource {
     return canWrite;
   }
 
+  /**
+   * Creates a clone of the Resource, which makes sure the reference is
+   * different from the previous one. This can be useful when doing reference compares.
+   */
+  clone(): Resource {
+    const res = new Resource(this.subject);
+    res.propvals = this.propvals;
+    res.destroy = this.destroy;
+    res.new = this.new;
+    res.error = this.error;
+    res.status = this.status;
+    res.commitError = this.commitError;
+    res.commitBuilder = this.commitBuilder.clone();
+    res.appliedCommitSignatures = this.appliedCommitSignatures;
+    return res;
+  }
+
   /** Checks if the resource is both loaded and free from errors */
   isReady(): boolean {
     return this.status == ResourceStatus.ready;
