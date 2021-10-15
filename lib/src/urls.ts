@@ -34,6 +34,7 @@ export const properties = {
     totalMembers: 'https://atomicdata.dev/properties/collection/totalMembers',
     totalPages: 'https://atomicdata.dev/properties/collection/totalPages',
     value: 'https://atomicdata.dev/properties/collection/value',
+    sortBy: 'https://atomicdata.dev/properties/collection/sortBy',
   },
   commit: {
     subject: 'https://atomicdata.dev/properties/subject',

@@ -8,6 +8,7 @@ import {
   useString,
   useTitle,
   useLocalStorage,
+  useCollection,
 } from '@tomic/react';
 import { Resource, properties } from '@tomic/lib';
 import {
@@ -47,8 +48,20 @@ const displayStyles = [
 
 /** A View for collections. Contains logic for switching between various views. */
 function Collection({ resource }: CollectionProps): JSX.Element {
-  const title = useTitle(resource);
-  const [description] = useString(resource, properties.description);
+  const {
+    members,
+    title,
+    description,
+    valueFilter,
+    propertyFilter,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    sortBy,
+    setSortBy,
+    subjectWithParams,
+    resource: resCollection,
+  } = useCollection(resource.getSubject());
   const viewportWidth = useViewport();
   // If a user is on a smaller screen, it's probably best to show a Cardlist
   const defaultView = viewportWidth < 700 ? 0 : 1;
@@ -56,15 +69,6 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     'CollectionDisplayStyle',
     defaultView,
   );
-  const [members] = useArray(resource, properties.collection.members);
-  const [valueFilter] = useString(resource, properties.collection.value);
-  const [propertyFilter] = useString(resource, properties.collection.property);
-  // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
-  const [currentPage] = useNumber(resource, properties.collection.currentPage);
-  const [totalPages] = useNumber(resource, properties.collection.totalPages);
-  // Query parameters for Collections
-  const [, setPage] = useSubjectParam('current_page');
-  const [sortBy, setSortBy] = useSubjectParam('sort_by');
 
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
@@ -95,13 +99,13 @@ function Collection({ resource }: CollectionProps): JSX.Element {
 
   function handlePrevPage() {
     if (currentPage !== 0) {
-      setPage(currentPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   }
 
   function handleNextPage() {
     if (currentPage !== totalPages - 1) {
-      setPage(currentPage + 1);
+      setCurrentPage(currentPage + 1);
     }
   }
 
@@ -142,6 +146,10 @@ function Collection({ resource }: CollectionProps): JSX.Element {
     <ContainerFull about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
+      <p>{subjectWithParams}</p>
+      <p>{resCollection.getSubject()}</p>
+      <p>{currentPage}</p>
+      <p>{members[0]}</p>
       {description && <Markdown text={description} />}
       <ButtonsBar>
         {totalPages > 1 && <Pagination />}

@@ -18,6 +18,7 @@
  */
 
 export * from './hooks';
+export * from './useCollection';
 export * from './useBaseURL';
 export * from './useCurrentAgent';
 export * from './useLocalStorage';
