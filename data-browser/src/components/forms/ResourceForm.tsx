@@ -14,7 +14,6 @@ import {
   useStore,
   useString,
 } from '@tomic/react';
-import { handleError } from '../../helpers/handlers';
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
@@ -22,8 +21,6 @@ import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import styled from 'styled-components';
 import Field from './Field';
-import { useSettings } from '../../helpers/AppSettings';
-import { useDebounce } from '../../helpers/useDebounce';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
