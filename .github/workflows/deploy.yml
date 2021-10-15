@@ -15,9 +15,10 @@ jobs:
       - run: npx playwright install-deps
       - run: yarn --frozen-lockfile
       - run: yarn build
+      - run: yarn typedoc
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: data-browser/publish # The folder the action should deploy.
+          # folder: data-browser/publish # The folder the action should deploy.
