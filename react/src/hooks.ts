@@ -17,6 +17,7 @@ import {
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './useDebounce';
+import { useCurrentAgent } from '.';
 
 /**
  * Hook for getting and updating a Resource in a React component. Will try to
@@ -274,7 +275,7 @@ export function useValue(
 
 /**
  * Hook for getting and setting a stringified representation of an Atom in a
- * React component
+ * React component. See {@link useValue}
  */
 export function useString(
   resource: Resource,
@@ -312,7 +313,7 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
 
 /**
  * Hook for getting all URLs for some array. Returns the current Array (defaults
- * to empty array) and a callback for validation errors.
+ * to empty array) and a callback for validation errors. See {@link useValue}
  */
 export function useArray(
   resource: Resource,
@@ -334,6 +335,7 @@ export function useArray(
   return [arr, set];
 }
 
+/** See {@link useValue} */
 export function useNumber(
   resource: Resource,
   propertyURL: string,
@@ -346,7 +348,7 @@ export function useNumber(
   return [valToNumber(value), set];
 }
 
-/** Returns true or false. */
+/** Returns false if there is no value for this propertyURL. See {@link useValue} */
 export function useBoolean(
   resource: Resource,
   propertyURL: string,
@@ -359,7 +361,10 @@ export function useBoolean(
   return [valToBoolean(value), set];
 }
 
-/** Hook for getting a stringified representation of an Atom in a React component */
+/**
+ * Hook for getting a stringified representation of an Atom in a React
+ * component. See {@link useValue}
+ */
 export function useDate(
   resource: Resource,
   propertyURL: string,
@@ -398,9 +403,13 @@ export function useCanWrite(
   const store = useStore();
   const [canWrite, setCanWrite] = useState<boolean | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const [agentStore] = useCurrentAgent();
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
+    if (agent == undefined) {
+      agent = agentStore.subject;
+    }
     if (agent == undefined) {
       setMsg('No Agent set');
       setCanWrite(false);
@@ -424,6 +433,6 @@ export function useCanWrite(
 
 /**
  * The context must be provided by wrapping a high level React element in
- * <StoreContext.Provider value={new Store}>
+ * `<StoreContext.Provider value={new Store}>My App</StoreContext.Provider>`
  */
 export const StoreContext = React.createContext<Store>(undefined);

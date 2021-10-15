@@ -6,10 +6,11 @@
  * ## How to use
  *
  * - Add `@tomic/react` and `@tomic/lib` to your `package.json` `dependencies`.
- * - Start by initializing `const store = new Store()` form `@tomic/lib`.
+ * - Start by initializing a {@link Store}`const store = new Store()` form `@tomic/lib`.
  * - Wrap your React application in a `<StoreContext.Provider value={store}>` component.
- * - Add `useResource` and `use<Datatype>` hooks to your React components.
- * - Add User and session management using the `useCurrentAgent` hook
+ * - Add {@link useResource} and {@link useValue} hooks (e.g. {@link useArray}) to
+ *   your React components.
+ * - Add User and session management using the {@link useCurrentAgent} hook
  *
  * For example usage, see [this CodeSandbox
  * template](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:304-388).

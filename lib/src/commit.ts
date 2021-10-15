@@ -5,14 +5,19 @@ import { urls } from './urls';
 import { Store } from './store';
 import { JSONValue, removeQueryParamsFromURL, Resource } from '.';
 
+/** A {@link Commit} without its signature, signer and timestamp */
 export interface CommitBuilderI {
+  /** The resource being edited */
   subject: string;
+  /** The propert-value combinations being edited https://atomicdata.dev/properties/set */
   set?: Record<string, JSONValue>;
+  /** The properties that need to be removed. https://atomicdata.dev/properties/remove */
   remove?: string[];
+  /** If true, the resource must be deleted. https://atomicdata.dev/properties/destroy */
   destroy?: boolean;
 }
 
-/** A Commit without signature */
+/** A {@link Commit} without its signature, signer and timestamp */
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
   set: Record<string, JSONValue>;
@@ -48,6 +53,7 @@ export class CommitBuilder implements CommitBuilderI {
    * prevent any adjustments to the CommitBuilder while signing, as this could
    * cause race conditions with wrong signatures
    */
+  // Warning: I'm not sure whether this actually solves the issue. Might be a good idea to remove this.
   clone(): CommitBuilder {
     const cm = new CommitBuilder(this.subject);
     cm.set = this.set;
@@ -57,13 +63,20 @@ export class CommitBuilder implements CommitBuilderI {
   }
 }
 
+/** A {@link Commit} without its signature, but with a signer and timestamp */
 interface CommitPreSigned extends CommitBuilderI {
+  /** https://atomicdata.dev/properties/signer */
   signer: string;
-  // Unix timestamp in milliseconds
+  /** Unix timestamp in milliseconds, see https://atomicdata.dev/properties/createdAt */
   createdAt: number;
 }
 
+/**
+ * A Commit represents a (set of) changes to one specific Resource. See
+ * https://atomicdata.dev/classes/Commit
+ */
 export interface Commit extends CommitPreSigned {
+  /** https://atomicdata.dev/properties/signature */
   signature: string;
 }
 
@@ -84,8 +97,9 @@ function replaceKey(
 }
 
 /**
- * Takes a commit and serializes it deterministically. Is used both for signing
- * Commits as well as serializing them.
+ * Takes a commit and serializes it deterministically (canonicilaization). Is
+ * used both for signing Commits as well as serializing them.
+ * https://docs.atomicdata.dev/core/json-ad.html#canonicalized-json-ad
  */
 export function serializeDeterministically(
   commit: CommitPreSigned | Commit,

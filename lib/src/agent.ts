@@ -4,9 +4,9 @@ import { generatePublicKeyFromPrivate } from './commit';
 
 /**
  * An Agent is a user or machine that can write data to an Atomic Server. An
- * Agent *might* not have subject, sometimes.
+ * Agent *might* not have subject, sometimes. https://atomicdata.dev/classes/Agent
  */
-export class Agent {
+export class Agent implements AgentInterface {
   privateKey: string;
   publicKey?: string;
   subject?: string;
@@ -69,8 +69,15 @@ export class Agent {
   }
 }
 
+/**
+ * An Agent is a user or machine that can write data to an Atomic Server. An
+ * Agent *might* not have subject, sometimes. https://atomicdata.dev/classes/Agent
+ */
 export interface AgentInterface {
+  /** https://atomicdata.dev/properties/privateKey */
   privateKey: string;
+  /** https://atomicdata.dev/properties/publicKey */
   publicKey?: string;
+  /** URL of the Agent */
   subject?: string;
 }
