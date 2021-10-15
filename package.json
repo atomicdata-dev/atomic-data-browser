@@ -36,7 +36,7 @@
     "publish": "lerna run tsc && lerna publish",
     "start": "yarn workspace @tomic/data-browser start",
     "tsc": "lerna run tsc",
-    "typedoc": "typedoc . --options typedoc.json --watch"
+    "typedoc": "typedoc . --options typedoc.json"
   },
   "workspaces": {
     "packages": [
