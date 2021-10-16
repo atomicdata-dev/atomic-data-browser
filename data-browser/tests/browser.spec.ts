@@ -175,8 +175,9 @@ test.describe('data-browser', async () => {
     await page.fill('textarea', teststring);
     // commit editing paragraph
     await page.waitForResponse('http://localhost/commit');
-    // await page.waitForLoadState('networkidle');
+    const noAgentErr = 'You cannot save edits: No Agent set';
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    await expect(page.locator(`text=${noAgentErr}`)).not.toBeVisible();
 
     // multi-user
     const currentUrl = page.url();
@@ -185,6 +186,7 @@ test.describe('data-browser', async () => {
     await page2.goto(currentUrl);
     await page2.setViewportSize({ width: 1000, height: 400 });
     await expect(page2.locator(`text=${teststring}`)).toBeVisible();
+    await expect(page2.locator(`text=${noAgentErr}`)).toBeVisible();
     await expect(await page2.title()).toEqual(title);
 
     // Add a new line on first page, check if it appears on the second

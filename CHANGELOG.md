@@ -8,6 +8,7 @@ This changelog covers all three packges, as they are (for now) updated as a whol
 - Fix bug not showing resource form fields
 - Fix circular parent handling in `canWrite`
 - Update references to changed resources #102
+- Use `ws` instead of `wss` for HTTP connections
 
 ## v0.26.1
 
