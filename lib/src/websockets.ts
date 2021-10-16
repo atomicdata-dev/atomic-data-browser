@@ -3,10 +3,9 @@ import { Store } from './store';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(store: Store): WebSocket {
-  const baseURL = new URL(store.getBaseUrl());
-  const wsURL = new URL(baseURL);
+  const wsURL = new URL(store.getBaseUrl());
   // Default to a secure WSS connection, but allow WS for unsecured server connections
-  if (baseURL.protocol == 'http:') {
+  if (wsURL.protocol == 'http:') {
     wsURL.protocol = 'ws';
   } else {
     wsURL.protocol = 'wss';
