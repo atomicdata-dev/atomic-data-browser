@@ -3,6 +3,8 @@
  *
  * Render, fetch, edit and delete [Atomic Data](https://atomicdata.dev).
  *
+ * [github repository](https://github.com/joepio/atomic-data-browser)
+ *
  * ## How to use
  *
  * - Add [`@tomic/react`](https://www.npmjs.com/package/@tomic/react) and

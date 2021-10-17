@@ -5,15 +5,23 @@ import { JSONValue } from './value';
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
 export enum Datatype {
+  /** A Resource - either a URL string or a Nested Resource */
   ATOMIC_URL = 'https://atomicdata.dev/datatypes/atomicURL',
+  /** True / false */
   BOOLEAN = 'https://atomicdata.dev/datatypes/boolean',
+  /** ISO date YYYY-MM-DD */
   DATE = 'https://atomicdata.dev/datatypes/date',
+  /** Floating point number (number with comma) */
   FLOAT = 'https://atomicdata.dev/datatypes/float',
   INTEGER = 'https://atomicdata.dev/datatypes/integer',
+  /** UTF-8 Markdown string */
   MARKDOWN = 'https://atomicdata.dev/datatypes/markdown',
+  /** Array of Resources and */
   RESOURCEARRAY = 'https://atomicdata.dev/datatypes/resourceArray',
+  /** String with only letters, numbers and dashes in between */
   SLUG = 'https://atomicdata.dev/datatypes/slug',
   STRING = 'https://atomicdata.dev/datatypes/string',
+  /** Milliseconds since unix epoch */
   TIMESTAMP = 'https://atomicdata.dev/datatypes/timestamp',
   UNKNOWN = 'unknown-datatype',
 }
