@@ -38,9 +38,15 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
 
   if (resource.loading) {
     return (
-      <span about={subject} title={`${subject} is loading..`}>
+      <SideBarItem
+        clean
+        onClick={handleClick}
+        disabled={active}
+        resource={subject}
+        title={`${subject} is loading...`}
+      >
         loading...
-      </span>
+      </SideBarItem>
     );
   }
   if (resource.error) {
