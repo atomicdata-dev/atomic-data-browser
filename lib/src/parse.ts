@@ -2,13 +2,16 @@ import { isArray, JSONValue, Store } from '.';
 import { Resource, unknownSubject } from './resource';
 import { JSONObject } from './value';
 
-/** Parses an JSON-AD object containing a resoure, adds it to the input Resource */
+/**
+ * Parses an JSON-AD object containing a resoure, adds it to the input Resource.
+ * Also adds it to the store, if you pass a `store`.
+ */
 export function parseJsonADResource(
   jsonObject: JSONObject,
   resource: Resource,
   /** Pass a Store if you want to add the parsed resources to it */
   store?: Store,
-): void {
+): Resource {
   try {
     for (const key in jsonObject) {
       if (key == '@id') {
@@ -61,7 +64,7 @@ export function parseJsonADResource(
     store && store.addResource(resource);
     throw e;
   }
-  return;
+  return resource;
 }
 
 type StringOrNestedResource = string | JSONObject;
