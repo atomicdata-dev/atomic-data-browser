@@ -352,5 +352,6 @@ export class Property {
   error?: Error;
   /** https://atomicdata.dev/properties/isDynamic */
   isDynamic?: boolean;
+  /** When the Property is still awaiting a server response */
   loading?: boolean;
 }

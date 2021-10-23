@@ -88,7 +88,6 @@ export class Resource {
     res.destroy = this.destroy;
     res.new = this.new;
     res.error = this.error;
-    res.status = this.status;
     res.commitError = this.commitError;
     res.commitBuilder = this.commitBuilder.clone();
     res.appliedCommitSignatures = this.appliedCommitSignatures;

@@ -1,11 +1,13 @@
 # Changelog
 
-This changelog covers all three packges, as they are (for now) updated as a whole
+This changelog covers all three packages, as they are (for now) updated as a whole
 
 ## v0.27.0
 
-- Parse nested, named JSON-AD resources
-- Refactor resource status
+- Parse nested, named JSON-AD resources #98
+- Refactor resource status - remove `Resource.status`, prefer `.loading` and `.error`
+- Add loading and error status to Property class, include in `useProperty`
+- Improve loading states for various components
 
 ## v0.26.2
 
