@@ -40,7 +40,21 @@ export class Store {
   }
 
   /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
-  addResource(resource: Resource): void {
+  addResource(
+    resource: Resource,
+    opts?: {
+      /** If true, only adds the resource if it is complete and */
+      onlyIfComplete: boolean;
+    },
+  ): void {
+    // Incomplete resources may miss some properties
+    if (resource.get(urls.properties.incomplete)) {
+      // If there is a resource with the same subject, we won't overwrite it with an incomplete one
+      const existing = this.resources.get(resource.getSubject());
+      if (existing && !existing.loading) {
+        return;
+      }
+    }
     this.resources.set(resource.getSubject(), resource);
     // We clone
     this.notify(resource.clone());
@@ -338,4 +352,5 @@ export class Property {
   error?: Error;
   /** https://atomicdata.dev/properties/isDynamic */
   isDynamic?: boolean;
+  loading?: boolean;
 }
