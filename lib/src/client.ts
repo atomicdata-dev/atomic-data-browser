@@ -21,7 +21,7 @@ export async function fetchResource(
    */
   from?: string,
 ): Promise<Resource> {
-  const resource = new Resource(subject);
+  let resource = new Resource(subject);
   try {
     tryValidURL(subject);
     const requestHeaders: HeadersInit = new Headers();
@@ -43,10 +43,11 @@ export async function fetchResource(
     const body = await response.text();
     if (response.status == 200) {
       const json = JSON.parse(body);
-      parseJsonADResource(json, resource, store);
+      resource = parseJsonADResource(json, resource, store);
     } else {
       const error = new Error(`${response.status} error: ${body}`);
       resource.setError(error);
+      store && store.addResource(resource);
     }
   } catch (e) {
     resource.setError(e);
