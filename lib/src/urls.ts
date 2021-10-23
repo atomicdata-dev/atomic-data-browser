@@ -23,6 +23,7 @@ export const properties = {
   name: 'https://atomicdata.dev/properties/name',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',
+  incomplete: 'https://atomicdata.dev/properties/incomplete',
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',
   },
