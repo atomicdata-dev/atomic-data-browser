@@ -101,28 +101,39 @@ export function useResources(subjects: string[]): Map<string, Resource> {
  * loaded, and add Error strings to shortname and description if something goes wrong.
  */
 export function useProperty(subject: string): Property | null {
-  const [propR] = useResource(subject);
+  const [propertyResource] = useResource(subject);
 
-  if (!propR.isReady()) {
-    if (propR.getError() !== undefined) {
-      return {
-        subject,
-        datatype: Datatype.STRING,
-        shortname: 'error',
-        description: 'Error getting Property. ' + propR.getError().message,
-        error: propR.getError(),
-      };
-    } else {
-      return null;
-    }
+  if (propertyResource.loading) {
+    return {
+      subject,
+      datatype: Datatype.UNKNOWN,
+      shortname: 'loading',
+      description: `Loading property ${subject}`,
+      loading: true,
+    };
   }
 
-  const datatypeUrl = propR.get(urls.properties.datatype) as string;
+  if (propertyResource.error) {
+    return {
+      subject,
+      datatype: Datatype.UNKNOWN,
+      shortname: 'error',
+      description:
+        'Error getting Property. ' + propertyResource.getError().message,
+      error: propertyResource.getError(),
+    };
+  }
+
+  const datatypeUrl = propertyResource.get(urls.properties.datatype) as string;
   const datatype = datatypeFromUrl(datatypeUrl);
-  const shortname = propR.get(urls.properties.shortname) as string;
-  const description = propR.get(urls.properties.description) as string;
-  const classType = propR.get(urls.properties.classType) as string;
-  const isDynamic = !!propR.get(urls.properties.isDynamic) as boolean;
+  const shortname = propertyResource.get(urls.properties.shortname) as string;
+  const description = propertyResource.get(
+    urls.properties.description,
+  ) as string;
+  const classType = propertyResource.get(urls.properties.classType) as string;
+  const isDynamic = !!propertyResource.get(
+    urls.properties.isDynamic,
+  ) as boolean;
 
   const property: Property = {
     subject,

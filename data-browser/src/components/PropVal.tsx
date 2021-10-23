@@ -49,7 +49,17 @@ function PropVal({
   const property = useProperty(propertyURL);
   const truncated = truncateUrl(propertyURL, 10, true);
 
-  if (property == null) {
+  if (property.loading) {
+    return (
+      <PropValRow columns={columns}>
+        <PropertyLabel title={propertyURL + ' is loading'}>
+          loading...
+        </PropertyLabel>
+      </PropValRow>
+    );
+  }
+
+  if (property.error) {
     return (
       <PropValRow columns={columns}>
         <PropertyLabel title={propertyURL + ' could not be loaded'}>
