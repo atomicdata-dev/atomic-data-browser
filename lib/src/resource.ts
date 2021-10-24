@@ -204,6 +204,7 @@ export class Resource {
     const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
     // Add the signature to the list of applied ones, to prevent applying it again when the server
     this.appliedCommitSignatures.add(commit.signature);
+    this.loading = false;
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResource(this);
