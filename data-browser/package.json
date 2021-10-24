@@ -47,7 +47,7 @@
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.4",
     "pretty-quick": "^3.1.0",
-    "snowpack": "^3.3.5",
+    "snowpack": "^3.8.8",
     "typescript": "^4.2.4"
   },
   "homepage": "https://joepio.github.io/atomic-data-browser/",
