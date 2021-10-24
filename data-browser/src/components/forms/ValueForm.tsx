@@ -44,7 +44,7 @@ export function ValueForm({
   const [err, setErr] = useState<Error>(null);
   const haveAgent = agent !== null;
 
-  if (!value) {
+  if (value === null) {
     return null;
   }
 
