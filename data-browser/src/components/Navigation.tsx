@@ -76,13 +76,8 @@ function NavBar() {
   const [query] = useSearchQuery();
   const history = useHistory();
   const [inputRef, setInputFocus] = useFocus();
-  const {
-    navbarTop,
-    navbarFloating,
-    sideBarLocked,
-    setSideBarLocked,
-    agent,
-  } = useSettings();
+  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } =
+    useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useEffect(() => {

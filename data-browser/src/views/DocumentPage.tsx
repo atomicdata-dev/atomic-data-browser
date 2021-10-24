@@ -162,9 +162,8 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
       goto = 0;
     }
     setCurrent(goto);
-    let found = ref?.current?.children[goto]?.getElementsByClassName(
-      'element',
-    )[0];
+    let found =
+      ref?.current?.children[goto]?.getElementsByClassName('element')[0];
     if (!found) {
       found = ref?.current?.children[goto];
     }

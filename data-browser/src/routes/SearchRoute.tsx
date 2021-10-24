@@ -33,9 +33,8 @@ export function Search(): JSX.Element {
     'enter',
     e => {
       e.preventDefault();
-      const subject = htmlElRef.current.children[selectedIndex].getAttribute(
-        'about',
-      );
+      const subject =
+        htmlElRef.current.children[selectedIndex].getAttribute('about');
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();

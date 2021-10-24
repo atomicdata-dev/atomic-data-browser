@@ -14,12 +14,8 @@ export function NavStyleButton({
   floating,
   title,
 }: NavBarButtonProps): JSX.Element {
-  const {
-    navbarTop,
-    setNavbarTop,
-    navbarFloating,
-    setNavbarFloating,
-  } = useSettings();
+  const { navbarTop, setNavbarTop, navbarFloating, setNavbarFloating } =
+    useSettings();
 
   return (
     <NavStyleButtonStyling
