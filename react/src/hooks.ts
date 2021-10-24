@@ -26,11 +26,26 @@ import { useCurrentAgent } from '.';
  */
 export function useResource(
   subject: string,
-  newResource?: boolean,
+  opts: {
+    /**
+     * If this is true, incomplete resources will not be automatically fetched.
+     * This limits the amount of requests. Use this for things like menu items.
+     */
+    allowIncomplete?: boolean;
+    /**
+     * Set to true if you are initializing a new resource. The resource will not
+     * be fetched.
+     */
+    newResource?: boolean;
+  } = { allowIncomplete: true, newResource: false },
 ): [Resource, (resource: Resource) => void] {
+  const { newResource, allowIncomplete } = opts;
   const store = useStore();
   const [resource, setResource] = useState<Resource>(
-    store.getResourceLoading(subject, newResource),
+    store.getResourceLoading(subject, {
+      newResource,
+      allowIncomplete,
+    }),
   );
 
   /** Callback function to update the Resource with this value. Overwrites existing. */
@@ -41,7 +56,12 @@ export function useResource(
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
-    setResource(store.getResourceLoading(subject, newResource));
+    setResource(
+      store.getResourceLoading(subject, {
+        newResource,
+        allowIncomplete,
+      }),
+    );
   }, [subject, store]);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -50,11 +70,11 @@ export function useResource(
       // When a change happens, set the new Resource.
       setResource(updated);
     }
-    store.subscribe(resource.getSubject(), handleNotify);
+    subject && store.subscribe(subject, handleNotify);
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(resource.getSubject(), handleNotify);
+      store.unsubscribe(subject, handleNotify);
     };
   }, [store, subject]);
 
@@ -65,7 +85,16 @@ export function useResource(
  * Converts an array of Atomic URL strings to an array of Resources. Could take
  * a long time.
  */
-export function useResources(subjects: string[]): Map<string, Resource> {
+export function useResources(
+  subjects: string[],
+  opts: {
+    /**
+     * If this is true, incomplete resources will not be automatically fetched.
+     * This limits the amount of requests. Use this for things like menu items.
+     */
+    allowIncomplete?: boolean;
+  } = {},
+): Map<string, Resource> {
   const [resources, setResources] = useState(new Map());
   const store = useStore();
 
@@ -79,7 +108,7 @@ export function useResources(subjects: string[]): Map<string, Resource> {
 
     // Iterate over all resources asynchronously
     subjects.map(subject => {
-      const resource = store.getResourceLoading(subject);
+      const resource = store.getResourceLoading(subject, opts);
       resources.set(subject, resource);
       setResources(new Map(resources));
       // Let the store know to call handleNotify when a resource is updated.
@@ -286,15 +315,10 @@ export function useValue(
   if (val !== null) {
     return [val, validateAndSet];
   }
-  // When the resource isn't ready, return null
-  // Not sure if this was a good idea, it caused issues in rendering
-  // I've disabled it, if this does not present new issues, remove it
-  // if (!resource.isReady()) {
-  //   return [null, validateAndSet];
-  // }
+
+  // Value hasn't been set in state yet, so get the value
   let value = null;
   // Try to actually get the value, log any errorr
-
   try {
     value = resource.get(propertyURL);
   } catch (e) {
@@ -332,7 +356,7 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
   const [shortname] = useString(resource, urls.properties.shortname);
   // TODO: truncate non urls
   truncateLength = truncateLength ? truncateLength : 40;
-  if (!resource.isReady()) {
+  if (resource.loading) {
     return '...';
   }
   if (title !== null) {

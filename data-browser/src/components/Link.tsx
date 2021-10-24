@@ -25,10 +25,6 @@ function AtomicLink({
 }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
-  const store = useStore();
-  if (subject) {
-    store.fetchResource(subject);
-  }
 
   if (!subject && !href) {
     return <ErrorLook>No subject or href passed to this AtomicLink.</ErrorLook>;
