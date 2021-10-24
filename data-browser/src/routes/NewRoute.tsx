@@ -86,7 +86,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [showDetails, setShowDetails] = useState(false);
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
-  const [resource] = useResource(newSubject, true);
+  const [resource] = useResource(newSubject, { newResource: true });
 
   useEffect(() => {
     if (newSubject == undefined) {
