@@ -42,17 +42,23 @@ export async function fetchResource(
     });
     const body = await response.text();
     if (response.status == 200) {
-      const json = JSON.parse(body);
-      resource = parseJsonADResource(json, resource, store);
+      try {
+        const json = JSON.parse(body);
+        resource = parseJsonADResource(json, resource, store);
+      } catch (e) {
+        throw new Error(
+          `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
+        );
+      }
     } else {
       const error = new Error(`${response.status} error: ${body}`);
       resource.setError(error);
-      store && store.addResource(resource);
     }
   } catch (e) {
     resource.setError(e);
   }
   resource.loading = false;
+  store && store.addResource(resource);
   return resource;
 }
 
