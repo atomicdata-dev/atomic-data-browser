@@ -14,7 +14,7 @@ type Props = {
 
 /** Renders a Resource in a bar for the sidebar. */
 export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
-  const [resource] = useResource(subject);
+  const [resource] = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);

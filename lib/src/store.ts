@@ -39,14 +39,11 @@ export class Store {
     };
   }
 
-  /** Adds a Resource to the store. Replaces existing. Notifies subscribers */
-  addResource(
-    resource: Resource,
-    opts?: {
-      /** If true, only adds the resource if it is complete and */
-      onlyIfComplete: boolean;
-    },
-  ): void {
+  /**
+   * Adds a Resource to the store and notifies subscribers. Replaces existing
+   * resources, unless this new resource is explicitly incomplete.
+   */
+  addResource(resource: Resource): void {
     // Incomplete resources may miss some properties
     if (resource.get(urls.properties.incomplete)) {
       // If there is a resource with the same subject, we won't overwrite it with an incomplete one
@@ -55,6 +52,7 @@ export class Store {
         return;
       }
     }
+
     this.resources.set(resource.getSubject(), resource);
     // We clone
     this.notify(resource.clone());
@@ -77,29 +75,24 @@ export class Store {
     return `${this.getBaseUrl()}/${className}/${random}`;
   }
 
-  /**
-   * Fetches a resource by URL. Does not do anything by default if the resource
-   * is already present, even if it has errored
-   */
+  /** Fetches a resource by URL and adds it to the store. */
   async fetchResource(
     /** The resource URL to be fetched */
     subject: string,
-    /** Always fetch the resource, even if there is one in the store */
-    forceRefresh?: boolean,
-    /**
-     * Fetch it from the `/path` endpoint of your baseURL. This effectively is a
-     * proxy / cache.
-     */
-    fromProxy?: boolean,
+    opts: {
+      /**
+       * Fetch it from the `/path` endpoint of your baseURL. This effectively is
+       * a proxy / cache.
+       */
+      fromProxy?: boolean;
+    } = {},
   ): Promise<Resource> {
-    if (forceRefresh || this.resources.get(subject) == undefined) {
-      const fetched = await fetchResource(
-        subject,
-        this,
-        fromProxy && this.getBaseUrl(),
-      );
-      return fetched;
-    }
+    const fetched = await fetchResource(
+      subject,
+      this,
+      opts.fromProxy && this.getBaseUrl(),
+    );
+    return fetched;
   }
 
   getAllSubjects(): string[] {
@@ -131,22 +124,42 @@ export class Store {
    * done in the background . If the subject is undefined, an empty non-saved
    * resource will be returned.
    */
-  getResourceLoading(subject?: string, newResource?: boolean): Resource | null {
+  getResourceLoading(
+    subject?: string,
+    opts: {
+      /** Won't fetch the resource if it's new */
+      newResource?: boolean;
+      /**
+       * If this is true, incomplete resources will not be automatically
+       * fetched. This limits the amount of requests. Use this for things like
+       * menu items.
+       */
+      allowIncomplete?: boolean;
+    } = {},
+  ): Resource | null {
     // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
     if (subject == undefined) {
-      const newR = new Resource(unknownSubject, newResource);
+      const newR = new Resource(unknownSubject, opts.newResource);
       return newR;
     }
     const found = this.resources.get(subject);
     if (found == undefined) {
-      const newR = new Resource(subject, newResource);
+      const newR = new Resource(subject, opts.newResource);
       newR.loading = true;
       this.addResource(newR);
-      if (newResource) {
-        return newR;
+      if (!opts.newResource) {
+        this.fetchResource(subject);
       }
-      this.fetchResource(subject, true);
       return newR;
+    } else if (!opts.allowIncomplete && found.loading == false) {
+      // In many cases, a user will always need a complete resource.
+      // This checks if the resource is incomplete and fetches it if it is.
+      if (found.get(urls.properties.incomplete)) {
+        found.loading = true;
+        this.addResource(found);
+        this.fetchResource(subject);
+      }
+      return found;
     }
     return found;
   }
@@ -172,8 +185,8 @@ export class Store {
     if (resource == undefined) {
       throw Error(`Property ${subject} is not found`);
     }
-    if (resource.isReady() == false) {
-      throw Error(`Property ${subject} cannot be loaded`);
+    if (resource.error) {
+      throw Error(`Property ${subject} cannot be loaded: ${resource.error}`);
     }
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
