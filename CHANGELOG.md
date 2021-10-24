@@ -7,7 +7,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Parse nested, named JSON-AD resources #98
 - Refactor resource status - remove `Resource.status`, prefer `.loading` and `.error`
 - Add loading and error status to Property class, include in `useProperty`
-- Improve loading states for various components
+- Improve loading and error states for various components
+- Refactor `store.getResourceLoading`, `store.fetchResource`, `useResource` - add option to `acceptIncomplete`.
 
 ## v0.26.2
 
