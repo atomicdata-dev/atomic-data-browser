@@ -32,7 +32,7 @@ export const AppSettingsContextProvider = (
     try {
       setAgent(agent);
       agent?.subject && toast.success('Signed in!');
-      agent == null && toast.success('Signed out.');
+      agent === null && toast.success('Signed out.');
     } catch (e) {
       toast.error('Agent setting failed: ' + e.message);
       console.log(e);

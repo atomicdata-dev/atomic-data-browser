@@ -24,7 +24,7 @@ function Table({ resource, members, columns }: TableProps): JSX.Element {
   // Don't show the shortname, it's already shown in the first row.
   const propsArray = columns.filter(item => item !== urls.properties.shortname);
 
-  if (resource == null) {
+  if (resource === null) {
     return null;
   }
 
@@ -124,7 +124,7 @@ type RowProps = {
 
 function Row({ subject, propsArray }: RowProps): JSX.Element {
   const [resource] = useResource(subject);
-  if (resource == null) {
+  if (resource === null) {
     return null;
   }
   return (

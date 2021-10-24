@@ -22,7 +22,7 @@ function ResourceField({
   const property = useProperty(propertyURL);
   const [collapsedDynamic, setCollapsedDynamic] = useState(true);
 
-  if (property == null) {
+  if (property === null) {
     return (
       <Field label='loading...'>
         <InputWrapper>
