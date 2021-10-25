@@ -25,7 +25,7 @@ function Field({
   return (
     <FieldStyled>
       <LabelWrapper>
-        <LabelStyled>
+        <LabelStyled data-test={`field-label-${label}`}>
           {label}{' '}
           {helper && (
             <ButtonIcon

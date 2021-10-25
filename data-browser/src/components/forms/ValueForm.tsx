@@ -88,7 +88,12 @@ export function ValueForm({
 
   return (
     <ValueFormWrapper>
-      <InputSwitcher resource={resource} property={property} autoFocus />
+      <InputSwitcher
+        data-test={`input-${property.subject}`}
+        resource={resource}
+        property={property}
+        autoFocus
+      />
       {err && <ErrMessage>{err.message}</ErrMessage>}
       <Button
         disabled={!haveAgent}

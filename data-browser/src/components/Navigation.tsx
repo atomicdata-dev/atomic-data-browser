@@ -181,6 +181,7 @@ function NavBar() {
           </ButtonBar>
           {agent && (
             <ButtonBar
+              data-test='navbar-current-user'
               type='button'
               onClick={() => handleNavigation(paths.agentSettings)}
               title='Show current User (u)'

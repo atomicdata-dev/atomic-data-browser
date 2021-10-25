@@ -9,14 +9,19 @@ const initialTest = true;
 const timestamp = new Date().toLocaleTimeString();
 const documentTitle = '[data-test="document-title"]';
 const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
+const currentDriveTitle = '[data-test=current-drive-title]';
+const navbarCurrentUser = '[data-test="navbar-current-user"]';
 
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
+    // Open the server
     await page.goto('http://localhost:8080/');
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.click(sidebarDriveEdit);
+    // Set AtomicData.dev as the server
     await page.click('[data-test="server-url-atomic"]');
-    await expect(page.locator('text=demo invite')).toBeVisible();
+    // Accept the invite, create an account if necessary
+    await expect(page.locator(currentDriveTitle)).toHaveText('atomicdata.dev');
   });
 
   test('sidebar', async ({ page }) => {
@@ -38,6 +43,7 @@ test.describe('data-browser', async () => {
 
   test('sign in with secret, edit profile, sign out', async ({ page }) => {
     await signIn(page);
+    await expect(page.locator(navbarCurrentUser)).toBeVisible();
     await editProfileAndCommit(page);
 
     // Sign out
@@ -46,6 +52,7 @@ test.describe('data-browser', async () => {
       d.accept();
     });
     await page.click('[data-test="sign-out"]');
+    await expect(page.locator(navbarCurrentUser)).not.toBeVisible();
     await expect(page.locator('text=Enter your Agent secret')).toBeVisible();
   });
 
@@ -70,14 +77,15 @@ test.describe('data-browser', async () => {
 
   test('sign up and edit document', async ({ page }) => {
     // Use invite
-    await page.click('text=document invite');
+    await page.click('text=demo invite (document)');
     await page.click('text=Accept as new user');
-    await expect(page.locator('text=User created!')).toBeVisible();
+    await expect(page.locator(documentTitle)).toBeVisible();
+    await expect(page.locator(navbarCurrentUser)).toBeVisible();
     const teststring = `Testline ${timestamp}`;
     await page.keyboard.type(teststring);
     await page.keyboard.press('Enter');
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
-    const docTitle = `Document Title ${Math.floor(Math.random() * 100) + 1}`;
+    const docTitle = `Document Title ${timestamp}`;
     await page.fill(documentTitle, docTitle);
     await page.click(documentTitle, { delay: 200 });
     // Not sure if this test is needed - it fails now.
@@ -150,7 +158,7 @@ test.describe('data-browser', async () => {
     await page.click('button:has-text("documents")');
     await page.click('[title="Create a new document"]');
     await page.click('text=advanced');
-    await page.click('[placeholder="Enter an Atomic URL..."]');
+    await page.click('[data-test="input-parent"]');
     await page.keyboard.type('http://localhost/documents');
     await page.keyboard.press('Enter');
     await page.click('[data-test="save"]');
@@ -208,16 +216,18 @@ async function signIn(page: Page) {
   await expect(page.locator('text=edit data and sign Commits')).toBeVisible();
   // https://atomicdata.dev/agents/lKIn+Q0LUuPR6MxcEdZ6xOmh4U4cyN6vOq/RYkTazA0=
   const test_agent =
-    'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvbEtJbitRMExVdVBSNk14Y0VkWjZ4T21oNFU0Y3lONnZPcS9SWWtUYXpBMD0iLCJwcml2YXRlS2V5IjoieTAxbWgrM2FoazBWTXdJakw0MFZvQlp3V2owbW5NSHlIOG9HV2E1cHd5OD0ifQ==';
+    'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvVjJiZUZzak1zTjROMDd1Y3ZjRHpGbDRacWlyMWNpU2U5Y0UrazBCN0xmST0iLCJwcml2YXRlS2V5IjoiRWs0Y09FemJXQXZPQjA4TGZJVUd2dzZZenRWOCt6SmVrL2pIN2tIdFF3UT0ifQ==';
   await page.click('#current-password');
   await page.fill('#current-password', test_agent);
   await expect(page.locator('text=Edit profile')).toBeVisible();
   await page.goBack();
 }
 
+/** Set localhost as current server */
 async function openLocalhost(page: Page) {
   await page.click(sidebarDriveEdit);
   await page.click('[data-test="server-url-localhost"]');
+  await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
 }
 
 async function editProfileAndCommit(page: Page) {

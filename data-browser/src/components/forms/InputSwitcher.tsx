@@ -11,33 +11,31 @@ import InputBoolean from './InputBoolean';
 export default function InputSwitcher(props: InputProps): JSX.Element {
   switch (props.property.datatype) {
     case Datatype.STRING: {
-      return <InputString {...props} data-test={props.property.subject} />;
+      return <InputString {...props} />;
     }
     case Datatype.MARKDOWN: {
-      return <InputMarkdown {...props} data-test={props.property.subject} />;
+      return <InputMarkdown {...props} />;
     }
     case Datatype.SLUG: {
-      return <InputString {...props} data-test={props.property.subject} />;
+      return <InputString {...props} />;
     }
     // TODO: DateTime selector
     case Datatype.TIMESTAMP:
     case Datatype.INTEGER: {
-      return <InputNumber {...props} data-test={props.property.subject} />;
+      return <InputNumber {...props} />;
     }
     case Datatype.ATOMIC_URL: {
       // TODO: if it's a nested resource, deal with that
-      return <InputResource {...props} data-test={props.property.subject} />;
+      return <InputResource {...props} />;
     }
     case Datatype.RESOURCEARRAY: {
-      return (
-        <InputResourceArray {...props} data-test={props.property.subject} />
-      );
+      return <InputResourceArray {...props} />;
     }
     case Datatype.BOOLEAN: {
-      return <InputBoolean {...props} data-test={props.property.subject} />;
+      return <InputBoolean {...props} />;
     }
     default: {
-      return <InputString {...props} data-test={props.property.subject} />;
+      return <InputString {...props} />;
     }
   }
 }

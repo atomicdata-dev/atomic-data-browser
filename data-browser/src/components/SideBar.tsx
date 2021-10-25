@@ -185,7 +185,9 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
             history.push(openURL(baseURL));
           }}
         >
-          <DriveTitle>{title || baseURL} </DriveTitle>
+          <DriveTitle data-test='current-drive-title'>
+            {title || baseURL}{' '}
+          </DriveTitle>
         </Button>
         <Button
           onClick={() => history.push(paths.serverSettings)}

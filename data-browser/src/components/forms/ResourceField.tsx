@@ -60,6 +60,7 @@ function ResourceField({
       disabled={disabled}
     >
       <InputSwitcher
+        data-test={`input-${property.shortname}`}
         resource={resource}
         property={property}
         required={required}

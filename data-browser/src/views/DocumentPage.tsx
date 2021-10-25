@@ -221,7 +221,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
-      {!canWrite && (
+      {canWrite === false && (
         <ErrorLook>You cannot save edits: {canWriteMessage}</ErrorLook>
       )}
       {err && <ErrorLook>{err.message}</ErrorLook>}

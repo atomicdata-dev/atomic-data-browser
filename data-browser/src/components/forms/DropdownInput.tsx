@@ -33,6 +33,7 @@ export function DropdownInput({
   onUpdate,
   options,
   disabled,
+  ...props
 }: DropDownListProps): JSX.Element {
   const [inputValue, setInputValue] = useState<string>(initial ? initial : '');
   const [selectedItem, setSelectedItem] = useState<string | undefined>(initial);
@@ -140,6 +141,7 @@ export function DropdownInput({
             value={inputValue}
             onChange={handleInputChange}
             ref={inputRef}
+            {...props}
           />
         </ResourceInputOverlayWrapper>
         {selectedItem ? (

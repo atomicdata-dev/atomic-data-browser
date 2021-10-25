@@ -48,6 +48,7 @@ export function ResourceSelector({
   setError,
   classType,
   disabled,
+  ...props
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const [classesCollection] = useResource(getCollectionURL(classType));
@@ -90,6 +91,7 @@ export function ResourceSelector({
         onRemove={handleRemove}
         initial={value}
         disabled={disabled}
+        {...props}
       />
       {value !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
       {required && value == '' && <ErrMessage>Required</ErrMessage>}
