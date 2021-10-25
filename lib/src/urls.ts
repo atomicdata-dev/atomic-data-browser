@@ -50,7 +50,7 @@ export const properties = {
     signature: 'https://atomicdata.dev/properties/signature',
   },
   document: {
-    elements: 'https://atomicdata.dev/property/documents/elements',
+    elements: 'https://atomicdata.dev/properties/documents/elements',
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
