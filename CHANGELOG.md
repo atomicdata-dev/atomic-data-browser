@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.27.1
+
+- Include all Properties and Classes in the initial view, speeding up the app even further. #65
+
 ## v0.27.0
 
 - Parse nested, named JSON-AD resources #98

@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Store, Agent } from '@tomic/lib';
+import { Store, Agent, urls } from '@tomic/lib';
 import { StoreContext } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
@@ -30,12 +30,9 @@ store.errorHandler = e => {
 };
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
-/**
- * Fetch all the classes and resources - this helps speed up the app a lot for
- * most usecases.
- */
-store.fetchResource('https://atomicdata.dev/properties');
-store.fetchResource('https://atomicdata.dev/classes');
+/** Fetch all the Properties and Classes - this helps speed up the app. */
+store.fetchResource(urls.properties.getAll);
+store.fetchResource(urls.classes.getAll);
 
 if (isDev()) {
   // These only apply in dev mode

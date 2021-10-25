@@ -1,4 +1,6 @@
 export const classes = {
+  /** Collection of all the AtomicData.dev classes */
+  getAll: 'https://atomicdata.dev/classes/?page_size=999',
   agent: 'https://atomicdata.dev/classes/Agent',
   collection: 'https://atomicdata.dev/classes/Collection',
   commit: 'https://atomicdata.dev/classes/Commit',
@@ -16,6 +18,8 @@ export const classes = {
 };
 
 export const properties = {
+  /** Collection of all the AtomicData.dev properties */
+  getAll: 'https://atomicdata.dev/properties/?page_size=999',
   shortname: 'https://atomicdata.dev/properties/shortname',
   description: 'https://atomicdata.dev/properties/description',
   recommends: 'https://atomicdata.dev/properties/recommends',

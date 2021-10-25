@@ -101,9 +101,9 @@ export function ResourceSelector({
 export function getCollectionURL(classtypeUrl: string): string | null {
   switch (classtypeUrl) {
     case urls.classes.property:
-      return 'https://atomicdata.dev/properties';
+      return urls.properties.getAll;
     case urls.classes.class:
-      return 'https://atomicdata.dev/classes';
+      return urls.classes.getAll;
     case urls.classes.agent:
       return 'https://atomicdata.dev/agents/';
     case urls.classes.commit:
