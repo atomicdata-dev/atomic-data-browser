@@ -22,7 +22,7 @@ jobs:
       - name: Start dev server
         run: nohup yarn start &
       - name: Run atomic-server docker image in background (for testing)
-        run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --init &
+        run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
       - run: yarn lint-fix
       - run: yarn build
       - run: yarn test
