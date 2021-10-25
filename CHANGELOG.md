@@ -2,6 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.27.2
+
+- Fix setting Agent bug
+- Add constructor to Store
+
 ## v0.27.1
 
 - Include all Properties and Classes in the initial view, speeding up the app even further. #65

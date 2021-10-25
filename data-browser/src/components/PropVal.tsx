@@ -1,4 +1,4 @@
-import { truncateUrl, Resource, Datatype } from '@tomic/lib';
+import { truncateUrl, Resource } from '@tomic/lib';
 import { useProperty } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useString, useResource, useTitle, useStore } from '@tomic/react';
-import { ResourceStatus, properties, urls } from '@tomic/lib';
+import { properties, urls } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import Collection from '../views/CollectionPage';
@@ -33,7 +33,8 @@ export const defaulHiddenProps = [
 
 /**
  * Renders a Resource and all its Properties in a random order. Title
- * (shortname) is rendered prominently at the top.
+ * (shortname) is rendered prominently at the top. If the Resource has a
+ * particular Class, it will render a different Component.
  */
 function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
@@ -50,16 +51,18 @@ function ResourcePage({ subject }: Props): JSX.Element {
         <h1>⚠️ {title}</h1>
         <ErrorLook>{resource.getError().message}</ErrorLook>
         <br />
-        <Button onClick={() => store.fetchResource(subject, true)}>
-          Retry
-        </Button>
-        <Button onClick={() => store.fetchResource(subject, true, true)}>
+        <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
+        <Button
+          onClick={() => store.fetchResource(subject, { fromProxy: true })}
+          title={`Fetches the URL from your current Atomic-Server (${store.getBaseUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
+        >
           Use proxy
         </Button>
       </ContainerNarrow>
     );
   }
 
+  // TODO: Make these registerable, so users can easily extend these
   switch (klass) {
     case urls.classes.collection:
       return <Collection resource={resource} />;

@@ -19,6 +19,10 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // Also update the Agent inside the store
   const store = useStore();
 
+  if (agent == undefined) {
+    setAgent(store.getAgent());
+  }
+
   // When the localStorage JSON agent is updated, also update the in-memory agent
   useEffect(() => {
     if (agentJSON == null) {

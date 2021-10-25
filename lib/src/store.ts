@@ -31,7 +31,16 @@ export class Store {
    */
   public errorHandler: (e: Error) => unknown;
 
-  constructor() {
+  constructor(
+    opts: {
+      /** The default store URL, where to send commits and where to create new instances */
+      baseUrl?: string;
+      /** Default Agent, used for signing commits. Is required for posting things. */
+      agent?: Agent;
+    } = {},
+  ) {
+    opts.baseUrl && this.setBaseUrl(opts.baseUrl);
+    opts.baseUrl && this.setAgent(opts.agent);
     this.resources = new Map();
     this.subscribers = new Map();
     this.errorHandler = (e: Error) => {

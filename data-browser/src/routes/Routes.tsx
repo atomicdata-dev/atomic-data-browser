@@ -15,7 +15,12 @@ import { SettingsServer } from './SettingsServer';
 import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 
-/** Handles the browser URL navigation paths */
+/**
+ * Handles the browser URL navigation paths. Some rules:
+ *
+ * - Resource defined by this app should start with `/app`
+ * - The home page should show the atomic data resource of the same URL
+ */
 export function Routes(): JSX.Element {
   return (
     <Switch>
@@ -49,7 +54,6 @@ export function Routes(): JSX.Element {
       <Route path={paths.search} component={Search} />
       <Route path='/:path' component={Local} />
       <Route exact path=''>
-        {/* <Redirect to={paths.about} /> */}
         <ResourcePage subject={window.location.origin} />
       </Route>
     </Switch>

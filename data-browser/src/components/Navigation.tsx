@@ -183,7 +183,7 @@ function NavBar() {
             <ButtonBar
               type='button'
               onClick={() => handleNavigation(paths.agentSettings)}
-              title='Show current User'
+              title='Show current User (u)'
             >
               <FaUser />
             </ButtonBar>

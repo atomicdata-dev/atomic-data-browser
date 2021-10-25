@@ -68,7 +68,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       label: 'refresh',
       helper:
         'Fetch the resouce again from the server, possibly see new changes.',
-      onClick: () => store.fetchResource(subject, true),
+      onClick: () => store.fetchResource(subject),
     },
     {
       // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),

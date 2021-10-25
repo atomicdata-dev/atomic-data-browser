@@ -98,7 +98,7 @@ They use the PlayWright framework and run in the browser.
 
 - make sure the data-browser server is running (`yarn start`) at `http://localhost:8080`
 - make sure an [`atomic-server`](https://crates.io/crates/atomic-server/) instance is running at `http://localhost`
-- make sure the `http://localhost/setup` invite has at least one available usage. You can set a higher amount [here](http://localhost/app/edit?subject=http%3A%2F%2Flocalhost%2Fsetup), or run `atomic-server --init` to reset it to 1.
+- make sure the `http://localhost/setup` invite has at least one available usage. You can set a higher amount [here](http://localhost/app/edit?subject=http%3A%2F%2Flocalhost%2Fsetup), or run `atomic-server --inititalize` to reset it to 1.
 - Install the Playwright dependencies: `npx playwright install-deps`
 - `yarn test` launches the E2E tests (make sure the dev server is running at `http://localhost:8080`)
 - `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)

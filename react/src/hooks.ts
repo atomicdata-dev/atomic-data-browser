@@ -129,7 +129,7 @@ export function useResources(
  * Hook for using a Property. Will return null if the Property is not yet
  * loaded, and add Error strings to shortname and description if something goes wrong.
  */
-export function useProperty(subject: string): Property | null {
+export function useProperty(subject: string): Property {
   const [propertyResource] = useResource(subject);
 
   if (propertyResource.loading) {

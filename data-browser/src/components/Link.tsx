@@ -3,7 +3,6 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { openURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { useStore } from '@tomic/react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
 

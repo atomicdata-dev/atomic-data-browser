@@ -13,7 +13,6 @@ import { FaGripVertical } from 'react-icons/fa';
 
 import { ErrorLook } from './ResourceInline';
 import { Element, ElementPropsBase } from './Element';
-import { useSettings } from '../helpers/AppSettings';
 
 type DrivePageProps = {
   resource: Resource;
@@ -35,8 +34,7 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
   const [current, setCurrent] = React.useState<number | null>(null);
-  const { agent } = useSettings();
-  const [canWrite, canWriteMessage] = useCanWrite(resource, agent?.subject);
+  const [canWrite, canWriteMessage] = useCanWrite(resource);
 
   // On init, focus on the last element
   React.useEffect(() => {
