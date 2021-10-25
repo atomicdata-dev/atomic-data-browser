@@ -30,6 +30,12 @@ store.errorHandler = e => {
 };
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
+/**
+ * Fetch all the classes and resources - this helps speed up the app a lot for
+ * most usecases.
+ */
+store.fetchResource('https://atomicdata.dev/properties');
+store.fetchResource('https://atomicdata.dev/classes');
 
 if (isDev()) {
   // These only apply in dev mode
