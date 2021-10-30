@@ -63,7 +63,9 @@ function Header({ columns }: HeaderProps): JSX.Element {
   return (
     <thead>
       <tr>
-        <CellHeaderStyled>subject</CellHeaderStyled>
+        <CellHeaderStyled style={{ minWidth: '10rem' }}>
+          subject
+        </CellHeaderStyled>
         {columns.map(prop => {
           return <HeaderItem key={prop} subject={prop} />;
         })}

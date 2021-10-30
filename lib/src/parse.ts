@@ -50,8 +50,7 @@ export function parseJsonADResource(
         }
       } catch (e) {
         throw new Error(
-          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${
-            e.message
+          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${e.message
           }`,
         );
       }
@@ -90,9 +89,6 @@ function parseJsonAdResourceValue(
       const nestedSubject = value['@id'];
       const nestedResource = new Resource(nestedSubject);
       parseJsonADResource(value as JSONObject, nestedResource, store);
-      if (store) {
-        store.addResource(nestedResource);
-      }
       return nestedSubject;
     } else {
       // It's an anonymous nested Resource
