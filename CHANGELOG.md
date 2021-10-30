@@ -2,6 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.28.0
+
+- Improve styling tables and sort dropdown
+- It's mostly an `atomic-server` version bump :)
+
 ## v0.27.2
 
 - Fix setting Agent bug

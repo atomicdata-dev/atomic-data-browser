@@ -23,6 +23,7 @@ export const LabelHelper = styled.label`
 /** A wrapper for inputs, for example when you want to add a button to some field */
 export const InputWrapper = styled.div`
   display: flex;
+  flex: 1;
   /* background-color: ${props => props.theme.colors.bg}; */
   border: solid 1px ${props => props.theme.colors.bg2};
   border-radius: ${props => props.theme.radius};

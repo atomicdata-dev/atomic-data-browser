@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { useResource } from '@tomic/react';
-import { Resource, urls } from '@tomic/lib';
+import { useProperty, useResource } from '@tomic/react';
+import { Datatype, Resource, urls } from '@tomic/lib';
 import ResourceInline from '../views/ResourceInline';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -79,6 +79,7 @@ type HeaderItemProps = {
 function HeaderItem({ subject }: HeaderItemProps) {
   const [sortBy, setSortBy] = useSubjectParam('sort_by');
   const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
+  const property = useProperty(subject);
 
   function handleToggleSort() {
     if (sortBy == subject) {
@@ -94,8 +95,25 @@ function HeaderItem({ subject }: HeaderItemProps) {
 
   const thisPropIsSorted = sortBy == subject;
 
+  let minWidth = '6rem';
+  switch (property.datatype) {
+    case Datatype.STRING:
+    case Datatype.RESOURCEARRAY:
+      minWidth = '15rem';
+      break;
+    case Datatype.MARKDOWN:
+      minWidth = '25rem';
+      break;
+    case Datatype.BOOLEAN:
+    case Datatype.INTEGER:
+      minWidth = '6rem';
+      break;
+    default:
+      break;
+  }
+
   return (
-    <CellHeaderStyled>
+    <CellHeaderStyled style={{ minWidth }}>
       <ResourceInline subject={subject} />{' '}
       <Button
         onClick={handleToggleSort}

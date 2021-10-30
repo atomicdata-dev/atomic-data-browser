@@ -333,6 +333,7 @@ const ResourceInputOverlayWrapper = styled.div`
 /** A wrapper all dropdown items */
 const DropDownStyled = styled.div`
   position: relative;
+  flex: 1;
 `;
 
 const DropDownWrapperWrapper = styled.ul`
@@ -394,4 +395,6 @@ const DropDownItem = styled.li<DropDownItemProps>`
 export const DropDownMini = styled.div`
   display: inline-flex;
   margin-bottom: 1rem;
+  flex: 1;
+  max-width: 20rem;
 `;
