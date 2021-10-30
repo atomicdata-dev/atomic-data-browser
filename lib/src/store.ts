@@ -53,6 +53,11 @@ export class Store {
    * resources, unless this new resource is explicitly incomplete.
    */
   addResource(resource: Resource): void {
+    console.log(
+      'Adding resource with description',
+      resource.get(urls.properties.description),
+      resource,
+    );
     // Incomplete resources may miss some properties
     if (resource.get(urls.properties.incomplete)) {
       // If there is a resource with the same subject, we won't overwrite it with an incomplete one

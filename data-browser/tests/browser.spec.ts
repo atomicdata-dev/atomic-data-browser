@@ -82,8 +82,10 @@ test.describe('data-browser', async () => {
     await expect(page.locator(documentTitle)).toBeVisible();
     await expect(page.locator(navbarCurrentUser)).toBeVisible();
     const teststring = `Testline ${timestamp}`;
-    await page.keyboard.type(teststring);
+    await page.fill('[data-test="element-input"]', teststring);
+    // await page.keyboard.type(teststring);
     await page.keyboard.press('Enter');
+    // This next line can be flaky, maybe the text disappears because it's overwritten?
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
     const docTitle = `Document Title ${timestamp}`;
     await page.fill(documentTitle, docTitle);
@@ -159,7 +161,7 @@ test.describe('data-browser', async () => {
     await page.click('[title="Create a new document"]');
     await page.click('text=advanced');
     await page.click('[data-test="input-parent"]');
-    await page.keyboard.type('http://localhost/documents');
+    await page.fill('[data-test="input-parent"]', 'http://localhost/documents');
     await page.keyboard.press('Enter');
     await page.click('[data-test="save"]');
     // commit for saving initial document
@@ -196,6 +198,8 @@ test.describe('data-browser', async () => {
     const page2 = await context2.newPage();
     await page2.goto(currentUrl);
     await page2.setViewportSize({ width: 1000, height: 400 });
+    await openLocalhost(page2);
+    await page2.goto(currentUrl);
     await expect(page2.locator(`text=${teststring}`)).toBeVisible();
     await expect(page2.locator(`text=${noAgentErr}`)).toBeVisible();
     await expect(await page2.title()).toEqual(title);
@@ -206,6 +210,7 @@ test.describe('data-browser', async () => {
     await page.waitForResponse('http://localhost/commit');
     const syncText = 'New paragraph';
     await page.keyboard.type(syncText);
+    // If this fails to show up, websockets aren't working properly
     await expect(page2.locator(`text=${syncText}`)).toBeVisible();
   });
 });
@@ -236,7 +241,7 @@ async function editProfileAndCommit(page: Page) {
   await page.click('text=Edit profile');
   await expect(page.locator('text=add another property')).toBeVisible();
   await page.fill(
-    '[data-test="https://atomicdata.dev/properties/name"]',
+    '[data-test="input-name"]',
     `Test user edited at ${new Date().toLocaleDateString()}`,
   );
   await page.click('[data-test="save"]');

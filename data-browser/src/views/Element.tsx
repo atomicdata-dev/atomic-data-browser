@@ -154,6 +154,7 @@ export function Element({
   return (
     <ElementWrapper active={active} onClick={() => setCurrent(index)}>
       <ElementView
+        data-test='element-input'
         className='element'
         active={active}
         ref={ref}
