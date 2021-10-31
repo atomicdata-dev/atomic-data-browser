@@ -7,9 +7,24 @@
 			"problemMatcher": [
 				"$tsc-watch"
 			],
-			"label": "data-browser dev server (yarn start)",
+			"label": "run data-browser dev server (yarn start)",
 			"detail": "yarn workspace @tomic/data-browser start",
-			"isBackground": true
+			"isBackground": true,
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"label": "test data-browser",
+			"detail": "yarn test",
+			"isBackground": true,
+			"group": "test"
 		}
 	]
 }
