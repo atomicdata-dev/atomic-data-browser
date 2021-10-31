@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Store, Agent, urls } from '@tomic/lib';
+import { Store, urls } from '@tomic/lib';
 import { StoreContext } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
@@ -9,8 +9,8 @@ import { Routes } from './routes/Routes';
 import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
 import { Toaster } from './components/Toaster';
-import { getSnowpackEnv, isDev } from './config';
-import { handleError, handleWarning, initBugsnag } from './helpers/handlers';
+import { isDev } from './config';
+import { handleError, initBugsnag } from './helpers/handlers';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import ErrorPage from './views/ErrorPage';
@@ -35,28 +35,6 @@ store.fetchResource(urls.properties.getAll);
 store.fetchResource(urls.classes.getAll);
 
 if (isDev()) {
-  // These only apply in dev mode
-  const agentSubject = getSnowpackEnv('AGENT');
-  const agentPrivateKey = getSnowpackEnv('PRIVATE_KEY');
-  if (agentSubject && agentPrivateKey) {
-    handleWarning(`Setting agent ${agentSubject} with privateKey from .env`);
-    const agent = new Agent(
-      getSnowpackEnv('AGENT'),
-      getSnowpackEnv('PRIVATE_KEY'),
-    );
-    store.setAgent(agent);
-  }
-
-  const baseUrl = getSnowpackEnv('BASE_URL');
-  if (baseUrl !== undefined) {
-    store.setBaseUrl(baseUrl);
-    handleWarning(`Set baseURL ${baseUrl} from .env`);
-  } else {
-    handleWarning(
-      `No BASE_URL found in .env, defaulting to ${store.getBaseUrl()}`,
-    );
-  }
-
   // You can access the Store from your console in dev mode!
   window.store = store;
 } else {

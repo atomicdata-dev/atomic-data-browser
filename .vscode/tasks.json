@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"label": "data-browser dev server (yarn start)",
+			"detail": "yarn workspace @tomic/data-browser start",
+			"isBackground": true
+		}
+	]
+}

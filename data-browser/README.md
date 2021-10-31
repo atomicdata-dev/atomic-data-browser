@@ -42,16 +42,10 @@ yarn start
 If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent), including its `privateKey` and `subject`.
 You can get one by accepting [an Invite](https://atomicdata.dev/invites/1), or by hosting your own [`atomic-server`](https://github.com/joepio/atomic/blob/master/server/README.md).
 You can set the Agent on the `/settings` route, but it's often easier to set the Agent cre
-It's recommended to fill in the .env file.
 
 ```sh
-# Create a local .env
-cp template.env .env
 # Run atomic-server locally, and check the logs.
 docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server
-# Copy the server, privatekey and agent
-# Edit the newly created .env and paste in the values from above
-vim .env
 ```
 
 If you need to run locally using HTTPS:
