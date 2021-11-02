@@ -320,7 +320,8 @@ export const SideBarItem = styled(Button)`
     background-color: ${p => p.theme.colors.bg1};
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${p => p.theme.colors.bg1};
     color: ${p => p.theme.colors.text};
   }
