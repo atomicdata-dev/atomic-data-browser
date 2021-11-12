@@ -6,7 +6,7 @@ import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
 import { useHistory } from 'react-router-dom';
-import { MenuItemProps } from './DropdownMenu';
+import { MenuItemMinimial, MenuItemProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
@@ -26,112 +26,97 @@ import { openURL } from '../helpers/navigation';
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
 
+const aboutMenuItems: MenuItemMinimial[] = [
+  {
+    // icon: <FaGithub />,
+    icon: <FaExternalLinkAlt />,
+    label: 'github',
+    helper: 'View the source code for this application',
+    onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
+  },
+  {
+    // icon: <FaDiscord />,
+    icon: <FaExternalLinkAlt />,
+    label: 'discord',
+    helper: 'Chat with the Atomic Data community',
+    onClick: () => window.open('https://discord.gg/a72Rv2P'),
+  },
+  {
+    // icon: <FaBook />,
+    icon: <FaExternalLinkAlt />,
+    label: 'docs',
+    helper: 'View the Atomic Data documentation',
+    onClick: () => window.open('https://docs.atomicdata.dev'),
+  },
+];
+
 export function SideBar(): JSX.Element {
   const { baseURL } = useSettings();
   const history = useHistory();
-  const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>();
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
+  const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>(sideBarLocked);
   const windowSize = useWindowSize();
 
-  const appMenuItems: MenuItemProps[] = [
-    {
-      icon: <FaPlus />,
-      label: 'new resource',
-      helper: 'Create a new Resource, based on a Class (n)',
-      onClick: () => {
-        history.push(paths.new);
+  const appMenuItems: MenuItemMinimial[] = React.useMemo(() => {
+    return [
+      {
+        icon: <FaPlus />,
+        label: 'new resource',
+        helper: 'Create a new Resource, based on a Class (n)',
+        onClick: () => {
+          history.push(paths.new);
+        },
       },
-    },
-    {
-      icon: <FaUser />,
-      label: 'user settings',
-      helper: 'See and edit the current Agent / User (u)',
-      onClick: () => {
-        history.push(paths.agentSettings);
+      {
+        icon: <FaUser />,
+        label: 'user settings',
+        helper: 'See and edit the current Agent / User (u)',
+        onClick: () => {
+          history.push(paths.agentSettings);
+        },
       },
-    },
-    {
-      icon: <FaCog />,
-      label: 'theme settings',
-      helper: 'Edit the theme, current Agent, and more. (t)',
-      onClick: () => {
-        history.push(paths.themeSettings);
+      {
+        icon: <FaCog />,
+        label: 'theme settings',
+        helper: 'Edit the theme, current Agent, and more. (t)',
+        onClick: () => {
+          history.push(paths.themeSettings);
+        },
       },
-    },
-    {
-      icon: <FaKeyboard />,
-      label: 'keyboard shortcuts',
-      helper: 'View the keyboard shortcuts (?)',
-      onClick: () => {
-        history.push(paths.shortcuts);
+      {
+        icon: <FaKeyboard />,
+        label: 'keyboard shortcuts',
+        helper: 'View the keyboard shortcuts (?)',
+        onClick: () => {
+          history.push(paths.shortcuts);
+        },
       },
-    },
-    {
-      icon: <FaInfo />,
-      label: 'about',
-      helper: 'Welcome page, tells about this app',
-      onClick: () => {
-        history.push(paths.about);
+      {
+        icon: <FaInfo />,
+        label: 'about',
+        helper: 'Welcome page, tells about this app',
+        onClick: () => {
+          history.push(paths.about);
+        },
       },
-    },
-  ];
+    ];
+  }, []);
 
-  const aboutMenuItems: MenuItemProps[] = [
-    {
-      // icon: <FaGithub />,
-      icon: <FaExternalLinkAlt />,
-      label: 'github',
-      helper: 'View the source code for this application',
-      onClick: () =>
-        window.open('https://github.com/joepio/atomic-data-browser'),
-    },
-    {
-      // icon: <FaDiscord />,
-      icon: <FaExternalLinkAlt />,
-      label: 'discord',
-      helper: 'Chat with the Atomic Data community',
-      onClick: () => window.open('https://discord.gg/a72Rv2P'),
-    },
-    {
-      // icon: <FaBook />,
-      icon: <FaExternalLinkAlt />,
-      label: 'docs',
-      helper: 'View the Atomic Data documentation',
-      onClick: () => window.open('https://docs.atomicdata.dev'),
-    },
-  ];
-
-  function isWideScreen(): boolean {
-    return windowSize.width > SIDEBAR_TOGGLE_WIDTH;
-  }
+  const isWideScreen = React.useCallback(
+    () => windowSize.width > SIDEBAR_TOGGLE_WIDTH,
+    [windowSize],
+  );
 
   /**
    * This is called when the user presses a menu Item, which should result in a
    * closed menu in mobile context
    */
-  function handleClickItem() {
+  const handleClickItem = React.useCallback(() => {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
       setSideBarLocked(false);
     }
-  }
-
-  function renderMenuItem(item: MenuItemProps) {
-    return (
-      <SideBarItem
-        key={item.label}
-        title={item.helper}
-        clean
-        onClick={() => {
-          item.onClick();
-          handleClickItem();
-        }}
-      >
-        {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
-        {item.label}
-      </SideBarItem>
-    );
-  }
+  }, [isWideScreen]);
 
   return (
     <SideBarContainer>
@@ -145,11 +130,15 @@ export function SideBar(): JSX.Element {
         <SideBarDrive handleClickItem={handleClickItem} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
-          {appMenuItems.map(renderMenuItem)}
+          {appMenuItems.map(p => (
+            <MenuItem key={p.label} {...p} handleClickItem={handleClickItem} />
+          ))}{' '}
           <SideBarHeader>
             <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
-          {aboutMenuItems.map(renderMenuItem)}
+          {aboutMenuItems.map(p => (
+            <MenuItem key={p.label} {...p} handleClickItem={handleClickItem} />
+          ))}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
       </SideBarStyled>
@@ -161,13 +150,32 @@ export function SideBar(): JSX.Element {
   );
 }
 
+function MenuItem(item: MenuItemProps) {
+  return (
+    <SideBarItem
+      key={item.label}
+      title={item.helper}
+      clean
+      onClick={() => {
+        item.onClick();
+        item.handleClickItem();
+      }}
+    >
+      {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
+      {item.label}
+    </SideBarItem>
+  );
+}
+
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
   handleClickItem: () => any;
 }
 
 /** Shows the current Drive, it's children and an option to change to a different Drive */
-function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
+const SideBarDrive = React.memo(function SBD({
+  handleClickItem,
+}: SideBarDriveProps): JSX.Element {
   const { baseURL } = useSettings();
   const [drive] = useResource(baseURL);
   const [children] = useArray(drive, properties.children);
@@ -215,7 +223,7 @@ function SideBarDrive({ handleClickItem }: SideBarDriveProps): JSX.Element {
       )}
     </>
   );
-}
+});
 
 interface SideBarStyledProps {
   locked: boolean;
