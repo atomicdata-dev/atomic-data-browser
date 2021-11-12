@@ -14,6 +14,7 @@ import Markdown from '../components/datatypes/Markdown';
 import ResourceField from '../components/forms/ResourceField';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
+import ResourceCard from './ResourceCard';
 
 type EndpointProps = {
   resource: Resource;
@@ -24,12 +25,14 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
   const [parameters] = useArray(resource, properties.endpoint.parameters);
+  const [results] = useArray(resource, properties.endpoint.results);
   const [virtualResource] = useResource(null);
   const store = useStore();
   const history = useHistory();
 
   /** Create the URL using the variables */
-  async function constructSubject() {
+  async function constructSubject(e?) {
+    e && e.preventDefault();
     const url = new URL(resource.getSubject());
 
     await Promise.all(
@@ -55,12 +58,17 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
               key={param}
               propertyURL={param}
               resource={virtualResource}
-              autoFocus={i == 0}
+            // autoFocus={i == 0}
             />
           );
         })}
       </form>
-      <Button onClick={constructSubject}>Open</Button>
+      <Button onClick={constructSubject}>Go</Button>
+
+      {results &&
+        results.map(result => {
+          return <ResourceCard key={result} subject={result} />;
+        })}
     </ContainerNarrow>
   );
 }

@@ -95,14 +95,9 @@ test.describe('data-browser', async () => {
   });
 
   test('search', async ({ page }) => {
-    await page.fill(
-      '[data-test="address-bar"]',
-      'https://atomicdata.dev/properties/name',
-    );
-    await expect(page.locator('text=name of a thing')).toBeVisible();
-    await page.fill('[data-test="address-bar"]', 'name');
-    await page.click('text=name');
-    await expect(page.locator('text=name of a thing')).toBeVisible();
+    await page.fill('[data-test="address-bar"]', 'setup');
+    await page.click('text=setup');
+    await expect(page.locator('text=Use this Invite')).toBeVisible();
   });
 
   test('collections & data view', async ({ page }) => {
