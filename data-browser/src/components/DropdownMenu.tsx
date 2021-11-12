@@ -154,13 +154,17 @@ interface MenuProps {
   y: number;
 }
 
-export interface MenuItemProps {
+export interface MenuItemMinimial {
   onClick: () => unknown;
   label: string;
   helper?: string;
   id?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+}
+
+export interface MenuItemProps extends MenuItemMinimial {
+  handleClickItem: () => any;
 }
 
 interface MenuItemPropsExtended extends MenuItemProps {

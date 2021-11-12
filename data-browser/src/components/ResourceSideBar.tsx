@@ -13,7 +13,10 @@ type Props = {
 };
 
 /** Renders a Resource in a bar for the sidebar. */
-export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
+export const ResourceSideBar = React.memo(function RSB({
+  subject,
+  handleClose,
+}: Props): JSX.Element {
   const [resource] = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
   const title = useTitle(resource);
@@ -74,4 +77,4 @@ export function ResourceSideBar({ subject, handleClose }: Props): JSX.Element {
       <span title={description ? description : null}>{title}</span>
     </SideBarItem>
   );
-}
+});

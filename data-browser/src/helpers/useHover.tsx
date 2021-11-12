@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 // hook returns tuple(array) with type [any, boolean]
 // T - could be any type of HTML element like: HTMLDivElement, HTMLParagraphElement and etc.
-export function useHover<T>(): [MutableRefObject<T>, boolean] {
+export function useHover<T>(disabled: boolean): [MutableRefObject<T>, boolean] {
   const [value, setValue] = useState<boolean>(false);
 
   const ref = useRef<T | null>(null);
@@ -15,7 +15,9 @@ export function useHover<T>(): [MutableRefObject<T>, boolean] {
     () => {
       // eslint-disable-next-line
       const node: any = current;
-      if (node) {
+      // This could be expensive, and triggers re-renders for some reasons.
+      // That's why it's disabled as much as possible.
+      if (!disabled && node) {
         node.addEventListener('mouseover', handleMouseOver);
         node.addEventListener('mouseout', handleMouseOut);
 
@@ -25,7 +27,7 @@ export function useHover<T>(): [MutableRefObject<T>, boolean] {
         };
       }
     },
-    [current], // Recall only if ref changes
+    [current, disabled], // Recall only if ref changes
   );
 
   // don't hover on touch screen devices
