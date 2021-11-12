@@ -9,7 +9,7 @@ import { useDebounce } from './useDebounce';
  * subjects, it will search all subjects. Use the 'disabled' argument to disable
  * this very expensive hook as much as possible
  */
-export function useSearch(
+export function useLocalSearch(
   query: string,
   subjects?: string[],
   disabled?: boolean,

@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.28.2
+
+- Added server-side full text search, migrate UI to work there
+
 ## v0.28.0
 
 - Improve styling tables and sort dropdown

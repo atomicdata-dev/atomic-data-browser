@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
-import { useSearch } from '../../helpers/useSearch';
+import { useLocalSearch } from '../../helpers/useLocalSearch';
 import { ButtonInput } from '../Button';
 import ResourceInline from '../../views/ResourceInline';
 import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
@@ -243,7 +243,7 @@ function DropDownItemsMenu({
   setUseKeys,
   useKeys,
 }: DropDownItemsMenuProps): JSX.Element {
-  const results = useSearch(inputValue, options);
+  const results = useLocalSearch(inputValue, options);
 
   function handleSelectItem(item: string) {
     setInputValue(item);

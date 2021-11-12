@@ -1,26 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
-import { useSearch } from '../helpers/useSearch';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../views/ResourceCard';
-import AtomicLink from '../components/Link';
-
-const MAX_COUNT = 30;
+import { useServerSearch } from '../helpers/useServerSearch';
+import { ErrorLook } from '../views/ResourceInline';
 
 /** Full text search route */
 export function Search(): JSX.Element {
   const [query] = useSearchQuery();
   const [selectedIndex, setSelected] = useState(0);
-  let results = useSearch(query);
+  const { results, loading, error } = useServerSearch(query, {
+    debounce: 0,
+  });
   const history = useHistory();
   const htmlElRef = useRef(null);
-
-  const tooMany = results.length > MAX_COUNT;
-  if (tooMany) {
-    results = results.slice(0, MAX_COUNT);
-  }
 
   /** Moves the viewport to the card at the selected index */
   function moveTo(index: number) {
@@ -67,26 +62,23 @@ export function Search(): JSX.Element {
 
   return (
     <ContainerNarrow ref={htmlElRef}>
-      {results.length == 0 && (
-        <p>
-          No results found for {query}. Keep in mind that at this moment, this
-          only searches the data that has already been loaded into your browser
-          during this session.{' '}
-          <AtomicLink subject={'https://atomicdata.dev/collections'}>
-            Load in some resources
-          </AtomicLink>{' '}
-          and try again!
-        </p>
+      {error && <ErrorLook>{error.message}</ErrorLook>}
+      {query.length !== 0 ? (
+        <>
+          {results.length == 0 && <p>No Results found for {query}.</p>}
+          {results.map((subject, index) => (
+            <ResourceCard
+              initialInView={index < 5}
+              small
+              subject={subject}
+              key={subject}
+              highlight={index == selectedIndex}
+            />
+          ))}
+        </>
+      ) : (
+        <>Search something...</>
       )}
-      {results.map((hit, index) => (
-        <ResourceCard
-          initialInView={index < 5}
-          small
-          subject={hit.item.subject}
-          key={`${hit.item.subject}${index}`}
-          highlight={index == selectedIndex}
-        />
-      ))}
     </ContainerNarrow>
   );
 }

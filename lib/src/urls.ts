@@ -54,6 +54,12 @@ export const properties = {
   },
   endpoint: {
     parameters: 'https://atomicdata.dev/properties/endpoint/parameters',
+    results: 'https://atomicdata.dev/properties/endpoint/results',
+  },
+  search: {
+    query: 'https://atomicdata.dev/properties/search/query',
+    limit: 'https://atomicdata.dev/properties/search/limit',
+    property: 'https://atomicdata.dev/properties/search/property',
   },
   redirect: {
     destination: 'https://atomicdata.dev/properties/destination',
