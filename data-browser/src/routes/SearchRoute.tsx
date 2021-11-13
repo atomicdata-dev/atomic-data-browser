@@ -65,7 +65,11 @@ export function Search(): JSX.Element {
       {error && <ErrorLook>{error.message}</ErrorLook>}
       {query.length !== 0 ? (
         <>
-          {results.length == 0 && <p>No Results found for {query}.</p>}
+          {results.length == 0 && loading ? (
+            <p>Loading...</p>
+          ) : (
+            <p>No Results found for {query}.</p>
+          )}
           {results.map((subject, index) => (
             <ResourceCard
               initialInView={index < 5}
