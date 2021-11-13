@@ -9,17 +9,41 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 import styled from 'styled-components';
-import { FaGripVertical } from 'react-icons/fa';
+import { FaEdit, FaEye, FaGripVertical } from 'react-icons/fa';
 
 import { ErrorLook } from './ResourceInline';
-import { Element, ElementPropsBase } from './Element';
+import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
+import { Button } from '../components/Button';
 
 type DrivePageProps = {
   resource: Resource;
+  setEditMode: (arg: boolean) => void;
 };
 
 /** A full page, editable document, consisting of Elements */
 function DocumentPage({ resource }: DrivePageProps): JSX.Element {
+  const [canWrite, canWriteMessage] = useCanWrite(resource);
+  const [editMode, setEditMode] = useState(canWrite);
+
+  React.useEffect(() => {
+    setEditMode(canWrite);
+  }, [canWrite]);
+
+  return (
+    <DocumentWrapper about={resource.getSubject()}>
+      {editMode ? (
+        <DocumentPageEdit resource={resource} setEditMode={setEditMode} />
+      ) : (
+        <DocumentPageShow resource={resource} setEditMode={setEditMode} />
+      )}
+    </DocumentWrapper>
+  );
+}
+
+function DocumentPageEdit({
+  resource,
+  setEditMode,
+}: DrivePageProps): JSX.Element {
   const [elements, setElements] = useArray(
     resource,
     properties.document.elements,
@@ -34,7 +58,6 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
   const [current, setCurrent] = React.useState<number | null>(null);
-  const [canWrite, canWriteMessage] = useCanWrite(resource);
 
   // On init, focus on the last element
   React.useEffect(() => {
@@ -141,7 +164,9 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
         newElement.set(properties.parent, resource.getSubject(), store),
         newElement.set(properties.description, '', store),
       ]);
-      // Don't await the save - it takes too long
+      // This is a dubious hack to make sure the element is instantly usable.
+      store.addResource(newElement);
+      // This makes things slow, but it prevents that an empty element is added to the store
       newElement.save(store);
       await setElements(elements);
       focusElement(position);
@@ -213,20 +238,29 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   }
 
   return (
-    <DocumentWrapper about={resource.getSubject()}>
-      <TitleInput
-        data-test='document-title'
-        ref={titleRef}
-        placeholder={'set a title'}
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      {canWrite === false && (
-        <ErrorLook>You cannot save edits: {canWriteMessage}</ErrorLook>
-      )}
+    <>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <TitleInput
+          data-test='document-title'
+          ref={titleRef}
+          placeholder={'set a title'}
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <Button
+          icon
+          subtle
+          onClick={() => setEditMode(false)}
+          title='Read mode'
+        >
+          <FaEye />
+        </Button>
+      </div>
+
       {err && <ErrorLook>{err.message}</ErrorLook>}
       <div ref={ref}>
         <SortableList
+          canDrag={true}
           onSortEnd={handleSortEnd}
           items={elements}
           deleteElement={deleteElement}
@@ -238,11 +272,32 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
         />
       </div>
       <NewLine onClick={handleNewLineMaybe} />
-    </DocumentWrapper>
+    </>
   );
 }
 
-interface SortableListProps extends ElementPropsBase {
+function DocumentPageShow({
+  resource,
+  setEditMode,
+}: DrivePageProps): JSX.Element {
+  const [elements] = useArray(resource, properties.document.elements);
+  const [title] = useString(resource, properties.name);
+  return (
+    <>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <h1 style={{ flex: 1 }}>{title}</h1>
+        <Button icon subtle onClick={() => setEditMode(true)} title='Edit mode'>
+          <FaEdit />
+        </Button>
+      </div>
+      {elements.map((subject, index) => (
+        <ElementShow subject={subject} key={subject} />
+      ))}
+    </>
+  );
+}
+
+interface SortableListProps extends ElementEditPropsBase {
   items: string[];
   length: number;
 }
@@ -271,14 +326,19 @@ const NewLine = styled.div`
 `;
 
 const TitleInput = styled.input`
+  margin-bottom: ${props => props.theme.margin}rem;
+  font-size: ${p => p.theme.fontSizeH1}rem;
+  color: ${p => p.theme.colors.text};
   border: none;
   font-weight: bold;
-  font-size: ${p => p.theme.fontSizeH1}rem;
   display: block;
   width: 100%;
+  padding: 0;
+  margin-top: 0;
+  outline: none;
   background-color: ${p => p.theme.colors.bg};
-  color: ${p => p.theme.colors.text};
   margin-bottom: ${p => p.theme.margin}rem;
+  font-family: ${p => p.theme.fontFamilyHeader};
 
   &:focus {
     outline: none;
@@ -303,7 +363,7 @@ const SortableList = SortableContainer(
   },
 );
 
-interface SortableElementProps extends ElementPropsBase {
+interface SortableElementProps extends ElementEditPropsBase {
   value: string;
   index: number;
   sortIndex: number;
@@ -315,12 +375,14 @@ const SortableItem = SortableElement(
     sortIndex,
     deleteElement,
     setCurrent,
+    canDrag,
     current,
     setElementSubject: setElement,
   }: SortableElementProps) => (
     <SortableItemWrapper>
       <GripItem active={sortIndex == current} />
-      <Element
+      <ElementEdit
+        canDrag={canDrag}
         index={sortIndex}
         key={value}
         subject={value}

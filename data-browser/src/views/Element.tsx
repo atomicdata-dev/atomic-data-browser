@@ -1,17 +1,21 @@
 import * as React from 'react';
 import { properties, classes } from '@tomic/lib';
-import { useArray, useResource, useString } from '@tomic/react';
+import { useArray, useCanWrite, useResource, useString } from '@tomic/react';
 
 import styled, { css } from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useSearch } from '../helpers/useSearch';
+import { useLocalSearch } from '../helpers/useLocalSearch';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 import ResourceLine from './ResourceLine';
 import { useState } from 'react';
 import Markdown from '../components/datatypes/Markdown';
 
+interface ElementShowProps {
+  subject: string;
+}
+
 /** Shared between all elements */
-export interface ElementPropsBase {
+export interface ElementEditPropsBase {
   /** Removes element from the Array */
   deleteElement: (i: number) => void;
   /** Position of the active Element */
@@ -20,9 +24,11 @@ export interface ElementPropsBase {
   setCurrent: (i: number) => void;
   /** Changes the subject of a specific item in the array */
   setElementSubject: (i: number, subject: string) => void;
+  /** Show a drag icon */
+  canDrag: boolean;
 }
 
-interface ElementProps extends ElementPropsBase {
+interface ElementEditProps extends ElementEditPropsBase {
   subject: string;
   /** Position in the array of Elements */
   index: number;
@@ -34,14 +40,16 @@ const helpChar = '?';
 const linkChar = '[';
 const headerChar = '#';
 
-export function Element({
+/** An element is a section inside document, such as a Paragraph, Header or Image */
+export function ElementEdit({
   subject,
   deleteElement,
   index,
   setCurrent,
   setElementSubject: setElement,
   active,
-}: ElementProps): JSX.Element {
+  canDrag,
+}: ElementEditProps): JSX.Element {
   const [resource] = useResource(subject);
   const [err, setErr] = useState(null);
   const [text, setText] = useString(resource, properties.description, {
@@ -51,6 +59,7 @@ export function Element({
   });
   const [klass] = useArray(resource, properties.isA);
   const ref = React.useRef(null);
+  const [canWrite, canWriteErr] = useCanWrite(resource);
 
   /** If it is not a text element */
   const isAResource =
@@ -116,6 +125,8 @@ export function Element({
   function Err() {
     if (err) {
       return <ErrorLook>{err.message}</ErrorLook>;
+    } else if (active && canWriteErr) {
+      return <ErrorLook>{canWriteErr}</ErrorLook>;
     } else {
       return null;
     }
@@ -124,6 +135,7 @@ export function Element({
   if (isAResource) {
     return (
       <ElementWrapper
+        canDrag={canDrag}
         tabIndex={0}
         className='element'
         active={active}
@@ -139,6 +151,7 @@ export function Element({
   if (!active) {
     return (
       <ElementWrapper
+        canDrag={canDrag}
         tabIndex={0}
         active={active}
         // onClick={() => setCurrent(index)}
@@ -152,8 +165,13 @@ export function Element({
   }
 
   return (
-    <ElementWrapper active={active} onClick={() => setCurrent(index)}>
+    <ElementWrapper
+      canDrag={canDrag}
+      active={active}
+      onClick={() => setCurrent(index)}
+    >
       <ElementView
+        canDrag={canDrag}
         data-test='element-input'
         className='element'
         active={active}
@@ -195,6 +213,17 @@ export function Element({
   );
 }
 
+export function ElementShow({ subject }: ElementShowProps): JSX.Element {
+  const [resource] = useResource(subject);
+  const [text] = useString(resource, properties.description);
+
+  return (
+    <ElementWrapper>
+      <Markdown text={text} noMargin />
+    </ElementWrapper>
+  );
+}
+
 const ElementFocusStyle = css`
   border-radius: 5px;
   outline: none;
@@ -221,7 +250,7 @@ const ElementWrapper = styled.div<ElementViewProps>`
   display: flex;
   flex-direction: column;
 
-  ${p => p.active && ElementFocusStyle}
+  ${p => p.active && p.canDrag && ElementFocusStyle}
 
   ${ElementTextStyle}
 
@@ -231,7 +260,8 @@ const ElementWrapper = styled.div<ElementViewProps>`
 `;
 
 interface ElementViewProps {
-  active: boolean;
+  active?: boolean;
+  canDrag?: boolean;
 }
 
 const ElementView = styled.textarea<ElementViewProps>`
@@ -256,7 +286,7 @@ interface WidgetProps {
 
 /** Allows the user to search for Resources and include these as an Element. */
 function SearchWidget({ query, setElement }: WidgetProps) {
-  const results = useSearch(query);
+  const results = useLocalSearch(query);
   // The currently selected result
   const [index, setIndex] = useState(0);
 
