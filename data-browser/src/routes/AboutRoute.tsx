@@ -88,6 +88,9 @@ export const About: React.FunctionComponent = () => {
         for people who want to help discuss various design challenges and work
         on implmenentations. If you have any questions, or want to help out,
         feel free to join our <a href='https://discord.gg/a72Rv2P'>Discord</a>!
+        Sign up to{' '}
+        <a href='https://docs.atomicdata.dev/newsletter.html'>our newsletter</a>{' '}
+        if you{"'"}d like to get updated! .
       </p>
     </ContainerNarrow>
   );
