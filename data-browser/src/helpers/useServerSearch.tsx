@@ -38,7 +38,6 @@ export function useServerSearch(
   url.searchParams.set('q', debouncedQuery);
   url.searchParams.set('include', include.toString());
   url.searchParams.set('limit', limit.toString());
-  console.log('searchparams', url.toString());
   const [resource] = useResource(url.toString());
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
 
