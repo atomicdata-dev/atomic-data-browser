@@ -248,20 +248,22 @@ export function useValue(
   const subject = resource.getSubject();
   const debounced = useDebounce(val, commitDebounce);
   const [touched, setTouched] = useState(false);
+  const [agent] = useCurrentAgent();
 
+  // Try without this
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
-  useEffect(() => {
-    function handleNotify(updated: Resource) {
-      // When a change happens, set the new Resource.
-      set(updated.get(propertyURL));
-    }
-    store.subscribe(subject, handleNotify);
+  // useEffect(() => {
+  //   function handleNotify(updated: Resource) {
+  //     // When a change happens, set the new Resource.
+  //     set(updated.get(propertyURL));
+  //   }
+  //   store.subscribe(subject, handleNotify);
 
-    return () => {
-      // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(subject, handleNotify);
-    };
-  }, [store, resource, subject]);
+  //   return () => {
+  //     // When the component is unmounted, unsubscribe from the store.
+  //     store.unsubscribe(subject, handleNotify);
+  //   };
+  // }, [store, resource, subject]);
 
   // Save the resource when the debounced value has changed
   useEffect(() => {
@@ -271,7 +273,7 @@ export function useValue(
       async function save() {
         try {
           setTouched(false);
-          await resource.save(store);
+          await resource.save(store, agent);
         } catch (e) {
           store.handleError(e);
         }
@@ -321,6 +323,9 @@ export function useValue(
   // Try to actually get the value, log any errorr
   try {
     value = resource.get(propertyURL);
+    if (resource.getSubject().startsWith('http://localhost/sear')) {
+      console.log('useValue', val, resource.getSubject());
+    }
   } catch (e) {
     store.handleError(e);
   }
@@ -481,16 +486,18 @@ export function useCanWrite(
     }
     setMsg('Checking write rights...');
     async function tryCanWrite() {
-      const canWriteAsync = await resource.canWrite(store, agent);
+      const [canWriteAsync, msg] = await resource.canWrite(store, agent);
       setCanWrite(canWriteAsync);
       if (canWriteAsync) {
-        setMsg('You have the correct rights');
+        setMsg(null);
       } else {
-        setMsg("You don't have write rights in this resource or its parents");
+        setMsg(
+          "You don't have write rights in this resource or its parents: " + msg,
+        );
       }
     }
     tryCanWrite();
-  }, [resource, agent]);
+  }, [resource, agent, agentStore?.subject]);
 
   return [canWrite, msg];
 }
