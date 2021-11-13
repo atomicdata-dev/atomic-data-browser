@@ -46,7 +46,6 @@ export class Agent implements AgentInterface {
       );
     }
     const fetchedPubKey = resource.get(properties.agent.publicKey).toString();
-    console.log(fetchedPubKey, resource, await this.getPublicKey());
     if (fetchedPubKey !== this.publicKey) {
       throw new Error(
         'Fetched publickey does not match current one - is the private key correct?',
