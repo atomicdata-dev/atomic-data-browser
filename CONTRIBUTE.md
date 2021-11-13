@@ -9,8 +9,9 @@ And join our [Discord][discord-url]!
 ## Publishing
 
 - Install `lerna`
+- `yarn lint-fix`
 - `yarn build` to build typescript files (don't skip this!)
-- `yarn test` (don't you publish a broken build!)
+- `yarn test` (don't you publish a broken build!), make sure `atomic-server` is running on `localhost`.
 - `npm run publish` (not yarn, since that does not support publishing to npm right now). This updates the `package.json` files, creates a commit, tags it, pushes it to github, and publishes the builds to npm.
 - Versions should match `atomic-data-rs`
 
