@@ -152,7 +152,14 @@ function Collection({ resource }: CollectionProps): JSX.Element {
         >
           {nextDisplayStyle.icon}
         </Button>
-        {isClass && <NewInstanceButton subtle icon klass={valueFilter} />}
+        {isClass && (
+          <NewInstanceButton
+            subtle
+            icon
+            klass={valueFilter}
+            parent={resource.getSubjectNoParams()}
+          />
+        )}
         {isClass && (
           <Button
             subtle
