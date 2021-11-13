@@ -3,7 +3,7 @@ import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate as validateDatatype } from './datatypes';
 import { Store } from './store';
-import { valToArray, valToString } from './value';
+import { valToArray } from './value';
 import { Agent } from './agent';
 import { JSONValue } from '.';
 
@@ -58,24 +58,23 @@ export class Resource {
     store: Store,
     agent: string,
     child?: string,
-  ): Promise<boolean> {
+  ): Promise<[boolean, string | null]> {
     const writeArray = this.get(properties.write);
     if (writeArray && valToArray(writeArray).includes(agent)) {
-      return true;
+      return [true, null];
     }
     const parentSubject = this.get(properties.parent) as string;
     if (parentSubject == undefined) {
-      return false;
+      return [false, `No write right or parent in ${this.getSubject()}`];
     }
     // This should not happen, but it prevents an infinite loop
     if (child == parentSubject) {
       console.warn('Circular parent', child);
-      return true;
+      return [true, `Circular parent in ${this.getSubject()}`];
     }
     const parent: Resource = await store.getResourceAsync(parentSubject);
     // The recursive part
-    const canWrite = await parent.canWrite(store, agent, this.getSubject());
-    return canWrite;
+    return await parent.canWrite(store, agent, this.getSubject());
   }
 
   /**
@@ -140,6 +139,12 @@ export class Resource {
   /** Returns the subject URL of the Resource */
   getSubject(): string {
     return this.subject;
+  }
+
+  /** Returns the subject URL of the Resource */
+  getSubjectNoParams(): string {
+    const url = new URL(this.subject);
+    return url.origin + url.pathname;
   }
 
   /** Returns the internal Map of Property-Values */
