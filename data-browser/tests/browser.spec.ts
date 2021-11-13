@@ -111,7 +111,9 @@ test.describe('data-browser', async () => {
     );
     await expect(page.locator('text=A base64')).toBeVisible();
     await page.click('[data-test="next-page"]');
-    await expect(page.locator('text=Where a redirect')).toBeVisible();
+    await expect(page.locator('text=A base64')).not.toBeVisible();
+    // Some item on the second page. Can change as the amount of properties grows!
+    await expect(page.locator('text=that are not required')).toBeVisible();
 
     // context menu, keyboard & data view
     await page.click('[data-test="context-menu"]');
@@ -154,16 +156,10 @@ test.describe('data-browser', async () => {
     // Create a document
     await page.click('button:has-text("documents")');
     await page.click('[title="Create a new document"]');
-    await page.click('text=advanced');
-    await page.click('[data-test="input-parent"]');
-    await page.fill('[data-test="input-parent"]', 'http://localhost/documents');
-    await page.keyboard.press('Enter');
     await page.click('[data-test="save"]');
     // commit for saving initial document
     await page.waitForResponse('http://localhost/commit');
     // commit for initializing the first element (paragraph)
-    await page.waitForResponse('http://localhost/commit');
-    // commit for adding that element to the document
     await page.waitForResponse('http://localhost/commit');
     await page.click(documentTitle);
     const title = `Nice title ${timestamp}`;
@@ -183,9 +179,7 @@ test.describe('data-browser', async () => {
     await page.fill('textarea', teststring);
     // commit editing paragraph
     await page.waitForResponse('http://localhost/commit');
-    const noAgentErr = 'You cannot save edits: No Agent set';
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
-    await expect(page.locator(`text=${noAgentErr}`)).not.toBeVisible();
 
     // multi-user
     const currentUrl = page.url();
@@ -196,7 +190,6 @@ test.describe('data-browser', async () => {
     await openLocalhost(page2);
     await page2.goto(currentUrl);
     await expect(page2.locator(`text=${teststring}`)).toBeVisible();
-    await expect(page2.locator(`text=${noAgentErr}`)).toBeVisible();
     await expect(await page2.title()).toEqual(title);
 
     // Add a new line on first page, check if it appears on the second
@@ -214,9 +207,9 @@ test.describe('data-browser', async () => {
 async function signIn(page: Page) {
   await page.click('text=user settings');
   await expect(page.locator('text=edit data and sign Commits')).toBeVisible();
-  // https://atomicdata.dev/agents/lKIn+Q0LUuPR6MxcEdZ6xOmh4U4cyN6vOq/RYkTazA0=
+  // If there are any issues with this agent, try creating a new one https://atomicdata.dev/invites/1
   const test_agent =
-    'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvVjJiZUZzak1zTjROMDd1Y3ZjRHpGbDRacWlyMWNpU2U5Y0UrazBCN0xmST0iLCJwcml2YXRlS2V5IjoiRWs0Y09FemJXQXZPQjA4TGZJVUd2dzZZenRWOCt6SmVrL2pIN2tIdFF3UT0ifQ==';
+    'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvaElNWHFoR3VLSDRkM0QrV1BjYzAwUHVFbldFMEtlY21GWStWbWNVR2tEWT0iLCJwcml2YXRlS2V5IjoiZkx0SDAvY29VY1BleFluNC95NGxFemFKbUJmZTYxQ3lEekUwODJyMmdRQT0ifQ==';
   await page.click('#current-password');
   await page.fill('#current-password', test_agent);
   await expect(page.locator('text=Edit profile')).toBeVisible();
