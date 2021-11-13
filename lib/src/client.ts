@@ -1,7 +1,8 @@
-import { Store } from '.';
-import { Commit, serializeDeterministically } from './commit';
+import { getTimestampNow, Store } from '.';
+import { Commit, serializeDeterministically, signToBase64 } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
+import { Agent } from '@tomic/lib';
 
 /**
  * Fetches and Parses a Resource. Can fetch through another atomic server if you
@@ -26,6 +27,10 @@ export async function fetchResource(
     tryValidURL(subject);
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Accept', 'application/ad+json');
+    // Sign the request if there is an agent present
+    store &&
+      store.getAgent() &&
+      (await signRequest(subject, store.getAgent(), requestHeaders));
     let url = subject;
     if (from !== undefined) {
       const newURL = new URL(`${from}/path`);
@@ -115,4 +120,18 @@ export function isValidURL(subject: string): boolean {
 export function removeQueryParamsFromURL(subject: string): string {
   // return subject.split('?')[0];
   return subject;
+}
+
+/** Creates an x-atomic-signature header */
+async function signRequest(
+  /** The resource meant to be fetched */
+  subject: string,
+  agent: Agent,
+  headers: Headers,
+): Promise<Headers> {
+  const privateKey = agent.privateKey;
+  const message = `${subject} ${getTimestampNow()}`;
+  const signed = await signToBase64(message, privateKey);
+  headers.set('x-atomic-signature', signed);
+  return headers;
 }

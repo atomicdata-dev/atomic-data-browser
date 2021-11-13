@@ -17,6 +17,11 @@ export interface CommitBuilderI {
   destroy?: boolean;
 }
 
+/** Return the current time as Atomic Data timestamp. Milliseconds since unix epoch. */
+export function getTimestampNow(): number {
+  return Math.round(new Date().getTime());
+}
+
 /** A {@link Commit} without its signature, signer and timestamp */
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
@@ -36,8 +41,12 @@ export class CommitBuilder implements CommitBuilderI {
    * Commit which is ready to be sent to an Atomic-Server `/commit` endpoint.
    */
   async sign(privateKey: string, agentSubject: string): Promise<Commit> {
-    const now: number = Math.round(new Date().getTime());
-    const commit = await signAt(this.clone(), agentSubject, privateKey, now);
+    const commit = await signAt(
+      this.clone(),
+      agentSubject,
+      privateKey,
+      getTimestampNow(),
+    );
     return commit;
   }
 
