@@ -4,7 +4,10 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## v0.28.2
 
-- Added server-side full text search, migrate UI to work there
+- Added server-side full text search #106
+- Add a seperate document show page #2, improved performance in Documents
+- Improved `canWrite` hook (more stable, faster)
+- Improved sidebar performance (less re-renders)
 
 ## v0.28.0
 

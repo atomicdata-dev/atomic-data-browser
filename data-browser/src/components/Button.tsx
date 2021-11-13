@@ -143,7 +143,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
     background-color: ${p => (p.subtle ? 'initial' : p.theme.colors.mainLight)};
     color: ${p => (p.subtle ? p.theme.colors.main : p.theme.colors.bg)};
     border-color: ${p =>
-    p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
+      p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
   }
 
   &:active:not([disabled]) {
