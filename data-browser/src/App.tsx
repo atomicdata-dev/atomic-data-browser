@@ -13,7 +13,7 @@ import { isDev } from './config';
 import { handleError, initBugsnag } from './helpers/handlers';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
-import ErrorPage from './views/ErrorPage';
+import CrashPage from './views/CrashPage';
 import toast from 'react-hot-toast';
 
 /** Initialize the store */
@@ -51,7 +51,7 @@ function App(): JSX.Element {
           <QueryParamProvider ReactRouterRoute={Route}>
             <HotKeysWrapper>
               <ThemeWrapper>
-                <ErrorBoundary FallbackComponent={ErrorPage}>
+                <ErrorBoundary FallbackComponent={CrashPage}>
                   <GlobalStyle />
                   <Toaster />
                   <MetaSetter />

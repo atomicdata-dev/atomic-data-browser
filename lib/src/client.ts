@@ -3,6 +3,7 @@ import { Commit, serializeDeterministically, signToBase64 } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
 import { Agent } from '@tomic/lib';
+import { AtomicError, ErrorType } from './error';
 
 /**
  * Fetches and Parses a Resource. Can fetch through another atomic server if you
@@ -38,7 +39,7 @@ export async function fetchResource(
       url = newURL.href;
     }
     if (window.fetch == undefined) {
-      throw new Error(
+      throw new AtomicError(
         `No window object available this lib currently requires the DOM for fetching`,
       );
     }
@@ -51,12 +52,17 @@ export async function fetchResource(
         const json = JSON.parse(body);
         resource = parseJsonADResource(json, resource, store);
       } catch (e) {
-        throw new Error(
+        throw new AtomicError(
           `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
         );
       }
+    } else if (response.status == 401) {
+      throw new AtomicError(
+        `You don't have the rights to do view ${subject}. Are you signed in with the right Agent? More detailed error from server: ${body}`,
+        ErrorType.Unauthorized,
+      );
     } else {
-      const error = new Error(`${response.status} error: ${body}`);
+      const error = new AtomicError(`${response.status} error: ${body}`);
       resource.setError(error);
     }
   } catch (e) {

@@ -17,6 +17,7 @@ import {
 import React from 'react';
 import { useDebounce } from './useDebounce';
 import { useCurrentAgent } from '.';
+import { isUnauthorized } from '@tomic/lib/src/error';
 
 /**
  * Hook for getting and updating a Resource in a React component. Will try to
@@ -40,6 +41,7 @@ export function useResource(
   } = { allowIncomplete: true, newResource: false },
 ): [Resource, (resource: Resource) => void] {
   const { newResource, allowIncomplete } = opts;
+  const [agent] = useCurrentAgent();
   const store = useStore();
   const [resource, setResource] = useState<Resource>(
     store.getResourceLoading(subject, {
@@ -47,12 +49,25 @@ export function useResource(
       allowIncomplete,
     }),
   );
+  // We automatically retry fetching a resource if it's response is 401, because the first response fires _before_ the agent is loaded
+  const [retries, setRetries] = useState(0);
 
   /** Callback function to update the Resource with this value. Overwrites existing. */
   // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
   const update = (resource: Resource) => {
     store.addResource(resource);
   };
+
+  // When the agent changes and there is an error, retry the request
+  useEffect(() => {
+    if (resource.error && isUnauthorized(resource.error) && retries < 2) {
+      // We need to check if the authorize call failed because the user was _publicAgent_ (i.e. no agent).
+      // Otherwise, this will loop forever.
+      resource.error.message.includes(urls.instances.publicAgent) &&
+        store.fetchResource(subject);
+      setRetries(retries + 1);
+    }
+  }, [agent, resource]);
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {

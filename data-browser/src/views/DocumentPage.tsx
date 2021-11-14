@@ -15,13 +15,12 @@ import { ErrorLook } from './ResourceInline';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
 import { Button } from '../components/Button';
 
-type DrivePageProps = {
+type DocumentPageProps = {
   resource: Resource;
-  setEditMode: (arg: boolean) => void;
 };
 
 /** A full page, editable document, consisting of Elements */
-function DocumentPage({ resource }: DrivePageProps): JSX.Element {
+function DocumentPage({ resource }: DocumentPageProps): JSX.Element {
   const [canWrite, canWriteMessage] = useCanWrite(resource);
   const [editMode, setEditMode] = useState(canWrite);
 
@@ -40,10 +39,15 @@ function DocumentPage({ resource }: DrivePageProps): JSX.Element {
   );
 }
 
+type DocumentSubPageProps = {
+  resource: Resource;
+  setEditMode: (arg: boolean) => void;
+};
+
 function DocumentPageEdit({
   resource,
   setEditMode,
-}: DrivePageProps): JSX.Element {
+}: DocumentSubPageProps): JSX.Element {
   const [elements, setElements] = useArray(
     resource,
     properties.document.elements,
@@ -279,7 +283,7 @@ function DocumentPageEdit({
 function DocumentPageShow({
   resource,
   setEditMode,
-}: DrivePageProps): JSX.Element {
+}: DocumentSubPageProps): JSX.Element {
   const [elements] = useArray(resource, properties.document.elements);
   const [title] = useString(resource, properties.name);
   return (

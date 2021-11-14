@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { useArray, useResource, useTitle } from '@tomic/react';
+import { useArray, useCurrentAgent, useResource, useTitle } from '@tomic/react';
 import { properties } from '@tomic/lib';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
@@ -22,6 +22,7 @@ import {
 import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
 import { openURL } from '../helpers/navigation';
+import { isUnauthorized } from '@tomic/lib/src/error';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
@@ -177,6 +178,7 @@ const SideBarDrive = React.memo(function SBD({
   handleClickItem,
 }: SideBarDriveProps): JSX.Element {
   const { baseURL } = useSettings();
+  const [agent] = useCurrentAgent();
   const [drive] = useResource(baseURL);
   const [children] = useArray(drive, properties.children);
   const title = useTitle(drive);
@@ -218,7 +220,13 @@ const SideBarDrive = React.memo(function SBD({
         })
       ) : drive.loading ? null : (
         <SideBarErr>
-          {drive.getError()?.message || 'Could not load this baseURL'}
+          {drive.error
+            ? isUnauthorized(drive.error)
+              ? agent
+                ? 'unauthorized'
+                : 'Sign in to get access'
+              : drive.error.message
+            : 'this should not happen'}
         </SideBarErr>
       )}
     </>
