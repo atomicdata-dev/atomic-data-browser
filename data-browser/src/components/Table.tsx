@@ -143,7 +143,7 @@ type RowProps = {
 };
 
 function Row({ subject, propsArray }: RowProps): JSX.Element {
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   if (resource === null) {
     return null;
   }

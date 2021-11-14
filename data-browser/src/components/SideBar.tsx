@@ -179,7 +179,7 @@ const SideBarDrive = React.memo(function SBD({
 }: SideBarDriveProps): JSX.Element {
   const { baseURL } = useSettings();
   const [agent] = useCurrentAgent();
-  const [drive] = useResource(baseURL);
+  const drive = useResource(baseURL);
   const [children] = useArray(drive, properties.children);
   const title = useTitle(drive);
   const history = useHistory();

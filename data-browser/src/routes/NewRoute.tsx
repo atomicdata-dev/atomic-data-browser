@@ -30,7 +30,7 @@ function New(): JSX.Element {
   const [classInput, setClassInput] = useState<string>(null);
   const [error, setError] = useState<Error>(null);
   const history = useHistory();
-  const [classFull] = useResource(classInput);
+  const classFull = useResource(classInput);
   const [className] = useString(classFull, urls.properties.shortname);
   const { agent } = useSettings();
 
@@ -76,7 +76,7 @@ interface NewFormProps {
 
 /** Form for instantiating a new Resource from some Class */
 function NewForm({ classSubject }: NewFormProps): JSX.Element {
-  const [klass] = useResource(classSubject);
+  const klass = useResource(classSubject);
   // TODO: Don't push to history, but replace, because currenlty back is broken
   const [newSubject, setNewSubject] = useQueryParam('newSubject', StringParam);
   const [parentSubject] = useQueryParam('parent', StringParam);
@@ -86,7 +86,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [showDetails, setShowDetails] = useState(false);
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
-  const [resource] = useResource(newSubject, { newResource: true });
+  const resource = useResource(newSubject, { newResource: true });
 
   useEffect(() => {
     if (newSubject == undefined) {

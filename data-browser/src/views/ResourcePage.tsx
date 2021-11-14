@@ -36,7 +36,7 @@ export const defaulHiddenProps = [
  * particular Class, it will render a different Component.
  */
 function ResourcePage({ subject }: Props): JSX.Element {
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
 

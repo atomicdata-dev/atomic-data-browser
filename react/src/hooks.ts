@@ -39,7 +39,7 @@ export function useResource(
      */
     newResource?: boolean;
   } = { allowIncomplete: true, newResource: false },
-): [Resource, (resource: Resource) => void] {
+): Resource {
   const { newResource, allowIncomplete } = opts;
   const [agent] = useCurrentAgent();
   const store = useStore();
@@ -50,22 +50,20 @@ export function useResource(
     }),
   );
   // We automatically retry fetching a resource if it's response is 401, because the first response fires _before_ the agent is loaded
-  const [retries, setRetries] = useState(0);
-
-  /** Callback function to update the Resource with this value. Overwrites existing. */
-  // Not sure about this API. Perhaps useResource should return a function with a save callback that takes no arguments.
-  const update = (resource: Resource) => {
-    store.addResource(resource);
-  };
+  const [triedWith, setTriedWith] = useState(agent?.subject);
 
   // When the agent changes and there is an error, retry the request
   useEffect(() => {
-    if (resource.error && isUnauthorized(resource.error) && retries < 2) {
+    if (
+      resource.error &&
+      isUnauthorized(resource.error) &&
+      agent?.subject !== triedWith
+    ) {
       // We need to check if the authorize call failed because the user was _publicAgent_ (i.e. no agent).
       // Otherwise, this will loop forever.
       resource.error.message.includes(urls.instances.publicAgent) &&
         store.fetchResource(subject);
-      setRetries(retries + 1);
+      setTriedWith(agent?.subject);
     }
   }, [agent, resource]);
 
@@ -93,7 +91,7 @@ export function useResource(
     };
   }, [store, subject]);
 
-  return [resource, update];
+  return resource;
 }
 
 /**
@@ -145,7 +143,7 @@ export function useResources(
  * loaded, and add Error strings to shortname and description if something goes wrong.
  */
 export function useProperty(subject: string): Property {
-  const [propertyResource] = useResource(subject);
+  const propertyResource = useResource(subject);
 
   if (propertyResource.loading) {
     return {
@@ -223,7 +221,7 @@ type useValueOptions = {
  *
  * ```typescript
  * // Simple usage:
- * const [resource] = useResource('https://atomicdata.dev/classes/Agent');
+ * const resource = useResource('https://atomicdata.dev/classes/Agent');
  * const [shortname, setShortname] = useValue(
  *   'https://atomicdata.dev/properties/shortname',
  *   resource,
@@ -232,7 +230,7 @@ type useValueOptions = {
  *
  * ```typescript
  * // With options:
- * const [resource] = useResource('https://atomicdata.dev/classes/Agent');
+ * const resource = useResource('https://atomicdata.dev/classes/Agent');
  * const [error, setError] = useState(null);
  * const [shortname, setShortname] = useValue(
  *   'https://atomicdata.dev/properties/shortname',

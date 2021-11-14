@@ -26,7 +26,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const [description] = useString(resource, properties.description);
   const [parameters] = useArray(resource, properties.endpoint.parameters);
   const [results] = useArray(resource, properties.endpoint.results);
-  const [virtualResource] = useResource(null);
+  const virtualResource = useResource(null);
   const store = useStore();
   const history = useHistory();
 
@@ -58,7 +58,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
               key={param}
               propertyURL={param}
               resource={virtualResource}
-              // autoFocus={i == 0}
+            // autoFocus={i == 0}
             />
           );
         })}

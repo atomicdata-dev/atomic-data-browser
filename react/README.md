@@ -38,7 +38,7 @@ Now, your Store can be accessed in React's context, which you can use the `atomi
 
 ```ts
 // Get the Resouce, and all its properties
-const [resource] = useResource('https://atomicdata.dev/classes/Agent');
+const resource = useResource('https://atomicdata.dev/classes/Agent');
 // The title takes either the Title, the Shortname or the URL of the resource
 const title = useTitle(resource);
 // All useValue / useString / useArray / useBoolean hooks have a getter and a setter.

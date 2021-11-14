@@ -69,7 +69,7 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   // We kind of assume here that all Collections will be filtered by an `is-a` prop and `Class` value.
   // But we can also have a collection of thing that share the same creator.
   // If that happens, we need a different approach to rendering the Headers
-  const [classResource] = useResource(valueFilter);
+  const classResource = useResource(valueFilter);
   const [requiredProps] = useArray(classResource, properties.requires);
   const [recommendedProps] = useArray(classResource, properties.recommends);
   const propsArrayFull = requiredProps.concat(recommendedProps);

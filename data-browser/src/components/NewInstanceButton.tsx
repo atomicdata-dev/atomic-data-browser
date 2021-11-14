@@ -23,7 +23,7 @@ function NewIntanceButton({
   parent,
   children,
 }: NewIntanceButtonProps): JSX.Element {
-  const [resource] = useResource(klass);
+  const resource = useResource(klass);
   const title = useTitle(resource);
   const history = useHistory();
   const store = useStore();
