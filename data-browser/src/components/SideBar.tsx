@@ -6,7 +6,7 @@ import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
 import { useHistory } from 'react-router-dom';
-import { MenuItemMinimial, MenuItemProps } from './DropdownMenu';
+import { MenuItemMinimial, MenuItemSidebarProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
@@ -151,7 +151,7 @@ export function SideBar(): JSX.Element {
   );
 }
 
-function MenuItem(item: MenuItemProps) {
+function MenuItem(item: MenuItemSidebarProps) {
   return (
     <SideBarItem
       key={item.label}

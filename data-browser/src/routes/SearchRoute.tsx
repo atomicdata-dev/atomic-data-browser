@@ -60,7 +60,7 @@ export function Search(): JSX.Element {
     { enableOnTags: ['INPUT'] },
   );
 
-  let message = 'No results...';
+  let message = 'No hits';
   if (query.length == 0) {
     message = 'Enter a search query';
   }

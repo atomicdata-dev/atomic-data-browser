@@ -7,7 +7,7 @@ import { Button, ButtonBar } from './Button';
 
 interface DropdownMenuProps {
   /** The list of menu items */
-  items: MenuItemProps[];
+  items: MenuItemMinimial[];
   /**
    * The Component that should be clicked to open the menu. Must accept an
    * onClick handler .
@@ -163,11 +163,12 @@ export interface MenuItemMinimial {
   disabled?: boolean;
 }
 
-export interface MenuItemProps extends MenuItemMinimial {
+/** Also requires click handler */
+export interface MenuItemSidebarProps extends MenuItemMinimial {
   handleClickItem: () => any;
 }
 
-interface MenuItemPropsExtended extends MenuItemProps {
+interface MenuItemPropsExtended extends MenuItemSidebarProps {
   selected: boolean;
 }
 

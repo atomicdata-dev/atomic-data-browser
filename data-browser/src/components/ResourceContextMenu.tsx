@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { isValidURL } from '@tomic/lib';
 import { useCanWrite, useResource, useStore } from '@tomic/react';
 import { editURL, dataURL, openURL, versionsURL } from '../helpers/navigation';
-import { DropdownMenu, MenuItemProps } from '../components/DropdownMenu';
+import { DropdownMenu, MenuItemMinimial } from '../components/DropdownMenu';
 import { useSettings } from '../helpers/AppSettings';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
@@ -48,7 +48,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
     }
   }
 
-  const items: MenuItemProps[] = [
+  const items: MenuItemMinimial[] = [
     {
       disabled: history.location.pathname.startsWith(paths.show),
       id: 'view',
