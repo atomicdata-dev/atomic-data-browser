@@ -130,8 +130,12 @@ async function signRequest(
   headers: Headers,
 ): Promise<Headers> {
   const privateKey = agent.privateKey;
-  const message = `${subject} ${getTimestampNow()}`;
+  const timestamp = getTimestampNow();
+  const message = `${subject} ${timestamp}`;
   const signed = await signToBase64(message, privateKey);
+  headers.set('x-atomic-public-key', await agent.getPublicKey());
   headers.set('x-atomic-signature', signed);
+  headers.set('x-atomic-timestamp', timestamp.toString());
+  headers.set('x-atomic-agent', agent?.subject);
   return headers;
 }
