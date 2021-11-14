@@ -95,8 +95,13 @@ export const datatypes = {
   timestamp: 'https://atomicdata.dev/datatypes/timestamp',
 };
 
+export const instances = {
+  publicAgent: 'https://atomicdata.dev/agents/publicAgent',
+};
+
 export const urls = {
   properties,
   classes,
   datatypes,
+  instances,
 };

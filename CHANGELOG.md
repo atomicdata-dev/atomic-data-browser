@@ -2,6 +2,12 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.29.0
+
+- Add authentication: sign requests, so the server knows who sent it. This allows for better authorization. #108
+- Refactor Error type, improve Error page / views
+- Automatically retry unauthorized resources (but I want a prettier solution, see #110)
+
 ## v0.28.2
 
 - Added server-side full text search #106

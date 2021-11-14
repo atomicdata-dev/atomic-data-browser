@@ -1,13 +1,11 @@
 import React from 'react';
-import { useString, useResource, useTitle, useStore } from '@tomic/react';
+import { useString, useResource, useTitle } from '@tomic/react';
 import { properties, urls } from '@tomic/lib';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import Collection from '../views/CollectionPage';
 import ClassDetail from '../components/ClassDetail';
 import NewInstanceButton from '../components/NewInstanceButton';
-import { Button } from '../components/Button';
-import { ErrorLook } from './ResourceInline';
 import EndpointPage from './EndpointPage';
 import { ValueForm } from '../components/forms/ValueForm';
 import Parent from '../components/Parent';
@@ -15,6 +13,7 @@ import DrivePage from './DrivePage';
 import RedirectPage from './RedirectPage';
 import InvitePage from './InvitePage';
 import DocumentPage from './DocumentPage';
+import ErrorPage from './ErrorPage';
 
 type Props = {
   subject: string;
@@ -40,26 +39,12 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const [resource] = useResource(subject);
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
-  const store = useStore();
 
   if (resource.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
   if (resource.error) {
-    return (
-      <ContainerNarrow>
-        <h1>⚠️ {title}</h1>
-        <ErrorLook>{resource.getError().message}</ErrorLook>
-        <br />
-        <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
-        <Button
-          onClick={() => store.fetchResource(subject, { fromProxy: true })}
-          title={`Fetches the URL from your current Atomic-Server (${store.getBaseUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
-        >
-          Use proxy
-        </Button>
-      </ContainerNarrow>
-    );
+    return <ErrorPage resource={resource} />;
   }
 
   // TODO: Make these registerable, so users can easily extend these
