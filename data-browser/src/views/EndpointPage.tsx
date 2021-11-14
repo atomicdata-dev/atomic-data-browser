@@ -65,10 +65,13 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       </form>
       <Button onClick={constructSubject}>Go</Button>
 
-      {results &&
+      {results && results.length == 0 ? (
+        <p>No hits</p>
+      ) : (
         results.map(result => {
           return <ResourceCard key={result} subject={result} />;
-        })}
+        })
+      )}
     </ContainerNarrow>
   );
 }

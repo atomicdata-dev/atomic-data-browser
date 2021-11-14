@@ -8,6 +8,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refactor Error type, improve Error page / views
 - Automatically retry unauthorized resources (but I want a prettier solution, see #110)
 - `useResource` no longer returns an array, but only the resource.
+- Improved EndpointPage (show results, useful for Search, for example)
 
 ## v0.28.2
 
