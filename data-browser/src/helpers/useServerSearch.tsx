@@ -38,7 +38,7 @@ export function useServerSearch(
   url.searchParams.set('q', debouncedQuery);
   url.searchParams.set('include', include.toString());
   url.searchParams.set('limit', limit.toString());
-  const [resource] = useResource(url.toString());
+  const resource = useResource(url.toString());
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
 
   // Only set new results if the resource is no longer loading, which improves UX

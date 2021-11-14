@@ -50,7 +50,7 @@ export function ElementEdit({
   active,
   canDrag,
 }: ElementEditProps): JSX.Element {
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const [err, setErr] = useState(null);
   const [text, setText] = useString(resource, properties.description, {
     commit: true,
@@ -214,7 +214,7 @@ export function ElementEdit({
 }
 
 export function ElementShow({ subject }: ElementShowProps): JSX.Element {
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const [text] = useString(resource, properties.description);
 
   return (

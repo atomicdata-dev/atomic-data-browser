@@ -19,7 +19,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   const store = useStore();
   const history = useHistory();
   const { agent } = useSettings();
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const [canWrite] = useCanWrite(resource, agent?.subject);
   // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 

@@ -27,7 +27,7 @@ function InvitePage({ resource }: DrivePageProps): JSX.Element {
   const [write] = useBoolean(resource, properties.invite.write);
   const history = useHistory();
   const { agent, setAgent } = useSettings();
-  const [agentResource] = useResource(agent?.subject);
+  const agentResource = useResource(agent?.subject);
   const agentTitle = useTitle(agentResource, 15);
 
   const agentSubject = agent?.subject;

@@ -7,6 +7,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add authentication: sign requests, so the server knows who sent it. This allows for better authorization. #108
 - Refactor Error type, improve Error page / views
 - Automatically retry unauthorized resources (but I want a prettier solution, see #110)
+- `useResource` no longer returns an array, but only the resource.
 
 ## v0.28.2
 

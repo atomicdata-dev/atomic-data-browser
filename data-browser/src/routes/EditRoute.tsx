@@ -11,7 +11,7 @@ import ClassDetail from '../components/ClassDetail';
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
   const [subject] = useCurrentSubject();
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const title = useTitle(resource);
   const [subjectInput, setSubjectInput] = useState<string>(null);
   const history = useHistory();

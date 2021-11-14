@@ -51,12 +51,12 @@ export function ResourceSelector({
   ...props
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
-  const [classesCollection] = useResource(getCollectionURL(classType));
+  const classesCollection = useResource(getCollectionURL(classType));
   let [options] = useArray(
     classesCollection,
     urls.properties.collection.members,
   );
-  const [requiredClass] = useResource(classType);
+  const requiredClass = useResource(classType);
   const classTypeTitle = useTitle(requiredClass);
   const store = useStore();
 

@@ -69,7 +69,7 @@ function ResourceCard(props: Props): JSX.Element {
 
 function ResourceCardInner(props: Props): JSX.Element {
   const { small, subject } = props;
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
 

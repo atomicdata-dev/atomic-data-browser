@@ -11,7 +11,7 @@ type Props = {
 
 /** Renders a Resource in a small, inline link. */
 function ResourceInline({ subject, untabbable }: Props): JSX.Element {
-  const [resource] = useResource(subject, { allowIncomplete: true });
+  const resource = useResource(subject, { allowIncomplete: true });
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 

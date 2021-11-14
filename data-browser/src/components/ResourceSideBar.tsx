@@ -17,7 +17,7 @@ export const ResourceSideBar = React.memo(function RSB({
   subject,
   handleClose,
 }: Props): JSX.Element {
-  const [resource] = useResource(subject, { allowIncomplete: true });
+  const resource = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);

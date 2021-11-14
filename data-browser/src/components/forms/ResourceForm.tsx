@@ -30,14 +30,14 @@ export function ResourceForm({
   resource: resourceIn,
   parent,
 }: ResourceFormProps): JSX.Element {
-  const [resource] = useResource(resourceIn.getSubject());
+  const resource = useResource(resourceIn.getSubject());
   const [isAArray] = useArray(resource, properties.isA);
   if (classSubject == undefined && isAArray?.length > 0) {
     // This is not entirely accurate, as Atomic Data supports having multiple
     // classes for a single resource.
     classSubject = isAArray[0];
   }
-  const [klass] = useResource(classSubject);
+  const klass = useResource(classSubject);
   const store = useStore();
   const [requires] = useArray(klass, properties.requires);
   const [recommends] = useArray(klass, properties.recommends);
