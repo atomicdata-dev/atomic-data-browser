@@ -20,8 +20,8 @@ export function Search(): JSX.Element {
   /** Moves the viewport to the card at the selected index */
   function moveTo(index: number) {
     setSelected(index);
-    const currentElm = htmlElRef.current.children[index];
-    currentElm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const currentElm = htmlElRef?.current?.children[index];
+    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   useHotkeys(
@@ -60,16 +60,18 @@ export function Search(): JSX.Element {
     { enableOnTags: ['INPUT'] },
   );
 
+  let message = 'No results...';
+  if (query.length == 0) {
+    message = 'Enter a search query';
+  }
+  if (loading) {
+    message = 'Loading results...';
+  }
   return (
     <ContainerNarrow ref={htmlElRef}>
       {error && <ErrorLook>{error.message}</ErrorLook>}
-      {query.length !== 0 ? (
+      {query.length !== 0 && results.length !== 0 ? (
         <>
-          {results.length == 0 && loading ? (
-            <p>Loading...</p>
-          ) : (
-            <p>No Results found for {query}.</p>
-          )}
           {results.map((subject, index) => (
             <ResourceCard
               initialInView={index < 5}
@@ -81,7 +83,7 @@ export function Search(): JSX.Element {
           ))}
         </>
       ) : (
-        <>Search something...</>
+        <>{message}</>
       )}
     </ContainerNarrow>
   );
