@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useResource, useStore } from '@tomic/react';
+import { useCurrentAgent, useResource, useStore } from '@tomic/react';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';
@@ -8,14 +8,16 @@ import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { ErrMessage } from '../components/forms/InputStyles';
+import { signRequest } from '@tomic/lib';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
   const [subject] = useCurrentSubject();
-  const [resource] = useResource(subject);
+  const resource = useResource(subject);
   const [textResponse, setTextResponse] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
   const [err, setErr] = useState(null);
+  const [agent] = useCurrentAgent();
   const store = useStore();
 
   if (resource.loading) {
@@ -27,10 +29,11 @@ function Data(): JSX.Element {
 
   async function fetchAs(contentType: string) {
     const requestHeaders: HeadersInit = new Headers();
+    const headers = await signRequest(subject, agent, requestHeaders);
     requestHeaders.set('Accept', contentType);
-    setErr(new Error('loading...'));
+    setTextResponse('loading...');
     try {
-      const resp = await window.fetch(subject, { headers: requestHeaders });
+      const resp = await window.fetch(subject, { headers });
       const body = await resp.text();
       setTextResponse(body);
       setErr(null);
