@@ -29,7 +29,7 @@ export function Search(): JSX.Element {
     e => {
       e.preventDefault();
       const subject =
-        htmlElRef.current.children[selectedIndex].getAttribute('about');
+        htmlElRef?.current?.children[selectedIndex]?.getAttribute('about');
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();
