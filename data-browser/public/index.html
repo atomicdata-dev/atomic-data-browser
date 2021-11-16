@@ -90,6 +90,14 @@
   <script type="module" src="dist/index.js"></script>
   <!-- Trying this for package issue -->
   <script type="module" src="%PUBLIC_URL%/dist/index.js"></script>
+  <!-- Service worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      })
+    }
+  </script>
 </body>
 
 </html>
