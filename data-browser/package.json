@@ -48,7 +48,8 @@
     "lint-staged": "^10.5.4",
     "pretty-quick": "^3.1.0",
     "snowpack": "^3.8.8",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "workbox-cli": "^6.4.1"
   },
   "homepage": "https://joepio.github.io/atomic-data-browser/",
   "husky": {
@@ -64,7 +65,7 @@
     "url": "https://github.com/joepio/atomic-data-browser/"
   },
   "scripts": {
-    "build": "snowpack build",
+    "build": "snowpack build && workbox generateSW workbox-config.js",
     "deploy": "gh-pages -d build",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
