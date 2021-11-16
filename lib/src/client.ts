@@ -128,8 +128,8 @@ export function removeQueryParamsFromURL(subject: string): string {
   return subject;
 }
 
-/** Creates an x-atomic-signature header */
-async function signRequest(
+/** Creates authentication headers and signs the request */
+export async function signRequest(
   /** The resource meant to be fetched */
   subject: string,
   agent: Agent,

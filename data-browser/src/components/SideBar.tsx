@@ -23,6 +23,7 @@ import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
 import { openURL } from '../helpers/navigation';
 import { isUnauthorized } from '@tomic/lib/src/error';
+import { SignInButton } from './SignInButton';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
@@ -220,13 +221,19 @@ const SideBarDrive = React.memo(function SBD({
         })
       ) : drive.loading ? null : (
         <SideBarErr>
-          {drive.error
-            ? isUnauthorized(drive.error)
-              ? agent
-                ? 'unauthorized'
-                : 'Sign in to get access'
-              : drive.error.message
-            : 'this should not happen'}
+          {drive.error ? (
+            drive.isUnauthorized() ? (
+              agent ? (
+                'unauthorized'
+              ) : (
+                <SignInButton />
+              )
+            ) : (
+              drive.error.message
+            )
+          ) : (
+            'this should not happen'
+          )}
         </SideBarErr>
       )}
     </>
