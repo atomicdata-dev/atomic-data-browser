@@ -6,6 +6,7 @@ import { Store } from './store';
 import { valToArray } from './value';
 import { Agent } from './agent';
 import { JSONValue } from '.';
+import { isUnauthorized } from './error';
 
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;
@@ -150,6 +151,11 @@ export class Resource {
   /** Returns the internal Map of Property-Values */
   getPropVals(): PropVals {
     return this.propvals;
+  }
+
+  /** Returns true is the resource had an `Unauthorized` 401 response. */
+  isUnauthorized(): boolean {
+    return this.error != undefined && isUnauthorized(this.error);
   }
 
   /** Removes the resource form both the server and locally */

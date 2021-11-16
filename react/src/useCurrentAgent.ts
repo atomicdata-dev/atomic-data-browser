@@ -3,6 +3,8 @@ import { Agent } from '@tomic/lib';
 import { useStore } from './hooks';
 import { useLocalStorage } from './useLocalStorage';
 
+const AGENT_LOCAL_STORAGE_KEY = 'agent';
+
 /**
  * A hook for using and adjusting the Agent. Persists the agent to LocalStorage.
  * Only use this hook once inside your app! The best place to use this, is
@@ -11,7 +13,7 @@ import { useLocalStorage } from './useLocalStorage';
 export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // Localstorage for cross-session persistence of JSON object
   const [agentJSON, setAgentJSON] = useLocalStorage<Agent | null>(
-    'agent',
+    AGENT_LOCAL_STORAGE_KEY,
     null,
   );
   // In memory representation of the full Agent
@@ -42,3 +44,14 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
 
   return [agent, setAgentJSON];
 };
+
+/** Gets the Agent from local storage, if any. Useful when initializing app */
+export function initAgentFromLocalStorage(): Agent | null {
+  const lsItem = localStorage.getItem(AGENT_LOCAL_STORAGE_KEY);
+  if (lsItem == null) {
+    return null;
+  }
+  const agentJSON = JSON.parse(lsItem);
+  const agent: Agent | null = agentJSON && Agent.fromJSON(agentJSON);
+  return agent;
+}

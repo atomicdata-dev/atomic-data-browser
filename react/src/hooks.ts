@@ -41,7 +41,6 @@ export function useResource(
   } = { allowIncomplete: true, newResource: false },
 ): Resource {
   const { newResource, allowIncomplete } = opts;
-  const [agent] = useCurrentAgent();
   const store = useStore();
   const [resource, setResource] = useState<Resource>(
     store.getResourceLoading(subject, {
@@ -49,23 +48,6 @@ export function useResource(
       allowIncomplete,
     }),
   );
-  // We automatically retry fetching a resource if it's response is 401, because the first response fires _before_ the agent is loaded
-  const [triedWith, setTriedWith] = useState(agent?.subject);
-
-  // When the agent changes and there is an error, retry the request
-  useEffect(() => {
-    if (
-      resource.error &&
-      isUnauthorized(resource.error) &&
-      agent?.subject !== triedWith
-    ) {
-      // We need to check if the authorize call failed because the user was _publicAgent_ (i.e. no agent).
-      // Otherwise, this will loop forever.
-      resource.error.message.includes(urls.instances.publicAgent) &&
-        store.fetchResource(subject);
-      setTriedWith(agent?.subject);
-    }
-  }, [agent, resource]);
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {

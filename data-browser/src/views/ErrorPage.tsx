@@ -5,6 +5,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { ErrorLook } from './ResourceInline';
 import { Button } from '../components/Button';
 import { isUnauthorized } from '@tomic/lib/src/error';
+import { SignInButton } from '../components/SignInButton';
 
 type ErrorPageProps = {
   resource: Resource;
@@ -23,9 +24,17 @@ function ErrorPage({ resource }: ErrorPageProps): JSX.Element {
     return (
       <ContainerNarrow>
         <h1>Unauthorized</h1>
-        {agent ? null : <p>Try signing in</p>}
-        <p>{resource.error.message}</p>
-        <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
+        {agent ? (
+          <>
+            <p>{resource.error.message}</p>
+            <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
+          </>
+        ) : (
+          <>
+            <p>{"You don't have access to this, try signing in:"}</p>
+            <SignInButton />
+          </>
+        )}
       </ContainerNarrow>
     );
   }

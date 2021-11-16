@@ -2,7 +2,7 @@ import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Store, urls } from '@tomic/lib';
-import { StoreContext } from '@tomic/react';
+import { initAgentFromLocalStorage, StoreContext } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { Routes } from './routes/Routes';
@@ -30,6 +30,10 @@ store.errorHandler = e => {
 };
 /** Setup bugsnag for error handling */
 const ErrorBoundary = initBugsnag();
+/** Initialize the agent from localstorage */
+const agent = initAgentFromLocalStorage();
+agent && store.setAgent(agent);
+
 /** Fetch all the Properties and Classes - this helps speed up the app. */
 store.fetchResource(urls.properties.getAll);
 store.fetchResource(urls.classes.getAll);
