@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Agent } from '@tomic/lib';
 import { useStore } from './hooks';
 import { useLocalStorage } from './useLocalStorage';
