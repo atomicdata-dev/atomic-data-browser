@@ -278,11 +278,12 @@ export class Store {
   setAgent(agent: Agent): void {
     this.agent = agent;
     // TODO: maybe iterate over all loaded resources, check if they have an Unauthorized error, and retry these.
-    this.resources.forEach(r => {
-      if (r.isUnauthorized()) {
-        this.fetchResource(r.getSubject());
-      }
-    });
+    agent &&
+      this.resources.forEach(r => {
+        if (r.isUnauthorized()) {
+          this.fetchResource(r.getSubject());
+        }
+      });
   }
 
   /** Sets the Base URL, without the trailing slash. */

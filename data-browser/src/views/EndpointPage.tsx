@@ -58,7 +58,6 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
               key={param}
               propertyURL={param}
               resource={virtualResource}
-            // autoFocus={i == 0}
             />
           );
         })}
