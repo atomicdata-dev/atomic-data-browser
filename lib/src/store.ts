@@ -358,7 +358,7 @@ export class Store {
     }
     let callbackArray = this.subscribers.get(subject);
     // Remove the function from the callBackArray
-    callbackArray = callbackArray.filter(item => item !== callback);
+    callbackArray = callbackArray?.filter(item => item !== callback);
     this.subscribers.set(subject, callbackArray);
   }
 }

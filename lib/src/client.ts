@@ -124,8 +124,7 @@ export function isValidURL(subject: string): boolean {
  */
 // TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
 export function removeQueryParamsFromURL(subject: string): string {
-  // return subject.split('?')[0];
-  return subject;
+  return subject?.split('?')[0];
 }
 
 /** Creates authentication headers and signs the request */
