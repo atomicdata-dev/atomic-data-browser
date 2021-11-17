@@ -8,32 +8,28 @@ const AGENT_LOCAL_STORAGE_KEY = 'agent';
 /**
  * A hook for using and adjusting the Agent. Persists the agent to LocalStorage.
  * Only use this hook once inside your app! The best place to use this, is
- * somewhere inside your synchronized application state
+ * somewhere inside your synchronized application state. The value will not
+ * update if the LocalStorage updates.
  */
 export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // Localstorage for cross-session persistence of JSON object
-  const [agentJSON, setAgentJSON] = useLocalStorage<Agent | null>(
+  const [, setAgentJSON] = useLocalStorage<Agent | null>(
     AGENT_LOCAL_STORAGE_KEY,
     null,
   );
   const store = useStore();
   // In memory representation of the full Agent
   const [stateAgent, setStateAgent] = useState<Agent>(store.getAgent());
-  // Also update the Agent inside the store
 
-  // When the localStorage JSON agent is updated, also update the in-memory agent and the Store
-  useEffect(() => {
-    if (agentJSON == null) {
-      setStateAgent(null);
-      store.setAgent(null);
-      return;
-    }
-    const newAgent = Agent.fromJSON(agentJSON);
-    setStateAgent(newAgent);
-    store.setAgent(newAgent);
-  }, [agentJSON]);
+  function handleSetAgent(agent: Agent | null) {
+    setAgentJSON(agent);
+    setStateAgent(agent);
+    // Also update the Agent inside the store
+    store.setAgent(agent);
+    return;
+  }
 
-  return [stateAgent, setAgentJSON];
+  return [stateAgent, handleSetAgent];
 };
 
 /** Gets the Agent from local storage, if any. Useful when initializing app */
