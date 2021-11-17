@@ -16,33 +16,24 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
     AGENT_LOCAL_STORAGE_KEY,
     null,
   );
-  // In memory representation of the full Agent
-  const [agent, setAgent] = useState<Agent>(null);
-  // Also update the Agent inside the store
   const store = useStore();
+  // In memory representation of the full Agent
+  const [stateAgent, setStateAgent] = useState<Agent>(store.getAgent());
+  // Also update the Agent inside the store
 
-  // Set the initial agent, is set using Store
-  useEffect(() => {
-    if (agent == undefined) {
-      setAgent(store.getAgent());
-    }
-  }, []);
-
-  // When the localStorage JSON agent is updated, also update the in-memory agent
+  // When the localStorage JSON agent is updated, also update the in-memory agent and the Store
   useEffect(() => {
     if (agentJSON == null) {
-      setAgent(null);
+      setStateAgent(null);
+      store.setAgent(null);
       return;
     }
-    setAgent(Agent.fromJSON(agentJSON));
+    const newAgent = Agent.fromJSON(agentJSON);
+    setStateAgent(newAgent);
+    store.setAgent(newAgent);
   }, [agentJSON]);
 
-  // ... and when the in memory agent is updated, update the store agent
-  useEffect(() => {
-    store.setAgent(agent);
-  }, [agent]);
-
-  return [agent, setAgentJSON];
+  return [stateAgent, setAgentJSON];
 };
 
 /** Gets the Agent from local storage, if any. Useful when initializing app */

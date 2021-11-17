@@ -74,16 +74,23 @@ const SettingsAgent: React.FunctionComponent = () => {
     }
   }
 
+  function setAgentIfChanged(oldAgent: Agent, newAgent: Agent) {
+    if (JSON.stringify(oldAgent) !== JSON.stringify(newAgent)) {
+      setAgent(newAgent);
+    }
+  }
+
   /** Called when the secret or the subject is updated manually */
   async function handleUpdateSubjectAndKey() {
     renewSecret();
     setError(null);
 
     try {
-      const agent = new Agent(privateKey, subject);
-      await agent.getPublicKey();
-      await agent.checkPublicKey();
-      setAgent(agent);
+      const newAgent = new Agent(privateKey, subject);
+      await newAgent.getPublicKey();
+      await newAgent.checkPublicKey();
+
+      setAgentIfChanged(agent, newAgent);
     } catch (e) {
       const err = new Error('Invalid Agent' + e);
       setError(err);
@@ -105,11 +112,11 @@ const SettingsAgent: React.FunctionComponent = () => {
     setError(null);
 
     try {
-      const agent = Agent.fromSecret(updateSecret);
-      await agent.checkPublicKey();
-      setAgent(agent);
-      setPrivateKey(agent.privateKey);
-      setSubject(agent.subject);
+      const newAgent = Agent.fromSecret(updateSecret);
+      await newAgent.checkPublicKey();
+      setAgentIfChanged(agent, newAgent);
+      setPrivateKey(newAgent.privateKey);
+      setSubject(newAgent.subject);
     } catch (e) {
       const err = new Error('Invalid secret. ' + e);
       setError(err);
