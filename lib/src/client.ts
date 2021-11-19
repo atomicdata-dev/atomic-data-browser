@@ -2,7 +2,7 @@ import { getTimestampNow, Store } from '.';
 import { Commit, serializeDeterministically, signToBase64 } from './commit';
 import { parseJsonADResource } from './parse';
 import { Resource } from './resource';
-import { Agent } from '@tomic/lib';
+import { Agent } from './agent';
 import { AtomicError, ErrorType } from './error';
 
 /**
