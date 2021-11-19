@@ -16,8 +16,6 @@ import {
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './useDebounce';
-import { useCurrentAgent } from '.';
-import { isUnauthorized } from '@tomic/lib/src/error';
 
 /**
  * Hook for getting and updating a Resource in a React component. Will try to
@@ -240,10 +238,8 @@ export function useValue(
   } = opts;
   const [val, set] = useState<JSONValue>(null);
   const store = useStore();
-  const subject = resource.getSubject();
   const debounced = useDebounce(val, commitDebounce);
   const [touched, setTouched] = useState(false);
-  const [agent] = useCurrentAgent();
 
   // Try without this
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -268,7 +264,7 @@ export function useValue(
       async function save() {
         try {
           setTouched(false);
-          await resource.save(store, agent);
+          await resource.save(store, store.getAgent());
         } catch (e) {
           store.handleError(e);
         }
@@ -467,7 +463,7 @@ export function useCanWrite(
   const store = useStore();
   const [canWrite, setCanWrite] = useState<boolean | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
-  const [agentStore] = useCurrentAgent();
+  const agentStore = store.getAgent();
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {

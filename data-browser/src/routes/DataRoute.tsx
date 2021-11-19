@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCurrentAgent, useResource, useStore } from '@tomic/react';
+import { useResource, useStore } from '@tomic/react';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/Link';
@@ -9,6 +9,7 @@ import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { ErrMessage } from '../components/forms/InputStyles';
 import { signRequest } from '@tomic/lib';
+import { useSettings } from '../helpers/AppSettings';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -17,7 +18,7 @@ function Data(): JSX.Element {
   const [textResponse, setTextResponse] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
   const [err, setErr] = useState(null);
-  const [agent] = useCurrentAgent();
+  const { agent } = useSettings();
   const store = useStore();
 
   if (resource.loading) {
