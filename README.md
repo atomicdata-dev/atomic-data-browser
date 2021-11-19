@@ -16,8 +16,9 @@ https://user-images.githubusercontent.com/2183313/139728539-d69b899f-6f9b-44cb-a
 
 ```sh
 # To run, simply run the following commands:
-yarn
-yarn start
+yarn # install dependencies
+yarn bootstrap # symlink ./lib and ./react to ./data-browser
+yarn start # run the server!
 ```
 
 [→ Read more](data-browser/README.md)
