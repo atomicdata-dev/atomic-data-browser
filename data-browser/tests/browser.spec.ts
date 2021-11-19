@@ -18,10 +18,8 @@ test.describe('data-browser', async () => {
     await page.goto('http://localhost:8080/');
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.click(sidebarDriveEdit);
-    // Set AtomicData.dev as the server
-    await page.click('[data-test="server-url-atomic"]');
-    // Accept the invite, create an account if necessary
-    await expect(page.locator(currentDriveTitle)).toHaveText('atomicdata.dev');
+    await signIn(page);
+    await openLocalhost(page);
   });
 
   test('sidebar', async ({ page }) => {
@@ -34,7 +32,6 @@ test.describe('data-browser', async () => {
   });
 
   test('switch Server URL', async ({ page }) => {
-    await openLocalhost(page);
     await expect(page.locator('text=demo invite')).not.toBeVisible();
     await page.fill('[data-test="server-url-input"]', 'https://atomicdata.dev');
     await page.click('[data-test="server-url-save"]');
@@ -57,6 +54,7 @@ test.describe('data-browser', async () => {
   });
 
   test('sign up with invite, edit, versions', async ({ page }) => {
+    await openAtomic(page);
     // Use invite
     await page.click('text=demo invite');
     await page.click('text=Accept as new user');
@@ -75,7 +73,8 @@ test.describe('data-browser', async () => {
     // await page.click('text=atomicdata.dev/versioning?');
   });
 
-  test('sign up and edit document', async ({ page }) => {
+  test('sign up and edit document atomicdata.dev', async ({ page }) => {
+    await openAtomic(page);
     // Use invite
     await page.click('text=demo invite (document)');
     await page.click('text=Accept as new user');
@@ -101,6 +100,7 @@ test.describe('data-browser', async () => {
   });
 
   test('collections & data view', async ({ page }) => {
+    await openAtomic(page);
     // collections, pagination, sorting
     await page.fill(
       '[data-test="address-bar"]',
@@ -140,7 +140,6 @@ test.describe('data-browser', async () => {
     page,
     browser,
   }) => {
-    await openLocalhost(page);
     // Setup initial user (this test can only be run once per server)
     await page.click('[data-test="sidebar-drive-open"]');
     await expect(page.locator('text=/setup')).toBeVisible();
@@ -221,6 +220,15 @@ async function openLocalhost(page: Page) {
   await page.click(sidebarDriveEdit);
   await page.click('[data-test="server-url-localhost"]');
   await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
+}
+
+/** Set atomicdata.dev as current server */
+async function openAtomic(page: Page) {
+  await page.click(sidebarDriveEdit);
+  // Set AtomicData.dev as the server
+  await page.click('[data-test="server-url-atomic"]');
+  // Accept the invite, create an account if necessary
+  await expect(page.locator(currentDriveTitle)).toHaveText('atomicdata.dev');
 }
 
 async function editProfileAndCommit(page: Page) {
