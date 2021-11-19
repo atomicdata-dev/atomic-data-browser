@@ -7,8 +7,8 @@ const AGENT_LOCAL_STORAGE_KEY = 'agent';
 
 /**
  * A hook for using and adjusting the Agent. Persists the agent to LocalStorage.
- * Only use this hook once inside your app! The best place to use this, is
- * somewhere inside your synchronized application state. The value will not
+ * CAUTION: Only use this hook once inside your app! The best place to use this,
+ * is somewhere inside your synchronized application state. The value will not
  * update if the LocalStorage updates.
  */
 export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {

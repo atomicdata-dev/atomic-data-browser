@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { useArray, useCurrentAgent, useResource, useTitle } from '@tomic/react';
+import { useArray, useResource, useTitle } from '@tomic/react';
 import { properties } from '@tomic/lib';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
@@ -22,7 +22,6 @@ import {
 import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
 import { openURL } from '../helpers/navigation';
-import { isUnauthorized } from '@tomic/lib/src/error';
 import { SignInButton } from './SignInButton';
 
 /** Amount of pixels where the sidebar automatically shows */
@@ -179,7 +178,7 @@ const SideBarDrive = React.memo(function SBD({
   handleClickItem,
 }: SideBarDriveProps): JSX.Element {
   const { baseURL } = useSettings();
-  const [agent] = useCurrentAgent();
+  const { agent } = useSettings();
   const drive = useResource(baseURL);
   const [children] = useArray(drive, properties.children);
   const title = useTitle(drive);
