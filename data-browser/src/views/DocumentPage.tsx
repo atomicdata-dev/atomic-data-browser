@@ -290,7 +290,13 @@ function DocumentPageShow({
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <h1 style={{ flex: 1 }}>{title}</h1>
-        <Button icon subtle onClick={() => setEditMode(true)} title='Edit mode'>
+        <Button
+          data-test='document-edit'
+          icon
+          subtle
+          onClick={() => setEditMode(true)}
+          title='Edit mode'
+        >
           <FaEdit />
         </Button>
       </div>
