@@ -29,9 +29,11 @@ function Data(): JSX.Element {
   }
 
   async function fetchAs(contentType: string) {
-    const requestHeaders: HeadersInit = new Headers();
-    const headers = await signRequest(subject, agent, requestHeaders);
-    requestHeaders.set('Accept', contentType);
+    let headers: HeadersInit = new Headers();
+    headers.set('Accept', contentType);
+    if (agent) {
+      headers = await signRequest(subject, agent, headers);
+    }
     setTextResponse('loading...');
     try {
       const resp = await window.fetch(subject, { headers });

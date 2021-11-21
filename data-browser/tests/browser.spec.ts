@@ -18,7 +18,6 @@ test.describe('data-browser', async () => {
     await page.goto('http://localhost:8080/');
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.click(sidebarDriveEdit);
-    await signIn(page);
     await openLocalhost(page);
   });
 
@@ -171,6 +170,7 @@ test.describe('data-browser', async () => {
 
     // commit for editing title
     await page.waitForResponse('http://localhost/commit');
+    // await page.click('[data-test="document-edit"]');
     // await expect(await page.title()).toEqual(title);
     await page.press(documentTitle, 'Enter');
     await page.waitForTimeout(500);
