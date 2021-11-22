@@ -188,7 +188,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${props => props.theme.colors.bg1};
     padding: 0rem 0.2rem;
     font-family: Monaco, monospace;
-    font-size: .8rem;
+    font-size: .8em;
     display: inline-flex;
     white-space: nowrap;
     overflow: auto;

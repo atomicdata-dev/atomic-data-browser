@@ -5,6 +5,7 @@ export const paths = {
   new: '/app/new',
   shortcuts: '/app/shortcuts',
   search: '/app/search',
+  share: '/app/share',
   show: '/app/show',
   data: '/app/data',
   edit: '/app/edit',
