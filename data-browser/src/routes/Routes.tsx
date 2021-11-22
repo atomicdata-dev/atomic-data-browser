@@ -14,6 +14,7 @@ import SettingsAgent from './SettingsAgent';
 import { SettingsServer } from './SettingsServer';
 import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
+import { ShareRoute } from './ShareRoute';
 
 /**
  * Handles the browser URL navigation paths. Some rules:
@@ -44,6 +45,9 @@ export function Routes(): JSX.Element {
       </Route>
       <Route path={paths.edit}>
         <Edit />
+      </Route>
+      <Route path={paths.share}>
+        <ShareRoute />
       </Route>
       <Route path={paths.show}>
         <Show />

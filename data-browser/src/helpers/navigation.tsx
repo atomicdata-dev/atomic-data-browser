@@ -58,6 +58,10 @@ export function editURL(subject: string): string {
   return constructURL(paths.edit, 'subject', subject);
 }
 
+export function shareURL(subject: string): string {
+  return constructURL(paths.share, 'subject', subject);
+}
+
 export function dataURL(subject: string): string {
   return constructURL(paths.data, 'subject', subject);
 }

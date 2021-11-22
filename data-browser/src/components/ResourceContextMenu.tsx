@@ -2,7 +2,13 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '@tomic/lib';
 import { useCanWrite, useResource, useStore } from '@tomic/react';
-import { editURL, dataURL, openURL, versionsURL } from '../helpers/navigation';
+import {
+  editURL,
+  dataURL,
+  openURL,
+  versionsURL,
+  shareURL,
+} from '../helpers/navigation';
 import { DropdownMenu, MenuItemMinimial } from '../components/DropdownMenu';
 import { useSettings } from '../helpers/AppSettings';
 import toast from 'react-hot-toast';
@@ -76,6 +82,13 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       label: 'edit',
       helper: 'Open the edit form. (e)',
       onClick: () => history.push(editURL(subject)),
+    },
+    {
+      // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
+      id: 'share',
+      label: 'share',
+      helper: 'Open the share menu',
+      onClick: () => history.push(shareURL(subject)),
     },
     {
       // disabled: !canWrite,
