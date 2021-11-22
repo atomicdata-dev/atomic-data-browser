@@ -18,10 +18,8 @@ import React from 'react';
 import { useDebounce } from './useDebounce';
 
 /**
- * Hook for getting and updating a Resource in a React component. Will try to
- * fetch the subject and add its parsed values to the store. Always returns a
- * Resource and a setter for a Resource, even if the input is undefined or not a
- * valid atomic URL.
+ * Hook for getting a Resource in a React component. Will try to fetch the
+ * subject and add its parsed values to the store.
  */
 export function useResource(
   subject: string,
