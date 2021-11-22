@@ -32,6 +32,7 @@
 export * from './agent';
 export * from './client';
 export * from './commit';
+export * from './error';
 export * from './datatypes';
 export * from './parse';
 export * from './resource';
