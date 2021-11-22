@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Agent } from '@tomic/lib';
 import { useStore } from './hooks';
 import { useLocalStorage } from './useLocalStorage';
@@ -13,7 +13,7 @@ const AGENT_LOCAL_STORAGE_KEY = 'agent';
  */
 export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // Localstorage for cross-session persistence of JSON object
-  const [, setAgentJSON] = useLocalStorage<Agent | null>(
+  const [agentJSON, setAgentJSON] = useLocalStorage<Agent | null>(
     AGENT_LOCAL_STORAGE_KEY,
     null,
   );
@@ -28,6 +28,12 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
     store.setAgent(agent);
     return;
   }
+
+  useEffect(() => {
+    if (agentJSON && store.getAgent() == null && stateAgent == null) {
+      handleSetAgent(agentJSON);
+    }
+  }, [agentJSON]);
 
   return [stateAgent, handleSetAgent];
 };
