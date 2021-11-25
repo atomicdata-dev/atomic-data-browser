@@ -2,6 +2,12 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## Unrealesed
+
+- Create new resource button on Drive
+- Show multiple parents in breadcrumbs
+- Refresh collection on opening page
+
 ## v0.29.0
 
 - Add authentication: sign requests, so the server knows who sent it. This allows for better authorization. #108

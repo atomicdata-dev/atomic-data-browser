@@ -8,6 +8,7 @@ import {
   useString,
   useTitle,
   useLocalStorage,
+  useStore,
 } from '@tomic/react';
 import { Resource, properties } from '@tomic/lib';
 import {
@@ -80,6 +81,14 @@ function Collection({ resource }: CollectionProps): JSX.Element {
   const [showClassDescription, setShowClassDescription] = React.useState(false);
 
   const isClass = valueFilter && propertyFilter == properties.isA;
+
+  const store = useStore();
+
+  React.useEffect(() => {
+    // Always refresh the collection when opening this page.
+    // We don't have cool collection invalidation yet.
+    store.fetchResource(resource.getSubject());
+  }, []);
 
   function handleToggleView() {
     setDisplayStyle(getNextDisplayStyleIndex());
