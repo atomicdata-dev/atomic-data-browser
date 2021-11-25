@@ -12,6 +12,8 @@ type Props = {
   subject?: string;
   /** An http URL to some (external) resource, opened in a new tab and fetched as HTML */
   href?: string;
+  /** A path string, e.g. /new */
+  path?: string;
   untabbable?: boolean;
 };
 
@@ -19,19 +21,28 @@ type Props = {
 function AtomicLink({
   children,
   subject,
+  path,
   href,
   untabbable,
 }: Props): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
 
-  if (!subject && !href) {
-    return <ErrorLook>No subject or href passed to this AtomicLink.</ErrorLook>;
+  if (!subject && !href && !path) {
+    return (
+      <ErrorLook>
+        No `subject`, `path` or `href` passed to this AtomicLink.
+      </ErrorLook>
+    );
   }
 
   const handleClick = e => {
     if (href) {
       // When there is a regular URL, let the browser handle it
+      return;
+    }
+    if (path) {
+      history.push(path);
       return;
     }
     e.preventDefault();
