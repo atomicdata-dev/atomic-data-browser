@@ -213,7 +213,7 @@ export class Store {
     const description = resource.get(urls.properties.description);
     if (description == null) {
       throw Error(
-        `Property ${subject} has no shortname: ${resource.getPropVals()}`,
+        `Property ${subject} has no description: ${resource.getPropVals()}`,
       );
     }
     const classTypeURL = resource.get(urls.properties.classType)?.toString();
