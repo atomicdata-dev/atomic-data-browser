@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useString, useTitle } from '@tomic/react';
+import { useResource, useString, useTitle } from '@tomic/react';
 import { properties, Resource } from '@tomic/lib';
 import ResourceInline from '../views/ResourceInline';
 
-type Props = {
+type ParentProps = {
   resource: Resource;
 };
 
-/** Breadcrumb list. Recursive. */
-function Parent({ resource }: Props): JSX.Element {
+/** Breadcrumb list. Recursively renders parents. */
+function Parent({ resource }: ParentProps): JSX.Element {
   const [parent] = useString(resource, properties.parent);
   const title = useTitle(resource);
 
@@ -17,14 +17,31 @@ function Parent({ resource }: Props): JSX.Element {
     <React.Fragment>
       {parent && (
         <List>
-          <Breadcrumb>
-            <ResourceInline subject={parent} />
-          </Breadcrumb>
-          <Breadcrumb>{'/'}</Breadcrumb>
+          <NestedParent subject={parent} />
           <Breadcrumb>{title}</Breadcrumb>
         </List>
       )}
     </React.Fragment>
+  );
+}
+
+type NestedParentProps = {
+  subject: string;
+};
+
+/** The actually recursive part */
+function NestedParent({ subject }: NestedParentProps): JSX.Element {
+  const resource = useResource(subject);
+  const [parent] = useString(resource, properties.parent);
+
+  return (
+    <>
+      {parent && <NestedParent subject={parent} />}
+      <Breadcrumb>
+        <ResourceInline subject={subject} />
+      </Breadcrumb>
+      <Breadcrumb>{'/'}</Breadcrumb>
+    </>
   );
 }
 
