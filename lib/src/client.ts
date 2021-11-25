@@ -127,20 +127,25 @@ export function removeQueryParamsFromURL(subject: string): string {
   return subject?.split('?')[0];
 }
 
-/** Creates authentication headers and signs the request */
+/**
+ * Creates authentication headers and signs the request. Does not add headers if
+ * the Agents subject is missing
+ */
 export async function signRequest(
   /** The resource meant to be fetched */
   subject: string,
   agent: Agent,
   headers: Headers,
 ): Promise<Headers> {
-  const privateKey = agent.privateKey;
-  const timestamp = getTimestampNow();
-  const message = `${subject} ${timestamp}`;
-  const signed = await signToBase64(message, privateKey);
-  headers.set('x-atomic-public-key', await agent.getPublicKey());
-  headers.set('x-atomic-signature', signed);
-  headers.set('x-atomic-timestamp', timestamp.toString());
-  headers.set('x-atomic-agent', agent?.subject);
+  if (agent.subject !== undefined) {
+    const privateKey = agent.privateKey;
+    const timestamp = getTimestampNow();
+    const message = `${subject} ${timestamp}`;
+    const signed = await signToBase64(message, privateKey);
+    headers.set('x-atomic-public-key', await agent.getPublicKey());
+    headers.set('x-atomic-signature', signed);
+    headers.set('x-atomic-timestamp', timestamp.toString());
+    headers.set('x-atomic-agent', agent?.subject);
+  }
   return headers;
 }
