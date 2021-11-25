@@ -54,8 +54,8 @@ function Data(): JSX.Element {
   return (
     <ContainerNarrow about={subject}>
       <h1>data view</h1>
-      <PropValRow>
-        <PropertyLabel>subject:</PropertyLabel>
+      <PropValRow columns>
+        <PropertyLabel title='The URL of the resource'>subject:</PropertyLabel>
         <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
       <AllProps resource={resource} editable columns />
