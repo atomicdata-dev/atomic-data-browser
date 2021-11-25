@@ -7,6 +7,9 @@ import ResourceInline from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import { Button } from '../components/Button';
 import { useSettings } from '../helpers/AppSettings';
+import AtomicLink from '../components/Link';
+import { FaPlus } from 'react-icons/fa';
+import { paths } from '../routes/paths';
 
 type DrivePageProps = {
   resource: Resource;
@@ -36,6 +39,11 @@ function DrivePage({ resource }: DrivePageProps): JSX.Element {
               </CardRow>
             );
           })}
+          <CardRow>
+            <AtomicLink path={paths.new}>
+              <FaPlus /> Create new resource
+            </AtomicLink>
+          </CardRow>
         </CardInsideFull>
       </Card>
     </ContainerNarrow>
