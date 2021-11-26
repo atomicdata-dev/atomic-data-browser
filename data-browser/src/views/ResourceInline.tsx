@@ -15,6 +15,10 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
+  if (!subject) {
+    return <ErrorLook>No subject passed</ErrorLook>;
+  }
+
   if (resource.loading) {
     return (
       <span about={subject} title={`${subject} is loading..`}>
