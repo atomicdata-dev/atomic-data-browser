@@ -109,6 +109,18 @@ export class Resource {
     return result;
   }
 
+  /**
+   * Get a Value by its property, returns as Array or throws error. Returns
+   * empty array if there is no value
+   */
+  getArray(propUrl: string): string[] | null {
+    const result = this.propvals.get(propUrl);
+    if (result == undefined) {
+      return [];
+    }
+    return valToArray(result);
+  }
+
   /** Get a Value by its property */
   getClasses(): string[] {
     const classesVal = this.get(properties.isA);
@@ -151,6 +163,43 @@ export class Resource {
   /** Returns the internal Map of Property-Values */
   getPropVals(): PropVals {
     return this.propvals;
+  }
+
+  /**
+   * Iterates over the parents of the resource, returns who has read / write
+   * rights for this resource
+   */
+  async getRights(store: Store): Promise<Right[]> {
+    const rights: Right[] = [];
+    const write: string[] = this.getArray(properties.write);
+    write.forEach((subject: string) => {
+      rights.push({
+        for: subject,
+        type: RightType.WRITE,
+        setIn: this.subject,
+      });
+    });
+
+    const read: string[] = this.getArray(properties.read);
+    read.forEach((subject: string) => {
+      rights.push({
+        for: subject,
+        type: RightType.READ,
+        setIn: this.subject,
+      });
+    });
+    const parentSubject = this.get(properties.parent) as string;
+    if (parentSubject != undefined) {
+      if (parentSubject == this.getSubject()) {
+        console.warn('Circular parent', parentSubject);
+        return rights;
+      }
+      const parent = await store.getResourceAsync(parentSubject);
+      const parentRights = await parent.getRights(store);
+      rights.push(...parentRights);
+    }
+    console.log('rights', rights);
+    return rights;
   }
 
   /** Returns true is the resource had an `Unauthorized` 401 response. */
@@ -281,4 +330,18 @@ export class Resource {
     this.commitBuilder.subject = subject;
     this.subject = subject;
   }
+}
+
+enum RightType {
+  READ = 'read',
+  WRITE = 'write',
+}
+
+export interface Right {
+  /** Subject of the Agent who the right is for */
+  for: string;
+  /** The resource that has set the Right */
+  setIn: string;
+  /** Type of right (e.g. read / write) */
+  type: RightType;
 }

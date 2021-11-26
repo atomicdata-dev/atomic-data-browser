@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { urls } from '@tomic/lib';
+import { Right, urls } from '@tomic/lib';
 import ResourceInline from '../views/ResourceInline';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import { FaGlobe } from 'react-icons/fa';
@@ -19,29 +19,50 @@ export function ShareRoute(): JSX.Element {
   const [writers, setWriters] = useArray(resource, urls.properties.write);
   const [readers, setReaders] = useArray(resource, urls.properties.read);
 
-  function handleSetRight(agent: string, write: boolean, setToTrue: boolean): void {
+  const [inheritedRights, setInheritedRights] = useState<Right[]>([]);
+
+  useEffect(() => {
+    async function getTheRights() {
+      const allRights = await resource.getRights(store);
+      const inherited = allRights.filter(r => r.setIn !== subject);
+
+      console.log('inherited', inherited);
+
+      // Make sure the public agent is always the top of the list
+      const sorted = inherited.sort((a, b) => {
+        return a.for === urls.instances.publicAgent ? -1 : 1;
+      });
+
+      console.log('sorted', sorted);
+
+      setInheritedRights(sorted);
+    }
+
+    getTheRights();
+  }, [resource]);
+
+  function handleSetRight(
+    agent: string,
+    write: boolean,
+    setToTrue: boolean,
+  ): void {
     let agents = write ? writers : readers;
-    console.log('handleSetRight agents', agents, write, setToTrue);
     if (setToTrue) {
       // remove previous occurence
       agents = agents.filter(s => s !== agent);
       agents.push(agent);
     } else {
-      console.log('setting to false', agents)
       agents = agents.filter(s => s !== agent);
-      console.log('new agents', agents)
     }
     if (write) {
-      console.log('setWriters', agents);
       setWriters(agents);
     } else {
-      console.log('setReaders', agents);
       setReaders(agents);
     }
   }
 
-  function constructAgentProps(): AgentProps[] {
-    const rightsMap: Map<string, Right> = new Map;
+  function constructAgentProps(): AgentRight[] {
+    const rightsMap: Map<string, RightBools> = new Map();
 
     // Always show the public agent
     rightsMap.set(urls.instances.publicAgent, { read: false, write: false });
@@ -51,97 +72,170 @@ export function ShareRoute(): JSX.Element {
         read: true,
         write: false,
       });
-    })
+    });
 
     writers.map(agent => {
-      let old = rightsMap.get(agent);
+      const old = rightsMap.get(agent);
       rightsMap.set(agent, {
         read: old ? old.read : false,
         write: true,
       });
-    })
+    });
 
-    let rights = []
+    const rights: AgentRight[] = [];
 
     rightsMap.forEach((right, agent) => {
       rights.push({
-        subject: agent,
+        agentSubject: agent,
         read: right.read,
         write: right.write,
-      })
-    })
+      });
+    });
+    console.log('rights', rights);
 
     // Make sure the public agent is always the top of the list
-    let sorted = rights.sort((a, b) => {
-      return a.subject === urls.instances.publicAgent ? -1 : (a.subject > b.subject ? 1 : -1);
-    })
+    const sorted = rights.sort((a, b) => {
+      return a.agentSubject === urls.instances.publicAgent
+        ? -1
+        : a.agentSubject > b.agentSubject
+          ? 1
+          : -1;
+    });
 
     return sorted;
   }
 
-  console.log('read', readers, 'write', writers);
-
   return (
     <ContainerNarrow>
-      <h1><code>share settings for</code> {title}</h1>
+      <h1>
+        <code>share settings for</code> {title}
+      </h1>
       <Card>
-        <div style={{ display: 'flex', flexDirection: 'row', flex: 1, marginBottom: '1rem' }}>
-          <div style={{ flex: 1 }}>rights set here</div>
-          <div style={{ alignSelf: 'flex-end', justifyContent: 'center' }}>
-            <span>read </span>
-            <span>write</span>
-          </div>
-        </div>
+        <RightsHeader text='rights set here:' />
         <CardInsideFull>
           {/* This key might be a bit too much, but the component wasn't properly re-rendering before */}
-          {constructAgentProps().map(right => <AgentRights key={JSON.stringify(right)} {...right} handleSetRight={handleSetRight} />)}
+          {constructAgentProps().map(right => (
+            <AgentRights
+              key={JSON.stringify(right)}
+              {...right}
+              handleSetRight={handleSetRight}
+            />
+          ))}
         </CardInsideFull>
       </Card>
-      <Button onClick={() => resource.save(store)}>Save</Button>
+      <Button
+        disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
+        onClick={() => resource.save(store)}
+      >
+        Save
+      </Button>
+      {inheritedRights.length > 0 && (
+        <Card>
+          <RightsHeader text='inherited rights:' />
+          <CardInsideFull>
+            {inheritedRights.map(right => (
+              <AgentRights
+                inheritedFrom={right.setIn}
+                key={right.for + right.type}
+                read={right.type == 'read'}
+                write={right.type == 'write'}
+                agentSubject={right.for}
+              />
+            ))}
+          </CardInsideFull>
+        </Card>
+      )}
     </ContainerNarrow>
   );
 }
 
-interface Right {
+interface RightBools {
   read: boolean;
   write: boolean;
 }
 
-interface AgentProps extends Right {
-  subject: string;
+interface AgentRight extends RightBools {
+  agentSubject: string;
 }
 
-interface AgentRightsProps extends AgentProps {
-  handleSetRight: (agent: string, write: boolean, setToTrue: boolean) => void;
+interface AgentRightsProps extends AgentRight {
+  inheritedFrom?: string;
+  handleSetRight?: (agent: string, write: boolean, setToTrue: boolean) => void;
 }
 
 function AgentRights(props: AgentRightsProps): JSX.Element {
-  return <CardRow>
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}>
-        {props.subject === urls.instances.publicAgent ?
-          <><FaGlobe /> Public (anyone) </> :
-          <ResourceInline subject={props.subject} />
-        }
+  console.log('AgentRights', props);
+  return (
+    <CardRow>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1 }}>
+          {props.agentSubject === urls.instances.publicAgent ? (
+            <>
+              <FaGlobe /> Public (anyone){' '}
+            </>
+          ) : (
+            <ResourceInline subject={props.agentSubject} />
+          )}
+          {props.inheritedFrom && (
+            <>
+              {' (via '}
+              <ResourceInline subject={props.inheritedFrom} />
+              {') '}
+            </>
+          )}
+        </div>
+        <div style={{ alignSelf: 'flex-end' }}>
+          <StyledCheckbox
+            type='checkbox'
+            disabled={!props.handleSetRight}
+            onChange={e =>
+              props.handleSetRight(props.agentSubject, false, e.target.checked)
+            }
+            checked={props.read}
+            title={
+              props.read
+                ? 'Read access. Toggle to remove access.'
+                : 'No read access. Toggle to give read access.'
+            }
+          />
+          <StyledCheckbox
+            type='checkbox'
+            disabled={!props.handleSetRight}
+            onChange={e =>
+              props.handleSetRight(props.agentSubject, true, e.target.checked)
+            }
+            checked={props.write}
+            title={
+              props.write
+                ? 'Write access. Toggle to remove access.'
+                : 'No write access. Toggle to give write access.'
+            }
+          />
+        </div>
       </div>
-      <div style={{ alignSelf: 'flex-end' }}>
-        <StyledCheckbox
-          type="checkbox"
-          onChange={e => props.handleSetRight(props.subject, false, e.target.checked)}
-          checked={props.read}
-          title={props.read ? "Read access. Toggle to remove access." : "No read access. Toggle to give read access."}
-        />
-        <StyledCheckbox
-          type="checkbox"
-          onChange={e => props.handleSetRight(props.subject, true, e.target.checked)}
-          checked={props.write}
-          title={props.write ? "Write access. Toggle to remove access." : "No write access. Toggle to give write access."}
-        />
-      </div>
-    </div>
-  </CardRow>;
+    </CardRow>
+  );
 }
 
-let StyledCheckbox = styled.input`
+const StyledCheckbox = styled.input`
   width: 2rem;
 `;
+
+function RightsHeader({ text }: { text: string }): JSX.Element {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        marginBottom: '1rem',
+      }}
+    >
+      <div style={{ flex: 1, fontWeight: 'bold' }}>{text}</div>
+      <div style={{ alignSelf: 'flex-end', justifyContent: 'center' }}>
+        <span>read </span>
+        <span>write</span>
+      </div>
+    </div>
+  );
+}
