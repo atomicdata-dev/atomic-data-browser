@@ -26,14 +26,10 @@ export function ShareRoute(): JSX.Element {
       const allRights = await resource.getRights(store);
       const inherited = allRights.filter(r => r.setIn !== subject);
 
-      console.log('inherited', inherited);
-
       // Make sure the public agent is always the top of the list
       const sorted = inherited.sort((a, b) => {
         return a.for === urls.instances.publicAgent ? -1 : 1;
       });
-
-      console.log('sorted', sorted);
 
       setInheritedRights(sorted);
     }
@@ -91,7 +87,6 @@ export function ShareRoute(): JSX.Element {
         write: right.write,
       });
     });
-    console.log('rights', rights);
 
     // Make sure the public agent is always the top of the list
     const sorted = rights.sort((a, b) => {
@@ -164,7 +159,6 @@ interface AgentRightsProps extends AgentRight {
 }
 
 function AgentRights(props: AgentRightsProps): JSX.Element {
-  console.log('AgentRights', props);
   return (
     <CardRow>
       <div style={{ display: 'flex' }}>
