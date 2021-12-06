@@ -73,7 +73,7 @@ export interface ArrayError extends Error {
   index?: number;
 }
 
-/** Validates a value and its datatype. Throws an error if things are wrong. */
+/** Validates a JSON Value using a Datatype. Throws an error if things are wrong. */
 export const validate = (value: JSONValue, datatype: Datatype): void => {
   let err = null;
   switch (datatype) {

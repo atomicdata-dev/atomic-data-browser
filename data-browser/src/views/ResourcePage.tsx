@@ -5,7 +5,6 @@ import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import Collection from '../views/CollectionPage';
 import ClassDetail from '../components/ClassDetail';
-import NewInstanceButton from '../components/NewInstanceButton';
 import EndpointPage from './EndpointPage';
 import { ValueForm } from '../components/forms/ValueForm';
 import Parent from '../components/Parent';
@@ -14,6 +13,7 @@ import RedirectPage from './RedirectPage';
 import InvitePage from './InvitePage';
 import DocumentPage from './DocumentPage';
 import ErrorPage from './ErrorPage';
+import { ClassPage } from './ClassPage';
 
 type Props = {
   subject: string;
@@ -61,6 +61,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
       return <InvitePage resource={resource} />;
     case urls.classes.document:
       return <DocumentPage resource={resource} />;
+    case urls.classes.class:
+      return <ClassPage resource={resource} />;
   }
 
   return (
@@ -75,8 +77,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
         editable
         columns
       />
-      {/* Perhaps this should be an extendible runtime thing, where Classes have potential Actions. */}
-      {klass == urls.classes.class && <NewInstanceButton klass={subject} />}
     </ContainerNarrow>
   );
 }

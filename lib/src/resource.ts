@@ -2,7 +2,7 @@ import { properties } from './urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate as validateDatatype } from './datatypes';
-import { Store } from './store';
+import { Property, Store } from './store';
 import { valToArray } from './value';
 import { Agent } from './agent';
 import { JSONValue } from '.';
@@ -115,6 +115,7 @@ export class Resource {
    */
   getArray(propUrl: string): string[] | null {
     const result = this.propvals.get(propUrl);
+    console.log('getArray', propUrl, result);
     if (result == undefined) {
       return [];
     }

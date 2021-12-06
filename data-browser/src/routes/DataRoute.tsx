@@ -6,17 +6,17 @@ import AtomicLink from '../components/Link';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';
-import styled from 'styled-components';
 import { ErrMessage } from '../components/forms/InputStyles';
 import { signRequest } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
+import { CodeBlock } from '../components/CodeBlock';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
   const [textResponse, setTextResponse] = useState(null);
-  const [isCopied, setIsCopied] = useState(false);
+  const [textResponseLoading, setTextResponseLoading] = useState(false);
   const [err, setErr] = useState(null);
   const { agent } = useSettings();
   const store = useStore();
@@ -34,21 +34,17 @@ function Data(): JSX.Element {
     if (agent) {
       headers = await signRequest(subject, agent, headers);
     }
-    setTextResponse('loading...');
+    setTextResponseLoading(true);
     try {
       const resp = await window.fetch(subject, { headers });
       const body = await resp.text();
+      setTextResponseLoading(false);
       setTextResponse(body);
       setErr(null);
     } catch (e) {
+      setTextResponseLoading(false);
       setErr(e);
     }
-    setIsCopied(false);
-  }
-
-  function copyToClipboard() {
-    setIsCopied(true);
-    navigator.clipboard.writeText(textResponse);
   }
 
   return (
@@ -102,25 +98,10 @@ function Data(): JSX.Element {
       </div>
       {err && <p>{err.message}</p>}
       {!err && textResponse && (
-        <>
-          <CodeBlock>{textResponse}</CodeBlock>
-          <Button onClick={copyToClipboard} data-test='copy-response'>
-            {isCopied ? 'Copied!' : 'Copy to clipboard'}
-          </Button>
-        </>
+        <CodeBlock content={textResponse} loading={textResponseLoading} />
       )}
     </ContainerNarrow>
   );
 }
-
-const CodeBlock = styled.pre`
-  background-color: ${p => p.theme.colors.bg1};
-  border-radius: ${p => p.theme.radius};
-  border: solid 1px ${p => p.theme.colors.bg2};
-  padding: 0.3rem;
-  font-family: monospace;
-  width: 100%;
-  overflow-x: auto;
-`;
 
 export default Data;
