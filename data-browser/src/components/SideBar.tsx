@@ -15,8 +15,8 @@ import {
   FaExternalLinkAlt,
   FaInfo,
   FaKeyboard,
-  FaPencilAlt,
   FaPlus,
+  FaServer,
   FaUser,
 } from 'react-icons/fa';
 import { paths } from '../routes/paths';
@@ -186,14 +186,16 @@ const SideBarDrive = React.memo(function SBD({
 
   return (
     <>
-      <SideBarHeader title={`Your current baseURL is ${baseURL}`}>
+      <SideBarHeader>
         <Button
           clean
+          title={`Your current baseURL is ${baseURL}`}
           data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
             history.push(openURL(baseURL));
           }}
+          style={{ flex: 1, textAlign: 'left' }}
         >
           <DriveTitle data-test='current-drive-title'>
             {title || baseURL}{' '}
@@ -203,9 +205,10 @@ const SideBarDrive = React.memo(function SBD({
           onClick={() => history.push(paths.serverSettings)}
           icon
           subtle
+          title={'Set a different Server'}
           data-test='sidebar-drive-edit'
         >
-          <FaPencilAlt />
+          <FaServer />
         </Button>
       </SideBarHeader>
       {drive.isReady() ? (
@@ -252,6 +255,7 @@ const DriveTitle = styled.h2`
   margin: 0;
   padding: 0;
   font-size: 1.4rem;
+  flex: 1;
 `;
 
 const PaddingSmall = styled('div')`

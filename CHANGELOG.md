@@ -9,6 +9,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Show multiple parents in breadcrumbs
 - Refresh collection on opening page
 - Don't auto-accept invites
+- Improve server switcher design
 
 ## v0.29.0
 
