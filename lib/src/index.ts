@@ -30,6 +30,7 @@
  */
 
 export * from './agent';
+export * from './class';
 export * from './client';
 export * from './commit';
 export * from './error';

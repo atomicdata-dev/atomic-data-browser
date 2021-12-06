@@ -5,7 +5,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## Unrealesed
 
 - Add Share settings screen where you can see & edit rights / access control #113
-- Create new resource button on Drive
+- Convert Classes to typescript interfaces. Show button for this in Class view. #118
+- `Create new resource` button on Drive
 - Show multiple parents in breadcrumbs
 - Refresh collection on opening page
 - Don't auto-accept invites
