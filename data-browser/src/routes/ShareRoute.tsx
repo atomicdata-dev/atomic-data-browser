@@ -8,6 +8,7 @@ import { Card, CardInsideFull, CardRow } from '../components/Card';
 import { FaGlobe } from 'react-icons/fa';
 import styled from 'styled-components';
 import { Button } from '../components/Button';
+import { InviteForm } from '../components/InviteForm';
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
@@ -105,6 +106,7 @@ export function ShareRoute(): JSX.Element {
       <h1>
         <code>share settings for</code> {title}
       </h1>
+      <InviteForm target={resource} />
       <Card>
         <RightsHeader text='rights set here:' />
         <CardInsideFull>

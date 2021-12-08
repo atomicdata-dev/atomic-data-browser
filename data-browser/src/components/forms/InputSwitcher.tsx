@@ -8,6 +8,7 @@ import InputMarkdown from './InputMarkdown';
 import InputNumber from './InputNumber';
 import InputBoolean from './InputBoolean';
 
+/** Renders a fitting HTML input depending on the Datatype */
 export default function InputSwitcher(props: InputProps): JSX.Element {
   switch (props.property.datatype) {
     case Datatype.STRING: {
