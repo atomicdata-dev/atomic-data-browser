@@ -27,7 +27,13 @@ export function CodeBlock({ content, loading }: CodeBlockProps) {
           {content}
           <Button
             subtle
-            style={{ position: 'absolute', bottom: 0, right: 0 }}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              top: 0,
+              margin: 0,
+              right: 0,
+            }}
             onClick={copyToClipboard}
             title={isCopied == content ? 'Copied!' : 'Copy to clipboard'}
             data-test='copy-response'

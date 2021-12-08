@@ -47,6 +47,7 @@ export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
   line-height: 1em;
   font-family: monospace;
+  display: block;
 `;
 
 export default ResourceInline;

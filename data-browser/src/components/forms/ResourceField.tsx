@@ -10,7 +10,7 @@ import AtomicLink from '../Link';
 import { useState } from 'react';
 import { Button } from '../Button';
 
-/** A form field with a label */
+/** An input field for a single Property, rendered with a Label. Has a loading state. */
 function ResourceField({
   handleDelete,
   propertyURL,
