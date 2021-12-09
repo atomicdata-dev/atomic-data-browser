@@ -60,8 +60,9 @@ export function SettingsServer(): JSX.Element {
         AtomicData.dev
       </Button>
       <Button
-        onClick={() => handleSetBaseUrl('http://localhost')}
+        onClick={() => handleSetBaseUrl('http://localhost:9883')}
         subtle
+        title='Set to the default URL of a locally hosted Atomic-Server, at port 9883.'
         data-test='server-url-localhost'
       >
         localhost

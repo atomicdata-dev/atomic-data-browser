@@ -12,6 +12,8 @@ const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
 
+const serverUrl = 'http://localhost:9883';
+
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     // Open the server
@@ -144,7 +146,7 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=/setup')).toBeVisible();
     // Don't click on setup - this will take you to a different domain, not to the dev build!
     // await page.click('text=/setup');
-    await page.fill('[data-test="address-bar"]', 'http://localhost/setup');
+    await page.fill('[data-test="address-bar"]', `${serverUrl}/setup`);
     await signIn(page);
     if (initialTest) {
       await expect(page.locator('text=Accept as')).toBeVisible();
@@ -156,9 +158,9 @@ test.describe('data-browser', async () => {
     await page.click('[title="Create a new document"]');
     await page.click('[data-test="save"]');
     // commit for saving initial document
-    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(`${serverUrl}/commit`);
     // commit for initializing the first element (paragraph)
-    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(`${serverUrl}/commit`);
     await page.click(documentTitle);
     const title = `Nice title ${timestamp}`;
     // These keys make sure the onChange handler is properly called
@@ -169,7 +171,7 @@ test.describe('data-browser', async () => {
     await page.keyboard.type(title);
 
     // commit for editing title
-    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(`${serverUrl}/commit`);
     // await page.click('[data-test="document-edit"]');
     // await expect(await page.title()).toEqual(title);
     await page.press(documentTitle, 'Enter');
@@ -177,7 +179,7 @@ test.describe('data-browser', async () => {
     const teststring = `My test: ${timestamp}`;
     await page.fill('textarea', teststring);
     // commit editing paragraph
-    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(`${serverUrl}/commit`);
     await expect(page.locator(`text=${teststring}`)).toBeVisible();
 
     // multi-user
@@ -193,8 +195,8 @@ test.describe('data-browser', async () => {
 
     // Add a new line on first page, check if it appears on the second
     await page.keyboard.press('Enter');
-    await page.waitForResponse('http://localhost/commit');
-    await page.waitForResponse('http://localhost/commit');
+    await page.waitForResponse(`${serverUrl}/commit`);
+    await page.waitForResponse(`${serverUrl}/commit`);
     const syncText = 'New paragraph';
     await page.keyboard.type(syncText);
     // If this fails to show up, websockets aren't working properly

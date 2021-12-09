@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## Unrealesed
+## v0.29.2
 
 - Add Share settings screen where you can see & edit rights / access control #113
 - Add Invite form #45
@@ -12,6 +12,11 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refresh collection on opening page
 - Don't auto-accept invites
 - Improve server switcher design
+- Change default port of localhost to 9883 ([issue](https://github.com/joepio/atomic-data-rust/issues/229))
+
+## v0.29.1
+
+- Small fix
 
 ## v0.29.0
 
