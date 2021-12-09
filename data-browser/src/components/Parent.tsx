@@ -50,6 +50,7 @@ const Breadcrumb = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  align-self: center;
 `;
 
 const List = styled.div`

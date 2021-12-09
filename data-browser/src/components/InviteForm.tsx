@@ -27,6 +27,7 @@ export function InviteForm({ target }: InviteFormProps) {
   /** Stores the Invite, sends it to the server, shows the Subject to the User */
   async function createInvite() {
     await invite.set(properties.isA, [urls.classes.invite], store);
+    await invite.set(properties.read, [urls.instances.publicAgent], store);
     await invite.set(properties.invite.target, target.getSubject(), store);
     invite.setSubject(store.createSubject('invite'));
     try {
