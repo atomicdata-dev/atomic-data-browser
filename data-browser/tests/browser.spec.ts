@@ -134,7 +134,7 @@ test.describe('data-browser', async () => {
     await page.click('[data-test="fetch-turtle"]');
     await expect(page.locator('text=<http')).toBeVisible();
     await page.click('[data-test="copy-response"]');
-    await expect(page.locator('text=Copied!')).toBeVisible();
+    await expect(page.locator('text=Copied')).toBeVisible();
   });
 
   test('localhost setup, create document, edit, page title, websockets', async ({
@@ -154,7 +154,8 @@ test.describe('data-browser', async () => {
       await page.click('text=Accept as Test');
     }
     // Create a document
-    await page.click('button:has-text("documents")');
+    await page.click('button:has-text("collections")');
+    await page.click('a:has-text("documents")');
     await page.click('[title="Create a new document"]');
     await page.click('[data-test="save"]');
     // commit for saving initial document
