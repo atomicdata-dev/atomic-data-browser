@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useArray, useResource, useStore, useTitle } from '@tomic/react';
+import {
+  useArray,
+  useCanWrite,
+  useResource,
+  useStore,
+  useTitle,
+} from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Right, urls } from '@tomic/lib';
@@ -16,6 +22,8 @@ export function ShareRoute(): JSX.Element {
   const resource = useResource(subject);
   const title = useTitle(resource);
   const store = useStore();
+  const [canWrite] = useCanWrite(resource);
+  const [showInviteForm, setShowInviteForm] = useState(false);
 
   const [writers, setWriters] = useArray(resource, urls.properties.write);
   const [readers, setReaders] = useArray(resource, urls.properties.read);
@@ -106,7 +114,10 @@ export function ShareRoute(): JSX.Element {
       <h1>
         <code>share settings for</code> {title}
       </h1>
-      <InviteForm target={resource} />
+      {canWrite && !showInviteForm && (
+        <Button onClick={() => setShowInviteForm(true)}>Send Invite...</Button>
+      )}
+      {showInviteForm && <InviteForm target={resource} />}
       <Card>
         <RightsHeader text='rights set here:' />
         <CardInsideFull>
