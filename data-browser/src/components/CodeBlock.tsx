@@ -19,7 +19,7 @@ export function CodeBlock({ content, loading }: CodeBlockProps) {
   }
 
   return (
-    <CodeBlockStyled>
+    <CodeBlockStyled data-code-content={content}>
       {loading ? (
         'loading...'
       ) : (
