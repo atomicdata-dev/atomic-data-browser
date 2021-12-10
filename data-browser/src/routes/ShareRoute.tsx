@@ -98,12 +98,8 @@ export function ShareRoute(): JSX.Element {
     });
 
     // Make sure the public agent is always the top of the list
-    const sorted = rights.sort((a, b) => {
-      return a.agentSubject === urls.instances.publicAgent
-        ? -1
-        : a.agentSubject > b.agentSubject
-          ? 1
-          : -1;
+    const sorted = rights.sort(a => {
+      return a.agentSubject === urls.instances.publicAgent ? -1 : 1;
     });
 
     return sorted;
@@ -126,17 +122,19 @@ export function ShareRoute(): JSX.Element {
             <AgentRights
               key={JSON.stringify(right)}
               {...right}
-              handleSetRight={handleSetRight}
+              handleSetRight={canWrite && handleSetRight}
             />
           ))}
         </CardInsideFull>
       </Card>
-      <Button
-        disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
-        onClick={() => resource.save(store)}
-      >
-        Save
-      </Button>
+      {canWrite && (
+        <Button
+          disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
+          onClick={() => resource.save(store)}
+        >
+          Save
+        </Button>
+      )}
       {inheritedRights.length > 0 && (
         <Card>
           <RightsHeader text='inherited rights:' />

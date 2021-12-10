@@ -72,7 +72,7 @@ export function InviteForm({ target }: InviteFormProps) {
     return (
       <Card>
         <p>Invite created and copied to clipboard! Send it to your buddy:</p>
-        <CodeBlock content={createdSubject} />
+        <CodeBlock content={createdSubject} data-test='invite-code' />
       </Card>
     );
 }

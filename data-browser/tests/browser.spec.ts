@@ -203,6 +203,56 @@ test.describe('data-browser', async () => {
     // If this fails to show up, websockets aren't working properly
     await expect(page2.locator(`text=${syncText}`)).toBeVisible();
   });
+
+  test('authorization, invite, share menu', async ({
+    page,
+    browser,
+    context,
+  }) => {
+    // Remove public read rights for Drive
+    await signIn(page);
+    await page.click(currentDriveTitle);
+    await page.click('[data-test="context-menu"]');
+    await page.click('button:has-text("share")');
+    expect(
+      await page.isChecked('input[type="checkbox"] >> nth=0'),
+    ).toBeTruthy();
+    await page.click('input[type="checkbox"] >> nth=0');
+    await page.click('button:has-text("Save")');
+
+    // Initialize page for reader
+    const context2 = await browser.newContext();
+    const page2 = await context2.newPage();
+    await page2.setViewportSize({ width: 1000, height: 400 });
+    await page2.goto('http://localhost:8080/');
+    await openLocalhost(page2);
+    await page2.click(currentDriveTitle);
+    await expect(page2.locator('text=Unauthorized')).toBeVisible();
+
+    // Create invite
+    await page.click('button:has-text("Send invite")');
+    context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.click('button:has-text("Create Invite")');
+    // const value = await page.evaluate(() =>
+    //   document.querySelector('input').getAttribute('value'),
+    // );
+    // Copy invite (not easy)
+    const inviteUrl: string = await page.evaluate(
+      `(async () => await navigator.clipboard.readText())()`,
+    );
+    // const inviteUrl = await navigator.clipboard.readText();
+    // Open invite
+    await openSubject(page2, inviteUrl);
+    await page2.click('button:has-text("Accept")');
+    await expect(
+      page2.locator('text=Welcome to your Atomic-Server'),
+    ).toBeVisible();
+
+    // Set to public read again
+    expect(await page.isChecked('input[type="checkbox"] >> nth=0')).toBeFalsy();
+    await page.click('input[type="checkbox"] >> nth=0');
+    await page.click('button:has-text("Save")');
+  });
 });
 
 /** Signs in using an AtomicData.dev test user */
@@ -222,9 +272,14 @@ async function signIn(page: Page) {
 async function openLocalhost(page: Page) {
   await page.click(sidebarDriveEdit);
   await page.click('[data-test="server-url-localhost"]');
-  await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
+  // This fails when the user is not authorized
+  // await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
 }
 
+/** Set localhost as current server */
+async function openSubject(page: Page, subject: string) {
+  await page.fill('[data-test="address-bar"]', subject);
+}
 /** Set atomicdata.dev as current server */
 async function openAtomic(page: Page) {
   await page.click(sidebarDriveEdit);
