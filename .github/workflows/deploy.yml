@@ -14,6 +14,7 @@ jobs:
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       - run: yarn --frozen-lockfile
+      - run: yarn lint-fix
       - run: yarn build
       - run: yarn typedoc
       - name: Deploy production 🚀
