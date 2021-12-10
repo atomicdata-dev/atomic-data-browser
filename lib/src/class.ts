@@ -10,8 +10,9 @@ export async function classToTypescriptDefinition(
   store: Store,
 ): Promise<string> {
   function renderProperty(property: Property, required: boolean) {
-    return `  /** ${property.description}*/\n  "${property.shortname}"${required ? '' : '?'
-      }: ${dataTypeToJSONType(property.datatype)};\n`;
+    return `  /** ${property.description}*/\n  "${property.shortname}"${
+      required ? '' : '?'
+    }: ${dataTypeToJSONType(property.datatype)};\n`;
   }
   const requires = await Promise.all(
     klass.getArray(properties.requires).map(s => store.getProperty(s)),
