@@ -37,7 +37,12 @@ export function useCurrentSubject(
     if (pathname.startsWith('/app/')) {
       return [null, handleSetSubject];
     }
-    return [window.location.origin + pathname + search, handleSetSubject];
+    // The pathname defaults to a trailing slash, which leads to issues
+    const correctedPathNamer = pathname == '/' ? '' : pathname;
+    return [
+      window.location.origin + correctedPathNamer + search,
+      handleSetSubject,
+    ];
   }
   return [subjectQ, handleSetSubject];
 }
