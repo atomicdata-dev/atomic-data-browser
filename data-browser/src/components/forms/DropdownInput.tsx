@@ -85,6 +85,7 @@ export function DropdownInput({
     setUseKeys(true);
     setIsFocus(true);
     setIsOpen(true);
+    onUpdate(val);
     setSelectedIndex(0);
     if (val == '') {
       setSelectedItem(null);
