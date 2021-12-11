@@ -233,13 +233,18 @@ test.describe('data-browser', async () => {
     await page.click('button:has-text("Send invite")');
     context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.click('button:has-text("Create Invite")');
+    const inviteUrl = await page.evaluate(() =>
+      document
+        .querySelector('[data-code-content]')
+        .getAttribute('data-code-content'),
+    );
     // const value = await page.evaluate(() =>
     //   document.querySelector('input').getAttribute('value'),
     // );
     // Copy invite (not easy)
-    const inviteUrl: string = await page.evaluate(
-      `(async () => await navigator.clipboard.readText())()`,
-    );
+    // const inviteUrl: string = await page.evaluate(
+    //   `(async () => await navigator.clipboard.readText())()`,
+    // );
     // const inviteUrl = await navigator.clipboard.readText();
     // Open invite
     await openSubject(page2, inviteUrl);
