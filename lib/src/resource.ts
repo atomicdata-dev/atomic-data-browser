@@ -2,7 +2,7 @@ import { properties } from './urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
 import { validate as validateDatatype } from './datatypes';
-import { Property, Store } from './store';
+import { Store } from './store';
 import { valToArray } from './value';
 import { Agent } from './agent';
 import { JSONValue } from '.';
