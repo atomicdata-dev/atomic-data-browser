@@ -113,10 +113,11 @@ const SettingsAgent: React.FunctionComponent = () => {
 
     try {
       const newAgent = Agent.fromSecret(updateSecret);
-      await newAgent.checkPublicKey();
       setAgentIfChanged(agent, newAgent);
       setPrivateKey(newAgent.privateKey);
       setSubject(newAgent.subject);
+      // This will fail and throw if the agent is not public, which is by default
+      // await newAgent.checkPublicKey();
     } catch (e) {
       const err = new Error('Invalid secret. ' + e);
       setError(err);
