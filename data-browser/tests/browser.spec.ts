@@ -218,7 +218,8 @@ test.describe('data-browser', async () => {
       'input[type="checkbox"] >> nth=0',
     );
     if (hasPublicRead) {
-      await page.waitForTimeout(100);
+      // For some reason this doesn't work without waiting
+      await page.waitForTimeout(400);
       await page.click('input[type="checkbox"] >> nth=0');
       await page.click('button:has-text("Save")');
     }
