@@ -214,11 +214,14 @@ test.describe('data-browser', async () => {
     await page.click(currentDriveTitle);
     await page.click('[data-test="context-menu"]');
     await page.click('button:has-text("share")');
-    expect(
-      await page.isChecked('input[type="checkbox"] >> nth=0'),
-    ).toBeTruthy();
-    await page.click('input[type="checkbox"] >> nth=0');
-    await page.click('button:has-text("Save")');
+    const hasPublicRead = await page.isChecked(
+      'input[type="checkbox"] >> nth=0',
+    );
+    if (hasPublicRead) {
+      await page.waitForTimeout(100);
+      await page.click('input[type="checkbox"] >> nth=0');
+      await page.click('button:has-text("Save")');
+    }
 
     // Initialize page for reader
     const context2 = await browser.newContext();
@@ -233,6 +236,7 @@ test.describe('data-browser', async () => {
     await page.click('button:has-text("Send invite")');
     context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.click('button:has-text("Create Invite")');
+    await expect(page.locator('text=Invite created and copied ')).toBeVisible();
     const inviteUrl = await page.evaluate(() =>
       document
         .querySelector('[data-code-content]')
