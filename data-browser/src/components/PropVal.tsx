@@ -63,7 +63,9 @@ function PropVal({
     return (
       <PropValRow columns={columns}>
         <PropertyLabel title={propertyURL + ' could not be loaded'}>
-          <ErrorLook>{truncated}</ErrorLook>
+          <AtomicLink subject={propertyURL}>
+            <ErrorLook>{truncated}</ErrorLook>
+          </AtomicLink>
         </PropertyLabel>
         <code>{JSON.stringify(resource.get(propertyURL))}</code>
       </PropValRow>
