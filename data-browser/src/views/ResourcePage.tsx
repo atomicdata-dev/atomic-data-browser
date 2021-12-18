@@ -14,6 +14,7 @@ import InvitePage from './InvitePage';
 import DocumentPage from './DocumentPage';
 import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
+import { FilePage } from './FilePage';
 
 type Props = {
   subject: string;
@@ -22,6 +23,7 @@ type Props = {
 /** The properties that are shown in an alternative, custom way in default views */
 export const defaulHiddenProps = [
   properties.shortname,
+  properties.file.filename,
   properties.description,
   properties.isA,
   properties.name,
@@ -63,6 +65,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
       return <DocumentPage resource={resource} />;
     case urls.classes.class:
       return <ClassPage resource={resource} />;
+    case urls.classes.file:
+      return <FilePage resource={resource} />;
   }
 
   return (

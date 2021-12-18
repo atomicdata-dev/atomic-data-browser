@@ -343,21 +343,25 @@ export function useString(
 
 /**
  * Returns the most fitting title / name for a Resource. This is either the
- * Name, Shortname or truncated Subject URL of that resource.
+ * Name, Shortname, Filename or truncated Subject URL of that resource.
  */
 export function useTitle(resource: Resource, truncateLength?: number): string {
-  const [title] = useString(resource, urls.properties.name);
+  const [name] = useString(resource, urls.properties.name);
   const [shortname] = useString(resource, urls.properties.shortname);
+  const [filename] = useString(resource, urls.properties.file.filename);
   // TODO: truncate non urls
   truncateLength = truncateLength ? truncateLength : 40;
   if (resource.loading) {
     return '...';
   }
-  if (title !== null) {
-    return title;
+  if (name !== null) {
+    return name;
   }
   if (shortname !== null) {
     return shortname;
+  }
+  if (filename !== null) {
+    return filename;
   }
   const subject = resource.getSubject();
   if (typeof subject == 'string' && subject.length > 0) {

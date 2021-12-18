@@ -50,8 +50,7 @@ export function parseJsonADResource(
         }
       } catch (e) {
         throw new Error(
-          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${
-            e.message
+          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${e.message
           }`,
         );
       }
