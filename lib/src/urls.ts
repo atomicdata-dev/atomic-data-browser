@@ -15,6 +15,7 @@ export const classes = {
   drive: 'https://atomicdata.dev/classes/Drive',
   redirect: 'https://atomicdata.dev/classes/Redirect',
   invite: 'https://atomicdata.dev/classes/Invite',
+  file: 'https://atomicdata.dev/classes/File',
 };
 
 export const properties = {
@@ -72,6 +73,12 @@ export const properties = {
     usagesLeft: 'https://atomicdata.dev/properties/invite/usagesLeft',
     users: 'https://atomicdata.dev/properties/invite/users',
     write: 'https://atomicdata.dev/properties/invite/write',
+  },
+  file: {
+    filename: 'https://atomicdata.dev/properties/filename',
+    filesize: 'https://atomicdata.dev/properties/filesize',
+    downloadUrl: 'https://atomicdata.dev/properties/downloadURL',
+    mimetype: 'https://atomicdata.dev/properties/mimetype',
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',

@@ -10,6 +10,7 @@ import { ErrMessage } from '../components/forms/InputStyles';
 import { signRequest } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
+import { ErrorLook } from '../views/ResourceInline';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -25,7 +26,11 @@ function Data(): JSX.Element {
     return <ContainerNarrow>Loading {subject}...</ContainerNarrow>;
   }
   if (resource.error) {
-    return <ContainerNarrow>{resource.getError().message}</ContainerNarrow>;
+    return (
+      <ContainerNarrow>
+        <ErrorLook>{resource.getError().message}</ErrorLook>
+      </ContainerNarrow>
+    );
   }
 
   async function fetchAs(contentType: string) {
@@ -96,7 +101,7 @@ function Data(): JSX.Element {
           Turtle / N-triples / N3
         </Button>
       </div>
-      {err && <p>{err.message}</p>}
+      {err && <ErrMessage>{err.message}</ErrMessage>}
       {!err && textResponse && (
         <CodeBlock content={textResponse} loading={textResponseLoading} />
       )}

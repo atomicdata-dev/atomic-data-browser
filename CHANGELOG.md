@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## Unreleased
+
+- Add File management views. Preview images and videos, download them. #121
+
 ## v0.29.2
 
 - Add Share settings screen where you can see & edit rights / access control #113
