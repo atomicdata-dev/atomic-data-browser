@@ -21,6 +21,7 @@ export function parseJsonADResource(
         }
         if (
           resource.getSubject() !== 'undefined' &&
+          resource.getSubject() !== unknownSubject &&
           subject !== resource.getSubject()
         ) {
           throw new Error(

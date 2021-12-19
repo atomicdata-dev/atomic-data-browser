@@ -9,6 +9,7 @@ import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import { defaulHiddenProps } from './ResourcePage';
+import FileCard from './FileCard';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -91,6 +92,8 @@ function ResourceCardInner(props: Props): JSX.Element {
   switch (klass) {
     case urls.classes.collection:
       return <CollectionCard resource={resource} {...props} />;
+    case urls.classes.file:
+      return <FileCard resource={resource} {...props} />;
   }
 
   return (

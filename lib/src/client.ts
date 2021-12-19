@@ -1,6 +1,8 @@
+// Provides functionality to interact with an Atomic Server.
+
 import { getTimestampNow, Store } from '.';
 import { Commit, serializeDeterministically, signToBase64 } from './commit';
-import { parseJsonADResource } from './parse';
+import { parseJsonADArray, parseJsonADResource } from './parse';
 import { Resource } from './resource';
 import { Agent } from './agent';
 import { AtomicError, ErrorType } from './error';
@@ -148,4 +150,47 @@ export async function signRequest(
     headers.set('x-atomic-agent', agent?.subject);
   }
   return headers;
+}
+
+/**
+ * Uploads files to the `/upload` endpoint of the Store. Signs the Headers using
+ * the Store's Default Agent. Adds the created File resources to the Store.
+ * Returns the subjects of these newly created File resources.
+ */
+export async function uploadFiles(
+  files: File[],
+  store: Store,
+  parent: string,
+): Promise<string[]> {
+  const formData = new FormData();
+
+  files.map(file => {
+    formData.append('assets', file, file.name);
+  });
+
+  const uploadURL = new URL(store.getBaseUrl() + '/upload');
+  uploadURL.searchParams.set('parent', parent);
+  const headers = new Headers();
+  const signedHeaders = await signRequest(
+    uploadURL.toString(),
+    store.getAgent(),
+    headers,
+  );
+
+  const options = {
+    method: 'POST',
+    body: formData,
+    headers: signedHeaders,
+  };
+
+  const resp = await window.fetch(uploadURL.toString(), options);
+  const body = await resp.text();
+  const json = JSON.parse(body);
+  const resources = parseJsonADArray(json);
+  const fileSubjects = [];
+  for (const r of resources) {
+    store.addResource(r);
+    fileSubjects.push(r.getSubject());
+  }
+  return fileSubjects;
 }
