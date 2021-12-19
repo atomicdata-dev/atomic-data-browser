@@ -79,6 +79,7 @@ export const properties = {
     filesize: 'https://atomicdata.dev/properties/filesize',
     downloadUrl: 'https://atomicdata.dev/properties/downloadURL',
     mimetype: 'https://atomicdata.dev/properties/mimetype',
+    attachments: 'https://atomicdata.dev/properties/attachments',
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',

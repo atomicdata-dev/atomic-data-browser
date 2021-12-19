@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Field from './Field';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import UploadForm from './UploadForm';
 
 type ResourceFormProps = {
   /**
@@ -233,6 +234,7 @@ export function ResourceForm({
           />
         </PropertyAdder>
       </Field>
+      <UploadForm parentResource={resource} />
       <Button
         title={'show / hide advanced form fields'}
         clean
