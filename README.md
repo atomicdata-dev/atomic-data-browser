@@ -6,7 +6,7 @@
 Create, share, fetch and model linked [Atomic Data](https://atomicdata.dev)!
 This repo consists of three components: a javascript / typescript library, a react library, and a complete GUI: Atomic-Data Browser.
 
-## `atomic-data-browser`
+## [`atomic-data-browser`](data-browser/README.md)
 
 A GUI for viewing, editing and browsing Atomic Data.
 
@@ -23,7 +23,7 @@ yarn start # run the server!
 
 [→ Read more](data-browser/README.md)
 
-## `@tomic/lib`
+## [`@tomic/lib`](lib/README.md)
 
 <a href="https://www.npmjs.com/package\/@tomic/lib" target="_blank">
   <img src="https://img.shields.io/npm/v/@tomic/lib?color=cc3534" />
@@ -41,7 +41,7 @@ Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
 
 [→ Read more](lib/README.md)
 
-## `@tomic/react`
+## [`@tomic/react`](react/README.md)
 
 <a href="https://www.npmjs.com/package/@tomic/react" target="_blank">
   <img src="https://img.shields.io/npm/v/@tomic/react?color=cc3534" />
