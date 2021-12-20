@@ -2,7 +2,7 @@
 
 [![Snowpack build Status](https://github.com/joepio/atomic-data-browser/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
 
-_status: alpha_
+_status: alpha. Works pretty well, but expect bugs, and don't use in production yet._
 
 View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
@@ -18,16 +18,16 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - Data viewer to render data in [JSON-AD](https://docs.atomicdata.dev/core/json-ad.html), Turtle, JSON-LD, and more.
 - **Edit data**
   - Dynamic forms for creating and editing resources with datatype validation. Powered by [Atomic Schema](https://docs.atomicdata.dev/schema/intro.html).
-  - Create, send and sign [Atomic Commits](https://docs.atomicdata.dev/commits/intro.html)
-  - Add properties to existing resources
+  - Create, send and sign [Atomic Commits](https://docs.atomicdata.dev/commits/intro.html). All changes are cryptographically signed.
   - Accept [Invites](https://docs.atomicdata.dev/invitations.html), manage user [Agents](https://docs.atomicdata.dev/agents.html) (including private keys) and Servers.
-  - All changes are cryptographically signed using Atomic Commits
+  - [Authorization] - view and edit permissions in the [hierarchy](https://docs.atomicdata.dev/hierarchy.html).
+  - [Authentication](https://docs.atomicdata.dev/authentication.html) - all requests are signed.
 - **Other**
   - Document editor with Markdown & real-time sync / collaboration (using WebSockets)
   - Collapsible sidebar for easy navigation
-  - Client-side full-text search
   - UI customization: dark mode, navigation bar placement and theme color
   - Responsive, accessible, keyboard controls
+  - Upload, preview and download [files](https://docs.atomicdata.dev/files.html)
 
 ## Running locally
 
