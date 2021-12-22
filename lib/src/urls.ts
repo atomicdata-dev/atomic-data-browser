@@ -88,6 +88,7 @@ export const properties = {
   read: 'https://atomicdata.dev/properties/read',
   write: 'https://atomicdata.dev/properties/write',
   children: 'https://atomicdata.dev/properties/children',
+  paymentPointer: 'https://atomicdata.dev/properties/paymentPointer',
 };
 
 export const datatypes = {
