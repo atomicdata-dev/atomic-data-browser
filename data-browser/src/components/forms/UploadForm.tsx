@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useStore } from '@tomic/react';
 import { Button } from '../Button';
 import FilePill from '../FilePill';
+import { ErrMessage } from './InputStyles';
 
 interface UploadFormProps {
   /**
@@ -21,18 +22,25 @@ export default function UploadForm({
 
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [err, setErr] = useState<Error>(null);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      setIsUploading(true);
-      const netUploaded = await uploadFiles(
-        acceptedFiles,
-        store,
-        parentResource.getSubject(),
-      );
-      const allUploaded = [...uploadedFiles, ...netUploaded];
-      setUploadedFiles(allUploaded);
-      setIsUploading(false);
+      try {
+        setErr(null);
+        setIsUploading(true);
+        const netUploaded = await uploadFiles(
+          acceptedFiles,
+          store,
+          parentResource.getSubject(),
+        );
+        const allUploaded = [...uploadedFiles, ...netUploaded];
+        setUploadedFiles(allUploaded);
+        setIsUploading(false);
+      } catch (e) {
+        setErr(e);
+        setIsUploading(false);
+      }
     },
     [uploadedFiles, setUploadedFiles],
   );
@@ -58,6 +66,7 @@ export default function UploadForm({
             Upload file(s)...
           </Button>
         )}
+        {err && <ErrMessage>{err.message}</ErrMessage>}
       </div>
       {uploadedFiles.length > 0 &&
         uploadedFiles.map(fileSubject => (
