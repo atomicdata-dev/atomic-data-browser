@@ -1,19 +1,15 @@
-import { properties, Resource } from '@tomic/lib';
+import { properties } from '@tomic/lib';
 import { useNumber, useString, useTitle } from '@tomic/react';
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from '../components/Button';
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
 import { ImageViewer } from '../components/ImageViewer';
 import Parent from '../components/Parent';
-
-interface FilePageProps {
-  resource: Resource;
-}
+import { ResourcePageProps } from './ResourcePage';
 
 /** Full page File resource for showing and downloading files */
-export function FilePage({ resource }: FilePageProps) {
+export function FilePage({ resource }: ResourcePageProps) {
   const title = useTitle(resource);
 
   return (
@@ -26,7 +22,7 @@ export function FilePage({ resource }: FilePageProps) {
 }
 
 /** A preview + download button for a file */
-export function FileInner({ resource }: FilePageProps) {
+export function FileInner({ resource }: ResourcePageProps) {
   function handleDownload() {
     window.open(downloadUrl);
   }
@@ -47,7 +43,7 @@ export function FileInner({ resource }: FilePageProps) {
   );
 }
 
-function FilePreview({ resource }: FilePageProps) {
+function FilePreview({ resource }: ResourcePageProps) {
   const [url] = useString(resource, properties.file.downloadUrl);
   const [mime] = useString(resource, properties.file.mimetype);
   if (mime?.startsWith('image/')) {

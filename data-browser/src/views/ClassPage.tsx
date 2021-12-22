@@ -9,17 +9,14 @@ import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
 import NewInstanceButton from '../components/NewInstanceButton';
 import Parent from '../components/Parent';
-import { defaulHiddenProps } from './ResourcePage';
-
-interface ClassPageProps {
-  resource: Resource;
-}
+import { ResourcePageProps } from './ResourcePage';
+import { defaulHiddenProps } from './ResourcePageDefault';
 
 /**
  * Full page Class resoure that features a New instance button, and a Typescript
  * definition export.
  */
-export function ClassPage({ resource }: ClassPageProps) {
+export function ClassPage({ resource }: ResourcePageProps) {
   const title = useTitle(resource);
   const [tsDef, setTSdef] = useState<string | null>(null);
   const store = useStore();

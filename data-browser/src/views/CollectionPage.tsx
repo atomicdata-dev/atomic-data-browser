@@ -30,10 +30,7 @@ import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
 import Link from '../components/Link';
-
-type CollectionProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 const displayStyles = [
   {
@@ -47,7 +44,7 @@ const displayStyles = [
 ];
 
 /** A View for collections. Contains logic for switching between various views. */
-function Collection({ resource }: CollectionProps): JSX.Element {
+function Collection({ resource }: ResourcePageProps): JSX.Element {
   const title = useTitle(resource);
   const [description] = useString(resource, properties.description);
   const viewportWidth = useViewport();

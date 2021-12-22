@@ -8,8 +8,8 @@ import { Card } from '../components/Card';
 import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
-import { defaulHiddenProps } from './ResourcePage';
 import FileCard from './FileCard';
+import { defaulHiddenProps } from './ResourcePageDefault';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */

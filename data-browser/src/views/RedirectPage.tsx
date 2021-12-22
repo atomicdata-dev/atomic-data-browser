@@ -11,13 +11,10 @@ import { useSettings } from '../helpers/AppSettings';
 import { Button } from '../components/Button';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
-
-type DrivePageProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 /** A View that redirects!. */
-function RedirectPage({ resource }: DrivePageProps): JSX.Element {
+function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
   const [destination] = useString(resource, properties.redirect.destination);
   const [redirectAgent] = useString(
     resource,
