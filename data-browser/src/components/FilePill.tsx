@@ -1,9 +1,7 @@
-import { useResource, useString, useTitle } from '@tomic/react';
-import { properties } from '@tomic/lib';
+import { useResource, useTitle } from '@tomic/react';
 import React from 'react';
 
 import AtomicLink from './Link';
-import { Button } from './Button';
 import styled from 'styled-components';
 
 interface FilePillProps {
@@ -14,14 +12,9 @@ interface FilePillProps {
 function FilePill({ subject }: FilePillProps): JSX.Element {
   const resource = useResource(subject);
   const title = useTitle(resource);
-  const [downloadUrl] = useString(resource, properties.file.downloadUrl);
-
-  function handleDownload() {
-    window.open(downloadUrl);
-  }
 
   return (
-    <FilePillStyled>
+    <FilePillStyled data-test='file-pill'>
       <AtomicLink subject={resource.getSubject()}>
         <span>{title}</span>
       </AtomicLink>
@@ -35,6 +28,7 @@ const FilePillStyled = styled.div`
   border-radius: ${t => t.theme.radius};
   padding: 0.4rem;
   margin-bottom: ${t => t.theme.margin}rem;
+  margin-right: ${t => t.theme.margin}rem;
 `;
 
 export default FilePill;
