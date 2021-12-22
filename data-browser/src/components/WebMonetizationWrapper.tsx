@@ -5,13 +5,14 @@ import { ContainerNarrow } from './Containers';
 import { useString, useTitle } from '@tomic/react';
 import 'types-wm';
 import Spinner from './Button';
+import toast from 'react-hot-toast';
 
 type Props = {
   resource: Resource;
   children: React.ReactNode;
 };
 
-/** Returns true if the user is paying */
+/** Returns true if the user is paying using WebMonetization */
 export const useMonetization = () => {
   const [isPaying, setisPaying] = useState(false);
 
@@ -22,7 +23,6 @@ export const useMonetization = () => {
       setisPaying(false);
       return;
     }
-
     // Note: A user could have monetization capabilities (i.e. installed Coil)
     // but that doesn't mean they've actually signed up for an account!
     const { state } = document.monetization;
@@ -43,18 +43,25 @@ export const useMonetization = () => {
 };
 
 /**
- * Is shown when Payment is required to access page. Instructs the user to
- * install Coil. Shows progress and errors.
+ * Wrap this around a component to only show it when a user is Paying for it
+ * using WebMonetization. Will show instructions to the user if there is no
+ * Instructs the user to install Coil. Shows progress and errors.
  */
-function PaymentWrapper({ resource, children }: Props): JSX.Element {
+function WebMonetizationWrapper({ resource, children }: Props): JSX.Element {
   const [paymentPointer] = useString(resource, properties.paymentPointer);
   const title = useTitle(resource);
   const isPaying = useMonetization();
 
+  useEffect(() => {
+    if (isPaying) {
+      toast.success('WebMonetization started, thanks for your support!');
+    }
+  }, [isPaying]);
+
+  // We need the meta tag to continue the payments
   if (isPaying) {
     return (
       <>
-        {' '}
         <Helmet>
           <meta name='monetization' content={paymentPointer} />
         </Helmet>
@@ -90,9 +97,12 @@ function PaymentWrapper({ resource, children }: Props): JSX.Element {
         </>
       )}
       {document.monetization?.state === 'stopped' && (
-        <p>Something went wrong.</p>
+        <p>
+          Something went wrong. Is your Wallet (e.g. Coil wallet) working, and
+          do you have a subscription?
+        </p>
       )}
     </ContainerNarrow>
   );
 }
-export default PaymentWrapper;
+export default WebMonetizationWrapper;

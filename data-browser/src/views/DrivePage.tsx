@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useArray, useTitle } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
+import { properties } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
@@ -10,13 +10,10 @@ import { useSettings } from '../helpers/AppSettings';
 import AtomicLink from '../components/Link';
 import { FaPlus } from 'react-icons/fa';
 import { paths } from '../routes/paths';
-
-type DrivePageProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
-function DrivePage({ resource }: DrivePageProps): JSX.Element {
+function DrivePage({ resource }: ResourcePageProps): JSX.Element {
   const title = useTitle(resource);
   const [children] = useArray(resource, properties.children);
   const { baseURL, setBaseURL } = useSettings();

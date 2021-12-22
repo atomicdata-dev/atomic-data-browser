@@ -14,13 +14,10 @@ import { FaEdit, FaEye, FaGripVertical } from 'react-icons/fa';
 import { ErrorLook } from './ResourceInline';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
 import { Button } from '../components/Button';
-
-type DocumentPageProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 /** A full page, editable document, consisting of Elements */
-function DocumentPage({ resource }: DocumentPageProps): JSX.Element {
+function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
   const [canWrite, canWriteMessage] = useCanWrite(resource);
   const [editMode, setEditMode] = useState(canWrite);
 

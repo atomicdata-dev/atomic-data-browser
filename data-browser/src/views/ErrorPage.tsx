@@ -1,22 +1,18 @@
 import * as React from 'react';
 import { useStore } from '@tomic/react';
-import { Resource } from '@tomic/lib';
 import { ContainerNarrow } from '../components/Containers';
 import { ErrorLook } from './ResourceInline';
 import { Button } from '../components/Button';
 import { isUnauthorized } from '@tomic/lib/src/error';
 import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';
-
-type ErrorPageProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 /**
  * A View for Resource Errors. Not to be confused with the CrashPage, which is
  * for App wide errors.
  */
-function ErrorPage({ resource }: ErrorPageProps): JSX.Element {
+function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
   const { agent } = useSettings();
   const store = useStore();
   const subject = resource.getSubject();

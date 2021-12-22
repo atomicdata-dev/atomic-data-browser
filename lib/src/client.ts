@@ -185,6 +185,9 @@ export async function uploadFiles(
 
   const resp = await window.fetch(uploadURL.toString(), options);
   const body = await resp.text();
+  if (resp.status !== 200) {
+    throw Error(body);
+  }
   const json = JSON.parse(body);
   const resources = parseJsonADArray(json);
   const fileSubjects = [];

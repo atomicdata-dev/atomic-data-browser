@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Resource, Agent, generateKeyPair, properties } from '@tomic/lib';
+import { Agent, generateKeyPair, properties } from '@tomic/lib';
 import {
   useBoolean,
   useNumber,
@@ -15,16 +15,13 @@ import ResourceInline from './ResourceInline';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
-
-type DrivePageProps = {
-  resource: Resource;
-};
+import { ResourcePageProps } from './ResourcePage';
 
 // Whether Invites should automatically be accepted.
 const autoAccept = false;
 
 /** A View that opens an invite */
-function InvitePage({ resource }: DrivePageProps): JSX.Element {
+function InvitePage({ resource }: ResourcePageProps): JSX.Element {
   const [target] = useString(resource, properties.invite.target);
   const [usagesLeft] = useNumber(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);

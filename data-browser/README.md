@@ -28,6 +28,7 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
   - UI customization: dark mode, navigation bar placement and theme color
   - Responsive, accessible, keyboard controls
   - Upload, preview and download [files](https://docs.atomicdata.dev/files.html)
+  - Monetize content using WebMonetization! Thanks to Grant For the Web + Interledger.
 
 ## Running locally
 
