@@ -8,6 +8,7 @@ And join our [Discord][discord-url]!
 
 ## Publishing
 
+- Check the [changelog](changelog.md), make sure the headers are correct
 - `yarn lint-fix`
 - `yarn build` to build typescript files (don't skip this!)
 - `yarn test` (don't you publish a broken build!), make sure `atomic-server` is running on `localhost`.
