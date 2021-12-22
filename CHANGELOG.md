@@ -7,6 +7,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add File management views. Preview images and videos, download them. #121
 - Add `uploadFiles` method to @tomic/lib. #121
 - Add upload field to forms #121
+- Fix bug resourcearray input #123
 
 ## v0.29.2
 
