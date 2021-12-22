@@ -263,6 +263,10 @@ test.describe('data-browser', async () => {
     await page.click('input[type="checkbox"] >> nth=0');
     await page.click('button:has-text("Save")');
   });
+
+  test('upload, download', async ({ page, browser, context }) => {
+    await signIn(page);
+  });
 });
 
 /** Signs in using an AtomicData.dev test user */
