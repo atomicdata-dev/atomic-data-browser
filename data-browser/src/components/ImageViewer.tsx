@@ -24,6 +24,7 @@ const ImageViewerStyled = styled.img<Props>`
   position: ${t => (t.showFull ? 'fixed' : 'relative')};
   cursor: ${t => (t.showFull ? 'zoom-out' : 'zoom-in')};
   width: ${t => (t.showFull ? '100%' : 'auto')};
+  z-index: ${t => (t.showFull ? '100' : 'auto')};
   /* Maybe set this in theme */
   top: 2.5rem;
   left: 0;
