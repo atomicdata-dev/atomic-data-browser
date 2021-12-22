@@ -14759,6 +14759,11 @@ typedoc@^0.22.6:
     minimatch "^3.0.4"
     shiki "^0.9.11"
 
+types-wm@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/types-wm/-/types-wm-1.1.0.tgz#01b31b6689d77a3799bbe159ab5fd67159bf47eb"
+  integrity sha512-kGecZLoCh4ge8rcRsoMtLs4nuSyi8wl687EfAH9Iss602rFDU/Heih86Awv/6958GwxxDm8gLztkLkrUEsxXug==
+
 typescript@^4.2.4, typescript@^4.3.4, typescript@^4.4.4:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"

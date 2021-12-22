@@ -15,6 +15,7 @@ import DocumentPage from './DocumentPage';
 import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
 import { FilePage } from './FilePage';
+import PaymentPage, { useMonetization } from '../components/PaymentPage';
 
 type Props = {
   subject: string;
@@ -41,12 +42,17 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
+  const [paymentPointer] = useString(resource, properties.paymentPointer);
+  const isPaying = useMonetization();
 
   if (resource.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
   }
   if (resource.error) {
     return <ErrorPage resource={resource} />;
+  }
+  if (paymentPointer && !isPaying) {
+    return <PaymentPage resource={resource} />;
   }
 
   // TODO: Make these registerable, so users can easily extend these
