@@ -20,9 +20,11 @@ export default function UploadForm({
   const store = useStore();
 
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
+      setIsUploading(true);
       const netUploaded = await uploadFiles(
         acceptedFiles,
         store,
@@ -30,6 +32,7 @@ export default function UploadForm({
       );
       const allUploaded = [...uploadedFiles, ...netUploaded];
       setUploadedFiles(allUploaded);
+      setIsUploading(false);
     },
     [uploadedFiles, setUploadedFiles],
   );
@@ -47,8 +50,12 @@ export default function UploadForm({
         {isDragActive ? (
           <p>{'Drop the files here ...'}</p>
         ) : (
-          <Button subtle onClick={() => null}>
-            {'Upload file(s)...'}
+          <Button
+            subtle
+            onClick={() => null}
+            loading={isUploading && 'Uploading...'}
+          >
+            Upload file(s)...
           </Button>
         )}
       </div>
