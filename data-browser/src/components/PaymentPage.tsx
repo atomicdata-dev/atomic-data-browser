@@ -8,6 +8,7 @@ import Spinner from './Button';
 
 type Props = {
   resource: Resource;
+  children: React.ReactNode;
 };
 
 /** Returns true if the user is paying */
@@ -45,9 +46,22 @@ export const useMonetization = () => {
  * Is shown when Payment is required to access page. Instructs the user to
  * install Coil. Shows progress and errors.
  */
-function PaymentPage({ resource }: Props): JSX.Element {
+function PaymentWrapper({ resource, children }: Props): JSX.Element {
   const [paymentPointer] = useString(resource, properties.paymentPointer);
   const title = useTitle(resource);
+  const isPaying = useMonetization();
+
+  if (isPaying) {
+    return (
+      <>
+        {' '}
+        <Helmet>
+          <meta name='monetization' content={paymentPointer} />
+        </Helmet>
+        {children}
+      </>
+    );
+  }
 
   return (
     <ContainerNarrow>
@@ -55,7 +69,9 @@ function PaymentPage({ resource }: Props): JSX.Element {
       <Helmet>
         <meta name='monetization' content={paymentPointer} />
       </Helmet>
-      <p>This content can only be accessed through Webmonetization.</p>
+      {!isPaying && (
+        <p>This content can only be accessed through Webmonetization.</p>
+      )}
       {document.monetization == undefined && (
         <p>
           Get the{' '}
@@ -79,4 +95,4 @@ function PaymentPage({ resource }: Props): JSX.Element {
     </ContainerNarrow>
   );
 }
-export default PaymentPage;
+export default PaymentWrapper;

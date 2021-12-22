@@ -16,6 +16,7 @@ import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
 import { FilePage } from './FilePage';
 import PaymentPage, { useMonetization } from '../components/PaymentPage';
+import PaymentWrapper from '../components/PaymentPage';
 
 type Props = {
   subject: string;
@@ -43,7 +44,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
   const title = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
   const [paymentPointer] = useString(resource, properties.paymentPointer);
-  const isPaying = useMonetization();
 
   if (resource.loading) {
     return <ContainerNarrow>Loading...</ContainerNarrow>;
@@ -51,31 +51,8 @@ function ResourcePage({ subject }: Props): JSX.Element {
   if (resource.error) {
     return <ErrorPage resource={resource} />;
   }
-  if (paymentPointer && !isPaying) {
-    return <PaymentPage resource={resource} />;
-  }
 
-  // TODO: Make these registerable, so users can easily extend these
-  switch (klass) {
-    case urls.classes.collection:
-      return <Collection resource={resource} />;
-    case urls.classes.endpoint:
-      return <EndpointPage resource={resource} />;
-    case urls.classes.drive:
-      return <DrivePage resource={resource} />;
-    case urls.classes.redirect:
-      return <RedirectPage resource={resource} />;
-    case urls.classes.invite:
-      return <InvitePage resource={resource} />;
-    case urls.classes.document:
-      return <DocumentPage resource={resource} />;
-    case urls.classes.class:
-      return <ClassPage resource={resource} />;
-    case urls.classes.file:
-      return <FilePage resource={resource} />;
-  }
-
-  return (
+  let ReturnComponent = (
     <ContainerNarrow about={subject}>
       <Parent resource={resource} />
       <h1>{title}</h1>
@@ -89,6 +66,42 @@ function ResourcePage({ subject }: Props): JSX.Element {
       />
     </ContainerNarrow>
   );
+
+  // TODO: Make these registerable, so users can easily extend these
+  switch (klass) {
+    case urls.classes.collection:
+      ReturnComponent = <Collection resource={resource} />;
+      break;
+    case urls.classes.endpoint:
+      ReturnComponent = <EndpointPage resource={resource} />;
+      break;
+    case urls.classes.drive:
+      ReturnComponent = <DrivePage resource={resource} />;
+      break;
+    case urls.classes.redirect:
+      ReturnComponent = <RedirectPage resource={resource} />;
+      break;
+    case urls.classes.invite:
+      ReturnComponent = <InvitePage resource={resource} />;
+      break;
+    case urls.classes.document:
+      ReturnComponent = <DocumentPage resource={resource} />;
+      break;
+    case urls.classes.class:
+      ReturnComponent = <ClassPage resource={resource} />;
+      break;
+    case urls.classes.file:
+      ReturnComponent = <FilePage resource={resource} />;
+      break;
+  }
+
+  if (paymentPointer) {
+    return (
+      <PaymentWrapper resource={resource}>{ReturnComponent}</PaymentWrapper>
+    );
+  } else {
+    return ReturnComponent;
+  }
 }
 
 export default ResourcePage;
