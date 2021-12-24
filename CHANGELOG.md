@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## Unreleased
+
+- Make search result previews smaller
+
 ## v0.30.0
 
 - Add File management views. Preview images and videos, download them. #121

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 type CardProps = {
   /** Adds a colorful border */
   highlight?: boolean;
+  /** Sets a maximum height */
+  small?: boolean;
 };
 
 /** A Card with a border. */
@@ -15,6 +17,8 @@ export const Card = styled.div<CardProps>`
   margin-bottom: ${props => props.theme.margin}rem;
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
+  max-height: ${props => (props.small ? '8rem' : 'none')};
+  overflow: ${props => (props.small ? 'hidden' : 'auto')};
   border-color: ${props =>
     props.highlight ? props.theme.colors.main : props.theme.colors.bg2};
 `;

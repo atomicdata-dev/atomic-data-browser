@@ -17,7 +17,7 @@ interface Props extends CardPropsBase {
 }
 
 interface CardPropsBase {
-  /** If true, only some basic details are shown */
+  /** Maximum height, only basic details are shown */
   small?: boolean;
   /** Show a highlight border */
   highlight?: boolean;
