@@ -77,7 +77,8 @@
     "test-old": "web-test-runner \"src/**/*.test.{jsx,js,ts,tsx}\" --node-resolve --playwright --browsers chromium firefox webkit",
     "test": "playwright test",
     "test-debug": "PWDEBUG=1 playwright test",
-    "test-new": "playwright codegen http://localhost:8080"
+    "test-new": "playwright codegen http://localhost:8080",
+    "test-query": "PWDEBUG=1 npx playwright test \"browser.spec.ts\" -g"
   },
   "version": "0.30.0"
 }

@@ -68,6 +68,10 @@ function ResourceCard(props: Props): JSX.Element {
   );
 }
 
+/**
+ * The expensive view logic for a default Resource. This should only be rendered
+ * if the card is in the viewport
+ */
 function ResourceCardInner(props: Props): JSX.Element {
   const { small, subject } = props;
   const resource = useResource(subject);

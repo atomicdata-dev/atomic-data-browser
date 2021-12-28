@@ -2,7 +2,7 @@
 
 [![Snowpack build Status](https://github.com/joepio/atomic-data-browser/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
 
-_status: alpha. Works pretty well, but expect bugs, and don't use in production yet._
+_Status: Beta. [Breaking changes](changelog.md) are expected until 1.0._
 
 View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
@@ -99,7 +99,7 @@ They use the PlayWright framework and run in the browser.
 - `yarn test-debug` launches the E2E tests in debug mode (a window opens with debug tools)
 - `yarn test-new` create new tests by clicking through the app
 - Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
-- `PWDEBUG=1 npx playwright test "browser.spec.ts" -g "create document"` run a specific e2e test in debug mode
+- `yarn test-query {word}` run e2e tests in debug mode containging `{word}`
 
 ## CI
 

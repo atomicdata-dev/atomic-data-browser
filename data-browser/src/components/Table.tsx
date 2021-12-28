@@ -143,7 +143,10 @@ type RowProps = {
 };
 
 function Row({ subject, propsArray }: RowProps): JSX.Element {
-  const resource = useResource(subject);
+  const resource = useResource(subject, {
+    // We don't need to fetch all members for Collections when looking at a Table view.
+    allowIncomplete: true,
+  });
   if (resource === null) {
     return null;
   }

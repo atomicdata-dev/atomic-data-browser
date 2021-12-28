@@ -34,7 +34,7 @@ export function useResource(
      * be fetched.
      */
     newResource?: boolean;
-  } = { allowIncomplete: true, newResource: false },
+  } = { allowIncomplete: false, newResource: false },
 ): Resource {
   const { newResource, allowIncomplete } = opts;
   const store = useStore();
