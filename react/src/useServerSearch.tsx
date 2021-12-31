@@ -46,8 +46,12 @@ export function useServerSearch(
     if (!resource.loading && resultsIn) {
       setResults(resultsIn);
     }
-  }, [resultsIn, resource.loading]);
+  }, [
+    // Prevent re-rendering if the resultsIn is the same
+    resultsIn.toString(),
+    resource.loading,
+  ]);
 
   // Return the width so we can use it in our components
-  return { results, loading: resource.loading };
+  return { results, loading: resource.loading, error: resource.error };
 }
