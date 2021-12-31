@@ -25,5 +25,6 @@
 export * from './hooks';
 export * from './useBaseURL';
 export * from './useCurrentAgent';
+export * from './useDebounce';
 export * from './useLocalStorage';
 export * from './useServerSearch';

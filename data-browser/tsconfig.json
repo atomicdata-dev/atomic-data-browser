@@ -6,8 +6,6 @@
   },
   "include": [
     "./src",
-    "../react/src/useDebounce.tsx",
-    "../react/src/useServerSearch.tsx"
   ],
   "references": [
     {

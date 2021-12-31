@@ -1,8 +1,7 @@
 import React from 'react';
 import { isValidURL, Resource, urls } from '@tomic/lib';
-import { useResources, useStore } from '@tomic/react';
+import { useResources, useStore, useDebounce } from '@tomic/react';
 import { QuickScore } from 'quick-score';
-import { useDebounce } from '@tomic/react/src/useDebounce';
 
 /**
  * Pass a query and an set of pre-defined subjects. If you don't pass these

@@ -4,6 +4,7 @@ import { urls } from '@tomic/lib';
 import { useEffect, useState } from 'react';
 
 interface SearchResults {
+  /** Subject URLs for resources that match the query */
   results: string[];
   loading: boolean;
   error?: Error;
