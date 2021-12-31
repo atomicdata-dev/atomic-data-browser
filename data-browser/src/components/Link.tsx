@@ -18,7 +18,7 @@ type Props = {
 };
 
 /** Renders a link. Either a subject or a href is required */
-function AtomicLink({
+export function AtomicLink({
   children,
   subject,
   path,
@@ -61,6 +61,7 @@ function AtomicLink({
       href={subject ? subject : href}
       disabled={isOnCurrentPage}
       tabIndex={isOnCurrentPage || untabbable ? -1 : 0}
+      target='_blank'
     >
       {children}
       {href && <FaExternalLinkAlt />}

@@ -148,9 +148,9 @@ const SettingsAgent: React.FunctionComponent = () => {
         ) : (
           <p>
             You can create your own Agent by hosting an{' '}
-            <a href='https://github.com/joepio/atomic/tree/master/server'>
+            <AtomicLink href='https://github.com/joepio/atomic/tree/master/server'>
               atomic-server
-            </a>
+            </AtomicLink>
             . Alternatively, you can use{' '}
             <AtomicLink subject='https://atomicdata.dev/invites'>
               an Invite

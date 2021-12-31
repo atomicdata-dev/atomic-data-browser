@@ -6,6 +6,7 @@ import { useString, useTitle } from '@tomic/react';
 import 'types-wm';
 import Spinner from './Button';
 import toast from 'react-hot-toast';
+import Link from './Link';
 
 type Props = {
   resource: Resource;
@@ -82,9 +83,9 @@ function WebMonetizationWrapper({ resource, children }: Props): JSX.Element {
       {document.monetization == undefined && (
         <p>
           Get the{' '}
-          <a href='https://help.coil.com/docs/membership/coil-extension/index.html'>
+          <Link href='https://help.coil.com/docs/membership/coil-extension/index.html'>
             Coil Browser extension
-          </a>{' '}
+          </Link>{' '}
           to continue.
         </p>
       )}
