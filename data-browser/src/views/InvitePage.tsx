@@ -16,6 +16,7 @@ import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
+import { paths } from '../routes/paths';
 
 // Whether Invites should automatically be accepted.
 const autoAccept = false;
@@ -81,9 +82,18 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
               </Button>
             </>
           ) : (
-            <Button data-test='accept-new' onClick={handleNew}>
-              Accept as new user
-            </Button>
+            <>
+              <Button data-test='accept-new' onClick={handleNew}>
+                Accept as new user
+              </Button>
+              <Button
+                data-test='accept-sign-in'
+                onClick={() => history.push(paths.agentSettings)}
+                subtle
+              >
+                Sign in
+              </Button>
+            </>
           )}
           {!isNaN(usagesLeft) && <p>({usagesLeft} usages left)</p>}
         </>
