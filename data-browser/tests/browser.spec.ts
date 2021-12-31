@@ -15,11 +15,12 @@ const demoFileName = 'logo.svg';
 const demoFile = `./${demoFileName}`;
 
 const serverUrl = 'http://localhost:9883';
+const frontEndUrl = 'http://localhost:8080';
 
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     // Open the server
-    await page.goto('http://localhost:8080/');
+    await page.goto(frontEndUrl);
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.click(sidebarDriveEdit);
     await openLocalhost(page);
@@ -230,7 +231,7 @@ test.describe('data-browser', async () => {
     const context2 = await browser.newContext();
     const page2 = await context2.newPage();
     await page2.setViewportSize({ width: 1000, height: 400 });
-    await page2.goto('http://localhost:8080/');
+    await page2.goto(frontEndUrl);
     await openLocalhost(page2);
     await page2.click(currentDriveTitle);
     await expect(page2.locator('text=Unauthorized')).toBeVisible();
@@ -269,7 +270,7 @@ test.describe('data-browser', async () => {
   test('upload, download', async ({ page, browser, context }) => {
     await signIn(page);
     await page.goto(
-      'http://localhost:8080/app/edit?subject=http%3A%2F%2Flocalhost%3A9883%2Ffiles',
+      `${frontEndUrl}/app/edit?subject=http%3A%2F%2Flocalhost%3A9883%2Ffiles`,
     );
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),

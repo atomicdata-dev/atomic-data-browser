@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useHistory } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../views/ResourceCard';
-import { useServerSearch } from '../helpers/useServerSearch';
+import { useServerSearch } from '@tomic/react/src/useServerSearch';
 import { ErrorLook } from '../views/ResourceInline';
 
 /** Full text search route */

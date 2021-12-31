@@ -20,8 +20,8 @@ export async function fetchResource(
    */
   store?: Store,
   /**
-   * Base URL of an atomic server. Uses the `/path` endpoint to indirectly fetch
-   * through that server.
+   * Pass a server URL if you want to use the `/path` endpoint to indirectly
+   * fetch through that server.
    */
   from?: string,
 ): Promise<Resource> {
@@ -168,7 +168,7 @@ export async function uploadFiles(
     formData.append('assets', file, file.name);
   });
 
-  const uploadURL = new URL(store.getBaseUrl() + '/upload');
+  const uploadURL = new URL(store.getServerUrl() + '/upload');
   uploadURL.searchParams.set('parent', parent);
   const headers = new Headers();
   const signedHeaders = await signRequest(

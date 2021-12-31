@@ -1,7 +1,6 @@
-import { useStore, useResource } from '@tomic/react';
-import { urls } from '@tomic/lib';
 import { useDebounce } from './useDebounce';
-import { useArray } from '@tomic/react';
+import { useArray, useStore, useResource } from './hooks';
+import { urls } from '@tomic/lib';
 import { useEffect, useState } from 'react';
 
 interface SearchResults {
@@ -31,7 +30,7 @@ export function useServerSearch(
   const [results, setResults] = useState([]);
   const store = useStore();
 
-  const url = new URL(store.getBaseUrl());
+  const url = new URL(store.getServerUrl());
   // Calculate the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce);
   url.pathname = 'search';

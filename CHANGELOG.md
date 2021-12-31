@@ -8,6 +8,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fetch full collections when showing CollectionCard
 - `useResource` defaults to not accepting incomplete resources
 - Add `sign in` button to invite form
+- Rename `baseUrl` to `serverUrl`
+- Add `useServerSearch` to `@tomic/react`
 - Improve UX in Tauri (desktop) mode
   - Regular Links open in your browser, instead of in Atomic
 

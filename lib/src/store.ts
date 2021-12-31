@@ -14,8 +14,11 @@ type callback = (resource: Resource) => void;
  * Agent (User).
  */
 export class Store {
-  /** The default store URL, where to send commits and where to create new instances */
-  baseUrl: string;
+  /**
+   * The base URL of an Atomic Server. This is where to send commits, create new
+   * instances, search, etc.
+   */
+  serverUrl: string;
   /** All the resources of the store */
   resources: Map<string, Resource>;
   /** A list of all functions that need to be called when a certain resource is updated */
@@ -34,13 +37,13 @@ export class Store {
   constructor(
     opts: {
       /** The default store URL, where to send commits and where to create new instances */
-      baseUrl?: string;
+      serverUrl?: string;
       /** Default Agent, used for signing commits. Is required for posting things. */
       agent?: Agent;
     } = {},
   ) {
-    opts.baseUrl && this.setBaseUrl(opts.baseUrl);
-    opts.baseUrl && this.setAgent(opts.agent);
+    opts.serverUrl && this.setServerUrl(opts.serverUrl);
+    opts.serverUrl && this.setAgent(opts.agent);
     this.resources = new Map();
     this.subscribers = new Map();
     this.errorHandler = (e: Error) => {
@@ -81,7 +84,7 @@ export class Store {
   createSubject(className?: string): string {
     const random = Math.random().toString(36).substring(2);
     className = className ? className : 'things';
-    return `${this.getBaseUrl()}/${className}/${random}`;
+    return `${this.getServerUrl()}/${className}/${random}`;
   }
 
   /** Fetches a resource by URL and adds it to the store. */
@@ -90,8 +93,8 @@ export class Store {
     subject: string,
     opts: {
       /**
-       * Fetch it from the `/path` endpoint of your baseURL. This effectively is
-       * a proxy / cache.
+       * Fetch it from the `/path` endpoint of your server URL. This effectively
+       * is a proxy / cache.
        */
       fromProxy?: boolean;
     } = {},
@@ -99,7 +102,7 @@ export class Store {
     const fetched = await fetchResource(
       subject,
       this,
-      opts.fromProxy && this.getBaseUrl(),
+      opts.fromProxy && this.getServerUrl(),
     );
     return fetched;
   }
@@ -108,12 +111,12 @@ export class Store {
     return Array.from(this.resources.keys());
   }
 
-  /** Returns the URL of the companion server */
-  getBaseUrl(): string | null {
-    if (this.baseUrl == undefined) {
+  /** Returns the base URL of the companion server */
+  getServerUrl(): string | null {
+    if (this.serverUrl == undefined) {
       return null;
     }
-    return this.baseUrl;
+    return this.serverUrl;
   }
 
   /**
@@ -286,13 +289,13 @@ export class Store {
       });
   }
 
-  /** Sets the Base URL, without the trailing slash. */
-  setBaseUrl(baseUrl: string): void {
-    tryValidURL(baseUrl);
-    if (baseUrl.substr(-1) == '/') {
+  /** Sets the Server base URL, without the trailing slash. */
+  setServerUrl(url: string): void {
+    tryValidURL(url);
+    if (url.substr(-1) == '/') {
       throw Error('baseUrl should not have a trailing slash');
     }
-    this.baseUrl = baseUrl;
+    this.serverUrl = url;
     // TODO This is not the right place
     this.setWebSocket();
   }
@@ -328,7 +331,7 @@ export class Store {
     if (subject == unknownSubject) {
       return;
     }
-    // TODO: check if there is a websocket for this base URL or not
+    // TODO: check if there is a websocket for this server URL or not
     try {
       // Only subscribe if there's a websocket. When it's opened, all subject will be iterated and subscribed
       if (this.webSocket?.readyState == WebSocket.OPEN) {

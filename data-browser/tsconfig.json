@@ -5,7 +5,9 @@
     "outDir": "./dist"
   },
   "include": [
-    "./src"
+    "./src",
+    "../react/src/useDebounce.tsx",
+    "../react/src/useServerSearch.tsx"
   ],
   "references": [
     {

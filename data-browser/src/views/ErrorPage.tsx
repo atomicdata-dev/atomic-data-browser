@@ -43,7 +43,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
       <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
       <Button
         onClick={() => store.fetchResource(subject, { fromProxy: true })}
-        title={`Fetches the URL from your current Atomic-Server (${store.getBaseUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
+        title={`Fetches the URL from your current Atomic-Server (${store.getServerUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
       >
         Use proxy
       </Button>

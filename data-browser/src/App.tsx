@@ -19,7 +19,7 @@ import toast from 'react-hot-toast';
 /** Initialize the store */
 const store = new Store();
 /** Defaulting to the current URL's origin will make sense in most non-dev environments */
-store.setBaseUrl(window.location.origin);
+store.setServerUrl(window.location.origin);
 /** Show an error when things go wrong */
 store.errorHandler = e => {
   handleError(e);

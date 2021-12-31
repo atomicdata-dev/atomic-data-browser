@@ -33,7 +33,7 @@ export function InviteForm({ target }: InviteFormProps) {
     try {
       await invite.set(
         properties.parent,
-        `${store.getBaseUrl()}/invites`,
+        `${store.getServerUrl()}/invites`,
         store,
       );
       await invite.save(store);

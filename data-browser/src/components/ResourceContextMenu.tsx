@@ -102,7 +102,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       id: 'versions',
       label: 'versions',
       helper: 'Show the versions of this resource',
-      onClick: () => history.push(versionsURL(subject, store.getBaseUrl())),
+      onClick: () => history.push(versionsURL(subject, store.getServerUrl())),
     },
   ];
 
