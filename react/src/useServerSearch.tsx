@@ -24,21 +24,25 @@ interface SearchOpts {
 
 /** Pass a query to search the current server */
 export function useServerSearch(
-  query: string,
+  query: string | null,
   opts: SearchOpts = {},
 ): SearchResults {
   const { debounce = 50, include = false, limit = 30 } = opts;
   const [results, setResults] = useState([]);
   const store = useStore();
-
-  const url = new URL(store.getServerUrl());
-  // Calculate the query takes a while, so we debounce it
+  // Calculating the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce);
-  url.pathname = 'search';
-  url.searchParams.set('q', debouncedQuery);
-  url.searchParams.set('include', include.toString());
-  url.searchParams.set('limit', limit.toString());
-  const resource = useResource(url.toString());
+
+  function createURLString(): string {
+    const url = new URL(store.getServerUrl());
+    url.pathname = 'search';
+    url.searchParams.set('q', debouncedQuery);
+    url.searchParams.set('include', include.toString());
+    url.searchParams.set('limit', limit.toString());
+    return url.toString();
+  }
+
+  const resource = useResource(createURLString());
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
 
   // Only set new results if the resource is no longer loading, which improves UX
@@ -51,6 +55,14 @@ export function useServerSearch(
     resultsIn.toString(),
     resource.loading,
   ]);
+
+  if (!query) {
+    return {
+      results: [],
+      loading: false,
+      error: undefined,
+    };
+  }
 
   // Return the width so we can use it in our components
   return { results, loading: resource.loading, error: resource.error };

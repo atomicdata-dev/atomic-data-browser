@@ -7,6 +7,17 @@ import { Resource } from './resource';
 import { Agent } from './agent';
 import { AtomicError, ErrorType } from './error';
 
+/** Works both in node and the browser */
+import fetch from 'cross-fetch';
+
+/**
+ * One key-value pair per HTTP Header. Since we need to support both browsers
+ * and Node, we won't use the native Headers object here.
+ */
+interface HeadersObject {
+  [key: string]: string;
+}
+
 /**
  * Fetches and Parses a Resource. Can fetch through another atomic server if you
  * pass the `from` argument, which should be the baseURL of an Atomic Server.
@@ -28,8 +39,8 @@ export async function fetchResource(
   let resource = new Resource(subject);
   try {
     tryValidURL(subject);
-    const requestHeaders: HeadersInit = new Headers();
-    requestHeaders.set('Accept', 'application/ad+json');
+    const requestHeaders: HeadersObject = {};
+    requestHeaders['Accept'] = 'application/ad+json';
     // Sign the request if there is an agent present
     store &&
       store.getAgent() &&
@@ -40,12 +51,12 @@ export async function fetchResource(
       newURL.searchParams.set('path', subject);
       url = newURL.href;
     }
-    if (window.fetch == undefined) {
+    if (fetch == undefined) {
       throw new AtomicError(
         `No window object available this lib currently requires the DOM for fetching`,
       );
     }
-    const response = await window.fetch(url, {
+    const response = await fetch(url, {
       headers: requestHeaders,
     });
     const body = await response.text();
@@ -86,7 +97,7 @@ export async function postCommit(
   requestHeaders.set('Content-Type', 'application/ad+json');
   let response = null;
   try {
-    response = await window.fetch(endpoint, {
+    response = await fetch(endpoint, {
       headers: requestHeaders,
       method: 'POST',
       body: serialized,
@@ -137,17 +148,17 @@ export async function signRequest(
   /** The resource meant to be fetched */
   subject: string,
   agent: Agent,
-  headers: Headers,
-): Promise<Headers> {
+  headers: HeadersObject,
+): Promise<HeadersObject> {
   if (agent.subject !== undefined) {
     const privateKey = agent.privateKey;
     const timestamp = getTimestampNow();
     const message = `${subject} ${timestamp}`;
     const signed = await signToBase64(message, privateKey);
-    headers.set('x-atomic-public-key', await agent.getPublicKey());
-    headers.set('x-atomic-signature', signed);
-    headers.set('x-atomic-timestamp', timestamp.toString());
-    headers.set('x-atomic-agent', agent?.subject);
+    headers['x-atomic-public-key'] = await agent.getPublicKey();
+    headers['x-atomic-signature'] = signed;
+    headers['x-atomic-timestamp'] = timestamp.toString();
+    headers['x-atomic-agent'] = agent?.subject;
   }
   return headers;
 }
@@ -170,11 +181,10 @@ export async function uploadFiles(
 
   const uploadURL = new URL(store.getServerUrl() + '/upload');
   uploadURL.searchParams.set('parent', parent);
-  const headers = new Headers();
   const signedHeaders = await signRequest(
     uploadURL.toString(),
     store.getAgent(),
-    headers,
+    {},
   );
 
   const options = {
@@ -183,7 +193,7 @@ export async function uploadFiles(
     headers: signedHeaders,
   };
 
-  const resp = await window.fetch(uploadURL.toString(), options);
+  const resp = await fetch(uploadURL.toString(), options);
   const body = await resp.text();
   if (resp.status !== 200) {
     throw Error(body);

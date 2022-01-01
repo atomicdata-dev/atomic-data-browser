@@ -4,6 +4,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## Unreleased
 
+- Allow `@tomic/lib` to be used in non-browser (Node) context #128
+- Add `useMarkdown` function to `@tomic/react`.
 - Make search result previews smaller
 - Fetch full collections when showing CollectionCard
 - `useResource` defaults to not accepting incomplete resources
