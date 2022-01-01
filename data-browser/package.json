@@ -6,8 +6,8 @@
   "dependencies": {
     "@bugsnag/js": "^7.9.2",
     "@bugsnag/plugin-react": "^7.9.2",
-    "@tomic/lib": "^0.30.1",
-    "@tomic/react": "^0.30.2",
+    "@tomic/lib": "^0.30.3",
+    "@tomic/react": "^0.30.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
@@ -80,5 +80,5 @@
     "test-new": "playwright codegen http://localhost:8080",
     "test-query": "PWDEBUG=1 npx playwright test \"browser.spec.ts\" -g"
   },
-  "version": "0.30.2"
+  "version": "0.30.3"
 }
