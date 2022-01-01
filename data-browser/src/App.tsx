@@ -1,8 +1,12 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Store, urls } from '@tomic/lib';
-import { initAgentFromLocalStorage, StoreContext } from '@tomic/react';
+import {
+  initAgentFromLocalStorage,
+  StoreContext,
+  Store,
+  urls,
+} from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { Routes } from './routes/Routes';

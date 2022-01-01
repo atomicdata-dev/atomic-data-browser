@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useArray, useTitle } from '@tomic/react';
-import { properties } from '@tomic/lib';
+import { useArray, useTitle, properties } from '@tomic/react';
 
 import { ContainerNarrow } from '../components/Containers';
 import { CardRow } from '../components/Card';

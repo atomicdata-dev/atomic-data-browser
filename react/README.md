@@ -1,7 +1,7 @@
 # @tomic/react: The Atomic Data library for React
 
 A library for viewing and creating Atomic Data.
-Should be used in conjunction with `@tomic/lib`.
+Re-exports `@tomic/lib`.
 
 [**demo + template on codesandbox**!](https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223)
 
@@ -14,8 +14,7 @@ Wrap your App in a `StoreContext.Provider`, and pass the newly initialized store
 
 ```ts
 // App.tsx
-import { StoreContext } from "@tomic/react";
-import { Store } from "@tomic/lib";
+import { StoreContext, Store } from "@tomic/react";
 import { MyResource } from "./MyResource";
 
 // The store contains all the data for

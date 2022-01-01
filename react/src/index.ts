@@ -2,13 +2,13 @@
  * # @tomic/react Documentation
  *
  * Render, fetch, edit and delete [Atomic Data](https://atomicdata.dev).
+ * Re-exports all of [`@tomic/lib`](https://www.npmjs.com/package/@tomic/lib).
  *
  * [github repository](https://github.com/joepio/atomic-data-browser)
  *
  * ## How to use
  *
- * - Add [`@tomic/react`](https://www.npmjs.com/package/@tomic/react) and
- *   [`@tomic/lib`](https://www.npmjs.com/package/@tomic/lib) to your
+ * - Add [`@tomic/react`](https://www.npmjs.com/package/@tomic/react) and to your
  *   `package.json` `dependencies`.
  * - Start by initializing a {@link Store}`const store = new Store()` form `@tomic/lib`.
  * - Wrap your React application in a `<StoreContext.Provider value={store}>` component.
@@ -29,3 +29,4 @@ export * from './useDebounce';
 export * from './useLocalStorage';
 export * from './useMarkdown';
 export * from './useServerSearch';
+export * from '@tomic/lib';
