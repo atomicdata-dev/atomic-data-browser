@@ -2693,6 +2693,11 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
+"@noble/ed25519@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.3.3.tgz#ce08b3331924606ab154a9fc005adfd271f2f3c7"
+  integrity sha512-8RG2Iu0rll3U+A95IpdRmFxpkUQeUSEPyEL8c3QxjnGp2fRNf9eVBTBd/fgJh1/JiBXyWz1VP65/DfnEov9big==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
