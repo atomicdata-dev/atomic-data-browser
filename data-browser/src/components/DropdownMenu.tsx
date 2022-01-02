@@ -23,7 +23,7 @@ interface DropdownMenuProps {
 export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+  const [isActive, setIsActive] = useDetectOutsideClick(triggerRef, false);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -87,6 +87,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   );
 
   function handleToggle() {
+    console.log('toggle', isActive);
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
     const topPos = triggerRect.y - menuRect.height;
