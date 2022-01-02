@@ -86,6 +86,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const [showDetails, setShowDetails] = useState(false);
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
+  const [newSubjectInput, setNewSubjectInput] = useState<string>(newSubject);
   const resource = useResource(newSubject, { newResource: true });
 
   useEffect(() => {
@@ -102,12 +103,16 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
 
   /** Changes the URL of a subject. Updates the store */
   // Should be debounced as it is quite expensive, but getting that to work turned out to be really hard
-  async function handleSetSubject(url: string) {
+  async function handleSetSubject(newSubject: string) {
+    const oldSubject = resource.getSubject();
+    if (oldSubject == newSubject) {
+      return;
+    }
     setSubjectErr(null);
     try {
       // Expensive!
-      await store.renameSubject(resource.getSubject(), url);
-      setNewSubject(url);
+      await store.renameSubject(oldSubject, newSubject);
+      setNewSubject(newSubject);
     } catch (e) {
       setSubjectErr(e);
     }
@@ -134,8 +139,9 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
       >
         <InputWrapper>
           <InputStyled
-            value={newSubject || ''}
-            onChange={e => handleSetSubject(e.target.value)}
+            value={newSubjectInput}
+            onBlur={e => handleSetSubject(e.target.value)}
+            onChange={e => setNewSubjectInput(e.target.value)}
             placeholder={'URL of the new resource...'}
           />
         </InputWrapper>

@@ -5,6 +5,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## Unreleased
 
 - `@tomic/react` can now be used without `@tomic/lib` - it re-exports the library
+- More performant subject updates in new resource form
 - Allow `@tomic/lib` to be used in non-browser (Node) context #128
 - Add `useMarkdown` function to `@tomic/react`
 - Make search result previews smaller
