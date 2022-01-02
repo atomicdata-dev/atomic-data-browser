@@ -3,13 +3,24 @@ import { Resource, properties, classes } from '@tomic/lib';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useArray, useCanWrite, useStore, useString } from '@tomic/react';
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-} from 'react-sortable-hoc';
 import styled from 'styled-components';
 import { FaEdit, FaEye, FaGripVertical } from 'react-icons/fa';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 import { ErrorLook } from './ResourceInline';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
@@ -17,7 +28,7 @@ import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';
 
 /** A full page, editable document, consisting of Elements */
-function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
+export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
   const [canWrite, canWriteMessage] = useCanWrite(resource);
   const [editMode, setEditMode] = useState(canWrite);
 
@@ -59,6 +70,13 @@ function DocumentPageEdit({
   const ref = React.useRef(null);
   const [err, setErr] = useState(null);
   const [current, setCurrent] = React.useState<number | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   // On init, focus on the last element
   React.useEffect(() => {
@@ -223,8 +241,13 @@ function DocumentPageEdit({
     focusElement(to);
   }
 
-  function handleSortEnd({ oldIndex, newIndex }) {
-    moveElement(oldIndex, newIndex);
+  function handleSortEnd(event: DragEndEvent): void {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      const oldIndex = elements.indexOf(active.id);
+      const newIndex = elements.indexOf(over.id);
+      moveElement(oldIndex, newIndex);
+    }
   }
 
   /** Add a new line, or move to the last line if it is empty */
@@ -245,7 +268,7 @@ function DocumentPageEdit({
           data-test='document-title'
           ref={titleRef}
           placeholder={'set a title'}
-          value={title}
+          value={title ? title : ''}
           onChange={e => setTitle(e.target.value)}
         />
         <Button
@@ -260,19 +283,33 @@ function DocumentPageEdit({
 
       {err && <ErrorLook>{err.message}</ErrorLook>}
       <div ref={ref}>
-        <SortableList
-          canDrag={true}
-          onSortEnd={handleSortEnd}
-          items={elements}
-          deleteElement={deleteElement}
-          setCurrent={setCurrent}
-          current={current}
-          setElementSubject={setElement}
-          length={elements.length}
-          useDragHandle
-        />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleSortEnd}
+        >
+          <SortableContext
+            // Not sue why, but creating a new array from elements fixes jumping behavior
+            items={[...elements]}
+            strategy={verticalListSortingStrategy}
+          >
+            {elements.map((elementSubject, index) => (
+              <SortableElement
+                key={index + elementSubject}
+                canDrag={true}
+                index={index}
+                subject={elementSubject}
+                deleteElement={deleteElement}
+                setCurrent={setCurrent}
+                current={current}
+                setElementSubject={setElement}
+                active={index == current}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+        <NewLine onClick={handleNewLineMaybe} />
       </div>
-      <NewLine onClick={handleNewLineMaybe} />
     </>
   );
 }
@@ -304,9 +341,28 @@ function DocumentPageShow({
   );
 }
 
-interface SortableListProps extends ElementEditPropsBase {
-  items: string[];
-  length: number;
+interface SortableElementProps extends ElementEditPropsBase {
+  subject: string;
+  index: number;
+  active: boolean;
+}
+
+function SortableElement(props: SortableElementProps) {
+  const { subject, active } = props;
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: subject });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+  return (
+    <SortableItemWrapper ref={setNodeRef} style={style}>
+      <GripItem active={active} {...attributes} {...listeners} />
+      <ElementEdit {...props} />
+    </SortableItemWrapper>
+  );
 }
 
 const DocumentWrapper = styled.div`
@@ -352,72 +408,22 @@ const TitleInput = styled.input`
   }
 `;
 
-const SortableList = SortableContainer(
-  ({ items, ...props }: SortableListProps) => {
-    return (
-      <div>
-        {items.map((value, index) => (
-          <SortableItem
-            key={`item-${value}`}
-            index={index}
-            sortIndex={index}
-            value={value}
-            {...props}
-          />
-        ))}
-      </div>
-    );
-  },
-);
-
-interface SortableElementProps extends ElementEditPropsBase {
-  value: string;
-  index: number;
-  sortIndex: number;
-}
-
-const SortableItem = SortableElement(
-  ({
-    value,
-    sortIndex,
-    deleteElement,
-    setCurrent,
-    canDrag,
-    current,
-    setElementSubject: setElement,
-  }: SortableElementProps) => (
-    <SortableItemWrapper>
-      <GripItem active={sortIndex == current} />
-      <ElementEdit
-        canDrag={canDrag}
-        index={sortIndex}
-        key={value}
-        subject={value}
-        deleteElement={deleteElement}
-        setCurrent={setCurrent}
-        current={current}
-        setElementSubject={setElement}
-        active={sortIndex == current}
-      />
-    </SortableItemWrapper>
-  ),
-);
-
 const SortableItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
 `;
 
-const GripItem = SortableHandle(({ active }: GripItemProps) => {
+const GripItem = (props: GripItemProps) => {
   return (
-    <SortHandleStyled active={active} title={'Grab to re-order'}>
+    <SortHandleStyled {...props} title={'Grab to re-order'}>
       <FaGripVertical />
     </SortHandleStyled>
   );
-});
+};
 
 interface GripItemProps {
+  /** The element is currently selected */
   active: boolean;
 }
 
