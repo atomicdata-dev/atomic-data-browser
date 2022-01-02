@@ -7,6 +7,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Switch to `dnd-kit` for drag and drop #92
 - Improved views for external resources in Documents
 - Add upload dropzone to documents
+- Replace `react-helmet` with `react-helmet-async`
 
 ## v0.30.4
 

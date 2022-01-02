@@ -1,7 +1,7 @@
 import { properties } from '@tomic/lib';
 import { useResource, useString, useTitle } from '@tomic/react';
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useSettings } from '../helpers/AppSettings';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 

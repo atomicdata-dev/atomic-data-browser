@@ -115,7 +115,6 @@ export class Resource {
    */
   getArray(propUrl: string): string[] | null {
     const result = this.propvals.get(propUrl);
-    console.log('getArray', propUrl, result);
     if (result == undefined) {
       return [];
     }
