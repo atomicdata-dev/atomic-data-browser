@@ -2,7 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## Unreleased
+## v0.30.5
+
+- Switch to `dnd-kit` for drag and drop #92
+
+## v0.30.4
 
 - `@tomic/react` can now be used without `@tomic/lib` - it re-exports the library
 - More performant subject updates in new resource form
