@@ -5,6 +5,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## v0.30.5
 
 - Switch to `dnd-kit` for drag and drop #92
+- Improved views for external resources in Documents
+- Add upload dropzone to documents
 
 ## v0.30.4
 

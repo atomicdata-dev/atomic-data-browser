@@ -1,14 +1,19 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { properties, classes } from '@tomic/lib';
-import { useArray, useCanWrite, useResource, useString } from '@tomic/react';
-
+import {
+  useArray,
+  useCanWrite,
+  useResource,
+  useServerSearch,
+  useString,
+} from '@tomic/react';
 import styled, { css } from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useLocalSearch } from '../helpers/useLocalSearch';
+
 import ResourceInline, { ErrorLook } from './ResourceInline';
-import ResourceLine from './ResourceLine';
-import { useState } from 'react';
 import Markdown from '../components/datatypes/Markdown';
+import ResourceCard from './ResourceCard';
 
 interface ElementShowProps {
   subject: string;
@@ -142,7 +147,7 @@ export function ElementEdit({
         onFocus={() => setCurrent(index)}
         onBlur={() => setCurrent(null)}
       >
-        <ResourceLine subject={subject} clickable />
+        <ResourceCard subject={subject} />
         <Err />
       </ElementWrapper>
     );
@@ -286,7 +291,7 @@ interface WidgetProps {
 
 /** Allows the user to search for Resources and include these as an Element. */
 function SearchWidget({ query, setElement }: WidgetProps) {
-  const results = useLocalSearch(query);
+  const { results } = useServerSearch(query);
   // The currently selected result
   const [index, setIndex] = useState(0);
 
@@ -294,7 +299,7 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     'tab,enter',
     e => {
       e.preventDefault();
-      setElement(results[index].item.subject);
+      setElement(results[index]);
     },
     { enableOnTags: ['TEXTAREA'] },
     [],
@@ -340,7 +345,7 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     <WidgetWrapper>
       <p> (press tab to select, left / right to browse)</p>
       <p>
-        <ResourceInline subject={results[index]?.item?.subject} />
+        <ResourceInline subject={results[index]} />
       </p>
     </WidgetWrapper>
   );
