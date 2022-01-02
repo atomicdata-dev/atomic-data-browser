@@ -26,6 +26,8 @@ import { ErrorLook } from './ResourceInline';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
 import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';
+import { UploadWrapper } from '../components/forms/UploadForm';
+import toast from 'react-hot-toast';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
@@ -59,7 +61,7 @@ function DocumentPageEdit({
   const [elements, setElements] = useArray(
     resource,
     properties.document.elements,
-    { commit: true, validate: false },
+    { commit: true, validate: false, commitDebounce: 0 },
   );
   const [title, setTitle] = useString(resource, properties.name, {
     commit: true,
@@ -250,6 +252,13 @@ function DocumentPageEdit({
     }
   }
 
+  /** Create elements for every new File resource */
+  function handleUploadedFiles(fileSubjects: string[]) {
+    toast.success('Upload succeeded!');
+    fileSubjects.map(subject => elements.push(subject));
+    setElements([...elements]);
+  }
+
   /** Add a new line, or move to the last line if it is empty */
   async function handleNewLineMaybe() {
     const lastSubject = elements[elements.length - 1];
@@ -282,34 +291,39 @@ function DocumentPageEdit({
       </div>
 
       {err && <ErrorLook>{err.message}</ErrorLook>}
-      <div ref={ref}>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleSortEnd}
-        >
-          <SortableContext
-            // Not sue why, but creating a new array from elements fixes jumping behavior
-            items={[...elements]}
-            strategy={verticalListSortingStrategy}
+      <UploadWrapper
+        onFilesUploaded={handleUploadedFiles}
+        parentResource={resource}
+      >
+        <div ref={ref}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleSortEnd}
           >
-            {elements.map((elementSubject, index) => (
-              <SortableElement
-                key={index + elementSubject}
-                canDrag={true}
-                index={index}
-                subject={elementSubject}
-                deleteElement={deleteElement}
-                setCurrent={setCurrent}
-                current={current}
-                setElementSubject={setElement}
-                active={index == current}
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
-        <NewLine onClick={handleNewLineMaybe} />
-      </div>
+            <SortableContext
+              // Not sue why, but creating a new array from elements fixes jumping behavior
+              items={[...elements]}
+              strategy={verticalListSortingStrategy}
+            >
+              {elements.map((elementSubject, index) => (
+                <SortableElement
+                  key={index + elementSubject}
+                  canDrag={true}
+                  index={index}
+                  subject={elementSubject}
+                  deleteElement={deleteElement}
+                  setCurrent={setCurrent}
+                  current={current}
+                  setElementSubject={setElement}
+                  active={index == current}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+          <NewLine onClick={handleNewLineMaybe} />
+        </div>
+      </UploadWrapper>
     </>
   );
 }
