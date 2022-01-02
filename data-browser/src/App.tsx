@@ -1,6 +1,7 @@
 import React from 'react';
 import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import {
   initAgentFromLocalStorage,
   StoreContext,
@@ -54,23 +55,25 @@ function App(): JSX.Element {
   return (
     <StoreContext.Provider value={store}>
       <AppSettingsContextProvider>
-        {/* Basename is for hosting on GitHub pages */}
-        <BrowserRouter basename='/'>
-          <QueryParamProvider ReactRouterRoute={Route}>
-            <HotKeysWrapper>
-              <ThemeWrapper>
-                <ErrorBoundary FallbackComponent={CrashPage}>
-                  <GlobalStyle />
-                  <Toaster />
-                  <MetaSetter />
-                  <NavWrapper>
-                    <Routes />
-                  </NavWrapper>
-                </ErrorBoundary>
-              </ThemeWrapper>
-            </HotKeysWrapper>
-          </QueryParamProvider>
-        </BrowserRouter>
+        <HelmetProvider>
+          {/* Basename is for hosting on GitHub pages */}
+          <BrowserRouter basename='/'>
+            <QueryParamProvider ReactRouterRoute={Route}>
+              <HotKeysWrapper>
+                <ThemeWrapper>
+                  <ErrorBoundary FallbackComponent={CrashPage}>
+                    <GlobalStyle />
+                    <Toaster />
+                    <MetaSetter />
+                    <NavWrapper>
+                      <Routes />
+                    </NavWrapper>
+                  </ErrorBoundary>
+                </ThemeWrapper>
+              </HotKeysWrapper>
+            </QueryParamProvider>
+          </BrowserRouter>
+        </HelmetProvider>
       </AppSettingsContextProvider>
     </StoreContext.Provider>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { properties, Resource } from '@tomic/lib';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { ContainerNarrow } from './Containers';
 import { useString, useTitle } from '@tomic/react';
 import 'types-wm';

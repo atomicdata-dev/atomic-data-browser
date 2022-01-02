@@ -31,7 +31,7 @@ type NestedParentProps = {
 
 /** The actually recursive part */
 function NestedParent({ subject }: NestedParentProps): JSX.Element {
-  const resource = useResource(subject);
+  const resource = useResource(subject, { allowIncomplete: true });
   const [parent] = useString(resource, properties.parent);
 
   return (
