@@ -1,8 +1,10 @@
 {
   "author": "Joep Meindertsma",
   "description": "",
+  "dependencies": {
+    "@tomic/lib": "^0.30.4"
+  },
   "devDependencies": {
-    "@tomic/lib": "^0.30.4",
     "react": "^17.0.2",
     "typescript": "^4.3.4"
   },
