@@ -1,6 +1,5 @@
 import * as React from "../pkg/react.js";
-import {useArray, useTitle} from "../link/react/src/index.js";
-import {properties} from "../link/lib/src/index.js";
+import {useArray, useTitle, properties} from "../link/react/src/index.js";
 import {ContainerNarrow} from "../components/Containers.js";
 import {CardRow} from "../components/Card.js";
 import ResourceInline from "./ResourceInline.js";
