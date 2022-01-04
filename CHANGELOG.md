@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## unreleased
+## v0.30.6
 
 - Don't use WebSockets if they're not supported #131
 
