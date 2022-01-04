@@ -9,8 +9,8 @@
     "@dnd-kit/core": "^4.0.3",
     "@dnd-kit/sortable": "^5.1.0",
     "@dnd-kit/utilities": "^3.0.2",
-    "@tomic/lib": "^0.30.6",
-    "@tomic/react": "^0.30.6",
+    "@tomic/lib": "^0.30.7",
+    "@tomic/react": "^0.30.7",
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
@@ -82,5 +82,5 @@
     "test-new": "playwright codegen http://localhost:8080",
     "test-query": "PWDEBUG=1 npx playwright test \"browser.spec.ts\" -g"
   },
-  "version": "0.30.6"
+  "version": "0.30.7"
 }
