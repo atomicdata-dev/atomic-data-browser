@@ -304,7 +304,11 @@ export class Store {
   /** Closes an old websocket and opens a new one to the BaseURL */
   setWebSocket(): void {
     this.webSocket && this.webSocket.close();
-    this.webSocket = startWebsocket(this);
+    if (WebSocket !== undefined) {
+      this.webSocket = startWebsocket(this);
+    } else {
+      console.warn('WebSocket not supported');
+    }
   }
 
   /**

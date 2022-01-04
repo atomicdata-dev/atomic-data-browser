@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## unreleased
+
+- Don't use WebSockets if they're not supported
+
 ## v0.30.5
 
 - Switch to `dnd-kit` for drag and drop #92
