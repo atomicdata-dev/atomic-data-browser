@@ -4,7 +4,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## unreleased
 
-- Don't use WebSockets if they're not supported
+- Don't use WebSockets if they're not supported #131
 
 ## v0.30.5
 
