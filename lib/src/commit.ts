@@ -5,6 +5,10 @@ import { urls } from './urls';
 import { Store } from './store';
 import { JSONValue, removeQueryParamsFromURL, Resource } from '.';
 
+// https://github.com/paulmillr/noble-ed25519/issues/38
+import { sha512 } from '@noble/hashes/sha512';
+utils.sha512 = msg => Promise.resolve(sha512(msg));
+
 /** A {@link Commit} without its signature, signer and timestamp */
 export interface CommitBuilderI {
   /** The resource being edited */

@@ -22,6 +22,7 @@ module.exports = {
     //   '@snowpack/plugin-webpack',
     //   {
     //     outputPattern: { css: '[name].css', js: '[name].js' },
+    //     sourceMap: true,
     //   },
     // ],
   ],
