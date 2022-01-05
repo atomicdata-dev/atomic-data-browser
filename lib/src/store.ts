@@ -304,7 +304,8 @@ export class Store {
   /** Closes an old websocket and opens a new one to the BaseURL */
   setWebSocket(): void {
     this.webSocket && this.webSocket.close();
-    if (WebSocket !== undefined) {
+    // Check if we're running in a webbrowser
+    if (typeof window !== 'undefined') {
       this.webSocket = startWebsocket(this);
     } else {
       console.warn('WebSocket not supported');
@@ -338,7 +339,7 @@ export class Store {
     // TODO: check if there is a websocket for this server URL or not
     try {
       // Only subscribe if there's a websocket. When it's opened, all subject will be iterated and subscribed
-      if (this.webSocket?.readyState == WebSocket.OPEN) {
+      if (this.webSocket?.readyState == 1) {
         this.webSocket?.send(`SUBSCRIBE ${subject}`);
       }
     } catch (e) {

@@ -9,7 +9,11 @@ export function truncateUrl(
 ): string {
   // Remove the schema, the https:// part
   let noSchema = url.replace(/(^\w+:|^)\/\//, '');
-  if (window?.location && noSchema.startsWith(window.location.hostname)) {
+  if (
+    typeof window !== 'undefined' &&
+    window?.location &&
+    noSchema.startsWith(window.location.hostname)
+  ) {
     noSchema = noSchema.slice(window.location.hostname.length);
   }
   if (noSchema.length <= num) {

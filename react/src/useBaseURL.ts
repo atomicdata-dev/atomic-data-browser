@@ -14,7 +14,9 @@ export const useBaseURL = (): [string, (serverUrl: string) => void] => {
     'serverUrl',
     store.getServerUrl(),
   );
-  const [baseURL, setBaseURL] = useState<string>(window.location.origin);
+  const [baseURL, setBaseURL] = useState<string | undefined>(
+    window?.location.origin,
+  );
 
   useEffect(() => {
     if (baseURL !== null) {

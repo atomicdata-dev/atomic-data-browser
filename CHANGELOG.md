@@ -5,6 +5,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## unreleased
 
 - Make bugsnag optional #133
+- Disable websockets out of browser context for `@tomic/lib`
 
 ## v0.30.6 to 8
 
