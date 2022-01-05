@@ -3,7 +3,7 @@
     "lib",
     "react"
   ],
-  "version": "0.30.7",
+  "version": "0.30.8",
   "npmClient": "yarn",
   "private": true,
   "useWorkspaces": true
