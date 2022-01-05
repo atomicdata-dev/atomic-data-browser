@@ -24,9 +24,9 @@ export function handleInfo(e: Error): void {
   }
 }
 
-export function initBugsnag(): BugsnagErrorBoundary {
+export function initBugsnag(apiKey?: string): BugsnagErrorBoundary {
   Bugsnag.start({
-    apiKey: '0b41fa51d1367cdfc1165ccf7436467f',
+    apiKey,
     plugins: [new BugsnagPluginReact()],
     releaseStage: isDev() ? 'development' : 'production',
     enabledReleaseStages: ['production'],

@@ -72,7 +72,7 @@ yarn start-https
 - **Fetching & processing** is done in this order. The UI renders some component that uses `useResource`, and passes a `subject` URL. This is probably first the one that's shown in the navigation bar. This resource is fetched (unless it's already in the store) as a `JSON-AD` object, after which it is put in the Store without any changes. The Parser does not perform validation checks - that would make the application slower. After the resource is added to the store, subscribers (users of that resource, such as Components with the `useResource` hook) will be notified of changes. The component will re-render, and the props can now be used.
 - **Accessing the store from the browser console** can be done in develop mode in your browser with the global `store` object.
 - **Forms** use the various value hooks (e.g. `useString`) for maintaining actual resource state. When the form input changes, the new value will be `.set()` on the `Resource`, and this will throw an error if there is a validation error. These should be catched by passing an error handler to the `useString` hook.
-- **Error handling** is set in `App.tsx` on initialization. We set `Store.errorHandler` which is called when something goes wrong. This should result in a toaster error shown to the user, and a message sent to BugSnag.
+- **Error handling** is set in `App.tsx` on initialization. We set `Store.errorHandler` which is called when something goes wrong. This should result in a toaster error shown to the user, and a message sent to BugSnag if `window.bugsnagApiKey` is set.
 
 ## Directory structure
 

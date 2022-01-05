@@ -33,8 +33,17 @@ store.errorHandler = e => {
   }
   toast.error(e.message);
 };
-/** Setup bugsnag for error handling */
-const ErrorBoundary = initBugsnag();
+
+declare global {
+  interface Window {
+    bugsnagApiKey: string;
+  }
+}
+/** Setup bugsnag for error handling, but only if there's an API key */
+const ErrorBoundary = window.bugsnagApiKey
+  ? initBugsnag(window.bugsnagApiKey)
+  : 'div';
+
 /** Initialize the agent from localstorage */
 const agent = initAgentFromLocalStorage();
 agent && store.setAgent(agent);
