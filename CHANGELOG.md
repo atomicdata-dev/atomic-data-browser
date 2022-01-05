@@ -2,9 +2,14 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## v0.30.6
+## unreleased
+
+- Make bugsnag optional #133
+
+## v0.30.6 to 8
 
 - Don't use WebSockets if they're not supported #131
+- Fix `@noble` build issues
 
 ## v0.30.5
 
