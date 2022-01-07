@@ -14,7 +14,7 @@ import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
 import ResourceInline from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { editURL } from '../helpers/navigation';
 import { useHistory } from 'react-router';
 

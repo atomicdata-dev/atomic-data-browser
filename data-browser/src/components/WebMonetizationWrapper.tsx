@@ -6,7 +6,7 @@ import { useString, useTitle } from '@tomic/react';
 import 'types-wm';
 import Spinner from './Button';
 import toast from 'react-hot-toast';
-import Link from './Link';
+import Link from './AtomicLink';
 
 type Props = {
   resource: Resource;

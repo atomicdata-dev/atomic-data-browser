@@ -7,7 +7,7 @@ import ResourceInline from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import { Button } from '../components/Button';
 import { useSettings } from '../helpers/AppSettings';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { FaPlus } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 import { ResourcePageProps } from './ResourcePage';

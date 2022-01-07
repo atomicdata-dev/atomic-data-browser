@@ -2,7 +2,7 @@ import { truncateUrl, Resource } from '@tomic/lib';
 import { useProperty } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
-import AtomicLink from './Link';
+import AtomicLink from './AtomicLink';
 import { ValueForm } from './forms/ValueForm';
 import { ErrorLook } from '../views/ResourceInline';
 import ValueComp from './ValueComp';

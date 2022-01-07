@@ -29,7 +29,7 @@ import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
-import Link from '../components/Link';
+import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
 
 const displayStyles = [

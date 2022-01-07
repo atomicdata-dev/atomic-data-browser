@@ -3,7 +3,7 @@ import { properties } from '@tomic/lib';
 import React, { useState } from 'react';
 
 import Markdown from '../components/datatypes/Markdown';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
 import { CardViewProps } from './ResourceCard';

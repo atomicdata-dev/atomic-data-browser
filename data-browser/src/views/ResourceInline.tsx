@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { urls } from '@tomic/lib';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 
 type Props = {
   subject: string;

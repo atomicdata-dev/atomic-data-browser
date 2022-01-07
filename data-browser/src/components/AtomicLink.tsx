@@ -41,15 +41,17 @@ export function AtomicLink({
       // When there is a regular URL, let the browser handle it
       return;
     }
+    e.preventDefault();
     if (path) {
       history.push(path);
       return;
     }
-    e.preventDefault();
-    if (currentUrl == subject) {
-      return;
+    if (subject) {
+      if (currentUrl == subject) {
+        return;
+      }
+      history.push(openURL(subject));
     }
-    history.push(openURL(subject));
   };
 
   const isOnCurrentPage = subject && currentUrl == subject;

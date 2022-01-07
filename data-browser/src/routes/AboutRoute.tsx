@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { Logo } from '../components/Logo';
 
 export const About: React.FunctionComponent = () => {

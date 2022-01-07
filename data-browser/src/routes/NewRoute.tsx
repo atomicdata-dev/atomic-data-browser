@@ -15,7 +15,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { InputStyled, InputWrapper } from '../components/forms/InputStyles';
 import NewIntanceButton from '../components/NewInstanceButton';
 import { ResourceForm } from '../components/forms/ResourceForm';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import Markdown from '../components/datatypes/Markdown';
 import Field from '../components/forms/Field';
 import { ResourceSelector } from '../components/forms/ResourceSelector';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useResource, useStore } from '@tomic/react';
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';

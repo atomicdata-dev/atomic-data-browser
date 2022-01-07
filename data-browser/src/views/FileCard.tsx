@@ -1,7 +1,7 @@
 import { useTitle } from '@tomic/react';
 import React from 'react';
 
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { CardViewProps } from './ResourceCard';
 import { FileInner } from './FilePage';
 

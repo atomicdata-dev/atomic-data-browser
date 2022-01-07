@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { Resource, properties, urls } from '@tomic/lib';
 import AllProps from '../components/AllProps';
-import AtomicLink from '../components/Link';
+import AtomicLink from '../components/AtomicLink';
 import { Card } from '../components/Card';
 import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
