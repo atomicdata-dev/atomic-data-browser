@@ -178,7 +178,7 @@ export function ResourceForm({
       {requires.map(property => {
         return (
           <ResourceField
-            key={property}
+            key={property + ' field'}
             propertyURL={property}
             resource={resource}
             disabled={disabled}
@@ -189,7 +189,7 @@ export function ResourceForm({
       {recommends.map(property => {
         return (
           <ResourceField
-            key={property}
+            key={property + ' field'}
             propertyURL={property}
             resource={resource}
             disabled={disabled}
@@ -199,7 +199,7 @@ export function ResourceForm({
       {otherProps.map(property => {
         return (
           <ResourceField
-            key={property}
+            key={property + ' field'}
             propertyURL={property}
             resource={resource}
             disabled={disabled}

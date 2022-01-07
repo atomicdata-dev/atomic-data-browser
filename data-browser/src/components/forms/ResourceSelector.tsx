@@ -93,7 +93,9 @@ export function ResourceSelector({
         disabled={disabled}
         {...props}
       />
-      {value !== '' && error && <ErrMessage>{error?.message}</ErrMessage>}
+      {value && value !== '' && error && (
+        <ErrMessage>{error?.message}</ErrMessage>
+      )}
       {required && value == '' && <ErrMessage>Required</ErrMessage>}
     </div>
   );

@@ -85,7 +85,6 @@ export function DropdownInput({
     setUseKeys(true);
     setIsFocus(true);
     setIsOpen(true);
-    onUpdate(val);
     setSelectedIndex(0);
     if (val == '') {
       setSelectedItem(null);
@@ -114,6 +113,7 @@ export function DropdownInput({
 
   function handleBlur() {
     setIsFocus(false);
+    onUpdate(inputValue);
     // for some reason this prevents that no item can be selected from the dropdown.
     // HandleBlur is called before the setInput handle is called, so the click on the DropdownInput is not caught.
     setTimeout(function () {
