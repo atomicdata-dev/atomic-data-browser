@@ -3927,13 +3927,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-helmet@^6.1.1":
-  version "6.1.4"
-  resolved "https://registry.npmjs.org/@types/react-helmet/-/react-helmet-6.1.4.tgz"
-  integrity sha512-jyx50RNZXVaTGHY3MsoRPNpeiVk8b0XTPgD/O6KHF6COTDnG/+lRjPYvTK5nfWtR3xDOux0w6bHLAsaHo2ZLTA==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-router-dom@^5.1.7":
   version "5.3.1"
   resolved "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.3.1.tgz"
@@ -10370,26 +10363,6 @@ nwsapi@^2.2.0:
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
 
-oaf-react-router@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/oaf-react-router/-/oaf-react-router-2.1.1.tgz"
-  integrity sha512-l3EAdh8b6DRvbbP6sC9uY4Iek1TZq4nxIrWzeZXiN6aCiiZ8NKcmKJqkuej8VbdX0lBCyVp7AgS/HWbXD6wp6A==
-  dependencies:
-    oaf-routing "^3.0.0"
-
-oaf-routing@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/oaf-routing/-/oaf-routing-3.0.1.tgz"
-  integrity sha512-1BiJObNkwQHTUZ5vBm0Yb1aB2oTe+SK2Oqr/p1zNCrm0c/oAHaZSRvYZhSYjvVa2q2B+O14v3e3LLIhHn0t+QQ==
-  dependencies:
-    oaf-side-effects "^2.0.0"
-    unique-selector "^0.4.1"
-
-oaf-side-effects@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/oaf-side-effects/-/oaf-side-effects-2.1.0.tgz"
-  integrity sha512-NE3hDKy+ZY6zTqCv7DgXbjpOAYbixZl59WPWFx0UWoyCfYcsqmSMjnR53xCOjPAWZD8pOFi2UCg8qAQfinickg==
-
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.9.0.tgz"
@@ -13502,11 +13475,6 @@ unique-filename@^1.1.1:
   integrity sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ==
   dependencies:
     unique-slug "^2.0.0"
-
-unique-selector@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/unique-selector/-/unique-selector-0.4.1.tgz"
-  integrity sha512-7dLxUE1Wu89fpruo7DAH2k+7UcGSZBnEiwjvlPX5p0LuoJkVIgoaR/5YRFjwmQnVq7ZK0ankCdLRx4mRqd6oOQ==
 
 unique-slug@^2.0.0:
   version "2.0.2"

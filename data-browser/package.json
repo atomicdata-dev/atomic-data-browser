@@ -12,10 +12,8 @@
     "@tomic/lib": "^0.30.9",
     "@tomic/react": "^0.30.9",
     "@types/react-dom": "^17.0.3",
-    "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.19",
-    "oaf-react-router": "^2.1.1",
     "polished": "^4.1.0",
     "query-string": "^7.0.0",
     "quick-score": "^0.0.10",
@@ -30,7 +28,6 @@
     "react-intersection-observer": "^8.31.1",
     "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
-    "snowpack-plugin-baseurl-handler": "^0.0.3",
     "styled-components": "^5.3.3",
     "use-query-params": "^1.2.2",
     "yamde": "^1.5.0"
@@ -51,6 +48,7 @@
     "lint-staged": "^10.5.4",
     "pretty-quick": "^3.1.0",
     "snowpack": "^3.8.8",
+    "snowpack-plugin-baseurl-handler": "^0.0.3",
     "types-wm": "^1.1.0",
     "typescript": "^4.2.4",
     "workbox-cli": "^6.4.1"

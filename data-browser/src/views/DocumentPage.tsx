@@ -107,7 +107,7 @@ function DocumentPageEdit({
     'enter',
     e => {
       e.preventDefault();
-      focusElement(0);
+      addElement(0);
     },
     { enableOnTags: ['INPUT'] },
     [current],
@@ -174,6 +174,7 @@ function DocumentPageEdit({
   );
 
   async function addElement(position: number) {
+    console.log('addElement', position);
     // When an element is created, it should be a Resource that has this document as its parent.
     // or maybe a nested resource?
     const elementSubject = store.createSubject('element');
