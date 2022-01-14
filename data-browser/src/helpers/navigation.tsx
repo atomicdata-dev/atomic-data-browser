@@ -16,7 +16,7 @@ function constructURL(
   return path + navTo.search;
 }
 
-/** Constructs a URL for opening a resource form. */
+/** Constructs a URL for opening / showing a Resource. */
 export function openURL(subject: string): string {
   const url = new URL(subject);
   if (window.location.origin == url.origin) {

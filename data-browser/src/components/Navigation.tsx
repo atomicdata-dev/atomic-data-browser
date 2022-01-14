@@ -20,6 +20,7 @@ import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 import { tryValidURL } from '@tomic/lib';
 import { paths } from '../routes/paths';
+import { isRunningInTauri } from '../helpers/tauri';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -129,7 +130,8 @@ function NavBar() {
   const isInStandaloneMode = () =>
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone ||
-    document.referrer.includes('android-app://');
+    document.referrer.includes('android-app://') ||
+    isRunningInTauri();
 
   const handleSubmit = event => {
     event.preventDefault();

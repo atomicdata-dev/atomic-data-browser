@@ -5,6 +5,7 @@ import { openURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
+import { isRunningInTauri } from '../helpers/tauri';
 
 type Props = {
   children?: ReactNode;
@@ -36,7 +37,7 @@ export function AtomicLink({
     );
   }
 
-  const handleClick = e => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (href) {
       // When there is a regular URL, let the browser handle it
       return;
@@ -63,7 +64,9 @@ export function AtomicLink({
       href={subject ? subject : href}
       disabled={isOnCurrentPage}
       tabIndex={isOnCurrentPage || untabbable ? -1 : 0}
-      target='_blank'
+      // Tauri always opens `_blank` in new tab, and ignores preventDefault() for some reason.
+      // https://github.com/tauri-apps/tauri/issues/1657
+      target={isRunningInTauri() && !href ? '' : '_blank'}
     >
       {children}
       {href && <FaExternalLinkAlt />}
