@@ -13,7 +13,7 @@ type Props = {
   subject?: string;
   /** An http URL to some (external) resource, opened in a new tab and fetched as HTML */
   href?: string;
-  /** A path string, e.g. /new */
+  /** A path string, e.g. /new, opened using the internal router */
   path?: string;
   untabbable?: boolean;
 };
