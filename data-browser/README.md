@@ -2,7 +2,7 @@
 
 [![Snowpack build Status](https://github.com/joepio/atomic-data-browser/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
 
-_Status: Beta. [Breaking changes](changelog.md) are expected until 1.0._
+_Status: Beta. [Breaking changes](CHANGELOG.md) are expected until 1.0._
 
 View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
 Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
