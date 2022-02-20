@@ -1,7 +1,7 @@
 import { sign, getPublicKey, utils } from '@noble/ed25519';
 import stringify from 'json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
-import { urls } from './urls';
+import { properties, urls } from './urls';
 import { Store } from './store';
 import { JSONValue, removeQueryParamsFromURL, Resource } from '.';
 
@@ -19,6 +19,11 @@ export interface CommitBuilderI {
   remove?: string[];
   /** If true, the resource must be deleted. https://atomicdata.dev/properties/destroy */
   destroy?: boolean;
+  /**
+   * URL of the previous Commit, used by the receiver to make sure that we're
+   * having the same current version.
+   */
+  previousCommit?: string;
 }
 
 /** Return the current time as Atomic Data timestamp. Milliseconds since unix epoch. */
@@ -32,6 +37,7 @@ export class CommitBuilder implements CommitBuilderI {
   set: Record<string, JSONValue>;
   remove: string[];
   destroy?: boolean;
+  previousCommit?: string;
 
   /** Removes any query parameters from the Subject */
   constructor(subject: string) {
@@ -51,6 +57,7 @@ export class CommitBuilder implements CommitBuilderI {
       privateKey,
       getTimestampNow(),
     );
+    console.log('in sign', commit);
     return commit;
   }
 
@@ -72,7 +79,12 @@ export class CommitBuilder implements CommitBuilderI {
     cm.set = this.set;
     cm.destroy = this.destroy;
     cm.remove = this.remove;
+    cm.previousCommit = this.previousCommit;
     return cm;
+  }
+
+  setPreviousCommit(prev: string) {
+    this.previousCommit = prev;
   }
 }
 
@@ -135,6 +147,7 @@ export function serializeDeterministically(
   replaceKey(commit, 'signature', urls.properties.commit.signature);
   replaceKey(commit, 'remove', urls.properties.commit.remove);
   replaceKey(commit, 'destroy', urls.properties.commit.destroy);
+  replaceKey(commit, 'previousCommit', urls.properties.commit.previousCommit);
   commit[urls.properties.isA] = [urls.classes.commit];
   return stringify(commit);
 }
@@ -157,7 +170,7 @@ export const signAt = async (
     createdAt,
     signer: agent,
   };
-  const serializedCommit = serializeDeterministically(commitPreSigned);
+  const serializedCommit = serializeDeterministically({ ...commitPreSigned });
   const signature = await signToBase64(serializedCommit, privateKey);
   const commitPostSigned: Commit = {
     ...commitPreSigned,
@@ -219,16 +232,18 @@ export async function generateKeyPair(): Promise<KeyPair> {
 
 /** Parses a JSON-AD Commit, applies it to the store. Does not perform checks */
 export function parseAndApply(jsonAdObjStr: string, store: Store) {
+  console.log('parseAndApply', jsonAdObjStr);
+  // Parse the commit
   const jsonAdObj = JSON.parse(jsonAdObjStr);
-  // Parses the commit
   const subject = jsonAdObj[urls.properties.commit.subject];
   const set = jsonAdObj[urls.properties.commit.set];
   const remove: string[] | undefined = jsonAdObj[urls.properties.commit.remove];
   const destroy: boolean | undefined =
     jsonAdObj[urls.properties.commit.destroy];
-  // const createdAt = jsonAdObj[urls.properties.commit.createdAt];
-  // const signer = jsonAdObj[urls.properties.commit.signer];
-  const signature = jsonAdObj[urls.properties.commit.signature];
+  const signature: string = jsonAdObj[urls.properties.commit.signature];
+  const id: null | string = jsonAdObj['@id'];
+  const previousCommit: null | string =
+    jsonAdObj[urls.properties.commit.previousCommit];
 
   let resource = store.resources.get(subject);
 
@@ -236,9 +251,11 @@ export function parseAndApply(jsonAdObjStr: string, store: Store) {
   if (resource == undefined) {
     resource = new Resource(subject);
   } else {
-    if (resource.appliedCommitSignatures.has(signature)) {
-      return;
-    }
+    // Commit has already been applied here, ignore the commit
+    // TEMP DISABLE
+    // if (resource.appliedCommitSignatures.has(signature)) {
+    //   return;
+    // }
   }
 
   set &&
@@ -250,6 +267,11 @@ export function parseAndApply(jsonAdObjStr: string, store: Store) {
     remove.forEach(propUrl => {
       resource.removePropValLocally(propUrl);
     });
+
+  if (previousCommit && id) {
+    // This is something that the server does, too.
+    resource.setUnsafe(properties.commit.lastCommit, id);
+  }
 
   if (destroy) {
     store.removeResource(subject);

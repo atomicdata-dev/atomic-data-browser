@@ -44,6 +44,8 @@ export const properties = {
   commit: {
     subject: 'https://atomicdata.dev/properties/subject',
     createdAt: 'https://atomicdata.dev/properties/createdAt',
+    lastCommit: 'https://atomicdata.dev/properties/lastCommit',
+    previousCommit: 'https://atomicdata.dev/properties/previousCommit',
     signer: 'https://atomicdata.dev/properties/signer',
     set: 'https://atomicdata.dev/properties/set',
     remove: 'https://atomicdata.dev/properties/remove',
