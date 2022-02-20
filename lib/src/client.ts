@@ -92,7 +92,8 @@ export async function postCommit(
   /** URL to post to, e.g. https://atomicdata.dev/commit */
   endpoint: string,
 ): Promise<string> {
-  const serialized = serializeDeterministically(commit);
+  const serialized = serializeDeterministically({ ...commit });
+  console.log(serialized);
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
   let response = null;
