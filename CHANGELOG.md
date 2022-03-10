@@ -7,6 +7,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Make bugsnag optional #133
 - Disable websockets out of browser context for `@tomic/lib`
 - tauri back buttons, new tab external links #115
+- Refer to `previousCommit`s in Commits #140
+- Add `parseCommit` function
 
 ## v0.30.6 to 8
 

@@ -1,7 +1,12 @@
 // Provides functionality to interact with an Atomic Server.
 
 import { getTimestampNow, Store } from '.';
-import { Commit, serializeDeterministically, signToBase64 } from './commit';
+import {
+  Commit,
+  parseCommit,
+  serializeDeterministically,
+  signToBase64,
+} from './commit';
 import { parseJsonADArray, parseJsonADResource } from './parse';
 import { Resource } from './resource';
 import { Agent } from './agent';
@@ -86,14 +91,13 @@ export async function fetchResource(
   return resource;
 }
 
-/** Posts a Commit to some endpoint */
+/** Posts a Commit to some endpoint. Returns the Commit created by the server. */
 export async function postCommit(
   commit: Commit,
   /** URL to post to, e.g. https://atomicdata.dev/commit */
   endpoint: string,
-): Promise<string> {
+): Promise<Commit> {
   const serialized = serializeDeterministically({ ...commit });
-  console.log(serialized);
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
   let response = null;
@@ -110,7 +114,7 @@ export async function postCommit(
   if (response.status !== 200) {
     throw new Error(body);
   }
-  return body;
+  return parseCommit(body);
 }
 
 /** Throws an error if the URL is not valid */
