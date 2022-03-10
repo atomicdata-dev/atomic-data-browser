@@ -8,6 +8,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Disable websockets out of browser context for `@tomic/lib`
 - tauri back buttons, new tab external links #115
 - Fix concurrency issue with commits #91
+- Refer to `previousCommit`s in Commits #140
+- Add `parseCommit` function
 
 ## v0.30.6 to 8
 
