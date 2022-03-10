@@ -57,7 +57,6 @@ export class CommitBuilder implements CommitBuilderI {
       privateKey,
       getTimestampNow(),
     );
-    console.log('in sign', commit);
     return commit;
   }
 
@@ -83,6 +82,10 @@ export class CommitBuilder implements CommitBuilderI {
     return cm;
   }
 
+  /**
+   * Set the URL of the Commit that was previously (last) applied. The value of
+   * this should probably be the `lastCommit` of the Resource.
+   */
   setPreviousCommit(prev: string) {
     this.previousCommit = prev;
   }
@@ -104,6 +107,11 @@ interface CommitPreSigned extends CommitBuilderI {
 export interface Commit extends CommitPreSigned {
   /** https://atomicdata.dev/properties/signature */
   signature: string;
+  /**
+   * Subject of created Commit. Will only be present after it was accepted and
+   * applied by the Server.
+   */
+  id?: string;
 }
 
 /** Replaces a key in a Commit. Ignores it if it's not there */
@@ -196,6 +204,10 @@ export const signToBase64 = async (
 ): Promise<string> => {
   const privateKeyArrayBuffer = decodeB64(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
+  // Polyfill for node
+  if (typeof TextEncoder === 'undefined') {
+    global.TextEncoder = require('util').TextEncoder;
+  }
   const utf8Encode = new TextEncoder();
   const messageBytes: Uint8Array = utf8Encode.encode(message);
   const signatureHex = await sign(messageBytes, privateKeyBytes);
@@ -230,20 +242,43 @@ export async function generateKeyPair(): Promise<KeyPair> {
   };
 }
 
+export function parseCommit(str: string): Commit {
+  try {
+    const jsonAdObj = JSON.parse(str);
+    const subject = jsonAdObj[urls.properties.commit.subject];
+    const set = jsonAdObj[urls.properties.commit.set];
+    const signer = jsonAdObj[urls.properties.commit.signer];
+    const createdAt = jsonAdObj[urls.properties.commit.createdAt];
+    const remove: string[] | undefined =
+      jsonAdObj[urls.properties.commit.remove];
+    const destroy: boolean | undefined =
+      jsonAdObj[urls.properties.commit.destroy];
+    const signature: string = jsonAdObj[urls.properties.commit.signature];
+    const id: null | string = jsonAdObj['@id'];
+    const previousCommit: null | string =
+      jsonAdObj[urls.properties.commit.previousCommit];
+    return {
+      subject,
+      set,
+      signer,
+      createdAt,
+      remove,
+      destroy,
+      signature,
+      id,
+      previousCommit,
+    };
+  } catch (e) {
+    throw new Error(`Could not parse commit: ${e}`);
+  }
+}
+
 /** Parses a JSON-AD Commit, applies it to the store. Does not perform checks */
-export function parseAndApply(jsonAdObjStr: string, store: Store) {
-  console.log('parseAndApply', jsonAdObjStr);
+export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   // Parse the commit
-  const jsonAdObj = JSON.parse(jsonAdObjStr);
-  const subject = jsonAdObj[urls.properties.commit.subject];
-  const set = jsonAdObj[urls.properties.commit.set];
-  const remove: string[] | undefined = jsonAdObj[urls.properties.commit.remove];
-  const destroy: boolean | undefined =
-    jsonAdObj[urls.properties.commit.destroy];
-  const signature: string = jsonAdObj[urls.properties.commit.signature];
-  const id: null | string = jsonAdObj['@id'];
-  const previousCommit: null | string =
-    jsonAdObj[urls.properties.commit.previousCommit];
+  const parsed = parseCommit(jsonAdObjStr);
+  const { subject, set, remove, previousCommit, id, destroy, signature } =
+    parsed;
 
   let resource = store.resources.get(subject);
 

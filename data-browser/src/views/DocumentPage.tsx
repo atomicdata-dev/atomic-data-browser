@@ -175,7 +175,6 @@ function DocumentPageEdit({
 
   /** Creates a new Element at the given position, with the Document as its parent */
   async function addElement(position: number) {
-    console.log('addElement', position);
     // When an element is created, it should be a Resource that has this document as its parent.
     // or maybe a nested resource?
     const elementSubject = store.createSubject('element');

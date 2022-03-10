@@ -1,4 +1,4 @@
-import { parseAndApply } from './commit';
+import { parseAndApplyCommit } from './commit';
 import { Store } from './store';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
@@ -29,7 +29,7 @@ function handleOpen(store: Store) {
 function handleMessage(ev: MessageEvent, store: Store) {
   if (ev.data.startsWith('COMMIT ')) {
     const commit = ev.data.slice(7);
-    parseAndApply(commit, store);
+    parseAndApplyCommit(commit, store);
   } else {
     console.warn('Unknown websocket message:', ev);
   }
