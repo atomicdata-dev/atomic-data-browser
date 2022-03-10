@@ -204,10 +204,10 @@ export const signToBase64 = async (
 ): Promise<string> => {
   const privateKeyArrayBuffer = decodeB64(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
-  // Polyfill for node
-  if (typeof TextEncoder === 'undefined') {
-    global.TextEncoder = require('util').TextEncoder;
-  }
+  // // Polyfill for node
+  // if (typeof TextEncoder === 'undefined') {
+  //   global.TextEncoder = require('util').TextEncoder;
+  // }
   const utf8Encode = new TextEncoder();
   const messageBytes: Uint8Array = utf8Encode.encode(message);
   const signatureHex = await sign(messageBytes, privateKeyBytes);
