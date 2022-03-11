@@ -9,7 +9,7 @@ import CollectionCard from '../views/CollectionCard';
 import { ErrorLook } from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import FileCard from './FileCard';
-import { defaulHiddenProps } from './ResourcePageDefault';
+import { defaultHiddenProps } from './ResourcePageDefault';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -110,7 +110,7 @@ function ResourceCardInner(props: Props): JSX.Element {
         propertyURL={urls.properties.description}
       />
       {!small && (
-        <AllProps resource={resource} except={defaulHiddenProps} editable />
+        <AllProps resource={resource} except={defaultHiddenProps} editable />
       )}
     </React.Fragment>
   );

@@ -7,7 +7,7 @@ type Props = {
 
 /** Renders a Date value */
 function DateTime({ date }: Props): JSX.Element {
-  return <div title={date.toLocaleString()}>{formatTimeAgo(date)}</div>;
+  return <span title={date.toLocaleString()}>{formatTimeAgo(date)}</span>;
 }
 
 export default DateTime;

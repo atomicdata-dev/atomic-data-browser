@@ -6,7 +6,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { InputStyled } from '../components/forms/InputStyles';
 import { ResourceForm } from '../components/forms/ResourceForm';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import ClassDetail from '../components/ClassDetail';
+import { ClassDetail } from '../components/ClassDetail';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
