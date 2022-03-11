@@ -101,7 +101,7 @@ export function SideBar(): JSX.Element {
    * This is called when the user presses a menu Item, which should result in a
    * closed menu in mobile context
    */
-  const closeMenu = React.useCallback(() => {
+  const closeSideBar = React.useCallback(() => {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
       setSideBarLocked(false);
@@ -117,17 +117,17 @@ export function SideBar(): JSX.Element {
       >
         {navbarTop ? <PaddingBig /> : null}
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
-        <SideBarDrive handleClickItem={closeMenu} key={baseURL} />
+        <SideBarDrive handleClickItem={closeSideBar} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(p => (
-            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeMenu} />
+            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeSiderBar} />
           ))}{' '}
           <SideBarHeader>
             <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
           {aboutMenuItems.map(p => (
-            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeMenu} />
+            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeSideBar} />
           ))}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}

@@ -1,5 +1,5 @@
 import { sign, getPublicKey, utils } from '@noble/ed25519';
-import stringify from 'json-stable-stringify';
+import stringify from 'fast-json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { properties, urls } from './urls';
 import { Store } from './store';
@@ -13,7 +13,7 @@ utils.sha512 = msg => Promise.resolve(sha512(msg));
 export interface CommitBuilderI {
   /** The resource being edited */
   subject: string;
-  /** The propert-value combinations being edited https://atomicdata.dev/properties/set */
+  /** The property-value combinations being edited https://atomicdata.dev/properties/set */
   set?: Record<string, JSONValue>;
   /** The properties that need to be removed. https://atomicdata.dev/properties/remove */
   remove?: string[];
@@ -204,10 +204,6 @@ export const signToBase64 = async (
 ): Promise<string> => {
   const privateKeyArrayBuffer = decodeB64(privateKeyBase64);
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
-  // // Polyfill for node
-  // if (typeof TextEncoder === 'undefined') {
-  //   global.TextEncoder = require('util').TextEncoder;
-  // }
   const utf8Encode = new TextEncoder();
   const messageBytes: Uint8Array = utf8Encode.encode(message);
   const signatureHex = await sign(messageBytes, privateKeyBytes);
