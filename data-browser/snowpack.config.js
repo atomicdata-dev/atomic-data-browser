@@ -42,7 +42,7 @@ module.exports = {
     // source: 'remote',
     // Used for the `crypto` node library for signing commits
     polyfillNode: true,
-    knownEntrypoints: ['json-stable-stringify', 'base64-arraybuffer'],
+    knownEntrypoints: ['base64 - arraybuffer'],
   },
   // Fix https://giters.com/snowpackjs/snowpack/issues/3218?amp=1
   workspaceRoot: '../',

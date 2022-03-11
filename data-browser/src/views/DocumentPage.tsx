@@ -31,7 +31,7 @@ import toast from 'react-hot-toast';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
-  const [canWrite, _canWriteMessage] = useCanWrite(resource);
+  const [canWrite] = useCanWrite(resource);
   const [editMode, setEditMode] = useState(canWrite);
 
   React.useEffect(() => {

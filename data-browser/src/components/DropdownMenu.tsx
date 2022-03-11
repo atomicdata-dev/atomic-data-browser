@@ -164,9 +164,8 @@ export interface MenuItemMinimial {
   disabled?: boolean;
 }
 
-/** Also requires click handler */
 export interface MenuItemSidebarProps extends MenuItemMinimial {
-  handleClickItem: () => unknown;
+  handleClickItem?: () => unknown;
 }
 
 interface MenuItemPropsExtended extends MenuItemSidebarProps {
