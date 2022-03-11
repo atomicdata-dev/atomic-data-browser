@@ -79,7 +79,7 @@ export default function UploadForm({
 
 interface UploadWrapperProps extends UploadFormProps {
   children: React.ReactNode;
-  onFilesUploaded: (filesSubjects: string[]) => any;
+  onFilesUploaded: (filesSubjects: string[]) => unknown;
 }
 
 /**

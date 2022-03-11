@@ -270,14 +270,6 @@ export function ResourceForm({
   );
 }
 
-const AdvancedBlock = styled.div`
-  border: solid 1px ${props => props.theme.colors.bg2};
-  padding: ${p => p.theme.margin}rem;
-  padding-bottom: 0;
-  border-radius: ${props => props.theme.radius};
-  margin-bottom: ${p => p.theme.margin}rem;
-`;
-
 const PropertyAdder = styled.div`
   display: flex;
   flex-direction: row;

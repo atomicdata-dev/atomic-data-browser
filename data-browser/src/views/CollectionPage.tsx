@@ -10,7 +10,7 @@ import {
   useLocalStorage,
   useStore,
 } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
+import { properties } from '@tomic/lib';
 import {
   FaArrowLeft,
   FaArrowRight,

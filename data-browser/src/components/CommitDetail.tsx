@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDate, useResource, useString } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
+import { properties } from '@tomic/lib';
 import ResourceInline from '../views/ResourceInline';
 import { Detail } from './Detail';
 import DateTime from './datatypes/DateTime';

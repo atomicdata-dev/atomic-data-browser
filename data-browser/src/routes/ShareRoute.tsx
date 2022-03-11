@@ -36,7 +36,7 @@ export function ShareRoute(): JSX.Element {
       const inherited = allRights.filter(r => r.setIn !== subject);
 
       // Make sure the public agent is always the top of the list
-      const sorted = inherited.sort((a, b) => {
+      const sorted = inherited.sort((a, _b) => {
         return a.for === urls.instances.publicAgent ? -1 : 1;
       });
 

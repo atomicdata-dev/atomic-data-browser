@@ -170,7 +170,7 @@ function SideBarMenuItem({
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
-  handleClickItem: () => any;
+  handleClickItem: () => unknown;
 }
 
 /** Shows the current Drive, it's children and an option to change to a different Drive */

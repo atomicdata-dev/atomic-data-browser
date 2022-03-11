@@ -64,7 +64,7 @@ export function ElementEdit({
   });
   const [klass] = useArray(resource, properties.isA);
   const ref = React.useRef(null);
-  const [canWrite, canWriteErr] = useCanWrite(resource);
+  const [_canWrite, canWriteErr] = useCanWrite(resource);
 
   /** If it is not a text element */
   const isAResource =
