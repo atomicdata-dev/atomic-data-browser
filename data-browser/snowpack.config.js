@@ -42,7 +42,18 @@ module.exports = {
     // source: 'remote',
     // Used for the `crypto` node library for signing commits
     polyfillNode: true,
-    knownEntrypoints: ['base64 - arraybuffer'],
+    // These eleminate some warnings for snowpack. Not sure what it does.
+    knownEntrypoints: [
+      '@emotion/memoize',
+      'unist-util-visit-parents',
+      '@emotion/is-prop-valid',
+      '@emotion/is-prop-valid',
+      'cross-fetch',
+      '@noble/hashes/sha512',
+      'base64-arraybuffer',
+      'fast-json-stable-stringify',
+      '@noble/ed25519',
+    ],
   },
   // Fix https://giters.com/snowpackjs/snowpack/issues/3218?amp=1
   workspaceRoot: '../',
