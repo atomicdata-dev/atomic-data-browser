@@ -3,14 +3,14 @@ import { useStore, useTitle } from '@tomic/react';
 import React, { useState } from 'react';
 import AllProps from '../components/AllProps';
 import { Button } from '../components/Button';
-import ClassDetail from '../components/ClassDetail';
+import { ClassDetail } from '../components/ClassDetail';
 import { CodeBlock } from '../components/CodeBlock';
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
 import NewInstanceButton from '../components/NewInstanceButton';
 import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
-import { defaulHiddenProps } from './ResourcePageDefault';
+import { defaultHiddenProps } from './ResourcePageDefault';
 
 /**
  * Full page Class resoure that features a New instance button, and a Typescript
@@ -29,7 +29,7 @@ export function ClassPage({ resource }: ResourcePageProps) {
       <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps
         resource={resource}
-        except={defaulHiddenProps}
+        except={defaultHiddenProps}
         editable
         columns
       />
