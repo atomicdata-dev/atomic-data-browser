@@ -308,7 +308,7 @@ export class Store {
     if (typeof window !== 'undefined') {
       this.webSocket = startWebsocket(this);
     } else {
-      console.warn('WebSocket not supported');
+      console.warn('WebSockets not supported, no window available');
     }
   }
 

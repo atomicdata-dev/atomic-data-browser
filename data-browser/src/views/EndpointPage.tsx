@@ -52,7 +52,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       <h1>{title} endpoint</h1>
       {description && <Markdown text={description} />}
       <form onSubmit={constructSubject}>
-        {parameters.map((param, i) => {
+        {parameters.map(param => {
           return (
             <ResourceField
               key={param}

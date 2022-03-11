@@ -31,7 +31,7 @@ import toast from 'react-hot-toast';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
-  const [canWrite, canWriteMessage] = useCanWrite(resource);
+  const [canWrite, _canWriteMessage] = useCanWrite(resource);
   const [editMode, setEditMode] = useState(canWrite);
 
   React.useEffect(() => {
@@ -358,7 +358,7 @@ function DocumentPageShow({
           <FaEdit />
         </Button>
       </div>
-      {elements.map((subject, index) => (
+      {elements.map(subject => (
         <ElementShow subject={subject} key={subject} />
       ))}
     </>

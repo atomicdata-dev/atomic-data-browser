@@ -6,7 +6,6 @@ import { ErrorLook } from '../views/ResourceInline';
 import { Button } from './Button';
 import { Card } from './Card';
 import { CodeBlock } from './CodeBlock';
-import InputBoolean from './forms/InputBoolean';
 import ResourceField from './forms/ResourceField';
 
 interface InviteFormProps {

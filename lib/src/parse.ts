@@ -101,13 +101,13 @@ function parseJsonAdResourceValue(
 }
 
 /** Parsees a JSON-AD array string, returns array of Resources */
-export function parseJsonADArray(jsonArray: any[]): Resource[] {
+export function parseJsonADArray(jsonArray: unknown[]): Resource[] {
   const resources: Resource[] = [];
   try {
     // const jsonArray = JSON.parse(string);
     for (const jsonObject of jsonArray) {
       const resource = new Resource(unknownSubject);
-      parseJsonADResource(jsonObject, resource);
+      parseJsonADResource(jsonObject as JSONObject, resource);
       resources.push(resource);
     }
   } catch (e) {

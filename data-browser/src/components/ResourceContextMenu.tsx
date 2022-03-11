@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { isValidURL } from '@tomic/lib';
-import { useCanWrite, useResource, useStore } from '@tomic/react';
+import { useStore } from '@tomic/react';
 import {
   editURL,
   dataURL,
@@ -10,7 +10,6 @@ import {
   shareURL,
 } from '../helpers/navigation';
 import { DropdownMenu, MenuItemMinimial } from '../components/DropdownMenu';
-import { useSettings } from '../helpers/AppSettings';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
 
@@ -24,9 +23,6 @@ type Props = {
 function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   const store = useStore();
   const history = useHistory();
-  const { agent } = useSettings();
-  const resource = useResource(subject);
-  const [canWrite] = useCanWrite(resource, agent?.subject);
   // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 
   if (subject == undefined) {
