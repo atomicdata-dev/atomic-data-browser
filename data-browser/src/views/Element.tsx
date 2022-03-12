@@ -95,6 +95,7 @@ export function ElementEdit({
     text && ref?.current?.setSelectionRange(text?.length, text?.length);
   }, [active]);
 
+  /** Delete this element */
   useHotkeys(
     'backspace',
     e => {
