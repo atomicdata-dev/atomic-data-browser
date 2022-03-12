@@ -3331,10 +3331,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@noble/ed25519@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.npmjs.org/@noble/ed25519/-/ed25519-1.3.3.tgz"
-  integrity sha512-8RG2Iu0rll3U+A95IpdRmFxpkUQeUSEPyEL8c3QxjnGp2fRNf9eVBTBd/fgJh1/JiBXyWz1VP65/DfnEov9big==
+"@noble/ed25519@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.6.0.tgz#b55f7c9e532b478bf1d7c4f609e1f3a37850b583"
+  integrity sha512-UKju89WV37IUALIMfKhKW3psO8AqmrE/GvH6QbPKjzolQ98zM7WmGUeY+xdIgSf5tqPFf75ZCYMgym6E9Jsw3Q==
 
 "@noble/hashes@^0.5.7":
   version "0.5.7"

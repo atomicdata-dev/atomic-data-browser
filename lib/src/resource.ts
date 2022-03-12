@@ -261,6 +261,12 @@ export class Resource {
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
     }
+    // The previousCommit is required in Commits. We should use the `lastCommit` value on the resource.
+    // This makes sure that we're making adjustments to the same version as the server.
+    this.commitBuilder.setPreviousCommit(
+      this.get(properties.commit.lastCommit)?.toString(),
+    );
+
     // Cloning the CommitBuilder to prevent race conditions, and keeping a back-up of current state for when things go wrong during posting.
     const oldCommitBuilder = this.commitBuilder.clone();
     this.commitBuilder = new CommitBuilder(this.getSubject());
@@ -274,7 +280,9 @@ export class Resource {
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     try {
       this.commitError = null;
-      await postCommit(commit, endpoint);
+      const createdCommit = await postCommit(commit, endpoint);
+      // TODO: Handle `previousCommit mismatch` error, retry if possible
+      this.commitBuilder.setPreviousCommit(createdCommit.id);
       return this.getSubject();
     } catch (e) {
       // If it fails, revert to the old resource with the old CommitBuilder
