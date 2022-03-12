@@ -48,7 +48,8 @@ module.exports = {
   workspaceRoot: '../',
   devOptions: {},
   buildOptions: {
-    baseUrl: 'https://joepio.github.io/atomic-data-browser/',
+    /** This is the route used by Atomic Server */
+    baseUrl: '/app_assets',
     /** Github requires output to this folder for static hosting on main branch */
     out: 'publish',
     metaUrlPath: `dist`,

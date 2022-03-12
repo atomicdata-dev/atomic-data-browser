@@ -85,6 +85,8 @@ yarn start-https
 - **atomic-lib**: general atomic data library, containing logic for the store, parsing, sending requests, the Resource model, datatype validations, creating Commits and more. Should not contain any react-specific code.
 - **atomic-react**: generic, yet react-specific library with hooks for viewing and manipulating atomic data. Contains re-usable react specific logic.
 - **routes**: components that are fed into the React Router as main Routes (e.g. `/show`, `/app/theme`).
+- **public**: files that are part of the distribution assets, such as icons, fonts, and a wembanifest. This folder is read in the `build` step, and generates the `publish` folder, containing the compiled JS files.
+- **publish**: generated on `build`, contains compiled and bundled code + static assets. This entire folder is imported by `atomic-server` to include all assets.
 
 ## Testing
 
@@ -100,6 +102,8 @@ They use the PlayWright framework and run in the browser.
 - `yarn test-new` create new tests by clicking through the app
 - Use the `data-test` attribute in HTML elements to make playwright tests more maintainable (and prevent failing tests on changing translations)
 - `yarn test-query {word}` run e2e tests in debug mode containging `{word}`
+
+Note that Atomic-Server has a copy of `basic.spec.ts` and runs it independently.
 
 ## CI
 
