@@ -252,6 +252,9 @@ export class Resource {
    * Store is used.
    */
   async save(store: Store, agent?: Agent): Promise<string> {
+    // Instantly (optimistically) save for local usage
+    // Doing this early is essential for having a snappy UX in the document editor
+    store.addResource(this);
     if (!agent) {
       agent = store.getAgent();
     }
@@ -266,9 +269,7 @@ export class Resource {
     this.appliedCommitSignatures.add(commit.signature);
     this.loading = false;
     this.new = false;
-    // Instantly (optimistically) save for local usage
-    // Doing this early is essential for having a snappy UX in the document editor
-    store.addResource(this);
+
     // TODO: Check if all required props are there
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     try {

@@ -173,6 +173,7 @@ function DocumentPageEdit({
     { enableOnTags: ['TEXTAREA'] },
   );
 
+  /** Creates a new Element at the given position, with the Document as its parent */
   async function addElement(position: number) {
     console.log('addElement', position);
     // When an element is created, it should be a Resource that has this document as its parent.
@@ -187,9 +188,14 @@ function DocumentPageEdit({
         newElement.set(properties.description, '', store),
       ]);
       // This is a dubious hack to make sure the element is instantly usable.
-      store.addResource(newElement);
+      // Edit: seems like it's no longer needed!
+      // store.addResource(newElement);
       // This makes things slow, but it prevents that an empty element is added to the store
       newElement.save(store);
+      console.log(
+        `newElement ${newElement.getSubject()} parent`,
+        newElement.get(properties.parent),
+      );
       await setElements(elements);
       focusElement(position);
       // window.setTimeout(() => {
@@ -220,6 +226,10 @@ function DocumentPageEdit({
   }
 
   async function deleteElement(number: number) {
+    // No reason to delete if it's there's only one element.
+    if (elements.length == 1) {
+      return;
+    }
     elements.splice(number, 1);
     setElements(elements);
     focusElement(number - 1);
