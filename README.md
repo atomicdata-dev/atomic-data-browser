@@ -8,7 +8,8 @@ This repo consists of three components: a javascript / typescript library, a rea
 
 ## [`atomic-data-browser`](data-browser/README.md)
 
-A GUI for viewing, editing and browsing Atomic Data.
+A GUI for viewing, editing and browsing Atomic Data. 
+Designed for interacting with [atomic-server](https://github.com/joepio/atomic-data-rust/).
 
 **demo on [atomicdata.dev](https://atomicdata.dev)**
 
