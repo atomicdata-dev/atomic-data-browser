@@ -363,4 +363,5 @@ export const SideBarItem = styled('span') <SideBarItemProps>`
 const SideBarIcon = styled.span`
   display: flex;
   margin-right: 0.5rem;
+  font-size: 1.5rem;
 `;
