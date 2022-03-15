@@ -66,6 +66,10 @@ export function dataURL(subject: string): string {
   return constructURL(paths.data, 'subject', subject);
 }
 
+export function pathToURL(path: string): string {
+  return window.location.origin + path;
+}
+
 /**
  * Constructs the URL for the `all-versions` endpoint. Assumes the current URL
  * supports that endpoint

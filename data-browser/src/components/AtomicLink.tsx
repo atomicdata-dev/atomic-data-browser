@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { openURL } from '../helpers/navigation';
+import { openURL, pathToURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
 import { isRunningInTauri } from '../helpers/tauri';
 
-type Props = {
+export interface AtomicLinkProps {
   children?: ReactNode;
   /** An http URL to an Atomic Data resource, opened in this app and fetched as JSON-AD */
   subject?: string;
@@ -16,16 +16,19 @@ type Props = {
   /** A path string, e.g. /new, opened using the internal router */
   path?: string;
   untabbable?: boolean;
-};
+  /** Minimal styling applied */
+  clean?: boolean;
+}
 
 /** Renders a link. Either a subject or a href is required */
 export function AtomicLink({
   children,
+  clean,
   subject,
   path,
   href,
   untabbable,
-}: Props): JSX.Element {
+}: AtomicLinkProps): JSX.Element {
   const [currentUrl] = useCurrentSubject();
   const history = useHistory();
 
@@ -57,11 +60,14 @@ export function AtomicLink({
 
   const isOnCurrentPage = subject && currentUrl == subject;
 
+  const hrefConstructed = href || subject || pathToURL(path);
+
   return (
     <LinkView
+      clean={clean}
       about={subject}
       onClick={handleClick}
-      href={subject ? subject : href}
+      href={hrefConstructed}
       disabled={isOnCurrentPage}
       tabIndex={isOnCurrentPage || untabbable ? -1 : 0}
       // Tauri always opens `_blank` in new tab, and ignores preventDefault() for some reason.
@@ -69,13 +75,15 @@ export function AtomicLink({
       target={isRunningInTauri() && !href ? '' : '_blank'}
     >
       {children}
-      {href && <FaExternalLinkAlt />}
+      {href && !clean && <FaExternalLinkAlt />}
     </LinkView>
   );
 }
 
 type Proppies = {
   disabled?: boolean;
+  /** Minimal styling applied */
+  clean?: boolean;
 };
 
 /** Look clickable, should be used for opening things only - not interactions. */
@@ -93,7 +101,7 @@ export const LinkView = styled.a<Proppies>`
 
   &:hover {
     color: ${props => props.theme.colors.mainLight};
-    text-decoration: underline;
+    text-decoration: ${p => (p.clean ? 'none' : 'underline')};
   }
   &:active {
     color: ${props => props.theme.colors.mainDark};

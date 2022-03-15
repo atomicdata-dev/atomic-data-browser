@@ -16,11 +16,9 @@ export const About: React.FunctionComponent = () => {
         </em>
       </p>
       <p>
-        Atomic Data is a proposed standard for modeling and exchanging linked
-        data. It uses links to connect pieces of data, and therefore makes it
-        easier to connect datasets to each other - even when these datasets
-        exist on separate machines. It aims to help realize a more decentralized
-        internet that encourages data ownership and interoperability.
+        Atomic Data is a modular specification for sharing, modifying and
+        modeling graph data. It combines the ease of use of JSON, the
+        connectivity of RDF (linked data) and the reliability of type-safety.
       </p>
       <p>
         Atomic Data is especially suitable for knowledge graphs, distributed
@@ -53,19 +51,13 @@ export const About: React.FunctionComponent = () => {
       <h2>Things to visit</h2>
       <ul>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/collections'>
-            List of lists
-          </AtomicLink>
+          <AtomicLink path='/collections'>List of lists</AtomicLink>
         </li>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/classes'>
-            List of Classes
-          </AtomicLink>
+          <AtomicLink path='/classes'>List of Classes</AtomicLink>
         </li>
         <li>
-          <AtomicLink subject='https://atomicdata.dev/properties'>
-            List of Properties
-          </AtomicLink>
+          <AtomicLink path='/properties'>List of Properties</AtomicLink>
         </li>
       </ul>
       <h2>Run your own server</h2>

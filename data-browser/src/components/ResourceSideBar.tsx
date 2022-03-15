@@ -2,10 +2,9 @@ import React from 'react';
 import { useString, useResource, useTitle } from '@tomic/react';
 import { urls } from '@tomic/lib';
 import { ErrorLook } from '../views/ResourceInline';
-import { useHistory } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { openURL } from '../helpers/navigation';
 import { SideBarItem } from '../components/SideBar';
+import AtomicLink from './AtomicLink';
 
 type Props = {
   subject: string;
@@ -21,29 +20,12 @@ export const ResourceSideBar = React.memo(function RSB({
   const [currentUrl] = useCurrentSubject();
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
-  const history = useHistory();
-
   const active = currentUrl == subject;
-
-  const handleClick = () => {
-    const url = new URL(subject);
-    handleClose();
-    if (currentUrl == subject) {
-      return;
-    }
-    if (window.location.origin == url.origin) {
-      const path = url.pathname + url.search;
-      history.push(path);
-    } else {
-      history.push(openURL(subject));
-    }
-  };
 
   if (resource.loading) {
     return (
       <SideBarItem
-        clean
-        onClick={handleClick}
+        onClick={handleClose}
         disabled={active}
         resource={subject}
         title={`${subject} is loading...`}
@@ -54,12 +36,7 @@ export const ResourceSideBar = React.memo(function RSB({
   }
   if (resource.error) {
     return (
-      <SideBarItem
-        clean
-        onClick={handleClick}
-        disabled={active}
-        resource={subject}
-      >
+      <SideBarItem onClick={handleClose} disabled={active} resource={subject}>
         <ErrorLook about={subject} title={resource.getError().message}>
           {subject}
         </ErrorLook>
@@ -68,13 +45,15 @@ export const ResourceSideBar = React.memo(function RSB({
   }
 
   return (
-    <SideBarItem
-      clean
-      onClick={handleClick}
-      disabled={active}
-      resource={subject}
-    >
-      <span title={description ? description : null}>{title}</span>
-    </SideBarItem>
+    <AtomicLink subject={subject} clean>
+      <SideBarItem
+        onClick={handleClose}
+        disabled={active}
+        resource={subject}
+        title={description ? description : null}
+      >
+        {title}
+      </SideBarItem>
+    </AtomicLink>
   );
 });

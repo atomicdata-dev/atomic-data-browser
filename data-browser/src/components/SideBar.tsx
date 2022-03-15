@@ -6,7 +6,6 @@ import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
 import { useHistory } from 'react-router-dom';
-import { MenuItemMinimial, MenuItemSidebarProps } from './DropdownMenu';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
@@ -23,82 +22,72 @@ import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
 import { openURL } from '../helpers/navigation';
 import { SignInButton } from './SignInButton';
+import AtomicLink, { AtomicLinkProps } from './AtomicLink';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
 
-const aboutMenuItems: MenuItemMinimial[] = [
+const aboutMenuItems: SideBarMenuItemProps[] = [
   {
     // icon: <FaGithub />,
     icon: <FaExternalLinkAlt />,
     label: 'github',
     helper: 'View the source code for this application',
-    onClick: () => window.open('https://github.com/joepio/atomic-data-browser'),
+    href: 'https://github.com/joepio/atomic-data-browser',
   },
   {
     // icon: <FaDiscord />,
     icon: <FaExternalLinkAlt />,
     label: 'discord',
     helper: 'Chat with the Atomic Data community',
-    onClick: () => window.open('https://discord.gg/a72Rv2P'),
+    href: 'https://discord.gg/a72Rv2P',
   },
   {
     // icon: <FaBook />,
     icon: <FaExternalLinkAlt />,
     label: 'docs',
     helper: 'View the Atomic Data documentation',
-    onClick: () => window.open('https://docs.atomicdata.dev'),
+    href: 'https://docs.atomicdata.dev',
   },
 ];
 
 export function SideBar(): JSX.Element {
   const { baseURL } = useSettings();
-  const history = useHistory();
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>(sideBarLocked);
   const windowSize = useWindowSize();
 
-  const appMenuItems: MenuItemMinimial[] = React.useMemo(() => {
+  const appMenuItems: SideBarMenuItemProps[] = React.useMemo(() => {
     return [
       {
         icon: <FaPlus />,
         label: 'new resource',
         helper: 'Create a new Resource, based on a Class (n)',
-        onClick: () => {
-          history.push(paths.new);
-        },
+        path: paths.new,
       },
       {
         icon: <FaUser />,
         label: 'user settings',
         helper: 'See and edit the current Agent / User (u)',
-        onClick: () => {
-          history.push(paths.agentSettings);
-        },
+        path: paths.agentSettings,
       },
       {
         icon: <FaCog />,
         label: 'theme settings',
         helper: 'Edit the theme, current Agent, and more. (t)',
-        onClick: () => {
-          history.push(paths.themeSettings);
-        },
+        path: paths.themeSettings,
       },
       {
         icon: <FaKeyboard />,
         label: 'keyboard shortcuts',
         helper: 'View the keyboard shortcuts (?)',
-        onClick: () => {
-          history.push(paths.shortcuts);
-        },
+        path: paths.shortcuts,
       },
       {
         icon: <FaInfo />,
         label: 'about',
         helper: 'Welcome page, tells about this app',
-        onClick: () => {
-          history.push(paths.about);
-        },
+        path: paths.about,
       },
     ];
   }, []);
@@ -112,7 +101,7 @@ export function SideBar(): JSX.Element {
    * This is called when the user presses a menu Item, which should result in a
    * closed menu in mobile context
    */
-  const handleClickItem = React.useCallback(() => {
+  const closeMenu = React.useCallback(() => {
     // If the window is small, close the sidebar on click
     if (!isWideScreen()) {
       setSideBarLocked(false);
@@ -128,17 +117,17 @@ export function SideBar(): JSX.Element {
       >
         {navbarTop ? <PaddingBig /> : null}
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
-        <SideBarDrive handleClickItem={handleClickItem} key={baseURL} />
+        <SideBarDrive handleClickItem={closeMenu} key={baseURL} />
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(p => (
-            <MenuItem key={p.label} {...p} handleClickItem={handleClickItem} />
+            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeMenu} />
           ))}{' '}
           <SideBarHeader>
             <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
           {aboutMenuItems.map(p => (
-            <MenuItem key={p.label} {...p} handleClickItem={handleClickItem} />
+            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeMenu} />
           ))}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
@@ -151,20 +140,31 @@ export function SideBar(): JSX.Element {
   );
 }
 
-function MenuItem(item: MenuItemSidebarProps) {
+interface SideBarMenuItemProps extends AtomicLinkProps {
+  label: string;
+  helper?: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  /** Is called when clicking on the item. Used for closing the menu. */
+  handleClickItem?: () => void;
+}
+
+function SideBarMenuItem({
+  helper,
+  label,
+  icon,
+  path,
+  href,
+  subject,
+  handleClickItem,
+}: SideBarMenuItemProps) {
   return (
-    <SideBarItem
-      key={item.label}
-      title={item.helper}
-      clean
-      onClick={() => {
-        item.onClick();
-        item.handleClickItem();
-      }}
-    >
-      {item.icon && <SideBarIcon>{item.icon}</SideBarIcon>}
-      {item.label}
-    </SideBarItem>
+    <AtomicLink href={href} subject={subject} path={path} clean>
+      <SideBarItem key={label} title={helper} onClick={handleClickItem}>
+        {icon && <SideBarIcon>{icon}</SideBarIcon>}
+        {label}
+      </SideBarItem>
+    </AtomicLink>
   );
 }
 
@@ -330,7 +330,13 @@ const SideBarOverlay = styled('div') <SideBarOverlayProps>`
   -webkit-tap-highlight-color: transparent;
 `;
 
-export const SideBarItem = styled(Button)`
+interface SideBarItemProps {
+  disabled?: boolean;
+}
+
+/** SideBarItem should probably be wrapped in an AtomicLink for optimal behavior */
+// eslint-disable-next-line prettier/prettier
+export const SideBarItem = styled('span') <SideBarItemProps>`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   display: flex;
@@ -341,6 +347,7 @@ export const SideBarItem = styled(Button)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
 
   &:disabled {
     background-color: ${p => p.theme.colors.bg1};
@@ -356,4 +363,5 @@ export const SideBarItem = styled(Button)`
 const SideBarIcon = styled.span`
   display: flex;
   margin-right: 0.5rem;
+  font-size: 1.5rem;
 `;
