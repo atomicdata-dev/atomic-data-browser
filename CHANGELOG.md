@@ -10,8 +10,10 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fix concurrency issue with commits #91
 - Refer to `previousCommit`s in Commits #140
 - Add `parseCommit` function
+- Use `href` attribute in sidebar menu #148
+- Use relative links in About page #149
 
-## v0.30.6 to 8
+## v0.30.6 to 9
 
 - Don't use WebSockets if they're not supported #131
 - Fix `@noble` build issues
