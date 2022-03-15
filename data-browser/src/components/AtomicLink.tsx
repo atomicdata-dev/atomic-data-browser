@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { openURL } from '../helpers/navigation';
+import { openURL, pathToURL } from '../helpers/navigation';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
@@ -60,12 +60,14 @@ export function AtomicLink({
 
   const isOnCurrentPage = subject && currentUrl == subject;
 
+  const hrefConstructed = href || subject || pathToURL(path);
+
   return (
     <LinkView
       clean={clean}
       about={subject}
       onClick={handleClick}
-      href={subject ? subject : href}
+      href={hrefConstructed}
       disabled={isOnCurrentPage}
       tabIndex={isOnCurrentPage || untabbable ? -1 : 0}
       // Tauri always opens `_blank` in new tab, and ignores preventDefault() for some reason.
@@ -73,7 +75,7 @@ export function AtomicLink({
       target={isRunningInTauri() && !href ? '' : '_blank'}
     >
       {children}
-      {href && <FaExternalLinkAlt />}
+      {href && !clean && <FaExternalLinkAlt />}
     </LinkView>
   );
 }
