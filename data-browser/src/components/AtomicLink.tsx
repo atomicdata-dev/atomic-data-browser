@@ -20,7 +20,10 @@ export interface AtomicLinkProps {
   clean?: boolean;
 }
 
-/** Renders a link. Either a subject or a href is required */
+/**
+ * Renders a link. Either a subject or a href is required. You can wrap this
+ * around other components and pass the `clean` prop to skip styling.
+ */
 export function AtomicLink({
   children,
   clean,
