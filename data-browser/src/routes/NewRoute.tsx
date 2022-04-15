@@ -62,6 +62,7 @@ function New(): JSX.Element {
               <NewIntanceButton klass={urls.classes.document} subtle />
               <NewIntanceButton klass={urls.classes.class} subtle />
               <NewIntanceButton klass={urls.classes.property} subtle />
+              <NewIntanceButton klass={urls.classes.chatRoom} subtle />
             </>
           )}
         </form>

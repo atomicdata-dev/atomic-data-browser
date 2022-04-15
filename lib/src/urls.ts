@@ -2,6 +2,7 @@ export const classes = {
   /** Collection of all the AtomicData.dev classes */
   getAll: 'https://atomicdata.dev/classes/?page_size=999',
   agent: 'https://atomicdata.dev/classes/Agent',
+  chatRoom: 'https://atomicdata.dev/classes/ChatRoom',
   collection: 'https://atomicdata.dev/classes/Collection',
   commit: 'https://atomicdata.dev/classes/Commit',
   class: 'https://atomicdata.dev/classes/Class',
@@ -16,6 +17,7 @@ export const classes = {
   redirect: 'https://atomicdata.dev/classes/Redirect',
   invite: 'https://atomicdata.dev/classes/Invite',
   file: 'https://atomicdata.dev/classes/File',
+  message: 'https://atomicdata.dev/classes/Message',
 };
 
 export const properties = {
@@ -82,6 +84,9 @@ export const properties = {
     downloadUrl: 'https://atomicdata.dev/properties/downloadURL',
     mimetype: 'https://atomicdata.dev/properties/mimetype',
     attachments: 'https://atomicdata.dev/properties/attachments',
+  },
+  chatRoom: {
+    messages: 'https://atomicdata.dev/properties/messages',
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',

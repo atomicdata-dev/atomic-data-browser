@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
-import { newURL } from '../helpers/navigation';
+import { newURL, openURL } from '../helpers/navigation';
 import { useResource, useStore, useString, useTitle } from '@tomic/react';
 import { Button } from './Button';
 import { FaPlus } from 'react-icons/fa';
-import { properties } from '@tomic/lib';
+import { classes, properties, Resource } from '@tomic/lib';
 
 type NewIntanceButtonProps = {
   klass: string;
@@ -34,14 +34,43 @@ function NewIntanceButton({
     parent = store.getAgent()?.subject;
   }
 
+  let onClick = async function onClick() {
+    // Opens an `Edit` form with the class and a decent subject name
+    history.push(newURL(klass, parent, store.createSubject(shortname)));
+  };
+
+  switch (klass) {
+    case classes.chatRoom: {
+      onClick = async () => {
+        const subject = store.createSubject('chatRoom');
+        const resource = new Resource(subject, true);
+        await Promise.all([
+          resource.set(properties.name, 'New ChatRoom', store),
+          resource.set(properties.isA, [classes.chatRoom], store),
+          resource.set(properties.parent, parent, store),
+        ]);
+        await resource.save(store);
+        history.push(openURL(subject));
+      };
+      break;
+    }
+    case classes.document: {
+      onClick = async () => {
+        const subject = store.createSubject('documents');
+        const resource = new Resource(subject, true);
+        await Promise.all([
+          resource.set(properties.name, 'New Document', store),
+          resource.set(properties.isA, [classes.document], store),
+          resource.set(properties.parent, parent, store),
+        ]);
+        await resource.save(store);
+        history.push(openURL(subject));
+      };
+    }
+  }
+
   return (
-    <Button
-      onClick={() =>
-        history.push(newURL(klass, parent, store.createSubject(shortname)))
-      }
-      subtle={subtle}
-      title={`Create a new ${title}`}
-    >
+    <Button onClick={onClick} subtle={subtle} title={`Create a new ${title}`}>
       {icon ? <FaPlus /> : `new ${title}`}
       {children}
     </Button>

@@ -442,7 +442,7 @@ export function useDate(
   }
 }
 
-/** Preffered way of using the store in a Component or Hook */
+/** Preferred way of using the store in a Component or Hook */
 export function useStore(): Store {
   const store = React.useContext(StoreContext);
 

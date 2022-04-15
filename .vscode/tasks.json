@@ -10,10 +10,7 @@
 			"label": "run data-browser dev server (yarn start)",
 			"detail": "yarn workspace @tomic/data-browser start",
 			"isBackground": true,
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build"
 		},
 		{
 			"type": "npm",
