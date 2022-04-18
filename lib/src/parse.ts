@@ -3,8 +3,8 @@ import { Resource, unknownSubject } from './resource';
 import { JSONObject } from './value';
 
 /**
- * Parses an JSON-AD object containing a resoure, adds it to the input Resource.
- * Also adds it to the store, if you pass a `store`.
+ * Parses an JSON-AD object containing a resource, adds it to the input
+ * Resource. Also adds it to the store, if you pass a `store`.
  */
 export function parseJsonADResource(
   jsonObject: JSONObject,
@@ -51,8 +51,7 @@ export function parseJsonADResource(
         }
       } catch (e) {
         throw new Error(
-          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${
-            e.message
+          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${e.message
           }`,
         );
       }
@@ -76,7 +75,7 @@ type StringOrNestedResource = string | JSONObject;
  * Object, it will parse it as a Resource. It will add the string property to
  * the Resource.
  */
-function parseJsonAdResourceValue(
+export function parseJsonAdResourceValue(
   store: Store,
   value: JSONValue,
   resource: Resource,

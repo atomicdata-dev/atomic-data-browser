@@ -15,7 +15,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Show `CommitDetail` that displays audit info (creator, edit date) #145
 - Prevent using `localhost` Agents for external Servers
 - Add ChatRooms #153
-- Improve UX for creating new things, instantly open new ChatRooms and Documents
+- Improve UX for creating new Resources, instantly open new ChatRooms and Documents
+- Implement `push`, for appending new Resources to (existing) Arrays in Commits.
 
 ## v0.30.6 to 9
 
