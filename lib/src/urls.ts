@@ -50,6 +50,7 @@ export const properties = {
     previousCommit: 'https://atomicdata.dev/properties/previousCommit',
     signer: 'https://atomicdata.dev/properties/signer',
     set: 'https://atomicdata.dev/properties/set',
+    push: 'https://atomicdata.dev/properties/push',
     remove: 'https://atomicdata.dev/properties/remove',
     destroy: 'https://atomicdata.dev/properties/destroy',
     signature: 'https://atomicdata.dev/properties/signature',

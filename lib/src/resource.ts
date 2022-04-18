@@ -1,7 +1,7 @@
 import { properties } from './urls';
 import { tryValidURL, postCommit } from './client';
 import { CommitBuilder } from './commit';
-import { validate as validateDatatype } from './datatypes';
+import { isArray, validate as validateDatatype } from './datatypes';
 import { Store } from './store';
 import { valToArray } from './value';
 import { Agent } from './agent';
@@ -220,6 +220,18 @@ export class Resource {
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     await postCommit(commit, endpoint);
     store.removeResource(this.getSubject());
+  }
+
+  /** Appends a Resource to a ResourceArray */
+  push(propUrl: string, value: JSONValue): void {
+    const propVal = this.get(propUrl);
+    let arr = [];
+    if (!isArray(propVal)) {
+      throw new Error(`${propUrl} is not an array`);
+    }
+    arr = propVal;
+    arr.push(value);
+    this.propvals.set(propUrl, value);
   }
 
   /** Removes a property value combination from the resource and adds it to the next Commit */

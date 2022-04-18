@@ -9,9 +9,9 @@ import {
   useString,
   useTitle,
 } from '@tomic/react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import { Button } from '../components/Button';
-import { ContainerNarrow } from '../components/Containers';
 import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
 
@@ -21,9 +21,20 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [newMessageVal, setNewMessage] = useState('');
   const store = useStore();
+  const ref = useRef(null);
 
-  async function addMessage() {
-    const subject = store.createSubject(classes.message);
+  useEffect(scrollToBottom, [messages.length]);
+
+  function scrollToBottom() {
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }
+
+  /** Creates a message using the internal state */
+  async function addMessage(e) {
+    e.preventDefault();
+    const subject = store.createSubject('messages');
     const msgResource = new Resource(subject, true);
     await msgResource.set(
       properties.parent,
@@ -41,24 +52,28 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     );
     await msgResource.save(store);
     setNewMessage('');
-    store.fetchResource(resource.getSubject());
   }
 
   return (
-    <ContainerNarrow about={resource.getSubject()}>
+    <FullPageWrapper about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
-      <p>Messages:</p>
-      {messages &&
-        messages.map(message => <Message key={message} subject={message} />)}
+      <ScrollingContent ref={ref}>
+        {messages &&
+          messages.map(message => (
+            <Message key={'message' + message} subject={message} />
+          ))}
+      </ScrollingContent>
       <form onSubmit={addMessage}>
-        <input
+        <MessageInput
+          autoFocus
           value={newMessageVal}
           onChange={e => setNewMessage(e.target.value)}
+          placeholder={'type a message'}
         />
         <Button onClick={addMessage}>Send</Button>
       </form>
-    </ContainerNarrow>
+    </FullPageWrapper>
   );
 }
 
@@ -73,3 +88,21 @@ function Message({ subject }: MessageProps) {
 
   return <p>{description}</p>;
 }
+
+const MessageInput = styled.input`
+  height: 2rem;
+`;
+
+const FullPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* I think this warrants a prettier solution */
+  height: calc(100vh - 4rem);
+  padding: 1rem;
+  flex: 1;
+`;
+
+const ScrollingContent = styled.div`
+  overflow-y: scroll;
+  flex: 1;
+`;

@@ -3,10 +3,17 @@ import stringify from 'fast-json-stable-stringify';
 import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { properties, urls } from './urls';
 import { Store } from './store';
-import { JSONValue, removeQueryParamsFromURL, Resource } from '.';
+import {
+  JSONValue,
+  parseJsonAdResourceValue,
+  removeQueryParamsFromURL,
+  Resource,
+} from '.';
 
 // https://github.com/paulmillr/noble-ed25519/issues/38
 import { sha512 } from '@noble/hashes/sha512';
+import { isArray } from './datatypes';
+import { JSONArray } from './value';
 utils.sha512 = msg => Promise.resolve(sha512(msg));
 
 /** A {@link Commit} without its signature, signer and timestamp */
@@ -15,6 +22,11 @@ export interface CommitBuilderI {
   subject: string;
   /** The property-value combinations being edited https://atomicdata.dev/properties/set */
   set?: Record<string, JSONValue>;
+  /**
+   * The property-value combinations for which one or more ResourceArrays will
+   * be appended. https://atomicdata.dev/properties/push
+   */
+  push?: Record<string, JSONValue>;
   /** The properties that need to be removed. https://atomicdata.dev/properties/remove */
   remove?: string[];
   /** If true, the resource must be deleted. https://atomicdata.dev/properties/destroy */
@@ -243,6 +255,7 @@ export function parseCommit(str: string): Commit {
     const jsonAdObj = JSON.parse(str);
     const subject = jsonAdObj[urls.properties.commit.subject];
     const set = jsonAdObj[urls.properties.commit.set];
+    const push = jsonAdObj[urls.properties.commit.push];
     const signer = jsonAdObj[urls.properties.commit.signer];
     const createdAt = jsonAdObj[urls.properties.commit.createdAt];
     const remove: string[] | undefined =
@@ -256,6 +269,7 @@ export function parseCommit(str: string): Commit {
     return {
       subject,
       set,
+      push,
       signer,
       createdAt,
       remove,
@@ -273,7 +287,7 @@ export function parseCommit(str: string): Commit {
 export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   // Parse the commit
   const parsed = parseCommit(jsonAdObjStr);
-  const { subject, set, remove, previousCommit, id, destroy, signature } =
+  const { subject, set, remove, previousCommit, id, destroy, signature, push } =
     parsed;
 
   let resource = store.resources.get(subject);
@@ -291,12 +305,41 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
 
   set &&
     Object.keys(set).forEach(propUrl => {
-      resource.setUnsafe(propUrl, set[propUrl]);
+      let newVal = set[propUrl];
+      if (newVal.constructor === {}.constructor) {
+        newVal = parseJsonAdResourceValue(store, newVal, resource, propUrl);
+      }
+      if (isArray(newVal)) {
+        newVal = newVal.map(resourceOrURL => {
+          return parseJsonAdResourceValue(
+            store,
+            resourceOrURL,
+            resource,
+            propUrl,
+          );
+        });
+      }
+      resource.setUnsafe(propUrl, newVal);
     });
 
   remove &&
     remove.forEach(propUrl => {
       resource.removePropValLocally(propUrl);
+    });
+
+  push &&
+    Object.keys(push).forEach(propUrl => {
+      const current = (resource.get(propUrl) as JSONArray) || [];
+      const newArr = push[propUrl] as JSONArray;
+      // The `push` arrays may contain full resources.
+      // We parse these here, add them to the store, and turn them into Subjects.
+      const stringArr = newArr.map(val =>
+        parseJsonAdResourceValue(store, val, resource, propUrl),
+      );
+      // Merge both the old and new items
+      const new_arr = current.concat(stringArr);
+      // Save it!
+      resource.setUnsafe(propUrl, new_arr);
     });
 
   if (id) {
