@@ -155,7 +155,7 @@ export async function signRequest(
   agent: Agent,
   headers: HeadersObject,
 ): Promise<HeadersObject> {
-  if (agent.subject !== undefined) {
+  if (agent.canAuthenticate()) {
     const privateKey = agent.privateKey;
     const timestamp = getTimestampNow();
     const message = `${subject} ${timestamp}`;

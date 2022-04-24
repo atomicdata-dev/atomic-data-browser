@@ -13,6 +13,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Use `href` attribute in sidebar menu #148
 - Use relative links in About page #149
 - Show `CommitDetail` that displays audit info (creator, edit date) #145
+- Prevent using `localhost` Agents for external Servers
 
 ## v0.30.6 to 9
 

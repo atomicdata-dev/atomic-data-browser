@@ -12,7 +12,7 @@ import {
 import { ButtonInput, Button } from '../components/Button';
 import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
-import ResourceInline from '../views/ResourceInline';
+import ResourceInline, { ErrorLook } from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/AtomicLink';
 import { editURL } from '../helpers/navigation';
@@ -134,6 +134,14 @@ const SettingsAgent: React.FunctionComponent = () => {
         </p>
         {agent ? (
           <>
+            {agent.subject.startsWith('http://localhost') && (
+              <p>
+                <ErrorLook>Warning:</ErrorLook>
+                {
+                  "You're using a local Agent, which cannot authenticate on other domains, because its URL does not resolve."
+                }
+              </p>
+            )}
             <LabelStyled>
               <FaUser /> You{"'"}re signed in as
             </LabelStyled>
