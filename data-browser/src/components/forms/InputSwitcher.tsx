@@ -26,7 +26,6 @@ export default function InputSwitcher(props: InputProps): JSX.Element {
       return <InputNumber {...props} />;
     }
     case Datatype.ATOMIC_URL: {
-      // TODO: if it's a nested resource, deal with that
       return <InputResource {...props} />;
     }
     case Datatype.RESOURCEARRAY: {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputProps } from './ResourceField';
-import { useString } from '@tomic/react';
+import { noNestedSupport, useString, useSubject } from '@tomic/react';
 import { ResourceSelector } from './ResourceSelector';
 import { ErrorLook } from '../../views/ResourceInline';
 
@@ -11,10 +11,10 @@ export function InputResource({
   ...props
 }: InputProps): JSX.Element {
   const [error, setError] = useState<Error>(null);
-  const [subject, setSubject] = useString(resource, property.subject, {
+  const [subject, setSubject] = useSubject(resource, property.subject, {
     handleValidationError: setError,
   });
-  if (typeof subject !== 'string' && subject != undefined) {
+  if (subject == noNestedSupport) {
     return (
       <ErrorLook>
         Sorry, there is no support for editing nested resources yet
