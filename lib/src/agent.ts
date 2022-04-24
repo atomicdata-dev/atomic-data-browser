@@ -69,6 +69,13 @@ export class Agent implements AgentInterface {
   static fromJSON(obj: AgentInterface): Agent {
     return new Agent(obj.privateKey, obj.subject);
   }
+
+  /** Checks if the Agent has a Subject and is not stored on localhost */
+  public canAuthenticate(): boolean {
+    return (
+      this.subject !== undefined && !this.subject.startsWith('http://localhost')
+    );
+  }
 }
 
 /**
