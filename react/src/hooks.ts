@@ -13,6 +13,7 @@ import {
   valToDate,
   valToArray,
   valToString,
+  valToResource,
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './useDebounce';
@@ -339,6 +340,31 @@ export function useString(
     return [null, setVal];
   }
   return [valToString(val), setVal];
+}
+
+export const noNestedSupport =
+  'error:no_support_for_editing_nested_resources_yet';
+
+/**
+ * Hook for getting and setting a Subject. Converts Nested resources into paths.
+ * See {@link useValue} for more info on using the `set` functionality.
+ */
+export function useSubject(
+  resource: Resource,
+  propertyURL: string,
+  opts?: useValueOptions,
+): [string | null, (string: string) => Promise<void>] {
+  const [val, setVal] = useValue(resource, propertyURL, opts);
+  if (val == null) {
+    return [null, setVal];
+  }
+  if (typeof val === 'string') {
+    return [val, setVal];
+  } else {
+    // It's a nested resource
+    // TODO: Implement support for this. Get the subject from the Resource, or construct te Path.
+    return [noNestedSupport, setVal];
+  }
 }
 
 /**

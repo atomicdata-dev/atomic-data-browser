@@ -32,7 +32,6 @@ export function AtomicLink({
   href,
   untabbable,
 }: AtomicLinkProps): JSX.Element {
-  const [currentUrl] = useCurrentSubject();
   const history = useHistory();
 
   if (!subject && !href && !path) {

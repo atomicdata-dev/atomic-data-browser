@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  useArray,
-  useCanWrite,
-  useResource,
-  useStore,
-  useTitle,
-} from '@tomic/react';
+import { useArray, useCanWrite, useResource, useStore } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Right, urls } from '@tomic/lib';
@@ -138,7 +132,7 @@ export function ShareRoute(): JSX.Element {
             <AgentRights
               key={JSON.stringify(right)}
               {...right}
-              handleSetRight={canWrite && handleSetRight}
+              handleSetRight={canWrite && resource.isReady() && handleSetRight}
             />
           ))}
         </CardInsideFull>
@@ -186,11 +180,18 @@ interface AgentRightsProps extends AgentRight {
 }
 
 function AgentRights(props: AgentRightsProps): JSX.Element {
+  const isPublicRight = props.agentSubject === urls.instances.publicAgent;
+  const resource = useResource(props.agentSubject);
+  const disabled = !resource.isReady() || !props.handleSetRight;
+
   return (
     <CardRow>
-      <div style={{ display: 'flex' }}>
+      <div
+        style={{ display: 'flex' }}
+        data-test={isPublicRight ? 'right-public' : null}
+      >
         <div style={{ flex: 1 }}>
-          {props.agentSubject === urls.instances.publicAgent ? (
+          {isPublicRight ? (
             <>
               <FaGlobe /> Public (anyone){' '}
             </>
@@ -208,7 +209,7 @@ function AgentRights(props: AgentRightsProps): JSX.Element {
         <div style={{ alignSelf: 'flex-end' }}>
           <StyledCheckbox
             type='checkbox'
-            disabled={!props.handleSetRight}
+            disabled={disabled}
             onChange={e =>
               props.handleSetRight(props.agentSubject, false, e.target.checked)
             }
@@ -221,7 +222,7 @@ function AgentRights(props: AgentRightsProps): JSX.Element {
           />
           <StyledCheckbox
             type='checkbox'
-            disabled={!props.handleSetRight}
+            disabled={disabled}
             onChange={e =>
               props.handleSetRight(props.agentSubject, true, e.target.checked)
             }

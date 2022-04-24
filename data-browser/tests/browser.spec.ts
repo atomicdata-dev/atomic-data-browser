@@ -12,6 +12,9 @@ const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
 const demoFileName = 'logo.svg';
+const publicReadRight =
+  '[data-test="right-public"] input[type="checkbox"] >> nth=0';
+
 const demoFile = `./${demoFileName}`;
 
 const serverUrl = 'http://localhost:9883';
@@ -220,13 +223,12 @@ test.describe('data-browser', async () => {
     await page.click(currentDriveTitle);
     await page.click('[data-test="context-menu"]');
     await page.click('button:has-text("share")');
-    const hasPublicRead = await page.isChecked(
-      'input[type="checkbox"] >> nth=0',
-    );
+    const hasPublicRead = await page.isChecked(publicReadRight);
     if (hasPublicRead) {
       // For some reason this doesn't work without waiting
       await page.waitForTimeout(400);
-      await page.click('input[type="checkbox"] >> nth=0');
+      // Cleanup, set to public read again
+      await page.click(publicReadRight);
       await page.click('button:has-text("Save")');
     }
 
@@ -265,9 +267,12 @@ test.describe('data-browser', async () => {
       page2.locator('text=Welcome to your Atomic-Server'),
     ).toBeVisible();
 
-    // Set to public read again
-    expect(await page.isChecked('input[type="checkbox"] >> nth=0')).toBeFalsy();
-    await page.click('input[type="checkbox"] >> nth=0');
+    // Cleanup, set to public read again
+    // timeout Prevents weird race condition (see above)
+    await page.waitForTimeout(400);
+    expect(await page.isChecked(publicReadRight)).toBeFalsy();
+    await page.click(publicReadRight);
+    expect(await page.isChecked(publicReadRight)).toBeTruthy();
     await page.click('button:has-text("Save")');
     await expect(page.locator('text=Share settings saved')).toBeVisible();
   });
