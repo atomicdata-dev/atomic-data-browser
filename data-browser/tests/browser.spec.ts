@@ -160,7 +160,6 @@ test.describe('data-browser', async () => {
     await page.click('a:has-text("collections")');
     await page.click('a:has-text("documents")');
     await page.click('[title="Create a new document"]');
-    await page.click('[data-test="save"]');
     // commit for saving initial document
     await page.waitForResponse(`${serverUrl}/commit`);
     // commit for initializing the first element (paragraph)
@@ -250,6 +249,7 @@ test.describe('data-browser', async () => {
         .querySelector('[data-code-content]')
         .getAttribute('data-code-content'),
     );
+
     // const value = await page.evaluate(() =>
     //   document.querySelector('input').getAttribute('value'),
     // );
@@ -269,6 +269,7 @@ test.describe('data-browser', async () => {
     expect(await page.isChecked('input[type="checkbox"] >> nth=0')).toBeFalsy();
     await page.click('input[type="checkbox"] >> nth=0');
     await page.click('button:has-text("Save")');
+    await expect(page.locator('text=Share settings saved')).toBeVisible();
   });
 
   test('upload, download', async ({ page, browser, context }) => {

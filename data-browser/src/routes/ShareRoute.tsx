@@ -119,7 +119,7 @@ export function ShareRoute(): JSX.Element {
       await resource.save(store);
       toast.success('Share settings saved');
     } catch (e) {
-      toast.error(e);
+      toast.error(e.message);
     }
   }
 
