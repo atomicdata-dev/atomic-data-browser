@@ -299,7 +299,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
       resource.removePropValLocally(propUrl);
     });
 
-  if (previousCommit && id) {
+  if (id) {
     // This is something that the server does, too.
     resource.setUnsafe(properties.commit.lastCommit, id);
   }
