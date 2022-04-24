@@ -88,6 +88,7 @@ export const properties = {
   },
   chatRoom: {
     messages: 'https://atomicdata.dev/properties/messages',
+    nextPage: 'https://atomicdata.dev/properties/nextPage',
   },
   datatype: 'https://atomicdata.dev/properties/datatype',
   isA: 'https://atomicdata.dev/properties/isA',
