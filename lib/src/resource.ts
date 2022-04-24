@@ -246,9 +246,8 @@ export class Resource {
 
   /**
    * Commits the changes and sends the Commit to the resource's `/commit`
-   * endpoint. Returns the new Url if succesful, throws an error if things go
-   * wrong. If you don't pass an Agent explicitly, the default Agent of the
-   * Store is used.
+   * endpoint. Returns the Url of the created Commit. If you don't pass an Agent
+   * explicitly, the default Agent of the Store is used.
    */
   async save(store: Store, agent?: Agent): Promise<string> {
     // Instantly (optimistically) save for local usage
@@ -262,9 +261,10 @@ export class Resource {
     }
     // The previousCommit is required in Commits. We should use the `lastCommit` value on the resource.
     // This makes sure that we're making adjustments to the same version as the server.
-    this.commitBuilder.setPreviousCommit(
-      this.get(properties.commit.lastCommit)?.toString(),
-    );
+    const lastCommit = this.get(properties.commit.lastCommit)?.toString();
+    if (lastCommit) {
+      this.commitBuilder.setPreviousCommit(lastCommit);
+    }
 
     // Cloning the CommitBuilder to prevent race conditions, and keeping a back-up of current state for when things go wrong during posting.
     const oldCommitBuilder = this.commitBuilder.clone();
@@ -280,10 +280,25 @@ export class Resource {
     try {
       this.commitError = null;
       const createdCommit = await postCommit(commit, endpoint);
-      // TODO: Handle `previousCommit mismatch` error, retry if possible
-      this.commitBuilder.setPreviousCommit(createdCommit.id);
-      return this.getSubject();
+      this.setUnsafe(properties.commit.lastCommit, createdCommit.id);
+      return createdCommit.id;
     } catch (e) {
+      // Logic for handling error if the previousCommit is wrong.
+      // Is not stable enough, and maybe not required at the time.
+      // if (e.message.includes('previousCommit')) {
+      //   console.warn('previousCommit missing or mismatch, retrying...');
+      //   // We try again, but first we fetch the latest version of the resource to get its `lastCommit`
+      //   const resourceFetched = await store.fetchResource(this.getSubject());
+      //   const fixedLastCommit = resourceFetched
+      //     .get(properties.commit.lastCommit)
+      //     ?.toString();
+      //   if (fixedLastCommit) {
+      //     this.setUnsafe(properties.commit.lastCommit, fixedLastCommit);
+      //   }
+      //   // Try again!
+      //   return await this.save(store, agent);
+      // }
+
       // If it fails, revert to the old resource with the old CommitBuilder
       this.commitBuilder = oldCommitBuilder;
       this.commitError = e;
