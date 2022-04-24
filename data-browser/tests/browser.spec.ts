@@ -207,6 +207,10 @@ test.describe('data-browser', async () => {
     await expect(page2.locator(`text=${syncText}`)).toBeVisible();
   });
 
+  /**
+   * We remove public read rights from drive, create an invite, open that
+   * invite, and add the public read right again.
+   */
   test('authorization, invite, share menu', async ({
     page,
     browser,
@@ -227,7 +231,7 @@ test.describe('data-browser', async () => {
       await page.click('button:has-text("Save")');
     }
 
-    // Initialize page for reader
+    // Initialize unauthorized page for reader
     const context2 = await browser.newContext();
     const page2 = await context2.newPage();
     await page2.setViewportSize({ width: 1000, height: 400 });

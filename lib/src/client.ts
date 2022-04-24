@@ -147,7 +147,7 @@ export function removeQueryParamsFromURL(subject: string): string {
 
 /**
  * Creates authentication headers and signs the request. Does not add headers if
- * the Agents subject is missing
+ * the Agents subject is missing.
  */
 export async function signRequest(
   /** The resource meant to be fetched */
@@ -155,7 +155,11 @@ export async function signRequest(
   agent: Agent,
   headers: HeadersObject,
 ): Promise<HeadersObject> {
-  if (agent.canAuthenticate()) {
+  // If you're using a local Agent, you cannot authenticate requests to other domains.
+  const localTryingExternal =
+    !subject.startsWith('http://localhost') &&
+    agent?.subject?.startsWith('http://localhost');
+  if (agent?.subject && !localTryingExternal) {
     const privateKey = agent.privateKey;
     const timestamp = getTimestampNow();
     const message = `${subject} ${timestamp}`;
