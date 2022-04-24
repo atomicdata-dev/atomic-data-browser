@@ -18,13 +18,14 @@ function ResourceField({
   required,
   autoFocus,
   disabled,
+  label: labelProp,
 }: IFieldProps): JSX.Element {
   const property = useProperty(propertyURL);
   const [collapsedDynamic, setCollapsedDynamic] = useState(true);
 
   if (property === null) {
     return (
-      <Field label='loading...'>
+      <Field label={labelProp || 'loading...'}>
         <InputWrapper>
           <InputStyled disabled={disabled} placeholder='loading property...' />
         </InputWrapper>
@@ -32,13 +33,15 @@ function ResourceField({
     );
   }
 
+  const label = labelProp || property.shortname;
+
   if (property.isDynamic && collapsedDynamic) {
     return (
       <Field
         helper={
           <HelperText text={property.description} link={property.subject} />
         }
-        label={property.shortname}
+        label={label}
         disabled={disabled}
       >
         {'This field is calculated server-side, edits will not be saved. '}
@@ -54,7 +57,7 @@ function ResourceField({
       helper={
         <HelperText text={property.description} link={property.subject} />
       }
-      label={property.shortname}
+      label={label}
       handleDelete={handleDelete}
       required={required}
       disabled={disabled}
@@ -111,6 +114,8 @@ interface IFieldProps {
   resource: Resource;
   /** Whether the field must have a valid value before submitting */
   required?: boolean;
+  /** Overwrites the label with a custom one. Defaults to the shortname of the property */
+  label?: string;
   disabled?: boolean;
   /** Whether the field should be focused on render */
   autoFocus?: boolean;

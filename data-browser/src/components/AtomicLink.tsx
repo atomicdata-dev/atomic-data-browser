@@ -40,6 +40,9 @@ export function AtomicLink({
     );
   }
 
+  const isOnCurrentPage =
+    subject && window.location.toString() == openURL(subject);
+
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (href) {
       // When there is a regular URL, let the browser handle it
@@ -51,14 +54,12 @@ export function AtomicLink({
       return;
     }
     if (subject) {
-      if (currentUrl == subject) {
+      if (isOnCurrentPage) {
         return;
       }
       history.push(openURL(subject));
     }
   };
-
-  const isOnCurrentPage = subject && currentUrl == subject;
 
   const hrefConstructed = href || subject || pathToURL(path);
 

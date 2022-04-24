@@ -121,13 +121,21 @@ export function SideBar(): JSX.Element {
         <SideBarBottom>
           <SideBarHeader>app</SideBarHeader>
           {appMenuItems.map(p => (
-            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeSiderBar} />
+            <SideBarMenuItem
+              key={p.label}
+              {...p}
+              handleClickItem={closeSideBar}
+            />
           ))}{' '}
           <SideBarHeader>
             <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
           </SideBarHeader>
           {aboutMenuItems.map(p => (
-            <SideBarMenuItem key={p.label} {...p} handleClickItem={closeSideBar} />
+            <SideBarMenuItem
+              key={p.label}
+              {...p}
+              handleClickItem={closeSideBar}
+            />
           ))}
         </SideBarBottom>
         {navbarTop ? <PaddingSmall /> : <PaddingBig />}
