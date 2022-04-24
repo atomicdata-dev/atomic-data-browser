@@ -59,7 +59,6 @@ function NewIntanceButton({
         const subject = store.createSubject('documents');
         const resource = new Resource(subject, true);
         await Promise.all([
-          resource.set(properties.name, 'New Document', store),
           resource.set(properties.isA, [classes.document], store),
           resource.set(properties.parent, parent, store),
         ]);
