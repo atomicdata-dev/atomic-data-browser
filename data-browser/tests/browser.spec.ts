@@ -117,7 +117,7 @@ test.describe('data-browser', async () => {
     await page.click('[data-test="next-page"]');
     await expect(page.locator('text=A base64')).not.toBeVisible();
     // Some item on the second page. Can change as the amount of properties grows!
-    await expect(page.locator('text=that are not required')).toBeVisible();
+    await expect(page.locator('text=should be given the rights')).toBeVisible();
 
     // context menu, keyboard & data view
     await page.click('[data-test="context-menu"]');
@@ -157,7 +157,7 @@ test.describe('data-browser', async () => {
       await page.click('text=Accept as Test');
     }
     // Create a document
-    await page.click('button:has-text("collections")');
+    await page.click('a:has-text("collections")');
     await page.click('a:has-text("documents")');
     await page.click('[title="Create a new document"]');
     await page.click('[data-test="save"]');
