@@ -191,10 +191,6 @@ function DocumentPageEdit({
       // store.addResource(newElement);
       // This makes things slow, but it prevents that an empty element is added to the store
       newElement.save(store);
-      console.log(
-        `newElement ${newElement.getSubject()} parent`,
-        newElement.get(properties.parent),
-      );
       await setElements(elements);
       focusElement(position);
       // window.setTimeout(() => {
