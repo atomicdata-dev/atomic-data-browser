@@ -15,13 +15,13 @@ import UploadForm from './UploadForm';
 
 type ResourceFormProps = {
   /**
-   * Optionally sets the isA Class of a resource. Really useful when creating a
-   * new instance of some resource
+   * The type / isA Class of a resource determines the recommended and required
+   * form fields.
    */
   classSubject?: string;
-  /** Optionally sets the parent of the new resource */
+  /** The parent of the new resource, used for authorization checks and navigation. */
   parent?: string;
-  /** Resource that is to be changed or created */
+  /** Resource that is to be either changed or created */
   resource: Resource;
 };
 
@@ -58,7 +58,6 @@ export function ResourceForm({
   //   debouncedResource,
   //   agent?.subject,
   // );
-  const [disabled, setDisabled] = useState(false);
   const [, setResourceParent] = useString(resource, properties.parent);
 
   // Sets agent warning / eror
@@ -122,14 +121,14 @@ export function ResourceForm({
     );
   }
 
-  async function save() {
+  async function save(e) {
+    e.preventDefault();
+    setSaving(true);
     setErr(null);
     try {
-      // resource.setStatus(ResourceStatus.ready);
-      const newUrlString = await resource.save(store);
+      await resource.save(store);
       setSaving(false);
-      // Redirect to created / edited resource
-      history.push(openURL(newUrlString));
+      history.push(openURL(resource.getSubject()));
       toast.success('Resource saved');
     } catch (e) {
       setErr(e);
@@ -156,12 +155,6 @@ export function ResourceForm({
     setNewProperty(null);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setSaving(true);
-    save();
-  }
-
   function handleDelete(propertyURL: string) {
     resource.removePropVal(propertyURL);
     setTempOtherProps(tempOtherProps.filter(prop => prop != propertyURL));
@@ -181,7 +174,6 @@ export function ResourceForm({
             key={property + ' field'}
             propertyURL={property}
             resource={resource}
-            disabled={disabled}
             required
           />
         );
@@ -192,7 +184,6 @@ export function ResourceForm({
             key={property + ' field'}
             propertyURL={property}
             resource={resource}
-            disabled={disabled}
           />
         );
       })}
@@ -202,7 +193,6 @@ export function ResourceForm({
             key={property + ' field'}
             propertyURL={property}
             resource={resource}
-            disabled={disabled}
             handleDelete={() => handleDelete(property)}
           />
         );
@@ -223,7 +213,6 @@ export function ResourceForm({
           </Button>
           <ResourceSelector
             value={null}
-            disabled={disabled}
             setSubject={(set, _setNewPropErr) => {
               setNewProperty(set);
             }}
@@ -254,18 +243,9 @@ export function ResourceForm({
         </>
       )}
       {err && <ErrMessage>{err.message}</ErrMessage>}
-      <Button
-        onClick={handleSubmit}
-        disabled={disabled || saving}
-        data-test='save'
-      >
+      <Button onClick={save} disabled={saving} data-test='save'>
         {saving ? 'wait...' : 'save'}
       </Button>
-      {disabled && (
-        <Button subtle onClick={() => setDisabled(false)}>
-          enable editing
-        </Button>
-      )}
     </form>
   );
 }
