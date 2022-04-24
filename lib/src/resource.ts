@@ -198,7 +198,6 @@ export class Resource {
       const parentRights = await parent.getRights(store);
       rights.push(...parentRights);
     }
-    console.log('rights', rights);
     return rights;
   }
 

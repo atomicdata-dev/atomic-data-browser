@@ -48,15 +48,18 @@ export function InviteForm({ target }: InviteFormProps) {
     return (
       <Card>
         <ResourceField
-          propertyURL={urls.properties.invite.usagesLeft}
+          label={'Give edit rights'}
+          propertyURL={urls.properties.invite.write}
           resource={invite}
         />
         <ResourceField
+          label={'Invite text (optional)'}
           propertyURL={urls.properties.description}
           resource={invite}
         />
         <ResourceField
-          propertyURL={urls.properties.invite.write}
+          label={'How many times this link can be used. No value = no limit.'}
+          propertyURL={urls.properties.invite.usagesLeft}
           resource={invite}
         />
         <Button onClick={createInvite}>Create Invite</Button>

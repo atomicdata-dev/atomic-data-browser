@@ -11,6 +11,7 @@ import { signRequest } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
 import { ErrorLook } from '../views/ResourceInline';
+import { PageTitle } from '../components/PageTitle';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -54,7 +55,7 @@ function Data(): JSX.Element {
 
   return (
     <ContainerNarrow about={subject}>
-      <h1>data view</h1>
+      <PageTitle resource={resource} label='Data for' />
       <PropValRow columns>
         <PropertyLabel title='The URL of the resource'>subject:</PropertyLabel>
         <AtomicLink subject={subject}>{subject}</AtomicLink>

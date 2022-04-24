@@ -15,18 +15,31 @@ import { FaGlobe } from 'react-icons/fa';
 import styled from 'styled-components';
 import { Button } from '../components/Button';
 import { InviteForm } from '../components/InviteForm';
+import toast from 'react-hot-toast';
+import { PageTitle } from '../components/PageTitle';
+
+const useValueOpts = {
+  commit: false,
+};
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
-  const title = useTitle(resource);
   const store = useStore();
   const [canWrite] = useCanWrite(resource);
   const [showInviteForm, setShowInviteForm] = useState(false);
 
-  const [writers, setWriters] = useArray(resource, urls.properties.write);
-  const [readers, setReaders] = useArray(resource, urls.properties.read);
+  const [writers, setWriters] = useArray(
+    resource,
+    urls.properties.write,
+    useValueOpts,
+  );
+  const [readers, setReaders] = useArray(
+    resource,
+    urls.properties.read,
+    useValueOpts,
+  );
 
   const [inheritedRights, setInheritedRights] = useState<Right[]>([]);
 
@@ -46,11 +59,7 @@ export function ShareRoute(): JSX.Element {
     getTheRights();
   }, [resource]);
 
-  function handleSetRight(
-    agent: string,
-    write: boolean,
-    setToTrue: boolean,
-  ): void {
+  function handleSetRight(agent: string, write: boolean, setToTrue: boolean) {
     let agents = write ? writers : readers;
     if (setToTrue) {
       // remove previous occurence
@@ -105,11 +114,18 @@ export function ShareRoute(): JSX.Element {
     return sorted;
   }
 
+  async function handleSave() {
+    try {
+      await resource.save(store);
+      toast.success('Share settings saved');
+    } catch (e) {
+      toast.error(e);
+    }
+  }
+
   return (
     <ContainerNarrow>
-      <h1>
-        <code>share settings for</code> {title}
-      </h1>
+      <PageTitle resource={resource} label='Share settings' />
       {canWrite && !showInviteForm && (
         <Button onClick={() => setShowInviteForm(true)}>Send Invite...</Button>
       )}
@@ -130,7 +146,7 @@ export function ShareRoute(): JSX.Element {
       {canWrite && (
         <Button
           disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
-          onClick={() => resource.save(store)}
+          onClick={handleSave}
         >
           Save
         </Button>

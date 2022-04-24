@@ -7,12 +7,12 @@ import { InputStyled } from '../components/forms/InputStyles';
 import { ResourceForm } from '../components/forms/ResourceForm';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { ClassDetail } from '../components/ClassDetail';
+import { PageTitle } from '../components/PageTitle';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
-  const title = useTitle(resource);
   const [subjectInput, setSubjectInput] = useState<string>(null);
   const history = useHistory();
 
@@ -25,7 +25,7 @@ export function Edit(): JSX.Element {
     <ContainerNarrow>
       {subject ? (
         <>
-          <h1>edit {title}</h1>
+          <PageTitle resource={resource} label='Edit' />
           <ClassDetail resource={resource} />
           {/* Key is required for re-rendering when subject changes */}
           <ResourceForm resource={resource} key={subject} />
