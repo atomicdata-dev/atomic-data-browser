@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { openURL, pathToURL } from '../helpers/navigation';
-import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
 import { isRunningInTauri } from '../helpers/tauri';

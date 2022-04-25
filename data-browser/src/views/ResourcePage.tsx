@@ -15,6 +15,7 @@ import WebMonetizationWrapper from '../components/WebMonetizationWrapper';
 import { ResourcePageDefault } from './ResourcePageDefault';
 import Spinner from '../components/Button';
 import { ChatRoomPage } from './ChatRoomPage';
+import { MessagePage } from './MessagePage';
 
 type Props = {
   subject: string;
@@ -80,6 +81,8 @@ function selectComponent(klass: string) {
       return FilePage;
     case urls.classes.chatRoom:
       return ChatRoomPage;
+    case urls.classes.message:
+      return MessagePage;
     default:
       return ResourcePageDefault;
   }

@@ -1,17 +1,10 @@
 import * as React from 'react';
 import { Agent, generateKeyPair, properties } from '@tomic/lib';
-import {
-  useBoolean,
-  useNumber,
-  useResource,
-  useString,
-  useTitle,
-} from '@tomic/react';
+import { useBoolean, useNumber, useResource, useTitle } from '@tomic/react';
 import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
-import ResourceInline from './ResourceInline';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
@@ -23,7 +16,6 @@ const autoAccept = false;
 
 /** A View that opens an invite */
 function InvitePage({ resource }: ResourcePageProps): JSX.Element {
-  const [target] = useString(resource, properties.invite.target);
   const [usagesLeft] = useNumber(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);
   const history = useHistory();

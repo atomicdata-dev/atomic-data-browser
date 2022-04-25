@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { useResource, useTitle } from '@tomic/react';
+import { useResource } from '@tomic/react';
 import { newURL } from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
 import { InputStyled } from '../components/forms/InputStyles';
