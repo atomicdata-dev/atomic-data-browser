@@ -49,7 +49,7 @@ export const ButtonClean = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-  font-size: 1rem;
+  font-size: inherit;
   padding: 0;
   color: inherit;
   margin: 0;
@@ -144,10 +144,10 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   &:hover:not([disabled]) {
     box-shadow: ${p => p.theme.boxShadowIntense};
     background-color: ${p =>
-      p.subtle ? p.theme.colors.bg : p.theme.colors.mainLight};
+    p.subtle ? p.theme.colors.bg : p.theme.colors.mainLight};
     color: ${p => (p.subtle ? p.theme.colors.main : p.theme.colors.bg)};
     border-color: ${p =>
-      p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
+    p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
   }
 
   &:active:not([disabled]) {

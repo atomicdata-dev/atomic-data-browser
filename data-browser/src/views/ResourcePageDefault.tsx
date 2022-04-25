@@ -8,6 +8,7 @@ import { ValueForm } from '../components/forms/ValueForm';
 import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
 import { CommitDetail } from '../components/CommitDetail';
+import { Details } from '../components/Detail';
 
 /**
  * The properties that are shown in an alternative, custom way in default views.
@@ -46,8 +47,10 @@ export function ResourcePageDefault({
     <ContainerNarrow about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
-      <ClassDetail resource={resource} />
-      <CommitDetail commitSubject={lastCommit} />
+      <Details>
+        <ClassDetail resource={resource} />
+        <CommitDetail commitSubject={lastCommit} />
+      </Details>
       <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps
         resource={resource}

@@ -14,20 +14,24 @@ type Props = {
 export function CommitDetail({ commitSubject }: Props): JSX.Element {
   const resource = useResource(commitSubject);
   const [signer] = useString(resource, properties.commit.signer);
+  const [previousCommit] = useString(
+    resource,
+    properties.commit.previousCommit,
+  );
   const createdAt = useDate(resource, properties.commit.createdAt);
 
   if (!commitSubject || !resource.isReady) {
-    return null;
+    return <Detail>loading...</Detail>;
   }
 
   return (
-    <React.Fragment>
-      <Detail>
-        <AtomicLink subject={commitSubject}>{'edited'}</AtomicLink>
-        {' by '}
-        <ResourceInline subject={signer} />{' '}
+    <Detail>
+      {signer && <ResourceInline subject={signer} />}
+      {' - '}
+      <AtomicLink subject={commitSubject}>
+        {previousCommit ? 'edited ' : ''}
         {createdAt && <DateTime date={createdAt} />}
-      </Detail>
-    </React.Fragment>
+      </AtomicLink>{' '}
+    </Detail>
   );
 }
