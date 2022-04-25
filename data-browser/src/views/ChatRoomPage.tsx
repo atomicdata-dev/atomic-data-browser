@@ -4,17 +4,20 @@ import {
   properties,
   Resource,
   useArray,
-  useDate,
   useResource,
   useStore,
   useString,
+  useSubject,
   useTitle,
 } from '@tomic/react';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaCopy, FaLink, FaReply, FaTimes } from 'react-icons/fa';
 import styled from 'styled-components';
+import AtomicLink from '../components/AtomicLink';
 import { Button } from '../components/Button';
-import DateTime from '../components/datatypes/DateTime';
+import { CommitDetail } from '../components/CommitDetail';
+import { Detail } from '../components/Detail';
 import Parent from '../components/Parent';
 import { ErrorLook } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
@@ -25,20 +28,22 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [newMessageVal, setNewMessage] = useState('');
   const store = useStore();
-  const ref = useRef(null);
+  const [isReplyTo, setReplyTo] = useState<string>(null);
+  const scrollRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(scrollToBottom, [messages.length, resource]);
 
   function scrollToBottom() {
-    if (ref.current) {
-      ref.current.scrollTop = ref.current.scrollHeight;
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }
 
   const disableSend = newMessageVal.length === 0;
 
   /** Creates a message using the internal state */
-  async function addMessage(e) {
+  async function sendMessage(e) {
     try {
       e.preventDefault();
       if (!disableSend) {
@@ -63,12 +68,28 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           store,
           false,
         );
+        if (isReplyTo) {
+          await msgResource.set(
+            properties.chatRoom.replyTo,
+            isReplyTo,
+            store,
+            false,
+          );
+        }
         await msgResource.save(store);
         setNewMessage('');
+        setReplyTo(null);
       }
     } catch (e) {
       toast.error(e.message);
     }
+  }
+
+  const handleReplyCallback = React.useCallback(handleReplyTo, [inputRef]);
+
+  function handleReplyTo(subject: string) {
+    setReplyTo(subject);
+    inputRef.current.focus();
   }
 
   return (
@@ -78,11 +99,23 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       {store.webSocket.readyState == WebSocket.CLOSED && (
         <ErrorLook>Closed websocket!</ErrorLook>
       )}
-      <ScrollingContent ref={ref}>
-        <MessagesPage subject={resource.getSubject()} />
+      <ScrollingContent ref={scrollRef}>
+        <MessagesPage
+          subject={resource.getSubject()}
+          setReplyTo={handleReplyCallback}
+        />
       </ScrollingContent>
-      <MessageForm onSubmit={addMessage}>
+      {isReplyTo && (
+        <Detail>
+          <MessageLine subject={isReplyTo} />
+          <Button icon subtle onClick={() => setReplyTo(null)}>
+            <FaTimes />
+          </Button>
+        </Detail>
+      )}
+      <MessageForm onSubmit={sendMessage}>
         <MessageInput
+          ref={inputRef}
           autoFocus
           value={newMessageVal}
           onChange={e => setNewMessage(e.target.value)}
@@ -92,7 +125,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           title='Send message [enter]'
           disabled={disableSend}
           clean
-          onClick={addMessage}
+          onClick={sendMessage}
         >
           Send
         </SendButton>
@@ -101,36 +134,136 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   );
 }
 
+type setReplyTo = (subject: string) => any;
+
 interface MessageProps {
+  subject: string;
+  /** Is called when the `reply` button is pressed */
+  setReplyTo: setReplyTo;
+}
+
+const MESSAGE_MAX_LEN = 500;
+
+/** Single message shown in a ChatRoom */
+const Message = React.memo(function Message({
+  subject,
+  setReplyTo,
+}: MessageProps) {
+  const resource = useResource(subject);
+  const [description] = useString(resource, properties.description);
+  const [lastCommit] = useSubject(resource, properties.commit.lastCommit);
+  const [replyTo] = useSubject(resource, properties.chatRoom.replyTo);
+  const [collapsed, setCollapsed] = useState(true);
+
+  const shortenedDescription = description.substring(0, MESSAGE_MAX_LEN);
+
+  function handleCopyUrl() {
+    navigator.clipboard.writeText(subject);
+    toast.success('Copied message URL to clipboard');
+  }
+
+  function handleCopyText() {
+    navigator.clipboard.writeText(subject);
+    toast.success('Copied message text to clipboard');
+  }
+
+  return (
+    <MessageComponent about={subject}>
+      <MessageDetails>
+        <CommitDetail commitSubject={lastCommit} />
+        <Button
+          icon
+          subtle
+          onClick={() => setReplyTo(subject)}
+          title='Reply to this message'
+        >
+          <FaReply />
+        </Button>
+        <Button
+          icon
+          subtle
+          onClick={handleCopyUrl}
+          title='Copy link to this message'
+        >
+          <FaLink />
+        </Button>
+        <Button icon subtle onClick={handleCopyText} title='Copy message text'>
+          <FaCopy />
+        </Button>
+        {replyTo && <MessageLine subject={replyTo} />}
+      </MessageDetails>
+      {collapsed ? shortenedDescription : description}
+      {description.length > MESSAGE_MAX_LEN && collapsed && (
+        <Button noMargins subtle onClick={() => setCollapsed(false)}>
+          Read more
+        </Button>
+      )}
+    </MessageComponent>
+  );
+});
+
+interface MessageLineProps {
   subject: string;
 }
 
-/** Single message shown in a ChatRoom */
-function Message({ subject }: MessageProps) {
+const MESSAGE_LINE_MAX_LEN = 50;
+
+/** Small single line preview of a message, useful in replies */
+function MessageLine({ subject }: MessageLineProps) {
   const resource = useResource(subject);
   const [description] = useString(resource, properties.description);
-  const createdAt = useDate(resource, properties.commit.createdAt);
+  const [lastCommit] = useSubject(resource, properties.commit.lastCommit);
+
+  // Traverse path to find the author
+  const commitResource = useResource(lastCommit);
+  const [signer] = useSubject(commitResource, properties.commit.signer);
+  const agentResource = useResource(signer);
+  const [name] = useString(agentResource, properties.name);
+
+  if (!resource.isReady() || !commitResource.isReady()) {
+    return <MessageLineStyled>loading...</MessageLineStyled>;
+  }
+
+  // truncate and add ellipsis
+  const truncated = description.substring(0, MESSAGE_LINE_MAX_LEN);
+  const ellipsis = description.length > MESSAGE_LINE_MAX_LEN ? '...' : '';
 
   return (
-    <MessageComponent>
-      <MessageHeader>
-        {'Creator - '}
-        <DateTime date={createdAt} />
-      </MessageHeader>
-      {description}
-    </MessageComponent>
+    <MessageLineStyled>
+      <span>replying to </span>
+      <AtomicLink subject={lastCommit}>{name}</AtomicLink>
+      <AtomicLink subject={subject}>{`: ${truncated}${ellipsis}`}</AtomicLink>
+    </MessageLineStyled>
   );
 }
 
-const MessageComponent = styled.p`
-  min-height: 1.5rem;
+const MessageLineStyled = styled.span`
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1;
 `;
 
 /** Small row on top of Message for details such as date and creator */
-const MessageHeader = styled.div`
+const MessageDetails = styled.div`
   font-size: 0.7rem;
   margin-bottom: 0;
   opacity: 0.4;
+  display: flex;
+`;
+
+const MessageComponent = styled.div`
+  min-height: 1.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+
+  &:hover {
+    background: ${p => p.theme.colors.bg};
+
+    & ${MessageDetails} {
+      opacity: 1;
+    }
+  }
 `;
 
 const SendButton = styled(Button)`
@@ -183,26 +316,36 @@ const FullPageWrapper = styled.div`
 `;
 
 const ScrollingContent = styled.div`
+  margin-left: -1rem;
+  margin-right: -1rem;
   overflow-y: scroll;
   flex: 1;
 `;
 
 interface MessagesPageProps {
   subject: string;
-  noChilds?: boolean;
+  setReplyTo: setReplyTo;
 }
 
 /** Shows only Messages for the Next Page */
-function MessagesPage({ subject, noChilds }: MessagesPageProps) {
+function MessagesPage({ subject, setReplyTo }: MessagesPageProps) {
   const resource = useResource(subject);
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [nextPage] = useString(resource, properties.chatRoom.nextPage);
 
+  if (!resource.isReady()) {
+    return <>loading...</>;
+  }
+
   return (
     <>
-      {!noChilds && nextPage && <MessagesPage subject={nextPage} />}
+      {nextPage && <MessagesPage subject={nextPage} setReplyTo={setReplyTo} />}
       {messages.map(message => (
-        <Message key={'message' + message} subject={message} />
+        <Message
+          key={'message' + message}
+          subject={message}
+          setReplyTo={setReplyTo}
+        />
       ))}
     </>
   );
