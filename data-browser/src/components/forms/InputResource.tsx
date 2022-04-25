@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputProps } from './ResourceField';
-import { noNestedSupport, useString, useSubject } from '@tomic/react';
+import { noNestedSupport, useSubject } from '@tomic/react';
 import { ResourceSelector } from './ResourceSelector';
 import { ErrorLook } from '../../views/ResourceInline';
 

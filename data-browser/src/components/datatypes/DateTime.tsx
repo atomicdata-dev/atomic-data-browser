@@ -1,5 +1,4 @@
 import React from 'react';
-import { formatTimeAgo } from '../../helpers/formatTimeAgo';
 
 type Props = {
   date: Date;
@@ -7,7 +6,11 @@ type Props = {
 
 /** Renders a Date value */
 function DateTime({ date }: Props): JSX.Element {
-  return <span title={date.toLocaleString()}>{formatTimeAgo(date)}</span>;
+  return (
+    <span title={date.toLocaleString()}>
+      {date.toLocaleDateString()} {date.toLocaleTimeString()}
+    </span>
+  );
 }
 
 export default DateTime;

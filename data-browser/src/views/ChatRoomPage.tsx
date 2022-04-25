@@ -12,14 +12,18 @@ import {
 } from '@tomic/react';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaCopy, FaLink, FaReply, FaTimes } from 'react-icons/fa';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { FaCopy, FaLink, FaPencilAlt, FaReply, FaTimes } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import AtomicLink from '../components/AtomicLink';
 import { Button } from '../components/Button';
 import { CommitDetail } from '../components/CommitDetail';
+import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import Parent from '../components/Parent';
-import { ErrorLook } from './ResourceInline';
+import { editURL } from '../helpers/navigation';
+import ResourceInline, { ErrorLook } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
 
 /** Full page ChatRoom that shows a message list and a form to add Messages. */
@@ -32,6 +36,15 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
+  useHotkeys(
+    'enter',
+    e => {
+      e.preventDefault();
+      sendMessage();
+    },
+    { enableOnTags: ['TEXTAREA'] },
+    [],
+  );
   useEffect(scrollToBottom, [messages.length, resource]);
 
   function scrollToBottom() {
@@ -43,9 +56,12 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const disableSend = newMessageVal.length === 0;
 
   /** Creates a message using the internal state */
-  async function sendMessage(e) {
+  async function sendMessage(e?: { preventDefault: () => unknown }) {
+    const messageBackup = newMessageVal;
     try {
-      e.preventDefault();
+      scrollToBottom();
+      setNewMessage('');
+      e && e.preventDefault();
       if (!disableSend) {
         const subject = store.createSubject('messages');
         const msgResource = new Resource(subject, true);
@@ -77,10 +93,10 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           );
         }
         await msgResource.save(store);
-        setNewMessage('');
         setReplyTo(null);
       }
     } catch (e) {
+      setNewMessage(messageBackup);
       toast.error(e.message);
     }
   }
@@ -115,6 +131,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       )}
       <MessageForm onSubmit={sendMessage}>
         <MessageInput
+          rows={1}
           ref={inputRef}
           autoFocus
           value={newMessageVal}
@@ -134,7 +151,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   );
 }
 
-type setReplyTo = (subject: string) => any;
+type setReplyTo = (subject: string) => unknown;
 
 interface MessageProps {
   subject: string;
@@ -154,6 +171,7 @@ const Message = React.memo(function Message({
   const [lastCommit] = useSubject(resource, properties.commit.lastCommit);
   const [replyTo] = useSubject(resource, properties.chatRoom.replyTo);
   const [collapsed, setCollapsed] = useState(true);
+  const history = useHistory();
 
   const shortenedDescription = description.substring(0, MESSAGE_MAX_LEN);
 
@@ -163,7 +181,7 @@ const Message = React.memo(function Message({
   }
 
   function handleCopyText() {
-    navigator.clipboard.writeText(subject);
+    navigator.clipboard.writeText(description);
     toast.success('Copied message text to clipboard');
   }
 
@@ -171,31 +189,49 @@ const Message = React.memo(function Message({
     <MessageComponent about={subject}>
       <MessageDetails>
         <CommitDetail commitSubject={lastCommit} />
-        <Button
-          icon
-          subtle
-          onClick={() => setReplyTo(subject)}
-          title='Reply to this message'
-        >
-          <FaReply />
-        </Button>
-        <Button
-          icon
-          subtle
-          onClick={handleCopyUrl}
-          title='Copy link to this message'
-        >
-          <FaLink />
-        </Button>
-        <Button icon subtle onClick={handleCopyText} title='Copy message text'>
-          <FaCopy />
-        </Button>
         {replyTo && <MessageLine subject={replyTo} />}
+        <MessageActions>
+          <Button
+            icon
+            subtle
+            onClick={() => history.push(editURL(subject))}
+            title='Edit message'
+          >
+            <FaPencilAlt />
+          </Button>
+          <Button
+            icon
+            subtle
+            onClick={() => setReplyTo(subject)}
+            title='Reply to this message'
+          >
+            <FaReply />
+          </Button>
+          <Button
+            icon
+            subtle
+            onClick={handleCopyUrl}
+            title='Copy link to this message'
+          >
+            <FaLink />
+          </Button>
+          <Button
+            icon
+            subtle
+            onClick={handleCopyText}
+            title='Copy message text'
+          >
+            <FaCopy />
+          </Button>
+        </MessageActions>
       </MessageDetails>
-      {collapsed ? shortenedDescription : description}
+      <Markdown
+        noMargin
+        text={collapsed ? shortenedDescription : description}
+      />
       {description.length > MESSAGE_MAX_LEN && collapsed && (
         <Button noMargins subtle onClick={() => setCollapsed(false)}>
-          Read more
+          {'Read more '}
         </Button>
       )}
     </MessageComponent>
@@ -217,8 +253,6 @@ function MessageLine({ subject }: MessageLineProps) {
   // Traverse path to find the author
   const commitResource = useResource(lastCommit);
   const [signer] = useSubject(commitResource, properties.commit.signer);
-  const agentResource = useResource(signer);
-  const [name] = useString(agentResource, properties.name);
 
   if (!resource.isReady() || !commitResource.isReady()) {
     return <MessageLineStyled>loading...</MessageLineStyled>;
@@ -230,8 +264,8 @@ function MessageLine({ subject }: MessageLineProps) {
 
   return (
     <MessageLineStyled>
-      <span>replying to </span>
-      <AtomicLink subject={lastCommit}>{name}</AtomicLink>
+      <span>to </span>
+      <ResourceInline subject={signer} />
       <AtomicLink subject={subject}>{`: ${truncated}${ellipsis}`}</AtomicLink>
     </MessageLineStyled>
   );
@@ -250,6 +284,17 @@ const MessageDetails = styled.div`
   margin-bottom: 0;
   opacity: 0.4;
   display: flex;
+  flex: 1;
+`;
+
+/** Part of MessageDetails which is aligned to the right */
+const MessageActions = styled.div`
+  display: flex;
+  align-self: flex-end;
+  justify-content: flex-end;
+  flex: 1;
+  opacity: 0;
+  margin-right: 1rem;
 `;
 
 const MessageComponent = styled.div`
@@ -261,6 +306,10 @@ const MessageComponent = styled.div`
     background: ${p => p.theme.colors.bg};
 
     & ${MessageDetails} {
+      opacity: 1;
+    }
+
+    & ${MessageActions} {
       opacity: 1;
     }
   }
@@ -279,13 +328,17 @@ const SendButton = styled(Button)`
   }
 `;
 
-const MessageInput = styled.input`
+const MessageInput = styled.textarea`
   color: ${p => p.theme.colors.text};
   background: none;
   flex: 1;
   padding: 0.5rem 1rem;
   border: ${p => p.theme.colors.bg2} solid 1px;
   border-right: none;
+  line-height: inherit;
+  min-height: 2rem;
+  max-height: 50vh;
+}
 `;
 
 /** Wrapper for the new message form */

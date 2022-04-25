@@ -20,6 +20,10 @@ export function CommitDetail({ commitSubject }: Props): JSX.Element {
   );
   const createdAt = useDate(resource, properties.commit.createdAt);
 
+  if (!commitSubject) {
+    return null;
+  }
+
   if (!commitSubject || !resource.isReady) {
     return <Detail>loading...</Detail>;
   }
