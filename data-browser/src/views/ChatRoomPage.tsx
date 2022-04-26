@@ -35,6 +35,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const [isReplyTo, setReplyTo] = useState<string>(null);
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
+  const [textAreaHight, setTextAreaHight] = useState(1);
 
   useHotkeys(
     'enter',
@@ -108,6 +109,22 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     inputRef.current.focus();
   }
 
+  function handleChangeMessageText(e) {
+    setNewMessage(e.target.value);
+    if (e.target.value == '') {
+      // Make the textarea small again when the user removed their message
+      setTextAreaHight(1);
+      return;
+    }
+    // Auto-grow the textarea
+    const height = e.target.scrollHeight;
+    const rowHeight = 25;
+    const trows = Math.ceil(height / rowHeight) - 1;
+    if (trows !== textAreaHight) {
+      setTextAreaHight(trows);
+    }
+  }
+
   return (
     <FullPageWrapper about={resource.getSubject()}>
       <Parent resource={resource} />
@@ -131,11 +148,11 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       )}
       <MessageForm onSubmit={sendMessage}>
         <MessageInput
-          rows={1}
+          rows={textAreaHight}
           ref={inputRef}
           autoFocus
           value={newMessageVal}
-          onChange={e => setNewMessage(e.target.value)}
+          onChange={handleChangeMessageText}
           placeholder={'type a message'}
         />
         <SendButton
@@ -338,6 +355,7 @@ const MessageInput = styled.textarea`
   line-height: inherit;
   min-height: 2rem;
   max-height: 50vh;
+  font-family: ${p => p.theme.fontFamily};
 }
 `;
 
@@ -380,18 +398,34 @@ interface MessagesPageProps {
   setReplyTo: setReplyTo;
 }
 
-/** Shows only Messages for the Next Page */
+/** Shows Messages for this page. Recursively fetches the next page, if in view */
 function MessagesPage({ subject, setReplyTo }: MessagesPageProps) {
   const resource = useResource(subject);
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [nextPage] = useString(resource, properties.chatRoom.nextPage);
+  const [inView, setInView] = useState(true);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Observe if the element is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries, observer) => {
+      const entry = entries[0];
+      console.log('entry', entry);
+      console.log('entry.isIntersecting', entry.isIntersecting);
+    });
+    ref.current && observer.observe(ref.current);
+  }, [ref]);
+
+  if (!inView) {
+    return <>Not in view...</>;
+  }
 
   if (!resource.isReady()) {
     return <>loading...</>;
   }
 
   return (
-    <>
+    <div ref={ref}>
       {nextPage && <MessagesPage subject={nextPage} setReplyTo={setReplyTo} />}
       {messages.map(message => (
         <Message
@@ -400,6 +434,6 @@ function MessagesPage({ subject, setReplyTo }: MessagesPageProps) {
           setReplyTo={setReplyTo}
         />
       ))}
-    </>
+    </div>
   );
 }
