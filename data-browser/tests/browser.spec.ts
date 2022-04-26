@@ -34,7 +34,7 @@ test.describe('data-browser', async () => {
     // TODO: this keeps hanging. How do I make sure something is _not_ visible?
     // await expect(page.locator('text=new resource')).not.toBeVisible();
     await page.click('[data-test="sidebar-toggle"]');
-    await expect(page.locator('text=new resource')).toBeVisible();
+    await expect(await page.locator('text=new resource')).toBeVisible();
   });
 
   test('switch Server URL', async ({ page }) => {
@@ -184,8 +184,7 @@ test.describe('data-browser', async () => {
     const teststring = `My test: ${timestamp}`;
     await page.fill('textarea', teststring);
     // commit editing paragraph
-    await page.waitForResponse(`${serverUrl}/commit`);
-    await expect(page.locator(`text=${teststring}`)).toBeVisible();
+    await expect(await page.locator(`text=${teststring}`)).toBeVisible();
 
     // multi-user
     const currentUrl = page.url();
