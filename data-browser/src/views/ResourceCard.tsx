@@ -10,6 +10,7 @@ import { ErrorLook } from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import FileCard from './FileCard';
 import { defaultHiddenProps } from './ResourcePageDefault';
+import { MessageCard } from './MessageCard';
 
 interface Props extends CardPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -98,6 +99,8 @@ function ResourceCardInner(props: Props): JSX.Element {
       return <CollectionCard resource={resource} {...props} />;
     case urls.classes.file:
       return <FileCard resource={resource} {...props} />;
+    case urls.classes.message:
+      return <MessageCard resource={resource} {...props} />;
   }
 
   return (
