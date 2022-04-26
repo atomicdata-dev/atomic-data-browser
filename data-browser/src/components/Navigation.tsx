@@ -21,6 +21,7 @@ import ResourceContextMenu from './ResourceContextMenu';
 import { tryValidURL } from '@tomic/lib';
 import { paths } from '../routes/paths';
 import { isRunningInTauri } from '../helpers/tauri';
+import { shortcuts } from './HotKeyWrapper';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -90,10 +91,11 @@ function NavBar() {
     !query && setInput(subject);
   }, [subject, query]);
 
-  useHotkeys('/', e => {
+  useHotkeys(shortcuts.search, e => {
     e.preventDefault();
     //@ts-ignore this does seem callable
     inputRef.current.select();
+    setInputFocus();
   });
 
   useHotkeys(
@@ -105,11 +107,6 @@ function NavBar() {
     },
     { enableOnTags: ['INPUT'] },
   );
-
-  useHotkeys('/', e => {
-    e.preventDefault();
-    setInputFocus();
-  });
 
   function handleChange(e) {
     setInput(e.target.value);

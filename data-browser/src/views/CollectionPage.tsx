@@ -31,6 +31,7 @@ import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
 import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
+import { shortcuts } from '../components/HotKeyWrapper';
 
 const displayStyles = [
   {
@@ -118,7 +119,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   const displayStyle = displayStyles[displayStyleIndex];
   const nextDisplayStyle = displayStyles[getNextDisplayStyleIndex()];
 
-  useHotkeys('v', handleToggleView, {}, [displayStyleIndex]);
+  useHotkeys(shortcuts.viewToggle, handleToggleView, {}, [displayStyleIndex]);
   useHotkeys('right', handleNextPage, {}, [currentPage]);
   useHotkeys('left', handlePrevPage, {}, [currentPage]);
 

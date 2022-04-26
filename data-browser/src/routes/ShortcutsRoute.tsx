@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ContainerNarrow } from '../components/Containers';
+import { shortcuts } from '../components/HotKeyWrapper';
 
 /** List of all the keyboard shorcuts */
 export const Shortcuts: React.FunctionComponent = () => {
@@ -9,38 +10,38 @@ export const Shortcuts: React.FunctionComponent = () => {
       <h1>Keyboard shortcuts</h1>
       <h3>Global</h3>
       <p>
-        <Key>/</Key> search
+        <Key>{shortcuts.search}</Key> search
       </p>
       <p>
-        <Key>\</Key> show or hide the sidebar
+        <Key>{shortcuts.sidebar}</Key> show or hide the sidebar
       </p>
       <p>
         <Key>?</Key> show these keyboard shortcuts
       </p>
       <p>
-        <Key>e</Key> <b>e</b>dit resource
+        <Key>{shortcuts.edit}</Key> <b>e</b>dit resource
       </p>
       <p>
-        <Key>d</Key> show <b>d</b>ata for resource
+        <Key>{shortcuts.data}</Key> show <b>d</b>ata for resource
       </p>
       <p>
-        <Key>a</Key> show <b>a</b>bout page
+        <Key>{shortcuts.home}</Key> show <b>h</b>ome page
       </p>
       <p>
-        <Key>n</Key> <b>n</b>ew resource
+        <Key>{shortcuts.new}</Key> <b>n</b>ew resource
       </p>
       <p>
-        <Key>m</Key> open <b>m</b>enu
+        <Key>{shortcuts.menu}</Key> open <b>m</b>enu
       </p>
       <p>
-        <Key>u</Key> <b>u</b>ser settings
+        <Key>{shortcuts.userSettings}</Key> <b>u</b>ser settings
       </p>
       <p>
-        <Key>t</Key> <b>t</b>heme settings
+        <Key>{shortcuts.themeSettings}</Key> <b>t</b>heme settings
       </p>
       <h3>Collections</h3>
       <p>
-        <Key>v</Key> toggle <b>v</b>iew (table / grid)
+        <Key>{shortcuts.viewToggle}</Key> toggle <b>v</b>iew (table / grid)
       </p>
       <h3>Document</h3>
       <p>
