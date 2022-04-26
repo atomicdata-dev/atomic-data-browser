@@ -4,6 +4,7 @@ import { FaEllipsisV } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useDetectOutsideClick } from '../helpers/useDetectOutsideClick';
 import { Button, ButtonBar } from './Button';
+import { shortcuts } from './HotKeyWrapper';
 
 interface DropdownMenuProps {
   /** The list of menu items */
@@ -40,7 +41,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   );
   // Toggle menu
   useHotkeys(
-    'm',
+    shortcuts.menu,
     () => {
       handleToggle(), setUseKeys(true);
     },

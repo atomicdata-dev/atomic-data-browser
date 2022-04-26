@@ -11,6 +11,25 @@ type Props = {
   children: React.ReactNode;
 };
 
+/** List of used keyboard shortcuts, mapped for OS */
+export const shortcuts = {
+  edit: osKey('e'),
+  data: osKey('d'),
+  home: osKey('h'),
+  new: osKey('n'),
+  userSettings: osKey('u'),
+  themeSettings: osKey('t'),
+  keyboardShortcuts: 'shift+/',
+  search: '\\',
+  viewToggle: osKey('v'),
+  menu: osKey('m'),
+  sidebar: '/',
+};
+
+function osKey(key: string): string {
+  return navigator.platform.includes('Mac') ? `cmd+${key}` : `ctrl+${key}`;
+}
+
 /** App-wide keyboard events handler. */
 // Keep changes in sync with ShortcutsRoute.tsx
 function HotKeysWrapper({ children }: Props): JSX.Element {
@@ -19,7 +38,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
   const { sideBarLocked, setSideBarLocked } = useSettings();
 
   useHotkeys(
-    'e',
+    shortcuts.edit,
     () => {
       isValidURL(subject) && history.push(editURL(subject));
     },
@@ -27,30 +46,30 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     [subject],
   );
   useHotkeys(
-    'd',
+    shortcuts.data,
     () => {
       isValidURL(subject) && history.push(dataURL(subject));
     },
     {},
     [subject],
   );
-  useHotkeys('a', () => {
+  useHotkeys(shortcuts.home, () => {
     history.push('/');
   });
-  useHotkeys('n', () => {
+  useHotkeys(shortcuts.new, () => {
     history.push(paths.new);
   });
-  useHotkeys('u', () => {
+  useHotkeys(shortcuts.userSettings, () => {
     history.push(paths.agentSettings);
   });
-  useHotkeys('t', () => {
+  useHotkeys(shortcuts.themeSettings, () => {
     history.push(paths.themeSettings);
   });
-  useHotkeys('shift+/', () => {
+  useHotkeys(shortcuts.keyboardShortcuts, () => {
     history.push(paths.shortcuts);
   });
   useHotkeys(
-    '\\',
+    shortcuts.search,
     () => {
       setSideBarLocked(!sideBarLocked);
     },
