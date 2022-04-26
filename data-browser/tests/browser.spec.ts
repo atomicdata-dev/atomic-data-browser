@@ -11,12 +11,11 @@ const documentTitle = '[data-test="document-title"]';
 const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
-const demoFileName = 'logo.svg';
 const publicReadRight =
   '[data-test="right-public"] input[type="checkbox"] >> nth=0';
 
+const demoFileName = 'logo.svg';
 const demoFile = `./${demoFileName}`;
-
 const serverUrl = 'http://localhost:9883';
 const frontEndUrl = 'http://localhost:8080';
 
@@ -239,13 +238,15 @@ test.describe('data-browser', async () => {
     await page2.goto(frontEndUrl);
     await openLocalhost(page2);
     await page2.click(currentDriveTitle);
-    await expect(page2.locator('text=Unauthorized')).toBeVisible();
+    await expect(await page2.locator('text=Unauthorized')).toBeVisible();
 
     // Create invite
     await page.click('button:has-text("Send invite")');
     context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.click('button:has-text("Create Invite")');
-    await expect(page.locator('text=Invite created and copied ')).toBeVisible();
+    await expect(
+      await page.locator('text=Invite created and copied '),
+    ).toBeVisible();
     const inviteUrl = await page.evaluate(() =>
       document
         .querySelector('[data-code-content]')
@@ -274,7 +275,7 @@ test.describe('data-browser', async () => {
     await page.click(publicReadRight);
     expect(await page.isChecked(publicReadRight)).toBeTruthy();
     await page.click('button:has-text("Save")');
-    await expect(page.locator('text=Share settings saved')).toBeVisible();
+    await expect(await page.locator('text=Share settings saved')).toBeVisible();
   });
 
   test('upload, download', async ({ page, browser, context }) => {
@@ -288,20 +289,24 @@ test.describe('data-browser', async () => {
     ]);
     await fileChooser.setFiles(demoFile);
     await page.click(`[data-test]:has-text("${demoFileName}")`);
-    await expect(page.locator('[data-test="image-viewer"]')).toBeVisible();
+    await expect(
+      await page.locator('[data-test="image-viewer"]'),
+    ).toBeVisible();
   });
 });
 
 /** Signs in using an AtomicData.dev test user */
 async function signIn(page: Page) {
   await page.click('text=user settings');
-  await expect(page.locator('text=edit data and sign Commits')).toBeVisible();
+  await expect(
+    await page.locator('text=edit data and sign Commits'),
+  ).toBeVisible();
   // If there are any issues with this agent, try creating a new one https://atomicdata.dev/invites/1
   const test_agent =
     'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvaElNWHFoR3VLSDRkM0QrV1BjYzAwUHVFbldFMEtlY21GWStWbWNVR2tEWT0iLCJwcml2YXRlS2V5IjoiZkx0SDAvY29VY1BleFluNC95NGxFemFKbUJmZTYxQ3lEekUwODJyMmdRQT0ifQ==';
   await page.click('#current-password');
   await page.fill('#current-password', test_agent);
-  await expect(page.locator('text=Edit profile')).toBeVisible();
+  await expect(await page.locator('text=Edit profile')).toBeVisible();
   await page.goBack();
 }
 
@@ -323,18 +328,20 @@ async function openAtomic(page: Page) {
   // Set AtomicData.dev as the server
   await page.click('[data-test="server-url-atomic"]');
   // Accept the invite, create an account if necessary
-  await expect(page.locator(currentDriveTitle)).toHaveText('atomicdata.dev');
+  await expect(await page.locator(currentDriveTitle)).toHaveText(
+    'atomicdata.dev',
+  );
 }
 
 async function editProfileAndCommit(page: Page) {
   await page.click('text=user settings');
   // Edit profile and save commit
   await page.click('text=Edit profile');
-  await expect(page.locator('text=add another property')).toBeVisible();
+  await expect(await page.locator('text=add another property')).toBeVisible();
   await page.fill(
     '[data-test="input-name"]',
     `Test user edited at ${new Date().toLocaleDateString()}`,
   );
   await page.click('[data-test="save"]');
-  await expect(page.locator('text=saved')).toBeVisible();
+  await expect(await page.locator('text=saved')).toBeVisible();
 }
