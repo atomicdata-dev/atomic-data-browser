@@ -1,10 +1,18 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 import { newURL, openURL } from '../helpers/navigation';
-import { useResource, useStore, useString, useTitle } from '@tomic/react';
+import {
+  useCurrentAgent,
+  useResource,
+  useStore,
+  useString,
+  useTitle,
+} from '@tomic/react';
 import { Button } from './Button';
 import { FaPlus } from 'react-icons/fa';
 import { classes, properties, Resource } from '@tomic/lib';
+import toast from 'react-hot-toast';
+import { paths } from '../routes/paths';
 
 type NewIntanceButtonProps = {
   klass: string;
@@ -27,6 +35,7 @@ function NewIntanceButton({
   const title = useTitle(resource);
   const history = useHistory();
   const store = useStore();
+  const [agent] = useCurrentAgent();
   const [shortname] = useString(resource, properties.shortname);
 
   if (parent == undefined) {
@@ -68,8 +77,19 @@ function NewIntanceButton({
     }
   }
 
+  if (!agent) {
+    onClick = async () => {
+      toast.error('You need to be logged in to create new things');
+      history.push(paths.agentSettings);
+    };
+  }
+
   return (
-    <Button onClick={onClick} subtle={subtle} title={`Create a new ${title}`}>
+    <Button
+      onClick={onClick}
+      subtle={subtle}
+      title={agent ? `Create a new ${title}` : 'No User set - first sign in'}
+    >
       {icon ? <FaPlus /> : `new ${title}`}
       {children}
     </Button>

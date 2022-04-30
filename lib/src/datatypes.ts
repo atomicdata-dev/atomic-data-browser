@@ -76,6 +76,9 @@ export interface ArrayError extends Error {
 /** Validates a JSON Value using a Datatype. Throws an error if things are wrong. */
 export const validate = (value: JSONValue, datatype: Datatype): void => {
   let err = null;
+  if (value == undefined) {
+    throw new Error(`Value is undefined, expected ${datatype}`);
+  }
   switch (datatype) {
     case Datatype.STRING: {
       if (!isString(value)) {
@@ -141,7 +144,7 @@ export const validate = (value: JSONValue, datatype: Datatype): void => {
     }
   }
   if (err !== null) {
-    throw new Error(`${err}`);
+    throw new Error(err);
   }
 };
 
