@@ -60,6 +60,7 @@ function NewIntanceButton({
         ]);
         await resource.save(store);
         history.push(openURL(subject));
+        toast.success('ChatRoom created');
       };
       break;
     }
@@ -73,6 +74,7 @@ function NewIntanceButton({
         ]);
         await resource.save(store);
         history.push(openURL(subject));
+        toast.success('Document created');
       };
     }
   }
