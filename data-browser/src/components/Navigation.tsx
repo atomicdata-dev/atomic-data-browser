@@ -126,6 +126,7 @@ function NavBar() {
   /** Checks if the app is running in PWA / stand alone mode or in a browser */
   const isInStandaloneMode = () =>
     window.matchMedia('(display-mode: standalone)').matches ||
+    // @ts-ignore standalone doesn't exist, but it does
     window.navigator.standalone ||
     document.referrer.includes('android-app://') ||
     isRunningInTauri();

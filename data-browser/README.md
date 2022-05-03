@@ -1,6 +1,6 @@
 # Atomic Data Browser
 
-[![Snowpack build Status](https://github.com/joepio/atomic-data-browser/workflows/Snowpack/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
+[![Build Status](https://github.com/joepio/atomic-data-browser/workflows/build/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
 
 _Status: Beta. [Breaking changes](CHANGELOG.md) are expected until 1.0._
 
@@ -47,17 +47,6 @@ You can set the Agent on the `/settings` route, but it's often easier to set the
 ```sh
 # Run atomic-server locally, and check the logs.
 docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server
-```
-
-If you need to run locally using HTTPS:
-
-```sh
-# Create keys for https (required to run `window.crypto` libraries in the browser):
-npx devcert-cli generate snowpack
-# Rename because snowpack wants .crt
-mv snowpack.cert snowpack.crt
-# Start the server using https
-yarn start-https
 ```
 
 ## Understanding & contributing to the code

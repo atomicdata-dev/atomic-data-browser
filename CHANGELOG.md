@@ -17,6 +17,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add ChatRooms #153
 - Improve UX for creating new Resources, instantly open new ChatRooms and Documents
 - Implement `push`, for appending new Resources to (existing) Arrays in Commits.
+- Replace snowpack with vite #156
 
 ## v0.30.6 to 9
 

@@ -46,7 +46,7 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
     // go to the destination, unless the user just hit the back button
     if (history.action != 'POP') {
       // Fetch that resource again
-      store.fetchResource(destination, true);
+      store.fetchResource(destination);
       history.push(openURL(destination));
     }
   }

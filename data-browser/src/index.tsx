@@ -14,11 +14,3 @@ export const Root = (): JSX.Element => (
 );
 
 ReactDOM.render(<Root />, document.getElementById('root'));
-
-// Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
-// Learn more: https://www.snowpack.dev/concepts/hot-module-replacement
-// @ts-ignore only relevant during development
-if (import.meta.hot) {
-  // @ts-ignore
-  import.meta.hot.accept();
-}
