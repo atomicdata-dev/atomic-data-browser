@@ -57,7 +57,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const disableSend = newMessageVal.length === 0;
 
   /** Creates a message using the internal state */
-  async function sendMessage(e?: { preventDefault: () => unknown }) {
+  async function sendMessage(e?) {
     const messageBackup = newMessageVal;
     try {
       scrollToBottom();

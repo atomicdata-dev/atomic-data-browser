@@ -5,12 +5,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="The easiest way to create, share and model Linked Atomic Data." name="description" />
-  <link href="%PUBLIC_URL%/icon.png" rel="icon" type="image/png" />
-  <link href="%PUBLIC_URL%/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
-  <link href="%PUBLIC_URL%/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-  <link href="%PUBLIC_URL%/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
-  <link href="%PUBLIC_URL%/site.webmanifest" rel="manifest" />
-  <link color="#1e43a3" href="%PUBLIC_URL%/safari-pinned-tab.svg" rel="mask-icon" />
+  <link href="/public/icon.png" rel="icon" type="image/png" />
+  <link href="/public/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="/public/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="/public/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+  <link href="/public/site.webmanifest" rel="manifest" />
+  <link color="#1e43a3" href="/public/safari-pinned-tab.svg" rel="mask-icon" />
   <meta content="yes" name="apple-mobile-web-app-capable" />
   <meta content="yes" name="mobile-web-app-capable" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,6 +76,8 @@
     </svg>
   </div>
 
+  <script type="module" src="/src/index.tsx"></script>
+
   <!-- Dark mode for first few seconds  -->
   <script>
     const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -86,10 +88,7 @@
         .setProperty('--background-color', 'black');
     }
   </script>
-  <!-- Snowpack + Webpack plugin needs a starting point -->
-  <script type="module" src="dist/index.js"></script>
-  <!-- Trying this for package issue -->
-  <script type="module" src="%PUBLIC_URL%/dist/index.js"></script>
+
   <!-- Service worker -->
   <script>
     if ('serviceWorker' in navigator) {

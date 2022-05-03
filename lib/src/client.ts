@@ -153,7 +153,7 @@ export async function signRequest(
   /** The resource meant to be fetched */
   subject: string,
   agent: Agent,
-  headers: HeadersObject,
+  headers: HeadersObject | Headers,
 ): Promise<HeadersObject> {
   // If you're using a local Agent, you cannot authenticate requests to other domains.
   const localTryingExternal =
@@ -169,7 +169,7 @@ export async function signRequest(
     headers['x-atomic-timestamp'] = timestamp.toString();
     headers['x-atomic-agent'] = agent?.subject;
   }
-  return headers;
+  return headers as HeadersObject;
 }
 
 /**

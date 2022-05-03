@@ -1,12 +1,10 @@
-.snowpack
 build
 node_modules
 docs
 publish
 .env
-snowpack.crt
-snowpack.key
 .husky
+.nohup
 */lib
 */dist
 */yarn-error.log

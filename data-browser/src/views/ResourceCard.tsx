@@ -54,6 +54,7 @@ function ResourceCard(props: Props): JSX.Element {
   }
   return (
     // eslint-disable-next-line
+    // @ts-ignore ref is not compatible
     <Card ref={ref} {...props} about={subject}>
       {isShown ? (
         <ResourceCardInner {...props} />
