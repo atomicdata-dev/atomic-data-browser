@@ -1,12 +1,13 @@
 import { expect } from 'chai';
-import { parseAndApplyCommit, Store } from '.';
 import {
   CommitBuilderI,
   generatePublicKeyFromPrivate,
+  parseAndApplyCommit,
   serializeDeterministically,
   signAt,
   signToBase64,
-} from './commit';
+  Store,
+} from './index.js';
 
 describe('temporarily empty test', () => {
   it('', () => {

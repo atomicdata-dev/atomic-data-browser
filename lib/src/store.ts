@@ -1,9 +1,14 @@
-import { Resource, unknownSubject } from './resource';
-import { tryValidURL, fetchResource } from './client';
-import { urls } from './urls';
-import { Datatype, datatypeFromUrl } from './datatypes';
-import { Agent } from './agent';
-import { startWebsocket } from './websockets';
+import {
+  Agent,
+  Datatype,
+  datatypeFromUrl,
+  fetchResource,
+  Resource,
+  tryValidURL,
+  unknownSubject,
+  urls,
+} from './index.js';
+import { startWebsocket } from './websockets.js';
 
 type callback = (resource: Resource) => void;
 

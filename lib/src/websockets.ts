@@ -1,5 +1,4 @@
-import { parseAndApplyCommit } from './commit';
-import { Store } from './store';
+import { parseAndApplyCommit, Store } from './index.js';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(store: Store): WebSocket {

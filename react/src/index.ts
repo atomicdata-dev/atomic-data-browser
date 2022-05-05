@@ -22,11 +22,11 @@
  * @module
  */
 
-export * from './hooks';
-export * from './useBaseURL';
-export * from './useCurrentAgent';
-export * from './useDebounce';
-export * from './useLocalStorage';
-export * from './useMarkdown';
-export * from './useServerSearch';
+export * from './hooks.js';
+export * from './useBaseURL.js';
+export * from './useCurrentAgent.js';
+export * from './useDebounce.js';
+export * from './useLocalStorage.js';
+export * from './useMarkdown.js';
+export * from './useServerSearch.js';
 export * from '@tomic/lib';

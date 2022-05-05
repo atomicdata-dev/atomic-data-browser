@@ -1,12 +1,16 @@
-import { properties } from './urls';
-import { tryValidURL, postCommit } from './client';
-import { CommitBuilder } from './commit';
-import { isArray, validate as validateDatatype } from './datatypes';
-import { Store } from './store';
-import { valToArray } from './value';
-import { Agent } from './agent';
-import { JSONValue } from '.';
-import { isUnauthorized } from './error';
+import {
+  Agent,
+  CommitBuilder,
+  isArray,
+  isUnauthorized,
+  JSONValue,
+  postCommit,
+  properties,
+  Store,
+  tryValidURL,
+  validateDatatype,
+  valToArray,
+} from './index.js';
 
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;
@@ -101,6 +105,7 @@ export class Resource {
 
   /** Get a Value by its property */
   get(propUrl: string): JSONValue | null {
+    console.log('werkt nee hoor');
     const result = this.propvals.get(propUrl);
     if (result == undefined) {
       // throw new Error(`not found property ${propUrl} in ${this.subject}`);
