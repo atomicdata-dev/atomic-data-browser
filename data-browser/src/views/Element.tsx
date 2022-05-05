@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { properties, classes } from '@tomic/lib';
 import {
+  properties,
+  classes,
   useArray,
   useCanWrite,
   useResource,

@@ -1,8 +1,13 @@
 /** Helper function related the Atomic Classes */
 
-import { Datatype, JSONValue, properties } from '.';
-import { Resource } from './resource';
-import { Property, Store } from './store';
+import {
+  Datatype,
+  JSONValue,
+  properties,
+  Property,
+  Resource,
+  Store,
+} from './index.js';
 
 /** Returns the Typescript interface string based on the Class */
 export async function classToTypescriptDefinition(

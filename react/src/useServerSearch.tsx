@@ -1,7 +1,6 @@
-import { useDebounce } from './useDebounce';
-import { useArray, useStore, useResource } from './hooks';
 import { urls } from '@tomic/lib';
 import { useEffect, useState } from 'react';
+import { useArray, useDebounce, useResource, useStore } from './index.js';
 
 interface SearchResults {
   /** Subject URLs for resources that match the query */

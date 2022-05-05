@@ -2,7 +2,9 @@
     "extends": "../tsconfig.build.json",
     "compilerOptions": {
         "composite": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "rootDir": ".",
+        "jsx": "react"
     },
     "include": [
         "./src"

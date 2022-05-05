@@ -17,7 +17,7 @@ const publicReadRight =
 const demoFileName = 'logo.svg';
 const demoFile = `./${demoFileName}`;
 const serverUrl = 'http://localhost:9883';
-const frontEndUrl = 'http://localhost:8080';
+const frontEndUrl = 'http://localhost:3000';
 
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {

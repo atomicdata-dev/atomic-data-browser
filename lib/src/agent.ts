@@ -1,6 +1,9 @@
-import { properties } from '.';
-import { fetchResource, tryValidURL } from './client';
-import { generatePublicKeyFromPrivate } from './commit';
+import {
+  fetchResource,
+  generatePublicKeyFromPrivate,
+  properties,
+  tryValidURL,
+} from './index.js';
 
 /**
  * An Agent is a user or machine that can write data to an Atomic Server. An

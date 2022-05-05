@@ -1,6 +1,6 @@
-import { urls } from './urls';
-import { tryValidURL } from './client';
-import { JSONValue } from './value';
+import { urls } from './urls.js';
+import { tryValidURL } from './client.js';
+import { JSONValue } from './value.js';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
@@ -74,7 +74,10 @@ export interface ArrayError extends Error {
 }
 
 /** Validates a JSON Value using a Datatype. Throws an error if things are wrong. */
-export const validate = (value: JSONValue, datatype: Datatype): void => {
+export const validateDatatype = (
+  value: JSONValue,
+  datatype: Datatype,
+): void => {
   let err = null;
   if (value == undefined) {
     throw new Error(`Value is undefined, expected ${datatype}`);

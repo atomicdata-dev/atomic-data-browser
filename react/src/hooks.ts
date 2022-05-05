@@ -13,10 +13,9 @@ import {
   valToDate,
   valToArray,
   valToString,
-  valToResource,
 } from '@tomic/lib';
 import React from 'react';
-import { useDebounce } from './useDebounce';
+import { useDebounce } from './index.js';
 
 /**
  * Hook for getting a Resource in a React component. Will try to fetch the

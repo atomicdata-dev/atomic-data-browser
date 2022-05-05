@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     // would prefer es2020, but this is needed for jest
-    "module": "commonjs",
+    "module": "es2020",
     // required by jest
     "esModuleInterop": true,
     // required by jest
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "target": "es2020",
+    "target": "es6",
     "jsx": "preserve",
     "strictFunctionTypes": true,
     "sourceMap": true,
@@ -22,5 +22,13 @@
   "exclude": [
     "node_modules",
     "**/node_modules/*"
+  ],
+  "references": [
+    {
+      "path": "lib"
+    },
+    {
+      "path": "react"
+    }
   ]
 }

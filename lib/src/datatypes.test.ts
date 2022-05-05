@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { urls } from './urls';
-import { Datatype, validate } from './datatypes';
+import { Datatype, urls, validateDatatype } from './index.js';
 
 describe('Datatypes', () => {
   it('throws errors when datatypes dont match values', async () => {
@@ -12,53 +11,56 @@ describe('Datatypes', () => {
     const resourceArray = [urls.classes.class, urls.classes.property];
     const resourceArrayInvalid = [urls.classes.class, 'urls.classes.property'];
     expect(
-      () => validate(string, Datatype.STRING),
+      () => validateDatatype(string, Datatype.STRING),
       'Valid string',
     ).to.not.throw();
     expect(
-      () => validate(int, Datatype.STRING),
+      () => validateDatatype(int, Datatype.STRING),
       'Invalid string, number',
     ).to.throw();
     expect(
-      () => validate(float, Datatype.STRING),
+      () => validateDatatype(float, Datatype.STRING),
       'Invalid string, number',
     ).to.throw();
 
     expect(
-      () => validate(atomicUrl, Datatype.ATOMIC_URL),
+      () => validateDatatype(atomicUrl, Datatype.ATOMIC_URL),
       'Valid AtomicUrl',
     ).to.not.throw();
     expect(
-      () => validate(string, Datatype.ATOMIC_URL),
+      () => validateDatatype(string, Datatype.ATOMIC_URL),
       'Invalid AtomicUrl, string',
     ).to.throw();
 
     expect(
-      () => validate(int, Datatype.INTEGER),
+      () => validateDatatype(int, Datatype.INTEGER),
       'Valid Integer',
     ).to.not.throw();
     expect(
-      () => validate(float, Datatype.INTEGER),
+      () => validateDatatype(float, Datatype.INTEGER),
       'Invalid Integer, string',
     ).to.throw();
     expect(
-      () => validate(string, Datatype.INTEGER),
+      () => validateDatatype(string, Datatype.INTEGER),
       'Invalid Integer, float',
     ).to.throw();
 
-    expect(() => validate(slug, Datatype.SLUG), 'Valid slug').to.not.throw();
-    expect(() => validate(float, Datatype.SLUG)).to.throw();
-    expect(() => validate(string, Datatype.SLUG)).to.throw();
-    expect(() => validate(int, Datatype.SLUG)).to.throw();
+    expect(
+      () => validateDatatype(slug, Datatype.SLUG),
+      'Valid slug',
+    ).to.not.throw();
+    expect(() => validateDatatype(float, Datatype.SLUG)).to.throw();
+    expect(() => validateDatatype(string, Datatype.SLUG)).to.throw();
+    expect(() => validateDatatype(int, Datatype.SLUG)).to.throw();
 
     expect(() =>
-      validate(resourceArray, Datatype.RESOURCEARRAY),
+      validateDatatype(resourceArray, Datatype.RESOURCEARRAY),
     ).to.not.throw();
     expect(() =>
-      validate(resourceArrayInvalid, Datatype.RESOURCEARRAY),
+      validateDatatype(resourceArrayInvalid, Datatype.RESOURCEARRAY),
     ).to.throw();
-    expect(() => validate(float, Datatype.RESOURCEARRAY)).to.throw();
-    expect(() => validate(string, Datatype.RESOURCEARRAY)).to.throw();
-    expect(() => validate(int, Datatype.RESOURCEARRAY)).to.throw();
+    expect(() => validateDatatype(float, Datatype.RESOURCEARRAY)).to.throw();
+    expect(() => validateDatatype(string, Datatype.RESOURCEARRAY)).to.throw();
+    expect(() => validateDatatype(int, Datatype.RESOURCEARRAY)).to.throw();
   });
 });

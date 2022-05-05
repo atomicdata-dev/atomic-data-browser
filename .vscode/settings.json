@@ -16,6 +16,7 @@
     "typescript",
     "typescriptreact"
   ],
+  "typescript.preferences.importModuleSpecifierEnding": "js",
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,

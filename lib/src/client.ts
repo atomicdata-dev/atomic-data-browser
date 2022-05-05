@@ -1,16 +1,19 @@
 // Provides functionality to interact with an Atomic Server.
 
-import { getTimestampNow, Store } from '.';
 import {
+  Agent,
+  AtomicError,
   Commit,
+  ErrorType,
+  getTimestampNow,
   parseCommit,
+  parseJsonADArray,
+  parseJsonADResource,
+  Resource,
   serializeDeterministically,
   signToBase64,
-} from './commit';
-import { parseJsonADArray, parseJsonADResource } from './parse';
-import { Resource } from './resource';
-import { Agent } from './agent';
-import { AtomicError, ErrorType } from './error';
+  Store,
+} from './index.js';
 
 /** Works both in node and the browser */
 import fetch from 'cross-fetch';
