@@ -17,11 +17,11 @@ And join our [Discord][discord-url]!
   - Choose a new version. Versions should match `atomic-data-rs`.
   - This updates the `package.json` files, creates a commit, tags it, pushes it to github, and publishes the builds to npm.
 
-## Understanding lerna, vite, yarn workspaces
+## Understanding vite and yarn workspaces
 
-This monorepo is orchestrated with lerna and yarn workspaces.
-Lerna is only used for publishing and handling versions.
+This monorepo is orchestrated with yarn (v2) workspaces.
 Yarn workspaces are used to share dependencies.
+
 Vite hosts the data-browser and targets `.ts` files which enables hot reload / hot module replacement, which is great for developing the data browser and the libraries at the same time.
 
 ## Iterative builds
