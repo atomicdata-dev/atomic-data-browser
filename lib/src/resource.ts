@@ -105,7 +105,6 @@ export class Resource {
 
   /** Get a Value by its property */
   get(propUrl: string): JSONValue | null {
-    console.log('werkt nee hoor');
     const result = this.propvals.get(propUrl);
     if (result == undefined) {
       // throw new Error(`not found property ${propUrl} in ${this.subject}`);
