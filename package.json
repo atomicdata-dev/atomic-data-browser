@@ -35,8 +35,8 @@
     "lint-fix": "yarn workspaces foreach run lint-fix",
     "build": "yarn workspaces foreach run build",
     "test": "yarn workspaces foreach run test",
-    "publish": "yarn workspaces foreach run tsc && yarn publish",
-    "start": "yarn workspace @tomic/data-browser start & yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch",
+    "publish": "yarn workspaces foreach run tsc && yarn npm publish",
+    "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",
     "typedoc": "typedoc . --options typedoc.json"
   },
   "workspaces": {

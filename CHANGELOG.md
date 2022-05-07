@@ -2,23 +2,23 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## unreleased
+## v0.31.0
 
-- Make bugsnag optional #133
+- Add ChatRooms #153
+- Improve UX for creating new Resources, instantly open new ChatRooms and Documents
+- Refer to `previousCommit`s in Commits #140
 - Disable websockets out of browser context for `@tomic/lib`
+- Fix NPM builds for `@tomic/lib` and `@tomic/react` in non-ts environments #155
 - tauri back buttons, new tab external links #115
 - Fix concurrency issue with commits #91
-- Refer to `previousCommit`s in Commits #140
+- Make bugsnag optional #133
 - Add `parseCommit` function
 - Use `href` attribute in sidebar menu #148
 - Use relative links in About page #149
 - Show `CommitDetail` that displays audit info (creator, edit date) #145
 - Prevent using `localhost` Agents for external Servers
-- Add ChatRooms #153
-- Improve UX for creating new Resources, instantly open new ChatRooms and Documents
 - Implement `push`, for appending new Resources to (existing) Arrays in Commits.
 - Replace snowpack with vite #156
-- Fix NPM builds for `@tomic/lib` and `@tomic/react` in non-ts environments #155
 - Use yarn v2 and replace lerna #105
 - Prevent default actions for keyboard shortcuts
 - Improve cross-OS keyboard shortcuts compatibility (cmd & ctrl, option & alt)

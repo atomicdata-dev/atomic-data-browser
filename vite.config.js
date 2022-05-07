@@ -6,7 +6,7 @@ export default defineConfig({
   references: [{ path: 'lib' }, { path: 'react' }],
   optimizeDeps: {
     // this may help when linking + HMR is not working
-    exclude: ['@tomic/lib', '@tomic/react'],
+    // exclude: ['@tomic/lib', '@tomic/react'],
   },
   // resolve: {
   //   alias: {
