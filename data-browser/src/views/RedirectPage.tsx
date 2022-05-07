@@ -1,5 +1,4 @@
-import { properties } from '@tomic/lib';
-import { useStore, useString } from '@tomic/react';
+import { useStore, useString, properties } from '@tomic/react';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 

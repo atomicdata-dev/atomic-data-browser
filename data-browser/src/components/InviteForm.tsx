@@ -1,5 +1,10 @@
-import { properties, Resource, urls } from '@tomic/lib';
-import { useResource, useStore } from '@tomic/react';
+import {
+  useResource,
+  useStore,
+  properties,
+  Resource,
+  urls,
+} from '@tomic/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { ErrorLook } from '../views/ResourceInline';

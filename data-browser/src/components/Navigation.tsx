@@ -9,6 +9,8 @@ import {
 } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { tryValidURL } from '@tomic/react';
+
 import { openURL, searchURL, useSearchQuery } from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
@@ -18,7 +20,6 @@ import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
-import { tryValidURL } from '@tomic/lib';
 import { paths } from '../routes/paths';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';

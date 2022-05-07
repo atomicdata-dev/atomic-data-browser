@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Agent } from '@tomic/lib';
+import { Agent } from '@tomic/react';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
 
 import { useSettings } from '../helpers/AppSettings';

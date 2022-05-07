@@ -1,8 +1,12 @@
 import React, { ReactNode } from 'react';
 import { useContext } from 'react';
-import { Agent } from '@tomic/lib';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
-import { useLocalStorage, useCurrentAgent, useBaseURL } from '@tomic/react';
+import {
+  useLocalStorage,
+  useCurrentAgent,
+  useBaseURL,
+  Agent,
+} from '@tomic/react';
 import toast from 'react-hot-toast';
 import { SIDEBAR_TOGGLE_WIDTH } from '../components/SideBar';
 

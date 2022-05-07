@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useResource, useStore } from '@tomic/react';
+import { useResource, useStore, signRequest } from '@tomic/react';
+
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/AtomicLink';
@@ -7,7 +8,6 @@ import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';
 import { ErrMessage } from '../components/forms/InputStyles';
-import { signRequest } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
 import { ErrorLook } from '../views/ResourceInline';

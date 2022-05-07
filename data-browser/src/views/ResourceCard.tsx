@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useString, useResource, useTitle } from '@tomic/react';
-import { Resource, properties, urls } from '@tomic/lib';
+import {
+  useString,
+  useResource,
+  useTitle,
+  Resource,
+  properties,
+  urls,
+} from '@tomic/react';
 import AllProps from '../components/AllProps';
 import AtomicLink from '../components/AtomicLink';
 import { Card } from '../components/Card';

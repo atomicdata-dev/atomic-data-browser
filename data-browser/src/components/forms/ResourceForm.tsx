@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Resource, classes, properties, urls } from '@tomic/lib';
-import { useArray, useResource, useStore, useString } from '@tomic/react';
+import {
+  useArray,
+  useResource,
+  useStore,
+  useString,
+  Resource,
+  classes,
+  properties,
+  urls,
+} from '@tomic/react';
+import toast from 'react-hot-toast';
+import styled from 'styled-components';
+import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
+
 import { openURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
-import styled from 'styled-components';
 import Field from './Field';
-import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
-import toast from 'react-hot-toast';
 import UploadForm from './UploadForm';
 
 type ResourceFormProps = {

@@ -1,5 +1,4 @@
-import { useArray, useString, useTitle } from '@tomic/react';
-import { properties } from '@tomic/lib';
+import { useArray, useString, useTitle, properties } from '@tomic/react';
 import React, { useState } from 'react';
 
 import Markdown from '../components/datatypes/Markdown';
