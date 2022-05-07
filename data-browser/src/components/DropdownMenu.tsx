@@ -42,7 +42,8 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   // Toggle menu
   useHotkeys(
     shortcuts.menu,
-    () => {
+    e => {
+      e.preventDefault();
       handleToggle(), setUseKeys(true);
     },
     {},
