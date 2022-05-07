@@ -1,5 +1,4 @@
-import { properties } from '@tomic/lib';
-import { useNumber, useString, useTitle } from '@tomic/react';
+import { useNumber, useString, useTitle, properties } from '@tomic/react';
 import React from 'react';
 import { Button } from '../components/Button';
 import { ContainerNarrow } from '../components/Containers';

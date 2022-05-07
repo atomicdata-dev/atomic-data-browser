@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {
+  properties,
+  Resource,
   useArray,
   useResource,
   useStore,
   useString,
   useTitle,
 } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
 import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';

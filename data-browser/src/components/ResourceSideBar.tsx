@@ -1,6 +1,5 @@
 import React from 'react';
-import { useString, useResource, useTitle } from '@tomic/react';
-import { urls } from '@tomic/lib';
+import { useString, useResource, useTitle, urls } from '@tomic/react';
 import { ErrorLook } from '../views/ResourceInline';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { SideBarItem } from '../components/SideBar';

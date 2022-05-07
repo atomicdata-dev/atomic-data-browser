@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Resource } from '@tomic/lib';
+import { Resource } from '@tomic/react';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ErrorLook } from './ResourceInline';

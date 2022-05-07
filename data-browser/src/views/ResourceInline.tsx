@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useString, useResource, useTitle } from '@tomic/react';
-import { urls } from '@tomic/lib';
+import { useString, useResource, useTitle, urls } from '@tomic/react';
 import AtomicLink from '../components/AtomicLink';
 
 type Props = {

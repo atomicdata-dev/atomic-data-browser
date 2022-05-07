@@ -1,4 +1,4 @@
-import { Datatype } from '@tomic/lib';
+import { Datatype } from '@tomic/react';
 import React from 'react';
 import { InputProps } from './ResourceField';
 import InputString from './InputString';

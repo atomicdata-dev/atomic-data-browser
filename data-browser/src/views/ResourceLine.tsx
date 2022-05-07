@@ -1,6 +1,5 @@
 import React from 'react';
-import { useString, useResource, useTitle } from '@tomic/react';
-import { urls } from '@tomic/lib';
+import { urls, useString, useResource, useTitle } from '@tomic/react';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 
 type Props = {

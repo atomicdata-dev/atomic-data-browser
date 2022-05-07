@@ -1,6 +1,12 @@
 import React from 'react';
-import { useString, useResource } from '@tomic/react';
-import { properties, Resource, urls } from '@tomic/lib';
+import {
+  useString,
+  useResource,
+  properties,
+  Resource,
+  urls,
+} from '@tomic/react';
+
 import { ContainerNarrow } from '../components/Containers';
 import Collection from '../views/CollectionPage';
 import EndpointPage from './EndpointPage';

@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { Agent, generateKeyPair, properties } from '@tomic/lib';
-import { useBoolean, useNumber, useResource, useTitle } from '@tomic/react';
+import {
+  useBoolean,
+  useNumber,
+  useResource,
+  useTitle,
+  Agent,
+  generateKeyPair,
+  properties,
+} from '@tomic/react';
 import { useHistory } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';

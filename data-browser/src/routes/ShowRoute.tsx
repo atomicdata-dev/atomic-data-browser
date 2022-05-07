@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isValidURL } from '@tomic/lib';
+import { isValidURL } from '@tomic/react';
 import ResourcePage from '../views/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './SearchRoute';

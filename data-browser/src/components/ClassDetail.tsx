@@ -1,6 +1,5 @@
 import React from 'react';
-import { useString } from '@tomic/react';
-import { Resource, properties } from '@tomic/lib';
+import { properties, Resource, useString } from '@tomic/react';
 import ResourceInline from '../views/ResourceInline';
 import { Detail } from './Detail';
 
