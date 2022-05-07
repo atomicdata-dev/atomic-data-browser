@@ -18,6 +18,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Improve UX for creating new Resources, instantly open new ChatRooms and Documents
 - Implement `push`, for appending new Resources to (existing) Arrays in Commits.
 - Replace snowpack with vite #156
+- Fix NPM builds for `@tomic/lib` and `@tomic/react` in non-ts environments #155
 - Use yarn v2 and replace lerna #105
 
 ## v0.30.6 to 9
