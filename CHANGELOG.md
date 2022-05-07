@@ -21,6 +21,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fix NPM builds for `@tomic/lib` and `@tomic/react` in non-ts environments #155
 - Use yarn v2 and replace lerna #105
 - Prevent default actions for keyboard shortcuts
+- Improve cross-OS keyboard shortcuts compatibility (cmd & ctrl, option & alt)
 
 ## v0.30.6 to 9
 

@@ -13,7 +13,7 @@ export const Shortcuts: React.FunctionComponent = () => {
         <Key>{shortcuts.search}</Key> search
       </p>
       <p>
-        <Key>{shortcuts.sidebar}</Key> show or hide the sidebar
+        <Key>{shortcuts.sidebarToggle}</Key> show or hide the sidebar
       </p>
       <p>
         <Key>?</Key> show these keyboard shortcuts
@@ -45,13 +45,13 @@ export const Shortcuts: React.FunctionComponent = () => {
       </p>
       <h3>Document</h3>
       <p>
-        <Key>alt</Key>+<Key>up</Key> move line / section up
+        <Key>{shortcuts.moveLineUp}</Key> move line / section up
       </p>
       <p>
-        <Key>alt</Key>+<Key>down</Key> move line / section down
+        <Key>{shortcuts.moveLineDown}</Key> move line / section down
       </p>
       <p>
-        <Key>ctrl</Key>+<Key>backspace</Key> delete line
+        <Key>{shortcuts.deleteLine}</Key> delete line
       </p>
     </ContainerNarrow>
   );

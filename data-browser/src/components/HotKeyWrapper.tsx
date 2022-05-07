@@ -13,21 +13,29 @@ type Props = {
 
 /** List of used keyboard shortcuts, mapped for OS */
 export const shortcuts = {
-  edit: osKey('e'),
-  data: osKey('d'),
-  home: osKey('h'),
-  new: osKey('n'),
-  userSettings: osKey('u'),
-  themeSettings: osKey('t'),
+  edit: osCtrl('e'),
+  data: osCtrl('d'),
+  home: osCtrl('h'),
+  new: osCtrl('n'),
+  userSettings: osCtrl('u'),
+  themeSettings: osCtrl('t'),
   keyboardShortcuts: 'shift+/',
-  search: '\\',
-  viewToggle: osKey('v'),
-  menu: osKey('m'),
-  sidebar: '/',
+  search: '/',
+  viewToggle: osCtrl('v'),
+  menu: osCtrl('m'),
+  /** Locks the sidebar menu */
+  sidebarToggle: '\\',
+  moveLineUp: osAlt('up'),
+  moveLineDown: osAlt('down'),
+  deleteLine: osAlt('backspace'),
 };
 
-function osKey(key: string): string {
+function osCtrl(key: string): string {
   return navigator.platform.includes('Mac') ? `cmd+${key}` : `ctrl+${key}`;
+}
+
+function osAlt(key: string): string {
+  return navigator.platform.includes('Mac') ? `opt+${key}` : `alt+${key}`;
 }
 
 /** App-wide keyboard events handler. */
@@ -76,7 +84,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     history.push(paths.shortcuts);
   });
   useHotkeys(
-    shortcuts.search,
+    shortcuts.sidebarToggle,
     e => {
       e.preventDefault();
       setSideBarLocked(!sideBarLocked);
