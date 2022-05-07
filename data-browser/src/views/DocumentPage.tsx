@@ -28,6 +28,7 @@ import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';
 import { UploadWrapper } from '../components/forms/UploadForm';
 import toast from 'react-hot-toast';
+import { shortcuts } from '../components/HotKeyWrapper.jsx';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
@@ -143,7 +144,7 @@ function DocumentPageEdit({
 
   // Move current element up
   useHotkeys(
-    'option+up,alt+up',
+    shortcuts.moveLineUp,
     e => {
       e.preventDefault();
       moveElement(current, current - 1);
@@ -154,7 +155,7 @@ function DocumentPageEdit({
 
   // Move element down
   useHotkeys(
-    'option+down,alt+down',
+    shortcuts.moveLineDown,
     e => {
       e.preventDefault();
       moveElement(current, current + 1);

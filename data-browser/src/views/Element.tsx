@@ -15,6 +15,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 import Markdown from '../components/datatypes/Markdown';
 import ResourceCard from './ResourceCard';
+import { shortcuts } from '../components/HotKeyWrapper.jsx';
 
 interface ElementShowProps {
   subject: string;
@@ -115,7 +116,7 @@ export function ElementEdit({
   );
 
   useHotkeys(
-    'cmd+backspace,ctrl+backspace',
+    shortcuts.deleteLine,
     e => {
       if (active) {
         e.preventDefault();
