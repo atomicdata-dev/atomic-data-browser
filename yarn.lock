@@ -3199,7 +3199,7 @@ __metadata:
     "@dnd-kit/sortable": ^5.1.0
     "@dnd-kit/utilities": ^3.0.2
     "@playwright/test": ^1.14.0
-    "@tomic/react": ^0.31.0-beta28
+    "@tomic/react": "workspace:*"
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/react-router-dom": ^5.1.7
@@ -3232,20 +3232,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tomic/lib@npm:0.31.0-beta24":
-  version: 0.31.0-beta24
-  resolution: "@tomic/lib@npm:0.31.0-beta24"
-  dependencies:
-    "@noble/ed25519": ^1.6.0
-    "@noble/hashes": ^0.5.7
-    base64-arraybuffer: ^1.0.2
-    cross-fetch: ^3.1.4
-    fast-json-stable-stringify: ^2.1.0
-  checksum: 2febdd9e9f252c82a252afc799a7ba45b457b6180ee0355a4ebd422634ffa383b4bcde03b309a319e1375b5beefba15fae2157f82c2b365911b4048166745309
-  languageName: node
-  linkType: hard
-
-"@tomic/lib@workspace:lib":
+"@tomic/lib@workspace:*, @tomic/lib@workspace:lib":
   version: 0.0.0-use.local
   resolution: "@tomic/lib@workspace:lib"
   dependencies:
@@ -3263,11 +3250,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tomic/react@^0.31.0-beta28, @tomic/react@workspace:react":
+"@tomic/react@workspace:*, @tomic/react@workspace:react":
   version: 0.0.0-use.local
   resolution: "@tomic/react@workspace:react"
   dependencies:
-    "@tomic/lib": 0.31.0-beta24
+    "@tomic/lib": "workspace:*"
     react: ^17.0.2
     typescript: ^4.6.4
   peerDependencies:
