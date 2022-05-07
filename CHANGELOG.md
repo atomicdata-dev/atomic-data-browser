@@ -20,6 +20,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Replace snowpack with vite #156
 - Fix NPM builds for `@tomic/lib` and `@tomic/react` in non-ts environments #155
 - Use yarn v2 and replace lerna #105
+- Prevent default actions for keyboard shortcuts
 
 ## v0.30.6 to 9
 

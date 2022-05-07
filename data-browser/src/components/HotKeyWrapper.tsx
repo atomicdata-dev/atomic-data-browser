@@ -39,7 +39,8 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
 
   useHotkeys(
     shortcuts.edit,
-    () => {
+    e => {
+      e.preventDefault();
       isValidURL(subject) && history.push(editURL(subject));
     },
     {},
@@ -47,30 +48,37 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
   );
   useHotkeys(
     shortcuts.data,
-    () => {
+    e => {
+      e.preventDefault();
       isValidURL(subject) && history.push(dataURL(subject));
     },
     {},
     [subject],
   );
-  useHotkeys(shortcuts.home, () => {
+  useHotkeys(shortcuts.home, e => {
+    e.preventDefault();
     history.push('/');
   });
-  useHotkeys(shortcuts.new, () => {
+  useHotkeys(shortcuts.new, e => {
+    e.preventDefault();
     history.push(paths.new);
   });
-  useHotkeys(shortcuts.userSettings, () => {
+  useHotkeys(shortcuts.userSettings, e => {
+    e.preventDefault();
     history.push(paths.agentSettings);
   });
-  useHotkeys(shortcuts.themeSettings, () => {
+  useHotkeys(shortcuts.themeSettings, e => {
+    e.preventDefault();
     history.push(paths.themeSettings);
   });
-  useHotkeys(shortcuts.keyboardShortcuts, () => {
+  useHotkeys(shortcuts.keyboardShortcuts, e => {
+    e.preventDefault();
     history.push(paths.shortcuts);
   });
   useHotkeys(
     shortcuts.search,
-    () => {
+    e => {
+      e.preventDefault();
       setSideBarLocked(!sideBarLocked);
     },
     {},
