@@ -3235,7 +3235,6 @@ __metadata:
     react-router-dom: ^6.0.0
     styled-components: ^5.3.3
     types-wm: ^1.1.0
-    use-query-params: ^1.2.3
     workbox-cli: ^6.4.1
     yamde: ^1.5.0
   languageName: unknown
@@ -3264,7 +3263,6 @@ __metadata:
   resolution: "@tomic/react@workspace:react"
   dependencies:
     "@tomic/lib": "workspace:*"
-    react: ^17.0.2
     typescript: ^4.6.4
   peerDependencies:
     react: ^17.0.2
@@ -11865,16 +11863,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
-  languageName: node
-  linkType: hard
-
 "react@npm:^18.0.0":
   version: 18.1.0
   resolution: "react@npm:18.1.0"
@@ -12412,15 +12400,6 @@ __metadata:
   dependencies:
     randombytes: ^2.1.0
   checksum: 3273b3394b951671fcf388726e9577021870dfbf85e742a1183fb2e91273e6101bdccea81ff230724f6659a7ee4cef924b0ff9baca32b79d9384ec37caf07302
-  languageName: node
-  linkType: hard
-
-"serialize-query-params@npm:^1.3.5":
-  version: 1.3.5
-  resolution: "serialize-query-params@npm:1.3.5"
-  peerDependencies:
-    query-string: ">=5.1.1"
-  checksum: a8d914c686d430d8ab6b1ad3be1d853bebfd3460c4a81cbe64b6340c7a65cfdc16b584fa4a4e2af0358e9afa15cbb821cc0bf4e6b9e19e80a4c330ec1efafb4b
   languageName: node
   linkType: hard
 
@@ -13741,19 +13720,6 @@ __metadata:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 1040e357750451173132228036aff1fd04abbd43eac1fb3e4fca7495a078bcb8d33cb765fe71ad7e473d9c94d98fd67adca63bd2716c815a2da066198dd37217
-  languageName: node
-  linkType: hard
-
-"use-query-params@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "use-query-params@npm:1.2.3"
-  dependencies:
-    serialize-query-params: ^1.3.5
-  peerDependencies:
-    query-string: ">=5.1.1"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: a2312f7d3064708ab094e85265d04f8e36c52f0d578946667a2de0fbe44dd89ad8559aeda5fe9da06aa15782d46e79300e2de32aa3747dd96c172c777e15a6e8
   languageName: node
   linkType: hard
 

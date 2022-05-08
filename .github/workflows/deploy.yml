@@ -13,7 +13,8 @@ jobs:
       - uses: bahmutov/npm-install@v1
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
-      - run: yarn --frozen-lockfile
+      # Install deps and make sure the cache and lockfile do not change
+      - run: yarn --immutable --immutable-cache
       - run: yarn lint-fix
       - run: yarn build
       - run: yarn typedoc
