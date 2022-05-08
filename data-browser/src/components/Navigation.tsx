@@ -168,7 +168,7 @@ function NavBar() {
             leftPadding
             type='button'
             onClick={() => setSideBarLocked(!sideBarLocked)}
-            title='Show / hide sidebar (\)'
+            title={`Show / hide sidebar (${shortcuts.sidebarToggle})`}
             data-test='sidebar-toggle'
           >
             <FaBars />
@@ -176,7 +176,7 @@ function NavBar() {
           <ButtonBar
             type='button'
             onClick={() => handleNavigation(paths.about)}
-            title='Show about page (a)'
+            title='Show about page'
           >
             <FaInfo />
           </ButtonBar>
@@ -185,20 +185,20 @@ function NavBar() {
               data-test='navbar-current-user'
               type='button'
               onClick={() => handleNavigation(paths.agentSettings)}
-              title='Show current User (u)'
+              title={`Show current User (${shortcuts.userSettings})`}
             >
               <FaUser />
             </ButtonBar>
           )}
           {isInStandaloneMode() && (
             <>
-              <ButtonBar type='button' title='Go back' onClick={history.goBack}>
+              <ButtonBar type='button' title='Go back' onClick={navigate(+1)}>
                 <FaArrowLeft />
               </ButtonBar>{' '}
               <ButtonBar
                 type='button'
                 title='Go forward'
-                onClick={history.goForward}
+                onClick={navigate(-1)}
               >
                 <FaArrowRight />
               </ButtonBar>

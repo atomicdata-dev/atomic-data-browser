@@ -32,7 +32,7 @@ export const PropValRow = styled.div<PropValRowProps>`
 export const PropertyLabel = styled.span`
   font-weight: bold;
   display: block;
-  width: 8rem;
+  min-width: 8rem;
 `;
 
 /**

@@ -12,6 +12,7 @@ import {
 import { DropdownMenu, MenuItemMinimial } from '../components/DropdownMenu';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
+import { shortcuts } from './HotKeyWrapper.jsx';
 
 type Props = {
   subject: string;
@@ -63,7 +64,8 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       disabled: location.pathname.startsWith(paths.data),
       id: 'data',
       label: 'data view',
-      helper: 'View the resource and its properties in the Data View. (d)',
+      helper: 'View the resource and its properties in the Data View.',
+      shortcut: shortcuts.data,
       onClick: () => navigate(dataURL(subject)),
     },
     {
@@ -77,7 +79,8 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       // disabled: !canWrite || location.pathname.startsWith(paths.edit),
       id: 'edit',
       label: 'edit',
-      helper: 'Open the edit form. (e)',
+      helper: 'Open the edit form.',
+      shortcut: shortcuts.edit,
       onClick: () => navigate(editURL(subject)),
     },
     {

@@ -133,7 +133,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
         <FaEllipsisV />
       </ButtonBar>
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
-        {items.map(({ label, onClick, helper, id, disabled }, i) => (
+        {items.map(({ label, onClick, helper, id, disabled, shortcut }, i) => (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -141,7 +141,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
             }}
             disabled={disabled}
             key={id}
-            helper={helper}
+            helper={shortcut ? `${helper} (${shortcut})` : helper}
             label={label}
             selected={useKeys && selectedIndex == i}
           />
@@ -164,6 +164,8 @@ export interface MenuItemMinimial {
   id?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  /** Keyboard shortcut helper */
+  shortcut?: string;
 }
 
 export interface MenuItemSidebarProps extends MenuItemMinimial {
