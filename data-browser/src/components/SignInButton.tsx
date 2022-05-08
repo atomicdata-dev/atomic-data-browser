@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { paths } from '../routes/paths';
 import { Button } from './Button';
 
@@ -8,11 +8,11 @@ import { Button } from './Button';
  * in a Modal.
  */
 export function SignInButton() {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Button
       type='button'
-      onClick={() => history.push(paths.agentSettings)}
+      onClick={() => navigate(paths.agentSettings)}
       title='Go the the User Settings page'
     >
       Sign in

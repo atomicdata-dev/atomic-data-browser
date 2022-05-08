@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ContainerNarrow } from '../components/Containers';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../views/ResourceCard';
 import { useServerSearch } from '@tomic/react';
@@ -14,7 +14,7 @@ export function Search(): JSX.Element {
   const { results, loading, error } = useServerSearch(query, {
     debounce: 0,
   });
-  const history = useHistory();
+  const navigate = useNavigate();
   const htmlElRef = useRef(null);
 
   /** Moves the viewport to the card at the selected index */
@@ -33,7 +33,7 @@ export function Search(): JSX.Element {
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();
-        history.push(openURL(subject));
+        navigate(openURL(subject));
       }
     },
     { enableOnTags: ['INPUT'] },

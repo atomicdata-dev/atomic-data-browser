@@ -7,7 +7,7 @@ import {
   FaUser,
   FaInfo,
 } from 'react-icons/fa';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { tryValidURL } from '@tomic/react';
 
@@ -77,14 +77,14 @@ function NavBar() {
   const [subject] = useCurrentSubject();
   const [input, setInput] = useState<string>('');
   const [query] = useSearchQuery();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } =
     useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useEffect(() => {
-    setInput(query);
+    setInput(query.toString());
   }, [query]);
 
   useEffect(() => {
@@ -114,9 +114,9 @@ function NavBar() {
     try {
       tryValidURL(e.target.value);
       // Replace instead of push to make the back-button behavior better.
-      history.replace(openURL(e.target.value));
+      navigate(openURL(e.target.value), { replace: true });
     } catch (_err) {
-      history.replace(searchURL(e.target.value));
+      navigate(searchURL(e.target.value), { replace: true });
     }
   }
 
@@ -142,7 +142,7 @@ function NavBar() {
   };
 
   const handleNavigation = (to: string) => {
-    history.push(to);
+    navigate(to);
   };
 
   /** Hide buttons if the input element is quite small */

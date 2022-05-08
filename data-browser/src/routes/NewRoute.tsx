@@ -7,10 +7,9 @@ import {
 } from '@tomic/react';
 import { properties, urls } from '@tomic/lib';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { StringParam, useQueryParam } from 'use-query-params';
+import { useNavigate } from 'react-router';
 
-import { newURL } from '../helpers/navigation';
+import { newURL, useQueryString } from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
 import { InputStyled, InputWrapper } from '../components/forms/InputStyles';
 import NewIntanceButton from '../components/NewInstanceButton';
@@ -25,24 +24,24 @@ import { useSettings } from '../helpers/AppSettings';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
-  const [classSubject] = useQueryParam('classSubject', StringParam);
+  const [classSubject] = useQueryString('classSubject');
   // For selecting a class
   const [classInput, setClassInput] = useState<string>(null);
   const [error, setError] = useState<Error>(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const classFull = useResource(classInput);
   const [className] = useString(classFull, urls.properties.shortname);
   const { agent } = useSettings();
 
   function handleClassSet(e) {
     e.preventDefault();
-    history.push(newURL(classInput, agent?.subject));
+    navigate(newURL(classInput, agent?.subject));
   }
 
   return (
     <ContainerNarrow>
       {classSubject ? (
-        <NewForm classSubject={classSubject} />
+        <NewForm classSubject={classSubject.toString()} />
       ) : (
         <form onSubmit={handleClassSet}>
           <h1>Create something new</h1>
@@ -79,16 +78,18 @@ interface NewFormProps {
 function NewForm({ classSubject }: NewFormProps): JSX.Element {
   const klass = useResource(classSubject);
   // TODO: Don't push to history, but replace, because currenlty back is broken
-  const [newSubject, setNewSubject] = useQueryParam('newSubject', StringParam);
-  const [parentSubject] = useQueryParam('parent', StringParam);
+  const [newSubject, setNewSubject] = useQueryString('newSubject');
+  const [parentSubject] = useQueryString('parent');
   const klassTitle = useTitle(klass);
   const [klassShortname] = useString(klass, properties.shortname);
   const [klassDescription] = useString(klass, properties.description);
   const [showDetails, setShowDetails] = useState(false);
   const [subjectErr, setSubjectErr] = useState<Error>(null);
   const store = useStore();
-  const [newSubjectInput, setNewSubjectInput] = useState<string>(newSubject);
-  const resource = useResource(newSubject, { newResource: true });
+  const [newSubjectInput, setNewSubjectInput] = useState<string>(
+    newSubject.toString(),
+  );
+  const resource = useResource(newSubject.toString(), { newResource: true });
 
   useEffect(() => {
     if (newSubject == undefined) {
@@ -152,7 +153,7 @@ function NewForm({ classSubject }: NewFormProps): JSX.Element {
         resource={resource}
         classSubject={classSubject}
         key={`${classSubject}+${newSubject}`}
-        parent={parentSubject}
+        parent={parentSubject.toString()}
       />
     </>
   );

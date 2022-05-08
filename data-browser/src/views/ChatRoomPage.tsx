@@ -14,7 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCopy, FaLink, FaPencilAlt, FaReply, FaTimes } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import AtomicLink from '../components/AtomicLink';
 import { Button } from '../components/Button';
@@ -195,7 +195,7 @@ const Message = React.memo(function Message({
   const [lastCommit] = useSubject(resource, properties.commit.lastCommit);
   const [replyTo] = useSubject(resource, properties.chatRoom.replyTo);
   const [collapsed, setCollapsed] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const shortenedDescription = description.substring(0, MESSAGE_MAX_LEN);
 
@@ -218,7 +218,7 @@ const Message = React.memo(function Message({
           <Button
             icon
             subtle
-            onClick={() => history.push(editURL(subject))}
+            onClick={() => navigate(editURL(subject))}
             title='Edit message'
           >
             <FaPencilAlt />

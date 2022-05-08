@@ -8,7 +8,7 @@ import {
   useString,
   useTitle,
 } from '@tomic/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import Markdown from '../components/datatypes/Markdown';
@@ -29,7 +29,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const [results] = useArray(resource, properties.endpoint.results);
   const virtualResource = useResource(null, { newResource: true });
   const store = useStore();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   /** Create the URL using the variables */
   async function constructSubject(e?) {
@@ -45,7 +45,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
         }
       }),
     );
-    history.push(openURL(url.href));
+    navigate(openURL(url.href));
   }
 
   return (

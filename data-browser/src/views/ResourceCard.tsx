@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import {
   useString,
@@ -55,9 +55,13 @@ function ResourceCard(props: Props): JSX.Element {
     threshold: 0,
     initialInView,
   });
-  if (inView && !isShown) {
-    setIsShown(true);
-  }
+
+  useEffect(() => {
+    if (inView && !isShown) {
+      setIsShown(true);
+    }
+  }, [inView, isShown]);
+
   return (
     // eslint-disable-next-line
     // @ts-ignore ref is not compatible

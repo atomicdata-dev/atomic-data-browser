@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { newURL, openURL } from '../helpers/navigation';
 import {
   useCurrentAgent,
@@ -33,7 +33,7 @@ function NewIntanceButton({
 }: NewIntanceButtonProps): JSX.Element {
   const resource = useResource(klass);
   const title = useTitle(resource);
-  const history = useHistory();
+  const navigate = useNavigate();
   const store = useStore();
   const [agent] = useCurrentAgent();
   const [shortname] = useString(resource, properties.shortname);
@@ -45,7 +45,7 @@ function NewIntanceButton({
 
   let onClick = async function onClick() {
     // Opens an `Edit` form with the class and a decent subject name
-    history.push(newURL(klass, parent, store.createSubject(shortname)));
+    navigate(newURL(klass, parent, store.createSubject(shortname)));
   };
 
   switch (klass) {
@@ -59,7 +59,7 @@ function NewIntanceButton({
           resource.set(properties.parent, parent, store),
         ]);
         await resource.save(store);
-        history.push(openURL(subject));
+        navigate(openURL(subject));
         toast.success('ChatRoom created');
       };
       break;
@@ -73,7 +73,7 @@ function NewIntanceButton({
           resource.set(properties.parent, parent, store),
         ]);
         await resource.save(store);
-        history.push(openURL(subject));
+        navigate(openURL(subject));
         toast.success('Document created');
       };
     }
@@ -82,7 +82,7 @@ function NewIntanceButton({
   if (!agent) {
     onClick = async () => {
       toast.error('You need to be logged in to create new things');
-      history.push(paths.agentSettings);
+      navigate(paths.agentSettings);
     };
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Show from './ShowRoute';
 import { Search } from './SearchRoute';
@@ -22,44 +22,22 @@ import { ShareRoute } from './ShareRoute';
  * - Resource defined by this app should start with `/app`
  * - The home page should show the atomic data resource of the same URL
  */
-export function Routes(): JSX.Element {
+export function AppRoutes(): JSX.Element {
   return (
-    <Switch>
-      <Route path={paths.new}>
-        <New />
-      </Route>
-      <Route path={paths.themeSettings}>
-        <SettingsTheme />
-      </Route>
-      <Route path={paths.agentSettings}>
-        <SettingsAgent />
-      </Route>
-      <Route path={paths.serverSettings}>
-        <SettingsServer />
-      </Route>
-      <Route path={paths.shortcuts}>
-        <Shortcuts />
-      </Route>
-      <Route path={paths.data}>
-        <Data />
-      </Route>
-      <Route path={paths.edit}>
-        <Edit />
-      </Route>
-      <Route path={paths.share}>
-        <ShareRoute />
-      </Route>
-      <Route path={paths.show}>
-        <Show />
-      </Route>
-      <Route path={paths.about}>
-        <About />
-      </Route>
-      <Route path={paths.search} component={Search} />
-      <Route path='/:path' component={Local} />
-      <Route exact path=''>
-        <ResourcePage subject={window.location.origin} />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path={paths.new} element={<New />} />
+      <Route path={paths.themeSettings} element={<SettingsTheme />} />
+      <Route path={paths.agentSettings} element={<SettingsAgent />} />
+      <Route path={paths.serverSettings} element={<SettingsServer />} />
+      <Route path={paths.shortcuts} element={<Shortcuts />} />
+      <Route path={paths.data} element={<Data />} />
+      <Route path={paths.edit} element={<Edit />} />
+      <Route path={paths.share} element={<ShareRoute />} />
+      <Route path={paths.show} element={<Show />} />
+      <Route path={paths.about} element={<About />} />
+      <Route path={paths.search} element={<Search />} />
+      <Route path='/:path' element={<Local />} />
+      <Route path='/' element={<ResourcePage />} />
+    </Routes>
   );
 }

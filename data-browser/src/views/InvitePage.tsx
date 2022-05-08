@@ -8,7 +8,7 @@ import {
   generateKeyPair,
   properties,
 } from '@tomic/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
@@ -25,7 +25,7 @@ const autoAccept = false;
 function InvitePage({ resource }: ResourcePageProps): JSX.Element {
   const [usagesLeft] = useNumber(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { agent, setAgent } = useSettings();
   const agentResource = useResource(agent?.subject);
   const agentTitle = useTitle(agentResource, 15);
@@ -58,7 +58,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
     } else {
       inviteURL.searchParams.set('agent', agent);
     }
-    history.push(openURL(inviteURL.href));
+    navigate(openURL(inviteURL.href));
   }
 
   return (
@@ -85,7 +85,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
               </Button>
               <Button
                 data-test='accept-sign-in'
-                onClick={() => history.push(paths.agentSettings)}
+                onClick={() => navigate(paths.agentSettings)}
                 subtle
               >
                 Sign in

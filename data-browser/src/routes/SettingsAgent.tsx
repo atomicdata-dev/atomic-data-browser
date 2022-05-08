@@ -16,7 +16,7 @@ import ResourceInline, { ErrorLook } from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 import AtomicLink from '../components/AtomicLink';
 import { editURL } from '../helpers/navigation';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
@@ -26,7 +26,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
   const [secret, setSecret] = useState<string>('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // When there is an agent, set the advanced values
   // Otherwise, reset the secret value
@@ -148,7 +148,7 @@ const SettingsAgent: React.FunctionComponent = () => {
             <p>
               <ResourceInline subject={agent.subject} />
             </p>
-            <Button onClick={() => history.push(editURL(agent.subject))}>
+            <Button onClick={() => navigate(editURL(agent.subject))}>
               Edit profile
             </Button>
             <Margin />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isValidURL } from '@tomic/lib';
 import { useStore } from '@tomic/react';
 import {
@@ -22,7 +22,8 @@ type Props = {
 /** Dropdown menu that opens a bunch of actions for some resource */
 function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
   const store = useStore();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 
   if (subject == undefined) {
@@ -43,7 +44,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       try {
         await resource.destroy(store);
         toast.success('Resource deleted!');
-        history.push('/');
+        navigate('/');
       } catch (error) {
         toast.error(error.message);
       }
@@ -52,18 +53,18 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
 
   const items: MenuItemMinimial[] = [
     {
-      disabled: history.location.pathname.startsWith(paths.show),
+      disabled: location.pathname.startsWith(paths.show),
       id: 'view',
       label: 'normal view',
       helper: 'Open the regular, default View.',
-      onClick: () => history.push(openURL(subject)),
+      onClick: () => navigate(openURL(subject)),
     },
     {
-      disabled: history.location.pathname.startsWith(paths.data),
+      disabled: location.pathname.startsWith(paths.data),
       id: 'data',
       label: 'data view',
       helper: 'View the resource and its properties in the Data View. (d)',
-      onClick: () => history.push(dataURL(subject)),
+      onClick: () => navigate(dataURL(subject)),
     },
     {
       id: 'refresh',
@@ -73,18 +74,18 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       onClick: () => store.fetchResource(subject),
     },
     {
-      // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
+      // disabled: !canWrite || location.pathname.startsWith(paths.edit),
       id: 'edit',
       label: 'edit',
       helper: 'Open the edit form. (e)',
-      onClick: () => history.push(editURL(subject)),
+      onClick: () => navigate(editURL(subject)),
     },
     {
       // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),
       id: 'share',
       label: 'share',
       helper: 'Open the share menu',
-      onClick: () => history.push(shareURL(subject)),
+      onClick: () => navigate(shareURL(subject)),
     },
     {
       // disabled: !canWrite,
@@ -98,7 +99,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       id: 'versions',
       label: 'versions',
       helper: 'Show the versions of this resource',
-      onClick: () => history.push(versionsURL(subject, store.getServerUrl())),
+      onClick: () => navigate(versionsURL(subject, store.getServerUrl())),
     },
   ];
 
