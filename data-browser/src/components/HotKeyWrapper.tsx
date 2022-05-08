@@ -48,7 +48,7 @@ function osCtrl(key: string): string {
 }
 
 function osAlt(key: string): string {
-  return navigator.platform.includes('Mac') ? `opt+${key}` : `alt+${key}`;
+  return navigator.platform.includes('Mac') ? `option+${key}` : `alt+${key}`;
 }
 
 /** App-wide keyboard events handler. */
