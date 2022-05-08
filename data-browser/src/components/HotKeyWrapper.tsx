@@ -13,20 +13,33 @@ type Props = {
 
 /** List of used keyboard shortcuts, mapped for OS */
 export const shortcuts = {
+  /** Edit current resource */
   edit: osCtrl('e'),
+  /** Show data view for current resource */
   data: osCtrl('d'),
+  /** Show home page */
   home: osCtrl('h'),
+  /** Create a new resource */
   new: osCtrl('n'),
+  /** Open user settings page */
   userSettings: osCtrl('u'),
+  /** Open theme settings page */
   themeSettings: osCtrl('t'),
+  /** Open keyboard shortcuts page */
   keyboardShortcuts: 'shift+/',
+  /** Focus search bar */
   search: '/',
+  /** Toggle table / grid view (collections) */
   viewToggle: osCtrl('v'),
+  /** Open resource menu */
   menu: osCtrl('m'),
   /** Locks the sidebar menu */
   sidebarToggle: '\\',
+  /** Move line up (documents) */
   moveLineUp: osAlt('up'),
+  /** Move line down (documents) */
   moveLineDown: osAlt('down'),
+  /** Delete line (documents) */
   deleteLine: osAlt('backspace'),
 };
 

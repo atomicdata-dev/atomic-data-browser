@@ -16,8 +16,6 @@ export function useCurrentSubject(
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
-  console.log('subjectQ', subjectQ);
-
   function handleSetSubject(subject: string) {
     const url = new URL(subject);
     if (window.location.origin == url.origin) {
