@@ -338,6 +338,9 @@ export class Resource {
      */
     validate = true,
   ): Promise<void> {
+    if (store.isOffline) {
+      validate = false;
+    }
     if (validate) {
       const fullProp = await store.getProperty(prop);
       validateDatatype(value, fullProp.datatype);
