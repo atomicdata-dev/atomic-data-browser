@@ -243,6 +243,15 @@ export class Store {
     this.errorHandler(e) || console.error(e);
   }
 
+  /**
+   * If the store does not have an active internet connection, will return
+   * false. This may affect some functionality. For example, some checks will
+   * not be performed client side when offline.
+   */
+  isOffline(): boolean {
+    return !window?.navigator?.onLine;
+  }
+
   /** Let's subscribers know that a resource has been changed. Time to update your views! */
   notify(resource: Resource): void {
     const subject = resource.getSubject();
