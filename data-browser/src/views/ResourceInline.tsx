@@ -8,7 +8,7 @@ type Props = {
   untabbable?: boolean;
 };
 
-/** Renders a Resource in a small, inline link. */
+/** Renders a Resource in a compact, inline link. Shows tooltip on hover. */
 function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const title = useTitle(resource);
@@ -25,6 +25,7 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
       </span>
     );
   }
+
   if (resource.error) {
     return (
       <AtomicLink subject={subject} untabbable={untabbable}>
@@ -44,9 +45,7 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
 
 export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
-  line-height: 1em;
   font-family: monospace;
-  display: block;
 `;
 
 export default ResourceInline;

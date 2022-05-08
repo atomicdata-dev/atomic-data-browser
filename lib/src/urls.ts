@@ -20,6 +20,7 @@ export const classes = {
   message: 'https://atomicdata.dev/classes/Message',
 };
 
+/** List of commonly used Atomic Data Properties. */
 export const properties = {
   /** Collection of all the AtomicData.dev properties */
   getAll: 'https://atomicdata.dev/properties/?page_size=999',
