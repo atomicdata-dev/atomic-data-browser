@@ -1,4 +1,4 @@
-import { StringParam, useQueryParam } from 'use-query-params';
+import { useSearchParams } from 'react-router-dom';
 import { paths } from '../routes/paths';
 
 /** Constructs a URL string with a route, a query Parameter and a value */
@@ -32,10 +32,21 @@ export function searchURL(query: string): string {
   return constructURL(paths.search, 'query', query);
 }
 
+type setFunc = (latestValue: string) => void;
+
+/** Returns a getter and a setter for query parameters */
+export function useQueryString(key: string): [string, setFunc] {
+  const [params, set] = useSearchParams(key);
+  const customSet = (subject: string) => {
+    set(subject);
+  };
+  return [params.get(key), customSet];
+}
+
 /** A hook containing a getter and a setter for the current 'query' search param */
 // eslint-disable-next-line
 export function useSearchQuery() {
-  return useQueryParam('query', StringParam);
+  return useQueryString('query');
 }
 
 /** Constructs a URL for the New Resource form */
@@ -44,8 +55,6 @@ export function newURL(
   parentURL?: string,
   subject?: string,
 ): string {
-  // return constructURL(paths.new, 'classSubject', classUrl);
-  // TODO: handle parentURL
   const navTo = new URL(location.origin);
   navTo.pathname = paths.new;
   navTo.searchParams.append('classSubject', classUrl);

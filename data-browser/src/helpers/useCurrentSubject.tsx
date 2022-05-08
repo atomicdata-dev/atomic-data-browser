@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { StringParam, useQueryParam } from 'use-query-params';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useQueryString } from './navigation.jsx';
 
 type setFunc = (latestValue: string) => void;
-
-export function useCurrentSubjectQueryParam(): [string, setFunc] {
-  return useQueryParam('subject', StringParam);
-}
 
 /**
  * Returns and sets the current Location. Tries the `subject` query parameter,
@@ -16,17 +12,19 @@ export function useCurrentSubject(
   /** Replace URL instead of push it, so it does not get added to history */
   replace?: boolean,
 ): [string | null, setFunc] {
-  const [subjectQ, setSubjectQ] = useCurrentSubjectQueryParam();
-  const history = useHistory();
+  const [subjectQ, setSubjectQ] = useQueryString('subject');
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
+
+  console.log('subjectQ', subjectQ);
 
   function handleSetSubject(subject: string) {
     const url = new URL(subject);
     if (window.location.origin == url.origin) {
       if (replace) {
-        history.replace(url.pathname + url.search);
+        navigate(url.pathname + url.search, { replace: true });
       } else {
-        history.push(url.pathname + url.search);
+        navigate(url.pathname + url.search);
       }
     } else {
       // TODO: Handle replace

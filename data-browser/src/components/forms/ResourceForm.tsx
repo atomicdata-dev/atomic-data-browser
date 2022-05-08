@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   useArray,
   useResource,
@@ -55,7 +55,7 @@ export function ResourceForm({
   const [err, setErr] = useState<Error>(null);
   const [newPropErr, setNewPropErr] = useState<Error>(null);
   const [saving, setSaving] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [newProperty, setNewProperty] = useState<string>(null);
   /** A list of custom properties, set by the User while editing this form */
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
@@ -137,7 +137,7 @@ export function ResourceForm({
     try {
       await resource.save(store);
       setSaving(false);
-      history.push(openURL(resource.getSubject()));
+      navigate(openURL(resource.getSubject()));
       toast.success('Resource saved');
     } catch (e) {
       setErr(e);

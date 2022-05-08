@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { openURL, pathToURL } from '../helpers/navigation';
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -31,7 +31,7 @@ export function AtomicLink({
   href,
   untabbable,
 }: AtomicLinkProps): JSX.Element {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   if (!subject && !href && !path) {
     return (
@@ -51,14 +51,14 @@ export function AtomicLink({
     }
     e.preventDefault();
     if (path) {
-      history.push(path);
+      navigate(path);
       return;
     }
     if (subject) {
       if (isOnCurrentPage) {
         return;
       }
-      history.push(openURL(subject));
+      navigate(openURL(subject));
     }
   };
 

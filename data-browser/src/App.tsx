@@ -1,5 +1,4 @@
 import React from 'react';
-import { QueryParamProvider } from 'use-query-params';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import {
@@ -10,7 +9,7 @@ import {
 } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
-import { Routes } from './routes/Routes';
+import { AppRoutes } from './routes/Routes';
 import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
 import { Toaster } from './components/Toaster';
@@ -67,20 +66,18 @@ function App(): JSX.Element {
         <HelmetProvider>
           {/* Basename is for hosting on GitHub pages */}
           <BrowserRouter basename='/'>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <HotKeysWrapper>
-                <ThemeWrapper>
-                  <ErrorBoundary FallbackComponent={CrashPage}>
-                    <GlobalStyle />
-                    <Toaster />
-                    <MetaSetter />
-                    <NavWrapper>
-                      <Routes />
-                    </NavWrapper>
-                  </ErrorBoundary>
-                </ThemeWrapper>
-              </HotKeysWrapper>
-            </QueryParamProvider>
+            <HotKeysWrapper>
+              <ThemeWrapper>
+                <ErrorBoundary FallbackComponent={CrashPage}>
+                  <GlobalStyle />
+                  <Toaster />
+                  <MetaSetter />
+                  <NavWrapper>
+                    <AppRoutes />
+                  </NavWrapper>
+                </ErrorBoundary>
+              </ThemeWrapper>
+            </HotKeysWrapper>
           </BrowserRouter>
         </HelmetProvider>
       </AppSettingsContextProvider>

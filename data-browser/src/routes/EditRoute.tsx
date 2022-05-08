@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useResource } from '@tomic/react';
 import { newURL } from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
@@ -14,11 +14,11 @@ export function Edit(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
   const [subjectInput, setSubjectInput] = useState<string>(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function handleClassSet(e) {
     e.preventDefault();
-    history.push(newURL(subjectInput));
+    navigate(newURL(subjectInput));
   }
 
   return (

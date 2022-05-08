@@ -1,6 +1,6 @@
 import { useStore, useString, properties } from '@tomic/react';
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
@@ -19,7 +19,7 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
     resource,
     properties.redirect.redirectAgent,
   );
-  const history = useHistory();
+  const navigate = useNavigate();
   const { agent, setAgent } = useSettings();
   const store = useStore();
 
@@ -31,7 +31,7 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
       toast.success(
         <div>
           <p>New User created!</p>
-          <Button onClick={() => history.push(paths.agentSettings)}>
+          <Button onClick={() => navigate(paths.agentSettings)}>
             User Settings
           </Button>
         </div>,
@@ -46,7 +46,7 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
     if (history.action != 'POP') {
       // Fetch that resource again
       store.fetchResource(destination);
-      history.push(openURL(destination));
+      navigate(openURL(destination));
     }
   }
 

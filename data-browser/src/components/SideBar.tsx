@@ -4,7 +4,7 @@ import { useArray, useResource, useTitle, properties } from '@tomic/react';
 import { useHover } from '../helpers/useHover';
 import { useSettings } from '../helpers/AppSettings';
 import { useWindowSize } from '../helpers/useWindowSize';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { ResourceSideBar } from './ResourceSideBar';
 import { Logo } from './Logo';
@@ -189,7 +189,7 @@ const SideBarDrive = React.memo(function SBD({
   const drive = useResource(baseURL);
   const [children] = useArray(drive, properties.children);
   const title = useTitle(drive);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -200,7 +200,7 @@ const SideBarDrive = React.memo(function SBD({
           data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
-            history.push(openURL(baseURL));
+            navigate(openURL(baseURL));
           }}
           style={{ flex: 1, textAlign: 'left' }}
         >
@@ -209,7 +209,7 @@ const SideBarDrive = React.memo(function SBD({
           </DriveTitle>
         </Button>
         <Button
-          onClick={() => history.push(paths.serverSettings)}
+          onClick={() => navigate(paths.serverSettings)}
           icon
           subtle
           title={'Set a different Server'}

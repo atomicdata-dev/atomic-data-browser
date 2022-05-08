@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { dataURL, editURL } from '../helpers/navigation';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { isValidURL } from '@tomic/lib';
 import { useSettings } from '../helpers/AppSettings';
@@ -41,7 +41,7 @@ function osAlt(key: string): string {
 /** App-wide keyboard events handler. */
 // Keep changes in sync with ShortcutsRoute.tsx
 function HotKeysWrapper({ children }: Props): JSX.Element {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [subject] = useCurrentSubject();
   const { sideBarLocked, setSideBarLocked } = useSettings();
 
@@ -49,7 +49,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     shortcuts.edit,
     e => {
       e.preventDefault();
-      isValidURL(subject) && history.push(editURL(subject));
+      isValidURL(subject) && navigate(editURL(subject));
     },
     {},
     [subject],
@@ -58,30 +58,30 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     shortcuts.data,
     e => {
       e.preventDefault();
-      isValidURL(subject) && history.push(dataURL(subject));
+      isValidURL(subject) && navigate(dataURL(subject));
     },
     {},
     [subject],
   );
   useHotkeys(shortcuts.home, e => {
     e.preventDefault();
-    history.push('/');
+    navigate('/');
   });
   useHotkeys(shortcuts.new, e => {
     e.preventDefault();
-    history.push(paths.new);
+    navigate(paths.new);
   });
   useHotkeys(shortcuts.userSettings, e => {
     e.preventDefault();
-    history.push(paths.agentSettings);
+    navigate(paths.agentSettings);
   });
   useHotkeys(shortcuts.themeSettings, e => {
     e.preventDefault();
-    history.push(paths.themeSettings);
+    navigate(paths.themeSettings);
   });
   useHotkeys(shortcuts.keyboardShortcuts, e => {
     e.preventDefault();
-    history.push(paths.shortcuts);
+    navigate(paths.shortcuts);
   });
   useHotkeys(
     shortcuts.sidebarToggle,
