@@ -8,7 +8,7 @@ import {
   generateKeyPair,
   properties,
 } from '@tomic/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigationType } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
@@ -26,6 +26,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
   const [usagesLeft] = useNumber(resource, properties.invite.usagesLeft);
   const [write] = useBoolean(resource, properties.invite.write);
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
   const { agent, setAgent } = useSettings();
   const agentResource = useResource(agent?.subject);
   const agentTitle = useTitle(agentResource, 15);
@@ -34,7 +35,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
 
   if (autoAccept && agentSubject && usagesLeft && usagesLeft > 0) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
-    if (history.action != 'POP') {
+    if (navigationType != 'POP') {
       handleAccept(null, agentSubject);
     }
   }

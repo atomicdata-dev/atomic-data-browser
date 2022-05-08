@@ -37,7 +37,10 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
       <Route path='/:path' element={<Local />} />
-      <Route path='/' element={<ResourcePage />} />
+      <Route
+        path='/'
+        element={<ResourcePage subject={window.location.href} />}
+      />
     </Routes>
   );
 }
