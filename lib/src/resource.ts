@@ -72,6 +72,10 @@ export class Resource {
     if (parentSubject == undefined) {
       return [false, `No write right or parent in ${this.getSubject()}`];
     }
+    // Agents can always edit themselves
+    if (parentSubject == agent) {
+      return [true, null];
+    }
     // This should not happen, but it prevents an infinite loop
     if (child == parentSubject) {
       console.warn('Circular parent', child);
