@@ -17,7 +17,7 @@ const hiddenProps = [
   properties.name,
   properties.shortname,
   properties.file.filename,
-  // Shown seperately
+  // Shown separately
   properties.description,
   // Shown in rights / share menu
   properties.write,
@@ -63,6 +63,7 @@ export function useMarkdown(resource: Resource): string {
   return md;
 }
 
+/** Renders a single Atomic Property + Value as a single Markdown line */
 async function propertyLine(
   propertySubject: string,
   value: JSONValue,
