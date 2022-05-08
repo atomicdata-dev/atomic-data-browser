@@ -192,13 +192,17 @@ function NavBar() {
           )}
           {isInStandaloneMode() && (
             <>
-              <ButtonBar type='button' title='Go back' onClick={navigate(+1)}>
+              <ButtonBar
+                type='button'
+                title='Go back'
+                onClick={() => navigate(1)}
+              >
                 <FaArrowLeft />
               </ButtonBar>{' '}
               <ButtonBar
                 type='button'
                 title='Go forward'
-                onClick={navigate(-1)}
+                onClick={() => navigate(-1)}
               >
                 <FaArrowRight />
               </ButtonBar>
