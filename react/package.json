@@ -11,7 +11,7 @@
     "react": "^17.0.2"
   },
   "files": [
-    "dist/*"
+    "dist"
   ],
   "license": "MIT",
   "name": "@tomic/react",
@@ -31,6 +31,6 @@
   "source": "src/index.ts",
   "type": "module",
   "types": "dist/src/index.d.ts",
-  "version": "0.31.0",
+  "version": "0.31.2",
   "gitHead": "2172c73d8df4e5f273e6386676abc91b6c5b2707"
 }
