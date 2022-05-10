@@ -38,7 +38,8 @@ type setFunc = (latestValue: string) => void;
 export function useQueryString(key: string): [string, setFunc] {
   const [params, set] = useSearchParams(key);
   const customSet = (subject: string) => {
-    set(subject);
+    params.set(key, subject);
+    set(params);
   };
   return [params.get(key), customSet];
 }

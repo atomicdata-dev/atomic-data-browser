@@ -25,10 +25,11 @@ export function useCurrentSubject(
         navigate(url.pathname + url.search);
       }
     } else {
-      // TODO: Handle replace
+      // TODO: Handle replace?
       setSubjectQ(subject);
     }
   }
+
   if (subjectQ == undefined) {
     if (pathname.startsWith('/app/')) {
       return [null, handleSetSubject];
