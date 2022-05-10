@@ -17,7 +17,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "files": [
-    "dist/*"
+    "dist"
   ],
   "license": "MIT",
   "main-dev": "src/index.ts",
@@ -38,6 +38,6 @@
   "source": "src/index.ts",
   "type": "module",
   "types": "dist/src/index.d.ts",
-  "version": "0.31.0",
+  "version": "0.31.1",
   "gitHead": "2172c73d8df4e5f273e6386676abc91b6c5b2707"
 }

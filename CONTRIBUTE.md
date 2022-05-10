@@ -16,6 +16,7 @@ And join our [Discord][discord-url]!
 - `yarn publish`
   - Choose a new version. Versions should match `atomic-data-rs`.
   - This updates the `package.json` files, creates a commit, tags it, pushes it to github, and publishes the builds to npm.
+  - If this fails, try `yarn version patch` and `yarn npm publish`
 
 ## Understanding vite and yarn workspaces
 
