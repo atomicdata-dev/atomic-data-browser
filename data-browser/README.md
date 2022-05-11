@@ -37,17 +37,12 @@ Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic
 yarn
 # Run dev server
 yarn start
-# Open browser at http://localhost:8081
+# Open browser at http://localhost:3000
 ```
 
 If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent), including its `privateKey` and `subject`.
 You can get one by accepting [an Invite](https://atomicdata.dev/invites/1), or by hosting your own [`atomic-server`](https://github.com/joepio/atomic/blob/master/server/README.md).
-You can set the Agent on the `/settings` route, but it's often easier to set the Agent cre
-
-```sh
-# Run atomic-server locally, and check the logs.
-docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server
-```
+You can set the Agent on the `/app/agent` route.
 
 ## Understanding & contributing to the code
 
@@ -95,9 +90,9 @@ They use the PlayWright framework and run in the browser.
 GitHub Action / Workflow is used for:
 
 - Linting (ESlint)
-- Testing (in the browser, using an `atomic-server` docker image)
+- Testing (in the browser using `playwright`, using an `atomic-server` docker image)
 - Building
-- Deploying to GH pages (this JS file is used by default by `atomic-server` instances)
+- Deploying JS build artifacts & assets to GH pages (note that `atomic-server` hosts the JS assets by itself)
 
 ## Contribute
 
