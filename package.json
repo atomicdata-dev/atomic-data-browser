@@ -30,7 +30,6 @@
   "name": "@tomic/root",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn workspaces foreach run bootstrap",
     "lint": "yarn workspaces foreach run lint",
     "lint-fix": "yarn workspaces foreach run lint-fix",
     "build": "yarn workspaces foreach run build",
