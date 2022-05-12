@@ -119,7 +119,6 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   const displayStyle = displayStyles[displayStyleIndex];
   const nextDisplayStyle = displayStyles[getNextDisplayStyleIndex()];
 
-  useHotkeys(shortcuts.viewToggle, handleToggleView, {}, [displayStyleIndex]);
   useHotkeys('right', handleNextPage, {}, [currentPage]);
   useHotkeys('left', handlePrevPage, {}, [currentPage]);
 
