@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQueryString } from './navigation.jsx';
 
@@ -47,8 +47,16 @@ export function useCurrentSubject(
 /** Hook for getting and setting a query param from the current Subject */
 export function useSubjectParam(key: string): [string, (string) => void] {
   const [subject, setSubject] = useCurrentSubject();
-  const params = new URL(subject).searchParams;
-  const [val, setValInternal] = useState(params.get(key));
+  const [params, setParams] = useState(null);
+
+  useEffect(() => {
+    if (subject) {
+      const params = new URL(subject).searchParams;
+      setParams(params);
+    } else {
+      setParams(null);
+    }
+  }, [subject]);
 
   function setVal(newVal: string | null) {
     params.set(key, newVal);
@@ -57,9 +65,8 @@ export function useSubjectParam(key: string): [string, (string) => void] {
     if (newVal == null) {
       newUrl.searchParams.delete(key);
     }
-    setValInternal(newVal);
     setSubject(newUrl.href);
   }
 
-  return [val, setVal];
+  return [params?.get(key), setVal];
 }

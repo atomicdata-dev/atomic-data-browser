@@ -36,11 +36,11 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.show} element={<Show />} />
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
-      <Route path='/:path' element={<Local />} />
       <Route
         path='/'
         element={<ResourcePage subject={window.location.href} />}
       />
+      <Route path='*' element={<Local />} />
     </Routes>
   );
 }
