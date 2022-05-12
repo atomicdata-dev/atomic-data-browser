@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEdit } from 'react-icons/fa';
 import styled from 'styled-components';
-import { Resource } from '@tomic/lib';
-import { useProperty, useStore, useValue } from '@tomic/react';
+import {
+  useProperty,
+  useStore,
+  useValue,
+  Datatype,
+  Resource,
+} from '@tomic/react';
 import { Button } from '../Button';
 import ValueComp from '../ValueComp';
 import { ErrMessage } from './InputStyles';
@@ -15,6 +20,11 @@ interface ValueFormProps {
   // Maybe pass Value instead of Resource?
   resource: Resource;
   propertyURL: string;
+  /**
+   * The datatype is automatically determined using the propertyUrl, but you can
+   * also override it manually
+   */
+  datatype?: Datatype;
   noMargin?: boolean;
 }
 
@@ -26,6 +36,7 @@ export function ValueForm({
   resource,
   noMargin,
   propertyURL,
+  datatype,
 }: ValueFormProps): JSX.Element {
   const [editMode, setEditMode] = useState(false);
   const property = useProperty(propertyURL);
@@ -48,7 +59,7 @@ export function ValueForm({
     return null;
   }
 
-  if (!property) {
+  if (!property && !datatype) {
     return <span title={`loading ${propertyURL}...`}>...</span>;
   }
 
@@ -57,7 +68,7 @@ export function ValueForm({
       <ValueFormWrapper>
         <ValueComp
           value={value}
-          datatype={property.datatype}
+          datatype={datatype || property.datatype}
           noMargin={noMargin}
         />
         <EditButton title='Edit value'>
