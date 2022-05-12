@@ -29,8 +29,6 @@ export const shortcuts = {
   keyboardShortcuts: 'shift+/',
   /** Focus search bar */
   search: '/',
-  /** Toggle table / grid view (collections) */
-  viewToggle: osCtrl('v'),
   /** Open resource menu */
   menu: osCtrl('m'),
   /** Locks the sidebar menu */

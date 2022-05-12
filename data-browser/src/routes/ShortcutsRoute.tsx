@@ -39,10 +39,6 @@ export const Shortcuts: React.FunctionComponent = () => {
       <p>
         <Key>{shortcuts.themeSettings}</Key> <b>t</b>heme settings
       </p>
-      <h3>Collections</h3>
-      <p>
-        <Key>{shortcuts.viewToggle}</Key> toggle <b>v</b>iew (table / grid)
-      </p>
       <h3>Document</h3>
       <p>
         <Key>{shortcuts.moveLineUp}</Key> move line / section up
