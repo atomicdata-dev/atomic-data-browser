@@ -22,6 +22,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Use yarn v2 and replace lerna #105
 - Prevent default actions for keyboard shortcuts
 - Improve cross-OS keyboard shortcuts compatibility (cmd & ctrl, option & alt)
+- Fix markdown being shown shortly
 
 ## v0.30.6 to 9
 

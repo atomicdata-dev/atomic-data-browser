@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useArray, useTitle, properties } from '@tomic/react';
+import { useArray, useTitle, properties, Datatype } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
@@ -24,7 +24,11 @@ function DrivePage({ resource }: ResourcePageProps): JSX.Element {
           Set as current drive
         </Button>
       )}
-      <ValueForm resource={resource} propertyURL={properties.description} />
+      <ValueForm
+        resource={resource}
+        propertyURL={properties.description}
+        datatype={Datatype.MARKDOWN}
+      />
       <Card>
         <h3>{title} children:</h3>
         <CardInsideFull>
