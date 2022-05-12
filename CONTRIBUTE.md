@@ -11,6 +11,7 @@ And join our [Discord][discord-url]!
 - Check the [changelog](changelog.md), make sure the headers are correct
 - `yarn lint-fix`
 - `yarn build` to build typescript files (don't skip this!)
+- `yarn build-server` builds and copies assets to `../atomic-data-rust` folder. Make sure that one is on you machine, in the same dir as `atomic-data-browser`.
 - `yarn test` (don't you publish a broken build!), make sure `atomic-server` is running on `localhost`.
 - commit any changes
 - `yarn publish`

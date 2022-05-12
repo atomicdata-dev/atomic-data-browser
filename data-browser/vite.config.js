@@ -8,6 +8,16 @@ export default defineConfig({
     // this may help when linking + HMR is not working
     // exclude: ['@tomic/lib', '@tomic/react'],
   },
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
+      },
+    },
+  },
   // resolve: {
   //   alias: {
   //     '@tomic/lib': path.resolve(__dirname, 'lib'),
