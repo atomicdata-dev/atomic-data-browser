@@ -15,12 +15,10 @@ jobs:
         with:
           # Required by playwrgith
           node-version: "14"
-      - uses: Borales/actions-yarn@v2.3.0
-        with:
-          cmd: install --immutable --immutable-cache
+      - run: npm install -g yarn
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
-      # - run: yarn --immutable --immutable-cache
+      - run: yarn --immutable --immutable-cache
       - name: Start dev server
         run: nohup yarn start &
       - name: Run atomic-server docker image in background (for testing)

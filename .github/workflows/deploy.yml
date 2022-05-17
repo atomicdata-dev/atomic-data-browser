@@ -10,13 +10,11 @@ jobs:
         with:
           # Required by playwrgith
           node-version: "14"
-      - uses: Borales/actions-yarn@v2.3.0
-        with:
-          cmd: install yarn --immutable --immutable-cache
+      - run: npm install -g yarn
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       # Install deps and make sure the cache and lockfile do not change
-      # - run: yarn install --immutable --immutable-cache
+      - run: yarn install --immutable --immutable-cache
       - run: yarn lint-fix
       - run: yarn typedoc
       # We only use typedoc right now
