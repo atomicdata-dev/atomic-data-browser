@@ -16,8 +16,9 @@ jobs:
       # Install deps and make sure the cache and lockfile do not change
       - run: yarn install --immutable --immutable-cache
       - run: yarn lint-fix
-      - run: yarn build
       - run: yarn typedoc
+      # We only use typedoc right now
+      # - run: yarn build
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
         uses: JamesIves/github-pages-deploy-action@4.0.0
