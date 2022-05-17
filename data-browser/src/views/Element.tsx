@@ -66,7 +66,7 @@ export function ElementEdit({
   });
   const [klass] = useArray(resource, properties.isA);
   const ref = React.useRef(null);
-  const [, canWriteErr] = useCanWrite(resource);
+  const [canWrite, canWriteErr] = useCanWrite(resource);
 
   /** If it is not a text element */
   const isAResource =
@@ -133,7 +133,7 @@ export function ElementEdit({
   function Err() {
     if (err) {
       return <ErrorLook>{err.message}</ErrorLook>;
-    } else if (active && canWriteErr) {
+    } else if (active && !canWrite && canWriteErr) {
       return <ErrorLook>{canWriteErr}</ErrorLook>;
     } else {
       return null;
