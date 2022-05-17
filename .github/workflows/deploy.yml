@@ -11,10 +11,12 @@ jobs:
           # Required by playwrgith
           node-version: "14"
       - uses: bahmutov/npm-install@v1.8.12
+        with:
+          install-command: yarn --immutable --immutable-cache
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       # Install deps and make sure the cache and lockfile do not change
-      - run: yarn install --immutable --immutable-cache
+      # - run: yarn install --immutable --immutable-cache
       - run: yarn lint-fix
       - run: yarn typedoc
       # We only use typedoc right now
