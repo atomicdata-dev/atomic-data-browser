@@ -1,5 +1,7 @@
 {
-  "entryPointStrategy": "packages",
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "Packages",
+  "excludeExternals": true,
   "readme": "DOCS.md",
   "name": "@tomic",
   "out": "data-browser/publish/docs"
