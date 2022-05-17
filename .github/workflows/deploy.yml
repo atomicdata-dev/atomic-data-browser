@@ -10,7 +10,7 @@ jobs:
         with:
           # Required by playwrgith
           node-version: "14"
-      - uses: bahmutov/npm-install@v1
+      - uses: bahmutov/npm-install@latest
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       # Install deps and make sure the cache and lockfile do not change
