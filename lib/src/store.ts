@@ -375,7 +375,6 @@ export class Store {
   /** Unregisters the callback (see `subscribe()`) */
   unsubscribe(subject: string, callback: callback): void {
     if (subject == undefined) {
-      console.warn('Cannot unsubscribe from undefined subject');
       return;
     }
     let callbackArray = this.subscribers.get(subject);

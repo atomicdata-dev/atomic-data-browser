@@ -31,7 +31,6 @@ import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
 import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
-import { shortcuts } from '../components/HotKeyWrapper';
 
 const displayStyles = [
   {

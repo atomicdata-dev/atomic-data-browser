@@ -89,7 +89,6 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   );
 
   function handleToggle() {
-    console.log('toggle', isActive);
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
     const topPos = triggerRect.y - menuRect.height;
