@@ -16,9 +16,11 @@ jobs:
           # Required by playwrgith
           node-version: "14"
       - uses: bahmutov/npm-install@v1.8.12
+        with:
+          install-command: yarn --immutable --immutable-cache
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
-      - run: yarn --immutable --immutable-cache
+      # - run: yarn --immutable --immutable-cache
       - name: Start dev server
         run: nohup yarn start &
       - name: Run atomic-server docker image in background (for testing)
