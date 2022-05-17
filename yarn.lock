@@ -3297,7 +3297,7 @@ __metadata:
     prettier-plugin-jsdoc: ^0.3.24
     ts-jest: ^27.0.7
     typedoc: ^0.22.15
-    typescript: ^4.4.2
+    typescript: ^4.6.4
     vite: ^2.9.7
   languageName: unknown
   linkType: soft
@@ -13466,7 +13466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.4.2, typescript@npm:^4.6.4":
+"typescript@npm:^4.6.4":
   version: 4.6.4
   resolution: "typescript@npm:4.6.4"
   bin:
@@ -13476,7 +13476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
   version: 4.6.4
   resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
   bin:
