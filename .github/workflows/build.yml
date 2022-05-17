@@ -15,9 +15,9 @@ jobs:
         with:
           # Required by playwrgith
           node-version: "14"
-      - uses: bahmutov/npm-install@v1.8.12
+      - uses: Borales/actions-yarn@v2.3.0
         with:
-          install-command: yarn --immutable --immutable-cache
+          cmd: install --immutable --immutable-cache
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
       # - run: yarn --immutable --immutable-cache
