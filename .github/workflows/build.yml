@@ -15,10 +15,10 @@ jobs:
         with:
           # Required by playwrgith
           node-version: "14"
-      - uses: bahmutov/npm-install@v1
+      - uses: bahmutov/npm-install@latest
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
-      - run: yarn --frozen-lockfile
+      - run: yarn --immutable --immutable-cache
       - name: Start dev server
         run: nohup yarn start &
       - name: Run atomic-server docker image in background (for testing)
