@@ -2288,6 +2288,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bugsnag/core@npm:^7.16.1":
+  version: 7.16.1
+  resolution: "@bugsnag/core@npm:7.16.1"
+  dependencies:
+    "@bugsnag/cuid": ^3.0.0
+    "@bugsnag/safe-json-stringify": ^6.0.0
+    error-stack-parser: ^2.0.3
+    iserror: 0.0.2
+    stack-generator: ^2.0.3
+  checksum: 53c7803a0457fad905aa712105e819ac89162e09bff0b7b78a2b94d236634b6de5771b5c9761e123b9dbcfbb170890f2f20598993f2748733476884e6f18447c
+  languageName: node
+  linkType: hard
+
 "@bugsnag/cuid@npm:^3.0.0":
   version: 3.0.0
   resolution: "@bugsnag/cuid@npm:3.0.0"
@@ -3202,6 +3215,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tomic/data-browser@workspace:data-browser"
   dependencies:
+    "@bugsnag/core": ^7.16.1
     "@bugsnag/js": ^7.9.2
     "@bugsnag/plugin-react": ^7.9.2
     "@dnd-kit/core": ^4.0.3
@@ -3213,13 +3227,9 @@ __metadata:
     "@types/react-dom": ^17.0.3
     "@types/react-router-dom": ^5.0.0
     "@types/styled-components": ^5.1.19
-    "@typescript-eslint/eslint-plugin": ^5.9.0
-    "@typescript-eslint/parser": ^5.9.0
-    eslint-watch: ^7.0.0
     gh-pages: ^3.1.0
     lint-staged: ^10.5.4
     polished: ^4.1.0
-    pretty-quick: ^3.1.0
     query-string: ^7.0.0
     quick-score: ^0.0.10
     react: ^18.0.0
@@ -3265,7 +3275,7 @@ __metadata:
     "@tomic/lib": "workspace:*"
     typescript: ^4.6.4
   peerDependencies:
-    react: ^17.0.2
+    react: ">17.0.2"
   languageName: unknown
   linkType: soft
 
@@ -3638,13 +3648,6 @@ __metadata:
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
   checksum: 0493368244cced1a69cb791b485a260a422e6fcc857782e1178d1e6f219f1b161793e9f87f5fae1b219af0f50bee24fcbe733a18b4be8fdd07a38a8fb91146fd
-  languageName: node
-  linkType: hard
-
-"@types/minimatch@npm:^3.0.3":
-  version: 3.0.5
-  resolution: "@types/minimatch@npm:3.0.5"
-  checksum: c41d136f67231c3131cf1d4ca0b06687f4a322918a3a5adddc87ce90ed9dbd175a3610adee36b106ae68c0b92c637c35e02b58c8a56c424f71d30993ea220b92
   languageName: node
   linkType: hard
 
@@ -4499,13 +4502,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-differ@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "array-differ@npm:3.0.0"
-  checksum: 117edd9df5c1530bd116c6e8eea891d4bd02850fd89b1b36e532b6540e47ca620a373b81feca1c62d1395d9ae601516ba538abe5e8172d41091da2c546b05fb7
-  languageName: node
-  linkType: hard
-
 "array-includes@npm:^3.1.3, array-includes@npm:^3.1.4":
   version: 3.1.4
   resolution: "array-includes@npm:3.1.4"
@@ -4557,13 +4553,6 @@ __metadata:
   version: 1.0.1
   resolution: "arrify@npm:1.0.1"
   checksum: 745075dd4a4624ff0225c331dacb99be501a515d39bcb7c84d24660314a6ec28e68131b137e6f7e16318170842ce97538cd298fc4cd6b2cc798e0b957f2747e7
-  languageName: node
-  linkType: hard
-
-"arrify@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "arrify@npm:2.0.1"
-  checksum: 067c4c1afd182806a82e4c1cb8acee16ab8b5284fbca1ce29408e6e91281c36bb5b612f6ddfbd40a0f7a7e0c75bf2696eb94c027f6e328d6e9c52465c98e4209
   languageName: node
   linkType: hard
 
@@ -5230,7 +5219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.1.1, chokidar@npm:^3.4.3, chokidar@npm:^3.5.2":
+"chokidar@npm:^3.4.3, chokidar@npm:^3.5.2":
   version: 3.5.2
   resolution: "chokidar@npm:3.5.2"
   dependencies:
@@ -5621,13 +5610,6 @@ __metadata:
     browserslist: ^4.17.6
     semver: 7.0.0
   checksum: ed302c99814bd7227b549f639fe5f1a3b9d885c0f878c1203f10be0a33c7d0b199931cb904074cc988ab48411132d4f41adf1603e4eebe5c5d42bdc62a3f5c5d
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.2.1":
-  version: 3.18.3
-  resolution: "core-js@npm:3.18.3"
-  checksum: 4aa5017992c18b0a09ded6c7dbf3c3880b27b6ade97a522dba332f52381466978d441317e5aad49f0684e9241aecc450e3e72c550ddaccfc9fb1e69c5908e53c
   languageName: node
   linkType: hard
 
@@ -6692,30 +6674,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-watch@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "eslint-watch@npm:7.0.0"
-  dependencies:
-    chokidar: ^3.1.1
-    core-js: ^3.2.1
-    debug: ^4.1.0
-    execa: ^4.0.1
-    keypress: ^0.2.1
-    lodash.debounce: ^4.0.8
-    lodash.isempty: ^4.4.0
-    lodash.isequal: ^4.5.0
-    lodash.kebabcase: ^4.1.1
-    lodash.unionwith: ^4.6.0
-    optionator: ^0.9.1
-    source-map-support: ^0.5.13
-  peerDependencies:
-    eslint: ">=7 <8.0.0"
-  bin:
-    esw: bin/esw
-  checksum: 34dca673acde5b37b46338b781cd984513f363a8e245d9208c44df7d4b33a5026bb2b4c8846ac19fdcedfe42074ffd46decb320db749a781c7a512dadf0514a4
-  languageName: node
-  linkType: hard
-
 "eslint@npm:8.6.0":
   version: 8.6.0
   resolution: "eslint@npm:8.6.0"
@@ -6852,7 +6810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^4.0.0, execa@npm:^4.0.1, execa@npm:^4.1.0":
+"execa@npm:^4.1.0":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
   dependencies:
@@ -9848,13 +9806,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keypress@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "keypress@npm:0.2.1"
-  checksum: 8f643113fc64d4ab873c98e6b6da54de511c0b32ecefcaa4315b7466dde6c94cba0b9231421655c71b1878c7bc7c932eb75c19d0d67b6af15677778f37cd3e9e
-  languageName: node
-  linkType: hard
-
 "keyv@npm:^3.0.0":
   version: 3.1.0
   resolution: "keyv@npm:3.1.0"
@@ -10091,27 +10042,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.isempty@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "lodash.isempty@npm:4.4.0"
-  checksum: a8118f23f7ed72a1dbd176bf27f297d1e71aa1926288449cb8f7cef99ba1bc7527eab52fe7899ab080fa1dc150aba6e4a6367bf49fa4e0b78da1ecc095f8d8c5
-  languageName: node
-  linkType: hard
-
-"lodash.isequal@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.isequal@npm:4.5.0"
-  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
-  languageName: node
-  linkType: hard
-
-"lodash.kebabcase@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "lodash.kebabcase@npm:4.1.1"
-  checksum: 5a6c59161914e1bae23438a298c7433e83d935e0f59853fa862e691164696bc07f6dfa4c313d499fbf41ba8d53314e9850416502376705a357d24ee6ca33af78
-  languageName: node
-  linkType: hard
-
 "lodash.memoize@npm:4.x":
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
@@ -10130,13 +10060,6 @@ __metadata:
   version: 4.7.0
   resolution: "lodash.sortby@npm:4.7.0"
   checksum: db170c9396d29d11fe9a9f25668c4993e0c1331bcb941ddbd48fb76f492e732add7f2a47cfdf8e9d740fa59ac41bbfaf931d268bc72aab3ab49e9f89354d718c
-  languageName: node
-  linkType: hard
-
-"lodash.unionwith@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "lodash.unionwith@npm:4.6.0"
-  checksum: 295a69bdc20d392a8759781aa7a98b1e315dff3b40ce225e8430c72194badd90684b4f2d2a5217dec14430bd88ad35575dfc1cbe6e0b3b81b7ae52b36062af73
   languageName: node
   linkType: hard
 
@@ -10584,13 +10507,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mri@npm:^1.1.5":
-  version: 1.2.0
-  resolution: "mri@npm:1.2.0"
-  checksum: 83f515abbcff60150873e424894a2f65d68037e5a7fcde8a9e2b285ee9c13ac581b63cfc1e6826c4732de3aeb84902f7c1e16b7aff46cd3f897a0f757a894e85
-  languageName: node
-  linkType: hard
-
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -10609,19 +10525,6 @@ __metadata:
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: aa92de608021b242401676e35cfa5aa42dd70cbdc082b916da7fb925c542173e36bce97ea3e804923fe92c0ad991434e4a38327e15a1b5b5f945d66df615ae6d
-  languageName: node
-  linkType: hard
-
-"multimatch@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "multimatch@npm:4.0.0"
-  dependencies:
-    "@types/minimatch": ^3.0.3
-    array-differ: ^3.0.0
-    array-union: ^2.1.0
-    arrify: ^2.0.1
-    minimatch: ^3.0.4
-  checksum: bdb6a98dad4e919d9a1a2a0db872f44fa2337315f2fd5827d91ae005cf22f4425782bdfa97c10b80d567f0cb3c226c31f4e85f8f6a4a4be4facf9af0de1bb0c2
   languageName: node
   linkType: hard
 
@@ -11389,24 +11292,6 @@ __metadata:
     ansi-styles: ^5.0.0
     react-is: ^17.0.1
   checksum: cf610cffcb793885d16f184a62162f2dd0df31642d9a18edf4ca298e909a8fe80bdbf556d5c9573992c102ce8bf948691da91bf9739bee0ffb6e79c8a8a6e088
-  languageName: node
-  linkType: hard
-
-"pretty-quick@npm:^3.1.0":
-  version: 3.1.1
-  resolution: "pretty-quick@npm:3.1.1"
-  dependencies:
-    chalk: ^3.0.0
-    execa: ^4.0.0
-    find-up: ^4.1.0
-    ignore: ^5.1.4
-    mri: ^1.1.5
-    multimatch: ^4.0.0
-  peerDependencies:
-    prettier: ">=2.0.0"
-  bin:
-    pretty-quick: bin/pretty-quick.js
-  checksum: d535500aca06fe09232a86344c7693a322ce4c8601c0e3eafab901529f814600f81424137b09a7ee6061df01941e0895cacf48669e86d13522519849cb113a90
   languageName: node
   linkType: hard
 
@@ -12591,7 +12476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.13, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.20":
+"source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.20":
   version: 0.5.20
   resolution: "source-map-support@npm:0.5.20"
   dependencies:
@@ -13478,7 +13363,7 @@ __metadata:
 
 "typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
   version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
