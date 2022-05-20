@@ -5,8 +5,8 @@
   },
   "dependencies": {
     "@bugsnag/core": "^7.16.1",
-    "@bugsnag/js": "^7.9.2",
-    "@bugsnag/plugin-react": "^7.9.2",
+    "@bugsnag/js": "^7.16.5",
+    "@bugsnag/plugin-react": "^7.16.5",
     "@dnd-kit/core": "^4.0.3",
     "@dnd-kit/sortable": "^5.1.0",
     "@dnd-kit/utilities": "^3.0.2",

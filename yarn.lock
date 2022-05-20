@@ -2266,25 +2266,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bugsnag/browser@npm:^7.13.2":
-  version: 7.13.2
-  resolution: "@bugsnag/browser@npm:7.13.2"
+"@bugsnag/browser@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@bugsnag/browser@npm:7.16.5"
   dependencies:
-    "@bugsnag/core": ^7.13.2
-  checksum: 22905cf6d7ad044338bece56a2206e862de396195ee4a703e63d3a7da171840bf4083b7c4901a4eee6400eb14f6fa81d8ed09027302faed1719ac3dc4295f2fe
-  languageName: node
-  linkType: hard
-
-"@bugsnag/core@npm:^7.13.2":
-  version: 7.13.2
-  resolution: "@bugsnag/core@npm:7.13.2"
-  dependencies:
-    "@bugsnag/cuid": ^3.0.0
-    "@bugsnag/safe-json-stringify": ^6.0.0
-    error-stack-parser: ^2.0.3
-    iserror: 0.0.2
-    stack-generator: ^2.0.3
-  checksum: 588954ed3e40bb046c6d440e7a9696ae2ffc7dcfa71427ac0c1eaca2ce28e5ddaae3ead7cd9dd22f1125b49cd1dfad677ddeab663619a5f19584ebfda82460ca
+    "@bugsnag/core": ^7.16.1
+  checksum: 4434c857376a45b92b549a79be97d3a2c8144c4220d0ee6b5866393ecb03d2bc6509ce44df7b53ebfe7397273a41abc6e5d03d96cd18527cface88f11b180dfe
   languageName: node
   linkType: hard
 
@@ -2308,36 +2295,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bugsnag/js@npm:^7.9.2":
-  version: 7.13.2
-  resolution: "@bugsnag/js@npm:7.13.2"
+"@bugsnag/js@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@bugsnag/js@npm:7.16.5"
   dependencies:
-    "@bugsnag/browser": ^7.13.2
-    "@bugsnag/node": ^7.13.2
-  checksum: 1cd6a0a27928195d43ed3ab9b1d86724516b870494601b64787ba9d59f53f68ced505b2b9a54e5bf6e26fbf2379508226c16095bb5942ee998733ac42fbdadc0
+    "@bugsnag/browser": ^7.16.5
+    "@bugsnag/node": ^7.16.2
+  checksum: 2d8cc5b2e757ada851b2139a3087500b386305d9c3dbdb02d3165b73ce7fe4e8208b471c1a31086441dce28a007169eeb699ccb38e9817a0fbbe32430415640f
   languageName: node
   linkType: hard
 
-"@bugsnag/node@npm:^7.13.2":
-  version: 7.13.2
-  resolution: "@bugsnag/node@npm:7.13.2"
+"@bugsnag/node@npm:^7.16.2":
+  version: 7.16.2
+  resolution: "@bugsnag/node@npm:7.16.2"
   dependencies:
-    "@bugsnag/core": ^7.13.2
+    "@bugsnag/core": ^7.16.1
     byline: ^5.0.0
     error-stack-parser: ^2.0.2
     iserror: ^0.0.2
     pump: ^3.0.0
     stack-generator: ^2.0.3
-  checksum: 9e3c7c4124438a8ae3479baa734f8a7521741cf6669d8bb58e56c68a0e802baad411691fc23f72718e1b992305907a966e888e68480bd63b64b138101f300323
+  checksum: 484254472d07aa899ee072741c0516d4cb1c347bf4a78cc5163dd3311add0dad37fb27f12e9a24f959f17814cef52a4b72b1a07c7293b13aa01c75356b9e3297
   languageName: node
   linkType: hard
 
-"@bugsnag/plugin-react@npm:^7.9.2":
-  version: 7.13.2
-  resolution: "@bugsnag/plugin-react@npm:7.13.2"
+"@bugsnag/plugin-react@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@bugsnag/plugin-react@npm:7.16.5"
   peerDependencies:
     "@bugsnag/core": ^7.0.0
-  checksum: 9099c2099f280e68b48b18b6424c1d1538fbf9fddeb910693231fa8162d116fcbfa41d61298ba16792acf2352cada3b4982d4717aad9b873e82290424f25a434
+  peerDependenciesMeta:
+    "@bugsnag/core":
+      optional: true
+  checksum: 29dfd66ebd0db8bfee3ecd3afd70a64d3315d064d61a5c9acce9d6ea60de714c1b1095b2146c4e5684e843c995aaf110a729b720373671972474d585dd3e6d11
   languageName: node
   linkType: hard
 
@@ -3216,8 +3206,8 @@ __metadata:
   resolution: "@tomic/data-browser@workspace:data-browser"
   dependencies:
     "@bugsnag/core": ^7.16.1
-    "@bugsnag/js": ^7.9.2
-    "@bugsnag/plugin-react": ^7.9.2
+    "@bugsnag/js": ^7.16.5
+    "@bugsnag/plugin-react": ^7.16.5
     "@dnd-kit/core": ^4.0.3
     "@dnd-kit/sortable": ^5.1.0
     "@dnd-kit/utilities": ^3.0.2
