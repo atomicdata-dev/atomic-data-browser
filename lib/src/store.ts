@@ -31,7 +31,7 @@ export class Store {
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
   /** Current Connection to a WebSocket. Initilaizes on setting baseURL */
-  // TODO: should this be an array? A user might be viewing data from various servers
+  // TODO: should this be a `Map` of websockets? A user might be viewing data from various servers
   webSocket: WebSocket;
   /**
    * Is called when the store encounters an error. By default simply throws the

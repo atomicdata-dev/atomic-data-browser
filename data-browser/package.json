@@ -4,6 +4,7 @@
     "name": "Joep Meindertsma"
   },
   "dependencies": {
+    "@bugsnag/core": "^7.16.1",
     "@bugsnag/js": "^7.9.2",
     "@bugsnag/plugin-react": "^7.9.2",
     "@dnd-kit/core": "^4.0.3",
@@ -33,19 +34,14 @@
   "devDependencies": {
     "@playwright/test": "^1.14.0",
     "@types/react": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.9.0",
-    "@typescript-eslint/parser": "^5.9.0",
-    "eslint-watch": "^7.0.0",
     "gh-pages": "^3.1.0",
     "lint-staged": "^10.5.4",
-    "pretty-quick": "^3.1.0",
     "types-wm": "^1.1.0",
     "workbox-cli": "^6.4.1"
   },
   "homepage": "https://joepio.github.io/atomic-data-browser/",
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
       "pre-push": "yarn lint && npm test"
     }
   },
