@@ -19,7 +19,7 @@ jobs:
       # This should not be necessary, but for some reason it is
       - run: npm install -g yarn
       # This is needed when playwright is used in tests #70
-      # - run: npx playwright install-deps
+      - run: npx playwright install-deps
       - run: yarn --version
       - run: yarn install
       - name: Start dev server
@@ -28,7 +28,7 @@ jobs:
         run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
       - run: yarn lint-fix
       - run: yarn build
-      # - run: yarn test
+      - run: yarn test
       - run: yarn typedoc
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
