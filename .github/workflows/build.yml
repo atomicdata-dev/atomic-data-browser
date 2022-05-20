@@ -1,4 +1,5 @@
 name: Lint, build, test, deploy
+permissions: write-all
 on:
   push:
     branches: [master, main]

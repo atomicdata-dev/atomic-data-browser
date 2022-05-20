@@ -1,4 +1,5 @@
 name: deploy
+permissions: write-all
 on:
   workflow_dispatch:
 jobs:
