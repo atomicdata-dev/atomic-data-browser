@@ -32,7 +32,7 @@
   "scripts": {
     "lint": "yarn workspaces foreach run lint",
     "lint-fix": "yarn workspaces foreach run lint-fix",
-    "build": "yarn workspace @tomic/lib build & yarn workspace @tomic/react build & yarn workspace @tomic/data-browser build",
+    "build": "yarn workspace @tomic/lib build && yarn workspace @tomic/react build && yarn workspace @tomic/data-browser build",
     "build-server": "yarn run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/",
     "test": "yarn workspaces foreach run test",
     "publish": "yarn workspaces foreach --no-private npm publish",
