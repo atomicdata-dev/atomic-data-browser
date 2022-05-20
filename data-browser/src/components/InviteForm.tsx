@@ -4,6 +4,7 @@ import {
   properties,
   Resource,
   urls,
+  useCurrentAgent,
 } from '@tomic/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -26,6 +27,7 @@ export function InviteForm({ target }: InviteFormProps) {
   const invite = useResource(null, { newResource: true });
   const store = useStore();
   const [err, setErr] = useState<Error>(null);
+  const [agent] = useCurrentAgent();
   const [createdSubject, setCreatedSubject] = useState<string>(null);
 
   /** Stores the Invite, sends it to the server, shows the Subject to the User */
@@ -35,11 +37,7 @@ export function InviteForm({ target }: InviteFormProps) {
     await invite.set(properties.invite.target, target.getSubject(), store);
     invite.setSubject(store.createSubject('invite'));
     try {
-      await invite.set(
-        properties.parent,
-        `${store.getServerUrl()}/invites`,
-        store,
-      );
+      await invite.set(properties.parent, agent.subject, store);
       await invite.save(store);
       navigator.clipboard.writeText(invite.getSubject());
       toast.success('Copied to clipboard');

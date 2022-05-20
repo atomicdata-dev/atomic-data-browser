@@ -3,7 +3,7 @@ import { useArray, useCanWrite, useResource, useStore } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Right, urls } from '@tomic/lib';
-import ResourceInline from '../views/ResourceInline';
+import ResourceInline, { ErrorLook } from '../views/ResourceInline';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import { FaGlobe } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -12,10 +12,6 @@ import { InviteForm } from '../components/InviteForm';
 import toast from 'react-hot-toast';
 import { PageTitle } from '../components/PageTitle';
 
-const useValueOpts = {
-  commit: false,
-};
-
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
   const [subject] = useCurrentSubject();
@@ -23,6 +19,12 @@ export function ShareRoute(): JSX.Element {
   const store = useStore();
   const [canWrite] = useCanWrite(resource);
   const [showInviteForm, setShowInviteForm] = useState(false);
+  const [err, setErr] = useState(null);
+
+  const useValueOpts = {
+    commit: false,
+    handleValidationError: setErr,
+  };
 
   const [writers, setWriters] = useArray(
     resource,
@@ -145,6 +147,7 @@ export function ShareRoute(): JSX.Element {
           Save
         </Button>
       )}
+      {err && <ErrorLook>{err}</ErrorLook>}
       {inheritedRights.length > 0 && (
         <Card>
           <RightsHeader text='inherited rights:' />
