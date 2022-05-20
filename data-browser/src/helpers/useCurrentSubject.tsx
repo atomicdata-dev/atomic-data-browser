@@ -30,7 +30,7 @@ export function useCurrentSubject(
     }
   }
 
-  if (subjectQ == undefined) {
+  if (subjectQ == '') {
     if (pathname.startsWith('/app/')) {
       return [null, handleSetSubject];
     }
