@@ -16,6 +16,10 @@ import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
 
+function removeTrailingSlash(str) {
+  return str.replace(/\/+$/, '');
+}
+
 /**
  * Handles the browser URL navigation paths. Some rules:
  *
@@ -38,7 +42,9 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.search} element={<Search />} />
       <Route
         path='/'
-        element={<ResourcePage subject={window.location.href} />}
+        element={
+          <ResourcePage subject={removeTrailingSlash(window.location.href)} />
+        }
       />
       <Route path='*' element={<Local />} />
     </Routes>
