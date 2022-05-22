@@ -71,7 +71,7 @@ export function ResourceForm({
 
   // Sets agent warning / eror
   // Currently not reliable
-  // https://github.com/joepio/atomic-data-browser/issues/71
+  // https://github.com/atomicdata-dev/atomic-data-browser/issues/71
   // useEffect(() => {
   //   if (canWrite == false) {
   //     setErr(new Error(`Cannot save: ${canWriteErr}.`));

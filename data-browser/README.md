@@ -1,11 +1,11 @@
 # Atomic Data Browser
 
-[![Build Status](https://github.com/joepio/atomic-data-browser/workflows/build/badge.svg)](https://github.com/joepio/atomic-data-browser/actions)
+[![Build Status](https://github.com/atomicdata-dev/atomic-data-browser/workflows/build/badge.svg)](https://github.com/atomicdata-dev/atomic-data-browser/actions)
 
 _Status: Beta. [Breaking changes](CHANGELOG.md) are expected until 1.0._
 
 View, edit and create [Atomic Data](https://atomicdata.dev/) from your browser!
-Designed for interacting with [`atomic-server`](https://github.com/joepio/atomic).
+Designed for interacting with [`atomic-server`](https://github.com/atomicdata-dev/atomic-data-browser).
 
 **[demo on atomicdata.dev](https://atomicdata.dev/)**
 

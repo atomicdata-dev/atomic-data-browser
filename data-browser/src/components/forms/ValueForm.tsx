@@ -82,7 +82,7 @@ export function ValueForm({
     setErr(null);
     setEditMode(false);
     // Should this maybe also remove the edits to the resource?
-    // https://github.com/joepio/atomic-data-browser/issues/36
+    // https://github.com/atomicdata-dev/atomic-data-browser/issues/36
   }
 
   async function handleSave() {

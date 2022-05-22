@@ -4,7 +4,7 @@
  * Render, fetch, edit and delete [Atomic Data](https://atomicdata.dev).
  * Re-exports all of [`@tomic/lib`](https://www.npmjs.com/package/@tomic/lib).
  *
- * [github repository](https://github.com/joepio/atomic-data-browser)
+ * [github repository](https://github.com/atomicdata-dev/atomic-data-browser)
  *
  * ## How to use
  *

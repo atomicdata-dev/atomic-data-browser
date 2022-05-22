@@ -49,7 +49,7 @@
   "name": "@tomic/data-browser",
   "private": true,
   "repository": {
-    "url": "https://github.com/joepio/atomic-data-browser/"
+    "url": "https://github.com/atomicdata-dev/atomic-data-browser/"
   },
   "scripts": {
     "build": "tsc && vite build",

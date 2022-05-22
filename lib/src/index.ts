@@ -4,7 +4,7 @@
  * Core typescript library for handling JSON-AD parsing, storing Atomic Data,
  * signing Commits, and more.
  *
- * [github repository](https://github.com/joepio/atomic-data-browser)
+ * [github repository](https://github.com/atomicdata-dev/atomic-data-browser)
  *
  * ## Features
  *

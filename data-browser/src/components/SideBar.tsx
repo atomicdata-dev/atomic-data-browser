@@ -32,7 +32,7 @@ const aboutMenuItems: SideBarMenuItemProps[] = [
     icon: <FaExternalLinkAlt />,
     label: 'github',
     helper: 'View the source code for this application',
-    href: 'https://github.com/joepio/atomic-data-browser',
+    href: 'https://github.com/atomicdata-dev/atomic-data-browser',
   },
   {
     // icon: <FaDiscord />,

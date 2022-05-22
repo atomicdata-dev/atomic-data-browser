@@ -34,7 +34,7 @@ export const About: React.FunctionComponent = () => {
       <h2>About this app</h2>
       <p>
         You&apos;re looking at{' '}
-        <AtomicLink href='https://github.com/joepio/atomic-data-browser'>
+        <AtomicLink href='https://github.com/atomicdata-dev/atomic-data-browser'>
           atomic-data-browser
         </AtomicLink>
         , an open-source client for viewing and editing data. Please add an

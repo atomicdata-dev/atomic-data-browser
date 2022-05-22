@@ -9,9 +9,9 @@ Atomic Data is especially suitable for knowledge graphs, distributed datasets, s
 About this app
 --------------
 
-You're looking at [atomic-data-browser](https://github.com/joepio/atomic-data-browser), an open-source client for viewing and editing data. Please add an issue if you encouter problems or have a feature request. Expect bugs and issues, because this stuff is pretty beta.
+You're looking at [atomic-data-browser](https://github.com/atomicdata-dev/atomic-data-browser), an open-source client for viewing and editing data. Please add an issue if you encouter problems or have a feature request. Expect bugs and issues, because this stuff is pretty beta.
 
-The back-end of this app is [atomic-server](https://github.com/joepio/atomic), which you can think of as an open source, web-native database.
+The back-end of this app is [atomic-server](https://github.com/atomicdata-dev/atomic-data-browser), which you can think of as an open source, web-native database.
 
 Things to visit
 ---------------
@@ -23,7 +23,7 @@ Things to visit
 Run your own server
 -------------------
 
-The easiest way to run an [atomic-server](https://github.com/joepio/atomic) is by using Docker:
+The easiest way to run an [atomic-server](https://github.com/atomicdata-dev/atomic-data-browser) is by using Docker:
 
 `docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server`
 

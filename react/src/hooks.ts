@@ -409,7 +409,7 @@ export function useArray(
     return [[], set];
   }
   // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
-  // https://github.com/joepio/atomic-data-browser/issues/85
+  // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
   let arr = [];
   try {
     arr = valToArray(value);

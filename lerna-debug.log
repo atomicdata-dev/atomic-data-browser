@@ -5,7 +5,7 @@
 0 silly argv   script: 'tsc'
 0 silly argv }
 1 notice cli v4.0.0
-2 verbose rootPath /Users/joep/dev/src/github.com/joepio/atomic-data-browser
+2 verbose rootPath /Users/joep/dev/src/github.com/atomicdata-dev/atomic-data-browser
 3 error JSONError: Unexpected token "}" (0x7D) in JSON at position 163 while parsing near "...    \"tsc\": \"tsc\",\n  },\n  \"author\": \"\",\n ..." in atomic-react/package.json
 3 error
 3 error [0m [90m  6 |[39m     [32m"test"[39m[33m:[39m [32m"echo \"Error: no test specified\" && exit 1"[39m[33m,[39m[0m
@@ -16,6 +16,6 @@
 3 error [0m [90m 10 |[39m   [32m"license"[39m[33m:[39m [32m"ISC"[39m[33m,[39m[0m
 3 error [0m [90m 11 |[39m   [32m"main"[39m[33m:[39m [32m"src/index.ts"[39m[0m
 3 error
-3 error     at parseJson (/Users/joep/dev/src/github.com/joepio/atomic-data-browser/node_modules/parse-json/index.js:29:21)
-3 error     at parse (/Users/joep/dev/src/github.com/joepio/atomic-data-browser/node_modules/load-json-file/index.js:15:9)
-3 error     at module.exports (/Users/joep/dev/src/github.com/joepio/atomic-data-browser/node_modules/load-json-file/index.js:18:47)
+3 error     at parseJson (/Users/joep/dev/src/github.com/atomicdata-dev/atomic-data-browser/node_modules/parse-json/index.js:29:21)
+3 error     at parse (/Users/joep/dev/src/github.com/atomicdata-dev/atomic-data-browser/node_modules/load-json-file/index.js:15:9)
+3 error     at module.exports (/Users/joep/dev/src/github.com/atomicdata-dev/atomic-data-browser/node_modules/load-json-file/index.js:18:47)
