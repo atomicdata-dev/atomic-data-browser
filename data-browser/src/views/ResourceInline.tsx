@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useString, useResource, useTitle, urls } from '@tomic/react';
+import {
+  useString,
+  useResource,
+  useTitle,
+  urls,
+  isValidURL,
+} from '@tomic/react';
 import AtomicLink from '../components/AtomicLink';
 
 type Props = {
@@ -24,6 +30,10 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
         ...
       </span>
     );
+  }
+
+  if (!isValidURL(subject)) {
+    return <ErrorLook>{subject} is not a valid URL</ErrorLook>;
   }
 
   if (resource.error) {
