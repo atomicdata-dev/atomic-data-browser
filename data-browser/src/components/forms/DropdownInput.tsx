@@ -69,6 +69,11 @@ export function DropdownInput({
     };
   }, [isOpen, dropdownRef, isFocus]);
 
+  // Sometimes the initial value changes on render, and then we should update it accordingly
+  useEffect(() => {
+    setSelectedItem(initial);
+  }, [initial]);
+
   // Close the menu
   useHotkeys(
     'esc',

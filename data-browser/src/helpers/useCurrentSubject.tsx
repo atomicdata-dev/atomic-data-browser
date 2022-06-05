@@ -62,7 +62,7 @@ export function useSubjectParam(key: string): [string, (string) => void] {
     params.set(key, newVal);
     const newUrl = new URL(subject);
     newUrl.searchParams.set(key, newVal);
-    if (newVal == null) {
+    if (newVal == null || newVal == '') {
       newUrl.searchParams.delete(key);
     }
     setSubject(newUrl.href);
