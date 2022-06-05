@@ -44,6 +44,7 @@ export function DropdownInput({
   // hides the mouse cursor interactions with elements
   const [useKeys, setUseKeys] = useState<boolean>(false);
   const dropdownRef = useRef(null);
+  const openMenuButtonRef = useRef(null);
   const inputRef = useRef(null);
 
   // Close the dropdown when the user clicks outside of it
@@ -53,7 +54,8 @@ export function DropdownInput({
       if (
         !isFocus &&
         dropdownRef.current !== null &&
-        !dropdownRef.current.contains(e.target)
+        !dropdownRef.current.contains(e.target) &&
+        !openMenuButtonRef.current.contains(e.target)
       ) {
         setIsOpen(!isOpen);
       }
@@ -126,6 +128,8 @@ export function DropdownInput({
     }, 150);
   }
 
+  console.log('isOpen', isOpen);
+
   return (
     <DropDownStyled>
       <InputWrapper>
@@ -167,6 +171,7 @@ export function DropdownInput({
             type='button'
             onClick={() => setIsOpen(!isOpen)}
             title='toggle menu'
+            ref={openMenuButtonRef}
             aria-label={'toggle menu'}
           >
             <FaCaretDown />
