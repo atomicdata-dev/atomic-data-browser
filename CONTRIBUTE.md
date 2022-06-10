@@ -1,6 +1,7 @@
 # Contribute
 
 Issues and PR's are welcome!
+Note that your code changes will be distributed under the MIT license of this repo.
 And join our [Discord][discord-url]!
 
 [discord-badge]: https://img.shields.io/discord/723588174747533393.svg?logo=discord
