@@ -18,9 +18,7 @@ export default function InputResourceArray({
   });
 
   function handleAdd() {
-    array.push(null);
-    const newArray = array;
-    setArray(newArray);
+    setArray([...array, null]);
     // TODO: Add focus when adding a new item
   }
 
