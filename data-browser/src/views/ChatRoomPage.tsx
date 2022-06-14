@@ -117,7 +117,11 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       return;
     }
     // Auto-grow the textarea
+    const overflowStyle = e.target.style.overflow;
+    e.target.style.overflow = "scroll";
+    // in Firefox, scrollHeight only works if overflow is set to scroll
     const height = e.target.scrollHeight;
+    e.target.style.overflow = overflowStyle;
     const rowHeight = 25;
     const trows = Math.ceil(height / rowHeight) - 1;
     if (trows !== textAreaHight) {
