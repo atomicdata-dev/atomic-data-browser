@@ -10,11 +10,13 @@ import {
 import { useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { ContainerNarrow } from '../components/Containers';
+import { useStore } from '@tomic/react';
 
 export function SettingsServer(): JSX.Element {
   const { baseURL, setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
+  const store = useStore();
 
   function handleSetBaseUrl(url: string) {
     try {
@@ -70,6 +72,12 @@ export function SettingsServer(): JSX.Element {
       <Button onClick={() => handleSetBaseUrl(window.location.origin)} subtle>
         {window.location.origin}
       </Button>
+      <p>
+        Websocket{' '}
+        {store.webSocket.readyState == WebSocket.OPEN
+          ? 'connected'
+          : 'disconnected'}
+      </p>
     </ContainerNarrow>
   );
 }

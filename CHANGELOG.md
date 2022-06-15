@@ -2,6 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.31.1
+
+- Fix Dropdown input bug
+- Fix autogrow textarea bug
+
 ## v0.31.0
 
 - Add ChatRooms #153
