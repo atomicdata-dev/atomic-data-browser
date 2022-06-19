@@ -2,7 +2,7 @@
 
 Issues and PR's are welcome!
 Note that your code changes will be distributed under the MIT license of this repo.
-
+Check out the [Roadmap](https://docs.atomicdata.dev/roadmap.html) if you want to learn more about our plans and the history of the project.
 Talk with other devs on our [Discord][discord-url]!
 
 [discord-badge]: https://img.shields.io/discord/723588174747533393.svg?logo=discord
