@@ -19,7 +19,7 @@ import { ClassPage } from './ClassPage';
 import { FilePage } from './FilePage';
 import WebMonetizationWrapper from '../components/WebMonetizationWrapper';
 import { ResourcePageDefault } from './ResourcePageDefault';
-import Spinner from '../components/Button';
+import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
 

@@ -1,26 +1,16 @@
-import {
-  useArray,
-  useResource,
-  useStore,
-  useString,
-  useTitle,
-} from '@tomic/react';
-import { properties, urls } from '@tomic/lib';
-import React, { useEffect, useState } from 'react';
+import { useResource, useString } from '@tomic/react';
+import { urls } from '@tomic/lib';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { newURL, useQueryString } from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
-import { InputStyled, InputWrapper } from '../components/forms/InputStyles';
 import NewIntanceButton from '../components/NewInstanceButton';
-import { ResourceForm } from '../components/forms/ResourceForm';
-import AtomicLink from '../components/AtomicLink';
-import Markdown from '../components/datatypes/Markdown';
-import Field from '../components/forms/Field';
 import { ResourceSelector } from '../components/forms/ResourceSelector';
 import { Button } from '../components/Button';
-import { FaInfo } from 'react-icons/fa';
 import { useSettings } from '../helpers/AppSettings';
+import { Row } from '../components/Row';
+import { NewFormFullPage } from '../components/forms/NewForm/index';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -41,7 +31,7 @@ function New(): JSX.Element {
   return (
     <ContainerNarrow>
       {classSubject ? (
-        <NewForm classSubject={classSubject.toString()} />
+        <NewFormFullPage classSubject={classSubject.toString()} />
       ) : (
         <form onSubmit={handleClassSet}>
           <h1>Create something new</h1>
@@ -53,109 +43,22 @@ function New(): JSX.Element {
             classType={urls.classes.class}
           />
           <br />
-          {classInput && (
-            <Button onClick={handleClassSet}>new {className}</Button>
-          )}
-          {!classInput && (
-            <>
-              <NewIntanceButton klass={urls.classes.document} subtle />
-              <NewIntanceButton klass={urls.classes.class} subtle />
-              <NewIntanceButton klass={urls.classes.property} subtle />
-              <NewIntanceButton klass={urls.classes.chatRoom} subtle />
-            </>
-          )}
+          <Row>
+            {classInput && (
+              <Button onClick={handleClassSet}>new {className}</Button>
+            )}
+            {!classInput && (
+              <>
+                <NewIntanceButton klass={urls.classes.document} subtle />
+                <NewIntanceButton klass={urls.classes.class} subtle />
+                <NewIntanceButton klass={urls.classes.property} subtle />
+                <NewIntanceButton klass={urls.classes.chatRoom} subtle />
+              </>
+            )}
+          </Row>
         </form>
       )}
     </ContainerNarrow>
-  );
-}
-
-interface NewFormProps {
-  classSubject: string;
-}
-
-/** Form for instantiating a new Resource from some Class */
-function NewForm({ classSubject }: NewFormProps): JSX.Element {
-  const klass = useResource(classSubject);
-  // TODO: Don't push to history, but replace, because currenlty back is broken
-  const [newSubject, setNewSubject] = useQueryString('newSubject');
-  const [parentSubject] = useQueryString('parent');
-  const klassTitle = useTitle(klass);
-  const [klassShortname] = useString(klass, properties.shortname);
-  const [klassDescription] = useString(klass, properties.description);
-  const [showDetails, setShowDetails] = useState(false);
-  const [subjectErr, setSubjectErr] = useState<Error>(null);
-  const store = useStore();
-  const [newSubjectInput, setNewSubjectInput] = useState<string>(
-    newSubject.toString(),
-  );
-  const resource = useResource(newSubject.toString(), { newResource: true });
-
-  useEffect(() => {
-    if (newSubject == undefined) {
-      setNewSubject(store.createSubject(klassShortname));
-    }
-  }, [newSubject]);
-
-  // Set the class for new resources
-  const [currentClass] = useArray(resource, properties.isA);
-  if (currentClass.length == 0) {
-    resource.set(properties.isA, [klass.getSubject()], store);
-  }
-
-  /** Changes the URL of a subject. Updates the store */
-  // Should be debounced as it is quite expensive, but getting that to work turned out to be really hard
-  async function handleSetSubject(newSubject: string) {
-    const oldSubject = resource.getSubject();
-    if (oldSubject == newSubject) {
-      return;
-    }
-    setSubjectErr(null);
-    try {
-      // Expensive!
-      await store.renameSubject(oldSubject, newSubject);
-      setNewSubject(newSubject);
-    } catch (e) {
-      setSubjectErr(e);
-    }
-  }
-
-  return (
-    <>
-      <h2>
-        new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>{' '}
-        <Button
-          onClick={() => setShowDetails(!showDetails)}
-          icon
-          subtle={!showDetails}
-          title='Toggle show Class details'
-        >
-          <FaInfo />
-        </Button>
-      </h2>
-      {showDetails && klassDescription && <Markdown text={klassDescription} />}
-      <Field
-        error={subjectErr}
-        label='subject'
-        helper='The identifier of the resource. This also determines where the resource is saved, by default.'
-      >
-        <InputWrapper>
-          <InputStyled
-            value={newSubjectInput}
-            onBlur={e => handleSetSubject(e.target.value)}
-            onChange={e => setNewSubjectInput(e.target.value)}
-            placeholder={'URL of the new resource...'}
-          />
-        </InputWrapper>
-      </Field>
-      {/* Key is required for re-rendering when subject changes */}
-      <ResourceForm
-        resource={resource}
-        classSubject={classSubject}
-        key={`${classSubject}+${newSubject}`}
-        parent={parentSubject.toString()}
-      />
-    </>
   );
 }
 

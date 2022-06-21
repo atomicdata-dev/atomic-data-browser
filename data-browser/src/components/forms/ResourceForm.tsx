@@ -10,7 +10,6 @@ import {
   properties,
   urls,
 } from '@tomic/react';
-import toast from 'react-hot-toast';
 import styled from 'styled-components';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
 
@@ -21,8 +20,15 @@ import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import Field from './Field';
 import UploadForm from './UploadForm';
+import { Gutter } from '../Gutter';
+import { useSaveResource } from './hooks/useSaveResource';
 
-type ResourceFormProps = {
+export enum ResourceFormVariant {
+  Default,
+  Dialog,
+}
+
+export interface ResourceFormProps {
   /**
    * The type / isA Class of a resource determines the recommended and required
    * form fields.
@@ -32,15 +38,24 @@ type ResourceFormProps = {
   parent?: string;
   /** Resource that is to be either changed or created */
   resource: Resource;
-};
+
+  variant?: ResourceFormVariant;
+}
+
+const nonEssentialProps = [
+  properties.isA,
+  properties.parent,
+  properties.read,
+  properties.write,
+];
 
 /** Form for editing and creating a Resource */
 export function ResourceForm({
   classSubject,
-  resource: resourceIn,
+  resource,
   parent,
+  variant,
 }: ResourceFormProps): JSX.Element {
-  const resource = useResource(resourceIn.getSubject());
   const [isAArray] = useArray(resource, properties.isA);
   if (classSubject == undefined && isAArray?.length > 0) {
     // This is not entirely accurate, as Atomic Data supports having multiple
@@ -48,19 +63,20 @@ export function ResourceForm({
     classSubject = isAArray[0];
   }
   const klass = useResource(classSubject);
-  const store = useStore();
   const [requires] = useArray(klass, properties.requires);
   const [recommends] = useArray(klass, properties.recommends);
   const [klassIsa] = useString(klass, properties.isA);
-  const [err, setErr] = useState<Error>(null);
   const [newPropErr, setNewPropErr] = useState<Error>(null);
-  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
   const [newProperty, setNewProperty] = useState<string>(null);
   /** A list of custom properties, set by the User while editing this form */
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const [save, saving, err] = useSaveResource(resource, () => {
+    navigate(openURL(resource.getSubject()));
+  });
   // const { agent } = useSettings();
   // const debouncedResource = useDebounce(resource, 5000);
   // const [canWrite, canWriteErr] = useCanWrite(
@@ -91,22 +107,20 @@ export function ResourceForm({
 
   /** Builds otherProps */
   useEffect(() => {
-    let prps = [];
     const allProps = Array.from(resource.getPropVals().keys());
-    // If a property does not exist in requires or recommends, add it to otherprops
-    for (const prop of allProps) {
+
+    const prps = allProps.filter(prop => {
+      // If a property does not exist in requires or recommends, add it to otherprops
       const propIsNotRenderedYet = !(
         requires.includes(prop) || recommends.includes(prop)
       );
-      if (propIsNotRenderedYet) {
-        prps.push(prop);
-      }
-    }
-    // The `is-a` property is not very useful in most cases, only show it if explicitly set
-    prps = prps.filter(prop => prop !== properties.isA);
-    prps = prps.filter(prop => prop !== properties.parent);
-    prps = prps.filter(prop => prop !== properties.read);
-    prps = prps.filter(prop => prop !== properties.write);
+
+      // Non essential properties are not very useful in most cases, only show them if explicitly set
+      const isEssential = !nonEssentialProps.includes(prop);
+
+      return propIsNotRenderedYet && isEssential;
+    });
+
     setOtherProps(prps.concat(tempOtherProps));
     // I actually want to run this useEffect every time the requires / recommends
     // array changes, but that leads to a weird loop, so that's what the length is for
@@ -130,22 +144,6 @@ export function ResourceForm({
     );
   }
 
-  async function save(e) {
-    e.preventDefault();
-    setSaving(true);
-    setErr(null);
-    try {
-      await resource.save(store);
-      setSaving(false);
-      navigate(openURL(resource.getSubject()));
-      toast.success('Resource saved');
-    } catch (e) {
-      setErr(e);
-      setSaving(false);
-      toast.error('Could not save resource');
-    }
-  }
-
   function handleAddProp() {
     setNewPropErr(null);
     if (
@@ -166,7 +164,7 @@ export function ResourceForm({
 
   function handleDelete(propertyURL: string) {
     resource.removePropVal(propertyURL);
-    setTempOtherProps(tempOtherProps.filter(prop => prop != propertyURL));
+    setTempOtherProps(tempOtherProps.filter(prop => prop !== propertyURL));
   }
 
   return (
@@ -233,6 +231,7 @@ export function ResourceForm({
         </PropertyAdder>
       </Field>
       <UploadForm parentResource={resource} />
+      <Gutter />
       <Button
         title={'show / hide advanced form fields'}
         clean
@@ -251,13 +250,21 @@ export function ResourceForm({
           <ResourceField propertyURL={properties.read} resource={resource} />
         </>
       )}
-      {err && <ErrMessage>{err.message}</ErrMessage>}
-      <Button onClick={save} disabled={saving} data-test='save'>
-        {saving ? 'wait...' : 'save'}
-      </Button>
+      {variant !== ResourceFormVariant.Dialog && (
+        <>
+          {err && <ErrMessage>{err.message}</ErrMessage>}
+          <Button onClick={save} disabled={saving} data-test='save'>
+            {saving ? 'wait...' : 'save'}
+          </Button>
+        </>
+      )}
     </form>
   );
 }
+
+ResourceForm.defaultProps = {
+  variant: ResourceFormVariant.Default,
+};
 
 const PropertyAdder = styled.div`
   display: flex;

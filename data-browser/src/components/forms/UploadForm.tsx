@@ -128,7 +128,7 @@ export function UploadWrapper({
 }
 
 const Fill = styled.div`
-  height: 100%,
-  width: 100%,
-  minHeight: 4rem,
+  height: 100%;
+  width: 100%;
+  min-height: 4rem;
 `;

@@ -12,6 +12,7 @@ import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
 import { ErrorLook } from '../views/ResourceInline';
 import { PageTitle } from '../components/PageTitle';
+import { Row } from '../components/Row.jsx';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -71,7 +72,7 @@ function Data(): JSX.Element {
           <Button onClick={() => resource.save(store)}>save</Button>
         </>
       ) : null}
-      <div>
+      <Row>
         <span>Fetch as: </span>
         <Button
           subtle
@@ -101,7 +102,7 @@ function Data(): JSX.Element {
         >
           Turtle / N-triples / N3
         </Button>
-      </div>
+      </Row>
       {err && <ErrMessage>{err.message}</ErrMessage>}
       {!err && textResponse && (
         <CodeBlock content={textResponse} loading={textResponseLoading} />

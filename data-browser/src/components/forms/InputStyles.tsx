@@ -90,6 +90,12 @@ export const ErrMessage = styled.div`
   margin-bottom: ${p => p.theme.margin}rem;
 `;
 
+export const InlineErrMessage = styled.span`
+  font-size: 0.8em;
+  line-height: 1rem;
+  color: ${props => props.theme.colors.alert};
+`;
+
 /** Wraps an inline resource, which is displayed on top of an input */
 export const InputOverlay = styled.div`
   ${inputStyle}

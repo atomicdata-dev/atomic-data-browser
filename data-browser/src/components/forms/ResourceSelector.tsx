@@ -91,6 +91,7 @@ export function ResourceSelector({
         onRemove={handleRemove}
         initial={value}
         disabled={disabled}
+        classType={classType}
         {...props}
       />
       {value && value !== '' && error && (

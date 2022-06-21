@@ -19,6 +19,7 @@ import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import CrashPage from './views/CrashPage';
 import toast from 'react-hot-toast';
+import { DialogContainer } from './components/Dialog/DialogContainer';
 
 /** Initialize the store */
 const store = new Store();
@@ -69,12 +70,15 @@ function App(): JSX.Element {
             <HotKeysWrapper>
               <ThemeWrapper>
                 <ErrorBoundary FallbackComponent={CrashPage}>
+                  {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
                   <GlobalStyle />
                   <Toaster />
                   <MetaSetter />
-                  <NavWrapper>
-                    <AppRoutes />
-                  </NavWrapper>
+                  <DialogContainer>
+                    <NavWrapper>
+                      <AppRoutes />
+                    </NavWrapper>
+                  </DialogContainer>
                 </ErrorBoundary>
               </ThemeWrapper>
             </HotKeysWrapper>

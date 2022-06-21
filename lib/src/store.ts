@@ -56,6 +56,29 @@ export class Store {
     };
   }
 
+  private randomPart(): string {
+    return Math.random().toString(36).substring(2);
+  }
+
+  private async findAvailableSubject(
+    path: string,
+    firstTry = true,
+  ): Promise<string> {
+    let url = `${this.getServerUrl()}/${path}`;
+
+    if (!firstTry) {
+      const randomPart = this.randomPart();
+      url += `-${randomPart}`;
+    }
+
+    const taken = await this.checkSubjectTaken(url);
+
+    if (taken) {
+      return this.findAvailableSubject(path, false);
+    }
+
+    return url;
+  }
   /**
    * Adds a Resource to the store and notifies subscribers. Replaces existing
    * resources, unless this new resource is explicitly incomplete.
@@ -85,9 +108,14 @@ export class Store {
     return false;
   }
 
+  async buildUniqueSubjectFromParts(...parts: string[]): Promise<string> {
+    const path = parts.join('/');
+    return this.findAvailableSubject(path);
+  }
+
   /** Creates a random URL. Add a classnme (e.g. 'persons') to make a nicer name */
   createSubject(className?: string): string {
-    const random = Math.random().toString(36).substring(2);
+    const random = this.randomPart();
     className = className ? className : 'things';
     return `${this.getServerUrl()}/${className}/${random}`;
   }
@@ -240,6 +268,7 @@ export class Store {
     if (typeof e == 'string') {
       e = new Error(e);
     }
+    // eslint-disable-next-line no-console
     this.errorHandler(e) || console.error(e);
   }
 
@@ -322,6 +351,7 @@ export class Store {
     if (typeof window !== 'undefined') {
       this.webSocket = startWebsocket(this);
     } else {
+      // eslint-disable-next-line no-console
       console.warn('WebSockets not supported, no window available');
     }
   }
@@ -357,7 +387,8 @@ export class Store {
         this.webSocket?.send(`SUBSCRIBE ${subject}`);
       }
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   }
 
@@ -368,7 +399,8 @@ export class Store {
     try {
       this.webSocket?.send(`UNSUBSCRIBE ${subject}`);
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   }
 
