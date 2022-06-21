@@ -24,7 +24,7 @@ module.exports = {
       arrowFunctions: true,
     },
   },
-  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks'],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'import'],
   settings: {
     react: {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
@@ -44,7 +44,6 @@ module.exports = {
     'import/no-dynamic-require': 'off', // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations// New rules
     'class-methods-use-this': 'off',
-    'import/extensions': 'off',
     //Allow underscores https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
     '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
     'react-hooks/exhaustive-deps': 'off',
@@ -54,5 +53,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    'no-console': 'error',
+    "react/prop-types": "off",
   },
 };

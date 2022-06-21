@@ -23,14 +23,14 @@ export interface AtomicLinkProps {
  * Renders a link. Either a subject or a href is required. You can wrap this
  * around other components and pass the `clean` prop to skip styling.
  */
-export function AtomicLink({
+export const AtomicLink = ({
   children,
   clean,
   subject,
   path,
   href,
   untabbable,
-}: AtomicLinkProps): JSX.Element {
+}: AtomicLinkProps): JSX.Element => {
   const navigate = useNavigate();
 
   if (!subject && !href && !path) {
@@ -41,8 +41,14 @@ export function AtomicLink({
     );
   }
 
-  const isOnCurrentPage =
-    subject && window.location.toString() == openURL(subject);
+  let isOnCurrentPage: boolean;
+
+  try {
+    isOnCurrentPage =
+      subject && window.location.toString() === openURL(subject);
+  } catch (e) {
+    return <span>{subject}</span>;
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (href) {
@@ -80,7 +86,7 @@ export function AtomicLink({
       {href && !clean && <FaExternalLinkAlt />}
     </LinkView>
   );
-}
+};
 
 type Proppies = {
   disabled?: boolean;

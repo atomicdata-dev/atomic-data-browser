@@ -34,7 +34,9 @@ export function FileInner({ resource }: ResourcePageProps) {
   return (
     <div>
       <ValueForm resource={resource} propertyURL={properties.description} />
-      <Button onClick={handleDownload}>Download{fileSizeString}</Button>
+      <Button gutter onClick={handleDownload}>
+        Download{fileSizeString}
+      </Button>
       <div>
         <FilePreview resource={resource} />
       </div>

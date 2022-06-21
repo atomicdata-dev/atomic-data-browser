@@ -1,19 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Spinner } from './Spinner';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  /** Description of the button, required if the button only has an icon */
+  name?: string;
   /** Renders the button less clicky */
   subtle?: boolean;
   /** If it's just an icon */
   icon?: boolean;
-  /** If it needs no margins */
-  noMargins?: boolean;
   /** Minimal styling */
   clean?: boolean;
   /** Shows loading text + a spinner */
   loading?: string;
-  onClick: (...a: unknown[]) => unknown;
+  /** Add a bottom margin */
+  gutter?: boolean;
+  onClick: (e: React.MouseEvent) => unknown;
 }
 
 export function Button({
@@ -22,8 +24,8 @@ export function Button({
   icon,
   loading,
   ...props
-}: ButtonProps): JSX.Element {
-  let Comp = ButtonMargin;
+}: React.PropsWithChildren<ButtonProps>): JSX.Element {
+  let Comp = ButtonDefault;
   if (icon) {
     Comp = ButtonIcon;
   }
@@ -46,7 +48,7 @@ export function Button({
 // }
 
 /** Extremly minimal set of button properties */
-export const ButtonClean = styled.button`
+export const ButtonClean = styled.button<ButtonProps>`
   cursor: pointer;
   border: none;
   outline: none;
@@ -69,6 +71,7 @@ export const ButtonBase = styled(ButtonClean)`
   color: ${props => props.theme.colors.bg};
   white-space: nowrap;
   transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color;
+  margin-bottom: ${p => (p.gutter ? `${p.theme.margin}rem` : '')};
 
   /** Prevent sticky hover buttons on touch devices */
   @media (hover: hover) and (pointer: fine) {
@@ -126,10 +129,8 @@ export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
 
 /** Button with some optional margins around it */
 // eslint-disable-next-line prettier/prettier
-export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
+export const ButtonDefault = styled(ButtonBase) <ButtonProps>`
   padding: 0.4rem;
-  margin-bottom: ${p => (p.noMargins ? 0 : p.theme.margin)}rem;
-  margin-right: ${p => (p.noMargins ? 0 : p.theme.margin)}rem;
   border-radius: ${p => p.theme.radius};
   padding-left: ${p => p.theme.margin}rem;
   padding-right: ${p => p.theme.margin}rem;
@@ -145,10 +146,10 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
   &:hover:not([disabled]) {
     box-shadow: ${p => p.theme.boxShadowIntense};
     background-color: ${p =>
-      p.subtle ? p.theme.colors.bg : p.theme.colors.mainLight};
+    p.subtle ? p.theme.colors.bg : p.theme.colors.mainLight};
     color: ${p => (p.subtle ? p.theme.colors.main : p.theme.colors.bg)};
     border-color: ${p =>
-      p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
+    p.subtle ? p.theme.colors.main : p.theme.colors.mainLight};
   }
 
   &:active:not([disabled]) {
@@ -157,7 +158,7 @@ export const ButtonMargin = styled(ButtonBase) <ButtonProps>`
 `;
 
 /** Button that only shows an icon */
-export const ButtonIcon = styled(ButtonMargin)`
+export const ButtonIcon = styled(ButtonDefault)`
   box-shadow: none;
   border-color: transparent;
   border-radius: 999px;
@@ -203,52 +204,3 @@ export const ButtonInput = styled(ButtonBase)`
     border-bottom-left-radius: 0;
   }
 `;
-
-const Spinner = () => (
-  <StyledSpinner viewBox='0 0 50 50'>
-    <circle
-      className='path'
-      cx='25'
-      cy='25'
-      r='20'
-      fill='none'
-      strokeWidth='4'
-    />
-  </StyledSpinner>
-);
-
-const StyledSpinner = styled.svg`
-  animation: rotate 2s linear infinite;
-  width: 50px;
-  height: 50px;
-  max-width: 100%;
-  max-height: 100%;
-
-  & .path {
-    stroke: ${props => props.theme.colors.main};
-    stroke-linecap: round;
-    animation: dash 1.5s ease-in-out infinite;
-  }
-
-  @keyframes rotate {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes dash {
-    0% {
-      stroke-dasharray: 1, 150;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -35;
-    }
-    100% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -124;
-    }
-  }
-`;
-
-export default Spinner;

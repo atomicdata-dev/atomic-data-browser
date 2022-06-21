@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ContainerNarrow } from './Containers';
 import { properties, Resource, useString, useTitle } from '@tomic/react';
 import 'types-wm';
-import Spinner from './Button';
+import { Spinner } from './Spinner';
 import toast from 'react-hot-toast';
 import Link from './AtomicLink';
 

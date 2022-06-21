@@ -9,6 +9,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
 import NewInstanceButton from '../components/NewInstanceButton';
 import Parent from '../components/Parent';
+import { Row } from '../components/Row';
 import { ResourcePageProps } from './ResourcePage';
 import { defaultHiddenProps } from './ResourcePageDefault';
 
@@ -33,15 +34,17 @@ export function ClassPage({ resource }: ResourcePageProps) {
         editable
         columns
       />
-      <NewInstanceButton klass={resource.getSubject()} />
-      <Button
-        subtle
-        onClick={async () =>
-          setTSdef(await classToTypescriptDefinition(resource, store))
-        }
-      >
-        typescript interface
-      </Button>
+      <Row>
+        <NewInstanceButton klass={resource.getSubject()} />
+        <Button
+          subtle
+          onClick={async () =>
+            setTSdef(await classToTypescriptDefinition(resource, store))
+          }
+        >
+          typescript interface
+        </Button>
+      </Row>
       {tsDef && <CodeBlock content={tsDef} />}
     </ContainerNarrow>
   );

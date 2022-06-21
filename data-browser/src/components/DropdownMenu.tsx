@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
+import { useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEllipsisV } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useDetectOutsideClick } from '../helpers/useDetectOutsideClick';
+import { useClickAwayListener } from '../hooks/useClickAwayListener.js';
 import { Button, ButtonBar } from './Button';
 import { shortcuts } from './HotKeyWrapper';
 
@@ -24,7 +25,18 @@ interface DropdownMenuProps {
 export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(triggerRef, false);
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setIsActive(false);
+    // Whenever the menu closes, assume that the next one will be opened with mouse
+    setUseKeys(false);
+    // Always reset to the top item on close
+    setSelectedIndex(0);
+  }, []);
+
+  useClickAwayListener([triggerRef], handleClose, isActive);
+
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -106,14 +118,6 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
       setX(triggerRect.x - menuRect.width + triggerRect.width);
     }
     isActive ? handleClose() : setIsActive(true);
-  }
-
-  function handleClose() {
-    setIsActive(false);
-    // Whenever the menu closes, assume that the next one will be opened with mouse
-    setUseKeys(false);
-    // Always reset to the top item on close
-    setSelectedIndex(0);
   }
 
   return (

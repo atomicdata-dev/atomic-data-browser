@@ -22,9 +22,12 @@ export const ThemeWrapper = ({ children }: ThemeWrapperProps): JSX.Element => {
   const { mainColor, darkMode } = useContext(SettingsContext);
 
   return (
-    <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
-      {children}
-    </ThemeProvider>
+    <>
+      {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
+      <ThemeProvider key={mainColor} theme={buildTheme(darkMode, mainColor)}>
+        {children}
+      </ThemeProvider>
+    </>
   );
 };
 

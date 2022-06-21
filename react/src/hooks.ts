@@ -296,7 +296,8 @@ export function useValue(
         // commit && (await resource.save(store));
         store.notify(resource);
       } catch (e) {
-        handleValidationError ? handleValidationError(e) : console.log(e);
+        // eslint-disable-next-line no-console
+        handleValidationError ? handleValidationError(e) : console.error(e);
       }
     }
     await setAsync();
@@ -313,7 +314,8 @@ export function useValue(
   try {
     value = resource.get(propertyURL);
     if (resource.getSubject().startsWith('http://localhost/sear')) {
-      console.log('useValue', val, resource.getSubject());
+      // eslint-disable-next-line no-console
+      console.error('useValue', val, resource.getSubject());
     }
   } catch (e) {
     store.handleError(e);
@@ -414,7 +416,8 @@ export function useArray(
   try {
     arr = valToArray(value);
   } catch (e) {
-    console.log(e, value, propertyURL, resource.getSubject());
+    // eslint-disable-next-line no-console
+    console.error(e, value, propertyURL, resource.getSubject());
   }
   return [arr, set];
 }

@@ -259,6 +259,7 @@ const GridItem = styled.div`
 const ButtonsBar = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: ${p => p.theme.margin}rem;
 `;
 
 /**

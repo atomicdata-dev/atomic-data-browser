@@ -61,8 +61,6 @@ const NavStyleButtonStyling = styled.button<NavStyleButtonStylingProps>`
   cursor: pointer;
   border: solid 1px
     ${p => (p.current ? p.theme.colors.mainLight : p.theme.colors.bg2)};
-  margin-right: 1rem;
-  margin-bottom: 1rem;
   border-radius: ${props => props.theme.radius};
   padding: 0;
   overflow: hidden;

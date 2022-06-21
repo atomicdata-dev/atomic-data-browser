@@ -46,5 +46,8 @@
       "data-browser"
     ]
   },
-  "packageManager": "yarn@3.2.1"
+  "packageManager": "yarn@3.2.1",
+  "dependencies": {
+    "eslint-plugin-import": "^2.26.0"
+  }
 }

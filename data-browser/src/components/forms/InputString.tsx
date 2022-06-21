@@ -9,14 +9,14 @@ export default function InputString({
   ...props
 }: InputProps): JSX.Element {
   const [err, setErr] = useState<Error>(null);
-  const [value, setVale] = useString(resource, property.subject, {
+  const [value, setValue] = useString(resource, property.subject, {
     handleValidationError: setErr,
   });
 
-  function handleUpdate(e) {
+  function handleUpdate(e: React.ChangeEvent<HTMLInputElement>): void {
     const newval = e.target.value;
     // I pass the error setter for validation purposes
-    setVale(newval);
+    setValue(newval);
   }
 
   return (
