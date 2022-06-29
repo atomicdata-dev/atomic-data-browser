@@ -60,7 +60,6 @@ export default function InputResourceArray({
         <FaPlus />
       </Button>
       {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
-      {array == [] && <ErrMessage>Required</ErrMessage>}
     </>
   );
 }
