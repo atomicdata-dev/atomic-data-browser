@@ -3,6 +3,7 @@ import {
   Datatype,
   datatypeFromUrl,
   fetchResource,
+  JSONValue,
   Resource,
   tryValidURL,
   unknownSubject,
@@ -26,6 +27,8 @@ export class Store {
   serverUrl: string;
   /** All the resources of the store */
   resources: Map<string, Resource>;
+  /**  All resources stored in reverse order: (value, property, subject) */
+  reverseStore: Map<string, Map<string, Array<string>>>;
   /** A list of all functions that need to be called when a certain resource is updated */
   subscribers: Map<string, Array<callback>>;
   /** Current Agent, used for signing commits. Is required for posting things. */
@@ -51,6 +54,7 @@ export class Store {
     opts.serverUrl && this.setAgent(opts.agent);
     this.resources = new Map();
     this.subscribers = new Map();
+    this.reverseStore = new Map();
     this.errorHandler = (e: Error) => {
       throw e;
     };
@@ -94,8 +98,41 @@ export class Store {
     }
 
     this.resources.set(resource.getSubject(), resource);
+
+    for (const [property, value] of resource.getPropVals()) {
+      this.parseJSON(value, property, resource.getSubject());
+    }
+
     // We clone
     this.notify(resource.clone());
+  }
+
+  addToReverseStore(value: string, property: string, subject: string) {
+    if (this.reverseStore.has(value)) {
+      if (this.reverseStore.get(value).has(property)) {
+        this.reverseStore.get(value).get(property).push(subject);
+      }
+      else {
+        this.reverseStore.get(value).set(property, [subject]);
+      }
+    }
+    else {
+      this.reverseStore.set(value, new Map([[property, [subject]]]));
+    }
+  }
+
+  parseJSON(value: JSONValue, property: string, subject: string) {
+    if (value === null) {
+      this.addToReverseStore(null, property, subject);
+    }
+    else if (typeof value === 'object') {
+      for (const subvalue of Object.values(value)) {
+        this.parseJSON(subvalue, property, subject);
+      }
+    }
+    else {
+      this.addToReverseStore(value.toString(), property, subject);
+    }
   }
 
   /** Checks if a subject is free to use */
