@@ -69,7 +69,11 @@ function App(): JSX.Element {
           <BrowserRouter basename='/'>
             <HotKeysWrapper>
               <ThemeWrapper>
-                <ErrorBoundary FallbackComponent={CrashPage}>
+                <ErrorBoundary
+                  {...(window.bugsnagApiKey
+                    ? { FallbackComponent: CrashPage }
+                    : {})}
+                >
                   {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
                   <GlobalStyle />
                   <Toaster />
