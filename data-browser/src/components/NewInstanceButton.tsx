@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { ReactNode, useCallback } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { newURL, openURL } from '../helpers/navigation';
 import {
   useCurrentAgent,
@@ -10,7 +10,7 @@ import {
 } from '@tomic/react';
 import { Button } from './Button';
 import { FaPlus } from 'react-icons/fa';
-import { classes, properties, Resource } from '@tomic/lib';
+import { classes, JSONValue, properties, Resource, Store } from '@tomic/lib';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
 
@@ -22,6 +22,33 @@ type NewIntanceButtonProps = {
   parent?: string;
   children?: ReactNode;
 };
+
+// resource.set(properties.name, 'New ChatRoom', store),
+// resource.set(properties.isA, [classes.chatRoom], store),;
+
+function createClickHandler(
+  store: Store,
+  parent: string,
+  title: string,
+  navigate: NavigateFunction,
+) {
+  return async (className: string, propVals: Record<string, JSONValue>) => {
+    const subject = store.createSubject(className);
+    const resource = new Resource(subject, true);
+
+    await Promise.all([
+      ...Object.entries(propVals).map(([key, val]) =>
+        resource.set(key, val, store),
+      ),
+      resource.set(properties.parent, parent, store),
+    ]);
+
+    await resource.save(store);
+
+    navigate(openURL(subject));
+    toast.success(`${title} created`);
+  };
+}
 
 /** A button for creating a new instance of some thing */
 function NewIntanceButton({
@@ -43,54 +70,48 @@ function NewIntanceButton({
     parent = store.getAgent()?.subject;
   }
 
-  let onClick = async function onClick() {
-    // Opens an `Edit` form with the class and a decent subject name
-    navigate(newURL(klass, parent, store.createSubject(shortname)));
-  };
-
-  switch (klass) {
-    case classes.chatRoom: {
-      onClick = async () => {
-        const subject = store.createSubject('chatRoom');
-        const resource = new Resource(subject, true);
-        await Promise.all([
-          resource.set(properties.name, 'New ChatRoom', store),
-          resource.set(properties.isA, [classes.chatRoom], store),
-          resource.set(properties.parent, parent, store),
-        ]);
-        await resource.save(store);
-        navigate(openURL(subject));
-        toast.success('ChatRoom created');
-      };
-      break;
-    }
-    case classes.document: {
-      onClick = async () => {
-        const subject = store.createSubject('documents');
-        const resource = new Resource(subject, true);
-        await Promise.all([
-          resource.set(properties.isA, [classes.document], store),
-          resource.set(properties.parent, parent, store),
-        ]);
-        await resource.save(store);
-        navigate(openURL(subject));
-        toast.success('Document created');
-      };
-    }
-  }
-
-  if (!agent) {
-    onClick = async () => {
+  const onClick = useCallback(async () => {
+    if (!agent) {
       toast.error('You need to be logged in to create new things');
       navigate(paths.agentSettings);
-    };
-  }
+      return;
+    }
+
+    const handleClick = createClickHandler(store, parent, title, navigate);
+    switch (klass) {
+      case classes.chatRoom: {
+        handleClick('chatRoom', {
+          [properties.name]: 'New ChatRoom',
+          [properties.isA]: [classes.chatRoom],
+        });
+        break;
+      }
+      case classes.document: {
+        handleClick('documents', {
+          [properties.isA]: [classes.document],
+        });
+        break;
+      }
+      case classes.bookmark: {
+        handleClick('bookmark', {
+          [properties.name]: 'New Bookmark',
+          [properties.bookmark.url]: 'https://example.com',
+          [properties.isA]: [classes.bookmark],
+        });
+        break;
+      }
+      default: {
+        // Opens an `Edit` form with the class and a decent subject name
+        navigate(newURL(klass, parent, store.createSubject(shortname)));
+      }
+    }
+  }, [klass, store, parent, agent]);
 
   return (
     <Button
       onClick={onClick}
       subtle={subtle}
-      title={agent ? `Create a new ${title}` : 'No User set - first sign in'}
+      title={agent ? `Create a new ${title}` : 'No User set - sign in first'}
     >
       {icon ? <FaPlus /> : `new ${title}`}
       {children}

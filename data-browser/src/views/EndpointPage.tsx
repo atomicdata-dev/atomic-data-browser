@@ -15,7 +15,7 @@ import Markdown from '../components/datatypes/Markdown';
 import ResourceField from '../components/forms/ResourceField';
 import { Button } from '../components/Button';
 import { openURL } from '../helpers/navigation';
-import ResourceCard from './ResourceCard';
+import ResourceCard from './Card/ResourceCard';
 
 type EndpointProps = {
   resource: Resource;

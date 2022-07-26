@@ -22,6 +22,7 @@ import { ResourcePageDefault } from './ResourcePageDefault';
 import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
+import { BookmarkPage } from './BookmarkPage';
 
 type Props = {
   subject: string;
@@ -89,6 +90,8 @@ function selectComponent(klass: string) {
       return ChatRoomPage;
     case urls.classes.message:
       return MessagePage;
+    case urls.classes.bookmark:
+      return BookmarkPage;
     default:
       return ResourcePageDefault;
   }
