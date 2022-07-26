@@ -3,7 +3,7 @@ import { ContainerNarrow } from '../components/Containers';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useNavigate } from 'react-router-dom';
 import { openURL, useSearchQuery } from '../helpers/navigation';
-import ResourceCard from '../views/ResourceCard';
+import ResourceCard from '../views/Card/ResourceCard';
 import { useServerSearch } from '@tomic/react';
 import { ErrorLook } from '../views/ResourceInline';
 

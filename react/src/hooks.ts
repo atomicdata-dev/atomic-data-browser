@@ -258,16 +258,8 @@ export function useValue(
   useEffect(() => {
     // Touched prevents the resource from being saved when it is loaded (and not changed)
     if (commit && touched) {
-      // This weird async wrapping is needed to use await in a react hook.
-      async function save() {
-        try {
-          setTouched(false);
-          await resource.save(store, store.getAgent());
-        } catch (e) {
-          store.handleError(e);
-        }
-      }
-      save();
+      setTouched(false);
+      resource.save(store, store.getAgent()).catch(e => store.handleError(e));
     }
   }, [JSON.stringify(debounced)]);
 
@@ -294,7 +286,8 @@ export function useValue(
         await resource.set(propertyURL, newVal, store, validate);
         handleValidationError && handleValidationError(null);
         // commit && (await resource.save(store));
-        store.notify(resource);
+        // Clone resource to force hooks to re-evaluate due to shallow comparison.
+        store.notify(resource.clone());
       } catch (e) {
         // eslint-disable-next-line no-console
         handleValidationError ? handleValidationError(e) : console.error(e);
@@ -320,10 +313,12 @@ export function useValue(
   } catch (e) {
     store.handleError(e);
   }
+
   // If it didn't work, return null to be more explicit
-  if (value == undefined) {
+  if (value === undefined || value === null) {
     return [null, validateAndSet];
   }
+
   return [value, validateAndSet];
 }
 
@@ -356,7 +351,7 @@ export function useSubject(
   opts?: useValueOptions,
 ): [string | null, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
-  if (val == null) {
+  if (val === null) {
     return [null, setVal];
   }
   if (typeof val === 'string') {
