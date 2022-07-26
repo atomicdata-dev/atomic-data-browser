@@ -40,7 +40,7 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
 /** Gets the Agent from local storage, if any. Useful when initializing app */
 export function initAgentFromLocalStorage(): Agent | null {
   const lsItem = localStorage.getItem(AGENT_LOCAL_STORAGE_KEY);
-  if (lsItem == null) {
+  if (lsItem == null || lsItem === 'undefined') {
     return null;
   }
   const agentJSON = JSON.parse(lsItem);
