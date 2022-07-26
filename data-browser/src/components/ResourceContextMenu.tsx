@@ -12,7 +12,7 @@ import {
 import { DropdownMenu, MenuItemMinimial } from '../components/DropdownMenu';
 import toast from 'react-hot-toast';
 import { paths } from '../routes/paths';
-import { shortcuts } from './HotKeyWrapper.jsx';
+import { shortcuts } from './HotKeyWrapper';
 
 type Props = {
   subject: string;

@@ -7,7 +7,7 @@ import {
   Property,
   Resource,
   Store,
-} from './index.js';
+} from './index';
 
 /** Returns the Typescript interface string based on the Class */
 export async function classToTypescriptDefinition(
@@ -15,10 +15,13 @@ export async function classToTypescriptDefinition(
   store: Store,
 ): Promise<string> {
   function renderProperty(property: Property, required: boolean) {
-    return `  /** ${property.description}*/\n  "${property.shortname}"${
-      required ? '' : '?'
-    }: ${dataTypeToJSONType(property.datatype)};\n`;
+    const description = `/** ${property.description}*/`;
+    const shortname = `"${property.shortname}"${required ? '' : '?'}`;
+    const datatype = dataTypeToJSONType(property.datatype);
+
+    return `  ${description}\n  ${shortname}: ${datatype};\n`;
   }
+
   const requires = await Promise.all(
     klass.getArray(properties.requires).map(s => store.getProperty(s)),
   );

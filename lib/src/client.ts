@@ -13,7 +13,7 @@ import {
   serializeDeterministically,
   signToBase64,
   Store,
-} from './index.js';
+} from './index';
 
 /** Works both in node and the browser */
 import fetch from 'cross-fetch';

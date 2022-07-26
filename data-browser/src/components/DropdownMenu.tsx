@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEllipsisV } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useClickAwayListener } from '../hooks/useClickAwayListener.js';
+import { useClickAwayListener } from '../hooks/useClickAwayListener';
 import { Button, ButtonBar } from './Button';
 import { shortcuts } from './HotKeyWrapper';
 

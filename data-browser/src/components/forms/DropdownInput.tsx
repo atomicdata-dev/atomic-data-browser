@@ -25,7 +25,7 @@ interface DropDownListProps {
   onRemove?: () => void;
   placeholder?: string;
   disabled?: boolean;
-  classType: string;
+  classType?: string;
 }
 
 type CreateOption = {
@@ -260,7 +260,7 @@ interface DropDownItemsMenuProps {
   setIsOpen: (isOpen: boolean) => void;
   isOpen: boolean;
   inDialogTree: boolean;
-  classType: string;
+  classType?: string;
 }
 
 function scrollIntoView(

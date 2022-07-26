@@ -1,6 +1,6 @@
-import { isArray, JSONValue, Store } from './index.js';
-import { Resource, unknownSubject } from './resource.js';
-import { JSONObject } from './value.js';
+import { isArray, JSONValue, Store } from './index';
+import { Resource, unknownSubject } from './resource';
+import { JSONObject } from './value';
 
 /**
  * Parses an JSON-AD object containing a resource, adds it to the input
@@ -50,11 +50,9 @@ export function parseJsonADResource(
           resource.setUnsafe(key, subject);
         }
       } catch (e) {
-        throw new Error(
-          `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}. ${
-            e.message
-          }`,
-        );
+        const baseMsg = `Failed creating value ${value} for key ${key} in resource ${resource.getSubject()}`;
+        const errorMsg = `${baseMsg}. ${e.message}`;
+        throw new Error(errorMsg);
       }
     }
     resource.loading == false;

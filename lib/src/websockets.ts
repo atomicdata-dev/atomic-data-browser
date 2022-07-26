@@ -1,4 +1,4 @@
-import { parseAndApplyCommit, Store } from './index.js';
+import { parseAndApplyCommit, Store } from './index';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(store: Store): WebSocket {
@@ -35,7 +35,7 @@ function handleMessage(ev: MessageEvent, store: Store) {
 }
 
 function handleError(ev: Event) {
-  console.log('websocket error:', ev);
+  console.error('websocket error:', ev);
 }
 
 // function handleClose(ev: CloseEvent) { }

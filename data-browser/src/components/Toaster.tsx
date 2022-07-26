@@ -40,7 +40,6 @@ export function Toaster(): JSX.Element {
               {t.type !== 'loading' && (
                 <Button
                   title='Clear'
-                  noMargins
                   subtle
                   onClick={() => toast.dismiss(t.id)}
                 >

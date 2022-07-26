@@ -118,7 +118,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     }
     // Auto-grow the textarea
     const overflowStyle = e.target.style.overflow;
-    e.target.style.overflow = "scroll";
+    e.target.style.overflow = 'scroll';
     // in Firefox, scrollHeight only works if overflow is set to scroll
     const height = e.target.scrollHeight;
     e.target.style.overflow = overflowStyle;
@@ -258,7 +258,7 @@ const Message = React.memo(function Message({
         text={collapsed ? shortenedDescription : description}
       />
       {description.length > MESSAGE_MAX_LEN && collapsed && (
-        <Button noMargins subtle onClick={() => setCollapsed(false)}>
+        <Button subtle onClick={() => setCollapsed(false)}>
           {'Read more '}
         </Button>
       )}
@@ -367,7 +367,6 @@ const MessageInput = styled.textarea`
   min-height: 2rem;
   max-height: 50vh;
   font-family: ${p => p.theme.fontFamily};
-}
 `;
 
 /** Wrapper for the new message form */
@@ -414,18 +413,8 @@ function MessagesPage({ subject, setReplyTo }: MessagesPageProps) {
   const resource = useResource(subject);
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [nextPage] = useString(resource, properties.chatRoom.nextPage);
-  const [inView, setInView] = useState(true);
+  const [inView] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
-
-  // Observe if the element is in view
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries, observer) => {
-      const entry = entries[0];
-      console.log('entry', entry);
-      console.log('entry.isIntersecting', entry.isIntersecting);
-    });
-    ref.current && observer.observe(ref.current);
-  }, [ref]);
 
   if (!inView) {
     return <>Not in view...</>;

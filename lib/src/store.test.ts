@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Resource, urls, Store } from './index.js';
+import { Resource, urls, Store } from './index';
 
 describe('Store', () => {
   it('renders the populate value', async () => {

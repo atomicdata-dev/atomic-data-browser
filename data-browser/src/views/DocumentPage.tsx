@@ -28,7 +28,7 @@ import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';
 import { UploadWrapper } from '../components/forms/UploadForm';
 import toast from 'react-hot-toast';
-import { shortcuts } from '../components/HotKeyWrapper.jsx';
+import { shortcuts } from '../components/HotKeyWrapper';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {

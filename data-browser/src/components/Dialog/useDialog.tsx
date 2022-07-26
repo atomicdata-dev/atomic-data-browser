@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { InternalDialogProps } from './index.jsx';
+import { InternalDialogProps } from './index';
 
 export type UseDialogReturnType = [
   /** Props meant to pass to a {@link Dialog} component */

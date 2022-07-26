@@ -7,7 +7,7 @@ import {
   signAt,
   signToBase64,
   Store,
-} from './index.js';
+} from './index';
 
 describe('temporarily empty test', () => {
   it('', () => {

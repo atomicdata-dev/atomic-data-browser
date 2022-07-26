@@ -2,16 +2,14 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useId,
   useLayoutEffect,
   useRef,
-  useState,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaTimes } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
-import { effectTimeout } from '../../helpers/effectTimeout.js';
+import { effectTimeout } from '../../helpers/effectTimeout';
 import { Button } from '../Button';
 import { Slot } from '../Slot';
 import { DialogPortalContext, DialogTreeContext } from './dialogContext';
@@ -84,7 +82,7 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   // Close the dialog when the escape key is pressed
   useHotkeys(
     'esc',
-    e => {
+    () => {
       onClose();
     },
     { enabled: show },
@@ -100,12 +98,14 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   useEffect(() => {
     if (show && dialogRef.current) {
       if (!dialogRef.current.hasAttribute('open'))
+        // @ts-ignore
         dialogRef.current.showModal();
     }
 
     if (dialogRef.current.hasAttribute('data-closing')) {
       // TODO: Use getAnimations() api to wait for the animations to complete instead of a timeout.
       return effectTimeout(() => {
+        // @ts-ignore
         dialogRef.current.close();
         dialogRef.current.removeAttribute('data-closing');
         onClosed();
