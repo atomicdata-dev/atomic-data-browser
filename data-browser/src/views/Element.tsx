@@ -14,7 +14,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import ResourceInline, { ErrorLook } from './ResourceInline';
 import Markdown from '../components/datatypes/Markdown';
-import ResourceCard from './ResourceCard';
+import ResourceCard from './Card/ResourceCard';
 import { shortcuts } from '../components/HotKeyWrapper';
 
 interface ElementShowProps {

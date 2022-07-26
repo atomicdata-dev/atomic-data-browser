@@ -140,6 +140,10 @@ declare module 'styled-components' {
 /** Adds basic styles for the entire app */
 export const GlobalStyle = createGlobalStyle`
 
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     background-color: ${props => props.theme.colors.bgBody};
     color: ${props => props.theme.colors.text};
