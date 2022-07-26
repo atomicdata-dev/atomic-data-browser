@@ -1,6 +1,6 @@
 import { isValidURL } from '@tomic/lib';
 import { useEffect, useState } from 'react';
-import { useLocalStorage, useStore } from './index.js';
+import { useLocalStorage, useStore } from './index';
 
 /**
  * A hook for using and adjusting the Server URL. Also saves to localStorage. If

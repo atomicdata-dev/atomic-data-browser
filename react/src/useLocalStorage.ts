@@ -19,7 +19,8 @@ export function useLocalStorage<T>(
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
-      console.log(`Error finding ${key} in localStorage:`, error);
+      // eslint-disable-next-line no-console
+      console.error(`Error finding ${key} in localStorage:`, error);
       return initialValue;
     }
   });
@@ -37,7 +38,8 @@ export function useLocalStorage<T>(
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
       // A more advanced implementation would handle the error case
-      console.log(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 

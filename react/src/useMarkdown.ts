@@ -9,7 +9,7 @@ import {
   valToDate,
 } from '@tomic/lib';
 import { useEffect, useState } from 'react';
-import { useStore, useString, useTitle } from './index.js';
+import { useStore, useString, useTitle } from './index';
 
 /** Properties not relevant to show in PropValLines */
 const hiddenProps = [

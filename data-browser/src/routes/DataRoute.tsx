@@ -12,7 +12,7 @@ import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
 import { ErrorLook } from '../views/ResourceInline';
 import { PageTitle } from '../components/PageTitle';
-import { Row } from '../components/Row.jsx';
+import { Row } from '../components/Row';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {

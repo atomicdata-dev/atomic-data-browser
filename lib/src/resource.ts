@@ -10,7 +10,7 @@ import {
   tryValidURL,
   validateDatatype,
   valToArray,
-} from './index.js';
+} from './index';
 
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;
@@ -250,7 +250,7 @@ export class Resource {
     try {
       delete this.commitBuilder.set[propertyUrl];
     } catch (e) {
-      console.log('Item not present in commitbuilder.set');
+      console.error('Item not present in commitbuilder.set');
     }
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);

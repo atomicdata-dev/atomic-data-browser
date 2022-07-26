@@ -45,7 +45,7 @@ export function SettingsServer(): JSX.Element {
           />
         </InputWrapper>
       </FieldStyled>
-      <ErrMessage>{baseUrlErr}</ErrMessage>
+      <ErrMessage>{baseUrlErr.message}</ErrMessage>
       <Button
         onClick={() => handleSetBaseUrl(baseUrlInput)}
         disabled={baseURL == baseUrlInput}

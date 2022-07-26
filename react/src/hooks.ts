@@ -15,7 +15,7 @@ import {
   valToString,
 } from '@tomic/lib';
 import React from 'react';
-import { useDebounce } from './index.js';
+import { useDebounce } from './index';
 
 /**
  * Hook for getting a Resource in a React component. Will try to fetch the

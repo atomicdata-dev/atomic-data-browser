@@ -49,7 +49,6 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
       if (navigationType != 'POP') {
         // Fetch that resource again
         store.fetchResource(destination);
-        console.log('navigate!', destination);
         navigate(openURL(destination));
       }
     }
@@ -69,6 +68,3 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
 }
 
 export default RedirectPage;
-function usenavigationType() {
-  throw new Error('Function not implemented.');
-}

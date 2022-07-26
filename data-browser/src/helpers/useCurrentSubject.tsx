@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useQueryString } from './navigation.jsx';
+import { useQueryString } from './navigation';
 
 type setFunc = (latestValue: string) => void;
 

@@ -1,5 +1,5 @@
 import { properties, useResource, useStore, useTitle } from '@tomic/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useQueryString } from '../../../helpers/navigation';
 import { Button } from '../../Button';
 import { DialogActions, DialogContent, DialogTitle } from '../../Dialog';

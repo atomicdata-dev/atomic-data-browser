@@ -13,11 +13,13 @@ export function handleError(e: Error): void {
 }
 
 export function handleWarning(e: Error | string): void {
+  // eslint-disable-next-line no-console
   console.warn(e);
   // TODO maybe handle these in Bugsnag?
 }
 
 export function handleInfo(e: Error): void {
+  // eslint-disable-next-line no-console
   console.info(e);
   if (!isDev) {
     Bugsnag.notify(e);

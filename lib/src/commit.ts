@@ -6,8 +6,8 @@ import { decode as decodeB64, encode as encodeB64 } from 'base64-arraybuffer';
 import { sha512 } from '@noble/hashes/sha512';
 utils.sha512 = msg => Promise.resolve(sha512(msg));
 
-import { properties, urls } from './urls.js';
-import { Store } from './store.js';
+import { properties, urls } from './urls';
+import { Store } from './store';
 import {
   isArray,
   JSONArray,
@@ -15,7 +15,7 @@ import {
   parseJsonAdResourceValue,
   removeQueryParamsFromURL,
   Resource,
-} from './index.js';
+} from './index';
 
 /** A {@link Commit} without its signature, signer and timestamp */
 export interface CommitBuilderI {
@@ -288,8 +288,7 @@ export function parseCommit(str: string): Commit {
 export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   // Parse the commit
   const parsed = parseCommit(jsonAdObjStr);
-  const { subject, set, remove, previousCommit, id, destroy, signature, push } =
-    parsed;
+  const { subject, set, remove, id, destroy, signature, push } = parsed;
 
   let resource = store.resources.get(subject);
 

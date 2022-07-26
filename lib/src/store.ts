@@ -7,8 +7,8 @@ import {
   tryValidURL,
   unknownSubject,
   urls,
-} from './index.js';
-import { startWebsocket } from './websockets.js';
+} from './index';
+import { startWebsocket } from './websockets';
 
 type callback = (resource: Resource) => void;
 

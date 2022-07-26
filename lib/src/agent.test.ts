@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Agent } from './index.js';
+import { Agent } from './index';
 
 describe('Agent', () => {
   it('Constructs valid ', async () => {
