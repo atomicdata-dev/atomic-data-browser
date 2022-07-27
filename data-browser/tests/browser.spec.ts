@@ -120,7 +120,9 @@ test.describe('data-browser', async () => {
     await page.click('[data-test="next-page"]');
     await expect(page.locator('text=A base64')).not.toBeVisible();
     // Some item on the second page. Can change as the amount of properties grows!
-    await expect(page.locator('text=should be given the rights')).toBeVisible();
+    await expect(
+      page.locator('text=Filter results by this property URL.'),
+    ).toBeVisible();
 
     // context menu, keyboard & data view
     await page.click('[data-test="context-menu"]');
@@ -249,10 +251,11 @@ test.describe('data-browser', async () => {
     ).toBeVisible();
     const inviteUrl = await page.evaluate(() =>
       document
-        .querySelector('[data-code-content]')
-        .getAttribute('data-code-content'),
+        ?.querySelector('[data-code-content]')
+        ?.getAttribute('data-code-content'),
     );
 
+    expect(inviteUrl).not.toBeNull();
     // const value = await page.evaluate(() =>
     //   document.querySelector('input').getAttribute('value'),
     // );
@@ -262,7 +265,7 @@ test.describe('data-browser', async () => {
     // );
     // const inviteUrl = await navigator.clipboard.readText();
     // Open invite
-    await openSubject(page2, inviteUrl);
+    await openSubject(page2, inviteUrl!);
     await page2.click('button:has-text("Accept")');
     await expect(
       page2.locator('text=Welcome to your Atomic-Server'),
@@ -278,7 +281,7 @@ test.describe('data-browser', async () => {
     await expect(await page.locator('text=Share settings saved')).toBeVisible();
   });
 
-  test('upload, download', async ({ page, browser, context }) => {
+  test('upload, download', async ({ page }) => {
     await signIn(page);
     await page.goto(
       `${frontEndUrl}/app/edit?subject=http%3A%2F%2Flocalhost%3A9883%2Ffiles`,
@@ -292,6 +295,51 @@ test.describe('data-browser', async () => {
     await expect(
       await page.locator('[data-test="image-viewer"]'),
     ).toBeVisible();
+  });
+
+  test('dialog', async ({ page }) => {
+    await signIn(page);
+    // Click text=new resource
+    await page.locator('text=new resource').click();
+
+    await expect(page).toHaveURL('http://localhost:3000/app/new');
+
+    // Click text=new class
+    await page.locator('text=new class').click();
+
+    // Click .sc-kfPuZi > button >> nth=0
+    await page.locator('.sc-kfPuZi > button').first().click();
+    // Click [data-test="input-recommends"]
+    await page.locator('[data-test="input-recommends"]').click();
+    // Fill [data-test="input-recommends"]
+    await page.locator('[data-test="input-recommends"]').fill('test-prop');
+    // Click text=Create property: test-prop
+    await page.locator('text=Create property: test-prop').click();
+
+    await expect(
+      await page.locator('h1:has-text("new property")'),
+    ).toBeVisible();
+
+    // Click [data-test="input-datatype"]
+    await page.locator('[data-test="input-datatype"]').click();
+    // Click li:has-text("boolean - Either `true` or `false`. In JSON-AD, th...")
+    await page
+      .locator(
+        'li:has-text("boolean - Either `true` or `false`. In JSON-AD, th...")',
+      )
+      .click();
+    // Click text=shortname datatype boolean description H1H2H3HREditorPreviewH1H2H3HRclasstype is >> textarea[name="yamdeContent"]
+    await page.locator('dialog textarea[name="yamdeContent"]').click();
+    // Fill text=shortname datatype boolean description H1H2H3HREditorPreviewH1H2H3HRclasstype is >> textarea[name="yamdeContent"]
+    await page
+      .locator('dialog textarea[name="yamdeContent"]')
+      .fill('This is a test prop');
+    // Click footer >> text=Save
+    await page.locator('dialog footer >> text=Save').click();
+
+    expect(page.locator('[data-test="input-recommends"] >> nth=0')).toHaveValue(
+      'test-prop',
+    );
   });
 });
 
