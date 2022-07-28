@@ -1,3 +1,5 @@
+import { properties } from './urls.js';
+
 export enum ErrorType {
   Unauthorized = 'Unauthorized',
   NotFound = 'NotFound',
@@ -27,5 +29,16 @@ export class AtomicError extends Error {
     // https://stackoverflow.com/questions/31626231/custom-error-class-in-typescript
     Object.setPrototypeOf(this, AtomicError.prototype);
     this.type = type;
+
+    // The server should send Atomic Data Errors, which are JSON-AD resources with a Description.
+    try {
+      const parsed = JSON.parse(message);
+      const description = parsed[properties.description];
+      if (description) {
+        this.message = description;
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 }
