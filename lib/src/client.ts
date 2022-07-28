@@ -1,4 +1,5 @@
 // Provides functionality to interact with an Atomic Server.
+// Send requests to the server and receive responses.
 
 import {
   Agent,
@@ -26,6 +27,8 @@ interface HeadersObject {
   [key: string]: string;
 }
 
+const JsonAdMime = 'application/ad+json';
+
 /**
  * Fetches and Parses a Resource. Can fetch through another atomic server if you
  * pass the `from` argument, which should be the baseURL of an Atomic Server. If
@@ -48,7 +51,7 @@ export async function fetchResource(
   try {
     tryValidURL(subject);
     const requestHeaders: HeadersObject = {};
-    requestHeaders['Accept'] = 'application/ad+json';
+    requestHeaders['Accept'] = JsonAdMime;
     // Sign the request if there is an agent present
     store &&
       store.getAgent() &&
@@ -82,8 +85,11 @@ export async function fetchResource(
         `You don't have the rights to do view ${subject}. Are you signed in with the right Agent? More detailed error from server: ${body}`,
         ErrorType.Unauthorized,
       );
+    } else if (response.status == 500) {
+      const error = new AtomicError(body, ErrorType.Server);
+      resource.setError(error);
     } else {
-      const error = new AtomicError(`${response.status} error: ${body}`);
+      const error = new AtomicError(body);
       resource.setError(error);
     }
   } catch (e) {
@@ -218,4 +224,18 @@ export async function uploadFiles(
     fileSubjects.push(r.getSubject());
   }
   return fileSubjects;
+}
+
+/** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
+export async function importJsonAdUrl(
+  /** The URL of the JSON-AD to import */
+  jsonAdUrl: string,
+  /** Importer URL. Servers tend to have one at `example.com/import` */
+  importerUrl: string,
+  store: Store,
+) {
+  const url = new URL(importerUrl);
+  url.searchParams.set('url', jsonAdUrl);
+  const resourceReturned = await fetchResource(url.toString(), store);
+  return resourceReturned;
 }

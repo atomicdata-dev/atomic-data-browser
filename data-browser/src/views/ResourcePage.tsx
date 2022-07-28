@@ -23,6 +23,7 @@ import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage';
+import { ImporterPage } from './ImporterPage.jsx';
 
 type Props = {
   subject: string;
@@ -92,6 +93,8 @@ function selectComponent(klass: string) {
       return MessagePage;
     case urls.classes.bookmark:
       return BookmarkPage;
+    case urls.classes.importer:
+      return ImporterPage;
     default:
       return ResourcePageDefault;
   }

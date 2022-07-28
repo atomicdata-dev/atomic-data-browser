@@ -367,7 +367,6 @@ export class Store {
   subscribe(subject: string, callback: callback): void {
     if (subject == undefined) {
       throw Error('Cannot subscribe to undefined subject');
-      return;
     }
     let callbackArray = this.subscribers.get(subject);
     if (callbackArray == undefined) {
@@ -381,6 +380,10 @@ export class Store {
 
   subscribeWebSocket(subject: string): void {
     if (subject == unknownSubject) {
+      return;
+    }
+    // Don't subscribe to resources that the server can't handle
+    if (!subject.startsWith(this.serverUrl)) {
       return;
     }
     // TODO: check if there is a websocket for this server URL or not

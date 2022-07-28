@@ -22,7 +22,7 @@ import { useDebounce } from './index';
  * subject and add its parsed values to the store.
  */
 export function useResource(
-  subject: string,
+  subject?: string,
   opts: {
     /**
      * If this is true, incomplete resources will not be automatically fetched.

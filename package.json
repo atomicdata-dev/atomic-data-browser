@@ -37,6 +37,7 @@
     "test": "yarn workspaces foreach run test",
     "publish": "yarn workspaces foreach --no-private npm publish",
     "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",
+    "start-lib": "yarn workspace @tomic/lib watch",
     "typedoc": "typedoc . --options typedoc.json"
   },
   "workspaces": {

@@ -19,6 +19,7 @@ export const classes = {
   invite: 'https://atomicdata.dev/classes/Invite',
   file: 'https://atomicdata.dev/classes/File',
   message: 'https://atomicdata.dev/classes/Message',
+  importer: 'https://atomicdata.dev/classes/Importer',
 };
 
 /** List of commonly used Atomic Data Properties. */

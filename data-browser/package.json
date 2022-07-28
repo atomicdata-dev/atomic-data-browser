@@ -40,7 +40,7 @@
     "types-wm": "^1.1.0",
     "workbox-cli": "^6.4.1"
   },
-  "homepage": "https://joepio.github.io/atomic-data-browser/",
+  "homepage": "https://atomicdata.dev/",
   "husky": {
     "hooks": {
       "pre-push": "yarn lint && npm test"
