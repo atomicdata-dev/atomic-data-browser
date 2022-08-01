@@ -96,7 +96,11 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   }, [show]);
 
   useEffect(() => {
-    if (show && dialogRef.current) {
+    if (!dialogRef.current) {
+      return;
+    }
+
+    if (show) {
       if (!dialogRef.current.hasAttribute('open'))
         // @ts-ignore
         dialogRef.current.showModal();
