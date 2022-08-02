@@ -45,7 +45,7 @@ module.exports = {
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations// New rules
     'class-methods-use-this': 'off',
     //Allow underscores https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
-    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+    '@typescript-eslint/no-unused-vars': ['error', { 'varsIgnorePattern': '^_', 'argsIgnorePattern': '^_' }],
     'react-hooks/exhaustive-deps': 'off',
     // 'no-unused-vars': ["error", { "ie": "^_" }],
     'import/prefer-default-export': 'off',

@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
 
-import { openURL } from '../../helpers/navigation';
+import { constructOpenURL } from '../../helpers/navigation';
 import { Button } from '../Button';
 import ResourceField from './ResourceField';
 import { ErrMessage } from './InputStyles';
@@ -33,8 +33,6 @@ export interface ResourceFormProps {
    * form fields.
    */
   classSubject?: string;
-  /** The parent of the new resource, used for authorization checks and navigation. */
-  parent?: string;
   /** Resource that is to be either changed or created */
   resource: Resource;
 
@@ -52,7 +50,6 @@ const nonEssentialProps = [
 export function ResourceForm({
   classSubject,
   resource,
-  parent,
   variant,
 }: ResourceFormProps): JSX.Element {
   const [isAArray] = useArray(resource, properties.isA);
@@ -74,7 +71,7 @@ export function ResourceForm({
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [save, saving, err] = useSaveResource(resource, () => {
-    navigate(openURL(resource.getSubject()));
+    navigate(constructOpenURL(resource.getSubject()));
   });
   // const { agent } = useSettings();
   // const debouncedResource = useDebounce(resource, 5000);
@@ -82,7 +79,6 @@ export function ResourceForm({
   //   debouncedResource,
   //   agent?.subject,
   // );
-  const [, setResourceParent] = useString(resource, properties.parent);
 
   // Sets agent warning / eror
   // Currently not reliable
@@ -96,13 +92,6 @@ export function ResourceForm({
   //     setErr(null);
   //   }
   // }, [canWrite, canWriteErr, agent]);
-
-  // Sets the parent
-  useEffect(() => {
-    if (parent) {
-      setResourceParent(parent);
-    }
-  }, [parent, resource]);
 
   /** Builds otherProps */
   useEffect(() => {

@@ -19,7 +19,7 @@ import {
 } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 import { ErrorLook } from '../views/ResourceInline';
-import { openURL } from '../helpers/navigation';
+import { constructOpenURL } from '../helpers/navigation';
 import { SignInButton } from './SignInButton';
 import AtomicLink, { AtomicLinkProps } from './AtomicLink';
 
@@ -200,7 +200,7 @@ const SideBarDrive = React.memo(function SBD({
           data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
-            navigate(openURL(baseURL));
+            navigate(constructOpenURL(baseURL));
           }}
           style={{ flex: 1, textAlign: 'left' }}
         >

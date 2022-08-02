@@ -4,7 +4,7 @@ import { useNavigate, useNavigationType } from 'react-router-dom';
 
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
-import { openURL } from '../helpers/navigation';
+import { constructOpenURL } from '../helpers/navigation';
 import AllProps from '../components/AllProps';
 import { useSettings } from '../helpers/AppSettings';
 import { Button } from '../components/Button';
@@ -49,7 +49,7 @@ function RedirectPage({ resource }: ResourcePageProps): JSX.Element {
       if (navigationType != 'POP') {
         // Fetch that resource again
         store.fetchResource(destination);
-        navigate(openURL(destination));
+        navigate(constructOpenURL(destination));
       }
     }
   });

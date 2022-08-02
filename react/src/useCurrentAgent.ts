@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Agent } from '@tomic/lib';
 import { useLocalStorage, useStore } from './index';
 
@@ -20,13 +20,16 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
   // In memory representation of the full Agent
   const [stateAgent, setStateAgent] = useState<Agent>(store.getAgent());
 
-  function handleSetAgent(agent: Agent | null) {
-    setAgentJSON(agent);
-    setStateAgent(agent);
-    // Also update the Agent inside the store
-    store.setAgent(agent);
-    return;
-  }
+  const handleSetAgent = useCallback(
+    (agent: Agent | null) => {
+      setAgentJSON(agent);
+      setStateAgent(agent);
+      // Also update the Agent inside the store
+      store.setAgent(agent);
+      return;
+    },
+    [store],
+  );
 
   useEffect(() => {
     if (agentJSON && store.getAgent() == null && stateAgent == null) {

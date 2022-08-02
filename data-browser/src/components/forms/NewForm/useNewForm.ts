@@ -25,12 +25,17 @@ export const useNewForm = (
   const store = useStore();
   const [subjectValue, setSubjectValue] = useState<string>(subject.toString());
   const resource = useResource(subject.toString(), resourseOpts);
+  const [_, setParent] = useString(resource, properties.parent);
 
   useEffect(() => {
     if (subject == undefined) {
       setSubject(store.createSubject(klassShortname));
     }
   }, [subject]);
+
+  useEffect(() => {
+    setParent(parentSubject);
+  }, [parentSubject]);
 
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);
@@ -63,6 +68,5 @@ export const useNewForm = (
     subjectValue,
     setSubjectValue,
     resource,
-    parentSubject,
   };
 };
