@@ -1,6 +1,7 @@
 import { properties, useResource, useStore, useTitle } from '@tomic/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useQueryString } from '../../../helpers/navigation';
+import { useEffectOnce } from '../../../hooks/useEffectOnce';
 import { Button } from '../../Button';
 import { DialogActions, DialogContent, DialogTitle } from '../../Dialog';
 import { useSaveResource } from '../hooks/useSaveResource';
@@ -62,7 +63,7 @@ export const NewFormDialog = ({
   // Wrap in useState to avoid changing the value when the prop changes.
   const [initialShortname] = useState(initialTitle);
 
-  const [subject, setSubject] = useState(store.createSubject(className));
+  const [subject, setSubject] = useState(store.createSubject());
 
   const { subjectErr, subjectValue, setSubjectValue, resource, parentSubject } =
     useNewForm(klass, subject, setSubject);
@@ -73,7 +74,7 @@ export const NewFormDialog = ({
   }, [onSave, closeDialog, resource]);
 
   // Onmount we generate a new subject based on the classtype and the user input.
-  useEffect(() => {
+  useEffectOnce(() => {
     store.buildUniqueSubjectFromParts(className, initialShortname).then(val => {
       setSubjectValue(val);
     });
@@ -81,7 +82,7 @@ export const NewFormDialog = ({
     // Set the shortname to the initial user input of a dropdown.
     // In the future we might need to change this when we want to have forms other than `property` and`class` in dialogs.
     resource.set(properties.shortname, initialShortname, store);
-  }, []);
+  });
 
   const [save, saving, error] = useSaveResource(resource, onResourceSave);
 

@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## UNRELEASED
+
+- Add dialog / modal view #24
+
 ## v0.31.1
 
 - Fix Dropdown input bug
