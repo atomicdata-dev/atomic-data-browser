@@ -168,7 +168,7 @@ export function ResourceForm({
 
   return (
     <form about={resource.getSubject()}>
-      {klass.error && (
+      {classSubject && klass.error && (
         <ErrMessage>
           Error in class. {klass.getError().message}. You can still edit the
           resource, though.

@@ -12,7 +12,8 @@ export enum NewFormTitleVariant {
 
 export interface NewFormTitleProps {
   variant?: NewFormTitleVariant;
-  classSubject: string;
+  /** The URL of the Class, if available */
+  classSubject?: string;
 }
 
 const variantHeaderMapping = new Map<
@@ -38,7 +39,12 @@ export const NewFormTitle: React.FC<NewFormTitleProps> = ({
   return (
     <>
       <HeadingComp>
-        new <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>{' '}
+        new{' '}
+        {classSubject ? (
+          <AtomicLink subject={classSubject}>{klassTitle}</AtomicLink>
+        ) : (
+          'Resource'
+        )}
         <Button
           onClick={() => setShowDetails(!showDetails)}
           icon
