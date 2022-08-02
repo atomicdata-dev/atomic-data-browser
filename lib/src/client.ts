@@ -86,11 +86,9 @@ export async function fetchResource(
         ErrorType.Unauthorized,
       );
     } else if (response.status == 500) {
-      const error = new AtomicError(body, ErrorType.Server);
-      resource.setError(error);
+      throw new AtomicError(body, ErrorType.Server);
     } else {
-      const error = new AtomicError(body);
-      resource.setError(error);
+      throw new AtomicError(body);
     }
   } catch (e) {
     resource.setError(e);
@@ -117,11 +115,11 @@ export async function postCommit(
       body: serialized,
     });
   } catch (e) {
-    throw new Error(`Posting Commit to ${endpoint} failed: ${e}`);
+    throw new AtomicError(`Posting Commit to ${endpoint} failed: ${e}`);
   }
   const body = await response.text();
   if (response.status !== 200) {
-    throw new Error(body);
+    throw new AtomicError(body, ErrorType.Server);
   }
   return parseCommit(body);
 }
