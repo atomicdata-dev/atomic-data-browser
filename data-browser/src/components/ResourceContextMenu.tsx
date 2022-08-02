@@ -5,7 +5,7 @@ import { useStore } from '@tomic/react';
 import {
   editURL,
   dataURL,
-  openURL,
+  constructOpenURL,
   versionsURL,
   shareURL,
 } from '../helpers/navigation';
@@ -58,7 +58,7 @@ function ResourceContextMenu({ subject, hide }: Props): JSX.Element {
       id: 'view',
       label: 'normal view',
       helper: 'Open the regular, default View.',
-      onClick: () => navigate(openURL(subject)),
+      onClick: () => navigate(constructOpenURL(subject)),
     },
     {
       disabled: location.pathname.startsWith(paths.data),

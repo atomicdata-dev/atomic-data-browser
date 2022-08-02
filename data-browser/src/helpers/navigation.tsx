@@ -5,31 +5,30 @@ import { paths } from '../routes/paths';
 function constructURL(
   /** The base path, e.g. '/new' */
   path: string,
-  /** The query parameter key, e.g. 'subject' for '/new?subject={}' */
-  queryParam: string,
-  /** The actual value, e.g. 'https://example.com/myReosource' */
-  value: string,
+  queryParams: Record<string, string> | string[][],
 ): string {
-  const navTo = new URL(location.origin);
-  navTo.pathname = path;
-  navTo.searchParams.append(queryParam, value);
-  return path + navTo.search;
+  const params = new URLSearchParams(queryParams);
+
+  return `${path}?${params}`;
 }
 
 /** Constructs a URL for opening / showing a Resource. */
-export function openURL(subject: string): string {
+export function constructOpenURL(
+  subject: string,
+  extraParams: Record<string, string> = {},
+): string {
   const url = new URL(subject);
-  if (window.location.origin == url.origin) {
+  if (window.location.origin === url.origin) {
     const path = url.pathname + url.search;
-    if (path == '/') return '';
+    if (path === '/') return '';
     return path;
   } else {
-    return constructURL(paths.show, 'subject', subject);
+    return constructURL(paths.show, { subject, ...extraParams });
   }
 }
 
 export function searchURL(query: string): string {
-  return constructURL(paths.search, 'query', query);
+  return constructURL(paths.search, { query });
 }
 
 type setFunc = (latestValue: string) => void;
@@ -65,15 +64,15 @@ export function newURL(
 }
 
 export function editURL(subject: string): string {
-  return constructURL(paths.edit, 'subject', subject);
+  return constructURL(paths.edit, { subject });
 }
 
 export function shareURL(subject: string): string {
-  return constructURL(paths.share, 'subject', subject);
+  return constructURL(paths.share, { subject });
 }
 
 export function dataURL(subject: string): string {
-  return constructURL(paths.data, 'subject', subject);
+  return constructURL(paths.data, { subject });
 }
 
 export function pathToURL(path: string): string {
@@ -88,7 +87,7 @@ export function versionsURL(subject: string, baseURL: string): string {
   const url = new URL(baseURL);
   url.pathname = paths.allVersions;
   url.searchParams.append('subject', subject);
-  return openURL(url.toString());
+  return constructOpenURL(url.toString());
 }
 
 /** Takes the cursor position, finds the nearest `about=` attributes in DOM nodes */

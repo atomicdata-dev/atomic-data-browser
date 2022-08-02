@@ -13,7 +13,7 @@ import { useNavigate, useNavigationType } from 'react-router-dom';
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
 import { Button } from '../components/Button';
-import { openURL } from '../helpers/navigation';
+import { constructOpenURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
 import { paths } from '../routes/paths';
@@ -59,7 +59,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
     } else {
       inviteURL.searchParams.set('agent', agent);
     }
-    navigate(openURL(inviteURL.href));
+    navigate(constructOpenURL(inviteURL.href));
   }
 
   return (

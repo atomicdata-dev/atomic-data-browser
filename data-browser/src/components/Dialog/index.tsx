@@ -29,7 +29,7 @@ export enum DialogSlot {
   Actions = 'actions',
 }
 
-const ANIM_MS = 200;
+const ANIM_MS = 80;
 const ANIM_SPEED = `${ANIM_MS}ms`;
 
 type DialogSlotComponent = React.FC<React.PropsWithChildren<unknown>>;
