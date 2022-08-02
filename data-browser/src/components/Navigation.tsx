@@ -239,7 +239,7 @@ interface NavBarStyledProps {
 const NavBarBase = styled.form<NavBarStyledProps>`
   /* transition: all 0.2s; */
   position: fixed;
-  z-index: 100;
+  z-index: ${p => p.theme.zIndex.sidebar};
   height: 2.5rem;
   display: flex;
   border: solid 1px ${props => props.theme.colors.bg2};

@@ -31,6 +31,17 @@ export const ThemeWrapper = ({ children }: ThemeWrapperProps): JSX.Element => {
   );
 };
 
+/**
+ * Adjust the z-index order here. Watch out: do not use in styled-components,
+ * prefer to use `theme.zIndex`
+ */
+export const zIndex = {
+  sidebar: 10,
+  dialog: 100,
+  dropdown: 200,
+  toast: 300,
+};
+
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
@@ -70,6 +81,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       textLight2: darkMode ? darken(0.8)(text) : lighten(0.8)(text),
       alert: '#cf5b5b',
     },
+    zIndex,
   };
 };
 
@@ -121,6 +133,7 @@ declare module 'styled-components' {
       /** Error / warning color */
       alert: string;
     };
+    zIndex: typeof zIndex;
   }
 }
 

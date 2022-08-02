@@ -28,8 +28,8 @@ interface HeadersObject {
 
 /**
  * Fetches and Parses a Resource. Can fetch through another atomic server if you
- * pass the `from` argument, which should be the baseURL of an Atomic Server.
- * Does not add it to the store. If you need that, use `Store.fetchResource`.
+ * pass the `from` argument, which should be the baseURL of an Atomic Server. If
+ * you need to add the resources to the Store or authenticate, pass a Store.
  */
 export async function fetchResource(
   subject: string,

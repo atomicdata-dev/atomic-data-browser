@@ -104,10 +104,13 @@ export class Store {
     if (r.isReady()) {
       return true;
     }
-    // TODO: IMPLEMENT
     return false;
   }
 
+  /**
+   * Checks is a set of URL parts can be combined into an available subject.
+   * Will retry until it works.
+   */
   async buildUniqueSubjectFromParts(...parts: string[]): Promise<string> {
     const path = parts.join('/');
     return this.findAvailableSubject(path);

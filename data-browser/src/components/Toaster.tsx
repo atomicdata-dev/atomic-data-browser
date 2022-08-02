@@ -2,6 +2,7 @@ import React from 'react';
 import toast, { ToastBar, Toaster as ReactHotToast } from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 import { useTheme } from 'styled-components';
+import { zIndex } from '../styling';
 import { Button } from './Button';
 
 /**
@@ -15,6 +16,7 @@ export function Toaster(): JSX.Element {
       position='bottom-right'
       toastOptions={{
         style: {
+          zIndex: zIndex.toast,
           background: theme.colors.bg,
           color: theme.colors.text,
           wordBreak: 'break-word',

@@ -422,7 +422,7 @@ const DropDownWrapper = styled.div`
   border-radius: ${props => props.theme.radius};
   box-shadow: ${props => props.theme.boxShadowIntense};
   position: absolute;
-  z-index: 1000;
+  z-index: ${p => p.theme.zIndex.dropdown};
   max-height: 30rem;
   overflow-y: auto;
   left: 0;

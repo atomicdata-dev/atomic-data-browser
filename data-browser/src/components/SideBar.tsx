@@ -279,7 +279,7 @@ const SideBarErr = styled(ErrorLook)`
 
 // eslint-disable-next-line prettier/prettier
 const SideBarStyled = styled('div') <SideBarStyledProps>`
-  z-index: 10;
+  z-index: ${p => p.theme.zIndex.sidebar};
   box-sizing: border-box;
   background: ${p => p.theme.colors.bg};
   border-right: solid 1px ${p => p.theme.colors.bg2};

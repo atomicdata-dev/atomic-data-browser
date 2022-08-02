@@ -144,12 +144,20 @@ export const DialogTitle: DialogSlotComponent = ({ children }) => (
   </Slot>
 );
 
+/**
+ * Dialog section that is scrollable. Put your main content here. Should be no
+ * larger than 4rem
+ */
 export const DialogContent: DialogSlotComponent = ({ children }) => (
   <DialogContentSlot slot={DialogSlot.Content} as='main'>
     {children}
   </DialogContentSlot>
 );
 
+/**
+ * Bottom part of the Dialog that is always visible. Place your buttons here.
+ * Should be no larger than 4rem
+ */
 export const DialogActions: DialogSlotComponent = ({ children }) => (
   <DialogActionsSlot slot={DialogSlot.Actions} as='footer'>
     {children}
@@ -162,7 +170,8 @@ const CloseButtonSlot = styled(Slot)`
 
 const DialogContentSlot = styled(Slot)`
   overflow: auto;
-  max-height: 80vh;
+  /* The main section should leave room for the footer */
+  max-height: calc(80vh - 8rem);
   padding-bottom: ${({ theme }) => theme.margin}rem;
   // Position the scrollbar against the side of the dialog without any spacing inbetween.
   margin-right: -${p => p.theme.margin}rem;
@@ -212,7 +221,8 @@ const StyledDialog = styled.dialog`
   --animation-speed: 500ms;
   box-sizing: border-box;
   inset: 0px;
-  z-index: 10000;
+  position: relative;
+  z-index: ${p => p.theme.zIndex.dialog};
   padding: ${props => props.theme.margin}rem;
   color: ${props => props.theme.colors.text};
   background-color: ${props => props.theme.colors.bg};
