@@ -14,7 +14,7 @@ import { ContainerNarrow } from '../components/Containers';
 import Markdown from '../components/datatypes/Markdown';
 import ResourceField from '../components/forms/ResourceField';
 import { Button } from '../components/Button';
-import { openURL } from '../helpers/navigation';
+import { constructOpenURL } from '../helpers/navigation';
 import ResourceCard from './Card/ResourceCard';
 
 type EndpointProps = {
@@ -45,7 +45,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
         }
       }),
     );
-    navigate(openURL(url.href));
+    navigate(constructOpenURL(url.href));
   }
 
   return (

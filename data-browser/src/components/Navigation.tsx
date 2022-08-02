@@ -11,7 +11,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { tryValidURL } from '@tomic/react';
 
-import { openURL, searchURL, useSearchQuery } from '../helpers/navigation';
+import {
+  constructOpenURL,
+  searchURL,
+  useSearchQuery,
+} from '../helpers/navigation';
 import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -114,7 +118,7 @@ function NavBar() {
     try {
       tryValidURL(e.target.value);
       // Replace instead of push to make the back-button behavior better.
-      navigate(openURL(e.target.value), { replace: true });
+      navigate(constructOpenURL(e.target.value), { replace: true });
     } catch (_err) {
       navigate(searchURL(e.target.value), { replace: true });
     }
@@ -138,7 +142,7 @@ function NavBar() {
     inputRef.current.blur();
     //@ts-ignore this does seem callable
     document.activeElement.blur();
-    handleNavigation(openURL(subject));
+    handleNavigation(constructOpenURL(subject));
   };
 
   const handleNavigation = (to: string) => {

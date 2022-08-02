@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { openURL, pathToURL } from '../helpers/navigation';
+import { constructOpenURL, pathToURL } from '../helpers/navigation';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../views/ResourceInline';
 import { isRunningInTauri } from '../helpers/tauri';
@@ -45,7 +45,7 @@ export const AtomicLink = ({
 
   try {
     isOnCurrentPage =
-      subject && window.location.toString() === openURL(subject);
+      subject && window.location.toString() === constructOpenURL(subject);
   } catch (e) {
     return <span>{subject}</span>;
   }
@@ -64,7 +64,7 @@ export const AtomicLink = ({
       if (isOnCurrentPage) {
         return;
       }
-      navigate(openURL(subject));
+      navigate(constructOpenURL(subject));
     }
   };
 

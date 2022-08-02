@@ -28,8 +28,11 @@ export const NewFormFullPage = ({
   const klass = useResource(classSubject);
   const [subject, setSubject] = useQueryString('newSubject');
 
-  const { subjectErr, subjectValue, setSubjectValue, resource, parentSubject } =
-    useNewForm(klass, subject, setSubject);
+  const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
+    klass,
+    subject,
+    setSubject,
+  );
 
   return (
     <>
@@ -44,7 +47,6 @@ export const NewFormFullPage = ({
         resource={resource}
         classSubject={classSubject}
         key={`${classSubject}+${subject}`}
-        parent={parentSubject.toString()}
       />
     </>
   );
@@ -65,8 +67,11 @@ export const NewFormDialog = ({
 
   const [subject, setSubject] = useState(store.createSubject());
 
-  const { subjectErr, subjectValue, setSubjectValue, resource, parentSubject } =
-    useNewForm(klass, subject, setSubject);
+  const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
+    klass,
+    subject,
+    setSubject,
+  );
 
   const onResourceSave = useCallback(() => {
     onSave(resource.getSubject());
@@ -105,7 +110,6 @@ export const NewFormDialog = ({
           resource={resource}
           classSubject={classSubject}
           key={`${classSubject}+${subjectValue}`}
-          parent={parentSubject.toString()}
           variant={ResourceFormVariant.Dialog}
         />
       </DialogContent>
