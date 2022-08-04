@@ -62,15 +62,17 @@ export function NewBookmarkButton({
           <h1>New Bookmark</h1>
         </DialogTitle>
         <DialogContent>
-          <Field required label='url'>
-            <InputWrapper>
-              <InputStyled
-                placeholder='https://example.com'
-                value={url}
-                onChange={e => setUrl(e.target.value)}
-              />
-            </InputWrapper>
-          </Field>
+          <form onSubmit={onDone}>
+            <Field required label='url'>
+              <InputWrapper>
+                <InputStyled
+                  placeholder='https://example.com'
+                  value={url}
+                  onChange={e => setUrl(e.target.value)}
+                />
+              </InputWrapper>
+            </Field>
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={hide} subtle>
