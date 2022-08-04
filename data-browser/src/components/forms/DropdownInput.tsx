@@ -115,10 +115,6 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
     }
   }
 
-  const handleCreateClick = useCallback(() => {
-    showDialog();
-  }, []);
-
   function clearSelection() {
     setInputValue('');
     setSelectedItem(null);
@@ -137,16 +133,6 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
     }, 20);
   }
 
-  function handleBlur() {
-    setIsFocus(false);
-    onUpdate(inputValue);
-    // for some reason this prevents that no item can be selected from the dropdown.
-    // HandleBlur is called before the setInput handle is called, so the click on the DropdownInput is not caught.
-    setTimeout(function () {
-      setIsOpen(false);
-    }, 150);
-  }
-
   return (
     <>
       <DropDownStyled>
@@ -159,7 +145,6 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
             )}
             <InputStyled
               onFocus={handleFocus}
-              onBlur={handleBlur}
               disabled={disabled}
               size={5}
               required={required}
@@ -217,7 +202,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
               setInputValue={setInputValue}
               setSelectedItem={setSelectedItem}
               onUpdate={onUpdate}
-              onCreateClick={handleCreateClick}
+              onCreateClick={showDialog}
               setIsOpen={setIsOpen}
               isOpen={isOpen}
               useKeys={useKeys}
