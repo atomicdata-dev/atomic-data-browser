@@ -24,6 +24,8 @@ Designed for interacting with [`atomic-server`](https://github.com/atomicdata-de
   - [Authentication](https://docs.atomicdata.dev/authentication.html) - all requests are signed.
 - **Other**
   - Document editor with Markdown & real-time sync / collaboration (using WebSockets)
+  - Import webpages and convert them to Markdown for personal backups
+  - Group chat rooms
   - Collapsible sidebar for easy navigation
   - UI customization: dark mode, navigation bar placement and theme color
   - Responsive, accessible, keyboard controls
