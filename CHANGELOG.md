@@ -5,6 +5,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## UNRELEASED
 
 - Add dialog / modal view #24 #181
+- Add bookmark import / reader mode
 
 ## v0.31.1
 
