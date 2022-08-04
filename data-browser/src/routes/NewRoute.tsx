@@ -54,6 +54,7 @@ function New(): JSX.Element {
                 <NewIntanceButton klass={urls.classes.property} subtle />
                 <NewIntanceButton klass={urls.classes.chatRoom} subtle />
                 <NewIntanceButton klass={urls.classes.bookmark} subtle />
+                <NewIntanceButton klass={urls.classes.importer} subtle />
               </>
             )}
           </Row>

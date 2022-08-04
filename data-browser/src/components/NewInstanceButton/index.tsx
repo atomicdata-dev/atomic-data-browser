@@ -6,6 +6,7 @@ import { NewInstanceButtonDefault } from './NewInstanceButtonDefault';
 
 type InstanceButton = (props: NewInstanceButtonProps) => JSX.Element;
 
+/** If your New Instance button requires custom logic, such as a custom dialog */
 const classMap = new Map<string, InstanceButton>([
   [classes.bookmark, NewBookmarkButton],
 ]);

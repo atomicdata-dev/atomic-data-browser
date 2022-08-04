@@ -38,6 +38,12 @@ export function NewInstanceButtonDefault({
         });
         break;
       }
+      case classes.importer: {
+        createResourceAndNavigate('importer', {
+          [properties.isA]: [classes.importer],
+        });
+        break;
+      }
       default: {
         // Opens an `Edit` form with the class and a decent subject name
         navigate(newURL(klass, parent, store.createSubject(shortname)));
