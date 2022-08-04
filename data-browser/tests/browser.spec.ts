@@ -301,20 +301,15 @@ test.describe('data-browser', async () => {
     await signIn(page);
     await openLocalhost(page);
 
-    // Click text=new resource
+    // Create a new bookmark
     await page.locator('text=new resource').click();
     await expect(page).toHaveURL('http://localhost:3000/app/new');
+    await page.locator('button:has-text("bookmark")').click();
 
-    // Click button:has-text("new bookmark")
-    await page.locator('button:has-text("new bookmark")').click();
+    // Fetch `example.com
     const input = page.locator('[placeholder="https\\:\\/\\/example\\.com"]');
-
     await input.click();
-
-    // Fill [placeholder="https\:\/\/example\.com"]
     await input.fill('https://example.com');
-
-    // Click footer >> text=Ok
     await page.locator('footer >> text=Ok').click();
 
     await expect(page.locator('text=This domain is ')).toBeVisible();
