@@ -297,6 +297,29 @@ test.describe('data-browser', async () => {
     ).toBeVisible();
   });
 
+  test('bookmark', async ({ page }) => {
+    await signIn(page);
+    await openLocalhost(page);
+
+    // Click text=new resource
+    await page.locator('text=new resource').click();
+    await expect(page).toHaveURL('http://localhost:3000/app/new');
+
+    // Click button:has-text("new bookmark")
+    await page.locator('button:has-text("new bookmark")').click();
+    const input = page.locator('[placeholder="https\\:\\/\\/example\\.com"]');
+
+    await input.click();
+
+    // Fill [placeholder="https\:\/\/example\.com"]
+    await input.fill('https://example.com');
+
+    // Click footer >> text=Ok
+    await page.locator('footer >> text=Ok').click();
+
+    await expect(page.locator('text=This domain is ')).toBeVisible();
+  });
+
   test('dialog', async ({ page }) => {
     await signIn(page);
     // Click text=new resource
@@ -307,8 +330,12 @@ test.describe('data-browser', async () => {
     // Click text=new class
     await page.locator('text=new class').click();
 
-    // Click .sc-kfPuZi > button >> nth=0
-    await page.locator('.sc-kfPuZi > button').first().click();
+    // Click the plus button
+    await page
+      .locator('[title="Add an item to this list"] >> nth=0')
+      .first()
+      .click();
+
     // Click [data-test="input-recommends"]
     await page.locator('[data-test="input-recommends"]').click();
     // Fill [data-test="input-recommends"]
@@ -316,9 +343,7 @@ test.describe('data-browser', async () => {
     // Click text=Create property: test-prop
     await page.locator('text=Create property: test-prop').click();
 
-    await expect(
-      await page.locator('h1:has-text("new property")'),
-    ).toBeVisible();
+    await expect(page.locator('h1:has-text("new property")')).toBeVisible();
 
     // Click [data-test="input-datatype"]
     await page.locator('[data-test="input-datatype"]').click();

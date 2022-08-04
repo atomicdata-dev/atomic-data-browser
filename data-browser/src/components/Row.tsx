@@ -7,6 +7,7 @@ export interface RowProps extends React.HTMLAttributes<HTMLDivElement> {
   justify?: CSS.Property.JustifyContent;
   direction?: CSS.Property.FlexDirection;
   center?: boolean;
+  wrap?: boolean;
 }
 
 export const Row: React.FC<React.PropsWithChildren<RowProps>> = ({
@@ -22,4 +23,5 @@ const StyledDiv = styled.div<RowProps>`
   gap: ${p => p.gap ?? `${p.theme.margin}rem`};
   justify-content: ${p => p.justify ?? 'start'};
   flex-direction: ${p => p.direction ?? 'row'};
+  flex-wrap: ${p => (p.wrap ? 'wrap' : 'no-wrap')};
 `;
