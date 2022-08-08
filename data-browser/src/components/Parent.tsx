@@ -22,7 +22,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
     <React.Fragment>
       {parent && (
         <List>
-          <NestedParent subject={parent} />
+          <NestedParent subject={parent} depth={0} />
           <Breadcrumb>{title}</Breadcrumb>
         </List>
       )}
@@ -32,16 +32,24 @@ function Parent({ resource }: ParentProps): JSX.Element {
 
 type NestedParentProps = {
   subject: string;
+  depth: number;
 };
 
 /** The actually recursive part */
-function NestedParent({ subject }: NestedParentProps): JSX.Element {
+function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const [parent] = useString(resource, properties.parent);
 
+  depth = depth + 1;
+
+  // Prevent infinite recursion, set a limit to parent breadcrumbs
+  if (depth > 5) {
+    return <Breadcrumb>...</Breadcrumb>;
+  }
+
   return (
     <>
-      {parent && <NestedParent subject={parent} />}
+      {parent && <NestedParent subject={parent} depth={depth} />}
       <Breadcrumb>
         <ResourceInline subject={subject} />
       </Breadcrumb>
