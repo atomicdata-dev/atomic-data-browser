@@ -317,44 +317,30 @@ test.describe('data-browser', async () => {
 
   test('dialog', async ({ page }) => {
     await signIn(page);
-    // Click text=new resource
+    // Create new class from new resource menu
     await page.locator('text=new resource').click();
-
-    await expect(page).toHaveURL('http://localhost:3000/app/new');
-
-    // Click text=new class
+    await expect(page).toHaveURL(`${serverUrl}/app/new`);
     await page.locator('text=new class').click();
-
-    // Click the plus button
     await page
       .locator('[title="Add an item to this list"] >> nth=0')
       .first()
       .click();
-
-    // Click [data-test="input-recommends"]
     await page.locator('[data-test="input-recommends"]').click();
-    // Fill [data-test="input-recommends"]
     await page.locator('[data-test="input-recommends"]').fill('test-prop');
-    // Click text=Create property: test-prop
+
+    // Create new Property using dialog
     await page.locator('text=Create property: test-prop').click();
-
     await expect(page.locator('h1:has-text("new property")')).toBeVisible();
-
-    // Click [data-test="input-datatype"]
     await page.locator('[data-test="input-datatype"]').click();
-    // Click li:has-text("boolean - Either `true` or `false`. In JSON-AD, th...")
     await page
       .locator(
         'li:has-text("boolean - Either `true` or `false`. In JSON-AD, th...")',
       )
       .click();
-    // Click text=shortname datatype boolean description H1H2H3HREditorPreviewH1H2H3HRclasstype is >> textarea[name="yamdeContent"]
     await page.locator('dialog textarea[name="yamdeContent"]').click();
-    // Fill text=shortname datatype boolean description H1H2H3HREditorPreviewH1H2H3HRclasstype is >> textarea[name="yamdeContent"]
     await page
       .locator('dialog textarea[name="yamdeContent"]')
       .fill('This is a test prop');
-    // Click footer >> text=Save
     await page.locator('dialog footer >> text=Save').click();
 
     expect(page.locator('[data-test="input-recommends"] >> nth=0')).toHaveValue(
