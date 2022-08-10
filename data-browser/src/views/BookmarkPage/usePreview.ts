@@ -8,11 +8,13 @@ import React, {
 import { debounce } from '../../helpers/debounce';
 import { useQueryString } from '../../helpers/navigation';
 
-type UsePreviewReturnType = [
-  preview: string,
-  error: boolean,
-  updatePreview: (websiteURL: string) => void,
-];
+type UsePreviewReturnType = {
+  preview: string;
+  /** Call this to update the website URL */
+  update: (websiteURL: string) => void;
+  error?: Error;
+  loading: boolean;
+};
 
 async function fetchBookmarkData(url: string, name: string, store: Store) {
   const bookmarkRoute = new URL('/fetchbookmark', store.serverUrl);
@@ -26,9 +28,13 @@ async function fetchBookmarkData(url: string, name: string, store: Store) {
 
   const res = await fetch(bookmarkRoute.toString(), {
     headers: {
-      Accept: 'application/json-ad',
+      Accept: 'application/json',
     },
   });
+
+  if (res.status !== 200) {
+    throw new Error(`Atomic-Server error: ${res.status} ${res.statusText}`);
+  }
 
   return await res.json();
 }
@@ -44,19 +50,21 @@ const debouncedFetch = debounce(
     resource: Resource,
     setPreview: AtomicSetter<string>,
     setName: AtomicSetter<string>,
-    setHasError: Setter<boolean>,
+    setError: Setter<Error>,
+    setLoading: Setter<boolean>,
   ) => {
     startTransition(() => {
       fetchBookmarkData(url, name, store)
         .then(res => {
           setPreview(res.preview);
           setName(res.name);
-          setHasError(false);
+          setError(null);
           resource.save(store);
         })
         .catch(err => {
           console.error(err);
-          setHasError(true);
+          setError(err);
+          setLoading(false);
         });
     });
   },
@@ -74,15 +82,19 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [name, setName] = useString(resource, urls.properties.name);
 
-  const [hasError, setHasError] = useState(false);
+  const [error, setHasError] = useState<Error>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const update = useCallback(
     (websiteURL: string) => {
       try {
         new URL(websiteURL);
       } catch (e) {
+        setHasError(e);
         return;
       }
+
+      setLoading(true);
 
       debouncedFetch(
         websiteURL,
@@ -92,6 +104,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
         setPreview,
         setName,
         setHasError,
+        setLoading,
       );
     },
     [name, resource, store],
@@ -103,5 +116,5 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
     }
   }, [isNew]);
 
-  return [preview, hasError, update];
+  return { preview, error, update, loading };
 }
