@@ -39,7 +39,7 @@ Designed for interacting with [`atomic-server`](https://github.com/atomicdata-de
 yarn
 # Run dev server
 yarn start
-# Open browser at http://localhost:3000
+# Open browser at http://localhost:5173
 ```
 
 If you want to _edit_ data, you'll need an [_Agent_](https://atomicdata.dev/classes/Agent), including its `privateKey` and `subject`.
