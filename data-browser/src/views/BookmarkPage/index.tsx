@@ -17,14 +17,14 @@ export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
     commit: true,
   });
 
-  const [preview, previewHasError, updatePreview] = usePreview(resource);
+  const { preview, error, update, loading } = usePreview(resource);
 
   const handleUrlChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       await setUrl(e.target.value);
-      updatePreview(e.target.value);
+      update(e.target.value);
     },
-    [setUrl, updatePreview],
+    [setUrl, update],
   );
 
   return (
@@ -55,7 +55,7 @@ export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
           </ContainerFull>
         </ControlWrapper>
         <PreviewWrapper>
-          <BookmarkPreview preview={preview} error={previewHasError} />
+          <BookmarkPreview preview={preview} error={error} loading={loading} />
         </PreviewWrapper>
       </Wrapper>
     </>
