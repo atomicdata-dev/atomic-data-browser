@@ -18,7 +18,7 @@ const demoFileName = 'logo.svg';
 const demoFile = `./${demoFileName}`;
 const demoInviteName = 'document demo';
 const serverUrl = 'http://localhost:9883';
-const frontEndUrl = 'http://localhost:3000';
+const frontEndUrl = 'http://localhost:5173';
 
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
@@ -303,7 +303,7 @@ test.describe('data-browser', async () => {
 
     // Create a new bookmark
     await page.locator('text=new resource').click();
-    await expect(page).toHaveURL('http://localhost:3000/app/new');
+    await expect(page).toHaveURL(`${serverUrl}/app/new`);
     await page.locator('button:has-text("bookmark")').click();
 
     // Fetch `example.com
