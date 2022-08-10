@@ -2,18 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import { ContainerNarrow } from '../../components/Containers.jsx';
 import Markdown from '../../components/datatypes/Markdown.jsx';
+import { ErrorLook } from '../ResourceInline';
 
 export interface BookmarkPreviewProps {
   preview: string;
-  error?: boolean;
+  error?: Error;
+  loading?: boolean;
 }
 
 export function BookmarkPreview({
   preview,
   error,
+  loading,
 }: BookmarkPreviewProps): JSX.Element {
   if (error) {
-    return <ErrorPage />;
+    return <ErrorPage error={error} />;
+  }
+
+  if (loading) {
+    return <CenterGrid>loading...</CenterGrid>;
   }
 
   return (
@@ -23,15 +30,18 @@ export function BookmarkPreview({
   );
 }
 
-const ErrorPage = () => {
+const ErrorPage = ({ error }) => {
   return (
-    <StyledError>
-      <p>Could not load preview 😞</p>
-    </StyledError>
+    <CenterGrid>
+      <div>
+        <p>Could not load preview 😞</p>
+        <ErrorLook style={{ fontSize: '1rem' }}>{error.message}</ErrorLook>
+      </div>
+    </CenterGrid>
   );
 };
 
-const StyledError = styled.div`
+const CenterGrid = styled.div`
   display: grid;
   height: min(80vh, 1000px);
   width: 100%;
