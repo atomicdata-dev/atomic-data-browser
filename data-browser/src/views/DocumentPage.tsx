@@ -222,8 +222,9 @@ function DocumentPageEdit({
   }
 
   async function deleteElement(number: number) {
-    // No reason to delete if it's there's only one element.
     if (elements.length == 1) {
+      setElements([]);
+      focusElement(0);
       return;
     }
     elements.splice(number, 1);

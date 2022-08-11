@@ -57,7 +57,10 @@ export function ElementEdit({
   active,
   canDrag,
 }: ElementEditProps): JSX.Element {
-  const resource = useResource(subject);
+  const resource = useResource(subject, {
+    // Prevents a race condition, see https://github.com/atomicdata-dev/atomic-data-browser/issues/189
+    newResource: true,
+  });
   const [err, setErr] = useState(null);
   const [text, setText] = useString(resource, properties.description, {
     commit: true,
