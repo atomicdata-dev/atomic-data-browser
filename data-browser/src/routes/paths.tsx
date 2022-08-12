@@ -11,4 +11,5 @@ export const paths = {
   edit: '/app/edit',
   about: '/app/about',
   allVersions: '/all-versions',
+  fetchBookmark: '/fetch-bookmark',
 };

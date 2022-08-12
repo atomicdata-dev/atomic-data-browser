@@ -1,3 +1,4 @@
+import { AtomicError, ErrorType } from './../../../../lib/src/error';
 import { Resource, Store, urls, useStore, useString } from '@tomic/react';
 import React, {
   startTransition,
@@ -6,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import { debounce } from '../../helpers/debounce';
-import { useQueryString } from '../../helpers/navigation';
+import { paths } from '../../routes/paths';
 
 type UsePreviewReturnType = {
   preview: string;
@@ -17,7 +18,7 @@ type UsePreviewReturnType = {
 };
 
 async function fetchBookmarkData(url: string, name: string, store: Store) {
-  const bookmarkRoute = new URL('/fetchbookmark', store.serverUrl);
+  const bookmarkRoute = new URL(paths.fetchBookmark, store.serverUrl);
 
   const searchParams = new URLSearchParams({
     name,
@@ -33,7 +34,7 @@ async function fetchBookmarkData(url: string, name: string, store: Store) {
   });
 
   if (res.status !== 200) {
-    throw new Error(`Atomic-Server error: ${res.status} ${res.statusText}`);
+    throw new AtomicError(await res.text(), ErrorType.Server);
   }
 
   return await res.json();
@@ -59,6 +60,7 @@ const debouncedFetch = debounce(
           setPreview(res.preview);
           setName(res.name);
           setError(null);
+          setLoading(false);
           resource.save(store);
         })
         .catch(err => {
@@ -76,8 +78,6 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
     resource,
     urls.properties.bookmark.preview,
   );
-
-  const [isNew] = useQueryString('new');
 
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [name, setName] = useString(resource, urls.properties.name);
@@ -111,10 +111,10 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   );
 
   useEffect(() => {
-    if (isNew === 'true') {
+    if (resource.isReady() && preview == null) {
       update(url);
     }
-  }, [isNew]);
+  }, [preview, resource.isReady()]);
 
   return { preview, error, update, loading };
 }

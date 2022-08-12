@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { ContainerNarrow } from '../components/Containers';
 import { useStore } from '@tomic/react';
+import { Row } from '../components/Row';
 
 export function SettingsServer(): JSX.Element {
   const { baseURL, setBaseURL } = useSettings();
@@ -46,38 +47,41 @@ export function SettingsServer(): JSX.Element {
         </InputWrapper>
       </FieldStyled>
       <ErrMessage>{baseUrlErr?.message}</ErrMessage>
-      <Button
-        onClick={() => handleSetBaseUrl(baseUrlInput)}
-        disabled={baseURL == baseUrlInput}
-        data-test='server-url-save'
-      >
-        save
-      </Button>
-      <p>Or use:</p>
-      <Button
-        onClick={() => handleSetBaseUrl('https://atomicdata.dev')}
-        subtle
-        data-test='server-url-atomic'
-      >
-        AtomicData.dev
-      </Button>
-      <Button
-        onClick={() => handleSetBaseUrl('http://localhost:9883')}
-        subtle
-        title='Set to the default URL of a locally hosted Atomic-Server, at port 9883.'
-        data-test='server-url-localhost'
-      >
-        localhost
-      </Button>
-      <Button onClick={() => handleSetBaseUrl(window.location.origin)} subtle>
-        {window.location.origin}
-      </Button>
-      <p>
-        Websocket{' '}
-        {store.webSocket.readyState == WebSocket.OPEN
-          ? 'connected'
-          : 'disconnected'}
-      </p>
+      <Row wrap>
+        <Button
+          onClick={() => handleSetBaseUrl(baseUrlInput)}
+          disabled={baseURL == baseUrlInput}
+          data-test='server-url-save'
+        >
+          save
+        </Button>
+        <p>
+          Websocket{' '}
+          {store.webSocket.readyState == WebSocket.OPEN
+            ? 'connected'
+            : 'disconnected'}
+        </p>
+      </Row>
+      <Row wrap>
+        <Button
+          onClick={() => handleSetBaseUrl('https://atomicdata.dev')}
+          subtle
+          data-test='server-url-atomic'
+        >
+          AtomicData.dev
+        </Button>
+        <Button
+          onClick={() => handleSetBaseUrl('http://localhost:9883')}
+          subtle
+          title='Set to the default URL of a locally hosted Atomic-Server, at port 9883.'
+          data-test='server-url-localhost'
+        >
+          localhost
+        </Button>
+        <Button onClick={() => handleSetBaseUrl(window.location.origin)} subtle>
+          {window.location.origin}
+        </Button>
+      </Row>
     </ContainerNarrow>
   );
 }

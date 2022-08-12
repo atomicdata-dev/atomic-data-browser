@@ -15,12 +15,16 @@ export function BookmarkPreview({
   error,
   loading,
 }: BookmarkPreviewProps): JSX.Element {
+  if (loading) {
+    return <CenterGrid>loading...</CenterGrid>;
+  }
+
   if (error) {
     return <ErrorPage error={error} />;
   }
 
-  if (loading) {
-    return <CenterGrid>loading...</CenterGrid>;
+  if (!preview || preview == '') {
+    return <CenterGrid>no preview...</CenterGrid>;
   }
 
   return (
