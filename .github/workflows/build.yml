@@ -23,6 +23,8 @@ jobs:
       - run: npx playwright install-deps
       - run: yarn --version
       - run: yarn install
+      # Should be run after yarn install
+      - run: npx playwright install
       - name: Start dev server
         run: nohup yarn start &
       - name: Run atomic-server docker image in background (for testing)
