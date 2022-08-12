@@ -38,6 +38,7 @@
     "test-query": "yarn workspace @tomic/data-browser run test-query",
     "publish": "yarn workspaces foreach --no-private npm publish",
     "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",
+    "start-browser": "yarn workspace @tomic/data-browser start",
     "start-lib": "yarn workspace @tomic/lib watch",
     "typedoc": "typedoc . --options typedoc.json"
   },

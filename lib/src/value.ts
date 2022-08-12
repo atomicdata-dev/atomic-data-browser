@@ -9,14 +9,16 @@ export type JSONArray = Array<JSONValue>;
  * Tries to convert the value as an array of resources, which can be both URLs
  * or Nested Resources. Throws an error when fails
  */
-export function valToArray(val: JSONValue): string[] {
+export function valToArray(val: JSONValue): JSONArray {
   if (val == undefined) {
     throw new Error(`Not an array: ${val}, is ${typeof val}`);
   }
+
   if (val.constructor == Array) {
     // TODO: check this better
-    return val as string[];
+    return val;
   }
+
   throw new Error(`Not an array: ${val}, is a ${typeof val}`);
 }
 

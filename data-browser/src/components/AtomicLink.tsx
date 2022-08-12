@@ -17,6 +17,8 @@ export interface AtomicLinkProps {
   untabbable?: boolean;
   /** Minimal styling applied */
   clean?: boolean;
+  /** Used to extend with styled */
+  className?: string;
 }
 
 /**
@@ -30,6 +32,7 @@ export const AtomicLink = ({
   path,
   href,
   untabbable,
+  className,
   ...props
 }: AtomicLinkProps): JSX.Element => {
   const navigate = useNavigate();
@@ -74,6 +77,7 @@ export const AtomicLink = ({
   return (
     <LinkView
       clean={clean}
+      className={className}
       about={subject}
       onClick={handleClick}
       href={hrefConstructed}
