@@ -30,6 +30,10 @@ function Markdown({
 
   maxLength = maxLength || 5000;
 
+  if (!text) {
+    return null;
+  }
+
   return (
     <MarkdownWrapper noMargin={noMargin}>
       <ReactMarkdown remarkPlugins={renderGFM ? [remarkGFM] : []}>
