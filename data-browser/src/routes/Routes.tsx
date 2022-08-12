@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -15,10 +16,13 @@ import { SettingsServer } from './SettingsServer';
 import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
+import { Sandbox } from './Sandbox';
 
 function removeTrailingSlash(str) {
   return str.replace(/\/+$/, '');
 }
+
+const isDev = import.meta.env.MODE === 'development';
 
 /**
  * Handles the browser URL navigation paths. Some rules:
@@ -40,6 +44,7 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.show} element={<Show />} />
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
+      {isDev && <Route path={paths.sandbox} element={<Sandbox />} />}
       <Route
         path='/'
         element={
