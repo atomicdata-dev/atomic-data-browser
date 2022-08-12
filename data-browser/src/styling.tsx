@@ -42,6 +42,9 @@ export const zIndex = {
   toast: 300,
 };
 
+/** Default animation duration in ms */
+export const animationDuration = 100;
+
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
@@ -80,6 +83,9 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       textLight: darkMode ? darken(0.4)(text) : lighten(0.4)(text),
       textLight2: darkMode ? darken(0.8)(text) : lighten(0.8)(text),
       alert: '#cf5b5b',
+    },
+    animation: {
+      duration: `${animationDuration}ms`,
     },
     zIndex,
   };
@@ -132,6 +138,9 @@ declare module 'styled-components' {
       textLight2: string;
       /** Error / warning color */
       alert: string;
+    };
+    animation: {
+      duration: string;
     };
     zIndex: typeof zIndex;
   }

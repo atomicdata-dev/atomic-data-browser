@@ -12,6 +12,7 @@ import {
   validateDatatype,
   valToArray,
 } from './index';
+import { JSONArray } from './value';
 
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;
@@ -120,30 +121,30 @@ export class Resource {
   }
 
   /**
+   * Get a Value by its property, returns as Array with subjects instead of the
+   * full resource or throws error. Returns empty array if there is no value
+   */
+  getSubjects(propUrl: string): string[] {
+    return this.getArray(propUrl).map(item => {
+      if (typeof item === 'string') return item;
+
+      return item['@id'];
+    });
+  }
+
+  /**
    * Get a Value by its property, returns as Array or throws error. Returns
    * empty array if there is no value
    */
-  getArray(propUrl: string): string[] | null {
-    const result = this.propvals.get(propUrl);
-    if (result == undefined) {
-      return [];
-    }
+  getArray(propUrl: string): JSONArray {
+    const result = this.propvals.get(propUrl) ?? [];
+
     return valToArray(result);
   }
 
   /** Get a Value by its property */
   getClasses(): string[] {
-    const classesVal = this.get(properties.isA);
-    if (classesVal == undefined) {
-      // throw new Error(`not found property ${propUrl} in ${this.subject}`);
-      return [];
-    }
-    try {
-      const arr = valToArray(classesVal);
-      return arr;
-    } catch (e) {
-      return [];
-    }
+    return this.getSubjects(properties.isA);
   }
 
   /**
@@ -181,7 +182,7 @@ export class Resource {
    */
   async getRights(store: Store): Promise<Right[]> {
     const rights: Right[] = [];
-    const write: string[] = this.getArray(properties.write);
+    const write: string[] = this.getSubjects(properties.write);
     write.forEach((subject: string) => {
       rights.push({
         for: subject,
@@ -190,7 +191,7 @@ export class Resource {
       });
     });
 
-    const read: string[] = this.getArray(properties.read);
+    const read: string[] = this.getSubjects(properties.read);
     read.forEach((subject: string) => {
       rights.push({
         for: subject,

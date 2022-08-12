@@ -23,10 +23,10 @@ export async function classToTypescriptDefinition(
   }
 
   const requires = await Promise.all(
-    klass.getArray(properties.requires).map(s => store.getProperty(s)),
+    klass.getSubjects(properties.requires).map(s => store.getProperty(s)),
   );
   const recommends = await Promise.all(
-    klass.getArray(properties.recommends).map(s => store.getProperty(s)),
+    klass.getSubjects(properties.recommends).map(s => store.getProperty(s)),
   );
   const className = klass.get(properties.shortname);
   let returnString = `interface ${className} {\n`;
