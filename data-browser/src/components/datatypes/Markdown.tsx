@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import remarkGFM from 'remark-gfm';
+import { Button } from '../Button';
 
 type Props = {
   text: string;
@@ -11,15 +12,34 @@ type Props = {
    */
   noMargin?: boolean;
   renderGFM?: boolean;
+  /**
+   * If this is set, and the markdown is more characters than this number, the
+   * text will be truncated and a button will be shown
+   */
+  maxLength?: number;
 };
 
 /** Renders a markdown value */
-function Markdown({ text, noMargin, renderGFM }: Props): JSX.Element {
+function Markdown({
+  text,
+  noMargin,
+  renderGFM,
+  maxLength,
+}: Props): JSX.Element {
+  const [collapsed, setCollapsed] = React.useState(true);
+
+  maxLength = maxLength || 5000;
+
   return (
     <MarkdownWrapper noMargin={noMargin}>
       <ReactMarkdown remarkPlugins={renderGFM ? [remarkGFM] : []}>
-        {text}
+        {collapsed ? truncateMarkdown(text, maxLength) : text}
       </ReactMarkdown>
+      {text.length > maxLength && collapsed && (
+        <Button subtle onClick={() => setCollapsed(false)}>
+          {'Read more '}
+        </Button>
+      )}
     </MarkdownWrapper>
   );
 }
@@ -88,3 +108,25 @@ const MarkdownWrapper = styled.div<MarkdownWrapperProps>`
 `;
 
 export default Markdown;
+
+function truncateMarkdown(value: string, length: number) {
+  if (value.length <= length) {
+    return value;
+  }
+
+  const head = value.slice(0, length);
+
+  if (head.endsWith('\n')) {
+    return head + '...';
+  }
+
+  const tail = value.slice(length);
+  const firstNewLine = tail.indexOf('\n');
+
+  return (
+    value.slice(
+      0,
+      length + (firstNewLine === -1 ? tail.length : firstNewLine),
+    ) + '...'
+  );
+}

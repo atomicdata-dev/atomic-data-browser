@@ -187,6 +187,7 @@ interface MessageProps {
   setReplyTo: setReplyTo;
 }
 
+/** How many characters are shown at max by default in a message */
 const MESSAGE_MAX_LEN = 500;
 
 /** Single message shown in a ChatRoom */
@@ -198,10 +199,7 @@ const Message = React.memo(function Message({
   const [description] = useString(resource, properties.description);
   const [lastCommit] = useSubject(resource, properties.commit.lastCommit);
   const [replyTo] = useSubject(resource, properties.chatRoom.replyTo);
-  const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
-
-  const shortenedDescription = description.substring(0, MESSAGE_MAX_LEN);
 
   function handleCopyUrl() {
     navigator.clipboard.writeText(subject);
@@ -253,15 +251,7 @@ const Message = React.memo(function Message({
           </Button>
         </MessageActions>
       </MessageDetails>
-      <Markdown
-        noMargin
-        text={collapsed ? shortenedDescription : description}
-      />
-      {description.length > MESSAGE_MAX_LEN && collapsed && (
-        <Button subtle onClick={() => setCollapsed(false)}>
-          {'Read more '}
-        </Button>
-      )}
+      <Markdown noMargin text={description} maxLength={MESSAGE_MAX_LEN} />
     </MessageComponent>
   );
 });

@@ -7,7 +7,6 @@ import {
   ExternalLink,
   ExternalLinkVariant,
 } from '../../components/ExternalLink.jsx';
-import { truncateMarkdown } from '../../helpers/truncateMarkdown.js';
 import { CardViewProps } from './ResourceCard';
 
 export function BookmarkCard({ resource }: CardViewProps): JSX.Element {
@@ -23,15 +22,10 @@ export function BookmarkCard({ resource }: CardViewProps): JSX.Element {
       <ExternalLink to={url} variant={ExternalLinkVariant.Button}>
         Open site
       </ExternalLink>
-      {preview ? (
+      {preview && (
         <MarkdownWrapper>
-          <Markdown
-            renderGFM
-            text={truncateMarkdown(preview, 1000) as string}
-          />
+          <Markdown maxLength={1000} renderGFM text={preview} />
         </MarkdownWrapper>
-      ) : (
-        <Spacer />
       )}
     </>
   );

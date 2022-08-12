@@ -64,6 +64,7 @@ export function NewBookmarkButton({
                 <InputStyled
                   placeholder='https://example.com'
                   value={url}
+                  autoFocus={true}
                   onChange={e => setUrl(e.target.value)}
                 />
               </InputWrapper>
