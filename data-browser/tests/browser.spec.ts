@@ -305,8 +305,7 @@ test.describe('data-browser', async () => {
     await openLocalhost(page);
 
     // Create a new bookmark
-    await page.locator('button:has-text("class")').click();
-    await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
+    await page.locator('text=new resource').click();
     await page.locator('button:has-text("bookmark")').click();
 
     // Fetch `example.com
@@ -346,8 +345,10 @@ test.describe('data-browser', async () => {
       .fill('This is a test prop');
     await page.locator('dialog footer >> text=Save').click();
 
-    expect(page.locator('[data-test="input-recommends"] >> nth=0')).toHaveValue(
-      'test-prop',
+    expect(
+      await page.locator(
+        '[data-test="input-recommends"] >> nth=0 >> "test-prop"',
+      ),
     );
   });
 });

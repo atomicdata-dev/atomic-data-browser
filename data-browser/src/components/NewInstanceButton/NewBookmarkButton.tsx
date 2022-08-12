@@ -41,15 +41,11 @@ export function NewBookmarkButton({
   const onDone = useCallback(() => {
     const normalizedUrl = normalizeWebAddress(url);
 
-    createResourceAndNavigate(
-      'bookmark',
-      {
-        [properties.name]: 'New Bookmark',
-        [properties.bookmark.url]: normalizedUrl,
-        [properties.isA]: [classes.bookmark],
-      },
-      { new: 'true' },
-    );
+    createResourceAndNavigate('bookmark', {
+      [properties.name]: 'New Bookmark',
+      [properties.bookmark.url]: normalizedUrl,
+      [properties.isA]: [classes.bookmark],
+    });
   }, [url]);
 
   return (

@@ -30,7 +30,16 @@ export function ImporterPage({ resource }: ResourcePageProps) {
     <ContainerNarrow about={resource.getSubject()}>
       <Parent resource={resource} />
       <h1>{title}</h1>
-      <Field label='JSON' helper='JSON string'>
+      <p>
+        Import data using a JSON-AD string or URL pointing to a JSON-AD
+        document. These can contain single or multiple resources. Read more
+        about how importing Atomic Data works{' '}
+        <a href='https://docs.atomicdata.dev/create-json-ad.html'>
+          in the docs
+        </a>
+        .
+      </p>
+      <Field label='JSON-AD'>
         <InputWrapper>
           <TextAreaStyled
             cols={4}
@@ -45,7 +54,7 @@ export function ImporterPage({ resource }: ResourcePageProps) {
       {jsonAd !== '' && (
         <Button onClick={() => importJsonAd(jsonAd)}>Send JSON</Button>
       )}
-      <Field label='URL' helper='Place where a JSON-AD resource is hosted'>
+      <Field label='URL' helper='http URL where a JSON-AD resource is hosted'>
         <InputWrapper>
           <InputStyled
             placeholder='enter a URL...'
@@ -62,13 +71,13 @@ export function ImporterPage({ resource }: ResourcePageProps) {
         {resourceInternal.loading && 'loading...'}
         {success && 'Success!'}
       </p>
-      <p>Imported Resources:</p>
-      {results && results.length == 0 ? (
-        <p>No hits</p>
-      ) : (
-        results.map(result => {
-          return <ResourceCard key={result} subject={result} />;
-        })
+      {results && results.length > 0 && (
+        <>
+          <p>Imported Resources:</p>
+          {results.map(result => {
+            return <ResourceCard key={result} subject={result} />;
+          })}
+        </>
       )}
     </ContainerNarrow>
   );

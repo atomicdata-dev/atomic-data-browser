@@ -40,7 +40,7 @@ function Table({ resource, members, columns }: TableProps): JSX.Element {
         <tbody>
           {members.map(member => {
             return (
-              <Row propsArray={propsArray} key={member} subject={member} />
+              <TableRow propsArray={propsArray} key={member} subject={member} />
             );
           })}
         </tbody>
@@ -147,7 +147,7 @@ type RowProps = {
   propsArray: string[];
 };
 
-function Row({ subject, propsArray }: RowProps): JSX.Element {
+function TableRow({ subject, propsArray }: RowProps): JSX.Element {
   const resource = useResource(subject, {
     // We don't need to fetch all members for Collections when looking at a Table view.
     allowIncomplete: true,

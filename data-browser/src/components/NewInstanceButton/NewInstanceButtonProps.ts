@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface Props {
+  /** URL of the Class to be instantiated */
   klass: string;
   subtle?: boolean;
   icon?: boolean;

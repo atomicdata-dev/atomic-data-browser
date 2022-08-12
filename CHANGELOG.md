@@ -5,8 +5,9 @@ This changelog covers all three packages, as they are (for now) updated as a who
 ## UNRELEASED
 
 - Add dialog / modal view #24 #181
-- Add bookmark import / reader mode
+- Add bookmark import / reader mode #187
 - Fix crash in circular parent rendering
+- Fix race condition #189
 
 ## v0.31.1
 
