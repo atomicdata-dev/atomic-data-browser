@@ -1,8 +1,12 @@
 import { ArrayError, urls } from '@tomic/lib';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ErrMessage } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
+import { Dialog, useDialog } from '../Dialog';
+import { DialogTreeContext } from '../Dialog/dialogContext';
+import { NewFormDialog } from './NewForm';
+import { useCallback } from 'react';
 
 interface ResourceSelectorProps {
   /**
@@ -33,13 +37,16 @@ interface ResourceSelectorProps {
    */
   setError: Dispatch<SetStateAction<ArrayError>>;
   disabled?: boolean;
+  autoFocus?: boolean;
+  /** Is used when a new item is created using the ResourceSelector */
+  parent?: string;
 }
 
 /**
  * Form field for selecting a single resource. Needs external subject &
  * setSubject properties
  */
-export function ResourceSelector({
+export const ResourceSelector = React.memo(function ResourceSelector({
   required,
   setSubject,
   value,
@@ -48,6 +55,7 @@ export function ResourceSelector({
   setError,
   classType,
   disabled,
+  parent,
   ...props
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
@@ -59,14 +67,30 @@ export function ResourceSelector({
   const requiredClass = useResource(classType);
   const classTypeTitle = useTitle(requiredClass);
   const store = useStore();
+  const [dialogProps, showDialog, closeDialog, isDialogOpen] = useDialog();
 
-  function handleUpdate(newval: string) {
-    // Pass the error setter for validation purposes
-    // Pass the Error handler to its parent, so validation errors appear locally
-    setSubject(newval, setError);
-    // Reset the error every time anything changes
-    setError(null);
-  }
+  const [
+    /** The value of the input underneath, updated through a callback */
+    inputValue,
+    setInputValue,
+  ] = useState(value);
+
+  const handleUpdate = useCallback(
+    (newval: string) => {
+      // Pass the error setter for validation purposes
+      // Pass the Error handler to its parent, so validation errors appear locally
+      setSubject(newval, setError);
+      // Reset the error every time anything changes
+      // setError(null);
+    },
+    [setSubject],
+  );
+
+  const handleBlur = useCallback(() => {
+    value == null && handleUpdate(inputValue);
+  }, [inputValue, value]);
+
+  const isInDialogTree = useContext(DialogTreeContext);
 
   if (options.length == 0) {
     options = store.getAllSubjects();
@@ -92,15 +116,32 @@ export function ResourceSelector({
         initial={value}
         disabled={disabled}
         classType={classType}
+        // setValue={setValue}
+        onCreateClick={showDialog}
+        onInputChange={setInputValue}
+        onBlur={handleBlur}
         {...props}
       />
       {value && value !== '' && error && (
         <ErrMessage>{error?.message}</ErrMessage>
       )}
+      {!isInDialogTree && (
+        <Dialog {...dialogProps}>
+          {isDialogOpen && (
+            <NewFormDialog
+              parent={parent}
+              classSubject={classType}
+              closeDialog={closeDialog}
+              initialTitle={inputValue}
+              onSave={handleUpdate}
+            />
+          )}
+        </Dialog>
+      )}
       {required && value == '' && <ErrMessage>Required</ErrMessage>}
     </div>
   );
-}
+});
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
 export function getCollectionURL(classtypeUrl: string): string | null {

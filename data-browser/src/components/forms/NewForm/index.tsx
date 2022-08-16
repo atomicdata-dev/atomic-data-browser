@@ -2,6 +2,7 @@ import { properties, useResource, useStore, useTitle } from '@tomic/react';
 import React, { useCallback, useState } from 'react';
 import { useQueryString } from '../../../helpers/navigation';
 import { useEffectOnce } from '../../../hooks/useEffectOnce';
+import { ErrorLook } from '../../../views/ResourceInline';
 import { Button } from '../../Button';
 import { DialogActions, DialogContent, DialogTitle } from '../../Dialog';
 import { useSaveResource } from '../hooks/useSaveResource';
@@ -19,6 +20,7 @@ export interface NewFormDialogProps extends NewFormProps {
   closeDialog: () => void;
   initialTitle: string;
   onSave: (subject: string) => void;
+  parent: string;
 }
 
 /** Fullpage Form for instantiating a new Resource from some Class */
@@ -27,11 +29,13 @@ export const NewFormFullPage = ({
 }: NewFormProps): JSX.Element => {
   const klass = useResource(classSubject);
   const [subject, setSubject] = useQueryString('newSubject');
+  const [parentSubject] = useQueryString('parent');
 
   const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
     klass,
     subject,
     setSubject,
+    parentSubject,
   );
 
   return (
@@ -52,12 +56,13 @@ export const NewFormFullPage = ({
   );
 };
 
-/** Form for instantiating a new Resource from some Class */
+/** Form for instantiating a new Resource from some Class in a Modal / Dialog view */
 export const NewFormDialog = ({
   classSubject,
   closeDialog,
   initialTitle,
   onSave,
+  parent,
 }: NewFormDialogProps): JSX.Element => {
   const klass = useResource(classSubject);
   const className = useTitle(klass);
@@ -71,6 +76,7 @@ export const NewFormDialog = ({
     klass,
     subject,
     setSubject,
+    parent,
   );
 
   const onResourceSave = useCallback(() => {
@@ -90,6 +96,10 @@ export const NewFormDialog = ({
   });
 
   const [save, saving, error] = useSaveResource(resource, onResourceSave);
+
+  if (!parent) {
+    return <ErrorLook>No parent set</ErrorLook>;
+  }
 
   return (
     <>

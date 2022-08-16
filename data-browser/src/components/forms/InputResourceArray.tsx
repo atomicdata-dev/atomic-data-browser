@@ -16,10 +16,12 @@ export default function InputResourceArray({
   const [array, setArray] = useArray(resource, property.subject, {
     handleValidationError: setErr,
   });
+  /** Add focus to the last added item */
+  const [lastIsNew, setLastIsNew] = useState(false);
 
   function handleAdd() {
     setArray([...array, null]);
-    // TODO: Add focus when adding a new item
+    setLastIsNew(true);
   }
 
   function handleRemove(index: number) {
@@ -31,6 +33,7 @@ export default function InputResourceArray({
   function handleSetSubject(value: string, handleErr, index: number) {
     array[index] = value;
     setArray(array);
+    setLastIsNew(false);
   }
 
   return (
@@ -46,7 +49,9 @@ export default function InputResourceArray({
           setError={setErr}
           classType={property.classType}
           handleRemove={() => handleRemove(index)}
+          parent={resource.getSubject()}
           {...props}
+          autoFocus={lastIsNew && index == array.length - 1}
         />
       ))}
       <Button

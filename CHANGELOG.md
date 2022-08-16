@@ -6,6 +6,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 - Add dialog / modal view #24 #181
 - Add bookmark import / reader mode #187
+- Various improvements to Dropdown forms #194
 - Fix crash in circular parent rendering
 - Fix race condition #189
 
