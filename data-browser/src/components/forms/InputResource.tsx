@@ -21,6 +21,7 @@ export function InputResource({
       </ErrorLook>
     );
   }
+
   return (
     <ResourceSelector
       error={error}
@@ -28,6 +29,7 @@ export function InputResource({
       classType={property.classType}
       setSubject={setSubject}
       value={subject}
+      parent={resource.getSubject()}
       {...props}
     />
   );

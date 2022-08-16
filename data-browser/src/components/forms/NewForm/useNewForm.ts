@@ -7,7 +7,6 @@ import {
   useArray,
 } from '@tomic/react';
 import { useState, useEffect, useDeferredValue } from 'react';
-import { useQueryString } from '../../../helpers/navigation';
 
 const resourseOpts = { newResource: true };
 
@@ -16,9 +15,9 @@ export const useNewForm = (
   klass: Resource,
   subject: string,
   setSubject: (v: string) => void,
+  parent: string,
 ) => {
   // TODO: Don't push to history, but replace, because currenlty back is broken
-  const [parentSubject] = useQueryString('parent');
   const [klassShortname] = useString(klass, properties.shortname);
 
   const [subjectErr, setSubjectErr] = useState<Error>(null);
@@ -34,8 +33,8 @@ export const useNewForm = (
   }, [subject]);
 
   useEffect(() => {
-    setParent(parentSubject);
-  }, [parentSubject]);
+    setParent(parent);
+  }, [parent]);
 
   // Set the class for new resources
   const [currentClass] = useArray(resource, properties.isA);

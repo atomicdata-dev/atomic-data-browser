@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
@@ -9,9 +9,6 @@ import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
 import ResourceLine from '../../views/ResourceLine';
 import { useCallback } from 'react';
 import { useClickAwayListener } from '../../hooks/useClickAwayListener';
-import { Dialog, useDialog } from '../Dialog';
-import { NewFormDialog } from './NewForm';
-import { DialogTreeContext } from '../Dialog/dialogContext';
 import { useResource, useTitle } from '@tomic/react';
 
 interface DropDownListProps {
@@ -25,7 +22,16 @@ interface DropDownListProps {
   onRemove?: () => void;
   placeholder?: string;
   disabled?: boolean;
+  /**
+   * URL of the Class that is used to instantiate new items in the Dropdown.
+   * Used in combination with `onCreateClick`
+   */
   classType?: string;
+  /** Called after pressing the plus icon */
+  onCreateClick?: () => void;
+  /** Called after change of input - also if no value has been selected yet */
+  onInputChange?: (newInput: string) => void;
+  onBlur?: () => void;
 }
 
 type CreateOption = {
@@ -39,7 +45,9 @@ function isCreateOption(option: unknown): option is CreateOption {
 
 /**
  * Renders an input field with a dropdown menu. You can search through the
- * items, select them from a list, clear the entire thing
+ * items, select them from a list, clear the entire thing, add new items.
+ *
+ * If you want to allow adding new items, pass an onCreateClick prop.
  */
 export const DropdownInput: React.FC<DropDownListProps> = ({
   required,
@@ -50,6 +58,9 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   options,
   disabled,
   classType,
+  onCreateClick,
+  onInputChange,
+  onBlur,
   ...props
 }) => {
   const [inputValue, setInputValue] = useState<string>(initial ? initial : '');
@@ -64,18 +75,14 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   const openMenuButtonRef = useRef(null);
   const inputRef = useRef(null);
 
+  /** Close the menu and set the value */
   const handleClickOutside = useCallback(() => {
     setIsOpen(false);
-  }, []);
-
-  const handleNewResourceCreated = useCallback(
-    (subject: string) => {
-      setInputValue(subject);
-      setSelectedItem(subject);
-      onUpdate(subject);
-    },
-    [onUpdate, setInputValue, setSelectedItem],
-  );
+    setIsFocus(false);
+    onBlur();
+    // Does this do what it should?
+    setSelectedItem(inputValue);
+  }, [onBlur, inputValue]);
 
   useClickAwayListener(
     [dropdownRef, openMenuButtonRef, inputRef],
@@ -98,22 +105,23 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
     { enabled: isOpen, enableOnTags: ['INPUT'] },
   );
 
-  const isInDialogTree = useContext(DialogTreeContext);
-  const [dialogProps, showDialog, closeDialog, isDialogOpen] = useDialog();
-
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const val = e.target.value;
-    setInputValue(val);
-    setUseKeys(true);
-    setIsFocus(true);
-    setIsOpen(true);
-    setSelectedIndex(-1);
-    if (val == '') {
-      setSelectedItem(null);
-    } else {
-      setSelectedItem(val);
-    }
-  }
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value;
+      setInputValue(val);
+      onInputChange(val);
+      setUseKeys(true);
+      setIsFocus(true);
+      setIsOpen(true);
+      setSelectedIndex(-1);
+      if (val == '') {
+        setSelectedItem(null);
+      } else {
+        setSelectedItem(val);
+      }
+    },
+    [onInputChange, setInputValue],
+  );
 
   function clearSelection() {
     setInputValue('');
@@ -202,30 +210,17 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
               setInputValue={setInputValue}
               setSelectedItem={setSelectedItem}
               onUpdate={onUpdate}
-              onCreateClick={showDialog}
+              onCreateClick={onCreateClick}
               setIsOpen={setIsOpen}
               isOpen={isOpen}
               useKeys={useKeys}
               setUseKeys={setUseKeys}
               inputValue={inputValue}
-              inDialogTree={isInDialogTree}
               classType={classType}
             />
           )}
         </DropDownWrapperWrapper>
       </DropDownStyled>
-      {!isInDialogTree && (
-        <Dialog {...dialogProps}>
-          {isDialogOpen && (
-            <NewFormDialog
-              classSubject={classType}
-              closeDialog={closeDialog}
-              initialTitle={inputValue}
-              onSave={handleNewResourceCreated}
-            />
-          )}
-        </Dialog>
-      )}
     </>
   );
 };
@@ -240,11 +235,13 @@ interface DropDownItemsMenuProps {
   inputValue: string;
   setInputValue: (inputValue: string) => void;
   setSelectedItem: (item: string | null) => void;
+  /** Is called when the Component sets the actual value */
   onUpdate: (item: string | null) => void;
-  onCreateClick: () => void;
+  /** When the new option in the dropdown menu is selected */
+  onCreateClick?: () => void;
   setIsOpen: (isOpen: boolean) => void;
   isOpen: boolean;
-  inDialogTree: boolean;
+  /** URL of the Class. Used for showing the label for `onCreateClick` */
   classType?: string;
 }
 
@@ -275,12 +272,11 @@ function DropDownItemsMenu({
   setSelectedIndex,
   setSelectedItem,
   setUseKeys,
-  inDialogTree,
   useKeys,
   classType,
 }: DropDownItemsMenuProps): JSX.Element {
   const searchResults = useLocalSearch(inputValue, options);
-  const showCreateOption = !inDialogTree && inputValue;
+  const showCreateOption = onCreateClick && !inputValue.startsWith('http');
 
   const items: Array<Hit | CreateOption> = [
     ...(showCreateOption ? [{ type: 'createOption' } as CreateOption] : []),
@@ -350,6 +346,10 @@ function DropDownItemsMenu({
     [selectedIndex],
   );
 
+  if (!items || items.length === 0) {
+    return null;
+  }
+
   return (
     <DropDownWrapper ref={dropdownRef}>
       {items.map((item, index) => {
@@ -361,7 +361,8 @@ function DropDownItemsMenu({
               useKeys={useKeys}
               selected={index === selectedIndex}
             >
-              Create {classTypeTitle}: <NewItemName>{inputValue}</NewItemName>
+              Create {classType ? classTypeTitle : 'new item'}:{' '}
+              <NewItemName>{inputValue}</NewItemName>
             </DropDownItem>
           );
         }
