@@ -2,6 +2,6 @@ import { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   use: { screenshot: 'only-on-failure' },
-  workers: 1,
+  fullyParallel: true,
 };
 export default config;
