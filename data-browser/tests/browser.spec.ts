@@ -394,10 +394,10 @@ async function editProfileAndCommit(page: Page) {
   // Edit profile and save commit
   await page.click('text=Edit profile');
   await expect(await page.locator('text=add another property')).toBeVisible();
-  await page.fill(
-    '[data-test="input-name"]',
-    `Test user edited at ${new Date().toLocaleDateString()}`,
-  );
+  const username = `Test user edited at ${new Date().toLocaleDateString()}`;
+  await page.fill('[data-test="input-name"]', username);
   await page.click('[data-test="save"]');
   await expect(await page.locator('text=saved')).toBeVisible();
+  await page.waitForURL(/\/app\/show/);
+  await expect(await page.locator(`text=${username}`)).toBeVisible();
 }
