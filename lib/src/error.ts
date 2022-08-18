@@ -1,4 +1,4 @@
-import { properties } from './urls.js';
+import { properties } from './urls';
 
 export enum ErrorType {
   Unauthorized = 'Unauthorized',
