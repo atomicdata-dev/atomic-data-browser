@@ -1,5 +1,11 @@
 import { ArrayError, urls } from '@tomic/lib';
-import { useArray, useResource, useStore, useTitle } from '@tomic/react';
+import {
+  useArray,
+  useCurrentAgent,
+  useResource,
+  useStore,
+  useTitle,
+} from '@tomic/react';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ErrMessage } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
@@ -7,6 +13,7 @@ import { Dialog, useDialog } from '../Dialog';
 import { DialogTreeContext } from '../Dialog/dialogContext';
 import { NewFormDialog } from './NewForm';
 import { useCallback } from 'react';
+import { useSettings } from '../../helpers/AppSettings';
 
 interface ResourceSelectorProps {
   /**
@@ -68,6 +75,8 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   const classTypeTitle = useTitle(requiredClass);
   const store = useStore();
   const [dialogProps, showDialog, closeDialog, isDialogOpen] = useDialog();
+  const parentResource = useResource(parent);
+  const { drive } = useSettings();
 
   const [
     /** The value of the input underneath, updated through a callback */
@@ -129,7 +138,9 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         <Dialog {...dialogProps}>
           {isDialogOpen && (
             <NewFormDialog
-              parent={parent}
+              // Any resource needs a parent, but what do we do if the logical parent does not exist yet?
+              // https://github.com/atomicdata-dev/atomic-data-browser/issues/195
+              parent={parentResource.new ? drive : parent}
               classSubject={classType}
               closeDialog={closeDialog}
               initialTitle={inputValue}
