@@ -31,6 +31,13 @@ export const AppSettingsContextProvider = (
   );
   const [agent, setAgent] = useCurrentAgent();
   const [baseURL, setBaseURL] = useBaseURL();
+  const [drive, innerSetDrive] = useLocalStorage('drive', baseURL);
+
+  function setDrive(drive: string) {
+    const url = new URL(drive);
+    innerSetDrive(drive);
+    setBaseURL(url.origin);
+  }
 
   const setAgentToast = (agent: Agent) => {
     try {
@@ -46,8 +53,8 @@ export const AppSettingsContextProvider = (
   return (
     <SettingsContext.Provider
       value={{
-        baseURL,
-        setBaseURL,
+        drive,
+        setDrive,
         darkMode,
         darkModeSetting,
         setDarkMode,
@@ -80,8 +87,9 @@ interface AppSettings {
   mainColor: string;
   setMainColor: (s: string) => void;
   /** The URL that points to the Drive shown in the SideBar */
-  baseURL: string;
-  setBaseURL: (s: string) => void;
+  drive: string;
+  /** Sets the current Drive (and therefore, server!) */
+  setDrive: (s: string) => void;
   /** If the navbar should be at the top of the page */
   navbarTop: boolean;
   setNavbarTop: (s: boolean) => void;

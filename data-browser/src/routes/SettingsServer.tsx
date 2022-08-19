@@ -14,7 +14,7 @@ import { useStore } from '@tomic/react';
 import { Row } from '../components/Row';
 
 export function SettingsServer(): JSX.Element {
-  const { baseURL, setBaseURL } = useSettings();
+  const { drive: baseURL, setDrive: setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
   const store = useStore();

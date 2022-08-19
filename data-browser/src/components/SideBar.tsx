@@ -51,19 +51,13 @@ const aboutMenuItems: SideBarMenuItemProps[] = [
 ];
 
 export function SideBar(): JSX.Element {
-  const { baseURL } = useSettings();
+  const { drive: baseURL } = useSettings();
   const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLDivElement>(sideBarLocked);
   const windowSize = useWindowSize();
 
   const appMenuItems: SideBarMenuItemProps[] = React.useMemo(() => {
     return [
-      {
-        icon: <FaPlus />,
-        label: 'new resource',
-        helper: 'Create a new Resource, based on a Class (n)',
-        path: paths.new,
-      },
       {
         icon: <FaUser />,
         label: 'user settings',
@@ -184,11 +178,11 @@ interface SideBarDriveProps {
 const SideBarDrive = React.memo(function SBD({
   handleClickItem,
 }: SideBarDriveProps): JSX.Element {
-  const { baseURL } = useSettings();
+  const { drive: driveSubject } = useSettings();
   const { agent } = useSettings();
-  const drive = useResource(baseURL);
-  const [children] = useArray(drive, properties.children);
-  const title = useTitle(drive);
+  const driveResource = useResource(driveSubject);
+  const [children] = useArray(driveResource, properties.children);
+  const title = useTitle(driveResource);
   const navigate = useNavigate();
 
   return (
@@ -196,16 +190,16 @@ const SideBarDrive = React.memo(function SBD({
       <SideBarHeader>
         <Button
           clean
-          title={`Your current baseURL is ${baseURL}`}
+          title={`Your current baseURL is ${driveSubject}`}
           data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
-            navigate(constructOpenURL(baseURL));
+            navigate(constructOpenURL(driveSubject));
           }}
           style={{ flex: 1, textAlign: 'left' }}
         >
           <DriveTitle data-test='current-drive-title'>
-            {title || baseURL}{' '}
+            {title || driveSubject}{' '}
           </DriveTitle>
         </Button>
         <Button
@@ -218,27 +212,36 @@ const SideBarDrive = React.memo(function SBD({
           <FaServer />
         </Button>
       </SideBarHeader>
-      {drive.isReady() ? (
-        children.map(child => {
-          return (
-            <ResourceSideBar
-              key={child}
-              subject={child}
-              handleClose={handleClickItem}
-            />
-          );
-        })
-      ) : drive.loading ? null : (
+      {driveResource.isReady() ? (
+        <>
+          {children.map(child => {
+            return (
+              <ResourceSideBar
+                key={child}
+                subject={child}
+                handleClose={handleClickItem}
+              />
+            );
+          })}
+          <SideBarMenuItem
+            icon={<FaPlus />}
+            path={paths.new}
+            label={'new resource'}
+            helper={'Create a new Resource, based on a Class (n)'}
+          />
+        </>
+      ) : driveResource.loading ? null : (
         <SideBarErr>
-          {drive.error ? (
-            drive.isUnauthorized() ? (
+          Error:
+          {driveResource.error ? (
+            driveResource.isUnauthorized() ? (
               agent ? (
                 'unauthorized'
               ) : (
                 <SignInButton />
               )
             ) : (
-              drive.error.message
+              driveResource.error.message
             )
           ) : (
             'this should not happen'

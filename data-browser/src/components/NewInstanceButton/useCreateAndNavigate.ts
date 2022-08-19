@@ -30,7 +30,7 @@ export function useCreateAndNavigate(klass: string, parent: string) {
       className: string,
       propVals: Record<string, JSONValue>,
       extraParams?: Record<string, string>,
-    ) => {
+    ): Promise<Resource> => {
       const subject = store.createSubject(className);
       const resource = new Resource(subject, true);
 
@@ -45,6 +45,7 @@ export function useCreateAndNavigate(klass: string, parent: string) {
 
       navigate(constructOpenURL(subject, extraParams));
       toast.success(`${title} created`);
+      return resource;
     },
     [store, classTypeResource, title, navigate, parent],
   );

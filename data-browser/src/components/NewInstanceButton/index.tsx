@@ -1,8 +1,9 @@
-import { classes, useStore } from '@tomic/react';
+import { classes } from '@tomic/react';
 import React from 'react';
 import { NewBookmarkButton } from './NewBookmarkButton';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 import { NewInstanceButtonDefault } from './NewInstanceButtonDefault';
+import { useSettings } from '../../helpers/AppSettings';
 
 type InstanceButton = (props: NewInstanceButtonProps) => JSX.Element;
 
@@ -15,10 +16,10 @@ const classMap = new Map<string, InstanceButton>([
 export default function NewInstanceButton(
   props: NewInstanceButtonProps,
 ): JSX.Element {
-  const store = useStore();
   const { klass, parent } = props;
+  const { drive } = useSettings();
 
   const Comp = classMap.get(klass) ?? NewInstanceButtonDefault;
 
-  return <Comp {...props} parent={parent ?? store.getAgent()?.subject} />;
+  return <Comp {...props} parent={parent ?? drive} />;
 }

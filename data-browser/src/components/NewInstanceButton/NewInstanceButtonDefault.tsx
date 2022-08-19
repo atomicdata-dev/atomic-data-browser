@@ -6,6 +6,7 @@ import { classes, properties } from '@tomic/lib';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 import { Base } from './Base';
 import { useCreateAndNavigate } from './useCreateAndNavigate';
+import { useSettings } from '../../helpers/AppSettings';
 
 /** Default handler for the new Instance button. DO NOT USE DIRECTLY. */
 export function NewInstanceButtonDefault({
@@ -20,10 +21,10 @@ export function NewInstanceButtonDefault({
   const navigate = useNavigate();
   const store = useStore();
   const [shortname] = useString(resource, properties.shortname);
-
+  const { setDrive } = useSettings();
   const createResourceAndNavigate = useCreateAndNavigate(klass, parent);
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     switch (klass) {
       case classes.chatRoom: {
         createResourceAndNavigate('chatRoom', {
@@ -42,6 +43,15 @@ export function NewInstanceButtonDefault({
         createResourceAndNavigate('importer', {
           [properties.isA]: [classes.importer],
         });
+        break;
+      }
+      case classes.drive: {
+        const resource = await createResourceAndNavigate('drive', {
+          [properties.isA]: [classes.drive],
+          [properties.write]: [store.getAgent().subject],
+          // [properties.parent]: null,
+        });
+        setDrive(resource.getSubject());
         break;
       }
       default: {
