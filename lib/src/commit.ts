@@ -48,6 +48,7 @@ export function getTimestampNow(): number {
 export class CommitBuilder implements CommitBuilderI {
   subject: string;
   set: Record<string, JSONValue>;
+  push: Record<string, JSONValue>;
   remove: string[];
   destroy?: boolean;
   previousCommit?: string;
@@ -56,6 +57,7 @@ export class CommitBuilder implements CommitBuilderI {
   constructor(subject: string) {
     this.subject = removeQueryParamsFromURL(subject);
     this.set = {};
+    this.push = {};
     this.remove = [];
   }
 
@@ -152,11 +154,14 @@ export function serializeDeterministically(
   commit: CommitPreSigned | Commit,
 ): string {
   // Remove empty arrays, objects, false values from root
-  if (commit.remove?.length == 0) {
+  if (Object.keys(commit.remove).length == 0) {
     delete commit.remove;
   }
-  if (commit.set?.length == 0) {
-    delete commit.remove;
+  if (Object.keys(commit.set).length == 0) {
+    delete commit.set;
+  }
+  if (Object.keys(commit.push).length == 0) {
+    delete commit.push;
   }
   if (commit.destroy == false) {
     delete commit.destroy;
@@ -164,6 +169,7 @@ export function serializeDeterministically(
   replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
   replaceKey(commit, 'subject', urls.properties.commit.subject);
   replaceKey(commit, 'set', urls.properties.commit.set);
+  replaceKey(commit, 'push', urls.properties.commit.push);
   replaceKey(commit, 'signer', urls.properties.commit.signer);
   replaceKey(commit, 'signature', urls.properties.commit.signature);
   replaceKey(commit, 'remove', urls.properties.commit.remove);
