@@ -4,7 +4,7 @@ import { DarkModeOption, useDarkMode } from './useDarkMode';
 import {
   useLocalStorage,
   useCurrentAgent,
-  useBaseURL,
+  useServerURL,
   Agent,
 } from '@tomic/react';
 import toast from 'react-hot-toast';
@@ -30,7 +30,7 @@ export const AppSettingsContextProvider = (
     window.innerWidth > SIDEBAR_TOGGLE_WIDTH,
   );
   const [agent, setAgent] = useCurrentAgent();
-  const [baseURL, setBaseURL] = useBaseURL();
+  const [baseURL, setBaseURL] = useServerURL();
   const [drive, innerSetDrive] = useLocalStorage('drive', baseURL);
 
   function setDrive(drive: string) {

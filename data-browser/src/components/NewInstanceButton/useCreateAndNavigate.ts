@@ -29,7 +29,10 @@ export function useCreateAndNavigate(klass: string, parent: string) {
     async (
       className: string,
       propVals: Record<string, JSONValue>,
+      /** Query parameters for the resource / endpoint */
       extraParams?: Record<string, string>,
+      /** Do not set a parent for the new resource. Useful for top-level resources */
+      noParent?: boolean,
     ): Promise<Resource> => {
       const subject = store.createSubject(className);
       const resource = new Resource(subject, true);
@@ -38,7 +41,7 @@ export function useCreateAndNavigate(klass: string, parent: string) {
         ...Object.entries(propVals).map(([key, val]) =>
           resource.set(key, val, store),
         ),
-        resource.set(properties.parent, parent, store),
+        !noParent && resource.set(properties.parent, parent, store),
       ]);
 
       await resource.save(store);

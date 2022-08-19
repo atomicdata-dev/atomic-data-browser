@@ -23,7 +23,7 @@
  */
 
 export * from './hooks';
-export * from './useBaseURL';
+export * from './useServerURL';
 export * from './useCurrentAgent';
 export * from './useDebounce';
 export * from './useImporter';

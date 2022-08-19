@@ -1,4 +1,4 @@
-import { properties, useArray, useImporter, useTitle } from '@tomic/react';
+import { properties, useArray, useImporter } from '@tomic/react';
 import React, { useState } from 'react';
 import { Button } from '../components/Button.jsx';
 import { ContainerNarrow } from '../components/Containers';

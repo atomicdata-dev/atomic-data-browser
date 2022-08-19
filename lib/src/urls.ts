@@ -26,14 +26,23 @@ export const classes = {
 export const properties = {
   /** Collection of all the AtomicData.dev properties */
   getAll: 'https://atomicdata.dev/properties/?page_size=999',
-  shortname: 'https://atomicdata.dev/properties/shortname',
-  description: 'https://atomicdata.dev/properties/description',
-  recommends: 'https://atomicdata.dev/properties/recommends',
-  requires: 'https://atomicdata.dev/properties/requires',
-  name: 'https://atomicdata.dev/properties/name',
+  children: 'https://atomicdata.dev/properties/children',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',
+  datatype: 'https://atomicdata.dev/properties/datatype',
+  description: 'https://atomicdata.dev/properties/description',
+  drives: 'https://atomicdata.dev/properties/drives',
   incomplete: 'https://atomicdata.dev/properties/incomplete',
+  isA: 'https://atomicdata.dev/properties/isA',
+  isDynamic: 'https://atomicdata.dev/properties/isDynamic',
+  name: 'https://atomicdata.dev/properties/name',
+  parent: 'https://atomicdata.dev/properties/parent',
+  paymentPointer: 'https://atomicdata.dev/properties/paymentPointer',
+  read: 'https://atomicdata.dev/properties/read',
+  recommends: 'https://atomicdata.dev/properties/recommends',
+  requires: 'https://atomicdata.dev/properties/requires',
+  shortname: 'https://atomicdata.dev/properties/shortname',
+  write: 'https://atomicdata.dev/properties/write',
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',
   },
@@ -98,14 +107,6 @@ export const properties = {
     url: 'https://atomicdata.dev/property/url',
     preview: 'https://atomicdata.dev/property/preview',
   },
-  datatype: 'https://atomicdata.dev/properties/datatype',
-  isA: 'https://atomicdata.dev/properties/isA',
-  isDynamic: 'https://atomicdata.dev/properties/isDynamic',
-  parent: 'https://atomicdata.dev/properties/parent',
-  read: 'https://atomicdata.dev/properties/read',
-  write: 'https://atomicdata.dev/properties/write',
-  children: 'https://atomicdata.dev/properties/children',
-  paymentPointer: 'https://atomicdata.dev/properties/paymentPointer',
 };
 
 export const datatypes = {
