@@ -8,7 +8,6 @@ import {
   useStore,
   useString,
   useSubject,
-  useTitle,
 } from '@tomic/react';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -21,6 +20,7 @@ import { Button } from '../components/Button';
 import { CommitDetail } from '../components/CommitDetail';
 import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
+import { EditableTitle } from '../components/EditableTitle';
 import Parent from '../components/Parent';
 import { editURL } from '../helpers/navigation';
 import ResourceInline, { ErrorLook } from './ResourceInline';
@@ -28,7 +28,6 @@ import { ResourcePageProps } from './ResourcePage';
 
 /** Full page ChatRoom that shows a message list and a form to add Messages. */
 export function ChatRoomPage({ resource }: ResourcePageProps) {
-  const title = useTitle(resource);
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [newMessageVal, setNewMessage] = useState('');
   const store = useStore();
@@ -42,6 +41,15 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     e => {
       e.preventDefault();
       sendMessage();
+    },
+    { enableOnTags: ['TEXTAREA'] },
+    [],
+  );
+
+  useHotkeys(
+    'escape',
+    _e => {
+      inputRef.current.blur();
     },
     { enableOnTags: ['TEXTAREA'] },
     [],
@@ -132,7 +140,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   return (
     <FullPageWrapper about={resource.getSubject()}>
       <Parent resource={resource} />
-      <h1>{title}</h1>
+      <EditableTitle resource={resource} />
       {store.webSocket.readyState == WebSocket.CLOSED && (
         <ErrorLook>Closed websocket!</ErrorLook>
       )}
