@@ -46,6 +46,8 @@ export function getTimestampNow(): number {
 
 /** A {@link Commit} without its signature, signer and timestamp */
 export class CommitBuilder implements CommitBuilderI {
+  // WARNING
+  // If you add stuff here, add it to `.clone()!` too!
   subject: string;
   set: Record<string, JSONValue>;
   push: Record<string, JSONValue>;
@@ -91,6 +93,7 @@ export class CommitBuilder implements CommitBuilderI {
   clone(): CommitBuilder {
     const cm = new CommitBuilder(this.subject);
     cm.set = this.set;
+    cm.push = this.push;
     cm.destroy = this.destroy;
     cm.remove = this.remove;
     cm.previousCommit = this.previousCommit;
@@ -154,13 +157,13 @@ export function serializeDeterministically(
   commit: CommitPreSigned | Commit,
 ): string {
   // Remove empty arrays, objects, false values from root
-  if (Object.keys(commit.remove).length == 0) {
+  if (commit.remove && Object.keys(commit.remove).length == 0) {
     delete commit.remove;
   }
-  if (Object.keys(commit.set).length == 0) {
+  if (commit.set && Object.keys(commit.set).length == 0) {
     delete commit.set;
   }
-  if (Object.keys(commit.push).length == 0) {
+  if (commit.push && Object.keys(commit.push).length == 0) {
     delete commit.push;
   }
   if (commit.destroy == false) {
@@ -292,9 +295,8 @@ export function parseCommit(str: string): Commit {
 
 /** Parses a JSON-AD Commit, applies it to the store. Does not perform checks */
 export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
-  // Parse the commit
-  const parsed = parseCommit(jsonAdObjStr);
-  const { subject, set, remove, id, destroy, signature, push } = parsed;
+  const { subject, set, remove, id, destroy, signature, push } =
+    parseCommit(jsonAdObjStr);
 
   let resource = store.resources.get(subject);
 

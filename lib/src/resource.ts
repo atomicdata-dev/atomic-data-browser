@@ -231,7 +231,7 @@ export class Resource {
   }
 
   /** Appends a Resource to a ResourceArray */
-  push(propUrl: string, value: JSONArray): void {
+  pushPropVal(propUrl: string, value: JSONArray): void {
     let propVal = this.get(propUrl) as JSONArray;
     if (propVal == undefined) {
       propVal = [];
