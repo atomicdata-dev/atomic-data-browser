@@ -2,6 +2,7 @@ import { properties, useArray, useImporter, useTitle } from '@tomic/react';
 import React, { useState } from 'react';
 import { Button } from '../components/Button.jsx';
 import { ContainerNarrow } from '../components/Containers';
+import { EditableTitle } from '../components/EditableTitle';
 import Field from '../components/forms/Field.jsx';
 import {
   InputStyled,
@@ -21,7 +22,6 @@ export function ImporterPage({ resource }: ResourcePageProps) {
     success,
     resource: resourceInternal,
   } = useImporter(resource.getSubject());
-  const title = useTitle(resource);
   const [results] = useArray(resourceInternal, properties.endpoint.results);
   const [jsonAd, setJsonAd] = useState('');
   const [url, setUrl] = useState('');
@@ -29,7 +29,7 @@ export function ImporterPage({ resource }: ResourcePageProps) {
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <Parent resource={resource} />
-      <h1>{title}</h1>
+      <EditableTitle resource={resource} />
       <p>
         Import data using a JSON-AD string or URL pointing to a JSON-AD
         document. These can contain single or multiple resources. Read more

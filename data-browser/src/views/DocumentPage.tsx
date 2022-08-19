@@ -29,6 +29,7 @@ import { ResourcePageProps } from './ResourcePage';
 import { UploadWrapper } from '../components/forms/UploadForm';
 import toast from 'react-hot-toast';
 import { shortcuts } from '../components/HotKeyWrapper';
+import { EditableTitle } from '../components/EditableTitle';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
@@ -64,10 +65,7 @@ function DocumentPageEdit({
     properties.document.elements,
     { commit: true, validate: false, commitDebounce: 0 },
   );
-  const [title, setTitle] = useString(resource, properties.name, {
-    commit: true,
-    validate: false,
-  });
+
   const titleRef = React.useRef(null);
   const store = useStore();
   const ref = React.useRef(null);
@@ -281,13 +279,7 @@ function DocumentPageEdit({
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <TitleInput
-          data-test='document-title'
-          ref={titleRef}
-          placeholder={'set a title'}
-          value={title ? title : ''}
-          onChange={e => setTitle(e.target.value)}
-        />
+        <EditableTitle ref={titleRef} resource={resource} />
         <Button
           icon
           subtle
@@ -408,26 +400,6 @@ const NewLine = styled.div`
   height: 20rem;
   flex: 1;
   cursor: text;
-`;
-
-const TitleInput = styled.input`
-  margin-bottom: ${props => props.theme.margin}rem;
-  font-size: ${p => p.theme.fontSizeH1}rem;
-  color: ${p => p.theme.colors.text};
-  border: none;
-  font-weight: bold;
-  display: block;
-  width: 100%;
-  padding: 0;
-  margin-top: 0;
-  outline: none;
-  background-color: ${p => p.theme.colors.bg};
-  margin-bottom: ${p => p.theme.margin}rem;
-  font-family: ${p => p.theme.fontFamilyHeader};
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 const SortableItemWrapper = styled.div`

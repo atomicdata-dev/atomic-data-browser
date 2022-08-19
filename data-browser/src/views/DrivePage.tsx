@@ -10,15 +10,17 @@ import AtomicLink from '../components/AtomicLink';
 import { FaPlus } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 import { ResourcePageProps } from './ResourcePage';
+import { EditableTitle } from '../components/EditableTitle';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
 function DrivePage({ resource }: ResourcePageProps): JSX.Element {
   const title = useTitle(resource);
   const [children] = useArray(resource, properties.children);
-  const { baseURL, setBaseURL } = useSettings();
+  const { drive: baseURL, setDrive: setBaseURL } = useSettings();
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
+      <EditableTitle resource={resource} />
       {baseURL !== resource.getSubject() && (
         <Button onClick={() => setBaseURL(resource.getSubject())}>
           Set as current drive

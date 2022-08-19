@@ -1,5 +1,5 @@
 import React from 'react';
-import { useString, useTitle, properties } from '@tomic/react';
+import { useString, properties } from '@tomic/react';
 import AllProps from '../components/AllProps';
 import { ClassDetail } from '../components/ClassDetail';
 import { ContainerNarrow } from '../components/Containers';
@@ -8,6 +8,7 @@ import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
 import { CommitDetail } from '../components/CommitDetail';
 import { Details } from '../components/Detail';
+import { EditableTitle } from '../components/EditableTitle';
 
 /**
  * The properties that are shown in an alternative, custom way in default views.
@@ -39,13 +40,12 @@ export const defaultHiddenProps = [
 export function ResourcePageDefault({
   resource,
 }: ResourcePageProps): JSX.Element {
-  const title = useTitle(resource);
   const [lastCommit] = useString(resource, properties.commit.lastCommit);
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <Parent resource={resource} />
-      <h1>{title}</h1>
+      <EditableTitle resource={resource} />
       <Details>
         <ClassDetail resource={resource} />
         <CommitDetail commitSubject={lastCommit} />

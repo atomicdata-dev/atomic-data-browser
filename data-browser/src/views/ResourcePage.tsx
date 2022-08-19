@@ -22,7 +22,7 @@ import { ResourcePageDefault } from './ResourcePageDefault';
 import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
-import { BookmarkPage } from './BookmarkPage';
+import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
 
 type Props = {

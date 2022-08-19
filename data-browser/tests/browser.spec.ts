@@ -7,7 +7,7 @@ import { test, expect, Page } from '@playwright/test';
 const initialTest = true;
 
 const timestamp = new Date().toLocaleTimeString();
-const documentTitle = '[data-test="document-title"]';
+const editableTitle = '[data-test="editable-title"]';
 const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
@@ -85,7 +85,7 @@ test.describe('data-browser', async () => {
     // Use invite
     await page.click(`text=${demoInviteName}`);
     await page.click('text=Accept as new user');
-    await expect(page.locator(documentTitle)).toBeVisible();
+    await expect(page.locator(editableTitle)).toBeVisible();
     await expect(page.locator(navbarCurrentUser)).toBeVisible();
     // We need the initial enter because removing the top line isn't working ATM
     await page.keyboard.press('Enter');
@@ -97,8 +97,8 @@ test.describe('data-browser', async () => {
     await page.keyboard.press('Alt+Backspace');
     await expect(page.locator(`text=${teststring}`)).not.toBeVisible();
     const docTitle = `Document Title ${timestamp}`;
-    await page.fill(documentTitle, docTitle);
-    await page.click(documentTitle, { delay: 200 });
+    await page.click(editableTitle, { delay: 200 });
+    await page.fill(editableTitle, docTitle);
     // Not sure if this test is needed - it fails now.
     // await expect(page.locator(documentTitle)).toBeFocused();
   });
@@ -172,7 +172,7 @@ test.describe('data-browser', async () => {
     await page.waitForResponse(`${serverUrl}/commit`);
     // commit for initializing the first element (paragraph)
     await page.waitForResponse(`${serverUrl}/commit`);
-    await page.click(documentTitle);
+    await page.click(editableTitle);
     const title = `Nice title ${timestamp}`;
     // These keys make sure the onChange handler is properly called
     await page.keyboard.press('Space');
@@ -185,7 +185,7 @@ test.describe('data-browser', async () => {
     await page.waitForResponse(`${serverUrl}/commit`);
     // await page.click('[data-test="document-edit"]');
     // await expect(await page.title()).toEqual(title);
-    await page.press(documentTitle, 'Enter');
+    await page.press(editableTitle, 'Enter');
     await page.waitForTimeout(500);
     const teststring = `My test: ${timestamp}`;
     await page.fill('textarea', teststring);
@@ -224,6 +224,7 @@ test.describe('data-browser', async () => {
   }) => {
     // Remove public read rights for Drive
     await signIn(page);
+    const drive = await newDrive(page);
     await page.click(currentDriveTitle);
     await page.click('[data-test="context-menu"]');
     await page.click('button:has-text("share")');
@@ -240,7 +241,7 @@ test.describe('data-browser', async () => {
     const context2 = await browser.newContext();
     const page2 = await context2.newPage();
     await page2.setViewportSize({ width: 1000, height: 400 });
-    await page2.goto(frontEndUrl);
+    await page2.goto(drive);
     await openLocalhost(page2);
     await page2.click(currentDriveTitle);
     await expect(await page2.locator('text=Unauthorized')).toBeVisible();
@@ -319,8 +320,9 @@ test.describe('data-browser', async () => {
 
   test('dialog', async ({ page }) => {
     await signIn(page);
+    await newDrive(page);
     // Create new class from new resource menu
-    await page.locator('text=new resource').click();
+    await page.locator('text=create new resource').click();
     await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
     await page.locator('button:has-text("class")').click();
     await page
@@ -376,10 +378,24 @@ async function openLocalhost(page: Page) {
   // await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
 }
 
+/** Create a new drive, go to it, and set it as the current drive. Returns URL of drive */
+async function newDrive(page: Page) {
+  // Create new drive to prevent polluting the main drive
+  await page.locator('text=new resource').click();
+  await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
+  await page.locator('button:has-text("drive")').click();
+  const addressBar = await page.locator('[data-test="address-bar"]');
+  console.log(addressBar);
+  const driveURL = await addressBar.getAttribute('value');
+  await expect(driveURL).toContain('localhost');
+  return driveURL as string;
+}
+
 /** Set localhost as current server */
 async function openSubject(page: Page, subject: string) {
   await page.fill('[data-test="address-bar"]', subject);
 }
+
 /** Set atomicdata.dev as current server */
 async function openAtomic(page: Page) {
   await page.click(sidebarDriveEdit);
