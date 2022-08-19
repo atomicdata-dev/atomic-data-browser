@@ -40,7 +40,7 @@ export default function InputResourceArray({
     <>
       {array.map((subject, index) => (
         <ResourceSelector
-          key={`${property.subject}${index}${subject}`}
+          key={`${property.subject}${index}`}
           value={subject}
           setSubject={(set, handleErr) =>
             handleSetSubject(set, handleErr, index)

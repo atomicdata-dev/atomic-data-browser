@@ -119,7 +119,12 @@ export function UploadWrapper({
   const { getRootProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div {...getRootProps()}>
+    <div
+      {...getRootProps()}
+      // For some reason this is tabbable by default, but it does not seem to actually help users.
+      // Let's disable it.
+      tabIndex={-1}
+    >
       {isUploading && <p>{'Uploading...'}</p>}
       {err && <ErrMessage>{err.message}</ErrMessage>}
       {isDragActive ? <Fill>{'Drop the files here ...'}</Fill> : children}
