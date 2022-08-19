@@ -10,6 +10,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fix crash in circular parent rendering
 - Fix race condition #189
 - Add `new drive` option
+- Make all titles editable #199
 
 ## v0.31.1
 
