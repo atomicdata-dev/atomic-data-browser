@@ -279,7 +279,7 @@ function DocumentPageEdit({
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <EditableTitle ref={titleRef} resource={resource} />
+        <EditableTitle parentRef={titleRef} resource={resource} />
         <Button
           icon
           subtle

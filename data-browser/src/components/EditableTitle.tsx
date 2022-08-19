@@ -14,11 +14,13 @@ export interface EditableTitleProps {
   resource: Resource;
   /** Uses `name` by default */
   propertyURL?: string;
+  parentRef?: React.RefObject<HTMLInputElement>;
 }
 
 export function EditableTitle({
   resource,
   propertyURL,
+  parentRef,
   ...props
 }: EditableTitleProps): JSX.Element {
   propertyURL = propertyURL || properties.name;
@@ -28,7 +30,8 @@ export function EditableTitle({
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  const ref = useRef(null);
+  const innerRef = useRef<HTMLInputElement>(null);
+  const ref = parentRef || innerRef;
 
   const [canEdit] = useCanWrite(resource);
   const starndardTitle = useTitle(resource);
