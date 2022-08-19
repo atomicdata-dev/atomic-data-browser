@@ -46,11 +46,20 @@ export function NewInstanceButtonDefault({
         break;
       }
       case classes.drive: {
-        const resource = await createResourceAndNavigate('drive', {
-          [properties.isA]: [classes.drive],
-          [properties.write]: [store.getAgent().subject],
-          // [properties.parent]: null,
-        });
+        const resource = await createResourceAndNavigate(
+          'drive',
+          {
+            [properties.isA]: [classes.drive],
+            [properties.write]: [store.getAgent().subject],
+            [properties.read]: [store.getAgent().subject],
+            // [properties.parent]: null,
+          },
+          undefined,
+          true,
+        );
+        const agent = await store.getResourceAsync(store.getAgent().subject);
+        agent.push(properties.drives, [resource.getSubject()]);
+        agent.save(store);
         setDrive(resource.getSubject());
         break;
       }

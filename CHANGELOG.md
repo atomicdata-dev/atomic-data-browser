@@ -9,6 +9,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Various improvements to Dropdown forms #194
 - Fix crash in circular parent rendering
 - Fix race condition #189
+- Add `new drive` option
 
 ## v0.31.1
 
