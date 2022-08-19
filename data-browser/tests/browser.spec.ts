@@ -224,7 +224,7 @@ test.describe('data-browser', async () => {
   }) => {
     // Remove public read rights for Drive
     await signIn(page);
-    const drive = await newDrive(page);
+    const { driveURL, driveTitle } = await newDrive(page);
     await page.click(currentDriveTitle);
     await page.click('[data-test="context-menu"]');
     await page.click('button:has-text("share")');
@@ -241,7 +241,7 @@ test.describe('data-browser', async () => {
     const context2 = await browser.newContext();
     const page2 = await context2.newPage();
     await page2.setViewportSize({ width: 1000, height: 400 });
-    await page2.goto(drive);
+    await page2.goto(driveURL);
     await openLocalhost(page2);
     await page2.click(currentDriveTitle);
     await expect(await page2.locator('text=Unauthorized')).toBeVisible();
@@ -260,20 +260,10 @@ test.describe('data-browser', async () => {
     );
 
     expect(inviteUrl).not.toBeNull();
-    // const value = await page.evaluate(() =>
-    //   document.querySelector('input').getAttribute('value'),
-    // );
-    // Copy invite (not easy)
-    // const inviteUrl: string = await page.evaluate(
-    //   `(async () => await navigator.clipboard.readText())()`,
-    // );
-    // const inviteUrl = await navigator.clipboard.readText();
     // Open invite
     await openSubject(page2, inviteUrl!);
     await page2.click('button:has-text("Accept")');
-    await expect(
-      page2.locator('text=Welcome to your Atomic-Server'),
-    ).toBeVisible();
+    await expect(page2.locator(`text=${driveTitle}`)).toBeVisible();
 
     // Cleanup, set to public read again
     // timeout Prevents weird race condition (see above)
@@ -378,17 +368,24 @@ async function openLocalhost(page: Page) {
   // await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
 }
 
-/** Create a new drive, go to it, and set it as the current drive. Returns URL of drive */
+/**
+ * Create a new drive, go to it, and set it as the current drive. Returns URL of
+ * drive and its name
+ */
 async function newDrive(page: Page) {
   // Create new drive to prevent polluting the main drive
   await page.locator('text=new resource').click();
   await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
   await page.locator('button:has-text("drive")').click();
-  const addressBar = await page.locator('[data-test="address-bar"]');
-  console.log(addressBar);
-  const driveURL = await addressBar.getAttribute('value');
+  await page.waitForNavigation();
+  const driveURL = await page
+    .locator('[data-test="address-bar"]')
+    .getAttribute('value');
   await expect(driveURL).toContain('localhost');
-  return driveURL as string;
+  const driveTitle = `testdrive-${timestamp}`;
+  await page.click('[data-test="editable-title"]');
+  await page.fill('[data-test="editable-title"]', driveTitle);
+  return { driveURL: driveURL as string, driveTitle };
 }
 
 /** Set localhost as current server */

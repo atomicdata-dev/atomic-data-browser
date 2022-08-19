@@ -49,7 +49,3 @@ const MarkdownWrapper = styled.div`
     border-radius: ${props => props.theme.radius};
   }
 `;
-
-const Spacer = styled.div`
-  height: 1rem;
-`;

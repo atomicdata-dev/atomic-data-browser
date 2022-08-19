@@ -6,19 +6,19 @@ import { useLocalStorage, useStore } from './index';
  * A hook for using and adjusting the Server URL. Also saves to localStorage. If
  * the URL is wrong, an error is thrown using the store's handler
  */
-export const useBaseURL = (): [string, (serverUrl: string) => void] => {
+export const useServerURL = (): [string, (serverUrl: string) => void] => {
   // Localstorage for cross-session persistence of JSON object
   const store = useStore();
   const [serverUrlJson, setServerUrlJson] = useLocalStorage<string | null>(
     'serverUrl',
     store.getServerUrl(),
   );
-  const [baseURL, setBaseURL] = useState<string | undefined>(
+  const [serverURL, setBaseURL] = useState<string | undefined>(
     window?.location.origin,
   );
 
   useEffect(() => {
-    if (baseURL !== null) {
+    if (serverURL !== null) {
       if (isValidURL(serverUrlJson)) {
         setBaseURL(serverUrlJson);
       } else {
@@ -33,8 +33,8 @@ export const useBaseURL = (): [string, (serverUrl: string) => void] => {
   }, [serverUrlJson]);
 
   useEffect(() => {
-    store.setServerUrl(baseURL);
-  }, [baseURL]);
+    store.setServerUrl(serverURL);
+  }, [serverURL]);
 
-  return [baseURL, setServerUrlJson];
+  return [serverURL, setServerUrlJson];
 };

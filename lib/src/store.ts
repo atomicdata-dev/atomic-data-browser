@@ -336,7 +336,11 @@ export class Store {
   }
 
   /** Sets the Server base URL, without the trailing slash. */
-  setServerUrl(url: string): void {
+  setServerUrl(url: string | null): void {
+    if (url == null) {
+      this.serverUrl = null;
+      return;
+    }
     tryValidURL(url);
     if (url.substr(-1) == '/') {
       throw Error('baseUrl should not have a trailing slash');

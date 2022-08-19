@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useArray, useTitle, properties, Datatype } from '@tomic/react';
+import { useArray, properties, Datatype } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import ResourceInline from './ResourceInline';
@@ -14,9 +14,12 @@ import { EditableTitle } from '../components/EditableTitle';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
 function DrivePage({ resource }: ResourcePageProps): JSX.Element {
-  const title = useTitle(resource);
   const [children] = useArray(resource, properties.children);
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
+
+  if (!baseURL) {
+    setBaseURL(resource.getSubject());
+  }
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
@@ -32,7 +35,7 @@ function DrivePage({ resource }: ResourcePageProps): JSX.Element {
         datatype={Datatype.MARKDOWN}
       />
       <Card>
-        <h3>{title} children:</h3>
+        <h3>resources:</h3>
         <CardInsideFull>
           {children.map(child => {
             return (
