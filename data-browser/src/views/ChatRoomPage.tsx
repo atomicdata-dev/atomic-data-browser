@@ -141,8 +141,12 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     <FullPageWrapper about={resource.getSubject()}>
       <Parent resource={resource} />
       <EditableTitle resource={resource} />
-      {store.webSocket.readyState == WebSocket.CLOSED && (
-        <ErrorLook>Closed websocket!</ErrorLook>
+      {!store.webSocket ? (
+        <ErrorLook>No Websocket open</ErrorLook>
+      ) : (
+        store.webSocket.readyState == WebSocket.CLOSED && (
+          <ErrorLook>Closed websocket!</ErrorLook>
+        )
       )}
       <ScrollingContent ref={scrollRef}>
         <MessagesPage
