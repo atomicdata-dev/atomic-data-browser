@@ -1,7 +1,7 @@
+import { JSONArray } from './value';
 import {
   Agent,
   CommitBuilder,
-  isArray,
   isUnauthorized,
   JSONValue,
   postCommit,
@@ -231,15 +231,14 @@ export class Resource {
   }
 
   /** Appends a Resource to a ResourceArray */
-  push(propUrl: string, value: JSONValue): void {
-    const propVal = this.get(propUrl);
-    let arr = [];
-    if (!isArray(propVal)) {
-      throw new Error(`${propUrl} is not an array`);
+  push(propUrl: string, value: JSONArray): void {
+    let propVal = this.get(propUrl) as JSONArray;
+    if (propVal == undefined) {
+      propVal = [];
     }
-    arr = propVal;
-    arr.push(value);
-    this.propvals.set(propUrl, value);
+    propVal.push(value);
+    this.commitBuilder.push[propUrl] = propVal;
+    this.propvals.set(propUrl, propVal);
   }
 
   /** Removes a property value combination from the resource and adds it to the next Commit */
