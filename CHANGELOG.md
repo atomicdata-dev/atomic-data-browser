@@ -11,6 +11,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fix race condition #189
 - Add `new drive` option
 - Make all titles editable #199
+- Don't subscribe to search endpoint #200
 
 ## v0.31.1
 

@@ -34,6 +34,11 @@ export function useResource(
      * be fetched.
      */
     newResource?: boolean;
+    /**
+     * Prevents sending SUBSCRIBE messages to the server. Enable this for most
+     * Endpoints that are generated server-side
+     */
+    dontSubscribe?: boolean;
   } = { allowIncomplete: false, newResource: false },
 ): Resource {
   const { newResource, allowIncomplete } = opts;
@@ -61,11 +66,11 @@ export function useResource(
       // When a change happens, set the new Resource.
       setResource(updated);
     }
-    subject && store.subscribe(subject, handleNotify);
+    subject && !opts.dontSubscribe && store.subscribe(subject, handleNotify);
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(subject, handleNotify);
+      !opts.dontSubscribe && store.unsubscribe(subject, handleNotify);
     };
   }, [store, subject]);
 

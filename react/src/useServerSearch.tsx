@@ -41,7 +41,7 @@ export function useServerSearch(
     return url.toString();
   }
 
-  const resource = useResource(createURLString());
+  const resource = useResource(createURLString(), { dontSubscribe: true });
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
 
   // Only set new results if the resource is no longer loading, which improves UX
