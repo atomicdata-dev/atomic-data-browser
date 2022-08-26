@@ -222,7 +222,9 @@ export class Resource {
       agent = store.getAgent();
     }
     if (agent == undefined) {
-      throw new Error('No agent has been set or passed, you cannot save this.');
+      throw new Error(
+        'No agent has been set or passed, you cannot delete this.',
+      );
     }
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
