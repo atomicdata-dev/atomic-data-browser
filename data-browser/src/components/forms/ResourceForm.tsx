@@ -8,6 +8,8 @@ import {
   classes,
   properties,
   urls,
+  useDebounce,
+  useCanWrite,
 } from '@tomic/react';
 import styled from 'styled-components';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
@@ -73,25 +75,9 @@ export function ResourceForm({
   const [save, saving, err] = useSaveResource(resource, () => {
     navigate(constructOpenURL(resource.getSubject()));
   });
-  // const { agent } = useSettings();
-  // const debouncedResource = useDebounce(resource, 5000);
-  // const [canWrite, canWriteErr] = useCanWrite(
-  //   debouncedResource,
-  //   agent?.subject,
-  // );
-
-  // Sets agent warning / eror
-  // Currently not reliable
-  // https://github.com/atomicdata-dev/atomic-data-browser/issues/71
-  // useEffect(() => {
-  //   if (canWrite == false) {
-  //     setErr(new Error(`Cannot save: ${canWriteErr}.`));
-  //     // TODO: This is being reset too often, which sucks
-  //     // setDisabled(true);
-  //   } else {
-  //     setErr(null);
-  //   }
-  // }, [canWrite, canWriteErr, agent]);
+  // I'm not entirely sure if debouncing is needed here.
+  const debouncedResource = useDebounce(resource, 5000);
+  const [_canWrite, canWriteErr] = useCanWrite(debouncedResource);
 
   /** Builds otherProps */
   useEffect(() => {
@@ -163,6 +149,7 @@ export function ResourceForm({
           resource, though.
         </ErrMessage>
       )}
+      {canWriteErr && <ErrMessage>Cannot save edits: {canWriteErr}</ErrMessage>}
       {requires.map(property => {
         return (
           <ResourceField
