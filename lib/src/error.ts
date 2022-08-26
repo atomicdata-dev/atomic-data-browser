@@ -24,11 +24,12 @@ export function isUnauthorized(error: Error): boolean {
 export class AtomicError extends Error {
   type: ErrorType;
 
-  constructor(message, type = ErrorType.Client) {
+  constructor(message: string, type = ErrorType.Client) {
     super(message);
     // https://stackoverflow.com/questions/31626231/custom-error-class-in-typescript
     Object.setPrototypeOf(this, AtomicError.prototype);
     this.type = type;
+    this.message = message;
 
     // The server should send Atomic Data Errors, which are JSON-AD resources with a Description.
     try {
@@ -39,6 +40,22 @@ export class AtomicError extends Error {
       }
     } catch (e) {
       // ignore
+    }
+    if (!this.message) {
+      this.message = this.createMessage();
+    }
+  }
+
+  createMessage(): string {
+    switch (this.type) {
+      case ErrorType.Unauthorized:
+        return "You don't have the rights to do this.";
+      case ErrorType.NotFound:
+        return '404 Not found.';
+      case ErrorType.Server:
+        return '500 Unknown server error.';
+      default:
+        return 'Unknown error.';
     }
   }
 }

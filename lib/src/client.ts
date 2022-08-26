@@ -87,6 +87,8 @@ export async function fetchResource(
       );
     } else if (response.status == 500) {
       throw new AtomicError(body, ErrorType.Server);
+    } else if (response.status == 404) {
+      throw new AtomicError(body, ErrorType.NotFound);
     } else {
       throw new AtomicError(body);
     }

@@ -94,6 +94,7 @@ export class Resource {
     const res = new Resource(this.subject);
     res.propvals = this.propvals;
     res.destroy = this.destroy;
+    res.loading = this.loading;
     res.new = this.new;
     res.error = this.error;
     res.commitError = this.commitError;

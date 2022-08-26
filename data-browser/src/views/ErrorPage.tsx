@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
+import { Row } from '../components/Row';
 
 /**
  * A View for Resource Errors. Not to be confused with the CrashPage, which is
@@ -38,14 +39,21 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
     <ContainerNarrow>
       <h1>⚠️ Error opening {resource.getSubject()}</h1>
       <ErrorLook>{resource.getError().message}</ErrorLook>
-      <br />
-      <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
-      <Button
-        onClick={() => store.fetchResource(subject, { fromProxy: true })}
-        title={`Fetches the URL from your current Atomic-Server (${store.getServerUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
-      >
-        Use proxy
-      </Button>
+      <Row>
+        <Button
+          onClick={() => store.fetchResource(subject, { setLoading: true })}
+        >
+          Retry
+        </Button>
+        <Button
+          onClick={() =>
+            store.fetchResource(subject, { fromProxy: true, setLoading: true })
+          }
+          title={`Fetches the URL from your current Atomic-Server (${store.getServerUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
+        >
+          Use proxy
+        </Button>
+      </Row>
     </ContainerNarrow>
   );
 }

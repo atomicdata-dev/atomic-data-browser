@@ -133,8 +133,15 @@ export class Store {
        * is a proxy / cache.
        */
       fromProxy?: boolean;
+      /** Overwrites the existing resource and sets it to loading. */
+      setLoading?: boolean;
     } = {},
   ): Promise<Resource> {
+    if (opts.setLoading) {
+      const newR = new Resource(subject);
+      newR.loading = true;
+      this.addResource(newR);
+    }
     const fetched = await fetchResource(
       subject,
       this,
