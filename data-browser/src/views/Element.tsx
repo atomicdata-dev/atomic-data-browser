@@ -305,7 +305,7 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     'tab,enter',
     e => {
       e.preventDefault();
-      setElement(results[index]);
+      results[index] && setElement(results[index]);
     },
     { enableOnTags: ['TEXTAREA'] },
     [],
