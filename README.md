@@ -19,6 +19,7 @@ https://user-images.githubusercontent.com/2183313/139728539-d69b899f-6f9b-44cb-a
 # To run, simply run the following commands:
 yarn # install dependencies
 yarn start # run the server!
+# visit http://localhost:5173
 ```
 
 [→ Read more](data-browser/README.md)
