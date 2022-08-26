@@ -158,9 +158,10 @@ function SideBarMenuItem({
   href,
   subject,
   handleClickItem,
+  ...props
 }: SideBarMenuItemProps) {
   return (
-    <AtomicLink href={href} subject={subject} path={path} clean>
+    <AtomicLink href={href} subject={subject} path={path} clean {...props}>
       <SideBarItem key={label} title={helper} onClick={handleClickItem}>
         {icon && <SideBarIcon>{icon}</SideBarIcon>}
         {label}
@@ -224,6 +225,7 @@ const SideBarDrive = React.memo(function SBD({
             );
           })}
           <SideBarMenuItem
+            data-test='sidebar-new-resource'
             icon={<FaPlus />}
             path={paths.new}
             label={'new resource'}
