@@ -30,6 +30,7 @@ export const AtomicLink = ({
   path,
   href,
   untabbable,
+  ...props
 }: AtomicLinkProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -81,6 +82,7 @@ export const AtomicLink = ({
       // Tauri always opens `_blank` in new tab, and ignores preventDefault() for some reason.
       // https://github.com/tauri-apps/tauri/issues/1657
       target={isRunningInTauri() && !href ? '' : '_blank'}
+      {...props}
     >
       {children}
       {href && !clean && <FaExternalLinkAlt />}

@@ -9,6 +9,7 @@ const initialTest = true;
 const timestamp = new Date().toLocaleTimeString();
 const editableTitle = '[data-test="editable-title"]';
 const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
+const sideBarNewResource = '[data-test="sidebar-new-resource"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
 const publicReadRight =
@@ -119,13 +120,13 @@ test.describe('data-browser', async () => {
     await page.click(
       '[data-test="sort-https://atomicdata.dev/properties/description"]',
     );
-    await expect(page.locator('text=A base64')).toBeVisible();
+    // These values can change as new Properties are added to atomicdata.dev
+    const firstPageText = 'text=append';
+    const secondPageText = 'text=download-url';
+    await expect(page.locator(firstPageText)).toBeVisible();
     await page.click('[data-test="next-page"]');
-    await expect(page.locator('text=A base64')).not.toBeVisible();
-    // Some item on the second page. Can change as the amount of properties grows!
-    await expect(
-      page.locator('text=Filter results by this property URL.'),
-    ).toBeVisible();
+    await expect(page.locator(firstPageText)).not.toBeVisible();
+    await expect(page.locator(secondPageText)).toBeVisible();
 
     // context menu, keyboard & data view
     await page.click('[data-test="context-menu"]');
@@ -294,9 +295,10 @@ test.describe('data-browser', async () => {
   test('bookmark', async ({ page }) => {
     await signIn(page);
     await openLocalhost(page);
+    await newDrive(page);
 
     // Create a new bookmark
-    await page.locator('text=new resource').click();
+    await page.locator(sideBarNewResource).click();
     await page.locator('button:has-text("bookmark")').click();
 
     // Fetch `example.com
@@ -312,7 +314,7 @@ test.describe('data-browser', async () => {
     await signIn(page);
     await newDrive(page);
     // Create new class from new resource menu
-    await page.locator('text=create new resource').click();
+    await page.locator(sideBarNewResource).click();
     await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
     await page.locator('button:has-text("class")').click();
     await page
