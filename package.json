@@ -33,7 +33,7 @@
     "lint": "yarn workspaces foreach run lint",
     "lint-fix": "yarn workspaces foreach run lint-fix",
     "build": "yarn workspace @tomic/lib build && yarn workspace @tomic/react build && yarn workspace @tomic/data-browser build",
-    "build-server": "yarn run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/",
+    "build-server": "yarn run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts",
     "test": "yarn workspaces foreach run test",
     "publish": "yarn workspaces foreach --no-private npm publish",
     "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",

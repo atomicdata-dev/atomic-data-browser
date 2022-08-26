@@ -12,6 +12,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add `new drive` option
 - Make all titles editable #199
 - Don't subscribe to search endpoint #200
+- Refactor e2e tests
 
 ## v0.31.1
 

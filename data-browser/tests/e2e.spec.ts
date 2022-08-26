@@ -1,10 +1,27 @@
-import { test, expect, Page } from '@playwright/test';
+// This file is copied from `atomic-data-browser` to `atomic-data-server` when `yarn build-server` is run.
+// This is why the `testConfig` is imported.
 
-/**
- * When set to true, this runs tests that require the server to have a usable
- * `/setup` invite
- */
-const initialTest = true;
+import { test, expect, Page } from '@playwright/test';
+import { testConfig } from './test-config';
+
+export interface TestConfig {
+  demoFileName: string;
+  demoFile: string;
+  demoInviteName: string;
+  serverUrl: string;
+  frontEndUrl: string;
+  /** If /setup is used to register */
+  initialTest: boolean;
+}
+
+const {
+  demoFileName,
+  demoFile,
+  demoInviteName,
+  serverUrl,
+  frontEndUrl,
+  initialTest,
+} = testConfig;
 
 const timestamp = new Date().toLocaleTimeString();
 const editableTitle = '[data-test="editable-title"]';
@@ -14,12 +31,6 @@ const currentDriveTitle = '[data-test=current-drive-title]';
 const navbarCurrentUser = '[data-test="navbar-current-user"]';
 const publicReadRight =
   '[data-test="right-public"] input[type="checkbox"] >> nth=0';
-
-const demoFileName = 'logo.svg';
-const demoFile = `./${demoFileName}`;
-const demoInviteName = 'document demo';
-const serverUrl = 'http://localhost:9883';
-const frontEndUrl = 'http://localhost:5173';
 
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
