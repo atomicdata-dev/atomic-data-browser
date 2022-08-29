@@ -16,7 +16,7 @@ import { ErrMessage } from '../components/forms/InputStyles';
 import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
 import { ErrorLook } from '../views/ResourceInline';
-import { PageTitle } from '../components/PageTitle';
+import { Title } from '../components/Title';
 import { Row } from '../components/Row';
 
 /** Renders the data of some Resource */
@@ -61,7 +61,7 @@ function Data(): JSX.Element {
 
   return (
     <ContainerNarrow about={subject}>
-      <PageTitle resource={resource} label='Data for' />
+      <Title resource={resource} prefix='Data for' link />
       <PropValRow columns>
         <PropertyLabel title='The URL of the resource'>subject:</PropertyLabel>
         <AtomicLink subject={subject}>{subject}</AtomicLink>

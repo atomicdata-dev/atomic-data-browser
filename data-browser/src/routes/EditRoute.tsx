@@ -7,7 +7,7 @@ import { InputStyled } from '../components/forms/InputStyles';
 import { ResourceForm } from '../components/forms/ResourceForm';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { ClassDetail } from '../components/ClassDetail';
-import { PageTitle } from '../components/PageTitle';
+import { Title } from '../components/Title';
 
 /** Form for instantiating a new Resource from some Class */
 export function Edit(): JSX.Element {
@@ -25,7 +25,7 @@ export function Edit(): JSX.Element {
     <ContainerNarrow>
       {subject ? (
         <>
-          <PageTitle resource={resource} label='Edit' />
+          <Title resource={resource} prefix='Edit' />
           <ClassDetail resource={resource} />
           {/* Key is required for re-rendering when subject changes */}
           <ResourceForm resource={resource} key={subject} />
