@@ -53,6 +53,5 @@ export async function signRequest(
     headers['x-atomic-timestamp'] = timestamp;
     headers['x-atomic-agent'] = agent?.subject;
   }
-  console.log('headers out', headers);
   return headers as HeadersObject;
 }

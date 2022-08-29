@@ -58,7 +58,6 @@ export function EditableTitle({
   return canEdit && isEditing ? (
     <TitleInput
       ref={ref}
-      // wrap='soft'
       data-test='editable-title'
       {...props}
       onFocus={handleClick}

@@ -8,7 +8,7 @@ import {
   unknownSubject,
   urls,
 } from './index';
-import { startWebsocket } from './websockets';
+import { fetchWebSocket, startWebsocket } from './websockets';
 
 type callback = (resource: Resource) => void;
 
@@ -30,9 +30,8 @@ export class Store {
   subscribers: Map<string, Array<callback>>;
   /** Current Agent, used for signing commits. Is required for posting things. */
   agent?: Agent;
-  /** Current Connection to a WebSocket. Initilaizes on setting baseURL */
-  // TODO: should this be a `Map` of websockets? A user might be viewing data from various servers
-  webSocket: WebSocket;
+  /** Mapped from origin to websocket */
+  webSockets: Map<string, WebSocket>;
   /**
    * Is called when the store encounters an error. By default simply throws the
    * error, but can be overwritten
@@ -50,6 +49,7 @@ export class Store {
     opts.serverUrl && this.setServerUrl(opts.serverUrl);
     opts.serverUrl && this.setAgent(opts.agent);
     this.resources = new Map();
+    this.webSockets = new Map();
     this.subscribers = new Map();
     this.errorHandler = (e: Error) => {
       throw e;
@@ -124,7 +124,7 @@ export class Store {
   }
 
   /** Fetches a resource by URL and adds it to the store. */
-  async fetchResource(
+  fetchResource(
     /** The resource URL to be fetched */
     subject: string,
     opts: {
@@ -136,22 +136,27 @@ export class Store {
       /** Overwrites the existing resource and sets it to loading. */
       setLoading?: boolean;
     } = {},
-  ): Promise<Resource> {
+  ): void {
     if (opts.setLoading) {
       const newR = new Resource(subject);
       newR.loading = true;
       this.addResource(newR);
     }
-    const fetched = await fetchResource(
-      subject,
-      this,
-      opts.fromProxy && this.getServerUrl(),
-    );
-    return fetched;
+    // Use WebSocket if available, else use HTTP(S)
+    if (this.getDefaultWebSocket().readyState === WebSocket.OPEN) {
+      fetchWebSocket(this.getDefaultWebSocket(), subject);
+    } else {
+      fetchResource(subject, this, opts.fromProxy && this.getServerUrl());
+    }
   }
 
   getAllSubjects(): string[] {
     return Array.from(this.resources.keys());
+  }
+
+  /** Returns the WebSocket for the current Server URL */
+  getDefaultWebSocket(): WebSocket {
+    return this.webSockets.get(this.getServerUrl());
   }
 
   /** Returns the base URL of the companion server */
@@ -201,7 +206,7 @@ export class Store {
     if (found == undefined) {
       const newR = new Resource(subject, opts.newResource);
       newR.loading = true;
-      this.addResource(newR);
+      // this.addResource(newR);
       if (!opts.newResource) {
         this.fetchResource(subject);
       }
@@ -227,7 +232,7 @@ export class Store {
   async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
     if (found == undefined) {
-      const newR = await this.fetchResource(subject);
+      const newR = await fetchResource(subject, this);
       return newR;
     }
     return found;
@@ -354,16 +359,18 @@ export class Store {
     }
     this.serverUrl = url;
     // TODO This is not the right place
-    this.setWebSocket();
+    this.openWebSocket(url);
   }
 
   // TODO: don't do this, have one websocket per domain
   /** Closes an old websocket and opens a new one to the BaseURL */
-  setWebSocket(): void {
-    this.webSocket && this.webSocket.close();
+  openWebSocket(url: string): void {
     // Check if we're running in a webbrowser
     if (typeof window !== 'undefined') {
-      this.webSocket = startWebsocket(this);
+      if (this.webSockets.get(url)) {
+        return;
+      }
+      this.webSockets.set(url, startWebsocket(url, this));
     } else {
       // eslint-disable-next-line no-console
       console.warn('WebSockets not supported, no window available');
@@ -400,8 +407,8 @@ export class Store {
     // TODO: check if there is a websocket for this server URL or not
     try {
       // Only subscribe if there's a websocket. When it's opened, all subject will be iterated and subscribed
-      if (this.webSocket?.readyState == 1) {
-        this.webSocket?.send(`SUBSCRIBE ${subject}`);
+      if (this.getDefaultWebSocket()?.readyState == 1) {
+        this.getDefaultWebSocket()?.send(`SUBSCRIBE ${subject}`);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -414,7 +421,7 @@ export class Store {
       return;
     }
     try {
-      this.webSocket?.send(`UNSUBSCRIBE ${subject}`);
+      this.getDefaultWebSocket()?.send(`UNSUBSCRIBE ${subject}`);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

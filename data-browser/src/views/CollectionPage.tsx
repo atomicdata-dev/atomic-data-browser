@@ -31,6 +31,7 @@ import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
 import Parent from '../components/Parent';
 import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
+import { useEffectOnce } from '../hooks/useEffectOnce';
 
 const displayStyles = [
   {
@@ -81,11 +82,11 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
 
   const store = useStore();
 
-  React.useEffect(() => {
+  useEffectOnce(() => {
     // Always refresh the collection when opening this page.
     // We don't have cool collection invalidation yet.
     store.fetchResource(resource.getSubject());
-  }, []);
+  });
 
   function handleToggleView() {
     setDisplayStyle(getNextDisplayStyleIndex());
