@@ -141,10 +141,10 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     <FullPageWrapper about={resource.getSubject()}>
       <Parent resource={resource} />
       <EditableTitle resource={resource} />
-      {!store.webSocket ? (
+      {!store.getDefaultWebSocket() ? (
         <ErrorLook>No Websocket open</ErrorLook>
       ) : (
-        store.webSocket.readyState == WebSocket.CLOSED && (
+        store.getDefaultWebSocket().readyState == WebSocket.CLOSED && (
           <ErrorLook>Closed websocket!</ErrorLook>
         )
       )}

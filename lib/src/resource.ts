@@ -2,6 +2,7 @@ import { JSONArray } from './value';
 import {
   Agent,
   CommitBuilder,
+  fetchResource,
   isUnauthorized,
   JSONValue,
   postCommit,
@@ -310,7 +311,7 @@ export class Resource {
       if (e.message.includes('previousCommit')) {
         console.warn('previousCommit missing or mismatch, retrying...');
         // We try again, but first we fetch the latest version of the resource to get its `lastCommit`
-        const resourceFetched = await store.fetchResource(this.getSubject());
+        const resourceFetched = await fetchResource(this.getSubject(), store);
         const fixedLastCommit = resourceFetched
           .get(properties.commit.lastCommit)
           ?.toString();

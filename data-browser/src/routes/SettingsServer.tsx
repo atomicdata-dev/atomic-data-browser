@@ -57,7 +57,7 @@ export function SettingsServer(): JSX.Element {
         </Button>
         <p>
           Websocket{' '}
-          {store.webSocket.readyState == WebSocket.OPEN
+          {store.getDefaultWebSocket().readyState == WebSocket.OPEN
             ? 'connected'
             : 'disconnected'}
         </p>
