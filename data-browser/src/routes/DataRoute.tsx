@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { useResource, useStore, signRequest } from '@tomic/react';
+import {
+  useResource,
+  useStore,
+  signRequest,
+  HeadersObject,
+} from '@tomic/react';
 
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
@@ -36,14 +41,14 @@ function Data(): JSX.Element {
   }
 
   async function fetchAs(contentType: string) {
-    let headers: HeadersInit = new Headers();
-    headers.set('Accept', contentType);
+    let headers: HeadersObject = {};
+    headers['Accept'] = contentType;
     if (agent) {
       headers = await signRequest(subject, agent, headers);
     }
     setTextResponseLoading(true);
     try {
-      const resp = await window.fetch(subject, { headers });
+      const resp = await window.fetch(subject, { headers: headers });
       const body = await resp.text();
       setTextResponseLoading(false);
       setTextResponse(body);
