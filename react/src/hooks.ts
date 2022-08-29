@@ -13,6 +13,7 @@ import {
   valToDate,
   valToArray,
   valToString,
+  FetchOpts,
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './index';
@@ -21,38 +22,15 @@ import { useDebounce } from './index';
  * Hook for getting a Resource in a React component. Will try to fetch the
  * subject and add its parsed values to the store.
  */
-export function useResource(
-  subject?: string,
-  opts: {
-    /**
-     * If this is true, incomplete resources will not be automatically fetched.
-     * This limits the amount of requests. Use this for things like menu items.
-     */
-    allowIncomplete?: boolean;
-    /**
-     * Set to true if you are initializing a new resource. The resource will not
-     * be fetched.
-     */
-    newResource?: boolean;
-  } = { allowIncomplete: false, newResource: false },
-): Resource {
-  const { newResource, allowIncomplete } = opts;
+export function useResource(subject?: string, opts?: FetchOpts): Resource {
   const store = useStore();
   const [resource, setResource] = useState<Resource>(
-    store.getResourceLoading(subject, {
-      newResource,
-      allowIncomplete,
-    }),
+    store.getResourceLoading(subject, opts),
   );
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
-    setResource(
-      store.getResourceLoading(subject, {
-        newResource,
-        allowIncomplete,
-      }),
-    );
+    setResource(store.getResourceLoading(subject, opts));
   }, [subject, store]);
 
   // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
@@ -78,13 +56,7 @@ export function useResource(
  */
 export function useResources(
   subjects: string[],
-  opts: {
-    /**
-     * If this is true, incomplete resources will not be automatically fetched.
-     * This limits the amount of requests. Use this for things like menu items.
-     */
-    allowIncomplete?: boolean;
-  } = {},
+  opts: FetchOpts = {},
 ): Map<string, Resource> {
   const [resources, setResources] = useState(new Map());
   const store = useStore();

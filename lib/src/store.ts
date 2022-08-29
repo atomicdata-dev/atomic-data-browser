@@ -135,6 +135,8 @@ export class Store {
       fromProxy?: boolean;
       /** Overwrites the existing resource and sets it to loading. */
       setLoading?: boolean;
+      /** Do not use WebSockets, use HTTP(S) */
+      noWebSocket?: boolean;
     } = {},
   ): void {
     if (opts.setLoading) {
@@ -143,7 +145,10 @@ export class Store {
       this.addResource(newR);
     }
     // Use WebSocket if available, else use HTTP(S)
-    if (this.getDefaultWebSocket().readyState === WebSocket.OPEN) {
+    if (
+      !opts.noWebSocket &&
+      this.getDefaultWebSocket().readyState === WebSocket.OPEN
+    ) {
       fetchWebSocket(this.getDefaultWebSocket(), subject);
     } else {
       fetchResource(subject, this, opts.fromProxy && this.getServerUrl());
@@ -184,19 +189,7 @@ export class Store {
    * done in the background . If the subject is undefined, an empty non-saved
    * resource will be returned.
    */
-  getResourceLoading(
-    subject?: string,
-    opts: {
-      /** Won't fetch the resource if it's new */
-      newResource?: boolean;
-      /**
-       * If this is true, incomplete resources will not be automatically
-       * fetched. This limits the amount of requests. Use this for things like
-       * menu items.
-       */
-      allowIncomplete?: boolean;
-    } = {},
-  ): Resource | null {
+  getResourceLoading(subject?: string, opts: FetchOpts = {}): Resource | null {
     // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
     if (subject == undefined) {
       const newR = new Resource(unknownSubject, opts.newResource);
@@ -206,9 +199,9 @@ export class Store {
     if (found == undefined) {
       const newR = new Resource(subject, opts.newResource);
       newR.loading = true;
-      // this.addResource(newR);
+      this.addResource(newR);
       if (!opts.newResource) {
-        this.fetchResource(subject);
+        this.fetchResource(subject, opts);
       }
       return newR;
     } else if (!opts.allowIncomplete && found.loading == false) {
@@ -217,7 +210,7 @@ export class Store {
       if (found.get(urls.properties.incomplete)) {
         found.loading = true;
         this.addResource(found);
-        this.fetchResource(subject);
+        this.fetchResource(subject, opts);
       }
       return found;
     }
@@ -460,4 +453,20 @@ export class Property {
   isDynamic?: boolean;
   /** When the Property is still awaiting a server response */
   loading?: boolean;
+}
+
+export interface FetchOpts {
+  /**
+   * If this is true, incomplete resources will not be automatically fetched.
+   * Incomplete resources are faster to process server-side, but they need to be
+   * fetched again when all properties are needed.
+   */
+  allowIncomplete?: boolean;
+  /** Do not fetch over WebSockets, always fetch over HTTP(S) */
+  noWebSocket?: boolean;
+  /**
+   * If true, will not send a request to a server - it will simply create a new
+   * local resource.
+   */
+  newResource?: boolean;
 }
