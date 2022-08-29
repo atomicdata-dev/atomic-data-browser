@@ -6,9 +6,9 @@ import { Button } from '../components/Button';
 import { ClassDetail } from '../components/ClassDetail';
 import { CodeBlock } from '../components/CodeBlock';
 import { ContainerNarrow } from '../components/Containers';
-import { EditableTitle } from '../components/EditableTitle';
 import { ValueForm } from '../components/forms/ValueForm';
 import NewInstanceButton from '../components/NewInstanceButton';
+import { Title } from '../components/Title';
 import Parent from '../components/Parent';
 import { Row } from '../components/Row';
 import { ResourcePageProps } from './ResourcePage';
@@ -25,7 +25,7 @@ export function ClassPage({ resource }: ResourcePageProps) {
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <Parent resource={resource} />
-      <EditableTitle resource={resource} />
+      <Title resource={resource} />
       <ClassDetail resource={resource} />
       <ValueForm resource={resource} propertyURL={properties.description} />
       <AllProps

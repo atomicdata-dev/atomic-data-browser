@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { Button } from '../components/Button';
 import { InviteForm } from '../components/InviteForm';
 import toast from 'react-hot-toast';
-import { PageTitle } from '../components/PageTitle';
+import { Title } from '../components/Title';
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
@@ -121,7 +121,7 @@ export function ShareRoute(): JSX.Element {
 
   return (
     <ContainerNarrow>
-      <PageTitle resource={resource} label='Share settings' />
+      <Title resource={resource} prefix='Share settings' link />
       {canWrite && !showInviteForm && (
         <Button onClick={() => setShowInviteForm(true)}>Send Invite...</Button>
       )}
