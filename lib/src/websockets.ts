@@ -1,3 +1,4 @@
+import { createAuthentication } from './authentication';
 import { parseAndApplyCommit, Store } from './index';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
@@ -11,14 +12,15 @@ export function startWebsocket(store: Store): WebSocket {
   }
   wsURL.pathname = '/ws';
   const client = new WebSocket(wsURL.toString());
-  client.onopen = _e => handleOpen(store);
+  client.onopen = _e => handleOpen(store, client);
   client.onmessage = (ev: MessageEvent) => handleMessage(ev, store);
   client.onerror = handleError;
   // client.onclose = handleClose;
   return client;
 }
 
-function handleOpen(store: Store) {
+function handleOpen(store: Store, client: WebSocket) {
+  authenticate(client, store);
   // TODO: Add a way to subscribe to multiple resources in one request
   for (const subject of store.subscribers.keys()) {
     store.subscribeWebSocket(subject);
@@ -38,4 +40,7 @@ function handleError(ev: Event) {
   console.error('websocket error:', ev);
 }
 
-// function handleClose(ev: CloseEvent) { }
+async function authenticate(client: WebSocket, store: Store) {
+  const json = await createAuthentication(client.url, store.getAgent());
+  client.send('AUTHENTICATE ' + JSON.stringify(json));
+}

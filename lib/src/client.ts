@@ -2,28 +2,26 @@
 // Send requests to the server and receive responses.
 
 import {
-  Agent,
   AtomicError,
   Commit,
   ErrorType,
-  getTimestampNow,
   parseCommit,
   parseJsonADArray,
   parseJsonADResource,
   Resource,
   serializeDeterministically,
-  signToBase64,
   Store,
 } from './index';
 
 /** Works both in node and the browser */
 import fetch from 'cross-fetch';
+import { signRequest } from './authentication';
 
 /**
  * One key-value pair per HTTP Header. Since we need to support both browsers
  * and Node, we won't use the native Headers object here.
  */
-interface HeadersObject {
+export interface HeadersObject {
   [key: string]: string;
 }
 
@@ -152,33 +150,6 @@ export function isValidURL(subject: string): boolean {
 // TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
 export function removeQueryParamsFromURL(subject: string): string {
   return subject?.split('?')[0];
-}
-
-/**
- * Creates authentication headers and signs the request. Does not add headers if
- * the Agents subject is missing.
- */
-export async function signRequest(
-  /** The resource meant to be fetched */
-  subject: string,
-  agent: Agent,
-  headers: HeadersObject | Headers,
-): Promise<HeadersObject> {
-  // If you're using a local Agent, you cannot authenticate requests to other domains.
-  const localTryingExternal =
-    !subject.startsWith('http://localhost') &&
-    agent?.subject?.startsWith('http://localhost');
-  if (agent?.subject && !localTryingExternal) {
-    const privateKey = agent.privateKey;
-    const timestamp = getTimestampNow();
-    const message = `${subject} ${timestamp}`;
-    const signed = await signToBase64(message, privateKey);
-    headers['x-atomic-public-key'] = await agent.getPublicKey();
-    headers['x-atomic-signature'] = signed;
-    headers['x-atomic-timestamp'] = timestamp.toString();
-    headers['x-atomic-agent'] = agent?.subject;
-  }
-  return headers as HeadersObject;
 }
 
 /**
