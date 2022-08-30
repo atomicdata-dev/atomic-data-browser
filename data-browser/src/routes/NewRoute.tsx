@@ -43,19 +43,19 @@ function New(): JSX.Element {
             classType={urls.classes.class}
           />
           <br />
-          <Row wrap>
+          <Row wrapFlex>
             {classInput && (
               <Button onClick={handleClassSet}>new {className}</Button>
             )}
             {!classInput && (
               <>
                 <NewIntanceButton klass={urls.classes.document} subtle />
-                <NewIntanceButton klass={urls.classes.class} subtle />
-                <NewIntanceButton klass={urls.classes.property} subtle />
                 <NewIntanceButton klass={urls.classes.chatRoom} subtle />
                 <NewIntanceButton klass={urls.classes.bookmark} subtle />
-                <NewIntanceButton klass={urls.classes.importer} subtle />
                 <NewIntanceButton klass={urls.classes.drive} subtle />
+                <NewIntanceButton klass={urls.classes.class} subtle />
+                <NewIntanceButton klass={urls.classes.property} subtle />
+                <NewIntanceButton klass={urls.classes.importer} subtle />
               </>
             )}
           </Row>
