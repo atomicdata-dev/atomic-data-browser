@@ -35,6 +35,7 @@
     "build": "yarn workspace @tomic/lib build && yarn workspace @tomic/react build && yarn workspace @tomic/data-browser build",
     "build-server": "yarn run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts",
     "test": "yarn workspaces foreach run test",
+    "test-query": "yarn workspace @tomic/data-browser run test-query",
     "publish": "yarn workspaces foreach --no-private npm publish",
     "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",
     "start-lib": "yarn workspace @tomic/lib watch",
