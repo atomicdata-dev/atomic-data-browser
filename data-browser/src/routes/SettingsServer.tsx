@@ -47,7 +47,7 @@ export function SettingsServer(): JSX.Element {
         </InputWrapper>
       </FieldStyled>
       <ErrMessage>{baseUrlErr?.message}</ErrMessage>
-      <Row wrap>
+      <Row wrapFlex>
         <Button
           onClick={() => handleSetBaseUrl(baseUrlInput)}
           disabled={baseURL == baseUrlInput}
@@ -62,7 +62,7 @@ export function SettingsServer(): JSX.Element {
             : 'disconnected'}
         </p>
       </Row>
-      <Row wrap>
+      <Row wrapFlex>
         <Button
           onClick={() => handleSetBaseUrl('https://atomicdata.dev')}
           subtle
