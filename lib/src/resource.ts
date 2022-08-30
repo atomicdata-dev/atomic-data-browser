@@ -304,6 +304,10 @@ export class Resource {
       this.commitError = null;
       const createdCommit = await postCommit(commit, endpoint);
       this.setUnsafe(properties.commit.lastCommit, createdCommit.id);
+      // The first `SUBSCRIBE` message will not have worked, because the resource didn't exist yet.
+      // That's why we need to repeat the process
+      // https://github.com/atomicdata-dev/atomic-data-rust/issues/486
+      store.subscribeWebSocket(this.subject);
       return createdCommit.id;
     } catch (e) {
       // Logic for handling error if the previousCommit is wrong.
