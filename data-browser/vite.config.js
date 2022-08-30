@@ -18,6 +18,13 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    strictPort: true,
+    hmr: {
+      // Fixes an issue with HMR
+      port: 5174,
+    },
+  },
   // resolve: {
   //   alias: {
   //     '@tomic/lib': path.resolve(__dirname, 'lib'),
