@@ -255,7 +255,6 @@ const ElementWrapper = styled.div<ElementViewProps>`
   padding: 0.5rem;
   padding-left: 0rem;
   cursor: text;
-  min-height: 1.5rem;
   /* Maintain enters / newlines */
   white-space: pre-line;
   display: flex;
@@ -283,6 +282,7 @@ const ElementView = styled.textarea<ElementViewProps>`
   background-color: ${p => p.theme.colors.bg};
   color: ${p => p.theme.colors.text};
   padding: 0;
+  margin-bottom: 0.5rem;
   &:focus {
     outline: none;
     ${ElementFocusStyle}
