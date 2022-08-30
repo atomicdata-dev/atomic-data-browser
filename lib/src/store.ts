@@ -147,7 +147,7 @@ export class Store {
     // Use WebSocket if available, else use HTTP(S)
     if (
       !opts.noWebSocket &&
-      this.getDefaultWebSocket().readyState === WebSocket.OPEN
+      this.getDefaultWebSocket()?.readyState === WebSocket.OPEN
     ) {
       fetchWebSocket(this.getDefaultWebSocket(), subject);
     } else {
@@ -160,7 +160,7 @@ export class Store {
   }
 
   /** Returns the WebSocket for the current Server URL */
-  getDefaultWebSocket(): WebSocket {
+  getDefaultWebSocket(): WebSocket | undefined {
     return this.webSockets.get(this.getServerUrl());
   }
 
@@ -355,9 +355,8 @@ export class Store {
     this.openWebSocket(url);
   }
 
-  // TODO: don't do this, have one websocket per domain
-  /** Closes an old websocket and opens a new one to the BaseURL */
-  openWebSocket(url: string): void {
+  /** Opens a WebSocket for this Atomic Server URL */
+  openWebSocket(url: string): Promise<void> {
     // Check if we're running in a webbrowser
     if (typeof window !== 'undefined') {
       if (this.webSockets.get(url)) {
