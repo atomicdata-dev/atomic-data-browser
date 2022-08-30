@@ -472,6 +472,10 @@ export function useCanWrite(
       setCanWrite(false);
       return;
     }
+    if (resource.new) {
+      setCanWrite(true);
+      return;
+    }
     setMsg('Checking write rights...');
     async function tryCanWrite() {
       const [canWriteAsync, msg] = await resource.canWrite(store, agent);
