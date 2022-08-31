@@ -145,11 +145,9 @@ export class Store {
       this.addResource(newR);
     }
     // Use WebSocket if available, else use HTTP(S)
-    if (
-      !opts.noWebSocket &&
-      this.getDefaultWebSocket()?.readyState === WebSocket.OPEN
-    ) {
-      fetchWebSocket(this.getDefaultWebSocket(), subject);
+    const ws = this.getWebSocketForSubject(subject);
+    if (!opts.noWebSocket && ws?.readyState === WebSocket.OPEN) {
+      fetchWebSocket(ws, subject);
     } else {
       fetchResource(subject, this, opts.fromProxy && this.getServerUrl());
     }
@@ -162,6 +160,17 @@ export class Store {
   /** Returns the WebSocket for the current Server URL */
   getDefaultWebSocket(): WebSocket | undefined {
     return this.webSockets.get(this.getServerUrl());
+  }
+
+  getWebSocketForSubject(subject: string): WebSocket | null {
+    const url = new URL(subject);
+    const found = this.webSockets.get(url.origin);
+    if (found) {
+      return found;
+    } else {
+      this.webSockets.set(url.origin, startWebsocket(url.origin, this));
+    }
+    return;
   }
 
   /** Returns the base URL of the companion server */

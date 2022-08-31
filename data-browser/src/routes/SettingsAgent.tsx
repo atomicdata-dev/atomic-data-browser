@@ -134,7 +134,7 @@ const SettingsAgent: React.FunctionComponent = () => {
         </p>
         {agent ? (
           <>
-            {agent.subject.startsWith('http://localhost') && (
+            {agent.subject?.startsWith('http://localhost') && (
               <p>
                 <ErrorLook>Warning:</ErrorLook>
                 {
