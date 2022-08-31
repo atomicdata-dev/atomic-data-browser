@@ -30,10 +30,13 @@ export function Search(): JSX.Element {
       e.preventDefault();
       const subject =
         htmlElRef?.current?.children[selectedIndex]?.getAttribute('about');
+      console.log('navigating from search', subject);
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();
-        navigate(constructOpenURL(subject));
+        const openURL = constructOpenURL(subject);
+        console.log('openURL', openURL);
+        navigate(openURL);
       }
     },
     { enableOnTags: ['INPUT'] },
