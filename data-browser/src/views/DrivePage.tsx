@@ -11,6 +11,7 @@ import { FaPlus } from 'react-icons/fa';
 import { paths } from '../routes/paths';
 import { ResourcePageProps } from './ResourcePage';
 import { EditableTitle } from '../components/EditableTitle';
+import { Row } from '../components/Row';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
 function DrivePage({ resource }: ResourcePageProps): JSX.Element {
@@ -23,12 +24,14 @@ function DrivePage({ resource }: ResourcePageProps): JSX.Element {
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <EditableTitle resource={resource} />
-      {baseURL !== resource.getSubject() && (
-        <Button onClick={() => setBaseURL(resource.getSubject())}>
-          Set as current drive
-        </Button>
-      )}
+      <Row>
+        <EditableTitle resource={resource} />
+        {baseURL !== resource.getSubject() && (
+          <Button onClick={() => setBaseURL(resource.getSubject())}>
+            Set as current drive
+          </Button>
+        )}
+      </Row>
       <ValueForm
         resource={resource}
         propertyURL={properties.description}
