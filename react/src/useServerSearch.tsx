@@ -1,5 +1,5 @@
 import { urls } from '@tomic/lib';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useArray, useDebounce, useResource, useStore } from './index';
 
 interface SearchResults {
@@ -32,16 +32,16 @@ export function useServerSearch(
   // Calculating the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce);
 
-  function createURLString(): string {
+  const urlString: string = useMemo(() => {
     const url = new URL(store.getServerUrl());
     url.pathname = 'search';
     url.searchParams.set('q', debouncedQuery);
     url.searchParams.set('include', include.toString());
     url.searchParams.set('limit', limit.toString());
     return url.toString();
-  }
+  }, [debouncedQuery, include, limit]);
 
-  const resource = useResource(createURLString(), {
+  const resource = useResource(urlString, {
     noWebSocket: true,
   });
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
