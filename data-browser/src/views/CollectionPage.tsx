@@ -32,6 +32,7 @@ import Parent from '../components/Parent';
 import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
 import { useEffectOnce } from '../hooks/useEffectOnce';
+import { Row } from '../components/Row';
 
 const displayStyles = [
   {
@@ -123,7 +124,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   useHotkeys('left', handlePrevPage, {}, [currentPage]);
 
   const Pagination = () => (
-    <>
+    <Row>
       <Button
         subtle
         onClick={handlePrevPage}
@@ -141,7 +142,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
       >
         <FaArrowRight />
       </Button>
-    </>
+    </Row>
   );
 
   return (
