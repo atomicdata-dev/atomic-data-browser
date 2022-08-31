@@ -28,6 +28,14 @@ export async function signatureMessage(
   return await signToBase64(message, agent.privateKey);
 }
 
+/** Localhost Agents are not allowed to sign requests to external domain */
+function localTryingExternal(subject: string, agent: Agent) {
+  return (
+    !subject.startsWith('http://localhost') &&
+    agent?.subject?.startsWith('http://localhost')
+  );
+}
+
 /**
  * Creates authentication headers and signs the request. Does not add headers if
  * the Agents subject is missing.
@@ -38,12 +46,8 @@ export async function signRequest(
   agent: Agent,
   headers: HeadersObject | Headers,
 ): Promise<HeadersObject> {
-  // If you're using a local Agent, you cannot authenticate requests to other domains.
-  const localTryingExternal =
-    !subject.startsWith('http://localhost') &&
-    agent?.subject?.startsWith('http://localhost');
   const timestamp = getTimestampNow();
-  if (agent?.subject && !localTryingExternal) {
+  if (agent?.subject && !localTryingExternal(subject, agent)) {
     headers['x-atomic-public-key'] = await agent.getPublicKey();
     headers['x-atomic-signature'] = await signatureMessage(
       subject,

@@ -44,10 +44,14 @@ export function useCreateAndNavigate(klass: string, parent: string) {
         !noParent && resource.set(properties.parent, parent, store),
       ]);
 
-      await resource.save(store);
+      try {
+        await resource.save(store);
+        navigate(constructOpenURL(subject, extraParams));
+        toast.success(`${title} created`);
+      } catch (e) {
+        store.handleError(e);
+      }
 
-      navigate(constructOpenURL(subject, extraParams));
-      toast.success(`${title} created`);
       return resource;
     },
     [store, classTypeResource, title, navigate, parent],

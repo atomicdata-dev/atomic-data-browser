@@ -58,6 +58,13 @@ function handleError(ev: Event) {
 
 /** Authenticates current Agent over current WebSocket */
 async function authenticate(client: WebSocket, store: Store) {
+  if (
+    !client.url.startsWith('ws://localhost:') &&
+    store.getAgent().subject.startsWith('http://localhost')
+  ) {
+    console.warn("Can't authenticate localhost Agent over websocket");
+    return;
+  }
   const json = await createAuthentication(client.url, store.getAgent());
   client.send('AUTHENTICATE ' + JSON.stringify(json));
 }
