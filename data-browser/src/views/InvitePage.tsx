@@ -17,6 +17,7 @@ import { constructOpenURL } from '../helpers/navigation';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
 import { paths } from '../routes/paths';
+import { Row } from '../components/Row';
 
 // Whether Invites should automatically be accepted.
 const autoAccept = false;
@@ -69,7 +70,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
       {usagesLeft == 0 ? (
         <em>Sorry, this Invite has no usages left. Ask for a new one.</em>
       ) : (
-        <>
+        <Row>
           {agentSubject ? (
             <>
               <Button
@@ -94,7 +95,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
             </>
           )}
           {!isNaN(usagesLeft) && <p>({usagesLeft} usages left)</p>}
-        </>
+        </Row>
       )}
     </ContainerNarrow>
   );
