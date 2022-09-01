@@ -1,3 +1,4 @@
+import { Resource } from './resource';
 import { properties } from './urls';
 
 export enum ErrorType {
@@ -57,5 +58,10 @@ export class AtomicError extends Error {
       default:
         return 'Unknown error.';
     }
+  }
+
+  static fromResource(r: Resource): AtomicError {
+    const err = new AtomicError(r.get(properties.description).toString());
+    return err;
   }
 }

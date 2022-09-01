@@ -11,7 +11,7 @@ export function useLocalStorage<T>(
 ): [T, (arg0: T) => void] {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(() => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);

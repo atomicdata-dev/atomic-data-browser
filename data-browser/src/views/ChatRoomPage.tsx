@@ -180,13 +180,6 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           Send
         </SendButton>
       </MessageForm>
-      <ErrorLook>
-        {'ChatRooms are currently in '}
-        <a href='https://github.com/joepio/atomic-data-rust/issues/373'>
-          pre-alpha
-        </a>
-        {". Don't use them for anything important."}
-      </ErrorLook>
     </FullPageWrapper>
   );
 }

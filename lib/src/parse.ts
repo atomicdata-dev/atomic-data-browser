@@ -1,3 +1,5 @@
+import { AtomicError } from './error';
+import { urls } from './urls';
 import { isArray, JSONValue, Store } from './index';
 import { Resource, unknownSubject } from './resource';
 import { JSONObject } from './value';
@@ -56,6 +58,9 @@ export function parseJsonADResource(
       }
     }
     resource.loading == false;
+    if (resource.getClasses().includes(urls.classes.error)) {
+      resource.error = AtomicError.fromResource(resource);
+    }
     store && store.addResource(resource);
   } catch (e) {
     e.message = 'Failed parsing JSON ' + e.message;

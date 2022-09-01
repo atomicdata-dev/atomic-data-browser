@@ -128,6 +128,7 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
         title={`Open menu (${shortcuts.menu})`}
         type='button'
         data-test='context-menu'
+        rightPadding
         onClick={() => {
           setUseKeys(false);
           handleToggle();
