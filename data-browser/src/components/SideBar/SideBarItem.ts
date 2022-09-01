@@ -6,7 +6,7 @@ export interface SideBarItemProps {
 
 /** SideBarItem should probably be wrapped in an AtomicLink for optimal behavior */
 // eslint-disable-next-line prettier/prettier
-export const SideBarItem = styled('span') <SideBarItemProps>`
+export const SideBarItem = styled('span')<SideBarItemProps>`
   padding-left: ${props => props.theme.margin}rem;
   padding-right: ${props => props.theme.margin}rem;
   display: flex;
@@ -14,7 +14,6 @@ export const SideBarItem = styled('span') <SideBarItemProps>`
   align-items: center;
   justify-content: flex-start;
   color: ${p => p.theme.colors.textLight};
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-decoration: none;

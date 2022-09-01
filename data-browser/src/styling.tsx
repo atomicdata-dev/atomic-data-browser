@@ -48,7 +48,7 @@ export const animationDuration = 100;
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
-  const bg = darkMode ? 'black' : 'white';
+  const bg = darkMode ? '#000000' : '#ffffff';
   const text = darkMode ? 'white' : 'black';
   const shadowColor = darkMode ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,0.07)';
   const shadowColorIntense = darkMode
@@ -63,6 +63,10 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
       "'Open Sans', 'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     boxShadow: `0 0 10px 0px ${shadowColor}`,
     boxShadowIntense: `0 0 22px 0px ${shadowColorIntense}`,
+    boxShadowSoft: `0px 1.5px 2.2px rgba(0, 0, 0, 0.02),
+    0px 3.5px 5.3px rgba(0, 0, 0, 0.028), 0px 6.6px 10px rgba(0, 0, 0, 0.035),
+    0px 11.8px 17.9px rgba(0, 0, 0, 0.042),
+    0px 22.1px 33.4px rgba(0, 0, 0, 0.05), 0px 53px 80px rgba(0, 0, 0, 0.07);`,
     containerWidth: 40,
     fontSizeBody: 1,
     fontSizeH1: 2,
@@ -104,6 +108,7 @@ declare module 'styled-components' {
     fontSizeH1: number;
     boxShadow: string;
     boxShadowIntense: string;
+    boxShadowSoft: string;
     /** Base margin */
     margin: number;
     /** Width of the container, in rem */

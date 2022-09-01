@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { ContainerNarrow } from '../components/Containers';
 import { shortcuts } from '../components/HotKeyWrapper';
+import { Shortcut } from '../components/Shortcut';
 
 /** List of all the keyboard shorcuts */
 export const Shortcuts: React.FunctionComponent = () => {
@@ -10,59 +11,49 @@ export const Shortcuts: React.FunctionComponent = () => {
       <h1>Keyboard shortcuts</h1>
       <h3>Global</h3>
       <p>
-        <Key>{shortcuts.search}</Key> search
+        <Key shortcut={shortcuts.search} /> Search
       </p>
       <p>
-        <Key>{shortcuts.sidebarToggle}</Key> show or hide the sidebar
+        <Key shortcut={shortcuts.sidebarToggle} /> Show or hide the sidebar
       </p>
       <p>
-        <Key>?</Key> show these keyboard shortcuts
+        <Key shortcut='?' /> Show these keyboard shortcuts
       </p>
       <p>
-        <Key>{shortcuts.edit}</Key> <b>e</b>dit resource
+        <Key shortcut={shortcuts.edit} /> <b>E</b>dit resource
       </p>
       <p>
-        <Key>{shortcuts.data}</Key> show <b>d</b>ata for resource
+        <Key shortcut={shortcuts.data} /> Show <b>d</b>ata for resource
       </p>
       <p>
-        <Key>{shortcuts.home}</Key> show <b>h</b>ome page
+        <Key shortcut={shortcuts.home} /> Show <b>h</b>ome page
       </p>
       <p>
-        <Key>{shortcuts.new}</Key> <b>n</b>ew resource
+        <Key shortcut={shortcuts.new} /> <b>N</b>ew resource
       </p>
       <p>
-        <Key>{shortcuts.menu}</Key> open <b>m</b>enu
+        <Key shortcut={shortcuts.menu} /> Open <b>m</b>enu
       </p>
       <p>
-        <Key>{shortcuts.userSettings}</Key> <b>u</b>ser settings
+        <Key shortcut={shortcuts.userSettings} /> <b>U</b>ser settings
       </p>
       <p>
-        <Key>{shortcuts.themeSettings}</Key> <b>t</b>heme settings
+        <Key shortcut={shortcuts.themeSettings} /> <b>T</b>heme settings
       </p>
       <h3>Document</h3>
       <p>
-        <Key>{shortcuts.moveLineUp}</Key> move line / section up
+        <Key shortcut={shortcuts.moveLineUp} /> Move line / section up
       </p>
       <p>
-        <Key>{shortcuts.moveLineDown}</Key> move line / section down
+        <Key shortcut={shortcuts.moveLineDown} /> Move line / section down
       </p>
       <p>
-        <Key>{shortcuts.deleteLine}</Key> delete line
+        <Key shortcut={shortcuts.deleteLine} /> Delete line
       </p>
     </ContainerNarrow>
   );
 };
 
-const Key = styled.code`
+const Key = styled(Shortcut)`
   font-size: 1rem;
-  min-width: 1.7rem;
-  height: 1.7rem;
-  display: inline-flex;
-  padding: 0 0.5rem;
-  align-items: center;
-  justify-content: center;
-  border: solid 1px ${p => p.theme.colors.bg2};
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: monospace;
 `;

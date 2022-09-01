@@ -9,11 +9,13 @@ export interface DetailsProps {
   disabled?: boolean;
   /** Event that fires when a user opens or closes the details */
   onStateToggle?: (state: boolean) => void;
+  className?: string;
 }
 
 export function Details({
   open,
   children,
+  className,
   title,
   disabled,
   onStateToggle,
@@ -32,7 +34,7 @@ export function Details({
   }, []);
 
   return (
-    <div>
+    <div className={className}>
       <SummaryWrapper>
         <IconButton
           onClick={toggleOpen}
@@ -54,6 +56,7 @@ Details.defaultProps = {
 };
 
 const SummaryWrapper = styled.div`
+  max-width: 100%;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -61,6 +64,7 @@ const SummaryWrapper = styled.div`
 
 const TitleWrapper = styled.div`
   flex: 1;
+  width: 1px;
   * {
     user-select: none;
   }

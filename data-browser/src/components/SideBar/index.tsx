@@ -17,8 +17,7 @@ export const SIDEBAR_TOGGLE_WIDTH = 600;
 const SideBarDriveMemo = React.memo(SideBarDrive);
 
 export function SideBar(): JSX.Element {
-  const { baseURL } = useSettings();
-  const { navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
+  const { drive, navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLElement>(sideBarLocked);
   const windowSize = useWindowSize();
 
@@ -53,9 +52,9 @@ export function SideBar(): JSX.Element {
       >
         {navbarTop && <Padding />}
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
-        <SideBarDriveMemo handleClickItem={closeSideBar} key={baseURL} />
+        <SideBarDriveMemo handleClickItem={closeSideBar} key={drive} />
         <SideBarBottom>
-          <SideBarHeader>app</SideBarHeader>
+          <SideBarHeader>App</SideBarHeader>
           {appMenuItems.map(p => (
             <SideBarMenuItem
               key={p.label}

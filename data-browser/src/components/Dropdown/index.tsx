@@ -1,20 +1,17 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { FaEllipsisV } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useClickAwayListener } from '../hooks/useClickAwayListener';
-import { Button, ButtonBar } from './Button';
-import { shortcuts } from './HotKeyWrapper';
+import { useClickAwayListener } from '../../hooks/useClickAwayListener';
+import { Button } from '../Button';
+import { DropdownTriggerRenderFunction } from './DropdownTrigger';
+import { shortcuts } from '../HotKeyWrapper';
+import { Shortcut } from '../Shortcut';
 
 interface DropdownMenuProps {
   /** The list of menu items */
   items: MenuItemMinimial[];
-  /**
-   * The Component that should be clicked to open the menu. Must accept an
-   * onClick handler .
-   */
-  // children: React.ReactNode;
+  trigger: DropdownTriggerRenderFunction;
 }
 
 /**
@@ -22,7 +19,10 @@ interface DropdownMenuProps {
  * clicking outside. Use arrow keys to select items, and open items on Enter.
  * Renders the Dropdown on a place where there is room on screen.
  */
-export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
+export function DropdownMenu({
+  items,
+  trigger,
+}: DropdownMenuProps): JSX.Element {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -35,7 +35,10 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
     setSelectedIndex(0);
   }, []);
 
-  useClickAwayListener([triggerRef], handleClose, isActive);
+  useClickAwayListener([triggerRef, dropdownRef], handleClose, isActive, [
+    'click',
+    'mouseout',
+  ]);
 
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
@@ -43,6 +46,39 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
   const menuItemLength = items.length;
   // if the keyboard is used to navigate the menu items
   const [useKeys, setUseKeys] = useState(false);
+
+  const handleToggle = useCallback(() => {
+    if (isActive) {
+      handleClose();
+
+      return;
+    }
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const menuRect = dropdownRef.current.getBoundingClientRect();
+    const topPos = triggerRect.y - menuRect.height;
+    // If the top is outside of the screen, render it below
+    if (topPos < 0) {
+      setY(triggerRect.y + triggerRect.height / 2);
+    } else {
+      setY(topPos + triggerRect.height / 2);
+    }
+    const leftPos = triggerRect.x - menuRect.width;
+    // If the left is outside of the screen, render it to the right
+    if (leftPos < 0) {
+      setX(triggerRect.x);
+    } else {
+      setX(triggerRect.x - menuRect.width + triggerRect.width);
+    }
+
+    setIsActive(true);
+  }, [isActive]);
+
+  const handleTriggerClick = useCallback(() => {
+    setUseKeys(false);
+    handleToggle();
+  }, [handleToggle]);
+
   // Close the menu
   useHotkeys(
     'esc',
@@ -100,56 +136,33 @@ export function DropdownMenu({ items }: DropdownMenuProps): JSX.Element {
     [selectedIndex],
   );
 
-  function handleToggle() {
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const menuRect = dropdownRef.current.getBoundingClientRect();
-    const topPos = triggerRect.y - menuRect.height;
-    // If the top is outside of the screen, render it below
-    if (topPos < 0) {
-      setY(triggerRect.y + triggerRect.height);
-    } else {
-      setY(topPos);
-    }
-    const leftPos = triggerRect.x - menuRect.width;
-    // If the left is outside of the screen, render it to the right
-    if (leftPos < 0) {
-      setX(triggerRect.x);
-    } else {
-      setX(triggerRect.x - menuRect.width + triggerRect.width);
-    }
-    isActive ? handleClose() : setIsActive(true);
-  }
+  const Trigger = useMemo(() => React.forwardRef(trigger), []);
 
   return (
     <>
-      <ButtonBar
-        selected={isActive}
+      <Trigger
         ref={triggerRef}
-        title={`Open menu (${shortcuts.menu})`}
-        type='button'
-        data-test='context-menu'
-        rightPadding
-        onClick={() => {
-          setUseKeys(false);
-          handleToggle();
-        }}
-      >
-        <FaEllipsisV />
-      </ButtonBar>
+        onClick={handleTriggerClick}
+        isActive={isActive}
+      />
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
-        {items.map(({ label, onClick, helper, id, disabled, shortcut }, i) => (
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              onClick();
-            }}
-            disabled={disabled}
-            key={id}
-            helper={shortcut ? `${helper} (${shortcut})` : helper}
-            label={label}
-            selected={useKeys && selectedIndex == i}
-          />
-        ))}
+        {items.map(
+          ({ label, onClick, helper, id, disabled, shortcut, icon }, i) => (
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                onClick();
+              }}
+              disabled={disabled}
+              key={id}
+              helper={shortcut ? `${helper} (${shortcut})` : helper}
+              label={label}
+              selected={useKeys && selectedIndex == i}
+              icon={icon}
+              shortcut={shortcut}
+            />
+          ),
+        )}
       </Menu>
     </>
   );
@@ -182,10 +195,12 @@ interface MenuItemPropsExtended extends MenuItemSidebarProps {
 
 export function MenuItem({
   onClick,
-  label,
   selected,
   helper,
   disabled,
+  shortcut,
+  icon,
+  label,
 }: MenuItemPropsExtended): JSX.Element {
   return (
     <MenuItemStyled
@@ -195,24 +210,36 @@ export function MenuItem({
       title={helper}
       disabled={disabled}
     >
-      {label}
+      {icon}
+      <StyledLabel>{label}</StyledLabel>
+      {shortcut && <StyledShortcut shortcut={shortcut} />}
     </MenuItemStyled>
   );
 }
+
+const StyledShortcut = styled(Shortcut)`
+  margin-left: 0.3rem;
+`;
+
+const StyledLabel = styled.span`
+  flex: 1;
+`;
 
 interface MenuItemStyledProps {
   selected: boolean;
 }
 
 // eslint-disable-next-line prettier/prettier
-const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
-  display: block;
-  height: 2rem;
+const MenuItemStyled = styled(Button)<MenuItemStyledProps>`
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
   width: 100%;
   text-align: left;
   color: ${p => p.theme.colors.text};
-  padding: 0.4rem 0.7rem;
+  padding: 0.4rem 1rem;
   height: auto;
+  text-transform: capitalize;
   background-color: ${p =>
     p.selected ? p.theme.colors.bg1 : p.theme.colors.bg};
   text-decoration: ${p => (p.selected ? 'underline' : 'none')};
@@ -230,12 +257,17 @@ const MenuItemStyled = styled(Button) <MenuItemStyledProps>`
     }
     background-color: ${p => p.theme.colors.bg};
   }
+
+  svg {
+    color: ${p => p.theme.colors.textLight};
+  }
 `;
 
-const Menu = styled.nav<MenuProps>`
+const Menu = styled.div<MenuProps>`
   overflow: hidden;
   background: ${p => p.theme.colors.bg};
-  border: solid 1px ${props => props.theme.colors.bg2};
+  border: ${p =>
+    p.theme.darkMode ? `solid 1px ${p.theme.colors.bg2}` : 'none'};
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
   border-radius: 8px;
@@ -244,7 +276,7 @@ const Menu = styled.nav<MenuProps>`
   top: ${p => p.y}px;
   left: ${p => p.x}px;
   width: auto;
-  box-shadow: ${p => p.theme.boxShadowIntense};
+  box-shadow: ${p => p.theme.boxShadowSoft};
   opacity: ${p => (p.isActive ? 1 : 0)};
   visibility: ${p => (p.isActive ? 'visible' : 'hidden')};
 `;

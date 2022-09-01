@@ -15,17 +15,20 @@ import { NewFormFullPage } from '../components/forms/NewForm/index';
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
   const [classSubject] = useQueryString('classSubject');
+  const [parentSubject] = useQueryString('parentSubject');
   // For selecting a class
   const [classInput, setClassInput] = useState<string>(null);
   const [error, setError] = useState<Error>(null);
   const navigate = useNavigate();
   const classFull = useResource(classInput);
   const [className] = useString(classFull, urls.properties.shortname);
-  const { agent } = useSettings();
+  const { drive } = useSettings();
+
+  const calculatedParent = parentSubject || drive;
 
   function handleClassSet(e) {
     e.preventDefault();
-    navigate(newURL(classInput, agent?.subject));
+    navigate(newURL(classInput, calculatedParent));
   }
 
   return (
@@ -49,13 +52,41 @@ function New(): JSX.Element {
             )}
             {!classInput && (
               <>
-                <NewIntanceButton klass={urls.classes.document} subtle />
-                <NewIntanceButton klass={urls.classes.chatRoom} subtle />
-                <NewIntanceButton klass={urls.classes.bookmark} subtle />
-                <NewIntanceButton klass={urls.classes.drive} subtle />
-                <NewIntanceButton klass={urls.classes.class} subtle />
-                <NewIntanceButton klass={urls.classes.property} subtle />
-                <NewIntanceButton klass={urls.classes.importer} subtle />
+                <NewIntanceButton
+                  klass={urls.classes.document}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.chatRoom}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.bookmark}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.drive}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.class}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.property}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
+                  klass={urls.classes.importer}
+                  subtle
+                  parent={calculatedParent}
+                />
               </>
             )}
           </Row>

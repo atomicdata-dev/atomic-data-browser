@@ -8,4 +8,5 @@ export const SideBarHeader = styled('div')`
   font-size: 1.4rem;
   font-weight: bold;
   display: flex;
+  gap: 0.5rem;
 `;

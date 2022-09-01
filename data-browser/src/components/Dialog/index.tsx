@@ -232,10 +232,7 @@ const StyledDialog = styled.dialog`
   max-block-size: 100vh;
 
   overflow: hidden;
-  box-shadow: 0px 1.5px 2.2px rgba(0, 0, 0, 0.02),
-    0px 3.5px 5.3px rgba(0, 0, 0, 0.028), 0px 6.6px 10px rgba(0, 0, 0, 0.035),
-    0px 11.8px 17.9px rgba(0, 0, 0, 0.042),
-    0px 22.1px 33.4px rgba(0, 0, 0, 0.05), 0px 53px 80px rgba(0, 0, 0, 0.07);
+  box-shadow: ${p => p.theme.boxShadowSoft};
 
   // Animation props
   opacity: 0;

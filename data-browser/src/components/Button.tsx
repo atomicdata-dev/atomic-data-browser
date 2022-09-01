@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Spinner } from './Spinner';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Description of the button, required if the button only has an icon */
   name?: string;
   /** Renders the button less clicky */
@@ -16,15 +17,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Add a bottom margin */
   gutter?: boolean;
   onClick: (e: React.MouseEvent) => unknown;
+  className?: string;
 }
 
-export function Button({
-  children,
-  clean,
-  icon,
-  loading,
-  ...props
-}: React.PropsWithChildren<ButtonProps>): JSX.Element {
+export const Button = React.forwardRef<
+  HTMLButtonElement,
+  React.PropsWithChildren<ButtonProps>
+>(({ children, clean, icon, loading, ...props }, ref): JSX.Element => {
   let Comp = ButtonDefault;
   if (icon) {
     Comp = ButtonIcon;
@@ -35,11 +34,13 @@ export function Button({
   }
 
   return (
-    <Comp type='button' {...props}>
+    <Comp type='button' {...props} ref={ref}>
       {loading ? <Spinner /> : children}
     </Comp>
   );
-}
+});
+
+Button.displayName = 'Button';
 
 // /** Style-only props */
 // interface ButtonProps {
@@ -103,7 +104,7 @@ interface ButtonBarProps {
 
 /** Button inside the navigation bar */
 // eslint-disable-next-line prettier/prettier
-export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
+export const ButtonBar = styled(ButtonClean)<ButtonBarProps>`
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   color: ${p => p.theme.colors.main};
@@ -129,7 +130,7 @@ export const ButtonBar = styled(ButtonClean) <ButtonBarProps>`
 
 /** Button with some optional margins around it */
 // eslint-disable-next-line prettier/prettier
-export const ButtonDefault = styled(ButtonBase) <ButtonProps>`
+export const ButtonDefault = styled(ButtonBase)<ButtonProps>`
   padding: 0.4rem;
   border-radius: ${p => p.theme.radius};
   padding-left: ${p => p.theme.margin}rem;

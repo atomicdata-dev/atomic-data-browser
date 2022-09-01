@@ -49,6 +49,16 @@ function osAlt(key: string): string {
   return navigator.platform.includes('Mac') ? `option+${key}` : `alt+${key}`;
 }
 
+export function displayShortcut(shortcut: string): string {
+  if (navigator.platform.includes('Mac')) {
+    return shortcut
+      .replace('cmd+', '⌘')
+      .replace('option+', '⌥')
+      .replace('shift+', '⇧')
+      .replace('backspace', '⌫');
+  }
+}
+
 /** App-wide keyboard events handler. */
 // Keep changes in sync with ShortcutsRoute.tsx
 function HotKeysWrapper({ children }: Props): JSX.Element {

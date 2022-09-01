@@ -3,7 +3,6 @@ import {
   FaExternalLinkAlt,
   FaInfo,
   FaKeyboard,
-  FaPlus,
   FaUser,
 } from 'react-icons/fa';
 import React from 'react';
@@ -35,12 +34,6 @@ export const aboutMenuItems: SideBarMenuItemProps[] = [
 ];
 
 export const appMenuItems: SideBarMenuItemProps[] = [
-  {
-    icon: <FaPlus />,
-    label: 'new resource',
-    helper: 'Create a new Resource, based on a Class (n)',
-    path: paths.new,
-  },
   {
     icon: <FaUser />,
     label: 'user settings',
