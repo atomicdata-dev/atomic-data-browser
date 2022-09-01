@@ -3,6 +3,9 @@ import { Agent, getTimestampNow, HeadersObject, signToBase64 } from '.';
 /** Returns a JSON-AD resource of an Authentication */
 export async function createAuthentication(subject: string, agent: Agent) {
   const timestamp = getTimestampNow();
+  if (!agent.subject) {
+    throw new Error('Agent has no subject, cannot authenticate');
+  }
   const object = {
     'https://atomicdata.dev/properties/auth/agent': agent.subject,
     'https://atomicdata.dev/properties/auth/requestedSubject': subject,

@@ -11,6 +11,7 @@ export const classes = {
   elements: {
     paragraph: 'https://atomicdata.dev/classes/elements/Paragraph',
   },
+  error: 'https://atomicdata.dev/classes/Error',
   property: 'https://atomicdata.dev/classes/Property',
   datatype: 'https://atomicdata.dev/classes/Datatype',
   endpoint: 'https://atomicdata.dev/classes/Endpoint',

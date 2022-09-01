@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  FaArrowLeft,
-  FaArrowRight,
-  FaBars,
-  FaUser,
-  FaInfo,
-} from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaBars } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { tryValidURL } from '@tomic/react';
@@ -24,7 +18,6 @@ import { useSettings } from '../helpers/AppSettings';
 import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
-import { paths } from '../routes/paths';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';
 
@@ -83,7 +76,7 @@ function NavBar() {
   const [query] = useSearchQuery();
   const navigate = useNavigate();
   const [inputRef, setInputFocus] = useFocus();
-  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked, agent } =
+  const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } =
     useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
@@ -177,23 +170,6 @@ function NavBar() {
           >
             <FaBars />
           </ButtonBar>
-          <ButtonBar
-            type='button'
-            onClick={() => handleNavigation(paths.about)}
-            title='Show about page'
-          >
-            <FaInfo />
-          </ButtonBar>
-          {agent && (
-            <ButtonBar
-              data-test='navbar-current-user'
-              type='button'
-              onClick={() => handleNavigation(paths.agentSettings)}
-              title={`Show current User (${shortcuts.userSettings})`}
-            >
-              <FaUser />
-            </ButtonBar>
-          )}
           {isInStandaloneMode() && (
             <>
               <ButtonBar
@@ -212,7 +188,6 @@ function NavBar() {
               </ButtonBar>
             </>
           )}
-          {showButtons && subject && <ResourceContextMenu subject={subject} />}
         </React.Fragment>
       )}
       <input
@@ -230,6 +205,7 @@ function NavBar() {
         onChange={handleChange}
         placeholder='Enter an Atomic URL or search   (press "/" )'
       />
+      {showButtons && subject && <ResourceContextMenu subject={subject} />}
     </ConditionalNavbar>
   );
 }

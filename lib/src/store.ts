@@ -8,7 +8,7 @@ import {
   unknownSubject,
   urls,
 } from './index';
-import { fetchWebSocket, startWebsocket } from './websockets';
+import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
 
 type callback = (resource: Resource) => void;
 
@@ -162,6 +162,7 @@ export class Store {
     return this.webSockets.get(this.getServerUrl());
   }
 
+  /** Opens a Websocket for some subject URL, or returns the existing one. */
   getWebSocketForSubject(subject: string): WebSocket | null {
     const url = new URL(subject);
     const found = this.webSockets.get(url.origin);
@@ -334,19 +335,24 @@ export class Store {
   }
 
   /**
-   * Sets the current Agent, used for signing commits. Warning: doing this
-   * stores the Private Key of the Agent in memory. This might have security
-   * implications for your application.
+   * Sets the current Agent, used for signing commits. Authenticates all open
+   * websockets, and retries previously failed fetches.
+   *
+   * Warning: doing this stores the Private Key of the Agent in memory. This
+   * might have security implications for your application.
    */
   setAgent(agent: Agent): void {
     this.agent = agent;
-    // TODO: maybe iterate over all loaded resources, check if they have an Unauthorized error, and retry these.
-    agent &&
+    if (agent) {
+      this.webSockets.forEach(ws => {
+        authenticate(ws, this);
+      });
       this.resources.forEach(r => {
         if (r.isUnauthorized()) {
           this.fetchResource(r.getSubject());
         }
       });
+    }
   }
 
   /** Sets the Server base URL, without the trailing slash. */
@@ -401,15 +407,12 @@ export class Store {
     if (subject == unknownSubject) {
       return;
     }
-    // Don't subscribe to resources that the server can't handle
-    if (!subject.startsWith(this.serverUrl)) {
-      return;
-    }
     // TODO: check if there is a websocket for this server URL or not
     try {
+      const ws = this.getWebSocketForSubject(subject);
       // Only subscribe if there's a websocket. When it's opened, all subject will be iterated and subscribed
-      if (this.getDefaultWebSocket()?.readyState == 1) {
-        this.getDefaultWebSocket()?.send(`SUBSCRIBE ${subject}`);
+      if (ws?.readyState == 1) {
+        ws?.send(`SUBSCRIBE ${subject}`);
       }
     } catch (e) {
       // eslint-disable-next-line no-console

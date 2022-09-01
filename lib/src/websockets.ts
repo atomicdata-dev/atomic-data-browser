@@ -56,11 +56,17 @@ function handleError(ev: Event) {
   console.error('websocket error:', ev);
 }
 
-/** Authenticates current Agent over current WebSocket */
-async function authenticate(client: WebSocket, store: Store) {
+/**
+ * Authenticates current Agent over current WebSocket. Doesn't do anything if
+ * there is no agent
+ */
+export async function authenticate(client: WebSocket, store: Store) {
+  if (!store.getAgent()) {
+    return;
+  }
   if (
     !client.url.startsWith('ws://localhost:') &&
-    store.getAgent().subject.startsWith('http://localhost')
+    store.getAgent()?.subject?.startsWith('http://localhost')
   ) {
     console.warn("Can't authenticate localhost Agent over websocket");
     return;
