@@ -20,6 +20,7 @@ import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';
+import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTrigger';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -187,6 +188,12 @@ function NavBar() {
                 <FaArrowRight />
               </ButtonBar>
             </>
+          )}
+          {showButtons && subject && (
+            <ResourceContextMenu
+              subject={subject}
+              trigger={MenuBarDropdownTrigger}
+            />
           )}
         </React.Fragment>
       )}

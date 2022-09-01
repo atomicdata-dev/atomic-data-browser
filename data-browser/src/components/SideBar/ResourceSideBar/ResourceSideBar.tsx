@@ -7,6 +7,7 @@ import AtomicLink from '../../AtomicLink';
 import styled from 'styled-components';
 import { useChildren } from '../../../hooks/useChildren';
 import { Details } from '../../Details';
+import { FloatingActions, floatingHoverStyles } from './FloatingActions';
 
 interface ResourceSideBarProps {
   subject: string;
@@ -91,22 +92,25 @@ export function ResourceSideBar({
   }
 
   return (
-    <Details
+    <StyledDetails
       open={open}
       disabled={!showChildren}
       onStateToggle={handleDetailsToggle}
       title={
-        <Title subject={subject} clean active={active}>
-          <SideBarItem
-            onClick={handleClose}
-            disabled={active}
-            resource={subject}
-            title={description ? description : null}
-            ref={spanRef}
-          >
-            {title}
-          </SideBarItem>
-        </Title>
+        <ActionWrapper>
+          <Title subject={subject} clean active={active}>
+            <SideBarItem
+              onClick={handleClose}
+              disabled={active}
+              resource={subject}
+              title={description}
+              ref={spanRef}
+            >
+              {title}
+            </SideBarItem>
+          </Title>
+          <FloatingActions subject={subject} />
+        </ActionWrapper>
       }
     >
       {showChildren &&
@@ -117,15 +121,28 @@ export function ResourceSideBar({
             onOpen={setAndPropagateOpen}
           />
         ))}
-    </Details>
+    </StyledDetails>
   );
 }
+
+const ActionWrapper = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  ${floatingHoverStyles}
+`;
+
+const StyledDetails = styled(Details)``;
 
 interface TitleProps {
   active: boolean;
 }
 
 const Title = styled(AtomicLink)<TitleProps>`
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
   ${SideBarItem} {
     cursor: pointer;
     color: ${({ active, theme: { colors } }) =>

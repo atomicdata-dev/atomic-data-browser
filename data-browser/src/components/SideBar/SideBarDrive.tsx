@@ -1,6 +1,6 @@
 import { useResource, useTitle } from '@tomic/react';
 import React from 'react';
-import { FaServer } from 'react-icons/fa';
+import { FaPlus, FaServer } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSettings } from '../../helpers/AppSettings';
@@ -12,6 +12,7 @@ import { ResourceSideBar } from './ResourceSideBar/ResourceSideBar';
 import { SignInButton } from '../SignInButton';
 import { SideBarHeader } from './SideBarHeader';
 import { useChildren } from '../../hooks/useChildren';
+import { shortcuts } from '../HotKeyWrapper';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -22,29 +23,35 @@ interface SideBarDriveProps {
 export function SideBarDrive({
   handleClickItem,
 }: SideBarDriveProps): JSX.Element {
-  const { baseURL } = useSettings();
-  const { agent } = useSettings();
-  const drive = useResource(baseURL);
-  const children = useChildren(baseURL);
-  const title = useTitle(drive);
+  const { drive, agent } = useSettings();
+  const driveResource = useResource(drive);
+  const children = useChildren(drive);
+  const title = useTitle(driveResource);
   const navigate = useNavigate();
 
   return (
     <>
       <SideBarHeader>
-        <Button
+        <TitleButton
           clean
-          title={`Your current baseURL is ${baseURL}`}
+          title={`Your current baseURL is ${drive}`}
           data-test='sidebar-drive-open'
           onClick={() => {
             handleClickItem();
-            navigate(constructOpenURL(baseURL));
+            navigate(constructOpenURL(drive));
           }}
-          style={{ flex: 1, textAlign: 'left' }}
         >
           <DriveTitle data-test='current-drive-title'>
-            {title || baseURL}{' '}
+            {title || drive}{' '}
           </DriveTitle>
+        </TitleButton>
+        <Button
+          onClick={() => navigate(paths.new)}
+          icon
+          subtle
+          title={`Create a new resource in this drive (${shortcuts.new})`}
+        >
+          <FaPlus />
         </Button>
         <Button
           onClick={() => navigate(paths.serverSettings)}
@@ -57,7 +64,7 @@ export function SideBarDrive({
         </Button>
       </SideBarHeader>
       <ListWrapper>
-        {drive.isReady() ? (
+        {driveResource.isReady() ? (
           children.map(child => {
             return (
               <ResourceSideBar
@@ -67,17 +74,17 @@ export function SideBarDrive({
               />
             );
           })
-        ) : drive.loading ? null : (
+        ) : driveResource.loading ? null : (
           <SideBarErr>
-            {drive.error ? (
-              drive.isUnauthorized() ? (
+            {driveResource.error ? (
+              driveResource.isUnauthorized() ? (
                 agent ? (
                   'unauthorized'
                 ) : (
                   <SignInButton />
                 )
               ) : (
-                drive.error.message
+                driveResource.error.message
               )
             ) : (
               'this should not happen'
@@ -93,6 +100,11 @@ const DriveTitle = styled.h2`
   margin: 0;
   padding: 0;
   font-size: 1.4rem;
+  flex: 1;
+`;
+
+const TitleButton = styled(Button)`
+  text-align: left;
   flex: 1;
 `;
 

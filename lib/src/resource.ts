@@ -1,4 +1,3 @@
-import { JSONArray } from './value';
 import {
   Agent,
   CommitBuilder,
