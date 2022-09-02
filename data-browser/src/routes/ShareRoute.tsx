@@ -11,6 +11,8 @@ import { Button } from '../components/Button';
 import { InviteForm } from '../components/InviteForm';
 import toast from 'react-hot-toast';
 import { Title } from '../components/Title';
+import { constructOpenURL } from '../helpers/navigation';
+import { useNavigate } from 'react-router-dom';
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
@@ -20,6 +22,7 @@ export function ShareRoute(): JSX.Element {
   const [canWrite] = useCanWrite(resource);
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [err, setErr] = useState(null);
+  const navigate = useNavigate();
 
   const useValueOpts = {
     commit: false,
@@ -114,6 +117,7 @@ export function ShareRoute(): JSX.Element {
     try {
       await resource.save(store);
       toast.success('Share settings saved');
+      navigate(constructOpenURL(subject));
     } catch (e) {
       toast.error(e.message);
     }
