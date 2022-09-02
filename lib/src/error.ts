@@ -13,6 +13,8 @@ export function isUnauthorized(error: Error): boolean {
   if (error instanceof AtomicError) {
     if (error.type == ErrorType.Unauthorized) {
       return true;
+    } else if (error.message.includes('Unauthorized')) {
+      return true;
     }
   }
   return false;
