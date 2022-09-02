@@ -170,6 +170,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           value={newMessageVal}
           onChange={handleChangeMessageText}
           placeholder={'type a message'}
+          data-test='message-input'
         />
         <SendButton
           title='Send message [enter]'
