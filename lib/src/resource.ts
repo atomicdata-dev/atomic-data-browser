@@ -349,7 +349,8 @@ export class Resource {
      */
     validate = true,
   ): Promise<void> {
-    if (store.isOffline) {
+    if (store.isOffline()) {
+      console.warn('Offline, not validating');
       validate = false;
     }
     if (validate) {

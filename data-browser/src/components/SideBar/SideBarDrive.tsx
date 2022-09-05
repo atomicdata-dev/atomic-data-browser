@@ -50,6 +50,7 @@ export function SideBarDrive({
           icon
           subtle
           title={`Create a new resource in this drive (${shortcuts.new})`}
+          data-test='sidebar-new-resource'
         >
           <FaPlus />
         </Button>

@@ -15,6 +15,7 @@ export const MenuBarDropdownTrigger: DropdownTriggerRenderFunction = (
     type='button'
     data-test='context-menu'
     onClick={onClick}
+    rightPadding
   >
     <FaEllipsisV />
   </ButtonBar>

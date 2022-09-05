@@ -48,7 +48,7 @@ test.describe('data-browser', async () => {
     // TODO: this keeps hanging. How do I make sure something is _not_ visible?
     // await expect(page.locator('text=new resource')).not.toBeVisible();
     await page.click('[data-test="sidebar-toggle"]');
-    await expect(await page.locator('text=new resource')).toBeVisible();
+    await expect(await page.locator(sideBarNewResource)).toBeVisible();
   });
 
   test('switch Server URL', async ({ page }) => {
@@ -308,6 +308,14 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=This domain is ')).toBeVisible();
   });
 
+  test('form validation', async ({ page }) => {
+    await signIn(page);
+    await newResource('class', page);
+    await page.click('[data-test="input-shortname"]');
+    await page.keyboard.type('in valid');
+    await expect(page.locator('text=Not a valid slug')).toBeVisible();
+  });
+
   test('dialog', async ({ page }) => {
     await signIn(page);
     await newDrive(page);
@@ -372,7 +380,7 @@ async function openLocalhost(page: Page) {
  */
 async function newDrive(page: Page) {
   // Create new drive to prevent polluting the main drive
-  await page.locator('text=new resource').click();
+  await page.locator(sideBarNewResource).click();
   await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
   await page.locator('button:has-text("drive")').click();
   await expect(await page.locator('text="Create new resource"')).toBeVisible();
