@@ -60,5 +60,6 @@ export async function signRequest(
     headers['x-atomic-timestamp'] = timestamp;
     headers['x-atomic-agent'] = agent?.subject;
   }
+
   return headers as HeadersObject;
 }

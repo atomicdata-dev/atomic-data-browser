@@ -12,9 +12,9 @@ export function Shortcut({ shortcut, className }: ShortcutProps): JSX.Element {
   return (
     <Wrapper className={className}>
       {parts.map((part, i) => (
-        <>
+        <React.Fragment key={i}>
           <KBD>{part}</KBD> {i < parts.length - 1 && '+ '}
-        </>
+        </React.Fragment>
       ))}
     </Wrapper>
   );

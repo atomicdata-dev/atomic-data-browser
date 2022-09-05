@@ -1,3 +1,4 @@
+import { EventManager } from './EventManager';
 import {
   Agent,
   Datatype,
@@ -10,7 +11,17 @@ import {
 } from './index';
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
 
-type callback = (resource: Resource) => void;
+type Callback = (resource: Resource) => void;
+
+export enum StoreEvents {
+  NewResource = 'new-resource',
+  ResourceRemoved = 'resource-removed',
+}
+
+type StoreEventHandlers = {
+  [StoreEvents.NewResource]: (resource: Resource) => void;
+  [StoreEvents.ResourceRemoved]: (subject: string) => void;
+};
 
 /**
  * An in memory store that has a bunch of usefful methods for retrieving Atomic
@@ -23,20 +34,28 @@ export class Store {
    * The base URL of an Atomic Server. This is where to send commits, create new
    * instances, search, etc.
    */
-  serverUrl: string;
+  private serverUrl: string;
   /** All the resources of the store */
-  resources: Map<string, Resource>;
-  /** A list of all functions that need to be called when a certain resource is updated */
-  subscribers: Map<string, Array<callback>>;
+  private _resources: Map<string, Resource>;
   /** Current Agent, used for signing commits. Is required for posting things. */
-  agent?: Agent;
+  private agent?: Agent;
   /** Mapped from origin to websocket */
-  webSockets: Map<string, WebSocket>;
+  private webSockets: Map<string, WebSocket>;
+
+  private eventManager = new EventManager<StoreEvents, StoreEventHandlers>();
+
+  /** A list of all functions that need to be called when a certain resource is updated */
+  public subscribers: Map<string, Array<Callback>>;
   /**
    * Is called when the store encounters an error. By default simply throws the
    * error, but can be overwritten
    */
   public errorHandler: (e: Error) => unknown;
+
+  /** All the resources of the store */
+  public get resources(): Map<string, Resource> {
+    return this._resources;
+  }
 
   constructor(
     opts: {
@@ -48,7 +67,7 @@ export class Store {
   ) {
     opts.serverUrl && this.setServerUrl(opts.serverUrl);
     opts.serverUrl && this.setAgent(opts.agent);
-    this.resources = new Map();
+    this._resources = new Map();
     this.webSockets = new Map();
     this.subscribers = new Map();
     this.errorHandler = (e: Error) => {
@@ -94,8 +113,11 @@ export class Store {
     }
 
     this.resources.set(resource.getSubject(), resource);
-    // We clone
-    this.notify(resource.clone());
+
+    Promise.all([
+      this.notify(resource.clone()),
+      this.eventManager.emit(StoreEvents.NewResource, resource),
+    ]);
   }
 
   /** Checks if a subject is free to use */
@@ -176,10 +198,7 @@ export class Store {
 
   /** Returns the base URL of the companion server */
   getServerUrl(): string | null {
-    if (this.serverUrl == undefined) {
-      return null;
-    }
-    return this.serverUrl;
+    return this.serverUrl ?? null;
   }
 
   /**
@@ -187,10 +206,7 @@ export class Store {
    * to first run `store.setAgent()`.
    */
   getAgent(): Agent | null {
-    if (this.agent == undefined) {
-      return null;
-    }
-    return this.agent;
+    return this.agent ?? null;
   }
 
   /**
@@ -300,20 +316,21 @@ export class Store {
   }
 
   /** Let's subscribers know that a resource has been changed. Time to update your views! */
-  notify(resource: Resource): void {
+  async notify(resource: Resource): Promise<void> {
     const subject = resource.getSubject();
-    const subscribers = this.subscribers.get(subject);
-    if (subscribers == undefined) {
+    const callbacks = this.subscribers.get(subject);
+
+    if (callbacks == undefined) {
       return;
     }
-    subscribers.map(callback => {
-      callback(resource);
-    });
+
+    Promise.allSettled(callbacks.map(async cb => cb(resource)));
   }
 
   /** Removes (destroys / deletes) resource from this store */
   removeResource(subject: string): void {
     this.resources.delete(subject);
+    this.eventManager.emit(StoreEvents.ResourceRemoved, subject);
   }
 
   /**
@@ -389,7 +406,7 @@ export class Store {
    * this, you should probably also call .unsubscribe some time later.
    */
   // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
-  subscribe(subject: string, callback: callback): void {
+  subscribe(subject: string, callback: Callback): void {
     if (subject == undefined) {
       throw Error('Cannot subscribe to undefined subject');
     }
@@ -433,7 +450,7 @@ export class Store {
   }
 
   /** Unregisters the callback (see `subscribe()`) */
-  unsubscribe(subject: string, callback: callback): void {
+  unsubscribe(subject: string, callback: Callback): void {
     if (subject == undefined) {
       return;
     }
@@ -441,6 +458,10 @@ export class Store {
     // Remove the function from the callBackArray
     callbackArray = callbackArray?.filter(item => item !== callback);
     this.subscribers.set(subject, callbackArray);
+  }
+
+  public on<T extends StoreEvents>(event: T, callback: StoreEventHandlers[T]) {
+    return this.eventManager.register(event, callback);
   }
 }
 

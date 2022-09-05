@@ -18,7 +18,7 @@ type UsePreviewReturnType = {
 };
 
 async function fetchBookmarkData(url: string, name: string, store: Store) {
-  const bookmarkRoute = new URL(paths.fetchBookmark, store.serverUrl);
+  const bookmarkRoute = new URL(paths.fetchBookmark, store.getServerUrl());
 
   const searchParams = new URLSearchParams({
     name,
