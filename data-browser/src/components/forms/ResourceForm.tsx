@@ -142,7 +142,7 @@ export function ResourceForm({
   }
 
   return (
-    <form about={resource.getSubject()}>
+    <form about={resource.getSubject()} onSubmit={save}>
       {classSubject && klass.error && (
         <ErrMessage>
           Error in class. {klass.getError().message}. You can still edit the
@@ -228,7 +228,7 @@ export function ResourceForm({
       {variant !== ResourceFormVariant.Dialog && (
         <>
           {err && <ErrMessage>{err.message}</ErrMessage>}
-          <Button onClick={save} disabled={saving} data-test='save'>
+          <Button disabled={saving} data-test='save' type='submit'>
             {saving ? 'wait...' : 'save'}
           </Button>
         </>
