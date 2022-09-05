@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Property,
   Store,
@@ -39,12 +39,15 @@ export function useResource(subject?: string, opts?: FetchOpts): Resource {
       // When a change happens, set the new Resource.
       setResource(updated);
     }
-    subject && store.subscribe(subject, handleNotify);
 
-    return () => {
-      // When the component is unmounted, unsubscribe from the store.
-      store.unsubscribe(subject, handleNotify);
-    };
+    if (subject) {
+      store.subscribe(subject, handleNotify);
+
+      return () => {
+        // Unsubscribe from the store when next useEffect is called or the component is unmounted.
+        store.unsubscribe(subject, handleNotify);
+      };
+    }
   }, [store, subject]);
 
   return resource;
@@ -239,34 +242,37 @@ export function useValue(
    * Validates the value. If it fails, it calls the function in the second
    * Argument. Pass null to remove existing value.
    */
-  async function validateAndSet(newVal: JSONValue): Promise<void> {
-    if (newVal == null) {
-      // remove the value
-      resource.removePropVal(propertyURL);
-      set(null);
-      return;
-    }
-    set(newVal);
-    setTouched(true);
-
-    /**
-     * Validates and sets a property / value combination. Will invoke the
-     * callback if the value is not valid.
-     */
-    async function setAsync() {
-      try {
-        await resource.set(propertyURL, newVal, store, validate);
-        handleValidationError && handleValidationError(null);
-        // commit && (await resource.save(store));
-        // Clone resource to force hooks to re-evaluate due to shallow comparison.
-        store.notify(resource.clone());
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        handleValidationError ? handleValidationError(e) : console.error(e);
+  const validateAndSet = useCallback(
+    async (newVal: JSONValue): Promise<void> => {
+      if (newVal == null) {
+        // remove the value
+        resource.removePropVal(propertyURL);
+        set(null);
+        return;
       }
-    }
-    await setAsync();
-  }
+      set(newVal);
+      setTouched(true);
+
+      /**
+       * Validates and sets a property / value combination. Will invoke the
+       * callback if the value is not valid.
+       */
+      async function setAsync() {
+        try {
+          await resource.set(propertyURL, newVal, store, validate);
+          handleValidationError && handleValidationError(null);
+          // commit && (await resource.save(store));
+          // Clone resource to force hooks to re-evaluate due to shallow comparison.
+          store.notify(resource.clone());
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          handleValidationError ? handleValidationError(e) : console.error(e);
+        }
+      }
+      await setAsync();
+    },
+    [resource, handleValidationError, store, validate],
+  );
 
   // If a value has already been set, return it.
   if (val !== null) {

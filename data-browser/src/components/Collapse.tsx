@@ -29,9 +29,12 @@ export function Collapse({
 
     setInitialHeight(height);
 
-    div.style.height = '0px';
     div.style.position = 'static';
-    div.style.visibility = 'hidden';
+
+    if (!open) {
+      div.style.height = '0px';
+      div.style.visibility = 'hidden';
+    }
   };
 
   const mutationObserver = useRef(new MutationObserver(measureAndSet));

@@ -19,22 +19,11 @@ export const useDarkMode = (): [
   Dispatch<boolean | undefined>,
   DarkModeOption,
 ] => {
-  let def = false;
-  if (checkPrefersDark()) {
-    def = true;
-  }
-  const [dark, setDark] = useState(def);
+  const [dark, setDark] = useState(() => checkPrefersDark());
   const [darkLocal, setDarkLocal] = useLocalStorage<DarkModeOption>(
     'darkMode',
     DarkModeOption.auto,
   );
-
-  // Is called when user changes color scheme
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', e => {
-      setDarkBoth(e.matches ? true : false);
-    });
 
   /** True, false or auto (if undefined) */
   function setDarkBoth(a?: boolean) {
@@ -49,6 +38,18 @@ export const useDarkMode = (): [
       setDarkLocal(DarkModeOption.never);
     }
   }
+
+  useEffect(() => {
+    const onChange = (e: MediaQueryListEvent) => {
+      setDarkBoth(e.matches);
+    };
+
+    const list = window.matchMedia('(prefers-color-scheme: dark)');
+    // Is called when user changes color scheme
+    list.addEventListener('change', onChange);
+
+    return () => list.removeEventListener('change', onChange);
+  }, []);
 
   useEffect(() => {
     if (darkLocal == DarkModeOption.auto) {
