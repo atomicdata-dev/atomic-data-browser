@@ -77,7 +77,7 @@ export class Resource {
 
     const parentSubject = this.get(properties.parent) as string;
 
-    if (parentSubject === undefined) {
+    if (!parentSubject) {
       return [false, `No write right or parent in ${this.getSubject()}`];
     }
 
@@ -216,7 +216,7 @@ export class Resource {
     });
     const parentSubject = this.get(properties.parent) as string;
 
-    if (parentSubject !== undefined) {
+    if (parentSubject) {
       if (parentSubject === this.getSubject()) {
         console.warn('Circular parent', parentSubject);
 
@@ -233,7 +233,7 @@ export class Resource {
 
   /** Returns true is the resource had an `Unauthorized` 401 response. */
   public isUnauthorized(): boolean {
-    return this.error !== undefined && isUnauthorized(this.error);
+    return this.error && isUnauthorized(this.error);
   }
 
   /** Removes the resource form both the server and locally */

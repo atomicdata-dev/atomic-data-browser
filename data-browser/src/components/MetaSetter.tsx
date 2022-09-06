@@ -1,4 +1,4 @@
-import { properties } from '@tomic/lib';
+import { properties, unknownSubject } from '@tomic/lib';
 import { useResource, useString, useTitle } from '@tomic/react';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -12,7 +12,8 @@ export function MetaSetter(): JSX.Element {
   const resource = useResource(subject);
   let title = useTitle(resource);
   let [description] = useString(resource, properties.description);
-  const hasResource = resource.isReady();
+  const hasResource =
+    resource.isReady() && resource.getSubject() !== unknownSubject;
 
   title = hasResource && title ? title : 'Atomic Data';
   description =
