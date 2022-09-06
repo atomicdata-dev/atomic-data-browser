@@ -48,15 +48,15 @@ export function getTimestampNow(): number {
 export class CommitBuilder implements CommitBuilderI {
   // WARNING
   // If you add stuff here, add it to `.clone()!` too!
-  subject: string;
-  set: Record<string, JSONValue>;
-  push: Record<string, JSONValue>;
-  remove: string[];
-  destroy?: boolean;
-  previousCommit?: string;
+  public subject: string;
+  public set: Record<string, JSONValue>;
+  public push: Record<string, JSONValue>;
+  public remove: string[];
+  public destroy?: boolean;
+  public previousCommit?: string;
 
   /** Removes any query parameters from the Subject */
-  constructor(subject: string) {
+  public constructor(subject: string) {
     this.subject = removeQueryParamsFromURL(subject);
     this.set = {};
     this.push = {};
@@ -67,18 +67,19 @@ export class CommitBuilder implements CommitBuilderI {
    * Signs the commit using the privateKey of the Agent, and returns a full
    * Commit which is ready to be sent to an Atomic-Server `/commit` endpoint.
    */
-  async sign(privateKey: string, agentSubject: string): Promise<Commit> {
+  public async sign(privateKey: string, agentSubject: string): Promise<Commit> {
     const commit = await signAt(
       this.clone(),
       agentSubject,
       privateKey,
       getTimestampNow(),
     );
+
     return commit;
   }
 
   /** Returns true if the CommitBuilder has non-empty changes (set, remove, destroy) */
-  hasUnsavedChanges(): boolean {
+  public hasUnsavedChanges(): boolean {
     return (
       Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0
     );
@@ -90,13 +91,14 @@ export class CommitBuilder implements CommitBuilderI {
    * cause race conditions with wrong signatures
    */
   // Warning: I'm not sure whether this actually solves the issue. Might be a good idea to remove this.
-  clone(): CommitBuilder {
+  public clone(): CommitBuilder {
     const cm = new CommitBuilder(this.subject);
     cm.set = this.set;
     cm.push = this.push;
     cm.destroy = this.destroy;
     cm.remove = this.remove;
     cm.previousCommit = this.previousCommit;
+
     return cm;
   }
 
@@ -104,7 +106,7 @@ export class CommitBuilder implements CommitBuilderI {
    * Set the URL of the Commit that was previously (last) applied. The value of
    * this should probably be the `lastCommit` of the Resource.
    */
-  setPreviousCommit(prev: string) {
+  public setPreviousCommit(prev: string) {
     this.previousCommit = prev;
   }
 }
@@ -157,18 +159,22 @@ export function serializeDeterministically(
   commit: CommitPreSigned | Commit,
 ): string {
   // Remove empty arrays, objects, false values from root
-  if (commit.remove && Object.keys(commit.remove).length == 0) {
+  if (commit.remove && Object.keys(commit.remove).length === 0) {
     delete commit.remove;
   }
-  if (commit.set && Object.keys(commit.set).length == 0) {
+
+  if (commit.set && Object.keys(commit.set).length === 0) {
     delete commit.set;
   }
-  if (commit.push && Object.keys(commit.push).length == 0) {
+
+  if (commit.push && Object.keys(commit.push).length === 0) {
     delete commit.push;
   }
-  if (commit.destroy == false) {
+
+  if (commit.destroy === false) {
     delete commit.destroy;
   }
+
   replaceKey(commit, 'createdAt', urls.properties.commit.createdAt);
   replaceKey(commit, 'subject', urls.properties.commit.subject);
   replaceKey(commit, 'set', urls.properties.commit.set);
@@ -179,6 +185,7 @@ export function serializeDeterministically(
   replaceKey(commit, 'destroy', urls.properties.commit.destroy);
   replaceKey(commit, 'previousCommit', urls.properties.commit.previousCommit);
   commit[urls.properties.isA] = [urls.classes.commit];
+
   return stringify(commit);
 }
 
@@ -192,9 +199,10 @@ export const signAt = async (
   /** Time of signing in millisecons since unix epoch */
   createdAt: number,
 ): Promise<Commit> => {
-  if (agent == undefined) {
+  if (agent === undefined) {
     throw new Error('No agent passed to sign commit');
   }
+
   const commitPreSigned: CommitPreSigned = {
     ...commitBuilder,
     createdAt,
@@ -206,6 +214,7 @@ export const signAt = async (
     ...commitPreSigned,
     signature,
   };
+
   return commitPostSigned;
 };
 
@@ -230,6 +239,7 @@ export const signToBase64 = async (
   const messageBytes: Uint8Array = utf8Encode.encode(message);
   const signatureHex = await sign(messageBytes, privateKeyBytes);
   const signatureBase64 = encodeB64(signatureHex);
+
   return signatureBase64;
 };
 
@@ -241,6 +251,7 @@ export const generatePublicKeyFromPrivate = async (
   const privateKeyBytes: Uint8Array = new Uint8Array(privateKeyArrayBuffer);
   const publickey = await getPublicKey(privateKeyBytes);
   const publicBase64 = encodeB64(publickey);
+
   return publicBase64;
 };
 
@@ -254,6 +265,7 @@ export async function generateKeyPair(): Promise<KeyPair> {
   const publicBytes = await getPublicKey(privateBytes);
   const privateKey = encodeB64(privateBytes);
   const publicKey = encodeB64(publicBytes);
+
   return {
     publicKey,
     privateKey,
@@ -276,6 +288,7 @@ export function parseCommit(str: string): Commit {
     const id: null | string = jsonAdObj['@id'];
     const previousCommit: null | string =
       jsonAdObj[urls.properties.commit.previousCommit];
+
     return {
       subject,
       set,
@@ -301,7 +314,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   let resource = store.resources.get(subject);
 
   // If the resource doesn't exist in the store, create the resource
-  if (resource == undefined) {
+  if (resource === undefined) {
     resource = new Resource(subject);
   } else {
     // Commit has already been applied here, ignore the commit
@@ -311,12 +324,14 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
     // }
   }
 
-  set &&
+  if (set) {
     Object.keys(set).forEach(propUrl => {
       let newVal = set[propUrl];
+
       if (newVal.constructor === {}.constructor) {
         newVal = parseJsonAdResourceValue(store, newVal, resource, propUrl);
       }
+
       if (isArray(newVal)) {
         newVal = newVal.map(resourceOrURL => {
           return parseJsonAdResourceValue(
@@ -327,15 +342,18 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
           );
         });
       }
+
       resource.setUnsafe(propUrl, newVal);
     });
+  }
 
-  remove &&
+  if (remove) {
     remove.forEach(propUrl => {
       resource.removePropValLocally(propUrl);
     });
+  }
 
-  push &&
+  if (push) {
     Object.keys(push).forEach(propUrl => {
       const current = (resource.get(propUrl) as JSONArray) || [];
       const newArr = push[propUrl] as JSONArray;
@@ -349,6 +367,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
       // Save it!
       resource.setUnsafe(propUrl, new_arr);
     });
+  }
 
   if (id) {
     // This is something that the server does, too.
@@ -357,6 +376,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
 
   if (destroy) {
     store.removeResource(subject);
+
     return;
   } else {
     resource.appliedCommitSignatures.add(signature);

@@ -27,13 +27,14 @@ export const useSaveResource = (
       e.preventDefault();
       setSaving(true);
       setErr(null);
+
       try {
         await resource.save(store);
         setSaving(false);
         onSaveSucces();
         toast.success('Resource saved');
-      } catch (e) {
-        setErr(e);
+      } catch (err) {
+        setErr(err);
         setSaving(false);
         toast.error('Could not save resource');
       }

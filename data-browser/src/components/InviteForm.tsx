@@ -36,6 +36,7 @@ export function InviteForm({ target }: InviteFormProps) {
     await invite.set(properties.read, [urls.instances.publicAgent], store);
     await invite.set(properties.invite.target, target.getSubject(), store);
     invite.setSubject(store.createSubject('invite'));
+
     try {
       await invite.set(properties.parent, agent.subject, store);
       await invite.save(store);

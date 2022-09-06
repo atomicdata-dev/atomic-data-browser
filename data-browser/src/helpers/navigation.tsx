@@ -18,8 +18,10 @@ export function constructOpenURL(
   extraParams: Record<string, string> = {},
 ): string {
   const url = new URL(subject);
+
   if (window.location.origin === url.origin) {
     const path = url.pathname + url.search;
+
     return path;
   } else {
     return constructURL(paths.show, { subject, ...extraParams });
@@ -35,10 +37,12 @@ type setFunc = (latestValue: string) => void;
 /** Returns a getter and a setter for query parameters */
 export function useQueryString(key: string): [string, setFunc] {
   const [params, set] = useSearchParams(key);
+
   const customSet = (subject: string) => {
     params.set(key, subject);
     set(params);
   };
+
   return [params.get(key), customSet];
 }
 
@@ -59,6 +63,7 @@ export function newURL(
   navTo.searchParams.append('classSubject', classUrl);
   parentURL && navTo.searchParams.append('parent', parentURL);
   subject && navTo.searchParams.append('newSubject', subject);
+
   return paths.new + navTo.search;
 }
 
@@ -86,6 +91,7 @@ export function versionsURL(subject: string, baseURL: string): string {
   const url = new URL(baseURL);
   url.pathname = paths.allVersions;
   url.searchParams.append('subject', subject);
+
   return constructOpenURL(url.toString());
 }
 
@@ -97,9 +103,11 @@ export function getSubjectFromDom(): string | null {
   nodeList.forEach(node => {
     // The about attirbute should contain a Subject
     const about = node.getAttribute('about');
+
     if (about !== null) {
       found.unshift(about);
     }
   });
+
   return found[0];
 }

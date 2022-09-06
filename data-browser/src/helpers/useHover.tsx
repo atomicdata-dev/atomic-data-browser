@@ -15,6 +15,7 @@ export function useHover<T extends HTMLElement>(
 
     // eslint-disable-next-line
     const node = ref.current;
+
     // This could be expensive, and triggers re-renders for some reasons.
     // That's why it's disabled as much as possible.
     if (!disabled && node) {

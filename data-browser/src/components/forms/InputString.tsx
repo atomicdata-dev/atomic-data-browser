@@ -23,13 +23,13 @@ export default function InputString({
     <>
       <InputWrapper>
         <InputStyled
-          value={value == undefined ? '' : value}
+          value={value === undefined ? '' : value}
           onChange={handleUpdate}
           {...props}
         />
       </InputWrapper>
       {value !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
-      {value == '' && <ErrMessage>Required</ErrMessage>}
+      {value === '' && <ErrMessage>Required</ErrMessage>}
     </>
   );
 }

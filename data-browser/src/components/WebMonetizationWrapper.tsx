@@ -21,8 +21,10 @@ export const useMonetization = () => {
       // This means this user doesn't have monetization capabilities
       // i.e. they don't have the Coil extension installed on their browser
       setisPaying(false);
+
       return;
     }
+
     // Note: A user could have monetization capabilities (i.e. installed Coil)
     // but that doesn't mean they've actually signed up for an account!
     const { state } = document.monetization;
@@ -79,7 +81,7 @@ function WebMonetizationWrapper({ resource, children }: Props): JSX.Element {
       {!isPaying && (
         <p>This content can only be accessed through Webmonetization.</p>
       )}
-      {document.monetization == undefined && (
+      {document.monetization === undefined && (
         <p>
           Get the{' '}
           <Link href='https://help.coil.com/docs/membership/coil-extension/index.html'>
@@ -105,4 +107,5 @@ function WebMonetizationWrapper({ resource, children }: Props): JSX.Element {
     </ContainerNarrow>
   );
 }
+
 export default WebMonetizationWrapper;

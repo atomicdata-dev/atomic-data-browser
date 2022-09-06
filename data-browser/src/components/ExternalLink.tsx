@@ -21,6 +21,7 @@ export function ExternalLink({
     variant === ExternalLinkVariant.Button
       ? ExternalLinkButton
       : ExternalLinkPlain;
+
   return (
     <Comp href={to} target='_blank' rel='noreferrer'>
       {children}

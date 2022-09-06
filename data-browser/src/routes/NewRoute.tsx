@@ -17,7 +17,7 @@ function New(): JSX.Element {
   const [classSubject] = useQueryString('classSubject');
   const [parentSubject] = useQueryString('parentSubject');
   // For selecting a class
-  const [classInput, setClassInput] = useState<string>(null);
+  const [classInput, setClassInput] = useState<string>(undefined);
   const [error, setError] = useState<Error>(null);
   const navigate = useNavigate();
   const classFull = useResource(classInput);

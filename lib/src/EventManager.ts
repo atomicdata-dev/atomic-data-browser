@@ -1,4 +1,5 @@
 type Handlers<Types extends string> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key in Types]: (...args: any[]) => any;
 };
 
@@ -27,6 +28,7 @@ export class EventManager<Types extends string, H extends Handlers<Types>> {
 
     const wrap = async (handler: H[Types]) => {
       handler(...args);
+
       return;
     };
 

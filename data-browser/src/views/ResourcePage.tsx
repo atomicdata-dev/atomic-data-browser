@@ -47,6 +47,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
       </ContainerNarrow>
     );
   }
+
   if (resource.error) {
     return <ErrorPage resource={resource} />;
   }

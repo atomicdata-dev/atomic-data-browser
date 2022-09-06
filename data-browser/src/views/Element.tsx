@@ -104,7 +104,8 @@ export function ElementEdit({
   useHotkeys(
     'backspace',
     e => {
-      const isEmpty = text == '' || text == null;
+      const isEmpty = text === '' || text === null;
+
       if ((active && isEmpty) || (active && isAResource)) {
         e.preventDefault();
         deleteElement(index);
@@ -316,9 +317,11 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     e => {
       e.preventDefault();
       let next = index - 1;
+
       if (next < 0) {
         next = results.length - 1;
       }
+
       setIndex(index - 1);
     },
     { enableOnTags: ['TEXTAREA'] },
@@ -330,16 +333,18 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     e => {
       e.preventDefault();
       let next = index + 1;
+
       if (next > results.length - 1) {
         next = 0;
       }
+
       setIndex(index + 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [index],
   );
 
-  if (query == '') {
+  if (query === '') {
     return (
       <WidgetWrapper>
         <p>Search something...</p>

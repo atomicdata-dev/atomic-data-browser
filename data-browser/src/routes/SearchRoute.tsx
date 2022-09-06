@@ -30,6 +30,7 @@ export function Search(): JSX.Element {
       e.preventDefault();
       const subject =
         htmlElRef?.current?.children[selectedIndex]?.getAttribute('about');
+
       if (subject) {
         //@ts-ignore blur does exist though
         document?.activeElement?.blur();
@@ -53,7 +54,7 @@ export function Search(): JSX.Element {
     e => {
       e.preventDefault();
       const newSelected =
-        selectedIndex == results.length - 1
+        selectedIndex === results.length - 1
           ? results.length - 1
           : selectedIndex + 1;
       moveTo(newSelected);
@@ -62,12 +63,15 @@ export function Search(): JSX.Element {
   );
 
   let message = 'No hits';
-  if (query.length == 0) {
+
+  if (query.length === 0) {
     message = 'Enter a search query';
   }
+
   if (loading) {
     message = 'Loading results...';
   }
+
   return (
     <ContainerNarrow ref={htmlElRef}>
       {error && <ErrorLook>{error.message}</ErrorLook>}
@@ -79,7 +83,7 @@ export function Search(): JSX.Element {
               small
               subject={subject}
               key={subject}
-              highlight={index == selectedIndex}
+              highlight={index === selectedIndex}
             />
           ))}
         </>

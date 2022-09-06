@@ -22,6 +22,7 @@ function CollectionCard({ resource, small }: CardViewProps): JSX.Element {
 
   const tooMany = members.length > MAX_COUNT;
   let subjects = members;
+
   if (!showAll && tooMany) {
     subjects = subjects.slice(0, MAX_COUNT);
   }

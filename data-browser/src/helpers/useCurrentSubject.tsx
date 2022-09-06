@@ -11,14 +11,15 @@ type setFunc = (latestValue: string) => void;
 export function useCurrentSubject(
   /** Replace URL instead of push it, so it does not get added to history */
   replace?: boolean,
-): [string | null, setFunc] {
+): [string | undefined, setFunc] {
   const [subjectQ, setSubjectQ] = useQueryString('subject');
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
   function handleSetSubject(subject: string) {
     const url = new URL(subject);
-    if (window.location.origin == url.origin) {
+
+    if (window.location.origin === url.origin) {
       if (replace) {
         navigate(url.pathname + url.search, { replace: true });
       } else {
@@ -30,17 +31,20 @@ export function useCurrentSubject(
     }
   }
 
-  if (subjectQ == '') {
+  if (subjectQ === '') {
     if (pathname.startsWith('/app/')) {
-      return [null, handleSetSubject];
+      return [undefined, handleSetSubject];
     }
+
     // The pathname defaults to a trailing slash, which leads to issues
-    const correctedPathNamer = pathname == '/' ? '' : pathname;
+    const correctedPathNamer = pathname === '/' ? '' : pathname;
+
     return [
       window.location.origin + correctedPathNamer + search,
       handleSetSubject,
     ];
   }
+
   return [subjectQ, handleSetSubject];
 }
 
@@ -51,8 +55,7 @@ export function useSubjectParam(key: string): [string, (string) => void] {
 
   useEffect(() => {
     if (subject) {
-      const params = new URL(subject).searchParams;
-      setParams(params);
+      setParams(new URL(subject).searchParams);
     } else {
       setParams(null);
     }
@@ -62,9 +65,11 @@ export function useSubjectParam(key: string): [string, (string) => void] {
     params.set(key, newVal);
     const newUrl = new URL(subject);
     newUrl.searchParams.set(key, newVal);
-    if (newVal == null || newVal == '') {
+
+    if (newVal === null || newVal === '') {
       newUrl.searchParams.delete(key);
     }
+
     setSubject(newUrl.href);
   }
 

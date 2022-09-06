@@ -14,26 +14,34 @@ export default function InputSwitcher(props: InputProps): JSX.Element {
     case Datatype.STRING: {
       return <InputString {...props} />;
     }
+
     case Datatype.MARKDOWN: {
       return <InputMarkdown {...props} />;
     }
+
     case Datatype.SLUG: {
       return <InputString {...props} />;
     }
+
     // TODO: DateTime selector
-    case Datatype.TIMESTAMP:
+    // case Datatype.TIMESTAMP:
+
     case Datatype.INTEGER: {
       return <InputNumber {...props} />;
     }
+
     case Datatype.ATOMIC_URL: {
       return <InputResource {...props} />;
     }
+
     case Datatype.RESOURCEARRAY: {
       return <InputResourceArray {...props} />;
     }
+
     case Datatype.BOOLEAN: {
       return <InputBoolean {...props} />;
     }
+
     default: {
       return <InputString {...props} />;
     }

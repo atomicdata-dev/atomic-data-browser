@@ -89,8 +89,8 @@ function HeaderItem({ subject }: HeaderItemProps) {
   const property = useProperty(subject);
 
   function handleToggleSort() {
-    if (sortBy == subject) {
-      if (sortDesc == 'true') {
+    if (sortBy === subject) {
+      if (sortDesc === 'true') {
         setSortDesc(null);
       } else {
         setSortDesc('true');
@@ -100,9 +100,10 @@ function HeaderItem({ subject }: HeaderItemProps) {
     }
   }
 
-  const thisPropIsSorted = sortBy == subject;
+  const thisPropIsSorted = sortBy === subject;
 
   let minWidth = '6rem';
+
   switch (property.datatype) {
     case Datatype.STRING:
     case Datatype.RESOURCEARRAY:
@@ -129,7 +130,7 @@ function HeaderItem({ subject }: HeaderItemProps) {
         data-test={`sort-${subject}`}
       >
         {thisPropIsSorted ? (
-          sortDesc == 'true' ? (
+          sortDesc === 'true' ? (
             <FaSortDown />
           ) : (
             <FaSortUp />
@@ -152,9 +153,11 @@ function TableRow({ subject, propsArray }: RowProps): JSX.Element {
     // We don't need to fetch all members for Collections when looking at a Table view.
     allowIncomplete: true,
   });
+
   if (resource === null) {
     return null;
   }
+
   return (
     <RowStyled about={subject}>
       <CellStyled>

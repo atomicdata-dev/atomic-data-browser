@@ -32,6 +32,7 @@ function Data(): JSX.Element {
   if (resource.loading) {
     return <ContainerNarrow>Loading {subject}...</ContainerNarrow>;
   }
+
   if (resource.error) {
     return (
       <ContainerNarrow>
@@ -43,10 +44,13 @@ function Data(): JSX.Element {
   async function fetchAs(contentType: string) {
     let headers: HeadersObject = {};
     headers['Accept'] = contentType;
+
     if (agent) {
       headers = await signRequest(subject, agent, headers);
     }
+
     setTextResponseLoading(true);
+
     try {
       const resp = await window.fetch(subject, { headers: headers });
       const body = await resp.text();

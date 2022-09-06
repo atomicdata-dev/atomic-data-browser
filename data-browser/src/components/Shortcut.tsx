@@ -9,6 +9,7 @@ export interface ShortcutProps {
 
 export function Shortcut({ shortcut, className }: ShortcutProps): JSX.Element {
   const parts = displayShortcut(shortcut).split('+');
+
   return (
     <Wrapper className={className}>
       {parts.map((part, i) => (

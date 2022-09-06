@@ -14,10 +14,12 @@ export default function InputNumber({
   });
 
   function handleUpdate(e) {
-    if (e.target.value == '') {
+    if (e.target.value === '') {
       setValue(null);
+
       return;
     }
+
     const newval = +e.target.value;
     // I pass the error setter for validation purposes
     setValue(newval);

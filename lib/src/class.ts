@@ -37,6 +37,7 @@ export async function classToTypescriptDefinition(
     returnString = returnString.concat(renderProperty(prop, false));
   });
   returnString = returnString.concat('}');
+
   return returnString;
 }
 

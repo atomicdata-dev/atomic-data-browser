@@ -23,7 +23,7 @@ export function BookmarkPreview({
     return <ErrorPage error={error} />;
   }
 
-  if (!preview || preview == '') {
+  if (!preview || preview === '') {
     return <CenterGrid>no preview...</CenterGrid>;
   }
 

@@ -50,14 +50,14 @@ export function SettingsServer(): JSX.Element {
       <Row wrapFlex>
         <Button
           onClick={() => handleSetBaseUrl(baseUrlInput)}
-          disabled={baseURL == baseUrlInput}
+          disabled={baseURL === baseUrlInput}
           data-test='server-url-save'
         >
           save
         </Button>
         <p>
           Websocket{' '}
-          {store.getDefaultWebSocket().readyState == WebSocket.OPEN
+          {store.getDefaultWebSocket().readyState === WebSocket.OPEN
             ? 'connected'
             : 'disconnected'}
         </p>

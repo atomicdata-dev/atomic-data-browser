@@ -90,16 +90,17 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   );
 
   const handleBlur = useCallback(() => {
-    value == null && handleUpdate(inputValue);
+    value === null && handleUpdate(inputValue);
   }, [inputValue, value]);
 
   const isInDialogTree = useContext(DialogTreeContext);
 
-  if (options.length == 0) {
+  if (options.length === 0) {
     options = store.getAllSubjects();
   }
 
   let placeholder = 'Enter an Atomic URL...';
+
   if (classType && classTypeTitle?.length > 0) {
     placeholder = `Select a ${classTypeTitle} or enter a ${classTypeTitle} URL...`;
   }
@@ -143,7 +144,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
           )}
         </Dialog>
       )}
-      {required && value == '' && <ErrMessage>Required</ErrMessage>}
+      {required && value === '' && <ErrMessage>Required</ErrMessage>}
     </div>
   );
 });

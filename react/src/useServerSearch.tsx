@@ -38,6 +38,7 @@ export function useServerSearch(
     url.searchParams.set('q', debouncedQuery);
     url.searchParams.set('include', include.toString());
     url.searchParams.set('limit', limit.toString());
+
     return url.toString();
   }, [debouncedQuery, include, limit]);
 

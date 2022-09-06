@@ -39,7 +39,8 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
     await Promise.all(
       parameters.map(async propUrl => {
         const val = virtualResource.get(propUrl);
-        if (val != null) {
+
+        if (val !== null) {
           const fullprop = await store.getProperty(propUrl);
           url.searchParams.set(fullprop.shortname, val.toString());
         }
@@ -65,7 +66,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       </form>
       <Button onClick={constructSubject}>Go</Button>
 
-      {results && results.length == 0 ? (
+      {results && results.length === 0 ? (
         <p>No hits</p>
       ) : (
         results.map(result => {

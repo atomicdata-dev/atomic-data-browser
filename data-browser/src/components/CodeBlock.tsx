@@ -35,10 +35,10 @@ export function CodeBlock({ content, loading }: CodeBlockProps) {
               right: 0,
             }}
             onClick={copyToClipboard}
-            title={isCopied == content ? 'Copied!' : 'Copy to clipboard'}
+            title={isCopied === content ? 'Copied!' : 'Copy to clipboard'}
             data-test='copy-response'
           >
-            {isCopied == content ? <FaCheck /> : <FaCopy />}
+            {isCopied === content ? <FaCheck /> : <FaCopy />}
           </Button>
         </>
       )}

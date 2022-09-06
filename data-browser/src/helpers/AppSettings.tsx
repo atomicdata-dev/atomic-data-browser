@@ -33,17 +33,17 @@ export const AppSettingsContextProvider = (
   const [baseURL, setBaseURL] = useServerURL();
   const [drive, innerSetDrive] = useLocalStorage('drive', baseURL);
 
-  function setDrive(drive: string) {
-    const url = new URL(drive);
-    innerSetDrive(drive);
+  function setDrive(newDrive: string) {
+    const url = new URL(newDrive);
+    innerSetDrive(newDrive);
     setBaseURL(url.origin);
   }
 
-  const setAgentToast = (agent: Agent) => {
+  const setAgentToast = (newAgent: Agent) => {
     try {
-      setAgent(agent);
-      agent?.subject && toast.success('Signed in!');
-      agent === null && toast.success('Signed out.');
+      setAgent(newAgent);
+      newAgent?.subject && toast.success('Signed in!');
+      newAgent === null && toast.success('Signed out.');
     } catch (e) {
       toast.error('Agent setting failed: ' + e.message);
       console.error(e);
@@ -107,6 +107,7 @@ interface AppSettings {
 /** Hook for using App Settings, such as theme and darkmode */
 export const useSettings = (): AppSettings => {
   const settings = useContext(SettingsContext);
+
   return settings;
 };
 

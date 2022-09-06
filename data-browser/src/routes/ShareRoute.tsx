@@ -60,6 +60,7 @@ export function ShareRoute(): JSX.Element {
 
   function handleSetRight(agent: string, write: boolean, setToTrue: boolean) {
     let agents = write ? writers : readers;
+
     if (setToTrue) {
       // remove previous occurence
       agents = agents.filter(s => s !== agent);
@@ -67,6 +68,7 @@ export function ShareRoute(): JSX.Element {
     } else {
       agents = agents.filter(s => s !== agent);
     }
+
     if (write) {
       setWriters(agents);
     } else {
@@ -160,8 +162,8 @@ export function ShareRoute(): JSX.Element {
               <AgentRights
                 inheritedFrom={right.setIn}
                 key={right.for + right.type}
-                read={right.type == 'read'}
-                write={right.type == 'write'}
+                read={right.type === 'read'}
+                write={right.type === 'write'}
                 agentSubject={right.for}
               />
             ))}

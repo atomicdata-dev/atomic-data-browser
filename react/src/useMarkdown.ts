@@ -46,13 +46,16 @@ export function useMarkdown(resource: Resource): string {
   useEffect(() => {
     async function getPropValTexts() {
       let propValLines = '';
+
       for await (const [prop, val] of resource.getPropVals()) {
         if (!hiddenProps.includes(prop)) {
           propValLines = propValLines + (await propertyLine(prop, val, store));
         }
       }
+
       setMd(`# ${title}` + propValLines + '\n\n' + description);
     }
+
     getPropValTexts();
   }, [resource]);
 
@@ -71,6 +74,7 @@ async function propertyLine(
 ): Promise<string> {
   const property = await store.getProperty(propertySubject);
   let valString = value.toString();
+
   switch (property.datatype) {
     case Datatype.ATOMIC_URL:
       valString = `[${value}](${value})`;
@@ -82,10 +86,12 @@ async function propertyLine(
           valString = valString + `[${item}](${item}),`;
         });
       }
+
       break;
     case Datatype.TIMESTAMP:
       valString = valToDate(value).toLocaleString();
       break;
   }
+
   return `\n\n**${property.shortname}**: ${valString}`;
 }

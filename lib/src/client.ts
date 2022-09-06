@@ -46,30 +46,37 @@ export async function fetchResource(
   from?: string,
 ): Promise<Resource> {
   let resource = new Resource(subject);
+
   try {
     tryValidURL(subject);
     const requestHeaders: HeadersObject = {};
     requestHeaders['Accept'] = JsonAdMime;
+
     // Sign the request if there is an agent present
-    store &&
-      store.getAgent() &&
-      (await signRequest(subject, store.getAgent(), requestHeaders));
+    if (store && store.getAgent()) {
+      await signRequest(subject, store.getAgent(), requestHeaders);
+    }
+
     let url = subject;
+
     if (from !== undefined) {
       const newURL = new URL(`${from}/path`);
       newURL.searchParams.set('path', subject);
       url = newURL.href;
     }
-    if (fetch == undefined) {
+
+    if (fetch === undefined) {
       throw new AtomicError(
         `No window object available this lib currently requires the DOM for fetching`,
       );
     }
+
     const response = await fetch(url, {
       headers: requestHeaders,
     });
     const body = await response.text();
-    if (response.status == 200) {
+
+    if (response.status === 200) {
       try {
         const json = JSON.parse(body);
         resource = parseJsonADResource(json, resource, store);
@@ -78,14 +85,14 @@ export async function fetchResource(
           `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
         );
       }
-    } else if (response.status == 401) {
+    } else if (response.status === 401) {
       throw new AtomicError(
         `You don't have the rights to do view ${subject}. Are you signed in with the right Agent? More detailed error from server: ${body}`,
         ErrorType.Unauthorized,
       );
-    } else if (response.status == 500) {
+    } else if (response.status === 500) {
       throw new AtomicError(body, ErrorType.Server);
-    } else if (response.status == 404) {
+    } else if (response.status === 404) {
       throw new AtomicError(body, ErrorType.NotFound);
     } else {
       throw new AtomicError(body);
@@ -93,8 +100,10 @@ export async function fetchResource(
   } catch (e) {
     resource.setError(e);
   }
+
   resource.loading = false;
   store && store.addResource(resource);
+
   return resource;
 }
 
@@ -108,6 +117,7 @@ export async function postCommit(
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
   let response = null;
+
   try {
     response = await fetch(endpoint, {
       headers: requestHeaders,
@@ -117,10 +127,13 @@ export async function postCommit(
   } catch (e) {
     throw new AtomicError(`Posting Commit to ${endpoint} failed: ${e}`);
   }
+
   const body = await response.text();
+
   if (response.status !== 200) {
     throw new AtomicError(body, ErrorType.Server);
   }
+
   return parseCommit(body);
 }
 
@@ -137,6 +150,7 @@ export function tryValidURL(subject: string): void {
 export function isValidURL(subject: string): boolean {
   try {
     tryValidURL(subject);
+
     return true;
   } catch (e) {
     return false;
@@ -184,16 +198,20 @@ export async function uploadFiles(
 
   const resp = await fetch(uploadURL.toString(), options);
   const body = await resp.text();
+
   if (resp.status !== 200) {
     throw Error(body);
   }
+
   const json = JSON.parse(body);
   const resources = parseJsonADArray(json);
   const fileSubjects = [];
+
   for (const r of resources) {
     store.addResource(r);
     fileSubjects.push(r.getSubject());
   }
+
   return fileSubjects;
 }
 
@@ -208,5 +226,6 @@ export async function importJsonAdUrl(
   const url = new URL(importerUrl);
   url.searchParams.set('url', jsonAdUrl);
   const resourceReturned = await fetchResource(url.toString(), store);
+
   return resourceReturned;
 }

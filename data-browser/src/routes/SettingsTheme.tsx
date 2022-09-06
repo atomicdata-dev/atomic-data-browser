@@ -18,20 +18,20 @@ export const SettingsTheme: React.FunctionComponent = () => {
         <LabelStyled>Dark mode</LabelStyled>
         <Row>
           <Button
-            subtle={!(darkModeSetting == DarkModeOption.auto)}
+            subtle={!(darkModeSetting === DarkModeOption.auto)}
             onClick={() => setDarkMode(null)}
             title="Use the browser's / OS dark mode settings"
           >
             🌓 auto
           </Button>
           <Button
-            subtle={!(darkModeSetting == DarkModeOption.always)}
+            subtle={!(darkModeSetting === DarkModeOption.always)}
             onClick={() => setDarkMode(true)}
           >
             🌑 on
           </Button>
           <Button
-            subtle={!(darkModeSetting == DarkModeOption.never)}
+            subtle={!(darkModeSetting === DarkModeOption.never)}
             onClick={() => setDarkMode(false)}
           >
             🌕 off

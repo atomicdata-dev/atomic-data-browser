@@ -27,13 +27,13 @@ export const useDarkMode = (): [
 
   /** True, false or auto (if undefined) */
   function setDarkBoth(a?: boolean) {
-    if (a == undefined) {
+    if (a === undefined) {
       setDark(checkPrefersDark());
       setDarkLocal(DarkModeOption.auto);
-    } else if (a == true) {
+    } else if (a === true) {
       setDark(a);
       setDarkLocal(DarkModeOption.always);
-    } else if (a == false) {
+    } else if (a === false) {
       setDark(a);
       setDarkLocal(DarkModeOption.never);
     }
@@ -52,11 +52,11 @@ export const useDarkMode = (): [
   }, []);
 
   useEffect(() => {
-    if (darkLocal == DarkModeOption.auto) {
+    if (darkLocal === DarkModeOption.auto) {
       setDark(checkPrefersDark());
-    } else if (darkLocal == DarkModeOption.always) {
+    } else if (darkLocal === DarkModeOption.always) {
       setDark(true);
-    } else if (darkLocal == DarkModeOption.never) {
+    } else if (darkLocal === DarkModeOption.never) {
       setDark(false);
     }
   }, [darkLocal]);

@@ -36,6 +36,7 @@ function AllProps({
           if (except.includes(prop)) {
             return null;
           }
+
           return (
             <PropVal
               columns={columns}

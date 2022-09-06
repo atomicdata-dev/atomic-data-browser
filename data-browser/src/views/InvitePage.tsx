@@ -36,8 +36,8 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
 
   if (autoAccept && agentSubject && usagesLeft && usagesLeft > 0) {
     // Accept the invite if an agent subject is present, but not if the user just pressed the back button
-    if (navigationType != 'POP') {
-      handleAccept(null, agentSubject);
+    if (navigationType !== 'POP') {
+      handleAccept(null);
     }
   }
 
@@ -52,14 +52,15 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
     handleAccept(publicKey);
   }
 
-  function handleAccept(publicKey?: string, agent?: string) {
+  function handleAccept(publicKey?: string) {
     const inviteURL = new URL(resource.getSubject());
 
     if (publicKey) {
       inviteURL.searchParams.set('public-key', publicKey);
     } else {
-      inviteURL.searchParams.set('agent', agent);
+      inviteURL.searchParams.set('agent', agentSubject);
     }
+
     navigate(constructOpenURL(inviteURL.href));
   }
 
@@ -67,7 +68,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
     <ContainerNarrow about={resource.getSubject()}>
       <h1>Invite to {write ? 'edit' : 'view'}</h1>
       <ValueForm resource={resource} propertyURL={properties.description} />
-      {usagesLeft == 0 ? (
+      {usagesLeft === 0 ? (
         <em>Sorry, this Invite has no usages left. Ask for a new one.</em>
       ) : (
         <Row>
@@ -75,7 +76,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
             <>
               <Button
                 data-test='accept-existing'
-                onClick={() => handleAccept(null, agentSubject)}
+                onClick={() => handleAccept(null)}
               >
                 Accept as {agentTitle}
               </Button>

@@ -14,7 +14,8 @@ export function InputResource({
   const [subject, setSubject] = useSubject(resource, property.subject, {
     handleValidationError: setError,
   });
-  if (subject == noNestedSupport) {
+
+  if (subject === noNestedSupport) {
     return (
       <ErrorLook>
         Sorry, there is no support for editing nested resources yet

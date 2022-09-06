@@ -27,30 +27,34 @@ export const unknownSubject = 'unknown-subject';
  * / Value combinations.
  */
 export class Resource {
-  private subject: string;
-  private propvals: PropVals;
   /** If the resource could not be fetched, we put that info here. */
-  error?: Error;
+  public error?: Error;
   /** If the commit could not be saved, we put that info here. */
   public commitError?: Error;
   /** Is true for locally created, unsaved resources */
-  new: boolean;
+  public new: boolean;
   /**
    * Is true when the Resource is currently being fetched, awaiting a response
    * from the Server
    */
-  loading: boolean;
-  private commitBuilder: CommitBuilder;
+  public loading: boolean;
   /**
    * Every commit that has been applied should be stored here, which prevents
    * applying the same commit twice
    */
-  appliedCommitSignatures: Set<string>;
+  public appliedCommitSignatures: Set<string>;
 
-  constructor(subject: string, newResource?: boolean) {
-    if (subject == undefined) {
-      throw new Error('no subject given to resource');
+  private commitBuilder: CommitBuilder;
+  private subject: string;
+  private propvals: PropVals;
+
+  public constructor(subject: string, newResource?: boolean) {
+    if (typeof subject !== 'string') {
+      throw new Error(
+        'Invalid subject given to resource, must be a string, found ' + subject,
+      );
     }
+
     this.new = newResource ? true : false;
     this.loading = false;
     this.subject = subject;
@@ -60,29 +64,37 @@ export class Resource {
   }
 
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
-  async canWrite(
+  public async canWrite(
     store: Store,
     agent: string,
     child?: string,
   ): Promise<[boolean, string | null]> {
     const writeArray = this.get(properties.write);
+
     if (writeArray && valToArray(writeArray).includes(agent)) {
       return [true, null];
     }
+
     const parentSubject = this.get(properties.parent) as string;
-    if (parentSubject == undefined) {
+
+    if (parentSubject === undefined) {
       return [false, `No write right or parent in ${this.getSubject()}`];
     }
+
     // Agents can always edit themselves
-    if (parentSubject == agent) {
+    if (parentSubject === agent) {
       return [true, null];
     }
+
     // This should not happen, but it prevents an infinite loop
-    if (child == parentSubject) {
+    if (child === parentSubject) {
       console.warn('Circular parent', child);
+
       return [true, `Circular parent in ${this.getSubject()}`];
     }
+
     const parent: Resource = await store.getResourceAsync(parentSubject);
+
     // The recursive part
     return await parent.canWrite(store, agent, this.getSubject());
   }
@@ -91,7 +103,7 @@ export class Resource {
    * Creates a clone of the Resource, which makes sure the reference is
    * different from the previous one. This can be useful when doing reference compares.
    */
-  clone(): Resource {
+  public clone(): Resource {
     const res = new Resource(this.subject);
     res.propvals = this.propvals;
     res.destroy = this.destroy;
@@ -101,21 +113,24 @@ export class Resource {
     res.commitError = this.commitError;
     res.commitBuilder = this.commitBuilder.clone();
     res.appliedCommitSignatures = this.appliedCommitSignatures;
+
     return res;
   }
 
   /** Checks if the resource is both loaded and free from errors */
-  isReady(): boolean {
-    return !this.loading && this.error == undefined;
+  public isReady(): boolean {
+    return !this.loading && this.error === undefined;
   }
 
   /** Get a Value by its property */
-  get(propUrl: string): JSONValue | null {
+  public get(propUrl: string): JSONValue | null {
     const result = this.propvals.get(propUrl);
-    if (result == undefined) {
+
+    if (result === undefined) {
       // throw new Error(`not found property ${propUrl} in ${this.subject}`);
       return null;
     }
+
     return result;
   }
 
@@ -123,7 +138,7 @@ export class Resource {
    * Get a Value by its property, returns as Array with subjects instead of the
    * full resource or throws error. Returns empty array if there is no value
    */
-  getSubjects(propUrl: string): string[] {
+  public getSubjects(propUrl: string): string[] {
     return this.getArray(propUrl).map(item => {
       if (typeof item === 'string') return item;
 
@@ -135,14 +150,14 @@ export class Resource {
    * Get a Value by its property, returns as Array or throws error. Returns
    * empty array if there is no value
    */
-  getArray(propUrl: string): JSONArray {
+  public getArray(propUrl: string): JSONArray {
     const result = this.propvals.get(propUrl) ?? [];
 
     return valToArray(result);
   }
 
   /** Get a Value by its property */
-  getClasses(): string[] {
+  public getClasses(): string[] {
     return this.getSubjects(properties.isA);
   }
 
@@ -150,28 +165,29 @@ export class Resource {
    * Returns the current Commit Builder, which describes the pending changes of
    * the resource
    */
-  getCommitBuilder(): CommitBuilder {
+  public getCommitBuilder(): CommitBuilder {
     return this.commitBuilder;
   }
 
   /** Returns the Error of the Resource */
-  getError(): Error {
+  public getError(): Error {
     return this.error;
   }
 
   /** Returns the subject URL of the Resource */
-  getSubject(): string {
+  public getSubject(): string {
     return this.subject;
   }
 
   /** Returns the subject URL of the Resource */
-  getSubjectNoParams(): string {
+  public getSubjectNoParams(): string {
     const url = new URL(this.subject);
+
     return url.origin + url.pathname;
   }
 
   /** Returns the internal Map of Property-Values */
-  getPropVals(): PropVals {
+  public getPropVals(): PropVals {
     return this.propvals;
   }
 
@@ -179,7 +195,7 @@ export class Resource {
    * Iterates over the parents of the resource, returns who has read / write
    * rights for this resource
    */
-  async getRights(store: Store): Promise<Right[]> {
+  public async getRights(store: Store): Promise<Right[]> {
     const rights: Right[] = [];
     const write: string[] = this.getSubjects(properties.write);
     write.forEach((subject: string) => {
@@ -199,35 +215,42 @@ export class Resource {
       });
     });
     const parentSubject = this.get(properties.parent) as string;
-    if (parentSubject != undefined) {
-      if (parentSubject == this.getSubject()) {
+
+    if (parentSubject !== undefined) {
+      if (parentSubject === this.getSubject()) {
         console.warn('Circular parent', parentSubject);
+
         return rights;
       }
+
       const parent = await store.getResourceAsync(parentSubject);
       const parentRights = await parent.getRights(store);
       rights.push(...parentRights);
     }
+
     return rights;
   }
 
   /** Returns true is the resource had an `Unauthorized` 401 response. */
-  isUnauthorized(): boolean {
-    return this.error != undefined && isUnauthorized(this.error);
+  public isUnauthorized(): boolean {
+    return this.error !== undefined && isUnauthorized(this.error);
   }
 
   /** Removes the resource form both the server and locally */
-  async destroy(store: Store, agent?: Agent): Promise<void> {
+  public async destroy(store: Store, agent?: Agent): Promise<void> {
     const newCommitBuilder = new CommitBuilder(this.getSubject());
     newCommitBuilder.destroy = true;
-    if (agent == undefined) {
+
+    if (agent === undefined) {
       agent = store.getAgent();
     }
-    if (agent == undefined) {
+
+    if (agent === undefined) {
       throw new Error(
         'No agent has been set or passed, you cannot delete this.',
       );
     }
+
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
     await postCommit(commit, endpoint);
@@ -235,26 +258,30 @@ export class Resource {
   }
 
   /** Appends a Resource to a ResourceArray */
-  pushPropVal(propUrl: string, value: JSONArray): void {
+  public pushPropVal(propUrl: string, value: JSONArray): void {
     let propVal = this.get(propUrl) as JSONArray;
-    if (propVal == undefined) {
+
+    if (propVal === undefined) {
       propVal = [];
     }
+
     propVal.push(value);
     this.commitBuilder.push[propUrl] = propVal;
     this.propvals.set(propUrl, propVal);
   }
 
   /** Removes a property value combination from the resource and adds it to the next Commit */
-  removePropVal(propertyUrl: string): void {
+  public removePropVal(propertyUrl: string): void {
     // Delete from this resource
     this.propvals.delete(propertyUrl);
+
     // Delete possible item from the commitbuilder set object
     try {
       delete this.commitBuilder.set[propertyUrl];
     } catch (e) {
       console.error('Item not present in commitbuilder.set');
     }
+
     // Add it to the array of items that the server might need to remove after posting.
     this.commitBuilder.remove.push(propertyUrl);
   }
@@ -263,7 +290,7 @@ export class Resource {
    * Removes a property value combination from this resource, does not store the
    * remove action in Commit
    */
-  removePropValLocally(propertyUrl: string): void {
+  public removePropValLocally(propertyUrl: string): void {
     this.propvals.delete(propertyUrl);
   }
 
@@ -272,19 +299,23 @@ export class Resource {
    * endpoint. Returns the Url of the created Commit. If you don't pass an Agent
    * explicitly, the default Agent of the Store is used.
    */
-  async save(store: Store, agent?: Agent): Promise<string> {
+  public async save(store: Store, agent?: Agent): Promise<string> {
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResource(this);
+
     if (!agent) {
       agent = store.getAgent();
     }
+
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
     }
+
     // The previousCommit is required in Commits. We should use the `lastCommit` value on the resource.
     // This makes sure that we're making adjustments to the same version as the server.
     const lastCommit = this.get(properties.commit.lastCommit)?.toString();
+
     if (lastCommit) {
       this.commitBuilder.setPreviousCommit(lastCommit);
     }
@@ -300,6 +331,7 @@ export class Resource {
 
     // TODO: Check if all required props are there
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
+
     try {
       this.commitError = null;
       const createdCommit = await postCommit(commit, endpoint);
@@ -308,6 +340,7 @@ export class Resource {
       // That's why we need to repeat the process
       // https://github.com/atomicdata-dev/atomic-data-rust/issues/486
       store.subscribeWebSocket(this.subject);
+
       return createdCommit.id;
     } catch (e) {
       // Logic for handling error if the previousCommit is wrong.
@@ -319,9 +352,11 @@ export class Resource {
         const fixedLastCommit = resourceFetched
           .get(properties.commit.lastCommit)
           ?.toString();
+
         if (fixedLastCommit) {
           this.setUnsafe(properties.commit.lastCommit, fixedLastCommit);
         }
+
         // Try again!
         return await this.save(store, agent);
       }
@@ -339,7 +374,7 @@ export class Resource {
    * property is not valid for the datatype. Will fetch the datatype if it's not
    * available. Adds the property to the commitbuilder.
    */
-  async set(
+  public async set(
     prop: string,
     value: JSONValue,
     store: Store,
@@ -353,16 +388,18 @@ export class Resource {
       console.warn('Offline, not validating');
       validate = false;
     }
+
     if (validate) {
       const fullProp = await store.getProperty(prop);
       validateDatatype(value, fullProp.datatype);
     }
+
     this.propvals.set(prop, value);
     // Add the change to the Commit Builder, so we can commit our changes later
     this.commitBuilder.set[prop] = value;
     // If the property has been removed before, undo that
     this.commitBuilder.remove = this.commitBuilder.remove.filter(
-      item => item == prop,
+      item => item === prop,
     );
   }
 
@@ -370,17 +407,17 @@ export class Resource {
    * Set a Property, Value combination without performing validations or adding
    * it to the CommitBuilder.
    */
-  setUnsafe(prop: string, val: JSONValue): void {
+  public setUnsafe(prop: string, val: JSONValue): void {
     this.propvals.set(prop, val);
   }
 
   /** Sets the error on the Resource. Does not Throw. */
-  setError(e: Error): void {
+  public setError(e: Error): void {
     this.error = e;
   }
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
-  setSubject(subject: string): void {
+  public setSubject(subject: string): void {
     tryValidURL(subject);
     this.commitBuilder.subject = subject;
     this.subject = subject;

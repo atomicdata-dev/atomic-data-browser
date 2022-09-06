@@ -10,24 +10,44 @@ import {
  * Agent *might* not have subject, sometimes. https://atomicdata.dev/classes/Agent
  */
 export class Agent implements AgentInterface {
-  privateKey: string;
-  publicKey?: string;
-  subject?: string;
+  public privateKey: string;
+  public publicKey?: string;
+  public subject?: string;
 
-  constructor(privateKey: string, subject?: string) {
+  public constructor(privateKey: string, subject?: string) {
     if (subject) {
       tryValidURL(subject);
     }
+
     this.subject = subject;
     this.privateKey = privateKey;
   }
 
+  /**
+   * Parses a base64 JSON object containing a privateKey and subject, and
+   * constructs an Agent from that.
+   */
+  public static fromSecret(secretB64: string): Agent {
+    const agentBytes = atob(secretB64);
+    const parsed = JSON.parse(agentBytes);
+    const { privateKey, subject } = parsed;
+    const agent = new Agent(privateKey, subject);
+
+    return agent;
+  }
+
+  /** Parses a JSON object containing a privateKey and an Agent subject */
+  public static fromJSON(obj: AgentInterface): Agent {
+    return new Agent(obj.privateKey, obj.subject);
+  }
+
   /** Returns existing public key or generates one using the private key */
-  async getPublicKey(): Promise<string> {
+  public async getPublicKey(): Promise<string> {
     if (!this.publicKey) {
       const pubKey = await generatePublicKeyFromPrivate(this.privateKey);
       this.publicKey = pubKey;
     }
+
     return this.publicKey;
   }
 
@@ -37,40 +57,27 @@ export class Agent implements AgentInterface {
    */
   public buildSecret(): string {
     const objJsonStr = JSON.stringify(this);
+
     return btoa(objJsonStr);
   }
 
   /** Fetches the public key for the agent, checks if it matches with the current one */
   public async checkPublicKey(): Promise<void> {
     const resource = await fetchResource(this.subject);
+
     if (resource.error) {
       throw new Error(
         `Could not fetch agent, and could therefore not check validity of public key. ${resource.error}`,
       );
     }
+
     const fetchedPubKey = resource.get(properties.agent.publicKey).toString();
+
     if (fetchedPubKey !== (await this.getPublicKey())) {
       throw new Error(
         'Fetched publickey does not match current one - is the private key correct?',
       );
     }
-  }
-
-  /**
-   * Parses a base64 JSON object containing a privateKey and subject, and
-   * constructs an Agent from that.
-   */
-  static fromSecret(secretB64: string): Agent {
-    const agentBytes = atob(secretB64);
-    const parsed = JSON.parse(agentBytes);
-    const { privateKey, subject } = parsed;
-    const agent = new Agent(privateKey, subject);
-    return agent;
-  }
-
-  /** Parses a JSON object containing a privateKey and an Agent subject */
-  static fromJSON(obj: AgentInterface): Agent {
-    return new Agent(obj.privateKey, obj.subject);
   }
 }
 

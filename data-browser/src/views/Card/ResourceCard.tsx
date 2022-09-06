@@ -94,6 +94,7 @@ function ResourceCardInner(props: Props): JSX.Element {
   if (resource.loading) {
     return <p>Loading...</p>;
   }
+
   if (resource.error) {
     return (
       <ErrorLook>

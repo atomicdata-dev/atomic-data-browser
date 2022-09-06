@@ -57,13 +57,16 @@ export function DropdownMenu({
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const menuRect = dropdownRef.current.getBoundingClientRect();
     const topPos = triggerRect.y - menuRect.height;
+
     // If the top is outside of the screen, render it below
     if (topPos < 0) {
       setY(triggerRect.y + triggerRect.height / 2);
     } else {
       setY(topPos + triggerRect.height / 2);
     }
+
     const leftPos = triggerRect.x - menuRect.width;
+
     // If the left is outside of the screen, render it to the right
     if (leftPos < 0) {
       setX(triggerRect.x);
@@ -92,7 +95,8 @@ export function DropdownMenu({
     shortcuts.menu,
     e => {
       e.preventDefault();
-      handleToggle(), setUseKeys(true);
+      handleToggle();
+      setUseKeys(true);
     },
     {},
     [isActive],
@@ -128,8 +132,9 @@ export function DropdownMenu({
       e.preventDefault();
       setUseKeys(true);
       const newSelected =
-        selectedIndex == menuItemLength - 1 ? 0 : selectedIndex + 1;
+        selectedIndex === menuItemLength - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
+
       return false;
     },
     { enabled: isActive },
@@ -157,7 +162,7 @@ export function DropdownMenu({
               key={id}
               helper={shortcut ? `${helper} (${shortcut})` : helper}
               label={label}
-              selected={useKeys && selectedIndex == i}
+              selected={useKeys && selectedIndex === i}
               icon={icon}
               shortcut={shortcut}
             />
