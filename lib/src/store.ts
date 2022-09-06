@@ -14,12 +14,12 @@ import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
 type Callback = (resource: Resource) => void;
 
 export enum StoreEvents {
-  NewResource = 'new-resource',
+  ResourceSaved = 'resource-saved',
   ResourceRemoved = 'resource-removed',
 }
 
 type StoreEventHandlers = {
-  [StoreEvents.NewResource]: (resource: Resource) => void;
+  [StoreEvents.ResourceSaved]: (resource: Resource) => void;
   [StoreEvents.ResourceRemoved]: (subject: string) => void;
 };
 
@@ -92,10 +92,7 @@ export class Store {
 
     this.resources.set(resource.getSubject(), resource);
 
-    Promise.all([
-      this.notify(resource.clone()),
-      this.eventManager.emit(StoreEvents.NewResource, resource),
-    ]);
+    this.notify(resource.clone());
   }
 
   /** Checks if a subject is free to use */
@@ -337,6 +334,10 @@ export class Store {
     }
 
     Promise.allSettled(callbacks.map(async cb => cb(resource)));
+  }
+
+  public notifyResourceSaved(resource: Resource): void {
+    this.eventManager.emit(StoreEvents.ResourceSaved, resource);
   }
 
   /** Removes (destroys / deletes) resource from this store */

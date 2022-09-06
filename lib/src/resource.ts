@@ -341,6 +341,8 @@ export class Resource {
       // https://github.com/atomicdata-dev/atomic-data-rust/issues/486
       store.subscribeWebSocket(this.subject);
 
+      store.notifyResourceSaved(this);
+
       return createdCommit.id;
     } catch (e) {
       // Logic for handling error if the previousCommit is wrong.
