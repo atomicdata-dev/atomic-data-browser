@@ -10,9 +10,10 @@ const Show: React.FunctionComponent = () => {
   // Value shown in navbar, after Submitting
   const [subject] = useCurrentSubject();
 
-  if (subject == undefined || subject == '') {
+  if (subject === undefined || subject === '') {
     return <About />;
   }
+
   if (isValidURL(subject)) {
     return <ResourcePage key={subject} subject={subject} />;
   } else {

@@ -47,17 +47,22 @@ export function FileInner({ resource }: ResourcePageProps) {
 function FilePreview({ resource }: ResourcePageProps) {
   const [url] = useString(resource, properties.file.downloadUrl);
   const [mime] = useString(resource, properties.file.mimetype);
+
   if (mime?.startsWith('image/')) {
     return <ImageViewer src={url} />;
   }
+
   if (mime?.startsWith('video/')) {
     return (
+      // Don't know how to get captions here
+      // eslint-disable-next-line jsx-a11y/media-has-caption
       <video controls width='100%'>
         <source src={url} type={mime} />
         {"Sorry, your browser doesn't support embedded videos."}
       </video>
     );
   }
+
   return <div>No preview available</div>;
 }
 

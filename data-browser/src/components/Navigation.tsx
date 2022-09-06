@@ -109,6 +109,7 @@ function NavBar() {
 
   function handleChange(e) {
     setInput(e.target.value);
+
     try {
       tryValidURL(e.target.value);
       // Replace instead of push to make the back-button behavior better.

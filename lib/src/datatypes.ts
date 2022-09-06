@@ -32,33 +32,43 @@ export const datatypeFromUrl = (url: string): Datatype => {
     case urls.datatypes.atomicUrl: {
       return Datatype.ATOMIC_URL;
     }
+
     case urls.datatypes.boolean: {
       return Datatype.BOOLEAN;
     }
+
     case urls.datatypes.date: {
       return Datatype.DATE;
     }
+
     case urls.datatypes.float: {
       return Datatype.FLOAT;
     }
+
     case urls.datatypes.integer: {
       return Datatype.INTEGER;
     }
+
     case urls.datatypes.markdown: {
       return Datatype.MARKDOWN;
     }
+
     case urls.datatypes.resourceArray: {
       return Datatype.RESOURCEARRAY;
     }
+
     case urls.datatypes.slug: {
       return Datatype.SLUG;
     }
+
     case urls.datatypes.string: {
       return Datatype.STRING;
     }
+
     case urls.datatypes.timestamp: {
       return Datatype.TIMESTAMP;
     }
+
     default: {
       return Datatype.UNKNOWN;
     }
@@ -79,41 +89,51 @@ export const validateDatatype = (
   datatype: Datatype,
 ): void => {
   let err = null;
-  if (value == undefined) {
+
+  if (value === undefined) {
     throw new Error(`Value is undefined, expected ${datatype}`);
   }
+
   switch (datatype) {
     case Datatype.STRING: {
       if (!isString(value)) {
         err = 'Not a string';
         break;
       }
+
       break;
     }
+
     case Datatype.SLUG: {
       if (!isString(value)) {
         err = 'Not a slug, not even a string';
         break;
       }
-      if (value.match(slug_regex) == null) {
+
+      if (value.match(slug_regex) === null) {
         err =
           'Not a valid slug. Only lowercase letters and numbers with dashes `-` between them';
       }
+
       break;
     }
+
     case Datatype.ATOMIC_URL: {
       if (!isString(value)) {
         err = 'Not a string. Should be a URL';
         break;
       }
+
       tryValidURL(value);
       break;
     }
+
     case Datatype.RESOURCEARRAY: {
       if (!isArray(value)) {
         err = 'Not an array';
         break;
       }
+
       value.map((item, index) => {
         try {
           tryValidURL(item);
@@ -125,27 +145,34 @@ export const validateDatatype = (
       });
       break;
     }
+
     case Datatype.INTEGER: {
       if (!isNumber(value)) {
         err = 'Not a number';
         break;
       }
+
       if (value % 1 !== 0) {
         err = 'Not an integer';
       }
+
       break;
     }
+
     case Datatype.DATE: {
       if (!isString(value)) {
         err = 'Not a string';
         break;
       }
-      if (value.match(dateStringRegex) == null) {
+
+      if (value.match(dateStringRegex) === null) {
         err = 'Not a date string: YYYY-MM-DD';
       }
+
       break;
     }
   }
+
   if (err !== null) {
     throw new Error(err);
   }

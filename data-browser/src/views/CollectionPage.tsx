@@ -79,7 +79,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   const [classTitle] = useString(classResource, properties.shortname);
   const [showClassDescription, setShowClassDescription] = React.useState(false);
 
-  const isClass = valueFilter && propertyFilter == properties.isA;
+  const isClass = valueFilter && propertyFilter === properties.isA;
 
   const store = useStore();
 
@@ -95,9 +95,11 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
 
   function getNextDisplayStyleIndex() {
     let newIndex = displayStyleIndex + 1;
+
     if (newIndex >= displayStyles.length) {
       newIndex = 0;
     }
+
     return newIndex;
   }
 
@@ -129,7 +131,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         subtle
         onClick={handlePrevPage}
         title='previous page (left arrow)'
-        disabled={currentPage == 0}
+        disabled={currentPage === 0}
       >
         <FaArrowLeft />
       </Button>
@@ -137,7 +139,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         subtle
         onClick={handleNextPage}
         title='next page (right arrow)'
-        disabled={currentPage == totalPages - 1}
+        disabled={currentPage === totalPages - 1}
         data-test='next-page'
       >
         <FaArrowRight />
@@ -199,7 +201,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
           <Markdown text={classDescription} />
         </>
       )}
-      {members.length == 0 ? (
+      {members.length === 0 ? (
         valueFilter ? (
           <NewInstanceButton
             klass={valueFilter}
@@ -210,8 +212,8 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         )
       ) : (
         <>
-          {displayStyle.id == 'cards' && <CardList members={members} />}
-          {displayStyle.id == 'table' && (
+          {displayStyle.id === 'cards' && <CardList members={members} />}
+          {displayStyle.id === 'table' && (
             <Table
               resource={resource}
               members={members}
@@ -230,9 +232,10 @@ type CardListProps = {
 };
 
 function CardList({ members }: CardListProps): JSX.Element {
-  if (members.length == 0) {
+  if (members.length === 0) {
     return <p>This collection is empty</p>;
   }
+
   return (
     <Masonry>
       {members.map((member, index) => (

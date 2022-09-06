@@ -45,13 +45,13 @@ export default function InputResourceArray({
           setSubject={(set, handleErr) =>
             handleSetSubject(set, handleErr, index)
           }
-          error={err?.index == index && err}
+          error={err?.index === index && err}
           setError={setErr}
           classType={property.classType}
           handleRemove={() => handleRemove(index)}
           parent={resource.getSubject()}
           {...props}
-          autoFocus={lastIsNew && index == array.length - 1}
+          autoFocus={lastIsNew && index === array.length - 1}
         />
       ))}
       <Button
@@ -64,7 +64,7 @@ export default function InputResourceArray({
       >
         <FaPlus />
       </Button>
-      {err?.index == undefined && <ErrMessage>{err?.message}</ErrMessage>}
+      {err?.index === undefined && <ErrMessage>{err?.message}</ErrMessage>}
     </>
   );
 }

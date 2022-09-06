@@ -11,6 +11,7 @@ import { Button } from './Button';
  */
 export function Toaster(): JSX.Element {
   const theme = useTheme();
+
   return (
     <ReactHotToast
       position='bottom-right'

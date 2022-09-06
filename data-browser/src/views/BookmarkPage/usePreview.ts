@@ -91,6 +91,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
         new URL(websiteURL);
       } catch (e) {
         setHasError(e);
+
         return;
       }
 
@@ -111,7 +112,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   );
 
   useEffect(() => {
-    if (resource.isReady() && preview == null) {
+    if (resource.isReady() && preview === null) {
       update(url);
     }
   }, [preview, resource.isReady()]);

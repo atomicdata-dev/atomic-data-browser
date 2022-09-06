@@ -16,6 +16,7 @@ function ResourceLine({ subject, clickable }: Props): JSX.Element {
   if (resource.loading) {
     return <span about={subject}>Loading...</span>;
   }
+
   if (resource.error) {
     return (
       <ErrorLook about={subject}>
@@ -25,6 +26,7 @@ function ResourceLine({ subject, clickable }: Props): JSX.Element {
   }
 
   const TRUNCATE_LENGTH = 40;
+
   if (description?.length >= TRUNCATE_LENGTH) {
     description = description.slice(0, TRUNCATE_LENGTH) + '...';
   }

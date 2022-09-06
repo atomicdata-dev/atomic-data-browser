@@ -11,12 +11,13 @@ export enum ErrorType {
 /** Pass any error. If the error is an AtomicError and it's Unauthorized, return true */
 export function isUnauthorized(error: Error): boolean {
   if (error instanceof AtomicError) {
-    if (error.type == ErrorType.Unauthorized) {
+    if (error.type === ErrorType.Unauthorized) {
       return true;
     } else if (error.message.includes('Unauthorized')) {
       return true;
     }
   }
+
   return false;
 }
 
@@ -25,9 +26,9 @@ export function isUnauthorized(error: Error): boolean {
  * of error to render.
  */
 export class AtomicError extends Error {
-  type: ErrorType;
+  public type: ErrorType;
 
-  constructor(message: string, type = ErrorType.Client) {
+  public constructor(message: string, type = ErrorType.Client) {
     super(message);
     // https://stackoverflow.com/questions/31626231/custom-error-class-in-typescript
     Object.setPrototypeOf(this, AtomicError.prototype);
@@ -38,18 +39,26 @@ export class AtomicError extends Error {
     try {
       const parsed = JSON.parse(message);
       const description = parsed[properties.description];
+
       if (description) {
         this.message = description;
       }
     } catch (e) {
       // ignore
     }
+
     if (!this.message) {
       this.message = this.createMessage();
     }
   }
 
-  createMessage(): string {
+  public static fromResource(r: Resource): AtomicError {
+    const err = new AtomicError(r.get(properties.description).toString());
+
+    return err;
+  }
+
+  public createMessage(): string {
     switch (this.type) {
       case ErrorType.Unauthorized:
         return "You don't have the rights to do this.";
@@ -60,10 +69,5 @@ export class AtomicError extends Error {
       default:
         return 'Unknown error.';
     }
-  }
-
-  static fromResource(r: Resource): AtomicError {
-    const err = new AtomicError(r.get(properties.description).toString());
-    return err;
   }
 }

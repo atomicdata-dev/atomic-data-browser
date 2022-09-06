@@ -86,7 +86,7 @@ function DocumentPageEdit({
 
   // Always have one element
   React.useEffect(() => {
-    if (elements.length == 0) {
+    if (elements.length === 0) {
       addElement(0);
     }
   }, [JSON.stringify(elements)]);
@@ -116,6 +116,7 @@ function DocumentPageEdit({
     'up',
     e => {
       e.preventDefault();
+
       if (!current || current === 0) {
         titleRef.current.focus();
       } else {
@@ -130,6 +131,7 @@ function DocumentPageEdit({
     'down',
     e => {
       e.preventDefault();
+
       if (!current && document.activeElement === titleRef.current) {
         focusElement(0);
       } else {
@@ -178,6 +180,7 @@ function DocumentPageEdit({
     // or maybe a nested resource?
     const elementSubject = store.createSubject('element');
     elements.splice(position, 0, elementSubject);
+
     try {
       const newElement = new Resource(elementSubject, true);
       await Promise.all([
@@ -206,12 +209,15 @@ function DocumentPageEdit({
     } else if (goto < 0) {
       goto = 0;
     }
+
     setCurrent(goto);
     let found =
       ref?.current?.children[goto]?.getElementsByClassName('element')[0];
+
     if (!found) {
       found = ref?.current?.children[goto];
     }
+
     if (found) {
       found.focus();
     } else {
@@ -220,11 +226,13 @@ function DocumentPageEdit({
   }
 
   async function deleteElement(number: number) {
-    if (elements.length == 1) {
+    if (elements.length === 1) {
       setElements([]);
       focusElement(0);
+
       return;
     }
+
     elements.splice(number, 1);
     setElements(elements);
     focusElement(number - 1);
@@ -234,7 +242,8 @@ function DocumentPageEdit({
   async function setElement(index: number, subject: string) {
     elements[index] = subject;
     setElements(elements);
-    if (index == elements.length - 1) {
+
+    if (index === elements.length - 1) {
       addElement(index + 1);
     } else {
       focusElement(index + 1);
@@ -251,6 +260,7 @@ function DocumentPageEdit({
 
   function handleSortEnd(event: DragEndEvent): void {
     const { active, over } = event;
+
     if (active.id !== over.id) {
       const oldIndex = elements.indexOf(active.id);
       const newIndex = elements.indexOf(over.id);
@@ -269,7 +279,8 @@ function DocumentPageEdit({
   async function handleNewLineMaybe() {
     const lastSubject = elements[elements.length - 1];
     const lastElem = await store.getResourceAsync(lastSubject);
-    if (lastElem.get(properties.description)?.toString()?.length == 0) {
+
+    if (lastElem.get(properties.description)?.toString()?.length === 0) {
       focusElement(elements.length - 1);
     } else {
       addElement(elements.length);
@@ -316,7 +327,7 @@ function DocumentPageEdit({
                   setCurrent={setCurrent}
                   current={current}
                   setElementSubject={setElement}
-                  active={index == current}
+                  active={index === current}
                 />
               ))}
             </SortableContext>
@@ -334,6 +345,7 @@ function DocumentPageShow({
 }: DocumentSubPageProps): JSX.Element {
   const [elements] = useArray(resource, properties.document.elements);
   const [title] = useString(resource, properties.name);
+
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -371,6 +383,7 @@ function SortableElement(props: SortableElementProps) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
   return (
     <SortableItemWrapper ref={setNodeRef} style={style}>
       <GripItem active={active} {...attributes} {...listeners} />

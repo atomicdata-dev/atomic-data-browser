@@ -21,9 +21,11 @@ export function formatTimeAgo(date: Date): string {
 
   for (let i = 0; i <= DIVISIONS.length; i++) {
     const division = DIVISIONS[i];
+
     if (Math.abs(duration) < division.amount) {
       return formatter.format(Math.round(duration), division.name);
     }
+
     duration /= division.amount;
   }
 }

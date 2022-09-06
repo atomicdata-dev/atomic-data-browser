@@ -29,6 +29,7 @@ export function Base({
     if (!agent) {
       toast.error('You need to be logged in to create new things');
       navigate(paths.agentSettings);
+
       return;
     }
 

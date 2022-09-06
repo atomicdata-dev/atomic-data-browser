@@ -16,7 +16,7 @@ export interface ButtonProps
   loading?: string;
   /** Add a bottom margin */
   gutter?: boolean;
-  onClick: (e: React.MouseEvent) => unknown;
+  onClick?: (e: React.MouseEvent) => unknown;
   className?: string;
 }
 
@@ -25,9 +25,11 @@ export const Button = React.forwardRef<
   React.PropsWithChildren<ButtonProps>
 >(({ children, clean, icon, loading, ...props }, ref): JSX.Element => {
   let Comp = ButtonDefault;
+
   if (icon) {
     Comp = ButtonIcon;
   }
+
   if (clean) {
     //@ts-ignore
     Comp = ButtonClean;

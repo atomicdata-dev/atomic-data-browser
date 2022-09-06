@@ -114,7 +114,8 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
       setIsFocus(true);
       setIsOpen(true);
       setSelectedIndex(-1);
-      if (val == '') {
+
+      if (val === '') {
         setSelectedItem(null);
       } else {
         setSelectedItem(val);
@@ -176,7 +177,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
               <FaTimes />
             </ButtonInput>
           ) : null}
-          {options.length > 0 && selectedItem == undefined && (
+          {options.length > 0 && selectedItem === undefined && (
             <ButtonInput
               disabled={disabled}
               type='button'
@@ -302,6 +303,7 @@ function DropDownItemsMenu({
 
       if (isCreateOption(item)) {
         onCreateClick();
+
         return;
       }
 
@@ -340,6 +342,7 @@ function DropDownItemsMenu({
         selectedIndex === items.length - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
       scrollIntoView(newSelected, dropdownRef);
+
       return false;
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
@@ -434,8 +437,8 @@ const DropDownItem = styled.li<DropDownItemProps>`
   ${props =>
     props.selected &&
     css`
-      background-color: ${props => props.theme.colors.main};
-      color: ${props => props.theme.colors.bg};
+      background-color: ${p => p.theme.colors.main};
+      color: ${p => p.theme.colors.bg};
     `}
 
   ${props =>
@@ -444,8 +447,8 @@ const DropDownItem = styled.li<DropDownItemProps>`
       &:hover,
       &:active,
       &:focus {
-        background-color: ${props => props.theme.colors.main};
-        color: ${props => props.theme.colors.bg};
+        background-color: ${p => p.theme.colors.main};
+        color: ${p => p.theme.colors.bg};
       }
     `}
 `;

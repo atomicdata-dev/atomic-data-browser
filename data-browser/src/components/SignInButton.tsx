@@ -9,6 +9,7 @@ import { Button } from './Button';
  */
 export function SignInButton() {
   const navigate = useNavigate();
+
   return (
     <Button
       type='button'

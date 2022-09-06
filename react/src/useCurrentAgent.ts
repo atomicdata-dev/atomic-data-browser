@@ -26,13 +26,14 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
       setStateAgent(agent);
       // Also update the Agent inside the store
       store.setAgent(agent);
+
       return;
     },
     [store],
   );
 
   useEffect(() => {
-    if (agentJSON && store.getAgent() == null && stateAgent == null) {
+    if (agentJSON && store.getAgent() === null && stateAgent === null) {
       handleSetAgent(agentJSON);
     }
   }, [agentJSON]);
@@ -43,10 +44,13 @@ export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
 /** Gets the Agent from local storage, if any. Useful when initializing app */
 export function initAgentFromLocalStorage(): Agent | null {
   const lsItem = localStorage.getItem(AGENT_LOCAL_STORAGE_KEY);
-  if (lsItem == null) {
+
+  if (lsItem === null) {
     return null;
   }
+
   const agentJSON = JSON.parse(lsItem);
   const agent: Agent | null = agentJSON && Agent.fromJSON(agentJSON);
+
   return agent;
 }

@@ -26,11 +26,14 @@ function ValueComp({ value, datatype, noMargin }: Props): JSX.Element {
     switch (datatype) {
       case Datatype.ATOMIC_URL: {
         const resource = valToResource(value);
-        if (typeof resource == 'string') {
+
+        if (typeof resource === 'string') {
           return <ResourceInline subject={resource} />;
         }
+
         return <Nestedresource resource={resource} />;
       }
+
       case (Datatype.DATE, Datatype.TIMESTAMP):
         return <DateTime date={valToDate(value)} />;
       case Datatype.MARKDOWN:

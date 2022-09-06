@@ -59,7 +59,7 @@ function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
 }
 
 const Breadcrumb = styled.div`
-  margin-right: 1rem;
+  margin-right: 0.4rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

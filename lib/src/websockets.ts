@@ -10,17 +10,20 @@ import {
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(url: string, store: Store): WebSocket {
   const wsURL = new URL(url);
+
   // Default to a secure WSS connection, but allow WS for unsecured server connections
-  if (wsURL.protocol == 'http:') {
+  if (wsURL.protocol === 'http:') {
     wsURL.protocol = 'ws';
   } else {
     wsURL.protocol = 'wss';
   }
+
   wsURL.pathname = '/ws';
   const client = new WebSocket(wsURL.toString());
   client.onopen = _e => handleOpen(store, client);
   client.onmessage = (ev: MessageEvent) => handleMessage(ev, store);
   client.onerror = handleError;
+
   // client.onclose = handleClose;
   return client;
 }
@@ -64,13 +67,16 @@ export async function authenticate(client: WebSocket, store: Store) {
   if (!store.getAgent()) {
     return;
   }
+
   if (
     !client.url.startsWith('ws://localhost:') &&
     store.getAgent()?.subject?.startsWith('http://localhost')
   ) {
     console.warn("Can't authenticate localhost Agent over websocket");
+
     return;
   }
+
   const json = await createAuthentication(client.url, store.getAgent());
   client.send('AUTHENTICATE ' + JSON.stringify(json));
 }

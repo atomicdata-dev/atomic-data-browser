@@ -1,9 +1,10 @@
+import { JSONValue } from '@tomic/react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ResourceInline from '../../views/ResourceInline';
 
 type Props = {
-  subjects: string[];
+  subjects: JSONValue[];
 };
 
 const MAX_COUNT = 10;
@@ -14,6 +15,7 @@ function ResourceArray({ subjects: subjectsIn }: Props): JSX.Element {
 
   const tooMany = subjectsIn.length > MAX_COUNT;
   let subjects = subjectsIn;
+
   if (!showAll && tooMany) {
     subjects = subjects.slice(0, MAX_COUNT);
   }
@@ -21,6 +23,12 @@ function ResourceArray({ subjects: subjectsIn }: Props): JSX.Element {
   return (
     <>
       {subjects.map((url, index) => {
+        if (typeof url !== 'string') {
+          console.warn(`ResourceArray: subject ${url} isn't a string`, url);
+
+          return null;
+        }
+
         return (
           <React.Fragment key={url}>
             <ResourceInline subject={url} />

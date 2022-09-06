@@ -45,8 +45,7 @@ const SettingsAgent: React.FunctionComponent = () => {
 
   function renewSecret() {
     if (agent) {
-      const secret = agent.buildSecret();
-      setSecret(secret);
+      setSecret(agent.buildSecret());
     }
   }
 
@@ -104,11 +103,14 @@ const SettingsAgent: React.FunctionComponent = () => {
   /** When the Secret updates, parse it and try if the */
   async function handleUpdateSecret(updateSecret: string) {
     setSecret(updateSecret);
-    if (updateSecret == '') {
+
+    if (updateSecret === '') {
       setSecret('');
       setError(null);
+
       return;
     }
+
     setError(null);
 
     try {

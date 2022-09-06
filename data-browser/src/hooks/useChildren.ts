@@ -24,6 +24,7 @@ function buildCollectionSubject(subject: string, store: Store) {
 
 function isCollectionSubject(subject: string, store: Store) {
   const url = new URL('/collections', store.getServerUrl());
+
   return subject.startsWith(url.toString());
 }
 
@@ -61,5 +62,6 @@ export function useChildren(subject: string) {
       }
     });
   }, [children]);
+
   return children;
 }

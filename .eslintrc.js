@@ -8,6 +8,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'prettier', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+    'plugin:jsx-a11y/recommended',
   ],
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   env: {
@@ -24,7 +25,7 @@ module.exports = {
       arrowFunctions: true,
     },
   },
-  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks'],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'jsx-a11y'],
   settings: {
     react: {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
@@ -55,5 +56,43 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     'no-console': ['error', { allow: ['error', 'warn'] }],
     "react/prop-types": "off",
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "next": "return",
+        "prev": "*"
+      },
+      {
+        "blankLine": "always",
+        "next": "export",
+        "prev": "*"
+      },
+      {
+        "blankLine": "always",
+        "next": "multiline-block-like",
+        "prev": "*"
+      },
+      {
+        "blankLine": "always",
+        "next": "*",
+        "prev": "multiline-block-like"
+      },
+      {
+        "blankLine": "any",
+        "next": "export",
+        "prev": "export"
+      }
+    ],
+    "@typescript-eslint/explicit-member-accessibility": "error",
+    "eqeqeq": "error",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTaggedTemplates": true }],
+    "jsx-a11y/no-autofocus": "off",
+    // This has a bug, so we use typescripts version
+    "no-shadow": "off",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/member-ordering": "error",
   },
 };

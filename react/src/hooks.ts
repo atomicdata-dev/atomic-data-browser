@@ -14,6 +14,7 @@ import {
   valToArray,
   valToString,
   FetchOpts,
+  unknownSubject,
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './index';
@@ -22,7 +23,10 @@ import { useDebounce } from './index';
  * Hook for getting a Resource in a React component. Will try to fetch the
  * subject and add its parsed values to the store.
  */
-export function useResource(subject?: string, opts?: FetchOpts): Resource {
+export function useResource(
+  subject: string = unknownSubject,
+  opts?: FetchOpts,
+): Resource {
   const store = useStore();
   const [resource, setResource] = useState<Resource>(
     store.getResourceLoading(subject, opts),
@@ -138,6 +142,7 @@ export function useProperty(subject: string): Property {
     classType,
     isDynamic,
   };
+
   return property;
 }
 
@@ -244,12 +249,14 @@ export function useValue(
    */
   const validateAndSet = useCallback(
     async (newVal: JSONValue): Promise<void> => {
-      if (newVal == null) {
+      if (newVal === null) {
         // remove the value
         resource.removePropVal(propertyURL);
         set(null);
+
         return;
       }
+
       set(newVal);
       setTouched(true);
 
@@ -261,14 +268,17 @@ export function useValue(
         try {
           await resource.set(propertyURL, newVal, store, validate);
           handleValidationError && handleValidationError(null);
-          // commit && (await resource.save(store));
           // Clone resource to force hooks to re-evaluate due to shallow comparison.
           store.notify(resource.clone());
         } catch (e) {
-          // eslint-disable-next-line no-console
-          handleValidationError ? handleValidationError(e) : console.error(e);
+          if (handleValidationError) {
+            handleValidationError(e);
+          } else {
+            store.handleError(e);
+          }
         }
       }
+
       await setAsync();
     },
     [resource, handleValidationError, store, validate],
@@ -281,9 +291,11 @@ export function useValue(
 
   // Value hasn't been set in state yet, so get the value
   let value = null;
+
   // Try to actually get the value, log any errorr
   try {
     value = resource.get(propertyURL);
+
     if (resource.getSubject().startsWith('http://localhost/sear')) {
       // eslint-disable-next-line no-console
       console.error('useValue', val, resource.getSubject());
@@ -310,9 +322,11 @@ export function useString(
   opts?: useValueOptions,
 ): [string | null, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
-  if (val == null) {
+
+  if (val === null) {
     return [null, setVal];
   }
+
   return [valToString(val), setVal];
 }
 
@@ -329,9 +343,11 @@ export function useSubject(
   opts?: useValueOptions,
 ): [string | null, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
+
   if (val === null) {
     return [null, setVal];
   }
+
   if (typeof val === 'string') {
     return [val, setVal];
   } else {
@@ -351,22 +367,29 @@ export function useTitle(resource: Resource, truncateLength?: number): string {
   const [filename] = useString(resource, urls.properties.file.filename);
   // TODO: truncate non urls
   truncateLength = truncateLength ? truncateLength : 40;
+
   if (resource.loading) {
     return '...';
   }
+
   if (name !== null) {
     return name;
   }
+
   if (shortname !== null) {
     return shortname;
   }
+
   if (filename !== null) {
     return filename;
   }
-  const subject = resource.getSubject();
-  if (typeof subject == 'string' && subject.length > 0) {
+
+  const subject = resource?.getSubject();
+
+  if (typeof subject === 'string' && subject.length > 0) {
     return truncateUrl(subject, truncateLength);
   }
+
   return subject;
 }
 
@@ -380,18 +403,22 @@ export function useArray(
   opts?: useValueOptions,
 ): [string[] | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
-  if (value == null) {
+
+  if (value === null) {
     return [[], set];
   }
+
   // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
   // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
   let arr = [];
+
   try {
     arr = valToArray(value);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e, value, propertyURL, resource.getSubject());
   }
+
   return [arr, set];
 }
 
@@ -402,9 +429,11 @@ export function useNumber(
   opts?: useValueOptions,
 ): [number | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
-  if (value == null) {
+
+  if (value === null) {
     return [NaN, set];
   }
+
   return [valToNumber(value), set];
 }
 
@@ -415,9 +444,11 @@ export function useBoolean(
   opts?: useValueOptions,
 ): [boolean | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
-  if (value == null) {
+
+  if (value === null) {
     return [false, set];
   }
+
   return [valToBoolean(value), set];
 }
 
@@ -432,13 +463,16 @@ export function useDate(
 ): Date | null {
   const store = useStore();
   const [value] = useValue(resource, propertyURL, opts);
-  if (value == null) {
+
+  if (value === null) {
     return null;
   }
+
   try {
     return valToDate(value);
   } catch (e) {
     store.handleError(e);
+
     return null;
   }
 }
@@ -447,11 +481,12 @@ export function useDate(
 export function useStore(): Store {
   const store = React.useContext(StoreContext);
 
-  if (store == undefined) {
+  if (store === undefined) {
     throw new Error(
       'Store is not found in react context. Have you wrapped your application in `<StoreContext.Provider value={new Store}>`?',
     );
   }
+
   return store;
 }
 
@@ -470,30 +505,42 @@ export function useCanWrite(
 
   // If the subject changes, make sure to change the resource!
   useEffect(() => {
-    if (agent == undefined) {
+    if (agent === undefined) {
       agent = agentStore?.subject;
     }
-    if (agent == undefined) {
+
+    if (agent === undefined) {
       setMsg('No Agent set');
       setCanWrite(false);
+
       return;
     }
+
     if (resource.new) {
       setCanWrite(true);
+
       return;
     }
+
     setMsg('Checking write rights...');
+
     async function tryCanWrite() {
-      const [canWriteAsync, msg] = await resource.canWrite(store, agent);
+      const [canWriteAsync, canWriteMsg] = await resource.canWrite(
+        store,
+        agent,
+      );
       setCanWrite(canWriteAsync);
+
       if (canWriteAsync) {
         setMsg(null);
       } else {
         setMsg(
-          "You don't have write rights in this resource or its parents: " + msg,
+          "You don't have write rights in this resource or its parents: " +
+            canWriteMsg,
         );
       }
     }
+
     tryCanWrite();
   }, [resource, agent, agentStore?.subject]);
 

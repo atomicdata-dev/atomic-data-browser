@@ -6,6 +6,7 @@ export function useEffectOnce(effect: () => (() => void) | void) {
   useEffect(() => {
     if (!called.current) {
       called.current = true;
+
       return effect();
     }
   }, []);

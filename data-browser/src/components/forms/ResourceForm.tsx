@@ -55,11 +55,13 @@ export function ResourceForm({
   variant,
 }: ResourceFormProps): JSX.Element {
   const [isAArray] = useArray(resource, properties.isA);
-  if (classSubject == undefined && isAArray?.length > 0) {
+
+  if (classSubject === undefined && isAArray?.length > 0) {
     // This is not entirely accurate, as Atomic Data supports having multiple
     // classes for a single resource.
     classSubject = isAArray[0];
   }
+
   const klass = useResource(classSubject);
   const [requires] = useArray(klass, properties.requires);
   const [recommends] = useArray(klass, properties.recommends);
@@ -103,12 +105,15 @@ export function ResourceForm({
   if (!resource.new && resource.loading) {
     return <>Loading resource...</>;
   }
+
   if (resource.error) {
     return <ErrMessage>{resource.getError().message}</ErrMessage>;
   }
+
   if (klass.loading) {
     return <>Loading class...</>;
   }
+
   if (klassIsa && klassIsa !== classes.class) {
     return (
       <ErrMessage>
@@ -120,6 +125,7 @@ export function ResourceForm({
 
   function handleAddProp() {
     setNewPropErr(null);
+
     if (
       tempOtherProps.includes(newProperty) ||
       requires.includes(newProperty) ||
@@ -133,6 +139,7 @@ export function ResourceForm({
     } else {
       setTempOtherProps(tempOtherProps.concat(newProperty));
     }
+
     setNewProperty(null);
   }
 

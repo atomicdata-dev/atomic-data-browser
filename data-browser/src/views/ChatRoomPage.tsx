@@ -67,10 +67,12 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   /** Creates a message using the internal state */
   async function sendMessage(e?) {
     const messageBackup = newMessageVal;
+
     try {
       scrollToBottom();
       setNewMessage('');
       e && e.preventDefault();
+
       if (!disableSend) {
         const subject = store.createSubject('messages');
         const msgResource = new Resource(subject, true);
@@ -93,6 +95,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           store,
           false,
         );
+
         if (isReplyTo) {
           await msgResource.set(
             properties.chatRoom.replyTo,
@@ -101,12 +104,13 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
             false,
           );
         }
+
         await msgResource.save(store);
         setReplyTo(null);
       }
-    } catch (e) {
+    } catch (err) {
       setNewMessage(messageBackup);
-      toast.error(e.message);
+      toast.error(err.message);
     }
   }
 
@@ -119,11 +123,14 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
 
   function handleChangeMessageText(e) {
     setNewMessage(e.target.value);
-    if (e.target.value == '') {
+
+    if (e.target.value === '') {
       // Make the textarea small again when the user removed their message
       setTextAreaHight(1);
+
       return;
     }
+
     // Auto-grow the textarea
     const overflowStyle = e.target.style.overflow;
     e.target.style.overflow = 'scroll';
@@ -132,6 +139,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     e.target.style.overflow = overflowStyle;
     const rowHeight = 25;
     const trows = Math.ceil(height / rowHeight) - 1;
+
     if (trows !== textAreaHight) {
       setTextAreaHight(trows);
     }
@@ -144,7 +152,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       {!store.getDefaultWebSocket() ? (
         <ErrorLook>No Websocket open</ErrorLook>
       ) : (
-        store.getDefaultWebSocket().readyState == WebSocket.CLOSED && (
+        store.getDefaultWebSocket().readyState === WebSocket.CLOSED && (
           <ErrorLook>Closed websocket!</ErrorLook>
         )
       )}
@@ -185,12 +193,12 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   );
 }
 
-type setReplyTo = (subject: string) => unknown;
+type SetReplyToType = (subject: string) => unknown;
 
 interface MessageProps {
   subject: string;
   /** Is called when the `reply` button is pressed */
-  setReplyTo: setReplyTo;
+  setReplyTo: SetReplyToType;
 }
 
 /** How many characters are shown at max by default in a message */
@@ -401,7 +409,7 @@ const ScrollingContent = styled.div`
 
 interface MessagesPageProps {
   subject: string;
-  setReplyTo: setReplyTo;
+  setReplyTo: SetReplyToType;
 }
 
 /** Shows Messages for this page. Recursively fetches the next page, if in view */

@@ -44,7 +44,7 @@ function ResourceContextMenu({
   const location = useLocation();
   // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 
-  if (subject == undefined) {
+  if (subject === undefined) {
     return null;
   }
 
@@ -59,6 +59,7 @@ function ResourceContextMenu({
       )
     ) {
       const resource = store.getResourceLoading(subject);
+
       try {
         await resource.destroy(store);
         toast.success('Resource deleted!');

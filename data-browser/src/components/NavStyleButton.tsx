@@ -20,7 +20,7 @@ export function NavStyleButton({
   return (
     <NavStyleButtonStyling
       title={title}
-      current={navbarTop == top && navbarFloating == floating}
+      current={navbarTop === top && navbarFloating === floating}
       onClick={() => {
         setNavbarTop(top);
         setNavbarFloating(floating);

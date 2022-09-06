@@ -9,12 +9,6 @@ import {
   Store,
 } from './index';
 
-describe('temporarily empty test', () => {
-  it('', () => {
-    null;
-  });
-});
-
 // These are disabled for now, as they require TextEncoder to be available
 // https://github.com/facebook/jest/issues/9983
 

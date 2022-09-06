@@ -16,11 +16,11 @@ export function NewInstanceButtonDefault({
   parent,
   children,
 }: NewInstanceButtonProps): JSX.Element {
-  const resource = useResource(klass);
-  const title = useTitle(resource);
+  const classResource = useResource(klass);
+  const title = useTitle(classResource);
   const navigate = useNavigate();
   const store = useStore();
-  const [shortname] = useString(resource, properties.shortname);
+  const [shortname] = useString(classResource, properties.shortname);
   const { setDrive } = useSettings();
   const createResourceAndNavigate = useCreateAndNavigate(klass, parent);
 
@@ -33,20 +33,23 @@ export function NewInstanceButtonDefault({
         });
         break;
       }
+
       case classes.document: {
         createResourceAndNavigate('documents', {
           [properties.isA]: [classes.document],
         });
         break;
       }
+
       case classes.importer: {
         createResourceAndNavigate('importer', {
           [properties.isA]: [classes.importer],
         });
         break;
       }
+
       case classes.drive: {
-        const resource = await createResourceAndNavigate(
+        const newResource = await createResourceAndNavigate(
           'drive',
           {
             [properties.isA]: [classes.drive],
@@ -58,11 +61,12 @@ export function NewInstanceButtonDefault({
           true,
         );
         const agent = await store.getResourceAsync(store.getAgent().subject);
-        agent.pushPropVal(properties.drives, [resource.getSubject()]);
+        agent.pushPropVal(properties.drives, [newResource.getSubject()]);
         agent.save(store);
-        setDrive(resource.getSubject());
+        setDrive(newResource.getSubject());
         break;
       }
+
       default: {
         // Opens an `Edit` form with the class and a decent subject name
         navigate(newURL(klass, parent, store.createSubject(shortname)));

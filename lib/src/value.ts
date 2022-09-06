@@ -10,11 +10,11 @@ export type JSONArray = Array<JSONValue>;
  * or Nested Resources. Throws an error when fails
  */
 export function valToArray(val: JSONValue): JSONArray {
-  if (val == undefined) {
+  if (val === undefined) {
     throw new Error(`Not an array: ${val}, is ${typeof val}`);
   }
 
-  if (val.constructor == Array) {
+  if (val.constructor === Array) {
     // TODO: check this better
     return val;
   }
@@ -27,6 +27,7 @@ export function valToBoolean(val: JSONValue): boolean {
   if (typeof val !== 'boolean') {
     throw new Error(`Not a boolean: ${val}, is a ${typeof val}`);
   }
+
   return val;
 }
 
@@ -36,14 +37,17 @@ export function valToBoolean(val: JSONValue): boolean {
  */
 export function valToDate(val: JSONValue): Date {
   // If it's a unix epoch timestamp...
-  if (typeof val == 'number') {
+  if (typeof val === 'number') {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
     date.setUTCMilliseconds(val);
+
     return date;
   }
-  if (typeof val == 'string') {
+
+  if (typeof val === 'string') {
     return new Date(val.toString());
   }
+
   throw new Error(`Cannot be converted into Date: ${val}, is a ${typeof val}`);
 }
 
@@ -52,6 +56,7 @@ export function valToNumber(val: JSONValue): number {
   if (typeof val !== 'number') {
     throw new Error(`Not a number: ${val}, is a ${typeof val}`);
   }
+
   return val;
 }
 
@@ -63,23 +68,29 @@ export function valToString(val: JSONValue): string {
 
 /** Returns either the URL of the resource, or the NestedResource itself. */
 export function valToResource(val: JSONValue): string | Resource {
-  if (typeof val == 'string') {
+  if (typeof val === 'string') {
     return val;
   }
+
   if (val instanceof Date) {
     throw new Error(`Not a resource: ${val}, is a Date`);
   }
-  if (val.constructor == Array) {
+
+  if (val.constructor === Array) {
     throw new Error(`Not a resource: ${val}, is an Array`);
   }
-  if (typeof val == 'object') {
+
+  if (typeof val === 'object') {
     //@ts-ignore
     const resource = new Resource('nested-resource');
     parseJsonADResource(val as JSONObject, resource);
+
     return resource;
   }
+
   if (typeof val !== 'object') {
     throw new Error(`Not a resource: ${val}, is a ${typeof val}`);
   }
+
   throw new Error(`Not a resource: ${val}, is a ${typeof val}`);
 }

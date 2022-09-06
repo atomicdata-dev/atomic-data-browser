@@ -7,6 +7,7 @@ import { isDev } from '../config';
 
 export function handleError(e: Error): void {
   console.error(e);
+
   if (!isDev) {
     Bugsnag.notify(e);
   }
@@ -21,6 +22,7 @@ export function handleWarning(e: Error | string): void {
 export function handleInfo(e: Error): void {
   // eslint-disable-next-line no-console
   console.info(e);
+
   if (!isDev) {
     Bugsnag.notify(e);
   }
@@ -34,5 +36,6 @@ export function initBugsnag(apiKey?: string): BugsnagErrorBoundary {
     enabledReleaseStages: ['production'],
     autoDetectErrors: !isDev(),
   });
+
   return Bugsnag.getPlugin('react').createErrorBoundary(React);
 }

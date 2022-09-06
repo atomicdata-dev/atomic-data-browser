@@ -35,6 +35,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
       </ContainerNarrow>
     );
   }
+
   return (
     <ContainerNarrow>
       <h1>⚠️ Error opening {resource.getSubject()}</h1>

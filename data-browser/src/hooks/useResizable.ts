@@ -105,7 +105,7 @@ export function useResizable<E extends HTMLElement>(
       setDragStyling(styleId, false);
     }
 
-    () => {
+    return () => {
       window.removeEventListener('mousemove', mouseMove.current);
     };
   }, [dragging]);

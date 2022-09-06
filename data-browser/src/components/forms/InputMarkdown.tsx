@@ -28,10 +28,10 @@ export default function InputMarkdown({
             {...props}
           />
         </YamdeStyling>
-        {/* <TextAreaStyled rows={3} value={value == null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} /> */}
+        {/* <TextAreaStyled rows={3} value={value === null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} /> */}
       </InputWrapper>
       {value !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
-      {value == '' && <ErrMessage>Required</ErrMessage>}
+      {value === '' && <ErrMessage>Required</ErrMessage>}
     </>
   );
 }

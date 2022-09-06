@@ -25,12 +25,15 @@ import { DialogContainer } from './components/Dialog/DialogContainer';
 const store = new Store();
 /** Defaulting to the current URL's origin will make sense in most non-dev environments */
 store.setServerUrl(window.location.origin);
+
 /** Show an error when things go wrong */
 store.errorHandler = e => {
   handleError(e);
+
   if (e.message.length > 100) {
     e.message = e.message.substring(0, 100) + '...';
   }
+
   toast.error(e.message);
 };
 

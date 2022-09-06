@@ -19,17 +19,20 @@ export function useLocalSearch(
   let resources = useResources(subjects || []);
   // Calculate the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, 40);
+
   // The Resources prop can change very quickly, as multiple resources can be fetched in a short timespan.
   // This will cause the search index to be rebuilt every time, so we debounce the resources.
-  if (subjects == undefined) {
+  if (subjects === undefined) {
     resources = store.resources;
   }
+
   const resourcesD = useDebounce(resources, 100);
 
   React.useEffect(() => {
     if (disabled) {
       return;
     }
+
     setIndex(constructIndex(resourcesD));
   }, [resourcesD, disabled]);
 
@@ -37,9 +40,11 @@ export function useLocalSearch(
     if (disabled) {
       return;
     }
-    if (index == null) {
+
+    if (index === null) {
       return;
     }
+
     // For some reason, searching for a URL as query takes infinitely long..?
     if (isValidURL(debouncedQuery)) {
       return;
@@ -62,14 +67,17 @@ function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
   const dataArray = resources.reduce((array, resource) => {
     // Don't index resources that are loading / errored
     if (!resource.isReady()) return array;
+
     // ... or have no subject
-    if (resource.getSubject() == undefined) {
+    if (resource.getSubject() === undefined) {
       return array;
     }
+
     // Don't index commits
     if (resource.getClasses().includes(urls.classes.commit)) {
       return array;
     }
+
     // QuickScore can't handle URLs as keys, so I serialize all values of propvals to a single string. https://github.com/fwextensions/quick-score/issues/11
     const propvalsString = JSON.stringify(
       Array.from(resource.getPropVals().values()).sort().join(' \n '),
@@ -79,11 +87,13 @@ function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
       valuesArray: propvalsString,
     };
     array.push(searchResource);
+
     return array;
   }, []);
   // QuickScore requires explicit keys to search through. These should match the keys in FoundResource
   const qsOpts = { keys: ['subject', 'valuesArray'] };
   const qs = new QuickScore(dataArray, qsOpts);
+
   return qs;
 }
 

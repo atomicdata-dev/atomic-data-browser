@@ -59,15 +59,20 @@ export const AtomicLink = ({
       // When there is a regular URL, let the browser handle it
       return;
     }
+
     e.preventDefault();
+
     if (path) {
       navigate(path);
+
       return;
     }
+
     if (subject) {
       if (isOnCurrentPage) {
         return;
       }
+
       navigate(constructOpenURL(subject));
     }
   };
