@@ -208,7 +208,7 @@ export class Store {
     opts: FetchOpts = {},
   ): Resource | null {
     // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
-    if (subject === unknownSubject) {
+    if (subject === unknownSubject || subject === null) {
       const newR = new Resource(unknownSubject, opts.newResource);
 
       return newR;
@@ -216,7 +216,7 @@ export class Store {
 
     const found = this.resources.get(subject);
 
-    if (found === undefined) {
+    if (!found) {
       const newR = new Resource(subject, opts.newResource);
       newR.loading = true;
       this.addResource(newR);
@@ -249,7 +249,7 @@ export class Store {
   public async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
 
-    if (found === undefined) {
+    if (!found) {
       const newR = await fetchResource(subject, this);
 
       return newR;

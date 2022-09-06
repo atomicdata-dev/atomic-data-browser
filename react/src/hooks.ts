@@ -323,7 +323,7 @@ export function useString(
 ): [string | null, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
-  if (val === null) {
+  if (!val) {
     return [null, setVal];
   }
 
@@ -344,7 +344,7 @@ export function useSubject(
 ): [string | null, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
-  if (val === null) {
+  if (!val) {
     return [null, setVal];
   }
 

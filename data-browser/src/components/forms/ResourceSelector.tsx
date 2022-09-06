@@ -135,7 +135,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
             <NewFormDialog
               // Any resource needs a parent, but what do we do if the logical parent does not exist yet?
               // https://github.com/atomicdata-dev/atomic-data-browser/issues/195
-              parent={parentResource.new ? drive : parent}
+              parent={parent || drive}
               classSubject={classType}
               closeDialog={closeDialog}
               initialTitle={inputValue}
@@ -150,7 +150,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
 });
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
-export function getCollectionURL(classtypeUrl: string): string | null {
+export function getCollectionURL(classtypeUrl: string): string | undefined {
   switch (classtypeUrl) {
     case urls.classes.property:
       return urls.properties.getAll;
@@ -163,6 +163,6 @@ export function getCollectionURL(classtypeUrl: string): string | null {
     case urls.classes.datatype:
       return 'https://atomicdata.dev/datatypes';
     default:
-      return null;
+      return undefined;
   }
 }
