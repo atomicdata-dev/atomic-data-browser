@@ -14,6 +14,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Don't subscribe to search endpoint #200
 - Refactor e2e tests
 - Render floats
+- Hide unsortable items in tables
 
 ## v0.31.1
 
