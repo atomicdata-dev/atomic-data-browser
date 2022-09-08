@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## UNRELEASED
+## Unreleased
 
 - Add dialog / modal view #24 #181
 - Add bookmark import / reader mode #187
@@ -13,6 +13,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Make all titles editable #199
 - Don't subscribe to search endpoint #200
 - Refactor e2e tests
+- Render floats
 
 ## v0.31.1
 

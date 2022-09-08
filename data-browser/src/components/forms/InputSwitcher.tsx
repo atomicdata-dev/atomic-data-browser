@@ -23,10 +23,7 @@ export default function InputSwitcher(props: InputProps): JSX.Element {
       return <InputString {...props} />;
     }
 
-    // TODO: DateTime selector
-    // case Datatype.TIMESTAMP:
-
-    case Datatype.INTEGER: {
+    case Datatype.FLOAT || Datatype.INTEGER: {
       return <InputNumber {...props} />;
     }
 
@@ -41,6 +38,9 @@ export default function InputSwitcher(props: InputProps): JSX.Element {
     case Datatype.BOOLEAN: {
       return <InputBoolean {...props} />;
     }
+
+    // TODO: DateTime selector
+    // case Datatype.TIMESTAMP:
 
     default: {
       return <InputString {...props} />;
