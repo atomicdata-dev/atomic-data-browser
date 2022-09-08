@@ -87,6 +87,8 @@ function HeaderItem({ subject }: HeaderItemProps) {
   const [sortBy, setSortBy] = useSubjectParam('sort_by');
   const [sortDesc, setSortDesc] = useSubjectParam('sort_desc');
   const property = useProperty(subject);
+  // Hopefully later we can let users actually edit
+  const canSort = !property.isDynamic;
 
   function handleToggleSort() {
     if (sortBy === subject) {
@@ -123,22 +125,24 @@ function HeaderItem({ subject }: HeaderItemProps) {
   return (
     <CellHeaderStyled style={{ minWidth }}>
       <ResourceInline subject={subject} />{' '}
-      <Button
-        onClick={handleToggleSort}
-        subtle={!thisPropIsSorted}
-        icon
-        data-test={`sort-${subject}`}
-      >
-        {thisPropIsSorted ? (
-          sortDesc === 'true' ? (
-            <FaSortDown />
+      {canSort && (
+        <Button
+          onClick={handleToggleSort}
+          subtle={!thisPropIsSorted}
+          icon
+          data-test={`sort-${subject}`}
+        >
+          {thisPropIsSorted ? (
+            sortDesc === 'true' ? (
+              <FaSortDown />
+            ) : (
+              <FaSortUp />
+            )
           ) : (
-            <FaSortUp />
-          )
-        ) : (
-          <FaSort />
-        )}
-      </Button>
+            <FaSort />
+          )}
+        </Button>
+      )}
     </CellHeaderStyled>
   );
 }
