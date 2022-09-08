@@ -18,7 +18,6 @@ function buildCollectionSubject(subject: string, serverURL: string) {
     page_size: '100',
   }).toString();
 
-  console.log(url.toString());
   return url.toString();
 }
 
@@ -66,5 +65,6 @@ export function useChildren(subject: string) {
   if (collection.error) {
     // throw collection.error;
   }
+
   return children;
 }
