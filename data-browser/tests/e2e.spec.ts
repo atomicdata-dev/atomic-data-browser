@@ -1,4 +1,3 @@
-import { urls } from './../../lib/src/urls';
 // This file is copied from `atomic-data-browser` to `atomic-data-server` when `yarn build-server` is run.
 // This is why the `testConfig` is imported.
 
@@ -334,7 +333,9 @@ test.describe('data-browser', async () => {
     await page.click(
       '[placeholder="Select a property or enter a property URL..."]',
     );
-    await page.keyboard.type(urls.properties.invite.usagesLeft);
+    await page.keyboard.type(
+      'https://atomicdata.dev/properties/invite/usagesLeft',
+    );
     await page.keyboard.press('Enter');
     await page.click('[title="Add this property"]');
     await expect(page.locator('text=usages-left')).toBeVisible();
