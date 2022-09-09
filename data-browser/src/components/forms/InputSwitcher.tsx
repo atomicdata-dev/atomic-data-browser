@@ -23,7 +23,11 @@ export default function InputSwitcher(props: InputProps): JSX.Element {
       return <InputString {...props} />;
     }
 
-    case Datatype.FLOAT || Datatype.INTEGER: {
+    case Datatype.INTEGER: {
+      return <InputNumber {...props} />;
+    }
+
+    case Datatype.FLOAT: {
       return <InputNumber {...props} />;
     }
 
