@@ -19,7 +19,7 @@ export const SettingsTheme: React.FunctionComponent = () => {
         <Row>
           <Button
             subtle={!(darkModeSetting === DarkModeOption.auto)}
-            onClick={() => setDarkMode(null)}
+            onClick={() => setDarkMode(undefined)}
             title="Use the browser's / OS dark mode settings"
           >
             🌓 auto
