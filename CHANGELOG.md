@@ -4,6 +4,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## Unreleased
 
+- Add Hierarchy in sidebar #75
+- Add `EventManager` to run custom functions when resources are added / edited / etc.
 - Add dialog / modal view #24 #181
 - Add bookmark import / reader mode #187
 - Various improvements to Dropdown forms #194
