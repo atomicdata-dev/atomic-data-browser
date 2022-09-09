@@ -6,8 +6,8 @@ export const buildDefaultTrigger = (
   icon: React.ReactNode,
   ButtonComp: typeof Button = Button,
 ): DropdownTriggerRenderFunction => {
-  const Comp = ({ onClick }, ref: React.Ref<HTMLButtonElement>) => (
-    <ButtonComp icon subtle onClick={onClick} ref={ref}>
+  const Comp = ({ onClick, menuId }, ref: React.Ref<HTMLButtonElement>) => (
+    <ButtonComp aria-controls={menuId} icon subtle onClick={onClick} ref={ref}>
       {icon}
     </ButtonComp>
   );

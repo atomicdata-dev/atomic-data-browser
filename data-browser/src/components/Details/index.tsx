@@ -5,6 +5,7 @@ import { Collapse } from '../Collapse';
 
 export interface DetailsProps {
   open?: boolean;
+  initialState?: boolean;
   title: React.ReactElement;
   disabled?: boolean;
   /** Event that fires when a user opens or closes the details */
@@ -14,18 +15,17 @@ export interface DetailsProps {
 
 export function Details({
   open,
+  initialState,
   children,
   className,
   title,
   disabled,
   onStateToggle,
 }: React.PropsWithChildren<DetailsProps>): JSX.Element {
-  const [isOpen, setIsOpen] = React.useState(open);
+  const [isOpen, setIsOpen] = React.useState(initialState);
 
   useEffect(() => {
-    if (open) {
-      setIsOpen(true);
-    }
+    setIsOpen(open);
   }, [open]);
 
   const toggleOpen = useCallback(() => {

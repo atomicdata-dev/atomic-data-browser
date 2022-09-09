@@ -1,4 +1,4 @@
-import { useResource, useTitle } from '@tomic/react';
+import { urls, useArray, useResource, useTitle } from '@tomic/react';
 import React from 'react';
 import { FaPlus, FaServer } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,6 @@ import { Button } from '../Button';
 import { ResourceSideBar } from './ResourceSideBar/ResourceSideBar';
 import { SignInButton } from '../SignInButton';
 import { SideBarHeader } from './SideBarHeader';
-import { useChildren } from '../../hooks/useChildren';
 import { shortcuts } from '../HotKeyWrapper';
 
 interface SideBarDriveProps {
@@ -25,7 +24,7 @@ export function SideBarDrive({
 }: SideBarDriveProps): JSX.Element {
   const { drive, agent } = useSettings();
   const driveResource = useResource(drive);
-  const children = useChildren(drive);
+  const [subResources] = useArray(driveResource, urls.properties.subResources);
   const title = useTitle(driveResource);
   const navigate = useNavigate();
 
@@ -66,7 +65,7 @@ export function SideBarDrive({
       </SideBarHeader>
       <ListWrapper>
         {driveResource.isReady() ? (
-          children.map(child => {
+          subResources.map(child => {
             return (
               <ResourceSideBar
                 key={child}

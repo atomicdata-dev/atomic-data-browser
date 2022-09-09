@@ -43,6 +43,7 @@ export const properties = {
   recommends: 'https://atomicdata.dev/properties/recommends',
   requires: 'https://atomicdata.dev/properties/requires',
   shortname: 'https://atomicdata.dev/properties/shortname',
+  subResources: 'https://atomicdata.dev/properties/subresources',
   write: 'https://atomicdata.dev/properties/write',
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',

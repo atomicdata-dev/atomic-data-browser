@@ -49,7 +49,7 @@ export const animationDuration = 100;
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
   const bg = darkMode ? '#000000' : '#ffffff';
-  const text = darkMode ? 'white' : 'black';
+  const text = darkMode ? '#fff' : '#000';
   const shadowColor = darkMode ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,0.07)';
   const shadowColorIntense = darkMode
     ? 'rgba(255,255,255,.3)'

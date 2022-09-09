@@ -1,6 +1,15 @@
 import { isValidURL } from '@tomic/lib';
 import { useEffect, useState } from 'react';
+import { isDev } from './helpers/isDev';
 import { useLocalStorage, useStore } from './index';
+
+function fixServerURL(url: string) {
+  if (isDev()) {
+    return url.replace('5173', '9883');
+  }
+
+  return url;
+}
 
 /**
  * A hook for using and adjusting the Server URL. Also saves to localStorage. If
@@ -14,7 +23,7 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
     store.getServerUrl(),
   );
   const [serverURL, setBaseURL] = useState<string | undefined>(
-    window?.location.origin,
+    fixServerURL(window?.location.origin),
   );
 
   useEffect(() => {

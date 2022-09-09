@@ -1,26 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useString, useResource, useTitle, urls } from '@tomic/react';
+import { useString, useResource, useTitle, urls, useArray } from '@tomic/react';
 import { ErrorLook } from '../../../views/ResourceInline';
 import { useCurrentSubject } from '../../../helpers/useCurrentSubject';
 import { SideBarItem } from '../SideBarItem';
 import AtomicLink from '../../AtomicLink';
 import styled from 'styled-components';
-import { useChildren } from '../../../hooks/useChildren';
 import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
+import { sideBarChildBlacklist } from './sidebarChildBlacklist';
 
 interface ResourceSideBarProps {
   subject: string;
   handleClose?: () => unknown;
   onOpen?: (open: boolean) => void;
 }
-
-// These should not show a collapse/dropdown with their children when rendered inside the sidebar
-const noChildClasses = new Set([
-  urls.classes.chatRoom,
-  urls.classes.document,
-  urls.classes.collection,
-]);
 
 /** Renders a Resource as a nav item for in the sidebar. */
 export function ResourceSideBar({
@@ -38,15 +31,13 @@ export function ResourceSideBar({
   const active = currentUrl === subject;
   const [open, setOpen] = useState(active);
 
-  const children = useChildren(subject);
-
-  const hasChildren = children.length > 0;
-  const showChildren = !noChildClasses.has(classType) && hasChildren;
+  const [subResources] = useArray(resource, urls.properties.subResources);
+  const hasSubResources = subResources.length > 0;
+  const showSubResources =
+    !sideBarChildBlacklist.has(classType) && hasSubResources;
 
   const handleDetailsToggle = useCallback((state: boolean) => {
-    if (!state) {
-      setOpen(false);
-    }
+    setOpen(state);
   }, []);
 
   const setAndPropagateOpen = useCallback(
@@ -93,8 +84,8 @@ export function ResourceSideBar({
 
   return (
     <StyledDetails
-      open={open}
-      disabled={!showChildren}
+      initialState={open}
+      disabled={!showSubResources}
       onStateToggle={handleDetailsToggle}
       title={
         <ActionWrapper>
@@ -113,8 +104,8 @@ export function ResourceSideBar({
         </ActionWrapper>
       }
     >
-      {showChildren &&
-        children.map(child => (
+      {showSubResources &&
+        subResources.map(child => (
           <ResourceSideBar
             subject={child}
             key={child}

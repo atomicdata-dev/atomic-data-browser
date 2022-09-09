@@ -27,7 +27,7 @@ export interface CommitBuilderI {
    * The property-value combinations for which one or more ResourceArrays will
    * be appended. https://atomicdata.dev/properties/push
    */
-  push?: Record<string, JSONValue>;
+  push?: Record<string, JSONArray>;
   /** The properties that need to be removed. https://atomicdata.dev/properties/remove */
   remove?: string[];
   /** If true, the resource must be deleted. https://atomicdata.dev/properties/destroy */
@@ -39,28 +39,116 @@ export interface CommitBuilderI {
   previousCommit?: string;
 }
 
+interface CommitBuilderBase {
+  set?: Map<string, JSONValue>;
+  push?: Map<string, Set<JSONValue>>;
+  remove?: Set<string>;
+  destroy?: boolean;
+  previousCommit?: string;
+}
+
 /** Return the current time as Atomic Data timestamp. Milliseconds since unix epoch. */
 export function getTimestampNow(): number {
   return Math.round(new Date().getTime());
 }
 
 /** A {@link Commit} without its signature, signer and timestamp */
-export class CommitBuilder implements CommitBuilderI {
+export class CommitBuilder {
   // WARNING
   // If you add stuff here, add it to `.clone()!` too!
-  public subject: string;
-  public set: Record<string, JSONValue>;
-  public push: Record<string, JSONValue>;
-  public remove: string[];
-  public destroy?: boolean;
-  public previousCommit?: string;
+  private _subject: string;
+  private _set: Map<string, JSONValue>;
+  private _push: Map<string, Set<JSONValue>>;
+  private _remove: Set<string>;
+  private _destroy?: boolean;
+  private _previousCommit?: string;
 
   /** Removes any query parameters from the Subject */
-  public constructor(subject: string) {
-    this.subject = removeQueryParamsFromURL(subject);
-    this.set = {};
-    this.push = {};
-    this.remove = [];
+  public constructor(subject: string, base: CommitBuilderBase = {}) {
+    this._subject = removeQueryParamsFromURL(subject);
+    this._set = base.set ?? new Map();
+    this._push = base.push ?? new Map();
+    this._remove = base.remove ?? new Set();
+    this._destroy = base.destroy;
+    this._previousCommit = base.previousCommit;
+  }
+
+  public get subject(): string {
+    return this._subject;
+  }
+
+  public get set() {
+    return this._set;
+  }
+
+  public get push() {
+    return this._push;
+  }
+
+  public get remove() {
+    return this._remove;
+  }
+
+  public get destroy() {
+    return this._destroy;
+  }
+
+  public get previousCommit() {
+    return this._previousCommit;
+  }
+
+  public addSetAction(property: string, value: JSONValue): CommitBuilder {
+    this.removeRemoveAction(property);
+    this._set.set(property, value);
+
+    return this;
+  }
+
+  public addPushAction(property: string, ...values: JSONArray): CommitBuilder {
+    const pushSet = this._push.get(property) ?? new Set();
+
+    for (const value of values) {
+      pushSet.add(value);
+    }
+
+    return this;
+  }
+
+  public addRemoveAction(property: string): CommitBuilder {
+    this._set.delete(property);
+    this._push.delete(property);
+
+    this._remove.add(property);
+
+    return this;
+  }
+
+  public removeRemoveAction(property: string): CommitBuilder {
+    this._remove.delete(property);
+
+    return this;
+  }
+
+  public setDestroy(destroy: boolean): CommitBuilder {
+    this._destroy = destroy;
+
+    return this;
+  }
+
+  /**
+   * Set the URL of the Commit that was previously (last) applied. The value of
+   * this should probably be the `lastCommit` of the Resource.
+   */
+  public setPreviousCommit(prev: string): CommitBuilder {
+    this._previousCommit = prev;
+
+    return this;
+  }
+
+  public setSubject(subject: string): CommitBuilder {
+    this._subject = subject;
+
+    return this;
   }
 
   /**
@@ -68,8 +156,7 @@ export class CommitBuilder implements CommitBuilderI {
    * Commit which is ready to be sent to an Atomic-Server `/commit` endpoint.
    */
   public async sign(privateKey: string, agentSubject: string): Promise<Commit> {
-    const commit = await signAt(
-      this.clone(),
+    const commit = await this.signAt(
       agentSubject,
       privateKey,
       getTimestampNow(),
@@ -81,7 +168,10 @@ export class CommitBuilder implements CommitBuilderI {
   /** Returns true if the CommitBuilder has non-empty changes (set, remove, destroy) */
   public hasUnsavedChanges(): boolean {
     return (
-      Object.keys(this.set).length > 0 || this.destroy || this.remove.length > 0
+      this.set.size > 0 ||
+      this.push.size > 0 ||
+      this.destroy ||
+      this.remove.size > 0
     );
   }
 
@@ -92,22 +182,56 @@ export class CommitBuilder implements CommitBuilderI {
    */
   // Warning: I'm not sure whether this actually solves the issue. Might be a good idea to remove this.
   public clone(): CommitBuilder {
-    const cm = new CommitBuilder(this.subject);
-    cm.set = this.set;
-    cm.push = this.push;
-    cm.destroy = this.destroy;
-    cm.remove = this.remove;
-    cm.previousCommit = this.previousCommit;
+    const base = {
+      set: this.set,
+      push: this.push,
+      remove: this.remove,
+      destroy: this.destroy,
+      previousCommit: this.previousCommit,
+    };
 
-    return cm;
+    return new CommitBuilder(this.subject, structuredClone(base));
   }
 
-  /**
-   * Set the URL of the Commit that was previously (last) applied. The value of
-   * this should probably be the `lastCommit` of the Resource.
-   */
-  public setPreviousCommit(prev: string) {
-    this.previousCommit = prev;
+  public toPlainObject(): CommitBuilderI {
+    return {
+      subject: this.subject,
+      set: Object.fromEntries(this.set.entries()),
+      push: Object.fromEntries(
+        Array.from(this.push.entries()).map(([k, v]) => [k, Array.from(v)]),
+      ),
+      remove: Array.from(this.remove),
+      destroy: this.destroy,
+      previousCommit: this.previousCommit,
+    };
+  }
+
+  /** Creates a signature for a Commit using the private Key of some Agent. */
+  public async signAt(
+    /** Subject URL of the Agent signing the Commit */
+    agent: string,
+    /** Base64 serialized private key matching the public key of the agent */
+    privateKey: string,
+    /** Time of signing in millisecons since unix epoch */
+    createdAt: number,
+  ): Promise<Commit> {
+    if (agent === undefined) {
+      throw new Error('No agent passed to sign commit');
+    }
+
+    const commitPreSigned: CommitPreSigned = {
+      ...this.clone().toPlainObject(),
+      createdAt,
+      signer: agent,
+    };
+    const serializedCommit = serializeDeterministically({ ...commitPreSigned });
+    const signature = await signToBase64(serializedCommit, privateKey);
+    const commitPostSigned: Commit = {
+      ...commitPreSigned,
+      signature,
+    };
+
+    return commitPostSigned;
   }
 }
 
@@ -188,35 +312,6 @@ export function serializeDeterministically(
 
   return stringify(commit);
 }
-
-/** Creates a signature for a Commit using the private Key of some Agent. */
-export const signAt = async (
-  commitBuilder: CommitBuilderI,
-  /** Subject URL of the Agent signing the Commit */
-  agent: string,
-  /** Base64 serialized private key matching the public key of the agent */
-  privateKey: string,
-  /** Time of signing in millisecons since unix epoch */
-  createdAt: number,
-): Promise<Commit> => {
-  if (agent === undefined) {
-    throw new Error('No agent passed to sign commit');
-  }
-
-  const commitPreSigned: CommitPreSigned = {
-    ...commitBuilder,
-    createdAt,
-    signer: agent,
-  };
-  const serializedCommit = serializeDeterministically({ ...commitPreSigned });
-  const signature = await signToBase64(serializedCommit, privateKey);
-  const commitPostSigned: Commit = {
-    ...commitPreSigned,
-    signature,
-  };
-
-  return commitPostSigned;
-};
 
 // /** Checks whether the commit signature is correct */
 // function verifyCommit(commit: Commit, publicKey: string): boolean {

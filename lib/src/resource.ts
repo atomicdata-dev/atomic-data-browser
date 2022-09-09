@@ -239,7 +239,7 @@ export class Resource {
   /** Removes the resource form both the server and locally */
   public async destroy(store: Store, agent?: Agent): Promise<void> {
     const newCommitBuilder = new CommitBuilder(this.getSubject());
-    newCommitBuilder.destroy = true;
+    newCommitBuilder.setDestroy(true);
 
     if (agent === undefined) {
       agent = store.getAgent();
@@ -258,15 +258,10 @@ export class Resource {
   }
 
   /** Appends a Resource to a ResourceArray */
-  public pushPropVal(propUrl: string, value: JSONArray): void {
-    let propVal = this.get(propUrl) as JSONArray;
-
-    if (propVal === undefined) {
-      propVal = [];
-    }
-
-    propVal.push(value);
-    this.commitBuilder.push[propUrl] = propVal;
+  public pushPropVal(propUrl: string, ...values: JSONArray): void {
+    const propVal = (this.get(propUrl) as JSONArray) ?? [];
+    propVal.push(...values);
+    this.commitBuilder.addPushAction(propUrl, ...values);
     this.propvals.set(propUrl, propVal);
   }
 
@@ -275,15 +270,8 @@ export class Resource {
     // Delete from this resource
     this.propvals.delete(propertyUrl);
 
-    // Delete possible item from the commitbuilder set object
-    try {
-      delete this.commitBuilder.set[propertyUrl];
-    } catch (e) {
-      console.error('Item not present in commitbuilder.set');
-    }
-
     // Add it to the array of items that the server might need to remove after posting.
-    this.commitBuilder.remove.push(propertyUrl);
+    this.commitBuilder.addRemoveAction(propertyUrl);
   }
 
   /**
@@ -299,14 +287,12 @@ export class Resource {
    * endpoint. Returns the Url of the created Commit. If you don't pass an Agent
    * explicitly, the default Agent of the Store is used.
    */
-  public async save(store: Store, agent?: Agent): Promise<string> {
+  public async save(store: Store, differentAgent?: Agent): Promise<string> {
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResource(this);
 
-    if (!agent) {
-      agent = store.getAgent();
-    }
+    const agent = store.getAgent() ?? differentAgent;
 
     if (!agent) {
       throw new Error('No agent has been set or passed, you cannot save.');
@@ -398,11 +384,7 @@ export class Resource {
 
     this.propvals.set(prop, value);
     // Add the change to the Commit Builder, so we can commit our changes later
-    this.commitBuilder.set[prop] = value;
-    // If the property has been removed before, undo that
-    this.commitBuilder.remove = this.commitBuilder.remove.filter(
-      item => item === prop,
-    );
+    this.commitBuilder.addSetAction(prop, value);
   }
 
   /**
@@ -421,7 +403,7 @@ export class Resource {
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
   public setSubject(subject: string): void {
     tryValidURL(subject);
-    this.commitBuilder.subject = subject;
+    this.commitBuilder.setSubject(subject);
     this.subject = subject;
   }
 }

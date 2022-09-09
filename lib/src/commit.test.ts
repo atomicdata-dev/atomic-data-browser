@@ -1,10 +1,9 @@
 import { expect } from 'chai';
+import { CommitBuilder } from './commit';
 import {
-  CommitBuilderI,
   generatePublicKeyFromPrivate,
   parseAndApplyCommit,
   serializeDeterministically,
-  signAt,
   signToBase64,
   Store,
 } from './index';
@@ -31,15 +30,15 @@ describe('Commit signing and keys', () => {
     const serializedCommitRust =
       '{"https://atomicdata.dev/properties/createdAt":0,"https://atomicdata.dev/properties/isA":["https://atomicdata.dev/classes/Commit"],"https://atomicdata.dev/properties/set":{"https://atomicdata.dev/properties/description":"Some value","https://atomicdata.dev/properties/shortname":"someval"},"https://atomicdata.dev/properties/signature":"kLh+mxy/lgFD6WkbIbhJANgRhyu39USL9up1zCmqU8Jmc+4rlvLZwxSlfxKTISP2BiXLSiz/5NJZrN5XpXJ/Cg==","https://atomicdata.dev/properties/signer":"http://localhost/agents/7LsjMW5gOfDdJzK/atgjQ1t20J/rw8MjVg6xwqm+h8U=","https://atomicdata.dev/properties/subject":"https://localhost/new_thing"}';
     const createdAt = 0;
-    const commitbuilder: CommitBuilderI = {
-      subject,
-      set: {
-        'https://atomicdata.dev/properties/description': 'Some value',
-        'https://atomicdata.dev/properties/shortname': 'someval',
-      },
-    };
-    const commit = await signAt(
-      commitbuilder,
+
+    const commitBuilder = new CommitBuilder(subject, {
+      set: new Map([
+        ['https://atomicdata.dev/properties/description', 'Some value'],
+        ['https://atomicdata.dev/properties/shortname', 'someval'],
+      ]),
+    });
+
+    const commit = await commitBuilder.signAt(
       agentSubject,
       privateKey,
       createdAt,

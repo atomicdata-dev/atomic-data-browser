@@ -61,7 +61,7 @@ export function NewInstanceButtonDefault({
           true,
         );
         const agent = await store.getResourceAsync(store.getAgent().subject);
-        agent.pushPropVal(properties.drives, [newResource.getSubject()]);
+        agent.pushPropVal(properties.drives, newResource.getSubject());
         agent.save(store);
         setDrive(newResource.getSubject());
         break;

@@ -20,7 +20,7 @@ export enum StoreEvents {
 
 type StoreEventHandlers = {
   [StoreEvents.ResourceSaved]: (resource: Resource) => void;
-  [StoreEvents.ResourceRemoved]: (subject: string) => void;
+  [StoreEvents.ResourceRemoved]: (resource: Resource) => void;
 };
 
 /**
@@ -342,8 +342,9 @@ export class Store {
 
   /** Removes (destroys / deletes) resource from this store */
   public removeResource(subject: string): void {
+    const resource = this.resources.get(subject);
     this.resources.delete(subject);
-    this.eventManager.emit(StoreEvents.ResourceRemoved, subject);
+    this.eventManager.emit(StoreEvents.ResourceRemoved, resource);
   }
 
   /**
