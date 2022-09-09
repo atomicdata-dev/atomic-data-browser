@@ -29,6 +29,7 @@ export const AppSettingsContextProvider = (
     'sideBarOpen',
     window.innerWidth > SIDEBAR_TOGGLE_WIDTH,
   );
+
   const [agent, setAgent] = useCurrentAgent();
   const [baseURL, setBaseURL] = useServerURL();
   const [drive, innerSetDrive] = useLocalStorage('drive', baseURL);
@@ -104,6 +105,24 @@ interface AppSettings {
   setAgent: (a: Agent | null) => void;
 }
 
+const initialState: AppSettings = {
+  darkMode: false,
+  darkModeSetting: DarkModeOption.auto,
+  setDarkMode: () => undefined,
+  mainColor: '',
+  setMainColor: () => undefined,
+  drive: '',
+  setDrive: () => undefined,
+  navbarTop: false,
+  setNavbarTop: () => undefined,
+  navbarFloating: false,
+  setNavbarFloating: () => undefined,
+  sideBarLocked: false,
+  setSideBarLocked: () => undefined,
+  agent: null,
+  setAgent: () => undefined,
+};
+
 /** Hook for using App Settings, such as theme and darkmode */
 export const useSettings = (): AppSettings => {
   const settings = useContext(SettingsContext);
@@ -115,4 +134,4 @@ export const useSettings = (): AppSettings => {
  * The context must be provided by wrapping a high level React element in
  * <SettingsContext.Provider value={new AppSettings}>
  */
-export const SettingsContext = React.createContext<AppSettings>(null);
+export const SettingsContext = React.createContext<AppSettings>(initialState);

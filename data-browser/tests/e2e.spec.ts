@@ -62,11 +62,12 @@ test.describe('data-browser', async () => {
     await signIn(page);
     await editProfileAndCommit(page);
 
-    // Sign out
-    await page.click('text=user settings');
     page.on('dialog', d => {
       d.accept();
     });
+
+    // Sign out
+    await page.click('text=user settings');
     await page.click('[data-test="sign-out"]');
     await expect(page.locator('text=Enter your Agent secret')).toBeVisible();
   });
@@ -148,11 +149,13 @@ test.describe('data-browser', async () => {
     // await page.click('text=/setup');
     await openSubject(page, `${serverUrl}/setup`);
     await signIn(page);
+
     if (initialTest) {
       await expect(page.locator('text=Accept as')).toBeVisible();
       // await page.click('[data-test="accept-existing"]');
       await page.click('text=Accept as Test');
     }
+
     // Create a document
     await newResource('document', page);
     // commit for saving initial document
@@ -268,15 +271,19 @@ test.describe('data-browser', async () => {
     const teststring = `My test: ${timestamp()}`;
     await page.fill('[data-test="message-input"]', teststring);
     const chatRoomUrl = page.url();
-    const page2 = await openNewSubjectWindow(browser, chatRoomUrl);
     await page.keyboard.press('Enter');
     await expect(await page.locator(`text=${teststring}`)).toBeVisible();
 
+    const dropdownId = await page
+      .locator(contextMenu)
+      .getAttribute('aria-controls');
+
     await page.click(contextMenu);
-    await page.click('text=share');
+    await page.locator(`[id="${dropdownId}"] >> [data-test="share"]`).click();
     await page.locator(publicReadRight).click();
     await page.click('text=save');
 
+    const page2 = await openNewSubjectWindow(browser, chatRoomUrl);
     // Second user
     await signIn(page2);
     await expect(await page2.locator(`text=${teststring}`)).toBeVisible();
@@ -389,6 +396,7 @@ async function newDrive(page: Page) {
   const driveTitle = `testdrive-${timestamp()}`;
   await page.click(editableTitle);
   await page.fill(editableTitle, driveTitle);
+
   return { driveURL: driveURL as string, driveTitle };
 }
 
@@ -440,5 +448,6 @@ async function openNewSubjectWindow(browser: Browser, url: string) {
   // This only happens in tests, not in production
   await openLocalhost(page2);
   await page2.goto(url);
+
   return page2;
 }

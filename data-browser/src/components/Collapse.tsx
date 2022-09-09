@@ -20,6 +20,7 @@ export function Collapse({
 }: React.PropsWithChildren<CollapseProps>): JSX.Element {
   const node = useRef<HTMLDivElement>(null);
   const [initialHeight, setInitialHeight] = React.useState(0);
+  const openRef = useRef(open);
 
   const measureAndSet = () => {
     const div = node.current;
@@ -31,9 +32,14 @@ export function Collapse({
 
     div.style.position = 'static';
 
-    if (!open) {
+    // When this function is used as a callback for the MutationObserver the scope will be outdated when the props update.
+    // To work around this we have to use a ref in order to reference the most up to date value.
+    if (!openRef.current) {
       div.style.height = '0px';
       div.style.visibility = 'hidden';
+    } else {
+      div.style.height = `${height}px`;
+      div.style.visibility = 'visible';
     }
   };
 
@@ -57,6 +63,7 @@ export function Collapse({
   }, []);
 
   useLayoutEffect(() => {
+    openRef.current = open;
     if (!node.current) return;
 
     const wrapper = node.current;

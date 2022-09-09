@@ -56,9 +56,9 @@ const debouncedFetch = debounce(
   ) => {
     startTransition(() => {
       fetchBookmarkData(url, name, store)
-        .then(res => {
-          setPreview(res.preview);
-          setName(res.name);
+        .then(async res => {
+          await Promise.all([setPreview(res.preview), setName(res.name)]);
+
           setError(null);
           setLoading(false);
           resource.save(store);

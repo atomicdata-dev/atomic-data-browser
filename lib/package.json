@@ -12,9 +12,7 @@
     "@types/fast-json-stable-stringify": "^2.1.0",
     "@types/whatwg-fetch": "^0.0.33",
     "chai": "^4.3.4",
-    "jest": "^27.0.5",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.6.4",
+    "typescript": "^4.8",
     "whatwg-fetch": "^3.6.2"
   },
   "files": [

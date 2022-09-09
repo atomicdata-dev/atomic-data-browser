@@ -1,4 +1,4 @@
-import { useResource, useTitle } from '@tomic/react';
+import { urls, useResource, useString, useTitle } from '@tomic/react';
 import React, { useCallback } from 'react';
 import { FaEllipsisV, FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { paths } from '../../../routes/paths';
 import { Button } from '../../Button';
 import { buildDefaultTrigger } from '../../Dropdown/DefaultTrigger';
 import ResourceContextMenu from '../../ResourceContextMenu';
+import { sideBarChildBlacklist } from './sidebarChildBlacklist';
 
 export interface FloatingActionsProps {
   subject: string;
@@ -29,21 +30,26 @@ export function FloatingActions({
   const parentResource = useResource(subject);
   const parentName = useTitle(parentResource);
 
-  const handleClick = useCallback(() => {
+  const [classType] = useString(parentResource, urls.properties.isA);
+  const showAddButton = !sideBarChildBlacklist.has(classType);
+
+  const handleAddClick = useCallback(() => {
     const url = buildURL(subject);
     navigate(url);
   }, [subject]);
 
   return (
     <Wrapper className={className}>
-      <SideBarButton
-        icon
-        subtle
-        onClick={handleClick}
-        title={`Create new resource under ${parentName}`}
-      >
-        <FaPlus />
-      </SideBarButton>
+      {showAddButton && (
+        <SideBarButton
+          icon
+          subtle
+          onClick={handleAddClick}
+          title={`Create new resource under ${parentName}`}
+        >
+          <FaPlus />
+        </SideBarButton>
+      )}
       <ResourceContextMenu
         simple
         subject={subject}

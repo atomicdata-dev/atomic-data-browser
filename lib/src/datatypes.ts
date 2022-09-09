@@ -182,10 +182,10 @@ export function isArray(val: JSONValue): val is [] {
   return Object.prototype.toString.call(val) === '[object Array]';
 }
 
-function isString(val: JSONValue): val is string {
+export function isString(val: JSONValue): val is string {
   return typeof val === 'string';
 }
 
-function isNumber(val: JSONValue): val is number {
+export function isNumber(val: JSONValue): val is number {
   return typeof val === 'number';
 }

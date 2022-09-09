@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface DropdownTriggerProps {
   onClick: (event: React.MouseEvent) => void;
+  menuId: string;
   isActive: boolean;
 }
 

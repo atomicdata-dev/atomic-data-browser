@@ -5,10 +5,11 @@ import { DropdownTriggerRenderFunction } from '../Dropdown/DropdownTrigger';
 import { shortcuts } from '../HotKeyWrapper';
 
 export const MenuBarDropdownTrigger: DropdownTriggerRenderFunction = (
-  { onClick, isActive },
+  { onClick, isActive, menuId },
   ref,
 ) => (
   <ButtonBar
+    aria-controls={menuId}
     selected={isActive}
     ref={ref}
     title={`Open menu (${shortcuts.menu})`}

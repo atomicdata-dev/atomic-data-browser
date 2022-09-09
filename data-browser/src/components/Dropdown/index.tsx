@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useId, useMemo, useRef, useState } from 'react';
 import { useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import styled from 'styled-components';
@@ -23,6 +23,7 @@ export function DropdownMenu({
   items,
   trigger,
 }: DropdownMenuProps): JSX.Element {
+  const menuId = useId();
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -149,8 +150,9 @@ export function DropdownMenu({
         ref={triggerRef}
         onClick={handleTriggerClick}
         isActive={isActive}
+        menuId={menuId}
       />
-      <Menu ref={dropdownRef} isActive={isActive} x={x} y={y}>
+      <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
         {items.map(
           ({ label, onClick, helper, id, disabled, shortcut, icon }, i) => (
             <MenuItem
@@ -158,6 +160,7 @@ export function DropdownMenu({
                 handleClose();
                 onClick();
               }}
+              data-test={label}
               disabled={disabled}
               key={id}
               helper={shortcut ? `${helper} (${shortcut})` : helper}
@@ -206,6 +209,7 @@ export function MenuItem({
   shortcut,
   icon,
   label,
+  ...props
 }: MenuItemPropsExtended): JSX.Element {
   return (
     <MenuItemStyled
@@ -214,6 +218,7 @@ export function MenuItem({
       selected={selected}
       title={helper}
       disabled={disabled}
+      {...props}
     >
       {icon}
       <StyledLabel>{label}</StyledLabel>

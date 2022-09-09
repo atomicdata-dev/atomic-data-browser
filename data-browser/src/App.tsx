@@ -20,6 +20,7 @@ import { AppSettingsContextProvider } from './helpers/AppSettings';
 import CrashPage from './views/CrashPage';
 import toast from 'react-hot-toast';
 import { DialogContainer } from './components/Dialog/DialogContainer';
+import { registerHandlers } from './handlers';
 
 /** Initialize the store */
 const store = new Store();
@@ -55,11 +56,12 @@ agent && store.setAgent(agent);
 store.fetchResource(urls.properties.getAll);
 store.fetchResource(urls.classes.getAll);
 
+// Register global event handlers.
+registerHandlers(store);
+
 if (isDev()) {
   // You can access the Store from your console in dev mode!
   window.store = store;
-} else {
-  // These only apply in production
 }
 
 /** Entrypoint of the application. This is where providers go. */
