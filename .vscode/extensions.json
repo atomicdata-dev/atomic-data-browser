@@ -3,6 +3,7 @@
     "sakamoto66.vscode-playwright-test-runner",
     "ms-vscode.vscode-typescript-next",
     "dbaeumer.vscode-eslint",
-    "antfu.vite"
+    "antfu.vite",
+    "ms-playwright.playwright"
   ]
 }

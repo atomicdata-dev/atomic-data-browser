@@ -1,3 +1,4 @@
+import { urls } from './../../lib/src/urls';
 // This file is copied from `atomic-data-browser` to `atomic-data-server` when `yarn build-server` is run.
 // This is why the `testConfig` is imported.
 
@@ -138,24 +139,30 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=Copied')).toBeVisible();
   });
 
-  test('localhost setup, create document, edit, page title, websockets', async ({
-    page,
-    browser,
-  }) => {
-    // Setup initial user (this test can only be run once per server)
-    await page.click('[data-test="sidebar-drive-open"]');
-    await expect(page.locator('text=/setup')).toBeVisible();
-    // Don't click on setup - this will take you to a different domain, not to the dev build!
-    // await page.click('text=/setup');
-    await openSubject(page, `${serverUrl}/setup`);
-    await signIn(page);
-
+  test('localhost /setup', async ({ page }) => {
     if (initialTest) {
+      // Setup initial user (this test can only be run once per server)
+      await page.click('[data-test="sidebar-drive-open"]');
+      await expect(page.locator('text=/setup')).toBeVisible();
+      // Don't click on setup - this will take you to a different domain, not to the dev build!
+      // await page.click('text=/setup');
+      await openSubject(page, `${serverUrl}/setup`);
       await expect(page.locator('text=Accept as')).toBeVisible();
       // await page.click('[data-test="accept-existing"]');
       await page.click('text=Accept as Test');
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('Skipping `/setup` test...');
     }
+  });
 
+  test('create document, edit, page title, websockets', async ({
+    page,
+    browser,
+  }) => {
+    await signIn(page);
+    await newDrive(page);
+    await makeDrivePublic(page);
     // Create a document
     await newResource('document', page);
     // commit for saving initial document
@@ -163,7 +170,7 @@ test.describe('data-browser', async () => {
     // commit for initializing the first element (paragraph)
     await page.waitForResponse(`${serverUrl}/commit`);
     await page.click(editableTitle);
-    const title = `Nice title ${timestamp()}`;
+    const title = `Document ${timestamp()}`;
     // These keys make sure the onChange handler is properly called
     await page.keyboard.press('Space');
     await page.keyboard.press('Backspace');
@@ -249,9 +256,10 @@ test.describe('data-browser', async () => {
 
   test('upload, download', async ({ page }) => {
     await signIn(page);
-    await page.goto(
-      `${frontEndUrl}/app/edit?subject=http%3A%2F%2Flocalhost%3A9883%2Ffiles`,
-    );
+    await newDrive(page);
+    // add attachment to drive
+    await page.click(contextMenu);
+    await page.locator('[data-test="edit"]').click();
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),
       page.click('button:has-text("Upload file")'),
@@ -318,9 +326,22 @@ test.describe('data-browser', async () => {
   test('form validation', async ({ page }) => {
     await signIn(page);
     await newResource('class', page);
+    // Try entering a wrong slug
     await page.click('[data-test="input-shortname"]');
-    await page.keyboard.type('in valid');
+    await page.keyboard.type('not valid');
     await expect(page.locator('text=Not a valid slug')).toBeVisible();
+    // Add a new property
+    await page.click(
+      '[placeholder="Select a property or enter a property URL..."]',
+    );
+    await page.keyboard.type(urls.properties.invite.usagesLeft);
+    await page.keyboard.press('Enter');
+    await page.click('[title="Add this property"]');
+    await expect(page.locator('text=usages-left')).toBeVisible();
+    // Integer validation
+    await page.click('[data-test="input-usages-left"]');
+    await page.keyboard.type('asdf' + '1');
+    await expect(page.locator('text=asdf')).not.toBeVisible();
   });
 
   test('dialog', async ({ page }) => {
@@ -398,6 +419,16 @@ async function newDrive(page: Page) {
   await page.fill(editableTitle, driveTitle);
 
   return { driveURL: driveURL as string, driveTitle };
+}
+
+async function makeDrivePublic(page) {
+  await page.click(currentDriveTitle);
+  await page.click(contextMenu);
+  await page.click('button:has-text("share")');
+  await expect(await page.isChecked(publicReadRight)).toBe(false);
+  await page.click(publicReadRight);
+  await page.locator('text=Save').click();
+  await expect(await page.locator('text="Share settings saved"')).toBeVisible();
 }
 
 /** Set localhost as current server */
