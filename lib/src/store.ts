@@ -14,13 +14,24 @@ import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
 type Callback = (resource: Resource) => void;
 
 export enum StoreEvents {
+  /**
+   * Whenever `Resource.save()` is called, so only when the user of this library
+   * performs a save action.
+   */
   ResourceSaved = 'resource-saved',
+  /** User perform a Remove action */
   ResourceRemoved = 'resource-removed',
+  /**
+   * User explicitly created a Resource through a conscious action, e.g. through
+   * the SideBar.
+   */
+  ResourceManuallyCreated = 'resource-manually-created',
 }
 
 type StoreEventHandlers = {
   [StoreEvents.ResourceSaved]: (resource: Resource) => void;
   [StoreEvents.ResourceRemoved]: (resource: Resource) => void;
+  [StoreEvents.ResourceManuallyCreated]: (resource: Resource) => void;
 };
 
 /**
@@ -338,6 +349,10 @@ export class Store {
 
   public notifyResourceSaved(resource: Resource): void {
     this.eventManager.emit(StoreEvents.ResourceSaved, resource);
+  }
+
+  public notifyResourceManuallyCreated(resource: Resource): void {
+    this.eventManager.emit(StoreEvents.ResourceManuallyCreated, resource);
   }
 
   /** Removes (destroys / deletes) resource from this store */

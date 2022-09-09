@@ -5,7 +5,10 @@ import {
 } from './sideBarHandler';
 
 export function registerHandlers(store: Store) {
-  store.on(StoreEvents.ResourceSaved, buildSideBarNewResourceHandler(store));
+  store.on(
+    StoreEvents.ResourceManuallyCreated,
+    buildSideBarNewResourceHandler(store),
+  );
   store.on(
     StoreEvents.ResourceRemoved,
     buildSideBarRemoveResourceHandler(store),
