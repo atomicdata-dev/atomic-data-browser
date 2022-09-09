@@ -7,9 +7,7 @@ export function buildSideBarNewResourceHandler(store: Store) {
     const parentSubject = resource.get(urls.properties.parent);
 
     if (!isString(parentSubject)) {
-      console.warn('Invalid parent type');
-
-      return;
+      throw new Error("Resource doesn't have a parent");
     }
 
     const parent = await store.getResourceAsync(parentSubject);
@@ -19,7 +17,12 @@ export function buildSideBarNewResourceHandler(store: Store) {
       return;
     }
 
-    parent.pushPropVal(urls.properties.subResources, resource.getSubject());
+    await parent.pushPropVal(
+      urls.properties.subResources,
+      resource.getSubject(),
+    );
+
+    await parent.save(store);
   };
 }
 
@@ -29,9 +32,7 @@ export function buildSideBarRemoveResourceHandler(store: Store) {
     const parentSubject = resource.get(urls.properties.parent);
 
     if (!isString(parentSubject)) {
-      console.warn('Invalid parent type');
-
-      return;
+      throw new Error("Resource doesn't have a parent");
     }
 
     const parent = await store.getResourceAsync(parentSubject);

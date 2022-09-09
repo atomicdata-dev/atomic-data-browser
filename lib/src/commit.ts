@@ -111,6 +111,8 @@ export class CommitBuilder {
       pushSet.add(value);
     }
 
+    this._push.set(property, pushSet);
+
     return this;
   }
 
@@ -413,10 +415,9 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
     resource = new Resource(subject);
   } else {
     // Commit has already been applied here, ignore the commit
-    // TEMP DISABLE
-    // if (resource.appliedCommitSignatures.has(signature)) {
-    //   return;
-    // }
+    if (resource.appliedCommitSignatures.has(signature)) {
+      return;
+    }
   }
 
   if (set) {

@@ -48,6 +48,7 @@ export function useCreateAndNavigate(klass: string, parent: string) {
         await resource.save(store);
         navigate(constructOpenURL(subject, extraParams));
         toast.success(`${title} created`);
+        store.notifyResourceManuallyCreated(resource);
       } catch (e) {
         store.handleError(e);
       }
