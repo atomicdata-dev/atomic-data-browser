@@ -47,6 +47,7 @@ export function SideBar(): JSX.Element {
       <SideBarStyled
         ref={mountRefs}
         size={size}
+        data-test='sidebar'
         locked={isWideScreen && sideBarLocked}
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen)}
       >

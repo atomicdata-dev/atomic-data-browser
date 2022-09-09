@@ -43,7 +43,7 @@ test.describe('data-browser', async () => {
     await openLocalhost(page);
   });
 
-  test('sidebar', async ({ page }) => {
+  test('sidebar mobile', async ({ page }) => {
     await page.setViewportSize({ width: 500, height: 800 });
     await page.reload();
     // TODO: this keeps hanging. How do I make sure something is _not_ visible?
@@ -342,6 +342,20 @@ test.describe('data-browser', async () => {
     await page.click('[data-test="input-usages-left"]');
     await page.keyboard.type('asdf' + '1');
     await expect(page.locator('text=asdf')).not.toBeVisible();
+  });
+
+  test('sidebar subresource', async ({ page }) => {
+    await signIn(page);
+    await newDrive(page);
+    await newResource('importer', page);
+    await expect(
+      page.locator('[data-test="sidebar"] >> text=:9883/importer'),
+    ).toBeVisible();
+    await page.reload();
+    await expect(
+      page.locator('[data-test="sidebar"] >> text=:9883/importer'),
+    ).toBeVisible();
+    // TODO: should open the sidebar resource, highlight current one
   });
 
   test('dialog', async ({ page }) => {
