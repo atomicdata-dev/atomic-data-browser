@@ -1,7 +1,7 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.25.2",
     "@esm-bundle/chai": "4.3.4",
+    "@playwright/test": "^1.25.2",
     "@testing-library/react": "12.1.2",
     "@types/chai": "^4.2.22",
     "@types/jest": "^27.0.2",
