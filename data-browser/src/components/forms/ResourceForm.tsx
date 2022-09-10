@@ -10,6 +10,7 @@ import {
   urls,
   useDebounce,
   useCanWrite,
+  isValidURL,
 } from '@tomic/react';
 import styled from 'styled-components';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
@@ -86,9 +87,11 @@ export function ResourceForm({
     const allProps = Array.from(resource.getPropVals().keys());
 
     const prps = allProps.filter(prop => {
-      // If a property does not exist in requires or recommends, add it to otherprops
+      // If a property does not exist in other rendered lists, add it to otherprops
       const propIsNotRenderedYet = !(
-        requires.includes(prop) || recommends.includes(prop)
+        requires.includes(prop) ||
+        recommends.includes(prop) ||
+        tempOtherProps.includes(prop)
       );
 
       // Non essential properties are not very useful in most cases, only show them if explicitly set
@@ -125,6 +128,12 @@ export function ResourceForm({
 
   function handleAddProp() {
     setNewPropErr(null);
+
+    if (!isValidURL(newProperty)) {
+      setNewPropErr(new Error('Invalid URL'));
+
+      return;
+    }
 
     if (
       tempOtherProps.includes(newProperty) ||
@@ -205,12 +214,12 @@ export function ResourceForm({
             setSubject={(set, _setNewPropErr) => {
               setNewProperty(set);
             }}
-            // TODO error handling
             error={newPropErr}
             setError={setNewPropErr}
             classType={urls.classes.property}
           />
         </PropertyAdder>
+        {newPropErr && <ErrMessage>{newPropErr.message}</ErrMessage>}
       </Field>
       <UploadForm parentResource={resource} />
       <Gutter />
