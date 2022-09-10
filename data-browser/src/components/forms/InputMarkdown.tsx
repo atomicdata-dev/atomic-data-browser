@@ -17,36 +17,18 @@ export default function InputMarkdown({
   });
   const { darkMode } = useSettings();
 
-  // Since Yamde always sets the required attribute we have to remove it when we don't want it.
-  // Should not be needed anymore with https://github.com/AdrianApan/yamde/pull/8
-  const removeRequiredRef = useCallback(
-    (el: HTMLDivElement) => {
-      if (!el) {
-        return;
-      }
-
-      const textArea = el.querySelector('textarea');
-
-      if (!props.required) {
-        textArea.removeAttribute('required');
-      }
-    },
-    [props.required],
-  );
-
   return (
     <>
       <InputWrapper>
-        <RemoveRequiredWrapper ref={removeRequiredRef}>
-          <YamdeStyling>
-            <Yamde
-              value={value ? value : ''}
-              handler={e => setVale(e)}
-              theme={darkMode ? 'dark' : 'light'}
-              {...props}
-            />
-          </YamdeStyling>
-        </RemoveRequiredWrapper>
+        <YamdeStyling>
+          <Yamde
+            value={value ? value : ''}
+            handler={e => setVale(e)}
+            theme={darkMode ? 'dark' : 'light'}
+            required={false}
+            {...props}
+          />
+        </YamdeStyling>
         {/* <TextAreaStyled rows={3} value={value === null ? '' : value} onChange={handleUpdate} required={required} autoFocus={autoFocus} /> */}
       </InputWrapper>
       {value !== '' && err && <ErrMessage>{err.message}</ErrMessage>}
@@ -54,10 +36,6 @@ export default function InputMarkdown({
     </>
   );
 }
-
-const RemoveRequiredWrapper = styled.div`
-  display: contents;
-`;
 
 const YamdeStyling = styled.div`
   display: flex;
