@@ -3091,7 +3091,7 @@ __metadata:
     styled-components: ^5.3.3
     types-wm: ^1.1.0
     workbox-cli: ^6.4.1
-    yamde: ^1.5.0
+    yamde: ^1.7.1
   languageName: unknown
   linkType: soft
 
@@ -14246,14 +14246,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yamde@npm:^1.5.0":
-  version: 1.6.1
-  resolution: "yamde@npm:1.6.1"
+"yamde@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "yamde@npm:1.7.1"
   dependencies:
     "@ant-design/icons": ^4.6.2
     react-jss: ^10.6.0
     showdown: ^1.9.1
-  checksum: ee5115355daee39f5d2254cc37843369e7d88517e2f861eab9a258798915a4dc8070e6cf61e60ea771c03ff9c23de3888815ed1d0ea805de096a872e14ad188e
+  checksum: edbe01d42a425d8aed2d85fa7bba4ec717d0567691ca82c37dc7e5156a63496ae6dacff8d3f9d4efa7bbc8aa8735e3e90ca8030af8e26f0ad36efda0db4a626f
   languageName: node
   linkType: hard
 

@@ -27,7 +27,7 @@
     "react-router-dom": "^6.0.0",
     "remark-gfm": "^3.0.1",
     "styled-components": "^5.3.3",
-    "yamde": "^1.5.0"
+    "yamde": "^1.7.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.25.2",
