@@ -77,7 +77,7 @@ export const datatypeFromUrl = (url: string): Datatype => {
 
 const slug_regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 // https://stackoverflow.com/a/22061879/2502163
-const dateStringRegex = /^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+const dateStringRegex = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 
 export interface ArrayError extends Error {
   index?: number;
@@ -164,6 +164,9 @@ export const validateDatatype = (
         err = 'Not a string';
         break;
       }
+
+      console.log(value);
+      console.log(value.match(dateStringRegex));
 
       if (value.match(dateStringRegex) === null) {
         err = 'Not a date string: YYYY-MM-DD';
