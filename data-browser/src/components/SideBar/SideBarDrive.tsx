@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import { useSettings } from '../../helpers/AppSettings';
 import { constructOpenURL } from '../../helpers/navigation';
 import { paths } from '../../routes/paths';
-import { ErrorLook } from '../../views/ResourceInline';
 import { Button } from '../Button';
 import { ResourceSideBar } from './ResourceSideBar/ResourceSideBar';
 import { SignInButton } from '../SignInButton';
 import { SideBarHeader } from './SideBarHeader';
 import { shortcuts } from '../HotKeyWrapper';
+import { ErrorLook } from '../ErrorLook';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */

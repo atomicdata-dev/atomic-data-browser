@@ -8,16 +8,16 @@ import {
 
 import AllProps from '../components/AllProps';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink from '../components/AtomicLink';
+import { AtomicLink } from '../components/AtomicLink';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { PropValRow, PropertyLabel } from '../components/PropVal';
 import { Button } from '../components/Button';
 import { ErrMessage } from '../components/forms/InputStyles';
 import { useSettings } from '../helpers/AppSettings';
 import { CodeBlock } from '../components/CodeBlock';
-import { ErrorLook } from '../views/ResourceInline';
 import { Title } from '../components/Title';
 import { Row } from '../components/Row';
+import { ErrorLook } from '../components/ErrorLook';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {

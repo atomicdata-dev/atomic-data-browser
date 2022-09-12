@@ -12,11 +12,12 @@ import {
 import { ButtonInput, Button } from '../components/Button';
 import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
-import ResourceInline, { ErrorLook } from '../views/ResourceInline';
+import { ResourceInline } from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
-import AtomicLink from '../components/AtomicLink';
+import { AtomicLink } from '../components/AtomicLink';
 import { editURL } from '../helpers/navigation';
 import { useNavigate } from 'react-router';
+import { ErrorLook } from '../components/ErrorLook';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();

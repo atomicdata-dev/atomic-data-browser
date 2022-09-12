@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InputProps } from './ResourceField';
 import { noNestedSupport, useSubject } from '@tomic/react';
 import { ResourceSelector } from './ResourceSelector';
-import { ErrorLook } from '../../views/ResourceInline';
+import { ErrorLook } from '../ErrorLook';
 
 /** Input field for a single Resource. Renders a dropdown select menu. */
 export function InputResource({

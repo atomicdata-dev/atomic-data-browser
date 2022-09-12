@@ -1,9 +1,9 @@
 import { useProperty, truncateUrl, Resource } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
-import AtomicLink from './AtomicLink';
+import { AtomicLink } from './AtomicLink';
+import { ErrorLook } from './ErrorLook';
 import { ValueForm } from './forms/ValueForm';
-import { ErrorLook } from '../views/ResourceInline';
 import ValueComp from './ValueComp';
 
 type Props = {

@@ -29,7 +29,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
 import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';

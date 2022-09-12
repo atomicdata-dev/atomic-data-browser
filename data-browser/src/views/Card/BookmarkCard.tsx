@@ -1,12 +1,12 @@
 import { urls, useString, useTitle } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
-import AtomicLink from '../../components/AtomicLink.jsx';
-import Markdown from '../../components/datatypes/Markdown.jsx';
+import { AtomicLink } from '../../components/AtomicLink';
+import Markdown from '../../components/datatypes/Markdown';
 import {
   ExternalLink,
   ExternalLinkVariant,
-} from '../../components/ExternalLink.jsx';
+} from '../../components/ExternalLink';
 import { CardViewProps } from './ResourceCard';
 
 export function BookmarkCard({ resource }: CardViewProps): JSX.Element {

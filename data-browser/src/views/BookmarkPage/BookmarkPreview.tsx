@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ContainerNarrow } from '../../components/Containers.jsx';
 import Markdown from '../../components/datatypes/Markdown.jsx';
-import { ErrorLook } from '../ResourceInline';
+import { ErrorLook } from '../../components/ErrorLook';
 
 export interface BookmarkPreviewProps {
   preview: string;

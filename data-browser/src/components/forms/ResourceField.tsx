@@ -6,7 +6,7 @@ import Field from './Field';
 import Markdown from '../datatypes/Markdown';
 import { InputWrapper, InputStyled } from './InputStyles';
 import InputSwitcher from './InputSwitcher';
-import AtomicLink from '../AtomicLink';
+import { AtomicLink } from '../AtomicLink';
 import { useState } from 'react';
 import { Button } from '../Button';
 

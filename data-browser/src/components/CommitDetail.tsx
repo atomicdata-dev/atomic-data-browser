@@ -1,9 +1,9 @@
 import React from 'react';
 import { properties, useDate, useResource, useString } from '@tomic/react';
-import ResourceInline from '../views/ResourceInline';
+import { ResourceInline } from '../views/ResourceInline';
 import { Detail } from './Detail';
 import DateTime from './datatypes/DateTime';
-import AtomicLink from './AtomicLink';
+import { AtomicLink } from './AtomicLink';
 
 type Props = {
   commitSubject?: string;

@@ -12,10 +12,11 @@ import {
 import styled, { css } from 'styled-components';
 import { useHotkeys } from 'react-hotkeys-hook';
 
-import ResourceInline, { ErrorLook } from './ResourceInline';
+import { ResourceInline } from './ResourceInline';
 import Markdown from '../components/datatypes/Markdown';
 import ResourceCard from './Card/ResourceCard';
 import { shortcuts } from '../components/HotKeyWrapper';
+import { ErrorLook } from '../components/ErrorLook';
 
 interface ElementShowProps {
   subject: string;

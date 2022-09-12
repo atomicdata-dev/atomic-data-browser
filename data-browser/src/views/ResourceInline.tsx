@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {
   useString,
   useResource,
@@ -7,7 +6,8 @@ import {
   urls,
   isValidURL,
 } from '@tomic/react';
-import AtomicLink from '../components/AtomicLink';
+import { AtomicLink } from '../components/AtomicLink';
+import { ErrorLook } from '../components/ErrorLook';
 
 type Props = {
   subject: string;
@@ -15,7 +15,7 @@ type Props = {
 };
 
 /** Renders a Resource in a compact, inline link. Shows tooltip on hover. */
-function ResourceInline({ subject, untabbable }: Props): JSX.Element {
+export function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
@@ -52,10 +52,3 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
     </AtomicLink>
   );
 }
-
-export const ErrorLook = styled.span`
-  color: ${props => props.theme.colors.alert};
-  font-family: monospace;
-`;
-
-export default ResourceInline;

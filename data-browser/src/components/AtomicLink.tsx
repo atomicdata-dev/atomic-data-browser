@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { constructOpenURL, pathToURL } from '../helpers/navigation';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { ErrorLook } from '../views/ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 import { isRunningInTauri } from '../helpers/tauri';
 
 export interface AtomicLinkProps {
@@ -100,14 +100,14 @@ export const AtomicLink = ({
   );
 };
 
-type Proppies = {
+type LinkViewProps = {
   disabled?: boolean;
   /** Minimal styling applied */
   clean?: boolean;
 };
 
 /** Look clickable, should be used for opening things only - not interactions. */
-export const LinkView = styled.a<Proppies>`
+export const LinkView = styled.a<LinkViewProps>`
   color: ${props =>
     props.disabled ? props.theme.colors.text : props.theme.colors.main};
   text-decoration: none;
@@ -127,5 +127,3 @@ export const LinkView = styled.a<Proppies>`
     color: ${props => props.theme.colors.mainDark};
   }
 `;
-
-export default AtomicLink;

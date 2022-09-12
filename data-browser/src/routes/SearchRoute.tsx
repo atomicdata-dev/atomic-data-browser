@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { constructOpenURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../views/Card/ResourceCard';
 import { useServerSearch } from '@tomic/react';
-import { ErrorLook } from '../views/ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 
 /** Full text search route */
 export function Search(): JSX.Element {

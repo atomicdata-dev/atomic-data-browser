@@ -9,10 +9,10 @@ import {
   urls,
 } from '@tomic/react';
 import AllProps from '../../components/AllProps';
-import AtomicLink from '../../components/AtomicLink';
+import { AtomicLink } from '../../components/AtomicLink';
 import { Card } from '../../components/Card';
 import CollectionCard from './CollectionCard';
-import { ErrorLook } from '../ResourceInline';
+import { ErrorLook } from '../../components/ErrorLook';
 import { ValueForm } from '../../components/forms/ValueForm';
 import FileCard from './FileCard';
 import { defaultHiddenProps } from '../ResourcePageDefault';

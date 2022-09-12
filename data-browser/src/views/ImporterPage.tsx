@@ -10,7 +10,7 @@ import {
   TextAreaStyled,
 } from '../components/forms/InputStyles.jsx';
 import ResourceCard from './Card/ResourceCard';
-import { ErrorLook } from './ResourceInline.jsx';
+import { ErrorLook } from '../components/ErrorLook';
 import { ResourcePageProps } from './ResourcePage';
 
 /** Importer Resource for uploading JSON-AD * */

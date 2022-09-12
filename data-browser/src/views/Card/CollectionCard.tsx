@@ -2,9 +2,9 @@ import { useArray, useString, useTitle, properties } from '@tomic/react';
 import React, { useState } from 'react';
 
 import Markdown from '../../components/datatypes/Markdown';
-import AtomicLink from '../../components/AtomicLink';
+import { AtomicLink } from '../../components/AtomicLink';
 import { CardInsideFull, CardRow } from '../../components/Card';
-import ResourceInline from '../ResourceInline';
+import { ResourceInline } from '../ResourceInline';
 import { CardViewProps } from './ResourceCard';
 import { Button } from '../../components/Button';
 

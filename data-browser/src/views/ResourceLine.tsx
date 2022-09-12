@@ -1,6 +1,7 @@
 import React from 'react';
 import { urls, useString, useResource, useTitle } from '@tomic/react';
-import ResourceInline, { ErrorLook } from './ResourceInline';
+import { ResourceInline } from './ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 
 type Props = {
   subject: string;

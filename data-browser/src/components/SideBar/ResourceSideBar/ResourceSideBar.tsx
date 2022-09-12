@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useString, useResource, useTitle, urls, useArray } from '@tomic/react';
-import { ErrorLook } from '../../../views/ResourceInline';
 import { useCurrentSubject } from '../../../helpers/useCurrentSubject';
 import { SideBarItem } from '../SideBarItem';
-import AtomicLink from '../../AtomicLink';
+import { AtomicLink } from '../../AtomicLink';
 import styled from 'styled-components';
 import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
+import { ErrorLook } from '../../ErrorLook';
 
 interface ResourceSideBarProps {
   subject: string;
