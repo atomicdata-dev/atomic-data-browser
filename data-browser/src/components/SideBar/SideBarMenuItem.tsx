@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AtomicLink, { AtomicLinkProps } from '../AtomicLink';
+import { AtomicLink, AtomicLinkProps } from '../AtomicLink';
 import { SideBarItem } from './SideBarItem';
 
 export interface SideBarMenuItemProps extends AtomicLinkProps {

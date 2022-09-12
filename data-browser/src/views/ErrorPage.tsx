@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { isUnauthorized, useStore } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 import { Button } from '../components/Button';
 import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Resource } from '@tomic/react';
 
 import { ContainerNarrow } from '../components/Containers';
-import { ErrorLook } from './ResourceInline';
+import { ErrorLook } from '../components/ErrorLook';
 import { Button } from '../components/Button';
 
 type ErrorPageProps = {

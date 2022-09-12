@@ -27,11 +27,12 @@ import ResourceCard from './Card/ResourceCard';
 import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
-import Link from '../components/AtomicLink';
+import { AtomicLink } from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
 import { useEffectOnce } from '../hooks/useEffectOnce';
 import { Row } from '../components/Row';
 import { EditableTitle } from '../components/EditableTitle';
+import Markdown from '../components/datatypes/Markdown';
 
 const displayStyles = [
   {
@@ -200,9 +201,9 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
       </ButtonsBar>
       {showClassDescription && valueFilter && (
         <>
-          <Link subject={valueFilter}>
+          <AtomicLink subject={valueFilter}>
             <h3>{classTitle}</h3>
-          </Link>
+          </AtomicLink>
           <Markdown text={classDescription || ''} />
         </>
       )}

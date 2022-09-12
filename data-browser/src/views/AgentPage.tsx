@@ -3,7 +3,7 @@ import { useArray, useTitle, properties } from '@tomic/react';
 
 import { ContainerNarrow } from '../components/Containers';
 import { CardRow } from '../components/Card';
-import ResourceInline from './ResourceInline';
+import { ResourceInline } from './ResourceInline';
 import { ValueForm } from '../components/forms/ValueForm';
 import { ResourcePageProps } from './ResourcePage';
 

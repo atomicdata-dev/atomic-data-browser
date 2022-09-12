@@ -15,14 +15,14 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCopy, FaLink, FaPencilAlt, FaReply, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import AtomicLink from '../components/AtomicLink';
+import { AtomicLink } from '../components/AtomicLink';
 import { Button } from '../components/Button';
 import { CommitDetail } from '../components/CommitDetail';
 import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
 import { editURL } from '../helpers/navigation';
-import ResourceInline from './ResourceInline';
+import { ResourceInline } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
 
 /** Full page ChatRoom that shows a message list and a form to add Messages. */

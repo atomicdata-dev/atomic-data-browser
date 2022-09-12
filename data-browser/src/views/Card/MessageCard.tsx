@@ -3,7 +3,7 @@ import React from 'react';
 import { CommitDetail } from '../../components/CommitDetail';
 import Markdown from '../../components/datatypes/Markdown';
 import { Detail, Details } from '../../components/Detail';
-import ResourceInline from '../ResourceInline';
+import { ResourceInline } from '../ResourceInline';
 import { ResourcePageProps } from '../ResourcePage';
 
 /** Card Message view that shows parent */

@@ -4,7 +4,7 @@ import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { Hit, useLocalSearch } from '../../helpers/useLocalSearch';
 import { ButtonInput } from '../Button';
-import ResourceInline from '../../views/ResourceInline';
+import { ResourceInline } from '../../views/ResourceInline';
 import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
 import ResourceLine from '../../views/ResourceLine';
 import { useCallback } from 'react';
@@ -149,9 +149,9 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
         <InputWrapper>
           <ResourceInputOverlayWrapper>
             {selectedItem && !isFocus && (
-              <InputOverlay>
+              <StyledInputOverlay>
                 <ResourceInline subject={selectedItem} untabbable />
-              </InputOverlay>
+              </StyledInputOverlay>
             )}
             <InputStyled
               onFocus={handleFocus}
@@ -465,4 +465,15 @@ export const DropDownMini = styled.div`
 const NewItemName = styled.span`
   font-style: italic;
   margin-left: 1ch;
+`;
+
+const StyledInputOverlay = styled(InputOverlay)`
+  a {
+    width: 100%;
+    height: 2rem;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;

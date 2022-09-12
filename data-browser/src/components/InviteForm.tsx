@@ -8,7 +8,7 @@ import {
 } from '@tomic/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { ErrorLook } from '../views/ResourceInline';
+import { ErrorLook } from './ErrorLook';
 import { Button } from './Button';
 import { Card } from './Card';
 import { CodeBlock } from './CodeBlock';

@@ -1,13 +1,14 @@
 import { ArrayError, urls } from '@tomic/react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
-import { ErrMessage } from './InputStyles';
+import { ErrMessage, InputWrapper } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 import { Dialog, useDialog } from '../Dialog';
 import { DialogTreeContext } from '../Dialog/dialogContext';
 import { NewFormDialog } from './NewForm';
 import { useCallback } from 'react';
 import { useSettings } from '../../helpers/AppSettings';
+import styled from 'styled-components';
 
 interface ResourceSelectorProps {
   /**
@@ -109,7 +110,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   }
 
   return (
-    <div style={{ flex: '1' }}>
+    <Wrapper>
       <DropdownInput
         placeholder={placeholder}
         required={required}
@@ -143,7 +144,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         </Dialog>
       )}
       {required && value === '' && <ErrMessage>Required</ErrMessage>}
-    </div>
+    </Wrapper>
   );
 });
 
@@ -164,3 +165,25 @@ export function getCollectionURL(classtypeUrl?: string): string | undefined {
       return undefined;
   }
 }
+
+const Wrapper = styled.div`
+  flex: 1;
+  --radius: ${props => props.theme.radius};
+  ${InputWrapper} {
+    border-radius: 0;
+  }
+
+  &:first-of-type ${InputWrapper} {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+  }
+
+  &:last-of-type ${InputWrapper} {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+  }
+
+  &:not(:last-of-type) ${InputWrapper} {
+    border-bottom: none;
+  }
+`;

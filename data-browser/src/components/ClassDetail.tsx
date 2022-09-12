@@ -1,6 +1,6 @@
 import React from 'react';
 import { properties, Resource, useString } from '@tomic/react';
-import ResourceInline from '../views/ResourceInline';
+import { ResourceInline } from '../views/ResourceInline';
 import { Detail } from './Detail';
 
 type Props = {

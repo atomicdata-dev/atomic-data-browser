@@ -9,7 +9,7 @@ import {
 } from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import ResourceInline, { ErrorLook } from '../views/ResourceInline';
+import { ResourceInline } from '../views/ResourceInline';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import { FaGlobe } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -19,6 +19,7 @@ import toast from 'react-hot-toast';
 import { Title } from '../components/Title';
 import { constructOpenURL } from '../helpers/navigation';
 import { useNavigate } from 'react-router-dom';
+import { ErrorLook } from '../components/ErrorLook';
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {

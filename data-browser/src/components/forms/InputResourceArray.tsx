@@ -6,6 +6,8 @@ import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import { FaPlus } from 'react-icons/fa';
+import { Row } from '../Row';
+import styled from 'styled-components';
 
 export default function InputResourceArray({
   resource,
@@ -49,37 +51,51 @@ export default function InputResourceArray({
 
     return undefined;
   }
+  }
+
+  function errMaybe(index: number) {
+    if (err && err.index === index) {
+      return err;
+    }
+
+    return undefined;
+  }
 
   return (
-    <>
-      {array.map((subject, index) => (
-        <ResourceSelector
-          key={`${property.subject}${index}`}
-          value={subject}
-          setSubject={(set, handleErr) =>
-            handleSetSubject(set, handleErr, index)
-          }
-          error={errMaybe(index)}
-          setError={setErr}
-          classType={property.classType}
-          handleRemove={() => handleRemove(index)}
-          parent={resource.getSubject()}
-          {...props}
-          autoFocus={lastIsNew && index === array.length - 1}
-        />
-      ))}
-      <Button
+    <Row direction='column'>
+      <div>
+        {array.map((subject, index) => (
+          <ResourceSelector
+            key={`${property.subject}${index}`}
+            value={subject}
+            setSubject={(set, handleErr) =>
+              handleSetSubject(set, handleErr, index)
+            }
+            error={errMaybe(index)}
+            setError={setErr}
+            classType={property.classType}
+            handleRemove={() => handleRemove(index)}
+            parent={resource.getSubject()}
+            {...props}
+            autoFocus={lastIsNew && index === array.length - 1}
+          />
+        ))}
+      </div>
+      <NewButton
         disabled={props.disabled}
         title='Add an item to this list'
         data-test={`input-${property.shortname}-add-resource`}
         subtle
         type='button'
         onClick={handleAdd}
-        style={{ marginBottom: '-1rem' }}
       >
         <FaPlus />
-      </Button>
+      </NewButton>
       {err?.index === undefined && <ErrMessage>{err?.message}</ErrMessage>}
-    </>
+    </Row>
   );
 }
+
+const NewButton = styled(Button)`
+  align-self: flex-start;
+`;
