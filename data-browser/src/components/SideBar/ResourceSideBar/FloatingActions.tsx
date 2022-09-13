@@ -44,6 +44,7 @@ export function FloatingActions({
         <SideBarButton
           icon
           subtle
+          data-test='add-subresource'
           onClick={handleAddClick}
           title={`Create new resource under ${parentName}`}
         >

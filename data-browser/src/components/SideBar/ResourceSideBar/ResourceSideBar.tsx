@@ -11,7 +11,12 @@ import { sideBarChildBlacklist } from './sidebarChildBlacklist';
 
 interface ResourceSideBarProps {
   subject: string;
+  /** When a SideBar item is clicked, we should close the SideBar (on mobile devices) */
   handleClose?: () => unknown;
+  /**
+   * Is called when any of the subResources is the CurrentURL. This is used to
+   * recursively open the sidebar menus when the user opens a resource.
+   */
   onOpen?: (open: boolean) => void;
 }
 
@@ -49,10 +54,10 @@ export function ResourceSideBar({
   );
 
   useEffect(() => {
-    if (active) {
+    if (active || open) {
       onOpen?.(true);
     }
-  }, [active]);
+  }, [active, open]);
 
   if (resource.loading) {
     return (
@@ -85,8 +90,10 @@ export function ResourceSideBar({
   return (
     <StyledDetails
       initialState={open}
+      open={open}
       disabled={!showSubResources}
       onStateToggle={handleDetailsToggle}
+      data-test='resource-sidebar'
       title={
         <ActionWrapper>
           <Title subject={subject} clean active={active}>

@@ -348,7 +348,10 @@ test.describe('data-browser', async () => {
   test('sidebar subresource', async ({ page }) => {
     await signIn(page);
     await newDrive(page);
-    await newResource('importer', page);
+
+    // create a resource, make sure its visible in the sidebar (and after refresh)
+    const klass = 'importer';
+    await newResource(klass, page);
     await expect(
       page.locator('[data-test="sidebar"] >> text=:9883/importer'),
     ).toBeVisible();
@@ -356,7 +359,31 @@ test.describe('data-browser', async () => {
     await expect(
       page.locator('[data-test="sidebar"] >> text=:9883/importer'),
     ).toBeVisible();
-    // TODO: should open the sidebar resource, highlight current one
+    await page.click(editableTitle);
+    const d0 = 'depth 0';
+    await page.fill(editableTitle, d0);
+
+    // Create a subresource, and later check it in the sidebar
+    await page.locator(`[data-test="sidebar"] >> text=${d0}`).hover();
+    await page.locator('[data-test="add-subresource"]').click();
+    await page.click(`button:has-text("${klass}")`);
+    await page.click(editableTitle);
+    const d1 = 'depth 1';
+    await page.fill(editableTitle, d1);
+    await expect(
+      page.locator(`[data-test="sidebar"] >> text=${d1}`),
+    ).toBeVisible();
+    await expect(
+      page.locator(`[data-test="sidebar"] >> text=${d0}`),
+    ).toBeVisible();
+    await page.waitForLoadState('networkidle');
+    await page.reload();
+    await expect(
+      page.locator(`[data-test="sidebar"] >> text=${d1}`),
+    ).toBeVisible();
+    await expect(
+      page.locator(`[data-test="sidebar"] >> text=${d0}`),
+    ).toBeVisible();
   });
 
   test('dialog', async ({ page }) => {
