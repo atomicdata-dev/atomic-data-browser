@@ -7,7 +7,6 @@ import AtomicLink from '../../AtomicLink';
 import styled from 'styled-components';
 import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
-import { sideBarChildBlacklist } from './sidebarChildBlacklist';
 
 interface ResourceSideBarProps {
   subject: string;
@@ -31,15 +30,12 @@ export function ResourceSideBar({
   const [currentUrl] = useCurrentSubject();
   const title = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
-  const [classType] = useString(resource, urls.properties.isA);
 
   const active = currentUrl === subject;
   const [open, setOpen] = useState(active);
 
   const [subResources] = useArray(resource, urls.properties.subResources);
   const hasSubResources = subResources.length > 0;
-  const showSubResources =
-    !sideBarChildBlacklist.has(classType) && hasSubResources;
 
   const handleDetailsToggle = useCallback((state: boolean) => {
     setOpen(state);
@@ -88,10 +84,10 @@ export function ResourceSideBar({
   }
 
   return (
-    <StyledDetails
+    <Details
       initialState={open}
       open={open}
-      disabled={!showSubResources}
+      disabled={!hasSubResources}
       onStateToggle={handleDetailsToggle}
       data-test='resource-sidebar'
       title={
@@ -111,7 +107,7 @@ export function ResourceSideBar({
         </ActionWrapper>
       }
     >
-      {showSubResources &&
+      {hasSubResources &&
         subResources.map(child => (
           <ResourceSideBar
             subject={child}
@@ -119,7 +115,7 @@ export function ResourceSideBar({
             onOpen={setAndPropagateOpen}
           />
         ))}
-    </StyledDetails>
+    </Details>
   );
 }
 
@@ -130,8 +126,6 @@ const ActionWrapper = styled.div`
   overflow: hidden;
   ${floatingHoverStyles}
 `;
-
-const StyledDetails = styled(Details)``;
 
 interface TitleProps {
   active: boolean;

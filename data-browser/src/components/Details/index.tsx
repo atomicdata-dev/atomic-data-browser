@@ -10,14 +10,13 @@ export interface DetailsProps {
   disabled?: boolean;
   /** Event that fires when a user opens or closes the details */
   onStateToggle?: (state: boolean) => void;
-  className?: string;
 }
 
+/** A collapsible item with a title. Similar to the <details> HTML element. */
 export function Details({
   open,
   initialState,
   children,
-  className,
   title,
   disabled,
   onStateToggle,
@@ -34,7 +33,7 @@ export function Details({
   }, []);
 
   return (
-    <div className={className}>
+    <>
       <SummaryWrapper>
         <IconButton
           onClick={toggleOpen}
@@ -47,7 +46,7 @@ export function Details({
         <TitleWrapper>{title}</TitleWrapper>
       </SummaryWrapper>
       <StyledCollapse open={isOpen}>{children}</StyledCollapse>
-    </div>
+    </>
   );
 }
 

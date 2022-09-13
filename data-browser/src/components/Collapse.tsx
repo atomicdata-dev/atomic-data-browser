@@ -12,6 +12,11 @@ export interface CollapseProps {
 
 const SPEED_MODIFIER = 1.5;
 
+/**
+ * Collapsible Component that only shows `children` when `open={true}`. Animates
+ * the transition for `{duration}`ms. Designed to work in the sidebar with
+ * potentially deeply nested, recurring Collapse units.
+ */
 export function Collapse({
   open,
   children,
@@ -20,6 +25,11 @@ export function Collapse({
 }: React.PropsWithChildren<CollapseProps>): JSX.Element {
   const node = useRef<HTMLDivElement>(null);
   const [initialHeight, setInitialHeight] = React.useState(0);
+
+  // We can't use a `useState` here.
+  // When `measureAndSet` is used as a callback for the MutationObserver,
+  // the scope will be outdated when the props update.
+  // To work around this we have to use a ref in order to reference the most up to date value.
   const openRef = useRef(open);
 
   const measureAndSet = () => {
@@ -32,8 +42,6 @@ export function Collapse({
 
     div.style.position = 'static';
 
-    // When this function is used as a callback for the MutationObserver the scope will be outdated when the props update.
-    // To work around this we have to use a ref in order to reference the most up to date value.
     if (!openRef.current) {
       div.style.height = '0px';
       div.style.visibility = 'hidden';
@@ -62,6 +70,7 @@ export function Collapse({
     return () => mutationObserver.current.disconnect();
   }, []);
 
+  // Perform the animation when the `open` prop changes.
   useLayoutEffect(() => {
     openRef.current = open;
     if (!node.current) return;

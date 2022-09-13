@@ -258,7 +258,7 @@ test.describe('data-browser', async () => {
     await newDrive(page);
     // add attachment to drive
     await page.click(contextMenu);
-    await page.locator('[data-test="edit"]').click();
+    await page.locator('[data-test="menu-item-edit"]').click();
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),
       page.click('button:has-text("Upload file")'),
@@ -286,7 +286,9 @@ test.describe('data-browser', async () => {
       .getAttribute('aria-controls');
 
     await page.click(contextMenu);
-    await page.locator(`[id="${dropdownId}"] >> [data-test="share"]`).click();
+    await page
+      .locator(`[id="${dropdownId}"] >> [data-test="menu-item-share"]`)
+      .click();
     await page.locator(publicReadRight).click();
     await page.click('text=save');
 
@@ -370,13 +372,15 @@ test.describe('data-browser', async () => {
     await page.click(editableTitle);
     const d1 = 'depth 1';
     await page.fill(editableTitle, d1);
+    // Not sure why we need this, I'd prefer to wait for commits...
+    await page.waitForTimeout(100);
     await expect(
       page.locator(`[data-test="sidebar"] >> text=${d1}`),
     ).toBeVisible();
     await expect(
       page.locator(`[data-test="sidebar"] >> text=${d0}`),
     ).toBeVisible();
-    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(100);
     await page.reload();
     await expect(
       page.locator(`[data-test="sidebar"] >> text=${d1}`),
