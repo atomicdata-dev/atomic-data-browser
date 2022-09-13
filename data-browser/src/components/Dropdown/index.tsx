@@ -160,7 +160,7 @@ export function DropdownMenu({
                 handleClose();
                 onClick();
               }}
-              data-test={label}
+              data-test={`menu-item-${id}`}
               disabled={disabled}
               key={id}
               helper={shortcut ? `${helper} (${shortcut})` : helper}
