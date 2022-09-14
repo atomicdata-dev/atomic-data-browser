@@ -83,6 +83,7 @@ function App(): JSX.Element {
           <BrowserRouter basename='/'>
             <HotKeysWrapper>
               <ThemeWrapper>
+                {/* @ts-ignore fallback component type too strict */}
                 <ErrBoundary FallbackComponent={CrashPage}>
                   {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
                   <GlobalStyle />
