@@ -31,7 +31,7 @@ const store = new Store();
  */
 const currentOrigin = window.location.origin;
 store.setServerUrl(
-  currentOrigin === 'http://localhost:3000'
+  currentOrigin === 'http://localhost:5173'
     ? 'http://localhost:9883'
     : currentOrigin,
 );
