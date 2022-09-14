@@ -7,6 +7,7 @@ import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
 import { Row } from '../components/Row';
+import CrashPage from './CrashPage';
 
 /**
  * A View for Resource Errors. Not to be confused with the CrashPage, which is
@@ -60,3 +61,42 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
 }
 
 export default ErrorPage;
+
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  FallBackComponent: React.ComponentType;
+}
+
+interface ErrorBoundaryState {
+  error?: Error;
+}
+
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  public constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { error: undefined };
+  }
+
+  public static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { error };
+  }
+
+  public render() {
+    if (this.state.error) {
+      // You can render any custom fallback UI    w
+      return (
+        <CrashPage
+          error={this.state.error}
+          clearError={() => this.setState(() => ({ error: undefined }))}
+          info={{} as React.ErrorInfo}
+        />
+      );
+    }
+
+    return this.props.children;
+  }
+}
