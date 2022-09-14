@@ -17,6 +17,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refactor e2e tests
 - Render floats
 - Hide unsortable items in tables
+- Switch from `yarn` to `pnpm` #210
 
 ## v0.31.1
 
