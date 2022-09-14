@@ -165,9 +165,6 @@ export const validateDatatype = (
         break;
       }
 
-      console.log(value);
-      console.log(value.match(dateStringRegex));
-
       if (value.match(dateStringRegex) === null) {
         err = 'Not a date string: YYYY-MM-DD';
       }
