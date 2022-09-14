@@ -25,8 +25,16 @@ import { ErrorBoundary } from './views/ErrorPage';
 
 /** Initialize the store */
 const store = new Store();
-/** Defaulting to the current URL's origin will make sense in most non-dev environments */
-store.setServerUrl(window.location.origin);
+/**
+ * Defaulting to the current URL's origin will make sense in most non-dev environments.
+ * In dev envs, we want to default to port 9883
+ */
+const currentOrigin = window.location.origin;
+store.setServerUrl(
+  currentOrigin === 'http://localhost:3000'
+    ? 'http://localhost:9883'
+    : currentOrigin,
+);
 
 /** Show an error when things go wrong */
 store.errorHandler = e => {
