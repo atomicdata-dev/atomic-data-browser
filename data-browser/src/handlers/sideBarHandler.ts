@@ -1,5 +1,5 @@
 import { Resource, Store, urls } from '@tomic/react';
-import { isString } from '@tomic/lib';
+import { isString } from '@tomic/react';
 
 export function buildSideBarNewResourceHandler(store: Store) {
   // When a resource is saved add it to the parents subResources list if it's not already there.

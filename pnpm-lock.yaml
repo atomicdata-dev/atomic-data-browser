@@ -86,6 +86,7 @@ importers:
       '@types/react-router-dom': ^5.0.0
       '@types/styled-components': ^5.1.25
       babel-plugin-styled-components: ^2.0.7
+      csstype: ^3.1.0
       gh-pages: ^3.1.0
       lint-staged: ^10.5.4
       polished: ^4.1.0
@@ -101,6 +102,7 @@ importers:
       react-icons: ^4.2.0
       react-intersection-observer: ^8.31.1
       react-markdown: ^8.0.3
+      react-router: ^6.0.0
       react-router-dom: ^6.0.0
       remark-gfm: ^3.0.1
       styled-components: ^5.3.3
@@ -123,11 +125,12 @@ importers:
       react-dom: 18.1.0_react@18.1.0
       react-dropzone: 11.4.2_react@18.1.0
       react-helmet-async: 1.3.0_ef5jwxihqo6n7gxfmzogljlgcm
-      react-hot-toast: 2.1.1_ef5jwxihqo6n7gxfmzogljlgcm
+      react-hot-toast: 2.1.1_xb3noawg3grui6hzaob7jwa63y
       react-hotkeys-hook: 3.4.4_ef5jwxihqo6n7gxfmzogljlgcm
       react-icons: 4.3.1_react@18.1.0
       react-intersection-observer: 8.32.1_react@18.1.0
       react-markdown: 8.0.3_cweqlka2zkiirfe2jqsmqzgzhu
+      react-router: 6.3.0_react@18.1.0
       react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
       remark-gfm: 3.0.1
       styled-components: 5.3.3_ef5jwxihqo6n7gxfmzogljlgcm
@@ -139,6 +142,7 @@ importers:
       '@types/react-router-dom': 5.3.3
       '@types/styled-components': 5.1.25
       babel-plugin-styled-components: 2.0.7_styled-components@5.3.3
+      csstype: 3.1.1
       gh-pages: 3.2.3
       lint-staged: 10.5.4
       types-wm: 1.1.0
@@ -2411,7 +2415,7 @@ packages:
     dependencies:
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.20
-      csstype: 3.0.9
+      csstype: 3.1.1
     dev: true
 
   /@types/trusted-types/2.0.2:
@@ -3759,6 +3763,9 @@ packages:
   /csstype/3.0.9:
     resolution: {integrity: sha512-rpw6JPxK6Rfg1zLOYCSwle2GFOOsnjmDYDaBwEcwoOg4qlsIVCN789VkBZDJAGi4T07gI4YSutR43t9Zz4Lzuw==}
 
+  /csstype/3.1.1:
+    resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
     dev: true
@@ -5025,10 +5032,12 @@ packages:
       pinkie-promise: 2.0.1
     dev: true
 
-  /goober/2.0.41:
+  /goober/2.0.41_csstype@3.1.1:
     resolution: {integrity: sha512-kwjegMT5018zWydhOQlQneCgCtrKJaPsru7TaBWmTYV0nsMeUrM6L6O8JmNYb9UbPMgWcmtf+9p4Y3oJabIH1A==}
     peerDependencies:
       csstype: ^2.6.2
+    dependencies:
+      csstype: 3.1.1
     dev: false
 
   /got/9.6.0:
@@ -6267,7 +6276,7 @@ packages:
     resolution: {integrity: sha512-P4wKxU+2m5ReGl0Mmbf9XYgVjFIVZJOZ9ylXBxdpanX+HHgj5XVaAIgYzYpKbBLPCdkAUsI/Iq1fhQPsMNu0YA==}
     dependencies:
       '@babel/runtime': 7.19.0
-      csstype: 3.0.9
+      csstype: 3.1.1
       is-in-browser: 1.1.3
       tiny-warning: 1.0.3
     dev: false
@@ -7856,14 +7865,14 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /react-hot-toast/2.1.1_ef5jwxihqo6n7gxfmzogljlgcm:
+  /react-hot-toast/2.1.1_xb3noawg3grui6hzaob7jwa63y:
     resolution: {integrity: sha512-Odrp4wue0fHh0pOfZt5H+9nWCMtqs3wdlFSzZPp7qsxfzmbE26QmGWIh6hG43CukiPeOjA8WQhBJU8JwtWvWbQ==}
     engines: {node: '>=10'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      goober: 2.0.41
+      goober: 2.0.41_csstype@3.1.1
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     transitivePeerDependencies:

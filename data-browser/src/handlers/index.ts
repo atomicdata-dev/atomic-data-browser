@@ -1,4 +1,4 @@
-import { Store, StoreEvents } from '@tomic/lib';
+import { Store, StoreEvents } from '@tomic/react';
 import {
   buildSideBarNewResourceHandler,
   buildSideBarRemoveResourceHandler,

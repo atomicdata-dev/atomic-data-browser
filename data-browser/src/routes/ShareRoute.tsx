@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useArray, useCanWrite, useResource, useStore } from '@tomic/react';
+import {
+  Right,
+  urls,
+  useArray,
+  useCanWrite,
+  useResource,
+  useStore,
+} from '@tomic/react';
 import { ContainerNarrow } from '../components/Containers';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { Right, urls } from '@tomic/lib';
 import ResourceInline, { ErrorLook } from '../views/ResourceInline';
 import { Card, CardInsideFull, CardRow } from '../components/Card';
 import { FaGlobe } from 'react-icons/fa';

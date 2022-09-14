@@ -1,4 +1,4 @@
-import { ArrayError, urls } from '@tomic/lib';
+import { ArrayError, urls } from '@tomic/react';
 import { useArray, useResource, useStore, useTitle } from '@tomic/react';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ErrMessage } from './InputStyles';
