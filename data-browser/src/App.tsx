@@ -21,6 +21,7 @@ import CrashPage from './views/CrashPage';
 import toast from 'react-hot-toast';
 import { DialogContainer } from './components/Dialog/DialogContainer';
 import { registerHandlers } from './handlers';
+import { ErrorBoundary } from './views/ErrorPage';
 
 /** Initialize the store */
 const store = new Store();
@@ -44,9 +45,9 @@ declare global {
   }
 }
 /** Setup bugsnag for error handling, but only if there's an API key */
-const ErrorBoundary = window.bugsnagApiKey
+const ErrBoundary = window.bugsnagApiKey
   ? initBugsnag(window.bugsnagApiKey)
-  : 'div';
+  : ErrorBoundary;
 
 /** Initialize the agent from localstorage */
 const agent = initAgentFromLocalStorage();
@@ -74,7 +75,7 @@ function App(): JSX.Element {
           <BrowserRouter basename='/'>
             <HotKeysWrapper>
               <ThemeWrapper>
-                <ErrorBoundary FallbackComponent={CrashPage}>
+                <ErrBoundary FallbackComponent={CrashPage}>
                   {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
                   <GlobalStyle />
                   <Toaster />
@@ -84,7 +85,7 @@ function App(): JSX.Element {
                       <AppRoutes />
                     </NavWrapper>
                   </DialogContainer>
-                </ErrorBoundary>
+                </ErrBoundary>
               </ThemeWrapper>
             </HotKeysWrapper>
           </BrowserRouter>

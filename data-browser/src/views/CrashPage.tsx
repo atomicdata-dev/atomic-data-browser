@@ -23,10 +23,11 @@ function CrashPage({
   return (
     <ContainerNarrow resource={resource?.getSubject()}>
       <ErrorLook>
-        {children ? children : JSON.stringify(error?.message)}
+        {children ? children : <p>{JSON.stringify(error?.message)}</p>}
+        {error?.stack}
       </ErrorLook>
       <div>
-        <Button onClick={clearError}>Clear error</Button>
+        {clearError && <Button onClick={clearError}>Clear error</Button>}
         <Button
           onClick={() =>
             window.setTimeout(window.location.reload.bind(window.location), 200)

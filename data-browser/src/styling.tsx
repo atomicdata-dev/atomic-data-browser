@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from 'styled-components';
 import { darken, lighten } from 'polished';
-import '../public/reset.css';
+import './reset.css';
 import React from 'react';
 import 'styled-components';
 import { useContext } from 'react';
