@@ -6,7 +6,6 @@ import {
   useNumber,
   useResource,
   useString,
-  useTitle,
   useLocalStorage,
   useStore,
   properties,

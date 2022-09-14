@@ -41,14 +41,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       # This is needed when playwright is used in tests #70
-      - run: npx playwright install-deps
-      - run: npx playwright install
+      - run: pnpm lint-fix
+      - run: pnpm build
+      # Mayb we can do without these?
+      # - run: npx playwright install-deps
+      # - run: npx playwright install
       - name: Start dev server
         run: nohup pnpm start &
       - name: Run atomic-server docker image in background (for testing)
         run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
-      - run: pnpm lint-fix
-      - run: pnpm build
       - run: pnpm test
       - run: pnpm typedoc
       - name: Deploy production 🚀
