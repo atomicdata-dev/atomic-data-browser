@@ -6,6 +6,8 @@
     "@types/chai": "^4.2.22",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.4",
+    "@types/react": "^18.0.20",
+    "@types/react-router-dom": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "@vitejs/plugin-react": "^1.3.0",
@@ -24,6 +26,7 @@
     "playwright": "^1.16.1",
     "prettier": "2.4.1",
     "prettier-plugin-jsdoc": "^0.3.24",
+    "react": "^18.2.0",
     "ts-jest": "^28.0.8",
     "typedoc": "^0.22.15",
     "typescript": "^4.8",
@@ -32,16 +35,16 @@
   "name": "@tomic/root",
   "private": true,
   "scripts": {
-    "lint": "yarn workspaces foreach run lint",
-    "lint-fix": "yarn workspaces foreach run lint-fix",
-    "build": "yarn workspace @tomic/lib build && yarn workspace @tomic/react build && yarn workspace @tomic/data-browser build",
-    "build-server": "yarn run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts",
-    "test": "yarn workspaces foreach run test",
-    "test-query": "yarn workspace @tomic/data-browser run test-query",
-    "publish": "yarn workspaces foreach --no-private npm publish",
-    "start": "yarn workspace @tomic/lib watch & yarn workspace @tomic/react watch & yarn workspace @tomic/data-browser start",
-    "start-browser": "yarn workspace @tomic/data-browser start",
-    "start-lib": "yarn workspace @tomic/lib watch",
+    "lint": "pnpm workspaces foreach run lint",
+    "lint-fix": "pnpm workspaces foreach run lint-fix",
+    "build": "pnpm run -r build",
+    "build-server": "pnpm run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts",
+    "test": "pnpm run -r test",
+    "test-query": "pnpm workspace @tomic/data-browser run test-query",
+    "publish": "pnpm workspaces foreach --no-private npm publish",
+    "start": "pnpm run -r --parallel start",
+    "start-browser": "pnpm workspace @tomic/data-browser start",
+    "start-lib": "pnpm workspace @tomic/lib watch",
     "typedoc": "typedoc . --options typedoc.json"
   },
   "workspaces": {
@@ -49,9 +52,9 @@
       "lib",
       "react",
       "data-browser"
-    ]
+    ],
+    "packageManager": "pnpm@7.11.0"
   },
-  "packageManager": "yarn@3.2.1",
   "dependencies": {
     "eslint-plugin-import": "^2.26.0"
   }
