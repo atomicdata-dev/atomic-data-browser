@@ -12,27 +12,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          # Required by playwrgith
-          node-version: "16"
-          cache: "yarn"
-      # This should not be necessary, but for some reason it is
-      - run: npm install -g yarn
+          node-version: 16
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
       # This is needed when playwright is used in tests #70
       - run: npx playwright install-deps
-      - run: yarn --version
-      - run: yarn install
-      # Should be run after yarn install
       - run: npx playwright install
       - name: Start dev server
-        run: nohup yarn start &
+        run: nohup pnpm start &
       - name: Run atomic-server docker image in background (for testing)
         run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
-      - run: yarn lint-fix
-      - run: yarn build
-      - run: yarn test
-      - run: yarn typedoc
+      - run: pnpm lint-fix
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm typedoc
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
         uses: JamesIves/github-pages-deploy-action@4.0.0
