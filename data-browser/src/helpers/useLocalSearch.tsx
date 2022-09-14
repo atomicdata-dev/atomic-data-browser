@@ -1,5 +1,5 @@
 import React from 'react';
-import { isValidURL, Resource, urls } from '@tomic/lib';
+import { isValidURL, Resource, urls } from '@tomic/react';
 import { useResources, useStore, useDebounce } from '@tomic/react';
 import { QuickScore } from 'quick-score';
 

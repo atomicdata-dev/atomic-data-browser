@@ -1,8 +1,15 @@
 import * as React from 'react';
-import { Resource, properties, classes } from '@tomic/lib';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useArray, useCanWrite, useStore, useString } from '@tomic/react';
+import {
+  Resource,
+  properties,
+  classes,
+  useArray,
+  useCanWrite,
+  useStore,
+  useString,
+} from '@tomic/react';
 import styled from 'styled-components';
 import { FaEdit, FaEye, FaGripVertical } from 'react-icons/fa';
 import {

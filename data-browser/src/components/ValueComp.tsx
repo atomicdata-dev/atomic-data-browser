@@ -6,7 +6,7 @@ import {
   valToArray,
   valToResource,
   JSONValue,
-} from '@tomic/lib';
+} from '@tomic/react';
 import ResourceInline from '../views/ResourceInline';
 import DateTime from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';

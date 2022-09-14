@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { newURL } from '../../helpers/navigation';
 import { useResource, useStore, useString, useTitle } from '@tomic/react';
-import { classes, properties } from '@tomic/lib';
+import { classes, properties } from '@tomic/react';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 import { Base } from './Base';
 import { useCreateAndNavigate } from './useCreateAndNavigate';

@@ -3,7 +3,7 @@ import { dataURL, editURL } from '../helpers/navigation';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { isValidURL } from '@tomic/lib';
+import { isValidURL } from '@tomic/react';
 import { useSettings } from '../helpers/AppSettings';
 import { paths } from '../routes/paths';
 
