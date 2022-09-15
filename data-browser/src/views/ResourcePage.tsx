@@ -17,7 +17,6 @@ import DocumentPage from './DocumentPage';
 import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
 import { FilePage } from './FilePage';
-import WebMonetizationWrapper from '../components/WebMonetizationWrapper';
 import { ResourcePageDefault } from './ResourcePageDefault';
 import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
@@ -37,7 +36,6 @@ type Props = {
 function ResourcePage({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
   const [klass] = useString(resource, properties.isA);
-  const [paymentPointer] = useString(resource, properties.paymentPointer);
 
   if (resource.loading) {
     return (
@@ -54,15 +52,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
   const ReturnComponent = selectComponent(klass);
 
-  if (paymentPointer) {
-    return (
-      <WebMonetizationWrapper resource={resource}>
-        <ReturnComponent resource={resource} />
-      </WebMonetizationWrapper>
-    );
-  } else {
-    return <ReturnComponent resource={resource} />;
-  }
+  return <ReturnComponent resource={resource} />;
 }
 
 /** There properties are passed to every View at Page level */
