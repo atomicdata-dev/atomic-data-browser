@@ -38,6 +38,7 @@ test.describe('data-browser', async () => {
     // Open the server
     await page.goto(frontEndUrl);
     await page.setViewportSize({ width: 1200, height: 800 });
+    await expect(page.locator(sideBarNewResource)).toBeVisible();
   });
 
   test('sidebar mobile', async ({ page }) => {
