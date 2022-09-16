@@ -9,7 +9,6 @@ import {
   InputWrapper,
   TextAreaStyled,
 } from '../components/forms/InputStyles.jsx';
-import Parent from '../components/Parent';
 import ResourceCard from './Card/ResourceCard';
 import { ErrorLook } from './ResourceInline.jsx';
 import { ResourcePageProps } from './ResourcePage';

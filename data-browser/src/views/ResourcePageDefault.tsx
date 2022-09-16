@@ -4,7 +4,6 @@ import AllProps from '../components/AllProps';
 import { ClassDetail } from '../components/ClassDetail';
 import { ContainerNarrow } from '../components/Containers';
 import { ValueForm } from '../components/forms/ValueForm';
-import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
 import { CommitDetail } from '../components/CommitDetail';
 import { Details } from '../components/Detail';
