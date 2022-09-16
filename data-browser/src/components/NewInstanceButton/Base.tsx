@@ -44,7 +44,7 @@ export function Base({
       subtle={subtle}
       title={agent ? `Create a new ${title}` : 'No User set - sign in first'}
     >
-      {icon ? <FaPlus /> : label || title}
+      {icon ? <FaPlus /> : label ?? title}
       {children}
     </Button>
   );

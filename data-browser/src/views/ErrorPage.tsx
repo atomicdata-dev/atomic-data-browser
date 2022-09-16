@@ -91,7 +91,7 @@ export class ErrorBoundary extends React.Component<
       return (
         <CrashPage
           error={this.state.error}
-          clearError={() => this.setState(() => ({ error: undefined }))}
+          clearError={() => this.setState({ error: undefined })}
           info={{} as React.ErrorInfo}
         />
       );

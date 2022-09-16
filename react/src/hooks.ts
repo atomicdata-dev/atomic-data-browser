@@ -367,7 +367,7 @@ const titleHookOpts: useValueOptions = {
  */
 export function useTitle(
   resource: Resource,
-  truncateLength?: number,
+  truncateLength = 40,
 ): [string, (string: string) => Promise<void>] {
   const [name, setName] = useString(
     resource,
@@ -384,9 +384,6 @@ export function useTitle(
     urls.properties.file.filename,
     titleHookOpts,
   );
-
-  // TODO: truncate non urls
-  truncateLength = truncateLength ? truncateLength : 40;
 
   if (resource.loading) {
     return ['...', setName];

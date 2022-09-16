@@ -29,14 +29,14 @@ export const useSaveResource = (
       setErr(null);
 
       try {
-        if (resource.new) {
-          store.notifyResourceManuallyCreated(resource);
-        }
-
         await resource.save(store);
         setSaving(false);
         onSaveSucces();
         toast.success('Resource saved');
+
+        if (resource.new) {
+          store.notifyResourceManuallyCreated(resource);
+        }
       } catch (err) {
         setErr(err);
         setSaving(false);

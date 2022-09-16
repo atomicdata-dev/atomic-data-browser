@@ -65,7 +65,6 @@ function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
   const [parent] = useString(resource, properties.parent);
   const navigate = useNavigate();
   const [title] = useTitle(resource);
-  depth = depth + 1;
 
   // Prevent infinite recursion, set a limit to parent breadcrumbs
   if (depth > 5) {
@@ -79,7 +78,7 @@ function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
 
   return (
     <>
-      {parent && <NestedParent subject={parent} depth={depth} />}
+      {parent && <NestedParent subject={parent} depth={depth + 1} />}
       <Breadcrumb href={subject} onClick={handleClick}>
         {title}
       </Breadcrumb>
