@@ -97,7 +97,8 @@ const IconButton = styled.button<IconButtonProps>`
   background-color: transparent;
   border: none;
   border-radius: 50%;
-  :hover {
+  :hover,
+  :focus {
     background-color: ${p => p.theme.colors.bg1};
   }
 `;

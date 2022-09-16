@@ -124,7 +124,6 @@ const ActionWrapper = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  overflow: hidden;
   margin-left: -0.7rem;
   ${floatingHoverStyles}
 `;

@@ -13,6 +13,7 @@ import { SideBarHeader } from './SideBarHeader';
 import { shortcuts } from '../HotKeyWrapper';
 import { ErrorLook } from '../ErrorLook';
 import { DriveSwitcher } from './DriveSwitcher';
+import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -45,7 +46,7 @@ export function SideBarDrive({
             {title || drive}{' '}
           </DriveTitle>
         </TitleButton>
-        <Button
+        <SideBarButton
           onClick={() => navigate(paths.new)}
           icon
           subtle
@@ -53,7 +54,7 @@ export function SideBarDrive({
           data-test='sidebar-new-resource'
         >
           <FaPlus />
-        </Button>
+        </SideBarButton>
         <DriveSwitcher />
       </SideBarHeader>
       <ListWrapper>
