@@ -17,7 +17,7 @@ type Props = {
 /** Renders a Resource in a compact, inline link. Shows tooltip on hover. */
 function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
   if (!subject) {

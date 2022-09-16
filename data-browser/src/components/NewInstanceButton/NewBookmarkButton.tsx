@@ -28,9 +28,10 @@ export function NewBookmarkButton({
   icon,
   parent,
   children,
+  label,
 }: NewInstanceButtonProps): JSX.Element {
   const resource = useResource(klass);
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
 
   const [url, setUrl] = useState('');
 
@@ -50,7 +51,13 @@ export function NewBookmarkButton({
 
   return (
     <>
-      <Base onClick={show} title={title} icon={icon} subtle={subtle}>
+      <Base
+        onClick={show}
+        title={title}
+        icon={icon}
+        subtle={subtle}
+        label={label}
+      >
         {children}
       </Base>
       <Dialog {...dialogProps}>

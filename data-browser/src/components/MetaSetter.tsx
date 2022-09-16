@@ -10,7 +10,7 @@ export function MetaSetter(): JSX.Element {
   const { mainColor, darkMode } = useSettings();
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
-  let title = useTitle(resource);
+  let [title] = useTitle(resource);
   let [description] = useString(resource, properties.description);
   const hasResource =
     resource.isReady() && resource.getSubject() !== unknownSubject;

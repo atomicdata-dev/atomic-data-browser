@@ -285,7 +285,7 @@ function DropDownItemsMenu({
   ];
 
   const klass = useResource(classType);
-  const classTypeTitle = useTitle(klass);
+  const [classTypeTitle] = useTitle(klass);
 
   function handleSelectItem(item: string) {
     setInputValue(item);

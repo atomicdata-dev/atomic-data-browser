@@ -11,6 +11,7 @@ export interface InstanceButtonBaseProps {
   subtle?: boolean;
   title: string;
   icon?: boolean;
+  label?: string;
 }
 
 export function Base({
@@ -19,6 +20,7 @@ export function Base({
   title,
   icon,
   onClick,
+  label,
 }: React.PropsWithChildren<InstanceButtonBaseProps>): JSX.Element {
   const store = useStore();
   const agent = store.getAgent();
@@ -42,7 +44,7 @@ export function Base({
       subtle={subtle}
       title={agent ? `Create a new ${title}` : 'No User set - sign in first'}
     >
-      {icon ? <FaPlus /> : title}
+      {icon ? <FaPlus /> : label || title}
       {children}
     </Button>
   );

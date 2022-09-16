@@ -76,7 +76,7 @@ const Wrapper = styled.div`
 
 const ControlWrapper = styled.div`
   position: sticky;
-  top: 0.5rem;
+  top: 0rem;
   background-color: ${p => p.theme.colors.bgBody};
   border-bottom: solid 1px ${props => props.theme.colors.bg2};
   padding: 0rem;

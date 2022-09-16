@@ -29,7 +29,7 @@ export const NewFormTitle: React.FC<NewFormTitleProps> = ({
   variant,
 }) => {
   const klass = useResource(classSubject);
-  const klassTitle = useTitle(klass);
+  const [klassTitle] = useTitle(klass);
 
   const [klassDescription] = useString(klass, properties.description);
   const [showDetails, setShowDetails] = useState(false);

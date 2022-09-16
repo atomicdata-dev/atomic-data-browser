@@ -23,7 +23,7 @@ type EndpointProps = {
 
 /** A View for Endpoints. */
 function EndpointPage({ resource }: EndpointProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [description] = useString(resource, properties.description);
   const [parameters] = useArray(resource, properties.endpoint.parameters);
   const [results] = useArray(resource, properties.endpoint.results);

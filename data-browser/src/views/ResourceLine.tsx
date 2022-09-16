@@ -10,7 +10,7 @@ type Props = {
 /** Renders a Resource in a small line item. Not a link. Useful in dropdown. */
 function ResourceLine({ subject, clickable }: Props): JSX.Element {
   const resource = useResource(subject);
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   let [description] = useString(resource, urls.properties.description);
 
   if (resource.loading) {

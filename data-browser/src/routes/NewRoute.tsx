@@ -11,6 +11,7 @@ import { Button } from '../components/Button';
 import { useSettings } from '../helpers/AppSettings';
 import { Row } from '../components/Row';
 import { NewFormFullPage } from '../components/forms/NewForm/index';
+import ResourceInline from '../views/ResourceInline';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -37,7 +38,15 @@ function New(): JSX.Element {
         <NewFormFullPage classSubject={classSubject.toString()} />
       ) : (
         <form onSubmit={handleClassSet}>
-          <h1>Create something new</h1>
+          <h1>
+            Create new resource{' '}
+            {parentSubject && (
+              <>
+                {`under `}
+                <ResourceInline subject={parentSubject} />
+              </>
+            )}
+          </h1>
           <ResourceSelector
             setSubject={setClassInput}
             value={classInput}
@@ -64,11 +73,6 @@ function New(): JSX.Element {
                 />
                 <NewIntanceButton
                   klass={urls.classes.bookmark}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.drive}
                   subtle
                   parent={calculatedParent}
                 />

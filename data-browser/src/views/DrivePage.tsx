@@ -15,7 +15,7 @@ import { Row } from '../components/Row';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
 function DrivePage({ resource }: ResourcePageProps): JSX.Element {
-  const [children] = useArray(resource, properties.children);
+  const [subResources] = useArray(resource, properties.subResources);
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
 
   if (!baseURL) {
@@ -40,7 +40,7 @@ function DrivePage({ resource }: ResourcePageProps): JSX.Element {
       <Card>
         <h3>resources:</h3>
         <CardInsideFull>
-          {children.map(child => {
+          {subResources.map(child => {
             return (
               <CardRow key={child}>
                 <ResourceInline subject={child} />

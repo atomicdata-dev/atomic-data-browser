@@ -15,7 +15,7 @@ interface PageTitleProps {
  * link or adds a prefix. Use `EditableTitle` if you need editing capabilities.
  */
 export function Title({ resource, prefix, link }: PageTitleProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
 
   return (
     <h1>

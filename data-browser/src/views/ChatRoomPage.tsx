@@ -21,7 +21,6 @@ import { CommitDetail } from '../components/CommitDetail';
 import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
-import Parent from '../components/Parent';
 import { editURL } from '../helpers/navigation';
 import ResourceInline, { ErrorLook } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
@@ -147,7 +146,6 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
 
   return (
     <FullPageWrapper about={resource.getSubject()}>
-      <Parent resource={resource} />
       <EditableTitle resource={resource} />
       {!store.getDefaultWebSocket() ? (
         <ErrorLook>No Websocket open</ErrorLook>

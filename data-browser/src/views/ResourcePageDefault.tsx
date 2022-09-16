@@ -44,7 +44,6 @@ export function ResourcePageDefault({
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <Parent resource={resource} />
       <EditableTitle resource={resource} />
       <Details>
         <ClassDetail resource={resource} />

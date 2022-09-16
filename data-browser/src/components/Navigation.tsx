@@ -280,7 +280,7 @@ const NavBarFloating = styled(NavBarBase)`
   margin-left: -${props => (props.theme.containerWidth + 1) / 2}rem;
   margin-right: -${props => (props.theme.containerWidth + 1) / 2}rem;
   top: ${props => (props.top ? '2rem' : 'auto')};
-  bottom: ${props => (props.top ? 'auto' : '2rem')};
+  bottom: ${props => (props.top ? 'auto' : '1rem')};
 
   @media (max-width: ${props => props.theme.containerWidth}rem) {
     max-width: calc(100% - 1rem);

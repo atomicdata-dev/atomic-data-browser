@@ -28,7 +28,6 @@ export function ImporterPage({ resource }: ResourcePageProps) {
 
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <Parent resource={resource} />
       <EditableTitle resource={resource} />
       <p>
         Import data using a JSON-AD string or URL pointing to a JSON-AD
