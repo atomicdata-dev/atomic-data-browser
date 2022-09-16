@@ -95,6 +95,7 @@ const Divider = styled.div`
 
 const BreadCrumbBase = css`
   font-size: ${props => props.theme.fontSizeBody}rem;
+  font-family: ${props => props.theme.fontFamily};
   padding: 0.1rem 0.5rem;
   color: ${p => p.theme.colors.textLight};
 `;
