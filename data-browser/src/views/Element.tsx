@@ -260,6 +260,8 @@ const ElementWrapper = styled.div<ElementViewProps>`
   white-space: pre-line;
   display: flex;
   flex-direction: column;
+  /* Equal to the height of a line */
+  min-height: 2.7rem;
 
   ${p => p.active && p.canDrag && ElementFocusStyle}
 
@@ -348,6 +350,14 @@ function SearchWidget({ query, setElement }: WidgetProps) {
     return (
       <WidgetWrapper>
         <p>Search something...</p>
+      </WidgetWrapper>
+    );
+  }
+
+  if (results.length === 0) {
+    return (
+      <WidgetWrapper>
+        <p>No results</p>
       </WidgetWrapper>
     );
   }
