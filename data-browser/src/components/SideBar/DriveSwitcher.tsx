@@ -1,20 +1,13 @@
-import {
-  Resource,
-  urls,
-  useArray,
-  useLocalStorage,
-  useResource,
-  useResources,
-} from '@tomic/react';
-import React, { useEffect, useMemo } from 'react';
+import { Resource, urls, useResource } from '@tomic/react';
+import React, { useMemo } from 'react';
 import { FaCog, FaRegCheckCircle, FaRegCircle, FaServer } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../helpers/AppSettings';
+import { useDriveHistory } from '../../hooks/useDriveHistory';
+import { useUserDrives } from '../../hooks/useUserDrives';
 import { paths } from '../../routes/paths';
 import { DIVIDER, DropdownMenu } from '../Dropdown';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
-
-const MAX_DRIVE_HISTORY = 5;
 
 const Trigger = buildDefaultTrigger(<FaServer />);
 
@@ -31,19 +24,25 @@ function dedupeAFromB<K, V>(a: Map<K, V>, b: Map<K, V>): Map<K, V> {
 export function DriveSwitcher() {
   const navigate = useNavigate();
   const { drive, setDrive } = useSettings();
-  const drives = useDrives();
+  const drives = useUserDrives();
   const currentDriveResource = useResource(drive);
-  const history = useDriveHistory(drives);
+  const [history, addToHistory] = useDriveHistory();
+
+  const buildHandleHistoryDriveClick = (subject: string) => () => {
+    setDrive(subject);
+    addToHistory(subject);
+  };
 
   const items = useMemo(
     () => [
+      // Dedupe history as there might be user drives in there if they were not loaded yet.
       ...Array.from(dedupeAFromB(history, drives).entries()).map(
         ([subject, resource]) => ({
           label: getTitle(resource),
           id: subject,
           helper: `Switch to ${getTitle(resource)}`,
           icon: subject === drive ? <FaRegCheckCircle /> : <FaRegCircle />,
-          onClick: () => setDrive(subject),
+          onClick: buildHandleHistoryDriveClick(subject),
           disabled: subject === drive,
         }),
       ),
@@ -69,33 +68,4 @@ export function DriveSwitcher() {
   );
 
   return <DropdownMenu trigger={Trigger} items={items} />;
-}
-
-function useDriveHistory(userDrives: Map<string, Resource>) {
-  const { drive } = useSettings();
-  const [storedDriveHistory, setDriveHistory] = useLocalStorage<string[]>(
-    'driveHistory',
-    [],
-  );
-
-  const driveHistory = useResources(storedDriveHistory);
-
-  useEffect(() => {
-    if (!userDrives.has(drive) && storedDriveHistory[0] !== drive) {
-      setDriveHistory(prev =>
-        [drive, ...prev.filter(d => d !== drive)].slice(0, MAX_DRIVE_HISTORY),
-      );
-    }
-  }, [userDrives, drive, setDriveHistory, storedDriveHistory]);
-
-  return driveHistory;
-}
-
-function useDrives() {
-  const { agent } = useSettings();
-  const agentResource = useResource(agent?.subject);
-  const [driveSubjects] = useArray(agentResource, urls.properties.drives);
-  const drives = useResources(driveSubjects);
-
-  return drives;
 }

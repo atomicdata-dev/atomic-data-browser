@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { paths } from '../../routes/paths';
 import { Button } from '../Button';
 
@@ -12,6 +13,7 @@ export interface InstanceButtonBaseProps {
   title: string;
   icon?: boolean;
   label?: string;
+  className?: string;
 }
 
 export function Base({
@@ -21,6 +23,7 @@ export function Base({
   icon,
   onClick,
   label,
+  className,
 }: React.PropsWithChildren<InstanceButtonBaseProps>): JSX.Element {
   const store = useStore();
   const agent = store.getAgent();
@@ -43,9 +46,23 @@ export function Base({
       onClick={handleClick}
       subtle={subtle}
       title={agent ? `Create a new ${title}` : 'No User set - sign in first'}
+      className={className}
     >
-      {icon ? <FaPlus /> : label ?? title}
+      {icon ? (
+        <IconWrapper>
+          <FaPlus />
+          {label}
+        </IconWrapper>
+      ) : (
+        label ?? title
+      )}
       {children}
     </Button>
   );
 }
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+`;

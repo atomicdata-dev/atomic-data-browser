@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
   Property,
   Store,
@@ -427,24 +427,25 @@ export function useArray(
 ): [string[], setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
-  if (value === undefined) {
-    return [[], set];
-  }
+  const values = useMemo(() => {
+    if (value === undefined) {
+      return stableEmptyArray.current;
+    }
 
-  // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
-  // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
-  let arr: string[] = [];
+    try {
+      // This cast isn't entirely correct - we should add a `useSubjects` hook.
+      // https://github.com/atomicdata-dev/atomic-data-browser/issues/219
+      return valToArray(value);
+    } catch (e) {
+      console.error(e, value, propertyURL, resource.getSubject());
 
-  try {
-    // This cast isn't entirely correct - we should add a `useSubjects` hook.
-    // https://github.com/atomicdata-dev/atomic-data-browser/issues/219
-    arr = valToArray(value) as string[];
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e, value, propertyURL, resource.getSubject());
-  }
+      // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
+      // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
+      return stableEmptyArray.current;
+    }
+  }, [value]);
 
-  return [arr, set];
+  return [values, set];
 }
 
 /** See {@link useValue} */

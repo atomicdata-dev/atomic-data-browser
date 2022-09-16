@@ -1,9 +1,9 @@
 import { isValidURL } from '@tomic/lib';
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { isDev } from './helpers/isDev';
 import { useLocalStorage, useStore } from './index';
 
-function fixServerURL(url: string) {
+function fixDevUrl(url: string) {
   if (isDev()) {
     return url.replace('5173', '9883');
   }
@@ -18,32 +18,32 @@ function fixServerURL(url: string) {
 export const useServerURL = (): [string, (serverUrl: string) => void] => {
   // Localstorage for cross-session persistence of JSON object
   const store = useStore();
-  const [serverUrlJson, setServerUrlJson] = useLocalStorage<string>(
+  const [serverUrl, setServerUrl] = useLocalStorage<string>(
     'serverUrl',
-    store.getServerUrl(),
-  );
-  const [serverURL, setBaseURL] = useState<string>(
-    fixServerURL(window?.location.origin),
+    store.getServerUrl() ?? fixDevUrl(window?.location.origin),
   );
 
-  useEffect(() => {
-    if (serverURL !== undefined) {
-      if (isValidURL(serverUrlJson)) {
-        setBaseURL(serverUrlJson);
+  const set = useCallback(
+    (value: string) => {
+      if (!value) {
+        return;
+      }
+
+      let newValue = 'https://atomicdata.dev';
+
+      if (isValidURL(value)) {
+        newValue = value;
       } else {
         store.handleError(
-          new Error(
-            `Invalid base URL: ${serverUrlJson}, defaulting to atomicdata.dev`,
-          ),
+          new Error(`Invalid base URL: ${value}, defaulting to atomicdata.dev`),
         );
-        setBaseURL('https://atomicdata.dev');
       }
-    }
-  }, [serverUrlJson]);
 
-  useEffect(() => {
-    serverURL && store.setServerUrl(serverURL);
-  }, [serverURL]);
+      setServerUrl(newValue);
+      store.setServerUrl(newValue);
+    },
+    [store],
+  );
 
-  return [serverURL, setServerUrlJson];
+  return [serverUrl, set];
 };

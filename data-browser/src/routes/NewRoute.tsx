@@ -11,7 +11,8 @@ import { Button } from '../components/Button';
 import { useSettings } from '../helpers/AppSettings';
 import { Row } from '../components/Row';
 import { NewFormFullPage } from '../components/forms/NewForm/index';
-import ResourceInline from '../views/ResourceInline';
+import { ResourceInline } from '../views/ResourceInline';
+import styled from 'styled-components';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -43,7 +44,7 @@ function New(): JSX.Element {
       {classSubject ? (
         <NewFormFullPage classSubject={classSubject.toString()} />
       ) : (
-        <form onSubmit={handleClassSet}>
+        <StyledForm onSubmit={handleClassSet}>
           <h1>
             Create new resource{' '}
             {parentSubject && (
@@ -53,14 +54,15 @@ function New(): JSX.Element {
               </>
             )}
           </h1>
-          <ResourceSelector
-            setSubject={setClassInput}
-            value={classInput}
-            error={error}
-            setError={setError}
-            classType={urls.classes.class}
-          />
-          <br />
+          <div>
+            <ResourceSelector
+              setSubject={setClassInput}
+              value={classInput}
+              error={error}
+              setError={setError}
+              classType={urls.classes.class}
+            />
+          </div>
           <Row wrapFlex>
             {classInput && (
               <Button onClick={handleClassSet}>new {className}</Button>
@@ -100,10 +102,16 @@ function New(): JSX.Element {
               </>
             )}
           </Row>
-        </form>
+        </StyledForm>
       )}
     </ContainerNarrow>
   );
 }
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.margin}rem;
+`;
 
 export default New;

@@ -16,6 +16,7 @@ export function NewInstanceButtonDefault({
   parent,
   children,
   label,
+  className,
 }: NewInstanceButtonProps): JSX.Element {
   const classResource = useResource(klass);
   const [title] = useTitle(classResource);
@@ -84,6 +85,7 @@ export function NewInstanceButtonDefault({
 
   return (
     <Base
+      className={className}
       onClick={onClick}
       title={title}
       icon={icon}

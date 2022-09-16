@@ -23,10 +23,15 @@ export const Card = styled.div<CardProps>`
     props.highlight ? props.theme.colors.main : props.theme.colors.bg2};
 `;
 
+export interface CardRowProps {
+  noBorder?: boolean;
+}
+
 /** A Row in a Card. Should probably be used inside a CardInsideFull */
-export const CardRow = styled.div`
+export const CardRow = styled.div<CardRowProps>`
+  --border: solid 1px ${props => props.theme.colors.bg2};
   display: block;
-  border-top: solid 1px ${props => props.theme.colors.bg2};
+  border-top: ${props => (props.noBorder ? 'none' : 'var(--border)')};
   padding: ${props => props.theme.margin / 3}rem
     ${props => props.theme.margin}rem;
 `;

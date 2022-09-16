@@ -9,6 +9,7 @@ interface Props {
   parent?: string;
   /** Give explicit label. If missing, uses the Shortname of the Class */
   label?: string;
+  className?: string;
 }
 
 export type NewInstanceButtonProps = React.PropsWithChildren<Props>;
