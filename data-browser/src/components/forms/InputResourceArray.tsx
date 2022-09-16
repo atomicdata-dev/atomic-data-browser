@@ -91,7 +91,7 @@ export default function InputResourceArray({
       >
         <FaPlus />
       </NewButton>
-      {err?.index === undefined && <ErrMessage>{err?.message}</ErrMessage>}
+      {err?.index && <ErrMessage>{err?.message}</ErrMessage>}
     </Row>
   );
 }

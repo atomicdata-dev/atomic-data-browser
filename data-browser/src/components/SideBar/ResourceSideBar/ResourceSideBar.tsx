@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
 import { ErrorLook } from '../../ErrorLook';
+import { LoaderInline } from '../../Loader';
 
 interface ResourceSideBarProps {
   subject: string;
@@ -63,7 +64,7 @@ export function ResourceSideBar({
         resource={subject}
         title={`${subject} is loading...`}
       >
-        loading...
+        <LoaderInline />
       </SideBarItem>
     );
   }

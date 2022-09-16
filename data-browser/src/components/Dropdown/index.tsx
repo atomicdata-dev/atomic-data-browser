@@ -8,11 +8,62 @@ import { DropdownTriggerRenderFunction } from './DropdownTrigger';
 import { shortcuts } from '../HotKeyWrapper';
 import { Shortcut } from '../Shortcut';
 
+export const DIVIDER = 'divider' as const;
+
+export type MenuItemMinimial = {
+  onClick: () => unknown;
+  label: string;
+  helper?: string;
+  id: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  /** Keyboard shortcut helper */
+  shortcut?: string;
+};
+
+export type Item = typeof DIVIDER | MenuItemMinimial;
+
 interface DropdownMenuProps {
   /** The list of menu items */
-  items: MenuItemMinimial[];
+  items: Item[];
   trigger: DropdownTriggerRenderFunction;
 }
+
+/** Gets the index of an array and loops around when at the beginning or end */
+const loopingIndex = (index: number, length: number) => {
+  return ((index % length) + length) % length;
+};
+
+export const isItem = (
+  item: MenuItemMinimial | string,
+): item is MenuItemMinimial =>
+  typeof item !== 'string' && typeof item?.label === 'string';
+
+const shouldSkip = (item?: Item) => !isItem(item) || item.disabled;
+
+/**
+ * Returns a function that finds the next available index, it skips disabled
+ * items and dividers and loops around when at the start or end of the list.
+ * Returns 0 when no suitable index is found.
+ */
+const createIndexOffset =
+  (items: Item[]) => (startingPoint: number, offset: number) => {
+    const findNextAvailable = (scopedOffset: number) => {
+      const newIndex = loopingIndex(startingPoint + scopedOffset, items.length);
+
+      if (newIndex === startingPoint) {
+        return 0;
+      }
+
+      if (shouldSkip(items[newIndex])) {
+        return findNextAvailable(scopedOffset + offset);
+      }
+
+      return newIndex;
+    };
+
+    return findNextAvailable(offset);
+  };
 
 /**
  * Menu that opens on click and shows a bunch of items. Closes on Escape and on
@@ -44,7 +95,7 @@ export function DropdownMenu({
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const menuItemLength = items.length;
+  const getNewIndex = createIndexOffset(items);
   // if the keyboard is used to navigate the menu items
   const [useKeys, setUseKeys] = useState(false);
 
@@ -107,11 +158,11 @@ export function DropdownMenu({
     'enter',
     e => {
       e.preventDefault();
-      items[selectedIndex].onClick();
+      (items[selectedIndex] as MenuItemMinimial).onClick();
       handleClose();
     },
     { enabled: isActive },
-    [selectedIndex],
+    [selectedIndex, items],
   );
   // Move up (or to bottom if at top)
   useHotkeys(
@@ -119,12 +170,10 @@ export function DropdownMenu({
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected =
-        selectedIndex > 0 ? selectedIndex - 1 : menuItemLength - 1;
-      setSelectedIndex(newSelected);
+      setSelectedIndex(prev => getNewIndex(prev, -1));
     },
     { enabled: isActive },
-    [selectedIndex],
+    [getNewIndex],
   );
   // Move down (or to top if at bottom)
   useHotkeys(
@@ -132,14 +181,12 @@ export function DropdownMenu({
     e => {
       e.preventDefault();
       setUseKeys(true);
-      const newSelected =
-        selectedIndex === menuItemLength - 1 ? 0 : selectedIndex + 1;
-      setSelectedIndex(newSelected);
+      setSelectedIndex(prev => getNewIndex(prev, 1));
 
       return false;
     },
     { enabled: isActive },
-    [selectedIndex],
+    [getNewIndex],
   );
 
   const Trigger = useMemo(() => React.forwardRef(trigger), []);
@@ -153,8 +200,15 @@ export function DropdownMenu({
         menuId={menuId}
       />
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
-        {items.map(
-          ({ label, onClick, helper, id, disabled, shortcut, icon }, i) => (
+        {items.map((props, i) => {
+          if (!isItem(props)) {
+            return <ItemDivider key={i} />;
+          }
+
+          const { label, onClick, helper, id, disabled, shortcut, icon } =
+            props;
+
+          return (
             <MenuItem
               onClick={() => {
                 handleClose();
@@ -170,8 +224,8 @@ export function DropdownMenu({
               icon={icon}
               shortcut={shortcut}
             />
-          ),
-        )}
+          );
+        })}
       </Menu>
     </>
   );
@@ -181,17 +235,6 @@ interface MenuProps {
   isActive: boolean;
   x: number;
   y: number;
-}
-
-export interface MenuItemMinimial {
-  onClick: () => unknown;
-  label: string;
-  helper?: string;
-  id: string;
-  icon?: React.ReactNode;
-  disabled?: boolean;
-  /** Keyboard shortcut helper */
-  shortcut?: string;
 }
 
 export interface MenuItemSidebarProps extends MenuItemMinimial {
@@ -274,7 +317,13 @@ const MenuItemStyled = styled(Button)<MenuItemStyledProps>`
   }
 `;
 
+const ItemDivider = styled.div`
+  width: 100%;
+  border-bottom: 1px solid ${p => p.theme.colors.bg2};
+`;
+
 const Menu = styled.div<MenuProps>`
+  font-size: ${p => p.theme.fontSizeBody}rem;
   overflow: hidden;
   background: ${p => p.theme.colors.bg};
   border: ${p =>
