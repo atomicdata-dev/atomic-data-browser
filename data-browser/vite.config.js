@@ -33,6 +33,7 @@ export default defineConfig({
   },
   server: {
     strictPort: true,
+    host: true,
     hmr: {
       // Fixes an issue with HMR
       port: 5174,
