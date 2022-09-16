@@ -7,8 +7,6 @@ export interface SideBarItemProps {
 /** SideBarItem should probably be wrapped in an AtomicLink for optimal behavior */
 // eslint-disable-next-line prettier/prettier
 export const SideBarItem = styled('span')<SideBarItemProps>`
-  /* padding-left: ${props => props.theme.margin}rem;
-  padding-right: ${props => props.theme.margin}rem; */
   display: flex;
   min-height: ${props => props.theme.margin * 0.5 + 1}rem;
   align-items: center;

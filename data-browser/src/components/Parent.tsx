@@ -59,6 +59,8 @@ type NestedParentProps = {
   depth: number;
 };
 
+const MAX_BREADCRUMB_DEPTH = 4;
+
 /** The actually recursive part */
 function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
@@ -67,7 +69,7 @@ function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
   const [title] = useTitle(resource);
 
   // Prevent infinite recursion, set a limit to parent breadcrumbs
-  if (depth > 5) {
+  if (depth > MAX_BREADCRUMB_DEPTH) {
     return <Breadcrumb>...</Breadcrumb>;
   }
 
@@ -90,10 +92,6 @@ function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
 const Divider = styled.div`
   padding: 0.1rem 0.2rem;
 `;
-
-interface BreadCrumbProps {
-  isCurrent?: boolean;
-}
 
 const BreadCrumbBase = css`
   padding: 0.1rem 0.5rem;
@@ -123,23 +121,23 @@ const BreadCrumbInputWrapper = styled.div`
   }
 `;
 
-const Breadcrumb = styled.a<BreadCrumbProps>`
+const Breadcrumb = styled.a`
   ${BreadCrumbBase}
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   align-self: center;
-  cursor: ${p => (p.isCurrent ? 'initial' : 'pointer')};
+  cursor: 'pointer';
   text-decoration: none;
   border-radius: ${p => p.theme.radius};
 
   &:hover {
-    background: ${p => (p.isCurrent ? 'auto' : p.theme.colors.bg1)};
+    background: ${p => p.theme.colors.bg1};
     color: ${p => p.theme.colors.text};
   }
 
   &:active {
-    background: ${p => (p.isCurrent ? 'auto' : p.theme.colors.bg2)};
+    background: ${p => p.theme.colors.bg2};
   }
 `;
 

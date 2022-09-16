@@ -76,8 +76,10 @@ export function EditableTitle({
       style={{ display: isEditing ? 'hidden' : 'visible' }}
       subtle={canEdit && !text}
     >
-      {text ? text : canEdit ? placeholder : starndardTitle || 'Untitled'}
-      {canEdit && <Icon />}
+      <>
+        {text ? text : canEdit ? placeholder : starndardTitle || 'Untitled'}
+        {canEdit && <Icon />}
+      </>
     </Title>
   );
 }
