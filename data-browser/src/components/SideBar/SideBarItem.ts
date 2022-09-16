@@ -12,7 +12,6 @@ export const SideBarItem = styled('span')<SideBarItemProps>`
   align-items: center;
   justify-content: flex-start;
   color: ${p => p.theme.colors.textLight};
-  overflow: hidden;
   padding: 0.2rem;
   padding-left: 1rem;
   text-overflow: ellipsis;
@@ -27,5 +26,8 @@ export const SideBarItem = styled('span')<SideBarItemProps>`
   &:focus {
     background-color: ${p => p.theme.colors.bg1};
     color: ${p => p.theme.colors.text};
+  }
+  &:active {
+    background-color: ${p => p.theme.colors.bg2};
   }
 `;

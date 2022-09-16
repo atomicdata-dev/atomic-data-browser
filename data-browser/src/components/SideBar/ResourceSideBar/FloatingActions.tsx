@@ -68,7 +68,7 @@ export const floatingHoverStyles = css`
   }
 `;
 
-const SideBarButton = styled(Button)`
+export const SideBarButton = styled(Button)`
   color: ${p => p.theme.colors.main};
   border-radius: ${p => p.theme.radius};
   border: unset;
@@ -78,6 +78,9 @@ const SideBarButton = styled(Button)`
   &&:focus {
     background-color: ${p => p.theme.colors.bg1} !important;
     box-shadow: unset;
+  }
+  &&:active {
+    background-color: ${p => p.theme.colors.bg2} !important;
   }
 `;
 

@@ -8,8 +8,9 @@ import { useUserDrives } from '../../hooks/useUserDrives';
 import { paths } from '../../routes/paths';
 import { DIVIDER, DropdownMenu } from '../Dropdown';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
+import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
-const Trigger = buildDefaultTrigger(<FaServer />);
+const Trigger = buildDefaultTrigger(<FaServer />, SideBarButton);
 
 function getTitle(resource: Resource): string {
   return (

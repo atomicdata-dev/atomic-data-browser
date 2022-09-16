@@ -218,7 +218,9 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         )
       ) : (
         <>
-          {displayStyle.id === 'cards' && <CardList members={members} />}
+          {displayStyle.id === 'cards' && (
+            <CardList members={members} subject={resource.getSubject()} />
+          )}
           {displayStyle.id === 'table' && (
             <Table
               resource={resource}
@@ -235,9 +237,10 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
 
 type CardListProps = {
   members: string[];
+  subject: string;
 };
 
-function CardList({ members }: CardListProps): JSX.Element {
+function CardList({ members, subject }: CardListProps): JSX.Element {
   if (members.length === 0) {
     return <p>This collection is empty</p>;
   }
@@ -245,7 +248,7 @@ function CardList({ members }: CardListProps): JSX.Element {
   return (
     <Masonry>
       {members.map((member, index) => (
-        <GridItem key={member}>
+        <GridItem key={subject + ' ' + member + index}>
           <ResourceCard
             initialInView={index < 10}
             key={member}
