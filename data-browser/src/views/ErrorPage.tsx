@@ -87,7 +87,6 @@ export class ErrorBoundary extends React.Component<
 
   public render() {
     if (this.state.error) {
-      // You can render any custom fallback UI    w
       return (
         <CrashPage
           error={this.state.error}
