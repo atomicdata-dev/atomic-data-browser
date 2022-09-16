@@ -446,9 +446,9 @@ async function signIn(page: Page) {
  */
 async function newDrive(page: Page) {
   // Create new drive to prevent polluting the main drive
-  await page.locator(sideBarNewResource).click();
-  await expect(page).toHaveURL(`${frontEndUrl}/app/new`);
-  await page.locator('button:has-text("drive")').click();
+  await page.locator(sidebarDriveEdit).click();
+  await expect(page).toHaveURL(`${frontEndUrl}/app/server`);
+  await page.locator('button:has-text("Create new drive")').click();
   await expect(await page.locator('text="Create new resource"')).toBeVisible();
   const driveURL = await getCurrentSubject(page);
   await expect(driveURL).toContain('localhost');
