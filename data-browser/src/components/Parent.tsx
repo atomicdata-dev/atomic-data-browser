@@ -10,6 +10,7 @@ import {
 } from '@tomic/react';
 import { useNavigate } from 'react-router';
 import { constructOpenURL } from '../helpers/navigation';
+import { FaEdit } from 'react-icons/fa';
 
 type ParentProps = {
   resource: Resource;
@@ -26,10 +27,13 @@ function Parent({ resource }: ParentProps): JSX.Element {
       <List>
         {parent && <NestedParent subject={parent} depth={0} />}
         {canEdit ? (
-          <BreadCrumbInput
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
+          <BreadCrumbInputWrapper>
+            <BreadCrumbInput
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
+            <FaEdit />
+          </BreadCrumbInputWrapper>
         ) : (
           <BreadCrumbCurrent>{title}</BreadCrumbCurrent>
         )}
@@ -103,8 +107,21 @@ const BreadCrumbCurrent = styled.div`
 
 const BreadCrumbInput = styled.input`
   ${BreadCrumbBase}
+  background: none;
   outline: none;
   border: none;
+`;
+
+const BreadCrumbInputWrapper = styled.div`
+  display: flex;
+
+  &:hover svg {
+    display: flex;
+  }
+
+  svg {
+    display: none;
+  }
 `;
 
 const Breadcrumb = styled.a<BreadCrumbProps>`
