@@ -18,9 +18,7 @@ import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
 
-function removeTrailingSlash(str) {
-  return str.replace(/\/+$/, '');
-}
+const homeURL = window.location.origin;
 
 const isDev = import.meta.env.MODE === 'development';
 
@@ -45,12 +43,7 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
       {isDev && <Route path={paths.sandbox} element={<Sandbox />} />}
-      <Route
-        path='/'
-        element={
-          <ResourcePage subject={removeTrailingSlash(window.location.href)} />
-        }
-      />
+      <Route path='/' element={<ResourcePage subject={homeURL} />} />
       <Route path='*' element={<Local />} />
     </Routes>
   );
