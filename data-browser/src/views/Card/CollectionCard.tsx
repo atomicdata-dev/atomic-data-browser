@@ -15,7 +15,7 @@ const MAX_COUNT = 5;
  * (shortname) is rendered prominently at the top.
  */
 function CollectionCard({ resource, small }: CardViewProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [description] = useString(resource, properties.description);
   const [members] = useArray(resource, properties.collection.members);
   const [showAll, setShowMore] = useState(false);

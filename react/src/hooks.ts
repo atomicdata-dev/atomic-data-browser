@@ -357,40 +357,60 @@ export function useSubject(
   }
 }
 
+const titleHookOpts: useValueOptions = {
+  commit: true,
+};
+
 /**
  * Returns the most fitting title / name for a Resource. This is either the
  * Name, Shortname, Filename or truncated Subject URL of that resource.
  */
-export function useTitle(resource: Resource, truncateLength?: number): string {
-  const [name] = useString(resource, urls.properties.name);
-  const [shortname] = useString(resource, urls.properties.shortname);
-  const [filename] = useString(resource, urls.properties.file.filename);
+export function useTitle(
+  resource: Resource,
+  truncateLength?: number,
+): [string, (string: string) => Promise<void>] {
+  const [name, setName] = useString(
+    resource,
+    urls.properties.name,
+    titleHookOpts,
+  );
+  const [shortname, setShortname] = useString(
+    resource,
+    urls.properties.shortname,
+    titleHookOpts,
+  );
+  const [filename, setFileName] = useString(
+    resource,
+    urls.properties.file.filename,
+    titleHookOpts,
+  );
+
   // TODO: truncate non urls
   truncateLength = truncateLength ? truncateLength : 40;
 
   if (resource.loading) {
-    return '...';
+    return ['...', setName];
   }
 
   if (name !== null) {
-    return name;
+    return [name, setName];
   }
 
   if (shortname !== null) {
-    return shortname;
+    return [shortname, setShortname];
   }
 
   if (filename !== null) {
-    return filename;
+    return [filename, setFileName];
   }
 
   const subject = resource?.getSubject();
 
   if (typeof subject === 'string' && subject.length > 0) {
-    return truncateUrl(subject, truncateLength);
+    return [truncateUrl(subject, truncateLength), setName];
   }
 
-  return subject;
+  return [subject, setName];
 }
 
 /**

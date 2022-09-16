@@ -28,7 +28,7 @@ export function FloatingActions({
 }: FloatingActionsProps): JSX.Element {
   const navigate = useNavigate();
   const parentResource = useResource(subject);
-  const parentName = useTitle(parentResource);
+  const [parentName] = useTitle(parentResource);
 
   const handleAddClick = useCallback(() => {
     const url = buildURL(subject);
@@ -70,7 +70,7 @@ export const floatingHoverStyles = css`
 
 const SideBarButton = styled(Button)`
   color: ${p => p.theme.colors.main};
-  border-radius: unset;
+  border-radius: ${p => p.theme.radius};
   border: unset;
   height: 100%;
   width: 2rem;

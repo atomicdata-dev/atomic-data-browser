@@ -11,7 +11,7 @@ interface FilePillProps {
 /** Small preview of a file */
 function FilePill({ subject }: FilePillProps): JSX.Element {
   const resource = useResource(subject);
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
 
   return (
     <FilePillStyled data-test='file-pill'>

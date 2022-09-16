@@ -1,20 +1,17 @@
-import { useNumber, useString, useTitle, properties } from '@tomic/react';
+import { useNumber, useString, properties } from '@tomic/react';
 import React from 'react';
 import { Button } from '../components/Button';
 import { ContainerNarrow } from '../components/Containers';
+import { EditableTitle } from '../components/EditableTitle';
 import { ValueForm } from '../components/forms/ValueForm';
 import { ImageViewer } from '../components/ImageViewer';
-import Parent from '../components/Parent';
 import { ResourcePageProps } from './ResourcePage';
 
 /** Full page File resource for showing and downloading files */
 export function FilePage({ resource }: ResourcePageProps) {
-  const title = useTitle(resource);
-
   return (
     <ContainerNarrow about={resource.getSubject()}>
-      <Parent resource={resource} />
-      <h1>{title}</h1>
+      <EditableTitle resource={resource} />
       <FileInner resource={resource} />
     </ContainerNarrow>
   );

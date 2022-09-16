@@ -9,7 +9,7 @@ import { ResourcePageProps } from './ResourcePage';
 
 /** A View for Drives, which function similar to a homepage or dashboard. */
 function AgentPage({ resource }: ResourcePageProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [children] = useArray(resource, properties.children);
 
   return (

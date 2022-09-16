@@ -38,7 +38,7 @@ const hiddenProps = [
  * ```
  */
 export function useMarkdown(resource: Resource): string {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
   const [md, setMd] = useState(`# ${title}`);
   const store = useStore();

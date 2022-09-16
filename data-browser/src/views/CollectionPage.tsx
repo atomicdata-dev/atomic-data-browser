@@ -27,7 +27,6 @@ import ResourceCard from './Card/ResourceCard';
 import Table from '../components/Table';
 import { useSubjectParam } from '../helpers/useCurrentSubject';
 import { DropdownInput, DropDownMini } from '../components/forms/DropdownInput';
-import Parent from '../components/Parent';
 import Link from '../components/AtomicLink';
 import { ResourcePageProps } from './ResourcePage';
 import { useEffectOnce } from '../hooks/useEffectOnce';
@@ -148,7 +147,6 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
 
   return (
     <ContainerFull about={resource.getSubject()}>
-      <Parent resource={resource} />
       <EditableTitle resource={resource} />
       {description && <Markdown text={description} />}
       <ButtonsBar>

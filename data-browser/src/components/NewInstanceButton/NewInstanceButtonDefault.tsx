@@ -15,9 +15,10 @@ export function NewInstanceButtonDefault({
   icon,
   parent,
   children,
+  label,
 }: NewInstanceButtonProps): JSX.Element {
   const classResource = useResource(klass);
-  const title = useTitle(classResource);
+  const [title] = useTitle(classResource);
   const navigate = useNavigate();
   const store = useStore();
   const [shortname] = useString(classResource, properties.shortname);
@@ -75,7 +76,13 @@ export function NewInstanceButtonDefault({
   }, [klass, store, parent, createResourceAndNavigate]);
 
   return (
-    <Base onClick={onClick} title={title} icon={icon} subtle={subtle}>
+    <Base
+      onClick={onClick}
+      title={title}
+      icon={icon}
+      subtle={subtle}
+      label={label}
+    >
       {children}
     </Base>
   );

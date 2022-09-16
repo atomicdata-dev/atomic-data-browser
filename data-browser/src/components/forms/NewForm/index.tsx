@@ -65,7 +65,7 @@ export const NewFormDialog = ({
   parent,
 }: NewFormDialogProps): JSX.Element => {
   const klass = useResource(classSubject);
-  const className = useTitle(klass);
+  const [className] = useTitle(klass);
   const store = useStore();
   // Wrap in useState to avoid changing the value when the prop changes.
   const [initialShortname] = useState(initialTitle);

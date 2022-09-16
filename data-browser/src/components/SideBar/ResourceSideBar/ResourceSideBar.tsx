@@ -28,7 +28,7 @@ export function ResourceSideBar({
   const spanRef = useRef<HTMLSpanElement>(null);
   const resource = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
   const active = currentUrl === subject;
@@ -124,6 +124,7 @@ const ActionWrapper = styled.div`
   display: flex;
   width: 100%;
   overflow: hidden;
+  margin-left: -0.7rem;
   ${floatingHoverStyles}
 `;
 
@@ -139,6 +140,6 @@ const Title = styled(AtomicLink)<TitleProps>`
     cursor: pointer;
     color: ${({ active, theme: { colors } }) =>
       active ? colors.main : colors.textLight};
-    padding-left: 0px;
+    /* padding-left: 0px; */
   }
 `;

@@ -10,8 +10,9 @@ import {
 import { useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { ContainerNarrow } from '../components/Containers';
-import { useStore } from '@tomic/react';
+import { urls, useStore } from '@tomic/react';
 import { Row } from '../components/Row';
+import NewIntanceButton from '../components/NewInstanceButton';
 
 export function SettingsServer(): JSX.Element {
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
@@ -82,6 +83,13 @@ export function SettingsServer(): JSX.Element {
           {window.location.origin}
         </Button>
       </Row>
+      <br />
+      <h2>Or create a new one</h2>
+      <NewIntanceButton
+        klass={urls.classes.drive}
+        label={'Create new drive'}
+        subtle
+      />
     </ContainerNarrow>
   );
 }

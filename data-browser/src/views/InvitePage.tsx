@@ -30,7 +30,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
   const navigationType = useNavigationType();
   const { agent, setAgent } = useSettings();
   const agentResource = useResource(agent?.subject);
-  const agentTitle = useTitle(agentResource, 15);
+  const [agentTitle] = useTitle(agentResource, 15);
 
   const agentSubject = agent?.subject;
 

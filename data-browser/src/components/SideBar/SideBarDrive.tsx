@@ -25,7 +25,7 @@ export function SideBarDrive({
   const { drive, agent } = useSettings();
   const driveResource = useResource(drive);
   const [subResources] = useArray(driveResource, urls.properties.subResources);
-  const title = useTitle(driveResource);
+  const [title] = useTitle(driveResource);
   const navigate = useNavigate();
 
   return (

@@ -22,7 +22,7 @@ import { constructOpenURL } from '../../helpers/navigation';
 export function useCreateAndNavigate(klass: string, parent: string) {
   const store = useStore();
   const classTypeResource = useResource(klass);
-  const title = useTitle(classTypeResource);
+  const [title] = useTitle(classTypeResource);
   const navigate = useNavigate();
 
   return useCallback(

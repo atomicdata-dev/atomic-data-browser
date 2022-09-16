@@ -10,7 +10,7 @@ import {
 import { CardViewProps } from './ResourceCard';
 
 export function BookmarkCard({ resource }: CardViewProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [preview] = useString(resource, urls.properties.bookmark.preview);
 

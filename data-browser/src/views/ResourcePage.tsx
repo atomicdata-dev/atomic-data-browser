@@ -23,6 +23,7 @@ import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
+import Parent from '../components/Parent';
 
 type Props = {
   subject: string;
@@ -52,7 +53,12 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
   const ReturnComponent = selectComponent(klass);
 
-  return <ReturnComponent resource={resource} />;
+  return (
+    <>
+      <Parent resource={resource} />
+      <ReturnComponent resource={resource} />
+    </>
+  );
 }
 
 /** There properties are passed to every View at Page level */

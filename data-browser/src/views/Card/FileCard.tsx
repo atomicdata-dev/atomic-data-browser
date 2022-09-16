@@ -6,7 +6,7 @@ import { CardViewProps } from './ResourceCard';
 import { FileInner } from '../FilePage';
 
 function FileCard({ resource }: CardViewProps): JSX.Element {
-  const title = useTitle(resource);
+  const [title] = useTitle(resource);
 
   return (
     <React.Fragment>
