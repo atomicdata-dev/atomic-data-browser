@@ -136,10 +136,4 @@ const Title = styled(AtomicLink)<TitleProps>`
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
-  ${SideBarItem} {
-    cursor: pointer;
-    color: ${({ active, theme: { colors } }) =>
-      active ? colors.main : colors.textLight};
-    /* padding-left: 0px; */
-  }
 `;
