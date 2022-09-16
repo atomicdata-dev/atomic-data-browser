@@ -147,7 +147,7 @@ export const ButtonDefault = styled(ButtonBase)<ButtonProps>`
 
   &:focus-visible:not([disabled]),
   &:hover:not([disabled]) {
-    box-shadow: ${p => p.theme.boxShadowIntense};
+    box-shadow: ${p => p.theme.boxShadowSoft};
     background-color: ${p =>
       p.subtle ? p.theme.colors.bg : p.theme.colors.mainLight};
     color: ${p => (p.subtle ? p.theme.colors.main : p.theme.colors.bg)};

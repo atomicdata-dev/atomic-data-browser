@@ -65,29 +65,37 @@ export function useResources(
   subjects: string[],
   opts: FetchOpts = {},
 ): Map<string, Resource> {
-  const [resources, setResources] = useState(new Map());
+  const [resources, setResources] = useState(new Map<string, Resource>());
   const store = useStore();
 
   useEffect(() => {
+    // When a change happens, set the new Resource.
     function handleNotify(updated: Resource) {
-      // When a change happens, set the new Resource.
-      resources.set(updated.getSubject(), updated);
-      // We need to create new Maps for react hooks to update - React only checks references, not content
-      setResources(new Map(resources));
+      setResources(prev => {
+        prev.set(updated.getSubject(), updated);
+
+        // We need to create new Maps for react hooks to update - React only checks references, not content
+        return new Map(prev);
+      });
     }
 
-    // Iterate over all resources asynchronously
-    subjects.map(subject => {
-      const resource = store.getResourceLoading(subject, opts);
-      resources.set(subject, resource);
-      setResources(new Map(resources));
-      // Let the store know to call handleNotify when a resource is updated.
-      store.subscribe(subject, handleNotify);
+    setResources(prev => {
+      for (const subject of subjects) {
+        const resource = store.getResourceLoading(subject, opts);
+        prev.set(subject, resource);
+
+        // Let the store know to call handleNotify when a resource is updated.
+        store.subscribe(subject, handleNotify);
+      }
+
+      return new Map(prev);
     });
 
     return () => {
       // When the component is unmounted, unsubscribe from the store.
-      subjects.map(subject => store.unsubscribe(subject, handleNotify));
+      for (const subject of subjects) {
+        store.unsubscribe(subject, handleNotify);
+      }
     };
     // maybe add resources here
   }, [subjects, store]);

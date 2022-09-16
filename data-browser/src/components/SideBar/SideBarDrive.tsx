@@ -1,6 +1,6 @@
 import { urls, useArray, useResource, useTitle } from '@tomic/react';
 import React from 'react';
-import { FaPlus, FaServer } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSettings } from '../../helpers/AppSettings';
@@ -12,6 +12,7 @@ import { SignInButton } from '../SignInButton';
 import { SideBarHeader } from './SideBarHeader';
 import { shortcuts } from '../HotKeyWrapper';
 import { ErrorLook } from '../ErrorLook';
+import { DriveSwitcher } from './DriveSwitcher';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -53,15 +54,7 @@ export function SideBarDrive({
         >
           <FaPlus />
         </Button>
-        <Button
-          onClick={() => navigate(paths.serverSettings)}
-          icon
-          subtle
-          title={'Set a different Server'}
-          data-test='sidebar-drive-edit'
-        >
-          <FaServer />
-        </Button>
+        <DriveSwitcher />
       </SideBarHeader>
       <ListWrapper>
         {driveResource.isReady() ? (

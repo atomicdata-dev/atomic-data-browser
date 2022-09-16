@@ -9,7 +9,7 @@ import {
   versionsURL,
   shareURL,
 } from '../../helpers/navigation';
-import { DropdownMenu, MenuItemMinimial } from '../Dropdown';
+import { DIVIDER, DropdownMenu, isItem, Item } from '../Dropdown';
 import toast from 'react-hot-toast';
 import { paths } from '../../routes/paths';
 import { shortcuts } from '../HotKeyWrapper';
@@ -70,7 +70,7 @@ function ResourceContextMenu({
     }
   }
 
-  const items: MenuItemMinimial[] = [
+  const items: Item[] = [
     ...(simple
       ? []
       : [
@@ -89,6 +89,7 @@ function ResourceContextMenu({
             shortcut: shortcuts.data,
             onClick: () => navigate(dataURL(subject)),
           },
+          DIVIDER,
           {
             id: 'refresh',
             icon: <FaRedo />,
@@ -134,7 +135,7 @@ function ResourceContextMenu({
   ];
 
   const filteredItems = hide
-    ? items.filter(item => !hide.includes(item.id))
+    ? items.filter(item => !isItem(item) || !hide.includes(item.id))
     : items;
 
   const triggerComp = trigger ?? buildDefaultTrigger(<FaEllipsisV />);

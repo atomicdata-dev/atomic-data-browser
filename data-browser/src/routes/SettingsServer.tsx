@@ -10,15 +10,20 @@ import {
 import { useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { ContainerNarrow } from '../components/Containers';
-import { urls, useStore } from '@tomic/react';
+import { urls, useProperty, useResource, useStore } from '@tomic/react';
 import { Row } from '../components/Row';
+import InputResourceArray from '../components/forms/InputResourceArray';
+import styled from 'styled-components';
+import { isDev } from '../config';
 import NewIntanceButton from '../components/NewInstanceButton';
 
 export function SettingsServer(): JSX.Element {
-  const { drive: baseURL, setDrive: setBaseURL } = useSettings();
+  const { drive: baseURL, setDrive: setBaseURL, agent } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error | undefined>(undefined);
   const store = useStore();
+  const agentResource = useResource(agent?.subject);
+  const drivesProperty = useProperty(urls.properties.drives);
 
   function handleSetBaseUrl(url: string) {
     try {
@@ -31,14 +36,9 @@ export function SettingsServer(): JSX.Element {
 
   return (
     <ContainerNarrow>
-      <h2>Current Server</h2>
-      <p>
-        The Server is the machine hosting Atomic Data. It is the item shown in
-        the sidebar. If you create something new, this is where it will be
-        created by default.
-      </p>
+      <h2>Current drive</h2>
       <FieldStyled>
-        <LabelStyled>Server URL</LabelStyled>
+        <LabelStyled>Drive URL</LabelStyled>
         <InputWrapper>
           <InputStyled
             data-test='server-url-input'
@@ -71,25 +71,32 @@ export function SettingsServer(): JSX.Element {
         >
           AtomicData.dev
         </Button>
-        <Button
-          onClick={() => handleSetBaseUrl('http://localhost:9883')}
-          subtle
-          title='Set to the default URL of a locally hosted Atomic-Server, at port 9883.'
-          data-test='server-url-localhost'
-        >
-          localhost
-        </Button>
+        {isDev() && (
+          <Button
+            onClick={() => handleSetBaseUrl('http://localhost:9883')}
+            subtle
+            title='Set to the default URL of a locally hosted Atomic-Server, at port 9883.'
+            data-test='server-url-localhost'
+          >
+            localhost
+          </Button>
+        )}
         <Button onClick={() => handleSetBaseUrl(window.location.origin)} subtle>
           {window.location.origin}
         </Button>
       </Row>
-      <br />
-      <h2>Or create a new one</h2>
+      <Heading>Or create a new one</Heading>
       <NewIntanceButton
         klass={urls.classes.drive}
         label={'Create new drive'}
         subtle
       />
+      <Heading>User Drives</Heading>
+      <InputResourceArray resource={agentResource} property={drivesProperty} />
     </ContainerNarrow>
   );
 }
+
+const Heading = styled.h2`
+  margin-top: ${p => p.theme.margin}rem;
+`;
