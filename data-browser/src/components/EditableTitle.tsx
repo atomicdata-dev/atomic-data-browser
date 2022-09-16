@@ -34,7 +34,7 @@ export function EditableTitle({
   const ref = parentRef || innerRef;
 
   const [canEdit] = useCanWrite(resource);
-  const starndardTitle = useTitle(resource);
+  const [starndardTitle] = useTitle(resource);
 
   useHotkeys(
     'enter',
