@@ -24,6 +24,7 @@ import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
 import Parent from '../components/Parent';
+import styled from 'styled-components';
 
 type Props = {
   subject: string;
@@ -56,12 +57,17 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <>
       <Parent resource={resource} />
-      <main>
+      <Main>
         <ReturnComponent resource={resource} />
-      </main>
+      </Main>
     </>
   );
 }
+
+const Main = styled.main`
+  /* Makes the contents fit the entire page */
+  display: content;
+`;
 
 /** There properties are passed to every View at Page level */
 export type ResourcePageProps = {
