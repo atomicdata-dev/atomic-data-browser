@@ -40,11 +40,11 @@ export const AppSettingsContextProvider = (
     setBaseURL(url.origin);
   }
 
-  const setAgentToast = (newAgent: Agent) => {
+  const setAgentToast = (newAgent: Agent | undefined) => {
     try {
       setAgent(newAgent);
       newAgent?.subject && toast.success('Signed in!');
-      newAgent === null && toast.success('Signed out.');
+      newAgent === undefined && toast.success('Signed out.');
     } catch (e) {
       toast.error('Agent setting failed: ' + e.message);
       console.error(e);
@@ -101,8 +101,8 @@ interface AppSettings {
   sideBarLocked: boolean;
   setSideBarLocked: (s: boolean) => void;
   /** The currently signed in Agent */
-  agent: Agent | null;
-  setAgent: (a: Agent | null) => void;
+  agent: Agent | undefined;
+  setAgent: (a: Agent | undefined) => void;
 }
 
 const initialState: AppSettings = {
@@ -119,7 +119,7 @@ const initialState: AppSettings = {
   setNavbarFloating: () => undefined,
   sideBarLocked: false,
   setSideBarLocked: () => undefined,
-  agent: null,
+  agent: undefined,
   setAgent: () => undefined,
 };
 

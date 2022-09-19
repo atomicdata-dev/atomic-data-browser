@@ -26,9 +26,9 @@ export interface ElementEditPropsBase {
   /** Removes element from the Array */
   deleteElement: (i: number) => void;
   /** Position of the active Element */
-  current: number;
+  current?: number;
   /** Sets the position of the active Element */
-  setCurrent: (i: number) => void;
+  setCurrent: (i: number | undefined) => void;
   /** Changes the subject of a specific item in the array */
   setElementSubject: (i: number, subject: string) => void;
   /** Show a drag icon */
@@ -38,7 +38,7 @@ export interface ElementEditPropsBase {
 interface ElementEditProps extends ElementEditPropsBase {
   subject: string;
   /** Position in the array of Elements */
-  index: number;
+  index?: number;
   active: boolean;
 }
 
@@ -61,14 +61,14 @@ export function ElementEdit({
     // Prevents a race condition, see https://github.com/atomicdata-dev/atomic-data-browser/issues/189
     newResource: true,
   });
-  const [err, setErr] = useState(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const [text, setText] = useString(resource, properties.description, {
     commit: true,
     handleValidationError: setErr,
     validate: false,
   });
   const [klass] = useArray(resource, properties.isA);
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLTextAreaElement>(null);
   const [canWrite, canWriteErr] = useCanWrite(resource);
 
   /** If it is not a text element */
@@ -77,13 +77,13 @@ export function ElementEdit({
 
   function handleOnChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     handleResize();
-    setErr(null);
+    setErr(undefined);
     setText(e.target.value);
   }
 
   /** Let the textarea grow */
   function handleResize() {
-    if (ref.current) {
+    if (ref.current?.style) {
       ref.current.style.height = '0';
       ref.current.style.height = ref.current.scrollHeight + 'px';
     }
@@ -108,7 +108,7 @@ export function ElementEdit({
 
       if ((active && isEmpty) || (active && isAResource)) {
         e.preventDefault();
-        deleteElement(index);
+        index && deleteElement(index);
       }
     },
     // no keybaord events captured by ContentEditable
@@ -124,7 +124,7 @@ export function ElementEdit({
     e => {
       if (active) {
         e.preventDefault();
-        deleteElement(index);
+        index && deleteElement(index);
       }
     },
     {
@@ -135,7 +135,7 @@ export function ElementEdit({
   );
 
   function Err() {
-    if (err) {
+    if (err?.message) {
       return <ErrorLook>{err.message}</ErrorLook>;
     } else if (active && !canWrite && canWriteErr) {
       return <ErrorLook>{canWriteErr}</ErrorLook>;
@@ -151,8 +151,8 @@ export function ElementEdit({
         tabIndex={0}
         className='element'
         active={active}
-        onFocus={() => setCurrent(index)}
-        onBlur={() => setCurrent(null)}
+        onFocus={() => index && setCurrent(index)}
+        onBlur={() => setCurrent(undefined)}
       >
         <ResourceCard subject={subject} />
         <Err />
@@ -167,10 +167,10 @@ export function ElementEdit({
         tabIndex={0}
         active={active}
         // onClick={() => setCurrent(index)}
-        onFocus={() => setCurrent(index)}
-        onBlur={() => setCurrent(null)}
+        onFocus={() => index && setCurrent(index)}
+        onBlur={() => setCurrent(undefined)}
       >
-        <Markdown text={text} noMargin />
+        <Markdown text={text || ''} noMargin />
         <Err />
       </ElementWrapper>
     );
@@ -180,7 +180,7 @@ export function ElementEdit({
     <ElementWrapper
       canDrag={canDrag}
       active={active}
-      onClick={() => setCurrent(index)}
+      onClick={() => index && setCurrent(index)}
     >
       <ElementView
         canDrag={canDrag}
@@ -190,7 +190,7 @@ export function ElementEdit({
         ref={ref}
         onChange={handleOnChange}
         onFocus={() => setCurrent(index)}
-        onBlur={() => setCurrent(null)}
+        onBlur={() => setCurrent(undefined)}
         placeholder={`type something (try ${helpChar} or ${searchChar})`}
         // Not working, I think
         autoFocus={active}
@@ -199,13 +199,13 @@ export function ElementEdit({
       {text?.startsWith(searchChar) && (
         <SearchWidget
           query={text.substring(1)}
-          setElement={(s: string) => setElement(index, s)}
+          setElement={(s: string) => index && setElement(index, s)}
         />
       )}
       {text?.startsWith(helpChar) && (
         <HelperWidget
           query={text.substring(1)}
-          setElement={(s: string) => setElement(index, s)}
+          setElement={(s: string) => index && setElement(index, s)}
         />
       )}
       {text?.startsWith(linkChar) && (
@@ -231,7 +231,7 @@ export function ElementShow({ subject }: ElementShowProps): JSX.Element {
 
   return (
     <ElementWrapper>
-      <Markdown text={text} noMargin />
+      <Markdown text={text || ''} noMargin />
     </ElementWrapper>
   );
 }

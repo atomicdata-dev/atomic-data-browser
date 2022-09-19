@@ -22,7 +22,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
   const [subject, setSubject] = useState<string>('');
   const [privateKey, setPrivateKey] = useState<string>('');
-  const [error, setError] = useState<Error>(null);
+  const [error, setError] = useState<Error>(undefined);
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
   const [secret, setSecret] = useState<string>('');
@@ -31,7 +31,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   // When there is an agent, set the advanced values
   // Otherwise, reset the secret value
   React.useEffect(() => {
-    if (agent !== null) {
+    if (agent !== undefined) {
       fillAdvanced();
     } else {
       setSecret('');
@@ -66,8 +66,8 @@ const SettingsAgent: React.FunctionComponent = () => {
         "If you sign out, your secret will be removed. If you haven't saved your secret somewhere, you will lose access to this User. Are you sure you want to sign out?",
       )
     ) {
-      setAgent(null);
-      setError(null);
+      setAgent(undefined);
+      setError(undefined);
       setSubject('');
       setPrivateKey('');
     }
@@ -82,7 +82,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   /** Called when the secret or the subject is updated manually */
   async function handleUpdateSubjectAndKey() {
     renewSecret();
-    setError(null);
+    setError(undefined);
 
     try {
       const newAgent = new Agent(privateKey, subject);
@@ -106,12 +106,12 @@ const SettingsAgent: React.FunctionComponent = () => {
 
     if (updateSecret === '') {
       setSecret('');
-      setError(null);
+      setError(undefined);
 
       return;
     }
 
-    setError(null);
+    setError(undefined);
 
     try {
       const newAgent = Agent.fromSecret(updateSecret);
@@ -180,7 +180,7 @@ const SettingsAgent: React.FunctionComponent = () => {
               value={secret}
               onChange={e => handleUpdateSecret(e.target.value)}
               type={showPrivateKey ? 'text' : 'password'}
-              disabled={agent !== null}
+              disabled={agent !== undefined}
               name='secret'
               id='current-password'
               autoComplete='current-password'
@@ -216,7 +216,7 @@ const SettingsAgent: React.FunctionComponent = () => {
             >
               <InputWrapper>
                 <InputStyled
-                  disabled={agent !== null}
+                  disabled={agent !== undefined}
                   value={subject}
                   onChange={e => {
                     setSubject(e.target.value);
@@ -233,7 +233,7 @@ const SettingsAgent: React.FunctionComponent = () => {
             >
               <InputWrapper>
                 <InputStyled
-                  disabled={agent !== null}
+                  disabled={agent !== undefined}
                   type={showPrivateKey ? 'text' : 'password'}
                   value={privateKey}
                   onChange={e => {

@@ -27,7 +27,7 @@ export function useServerSearch(
   opts: SearchOpts = {},
 ): SearchResults {
   const { debounce = 50, include = false, limit = 30 } = opts;
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<string[]>([]);
   const store = useStore();
   // Calculating the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce);
@@ -50,11 +50,11 @@ export function useServerSearch(
   // Only set new results if the resource is no longer loading, which improves UX
   useEffect(() => {
     if (!resource.loading && resultsIn) {
-      setResults(resultsIn);
+      setResults(resultsIn as string[]);
     }
   }, [
     // Prevent re-rendering if the resultsIn is the same
-    resultsIn.toString(),
+    resultsIn?.toString(),
     resource.loading,
   ]);
 

@@ -73,11 +73,11 @@ function DocumentPageEdit({
     { commit: true, validate: false, commitDebounce: 0 },
   );
 
-  const titleRef = React.useRef(null);
+  const titleRef = React.useRef<HTMLInputElement>(null);
   const store = useStore();
-  const ref = React.useRef(null);
-  const [err, setErr] = useState(null);
-  const [current, setCurrent] = React.useState<number | null>(null);
+  const ref = React.useRef<HTMLInputElement>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
+  const [current, setCurrent] = React.useState<number | undefined>(undefined);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -125,7 +125,7 @@ function DocumentPageEdit({
       e.preventDefault();
 
       if (!current || current === 0) {
-        titleRef.current.focus();
+        titleRef.current?.focus();
       } else {
         focusElement(current - 1);
       }
@@ -142,7 +142,7 @@ function DocumentPageEdit({
       if (!current && document.activeElement === titleRef.current) {
         focusElement(0);
       } else {
-        focusElement(current + 1);
+        current && focusElement(current + 1);
       }
     },
     { enableOnTags: ['TEXTAREA', 'INPUT'] },
@@ -154,7 +154,7 @@ function DocumentPageEdit({
     shortcuts.moveLineUp,
     e => {
       e.preventDefault();
-      moveElement(current, current - 1);
+      current && moveElement(current, current - 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
@@ -165,7 +165,7 @@ function DocumentPageEdit({
     shortcuts.moveLineDown,
     e => {
       e.preventDefault();
-      moveElement(current, current + 1);
+      current && moveElement(current, current + 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
@@ -176,7 +176,7 @@ function DocumentPageEdit({
     'esc',
     e => {
       e.preventDefault();
-      setCurrent(null);
+      setCurrent(undefined);
     },
     { enableOnTags: ['TEXTAREA'] },
   );
@@ -218,17 +218,18 @@ function DocumentPageEdit({
     }
 
     setCurrent(goto);
-    let found =
-      ref?.current?.children[goto]?.getElementsByClassName('element')[0];
+    let found: HTMLInputElement | undefined = ref?.current?.children[
+      goto
+    ]?.getElementsByClassName('element')[0] as HTMLInputElement;
 
     if (!found) {
-      found = ref?.current?.children[goto];
+      found = ref?.current?.children[goto] as HTMLInputElement;
     }
 
     if (found) {
       found.focus();
     } else {
-      ref.current.focus();
+      ref.current?.focus();
     }
   }
 
@@ -268,8 +269,13 @@ function DocumentPageEdit({
   function handleSortEnd(event: DragEndEvent): void {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       const oldIndex = elements.indexOf(active.id);
+
+      if (!over?.id) {
+        return;
+      }
+
       const newIndex = elements.indexOf(over.id);
       moveElement(oldIndex, newIndex);
     }
@@ -308,7 +314,7 @@ function DocumentPageEdit({
         </Button>
       </div>
 
-      {err && <ErrorLook>{err.message}</ErrorLook>}
+      {err?.message && <ErrorLook>{err.message}</ErrorLook>}
       <UploadWrapper
         onFilesUploaded={handleUploadedFiles}
         parentResource={resource}
@@ -376,7 +382,7 @@ function DocumentPageShow({
 
 interface SortableElementProps extends ElementEditPropsBase {
   subject: string;
-  index: number;
+  index?: number;
   active: boolean;
 }
 

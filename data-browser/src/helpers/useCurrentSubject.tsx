@@ -51,22 +51,22 @@ export function useCurrentSubject(
 /** Hook for getting and setting a query param from the current Subject */
 export function useSubjectParam(key: string): [string, (string) => void] {
   const [subject, setSubject] = useCurrentSubject();
-  const [params, setParams] = useState(null);
+  const [params, setParams] = useState(undefined);
 
   useEffect(() => {
     if (subject) {
       setParams(new URL(subject).searchParams);
     } else {
-      setParams(null);
+      setParams(undefined);
     }
   }, [subject]);
 
-  function setVal(newVal: string | null) {
+  function setVal(newVal: string | undefined) {
     params.set(key, newVal);
     const newUrl = new URL(subject);
     newUrl.searchParams.set(key, newVal);
 
-    if (newVal === null || newVal === '') {
+    if (newVal === undefined || newVal === '' || newVal === null) {
       newUrl.searchParams.delete(key);
     }
 

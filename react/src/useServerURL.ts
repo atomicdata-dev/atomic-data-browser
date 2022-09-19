@@ -18,11 +18,11 @@ function fixServerURL(url: string) {
 export const useServerURL = (): [string, (serverUrl: string) => void] => {
   // Localstorage for cross-session persistence of JSON object
   const store = useStore();
-  const [serverUrlJson, setServerUrlJson] = useLocalStorage<string | null>(
+  const [serverUrlJson, setServerUrlJson] = useLocalStorage<string>(
     'serverUrl',
     store.getServerUrl(),
   );
-  const [serverURL, setBaseURL] = useState<string | undefined>(
+  const [serverURL, setBaseURL] = useState<string>(
     fixServerURL(window?.location.origin),
   );
 
@@ -42,7 +42,7 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
   }, [serverUrlJson]);
 
   useEffect(() => {
-    store.setServerUrl(serverURL);
+    serverURL && store.setServerUrl(serverURL);
   }, [serverURL]);
 
   return [serverURL, setServerUrlJson];
