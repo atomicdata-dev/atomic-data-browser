@@ -57,6 +57,8 @@ export function displayShortcut(shortcut: string): string {
       .replace('shift+', '⇧')
       .replace('backspace', '⌫');
   }
+
+  return shortcut;
 }
 
 /** App-wide keyboard events handler. */
