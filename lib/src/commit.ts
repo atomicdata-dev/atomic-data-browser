@@ -270,7 +270,7 @@ function replaceKey(
     Object.defineProperty(
       o,
       newKey,
-      Object.getOwnPropertyDescriptor(o, oldKey),
+      Object.getOwnPropertyDescriptor(o, oldKey)!,
     );
     delete o[oldKey];
   }
@@ -382,8 +382,8 @@ export function parseCommit(str: string): Commit {
     const destroy: boolean | undefined =
       jsonAdObj[urls.properties.commit.destroy];
     const signature: string = jsonAdObj[urls.properties.commit.signature];
-    const id: null | string = jsonAdObj['@id'];
-    const previousCommit: null | string =
+    const id: undefined | string = jsonAdObj['@id'];
+    const previousCommit: undefined | string =
       jsonAdObj[urls.properties.commit.previousCommit];
 
     return {
@@ -408,10 +408,10 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   const { subject, set, remove, id, destroy, signature, push } =
     parseCommit(jsonAdObjStr);
 
-  let resource = store.resources.get(subject);
+  let resource = store.resources.get(subject) as Resource;
 
   // If the resource doesn't exist in the store, create the resource
-  if (resource === undefined) {
+  if (!resource) {
     resource = new Resource(subject);
   } else {
     // Commit has already been applied here, ignore the commit
@@ -424,17 +424,17 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
     Object.keys(set).forEach(propUrl => {
       let newVal = set[propUrl];
 
-      if (newVal.constructor === {}.constructor) {
-        newVal = parseJsonAdResourceValue(store, newVal, resource, propUrl);
+      if (newVal?.constructor === {}.constructor) {
+        newVal = parseJsonAdResourceValue(newVal, resource, propUrl, store);
       }
 
       if (isArray(newVal)) {
         newVal = newVal.map(resourceOrURL => {
           return parseJsonAdResourceValue(
-            store,
             resourceOrURL,
             resource,
             propUrl,
+            store,
           );
         });
       }
@@ -456,7 +456,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
       // The `push` arrays may contain full resources.
       // We parse these here, add them to the store, and turn them into Subjects.
       const stringArr = newArr.map(val =>
-        parseJsonAdResourceValue(store, val, resource, propUrl),
+        parseJsonAdResourceValue(val, resource, propUrl, store),
       );
       // Merge both the old and new items
       const new_arr = current.concat(stringArr);

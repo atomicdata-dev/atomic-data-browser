@@ -10,18 +10,23 @@ const AGENT_LOCAL_STORAGE_KEY = 'agent';
  * is somewhere inside your synchronized application state. The value will not
  * update if the LocalStorage updates.
  */
-export const useCurrentAgent = (): [Agent | null, (agent?: Agent) => void] => {
+export const useCurrentAgent = (): [
+  Agent | undefined,
+  (agent?: Agent) => void,
+] => {
   // Localstorage for cross-session persistence of JSON object
-  const [agentJSON, setAgentJSON] = useLocalStorage<Agent | null>(
+  const [agentJSON, setAgentJSON] = useLocalStorage<Agent | undefined>(
     AGENT_LOCAL_STORAGE_KEY,
-    null,
+    undefined,
   );
   const store = useStore();
   // In memory representation of the full Agent
-  const [stateAgent, setStateAgent] = useState<Agent>(store.getAgent());
+  const [stateAgent, setStateAgent] = useState<Agent | undefined>(
+    store.getAgent(),
+  );
 
   const handleSetAgent = useCallback(
-    (agent: Agent | null) => {
+    (agent: Agent | undefined) => {
       setAgentJSON(agent);
       setStateAgent(agent);
       // Also update the Agent inside the store

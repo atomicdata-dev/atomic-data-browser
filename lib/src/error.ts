@@ -53,7 +53,7 @@ export class AtomicError extends Error {
   }
 
   public static fromResource(r: Resource): AtomicError {
-    const err = new AtomicError(r.get(properties.description).toString());
+    const err = new AtomicError(r.get(properties.description)!.toString());
 
     return err;
   }

@@ -1,7 +1,7 @@
 import { parseJsonADResource, Resource } from './index';
 
-export type JSONPrimitive = string | number | boolean | null;
-export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+export type JSONPrimitive = string | number | boolean;
+export type JSONValue = JSONPrimitive | JSONObject | JSONArray | null;
 export type JSONObject = { [member: string]: JSONValue };
 export type JSONArray = Array<JSONValue>;
 
@@ -10,7 +10,7 @@ export type JSONArray = Array<JSONValue>;
  * or Nested Resources. Throws an error when fails
  */
 export function valToArray(val: JSONValue): JSONArray {
-  if (val === undefined) {
+  if (val === undefined || val === null) {
     throw new Error(`Not an array: ${val}, is ${typeof val}`);
   }
 
@@ -63,7 +63,7 @@ export function valToNumber(val: JSONValue): number {
 /** Returns a default string representation of the value. */
 export function valToString(val: JSONValue): string {
   // val && val.toString();
-  return val.toString();
+  return val?.toString() || 'undefined';
 }
 
 /** Returns either the URL of the resource, or the NestedResource itself. */
@@ -76,7 +76,7 @@ export function valToResource(val: JSONValue): string | Resource {
     throw new Error(`Not a resource: ${val}, is a Date`);
   }
 
-  if (val.constructor === Array) {
+  if (val?.constructor === Array) {
     throw new Error(`Not a resource: ${val}, is an Array`);
   }
 

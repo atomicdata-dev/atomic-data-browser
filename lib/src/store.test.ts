@@ -10,7 +10,9 @@ describe('Store', () => {
     newResource.setUnsafe(urls.properties.description, testval);
     store.addResource(newResource);
     const gotResource = store.getResourceLoading(subject);
-    const atomString = gotResource.get(urls.properties.description).toString();
+    const atomString = gotResource!
+      .get(urls.properties.description)!
+      .toString();
     expect(atomString).to.equal(testval);
   });
 });

@@ -32,6 +32,10 @@ export class EventManager<Types extends string, H extends Handlers<Types>> {
       return;
     };
 
+    if (!handlers) {
+      return;
+    }
+
     await Promise.allSettled([...handlers].map(handler => wrap(handler)));
   }
 }

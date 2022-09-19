@@ -117,8 +117,7 @@ export function useProperty(subject: string): Property {
       subject,
       datatype: Datatype.UNKNOWN,
       shortname: 'error',
-      description:
-        'Error getting Property. ' + propertyResource.getError().message,
+      description: 'Error getting Property. ' + propertyResource.error.message,
       error: propertyResource.getError(),
     };
   }
@@ -166,9 +165,9 @@ type useValueOptions = {
   commitDebounce?: number;
   /**
    * A callback function that will be called when the validation fails. For
-   * example, pass a `setError` function.
+   * example, pass a `setError` function. If you want to remove the Error, return `undefined`.
    */
-  handleValidationError?: (e: Error) => unknown;
+  handleValidationError?: (e: Error | undefined) => unknown;
 };
 
 /**
@@ -267,7 +266,7 @@ export function useValue(
       async function setAsync() {
         try {
           await resource.set(propertyURL, newVal, store, validate);
-          handleValidationError && handleValidationError(null);
+          handleValidationError && handleValidationError(undefined);
           // Clone resource to force hooks to re-evaluate due to shallow comparison.
           store.notify(resource.clone());
         } catch (e) {
@@ -290,7 +289,7 @@ export function useValue(
   }
 
   // Value hasn't been set in state yet, so get the value
-  let value = null;
+  let value: JSONValue = null;
 
   // Try to actually get the value, log any errorr
   try {
@@ -418,7 +417,7 @@ export function useArray(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string[] | null, setValue] {
+): [JSONValue[] | null, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === null) {
@@ -427,7 +426,7 @@ export function useArray(
 
   // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
   // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
-  let arr = [];
+  let arr: JSONValue[] = [];
 
   try {
     arr = valToArray(value);
@@ -514,7 +513,7 @@ export function useStore(): Store {
 export function useCanWrite(
   resource: Resource,
   agent?: string,
-): [canWrite: boolean | null, message: string] {
+): [canWrite: boolean | null, message: string | null] {
   const store = useStore();
   const [canWrite, setCanWrite] = useState<boolean | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
@@ -568,4 +567,4 @@ export function useCanWrite(
  * The context must be provided by wrapping a high level React element in
  * `<StoreContext.Provider value={new Store}>My App</StoreContext.Provider>`
  */
-export const StoreContext = React.createContext<Store>(undefined);
+export const StoreContext = React.createContext<Store>(new Store());

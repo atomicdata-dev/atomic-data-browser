@@ -43,7 +43,7 @@ export function parseJsonADResource(
         // Resource values can be either strings (URLs) or full Resources, which in turn can be either Anonymous (no @id) or Named (with an @id)
         if (isArray(value)) {
           const newarr = value.map(val =>
-            parseJsonAdResourceValue(store, val, resource, key),
+            parseJsonAdResourceValue(val, resource, key, store),
           );
           resource.setUnsafe(key, newarr);
         } else if (typeof value === 'string') {
@@ -53,7 +53,7 @@ export function parseJsonADResource(
         } else if (typeof value === 'boolean') {
           resource.setUnsafe(key, value);
         } else {
-          const subject = parseJsonAdResourceValue(store, value, resource, key);
+          const subject = parseJsonAdResourceValue(value, resource, key, store);
           resource.setUnsafe(key, subject);
         }
       } catch (e) {
@@ -95,16 +95,16 @@ type StringOrNestedResource = string | JSONObject;
  * the Resource.
  */
 export function parseJsonAdResourceValue(
-  store: Store,
   value: JSONValue,
   resource: Resource,
   key: string,
+  store?: Store,
 ): StringOrNestedResource {
   if (typeof value === 'string') {
     return value;
   }
 
-  if (value.constructor === {}.constructor) {
+  if (value?.constructor === {}.constructor) {
     if (Object.keys(value).includes('@id')) {
       // It's a named resource that needs to be put in the store
       const nestedSubject = value['@id'];

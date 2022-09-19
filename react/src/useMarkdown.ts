@@ -73,7 +73,7 @@ async function propertyLine(
   store: Store,
 ): Promise<string> {
   const property = await store.getProperty(propertySubject);
-  let valString = value.toString();
+  let valString = value?.toString();
 
   switch (property.datatype) {
     case Datatype.ATOMIC_URL:

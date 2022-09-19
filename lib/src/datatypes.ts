@@ -88,7 +88,7 @@ export const validateDatatype = (
   value: JSONValue,
   datatype: Datatype,
 ): void => {
-  let err = null;
+  let err: null | string = null;
 
   if (value === undefined) {
     throw new Error(`Value is undefined, expected ${datatype}`);
