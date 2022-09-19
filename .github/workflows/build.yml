@@ -51,6 +51,12 @@ jobs:
       - name: Run atomic-server docker image in background (for testing)
         run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
       - run: pnpm test
+      - name: Upload failed e2e test screenshots
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: e2e-test-screenshots
+          path: data-browser/test-results
       - run: pnpm typedoc
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
