@@ -139,10 +139,10 @@ function DocumentPageEdit({
     e => {
       e.preventDefault();
 
-      if (!current && document.activeElement === titleRef.current) {
+      if (document.activeElement === titleRef.current) {
         focusElement(0);
       } else {
-        current && focusElement(current + 1);
+        focusElement(current + 1);
       }
     },
     { enableOnTags: ['TEXTAREA', 'INPUT'] },
@@ -154,7 +154,7 @@ function DocumentPageEdit({
     shortcuts.moveLineUp,
     e => {
       e.preventDefault();
-      current && moveElement(current, current - 1);
+      moveElement(current, current - 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
@@ -165,7 +165,7 @@ function DocumentPageEdit({
     shortcuts.moveLineDown,
     e => {
       e.preventDefault();
-      current && moveElement(current, current + 1);
+      moveElement(current, current + 1);
     },
     { enableOnTags: ['TEXTAREA'] },
     [current],
