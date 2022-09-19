@@ -19,15 +19,13 @@ function ResourceLine({ subject, clickable }: Props): JSX.Element {
 
   if (resource.error) {
     return (
-      <ErrorLook about={subject}>
-        Error: {resource.getError().message}
-      </ErrorLook>
+      <ErrorLook about={subject}>Error: {resource.error.message}</ErrorLook>
     );
   }
 
   const TRUNCATE_LENGTH = 40;
 
-  if (description?.length >= TRUNCATE_LENGTH) {
+  if (description && description.length >= TRUNCATE_LENGTH) {
     description = description.slice(0, TRUNCATE_LENGTH) + '...';
   }
 

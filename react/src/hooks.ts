@@ -319,11 +319,11 @@ export function useString(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | null, (string: string) => Promise<void>] {
+): [string | undefined, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (!val) {
-    return [null, setVal];
+    return [undefined, setVal];
   }
 
   return [valToString(val), setVal];
@@ -388,15 +388,15 @@ export function useTitle(
     return ['...', setName];
   }
 
-  if (name !== null) {
+  if (name !== undefined) {
     return [name, setName];
   }
 
-  if (shortname !== null) {
+  if (shortname !== undefined) {
     return [shortname, setShortname];
   }
 
-  if (filename !== null) {
+  if (filename !== undefined) {
     return [filename, setFileName];
   }
 
@@ -417,7 +417,7 @@ export function useArray(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [JSONValue[] | null, setValue] {
+): [string[], setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === null) {
@@ -426,10 +426,12 @@ export function useArray(
 
   // If .toArray() errors, return an empty array. Useful in forms when datatypes haves changed!
   // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
-  let arr: JSONValue[] = [];
+  let arr: string[] = [];
 
   try {
-    arr = valToArray(value);
+    // This cast isn't entirely correct - we should add a `useSubjects` hook.
+    // https://github.com/atomicdata-dev/atomic-data-browser/issues/219
+    arr = valToArray(value) as string[];
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e, value, propertyURL, resource.getSubject());
@@ -551,8 +553,8 @@ export function useCanWrite(
         setMsg(null);
       } else {
         setMsg(
-          "You don't have write rights in this resource or its parents: " +
-            canWriteMsg,
+          ("You don't have write rights in this resource or its parents: " +
+            canWriteMsg) as string,
         );
       }
     }

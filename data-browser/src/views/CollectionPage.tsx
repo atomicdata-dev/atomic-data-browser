@@ -137,7 +137,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         subtle
         onClick={handleNextPage}
         title='next page (right arrow)'
-        disabled={currentPage === totalPages - 1}
+        disabled={currentPage === totalPages! - 1}
         data-test='next-page'
       >
         <FaArrowRight />
@@ -150,7 +150,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
       <EditableTitle resource={resource} />
       {description && <Markdown text={description} />}
       <ButtonsBar>
-        {totalPages > 1 && <Pagination />}
+        {totalPages! > 1 && <Pagination />}
         <Button
           subtle
           onClick={handleToggleView}
@@ -195,7 +195,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
           <Link subject={valueFilter}>
             <h3>{classTitle}</h3>
           </Link>
-          <Markdown text={classDescription} />
+          <Markdown text={classDescription || ''} />
         </>
       )}
       {members.length === 0 ? (
@@ -219,7 +219,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
           )}
         </>
       )}
-      {totalPages > 1 && <Pagination />}
+      {totalPages! > 1 && <Pagination />}
     </ContainerFull>
   );
 }

@@ -68,7 +68,7 @@ export class Resource {
     store: Store,
     agent?: string,
     child?: string,
-  ): Promise<[boolean, string | null]> {
+  ): Promise<[boolean, string | undefined]> {
     const writeArray = this.get(properties.write);
 
     if (!agent) {
@@ -76,7 +76,7 @@ export class Resource {
     }
 
     if (writeArray && valToArray(writeArray).includes(agent)) {
-      return [true, null];
+      return [true, undefined];
     }
 
     const parentSubject = this.get(properties.parent) as string;
@@ -87,7 +87,7 @@ export class Resource {
 
     // Agents can always edit themselves
     if (parentSubject === agent) {
-      return [true, null];
+      return [true, undefined];
     }
 
     // This should not happen, but it prevents an infinite loop

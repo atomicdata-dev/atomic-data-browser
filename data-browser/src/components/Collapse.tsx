@@ -35,6 +35,10 @@ export function Collapse({
   const measureAndSet = () => {
     const div = node.current;
 
+    if (!div) {
+      return;
+    }
+
     div.style.height = 'inital';
     const height = div.scrollHeight;
 
@@ -65,7 +69,8 @@ export function Collapse({
 
   // Measure the height again when a child is added or removed.
   useEffect(() => {
-    mutationObserver.current.observe(node.current, { childList: true });
+    node.current &&
+      mutationObserver.current.observe(node.current, { childList: true });
 
     return () => mutationObserver.current.disconnect();
   }, []);

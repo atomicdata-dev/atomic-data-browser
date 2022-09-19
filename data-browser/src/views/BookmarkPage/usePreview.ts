@@ -59,7 +59,7 @@ const debouncedFetch = debounce(
         .then(async res => {
           await Promise.all([setPreview(res.preview), setName(res.name)]);
 
-          setError(null);
+          setError(undefined);
           setLoading(false);
           resource.save(store);
         })
@@ -82,7 +82,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [name, setName] = useString(resource, urls.properties.name);
 
-  const [error, setHasError] = useState<Error>(null);
+  const [error, setHasError] = useState<Error>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const update = useCallback(
@@ -112,7 +112,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   );
 
   useEffect(() => {
-    if (resource.isReady() && preview === null) {
+    if (resource.isReady() && preview === undefined) {
       update(url);
     }
   }, [preview, resource.isReady()]);
