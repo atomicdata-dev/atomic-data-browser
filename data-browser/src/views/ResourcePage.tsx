@@ -56,7 +56,9 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <>
       <Parent resource={resource} />
-      <ReturnComponent resource={resource} />
+      <main>
+        <ReturnComponent resource={resource} />
+      </main>
     </>
   );
 }

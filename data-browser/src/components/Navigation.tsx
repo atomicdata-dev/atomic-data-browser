@@ -161,6 +161,7 @@ function NavBar() {
   return (
     <ConditionalNavbar
       top={navbarTop}
+      aria-label='search'
       floating={navbarFloating}
       onSubmit={handleSubmit}
       autoComplete='off'
