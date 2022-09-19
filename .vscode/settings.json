@@ -4,7 +4,6 @@
   ],
   "files.exclude": {
     "**/.git": true,
-    "**/.yarn": true,
     "**/node_modules": true,
     "**/build": true,
     "**/coverage": true,
@@ -21,7 +20,7 @@
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
-  "eslint.packageManager": "yarn",
+  "eslint.packageManager": "pnpm",
   "eslint.quiet": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,

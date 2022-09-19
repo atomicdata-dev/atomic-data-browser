@@ -37,10 +37,7 @@ jobs:
         run: pnpm install
       # This is needed when playwright is used in tests #70
       - run: pnpm lint-fix
-      - run: pnpm build
-      - run: yarn typedoc
-      # We only use typedoc right now
-      # - run: yarn build
+      - run: pnpm typedoc
       - name: Deploy production 🚀
         if: ${{github.ref == 'refs/heads/main'}}
         uses: JamesIves/github-pages-deploy-action@4.0.0

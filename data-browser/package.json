@@ -47,7 +47,7 @@
   "homepage": "https://atomicdata.dev/",
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint && npm test"
+      "pre-push": "pnpm lint && pnpm test"
     }
   },
   "license": "MIT",

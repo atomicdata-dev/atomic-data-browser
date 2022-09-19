@@ -7,8 +7,8 @@
 			"problemMatcher": [
 				"$tsc-watch"
 			],
-			"label": "run data-browser dev server (yarn start)",
-			"detail": "yarn workspace @tomic/data-browser start",
+			"label": "run data-browser dev server (pnpm start)",
+			"detail": "pnpm workspace @tomic/data-browser start",
 			"isBackground": true,
 			"group": "build"
 		},
@@ -19,7 +19,7 @@
 				"$tsc-watch"
 			],
 			"label": "test data-browser",
-			"detail": "yarn test",
+			"detail": "pnpm test",
 			"isBackground": true,
 			"group": "test"
 		}
