@@ -64,20 +64,22 @@ function handleError(ev: Event) {
  * there is no agent
  */
 export async function authenticate(client: WebSocket, store: Store) {
-  if (!store.getAgent()) {
+  const agent = store.getAgent();
+
+  if (!agent) {
     return;
   }
 
   if (
     !client.url.startsWith('ws://localhost:') &&
-    store.getAgent()?.subject?.startsWith('http://localhost')
+    agent?.subject?.startsWith('http://localhost')
   ) {
     console.warn("Can't authenticate localhost Agent over websocket");
 
     return;
   }
 
-  const json = await createAuthentication(client.url, store.getAgent());
+  const json = await createAuthentication(client.url, agent);
   client.send('AUTHENTICATE ' + JSON.stringify(json));
 }
 

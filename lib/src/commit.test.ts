@@ -80,7 +80,7 @@ describe('Commit parse and apply', () => {
       'https://atomicdata.dev/element/cn6ymb8s8mc',
     );
     const description = resource
-      .get('https://atomicdata.dev/properties/description')
+      .get('https://atomicdata.dev/properties/description')!
       .toString();
     expect(description).to.equal('My new string');
   });

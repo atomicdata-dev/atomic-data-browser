@@ -17,7 +17,8 @@
     // This is a fix for mocha types https://stackoverflow.com/questions/55680391/typescript-error-ts2403-subsequent-variable-declarations-must-have-the-same-typ
     "skipLibCheck": true,
     // used in monorepo ts projects to set precendence in compiling tsc things https://dev.to/t7yang/typescript-yarn-workspace-monorepo-1pao
-    "composite": true
+    "composite": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules",

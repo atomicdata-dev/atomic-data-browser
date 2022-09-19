@@ -1,4 +1,5 @@
 import {
+  AtomicError,
   fetchResource,
   generatePublicKeyFromPrivate,
   properties,
@@ -63,6 +64,10 @@ export class Agent implements AgentInterface {
 
   /** Fetches the public key for the agent, checks if it matches with the current one */
   public async checkPublicKey(): Promise<void> {
+    if (!this.subject) {
+      throw new AtomicError(`Agent has no subject`);
+    }
+
     const resource = await fetchResource(this.subject);
 
     if (resource.error) {
@@ -71,7 +76,7 @@ export class Agent implements AgentInterface {
       );
     }
 
-    const fetchedPubKey = resource.get(properties.agent.publicKey).toString();
+    const fetchedPubKey = resource.get(properties.agent.publicKey)?.toString();
 
     if (fetchedPubKey !== (await this.getPublicKey())) {
       throw new Error(

@@ -35,7 +35,7 @@ export function useServerSearch(
   const urlString: string = useMemo(() => {
     const url = new URL(store.getServerUrl());
     url.pathname = 'search';
-    url.searchParams.set('q', debouncedQuery);
+    debouncedQuery && url.searchParams.set('q', debouncedQuery);
     url.searchParams.set('include', include.toString());
     url.searchParams.set('limit', limit.toString());
 

@@ -66,10 +66,14 @@ export class Resource {
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
   public async canWrite(
     store: Store,
-    agent: string,
+    agent?: string,
     child?: string,
   ): Promise<[boolean, string | null]> {
     const writeArray = this.get(properties.write);
+
+    if (!agent) {
+      return [false, 'No agent given'];
+    }
 
     if (writeArray && valToArray(writeArray).includes(agent)) {
       return [true, null];
@@ -142,7 +146,7 @@ export class Resource {
     return this.getArray(propUrl).map(item => {
       if (typeof item === 'string') return item;
 
-      return item['@id'];
+      return item!['@id'] as string;
     });
   }
 
@@ -170,7 +174,7 @@ export class Resource {
   }
 
   /** Returns the Error of the Resource */
-  public getError(): Error {
+  public getError(): Error | undefined {
     return this.error;
   }
 
@@ -233,7 +237,7 @@ export class Resource {
 
   /** Returns true is the resource had an `Unauthorized` 401 response. */
   public isUnauthorized(): boolean {
-    return this.error && isUnauthorized(this.error);
+    return !!this.error && isUnauthorized(this.error);
   }
 
   /** Removes the resource form both the server and locally */
@@ -245,7 +249,7 @@ export class Resource {
       agent = store.getAgent();
     }
 
-    if (agent === undefined) {
+    if (agent?.subject === undefined) {
       throw new Error(
         'No agent has been set or passed, you cannot delete this.',
       );
@@ -309,7 +313,10 @@ export class Resource {
     // Cloning the CommitBuilder to prevent race conditions, and keeping a back-up of current state for when things go wrong during posting.
     const oldCommitBuilder = this.commitBuilder.clone();
     this.commitBuilder = new CommitBuilder(this.getSubject());
-    const commit = await oldCommitBuilder.sign(agent.privateKey, agent.subject);
+    const commit = await oldCommitBuilder.sign(
+      agent.privateKey,
+      agent.subject!,
+    );
     // Add the signature to the list of applied ones, to prevent applying it again when the server
     this.appliedCommitSignatures.add(commit.signature);
     this.loading = false;
@@ -319,9 +326,9 @@ export class Resource {
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
 
     try {
-      this.commitError = null;
+      this.commitError = undefined;
       const createdCommit = await postCommit(commit, endpoint);
-      this.setUnsafe(properties.commit.lastCommit, createdCommit.id);
+      this.setUnsafe(properties.commit.lastCommit, createdCommit.id!);
       // The first `SUBSCRIBE` message will not have worked, because the resource didn't exist yet.
       // That's why we need to repeat the process
       // https://github.com/atomicdata-dev/atomic-data-rust/issues/486
@@ -329,7 +336,7 @@ export class Resource {
 
       store.notifyResourceSaved(this);
 
-      return createdCommit.id;
+      return createdCommit.id as string;
     } catch (e) {
       // Logic for handling error if the previousCommit is wrong.
       // Is not stable enough, and maybe not required at the time.

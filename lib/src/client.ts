@@ -53,8 +53,10 @@ export async function fetchResource(
     requestHeaders['Accept'] = JsonAdMime;
 
     // Sign the request if there is an agent present
-    if (store && store.getAgent()) {
-      await signRequest(subject, store.getAgent(), requestHeaders);
+    const agent = store?.getAgent();
+
+    if (agent) {
+      await signRequest(subject, agent, requestHeaders);
     }
 
     let url = subject;
@@ -116,7 +118,7 @@ export async function postCommit(
   const serialized = serializeDeterministically({ ...commit });
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/ad+json');
-  let response = null;
+  let response;
 
   try {
     response = await fetch(endpoint, {
@@ -138,16 +140,18 @@ export async function postCommit(
 }
 
 /** Throws an error if the URL is not valid */
-export function tryValidURL(subject: string): void {
+export function tryValidURL(subject: string | undefined): void {
   try {
-    new URL(subject);
+    new URL(subject as string);
   } catch (e) {
     throw new Error(`Not a valid URL: ${subject}. ${e}`);
   }
 }
 
 /** Returns true if a URL is valid. */
-export function isValidURL(subject: string): boolean {
+export function isValidURL(subject: string | undefined): boolean {
+  if (typeof subject !== 'string') return false;
+
   try {
     tryValidURL(subject);
 
@@ -184,11 +188,13 @@ export async function uploadFiles(
 
   const uploadURL = new URL(store.getServerUrl() + '/upload');
   uploadURL.searchParams.set('parent', parent);
-  const signedHeaders = await signRequest(
-    uploadURL.toString(),
-    store.getAgent(),
-    {},
-  );
+  const agent = store?.getAgent();
+
+  if (!agent) {
+    throw new AtomicError(`No agent present. Can't sign the upload request.`);
+  }
+
+  const signedHeaders = await signRequest(uploadURL.toString(), agent, {});
 
   const options = {
     method: 'POST',
@@ -205,7 +211,7 @@ export async function uploadFiles(
 
   const json = JSON.parse(body);
   const resources = parseJsonADArray(json);
-  const fileSubjects = [];
+  const fileSubjects: string[] = [];
 
   for (const r of resources) {
     store.addResource(r);

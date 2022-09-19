@@ -13,20 +13,20 @@ export function useImporter(importerUrl?: string) {
       setSuccess(false);
     } else {
       // Only if the resource has a query parameter, it's likely that it imported something
-      if (url.includes('?') && resource.isReady()) {
+      if (url?.includes('?') && resource.isReady()) {
         setSuccess(true);
       }
     }
   }, [resource]);
 
   function importURL(jsonAdUrl: string) {
-    const parsed = new URL(importerUrl);
+    const parsed = new URL(importerUrl!);
     parsed.searchParams.set('url', jsonAdUrl);
     setUrl(parsed.toString());
   }
 
   function importJsonAd(jsonAdString: string) {
-    const parsed = new URL(importerUrl);
+    const parsed = new URL(importerUrl!);
     parsed.searchParams.set('json', jsonAdString);
     setUrl(parsed.toString());
   }

@@ -71,7 +71,7 @@ export class Store {
     } = {},
   ) {
     opts.serverUrl && this.setServerUrl(opts.serverUrl);
-    opts.serverUrl && this.setAgent(opts.agent);
+    opts.agent && this.setAgent(opts.agent);
     this._resources = new Map();
     this.webSockets = new Map();
     this.subscribers = new Map();
@@ -165,7 +165,11 @@ export class Store {
     if (!opts.noWebSocket && ws?.readyState === WebSocket.OPEN) {
       fetchWebSocket(ws, subject);
     } else {
-      fetchResource(subject, this, opts.fromProxy && this.getServerUrl());
+      fetchResource(
+        subject,
+        this,
+        opts.fromProxy ? this.getServerUrl() : undefined,
+      );
     }
   }
 
@@ -179,7 +183,7 @@ export class Store {
   }
 
   /** Opens a Websocket for some subject URL, or returns the existing one. */
-  public getWebSocketForSubject(subject: string): WebSocket | null {
+  public getWebSocketForSubject(subject: string): WebSocket | undefined {
     const url = new URL(subject);
     const found = this.webSockets.get(url.origin);
 
@@ -193,16 +197,16 @@ export class Store {
   }
 
   /** Returns the base URL of the companion server */
-  public getServerUrl(): string | null {
-    return this.serverUrl ?? null;
+  public getServerUrl(): string {
+    return this.serverUrl;
   }
 
   /**
    * Returns the Currently set Agent, returns null if there is none. Make sure
    * to first run `store.setAgent()`.
    */
-  public getAgent(): Agent | null {
-    return this.agent ?? null;
+  public getAgent(): Agent | undefined {
+    return this.agent ?? undefined;
   }
 
   /**
@@ -214,7 +218,7 @@ export class Store {
   public getResourceLoading(
     subject: string = unknownSubject,
     opts: FetchOpts = {},
-  ): Resource | null {
+  ): Resource {
     // This is needed because it can happen that the useResource react hook is called while there is no subject passed.
     if (subject === unknownSubject || subject === null) {
       const newR = new Resource(unknownSubject, opts.newResource);
@@ -242,8 +246,6 @@ export class Store {
         this.addResource(found);
         this.fetchResource(subject, opts);
       }
-
-      return found;
     }
 
     return found;
@@ -359,7 +361,7 @@ export class Store {
   public removeResource(subject: string): void {
     const resource = this.resources.get(subject);
     this.resources.delete(subject);
-    this.eventManager.emit(StoreEvents.ResourceRemoved, resource);
+    resource && this.eventManager.emit(StoreEvents.ResourceRemoved, resource);
   }
 
   /**
@@ -393,7 +395,7 @@ export class Store {
    * Warning: doing this stores the Private Key of the Agent in memory. This
    * might have security implications for your application.
    */
-  public setAgent(agent: Agent): void {
+  public setAgent(agent: Agent | undefined): void {
     this.agent = agent;
 
     if (agent) {
@@ -409,13 +411,7 @@ export class Store {
   }
 
   /** Sets the Server base URL, without the trailing slash. */
-  public setServerUrl(url: string | null): void {
-    if (url === null) {
-      this.serverUrl = null;
-
-      return;
-    }
-
+  public setServerUrl(url: string): void {
     tryValidURL(url);
 
     if (url.substr(-1) === '/') {
@@ -428,7 +424,7 @@ export class Store {
   }
 
   /** Opens a WebSocket for this Atomic Server URL */
-  public openWebSocket(url: string): Promise<void> {
+  public openWebSocket(url: string) {
     // Check if we're running in a webbrowser
     if (typeof window !== 'undefined') {
       if (this.webSockets.get(url)) {
@@ -503,9 +499,12 @@ export class Store {
     }
 
     let callbackArray = this.subscribers.get(subject);
-    // Remove the function from the callBackArray
-    callbackArray = callbackArray?.filter(item => item !== callback);
-    this.subscribers.set(subject, callbackArray);
+
+    if (callbackArray) {
+      // Remove the function from the callBackArray
+      callbackArray = callbackArray?.filter(item => item !== callback);
+      this.subscribers.set(subject, callbackArray);
+    }
   }
 
   public on<T extends StoreEvents>(event: T, callback: StoreEventHandlers[T]) {
