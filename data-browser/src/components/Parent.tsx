@@ -23,7 +23,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
   const [canEdit] = useCanWrite(resource);
 
   return (
-    <ParentWrapper>
+    <ParentWrapper aria-label='Breadcrumbs'>
       <List>
         {parent && <NestedParent subject={parent} depth={0} />}
         {canEdit ? (
@@ -42,7 +42,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
   );
 }
 
-const ParentWrapper = styled.div`
+const ParentWrapper = styled.nav`
   padding: 0.2rem;
   padding-left: 0.5rem;
   color: ${props => props.theme.colors.textLight2};

@@ -11,21 +11,17 @@ export const SideBarItem = styled('span')<SideBarItemProps>`
   min-height: ${props => props.theme.margin * 0.5 + 1}rem;
   align-items: center;
   justify-content: flex-start;
-  color: ${p => p.theme.colors.textLight};
+  color: ${p => (p.disabled ? p.theme.colors.main : p.theme.colors.textLight)};
   padding: 0.2rem;
   padding-left: 1rem;
   text-overflow: ellipsis;
   text-decoration: none;
   border-radius: ${p => p.theme.radius};
 
-  &:disabled {
-    background-color: ${p => p.theme.colors.bg1};
-  }
-
   &:hover,
   &:focus {
     background-color: ${p => p.theme.colors.bg1};
-    color: ${p => p.theme.colors.text};
+    color: ${p => (p.disabled ? p.theme.colors.main : p.theme.colors.text)};
   }
   &:active {
     background-color: ${p => p.theme.colors.bg2};

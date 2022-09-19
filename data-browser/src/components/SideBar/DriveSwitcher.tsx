@@ -10,7 +10,11 @@ import { DIVIDER, DropdownMenu } from '../Dropdown';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
 import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
-const Trigger = buildDefaultTrigger(<FaServer />, SideBarButton);
+const Trigger = buildDefaultTrigger(
+  <FaServer />,
+  SideBarButton,
+  'Open Drive Settings',
+);
 
 function getTitle(resource: Resource): string {
   return (
