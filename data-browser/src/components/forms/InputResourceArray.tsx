@@ -57,6 +57,7 @@ export default function InputResourceArray({
       <Button
         disabled={props.disabled}
         title='Add an item to this list'
+        data-test={`input-${property.shortname}-add-resource`}
         subtle
         type='button'
         onClick={handleAdd}

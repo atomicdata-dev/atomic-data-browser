@@ -15,7 +15,7 @@ interface DropDownListProps {
   required?: boolean;
   initial?: string;
   /** Is called when a value is selected */
-  onUpdate: (value: string) => void;
+  onUpdate: (value: string | undefined) => void;
   /** A set of Subjects from which the user can choose */
   options: string[];
   /** Is called when the entire value is removed. Renders a trashcan button if passed */
@@ -73,13 +73,13 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   const [useKeys, setUseKeys] = useState<boolean>(false);
   const dropdownRef = useRef(null);
   const openMenuButtonRef = useRef(null);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   /** Close the menu and set the value */
   const handleClickOutside = useCallback(() => {
     setIsOpen(false);
     setIsFocus(false);
-    onBlur();
+    onBlur && onBlur();
     // Does this do what it should?
     setSelectedItem(inputValue);
   }, [onBlur, inputValue]);
@@ -92,6 +92,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
 
   // Sometimes the initial value changes on render, and then we should update it accordingly
   useEffect(() => {
+    setIsFocus(false);
     setSelectedItem(initial);
   }, [initial]);
 
@@ -109,14 +110,14 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value;
       setInputValue(val);
-      onInputChange(val);
+      onInputChange && onInputChange(val);
       setUseKeys(true);
       setIsFocus(true);
       setIsOpen(true);
       setSelectedIndex(-1);
 
       if (val === '') {
-        setSelectedItem(null);
+        setSelectedItem(undefined);
       } else {
         setSelectedItem(val);
       }
@@ -126,9 +127,9 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
 
   function clearSelection() {
     setInputValue('');
-    setSelectedItem(null);
-    onUpdate(null);
-    inputRef.current.focus();
+    setSelectedItem(undefined);
+    onUpdate(undefined);
+    inputRef.current?.focus();
   }
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -235,9 +236,9 @@ interface DropDownItemsMenuProps {
   setUseKeys: (useKeys: boolean) => void;
   inputValue: string;
   setInputValue: (inputValue: string) => void;
-  setSelectedItem: (item: string | null) => void;
+  setSelectedItem: (item: string | undefined) => void;
   /** Is called when the Component sets the actual value */
-  onUpdate: (item: string | null) => void;
+  onUpdate: (item: string | undefined) => void;
   /** When the new option in the dropdown menu is selected */
   onCreateClick?: () => void;
   setIsOpen: (isOpen: boolean) => void;
@@ -275,7 +276,7 @@ function DropDownItemsMenu({
   setUseKeys,
   useKeys,
   classType,
-}: DropDownItemsMenuProps): JSX.Element {
+}: DropDownItemsMenuProps): JSX.Element | null {
   const searchResults = useLocalSearch(inputValue, options);
   const showCreateOption = onCreateClick && !inputValue.startsWith('http');
 
@@ -302,7 +303,7 @@ function DropDownItemsMenu({
       const item = items[selectedIndex];
 
       if (isCreateOption(item)) {
-        onCreateClick();
+        onCreateClick && onCreateClick();
 
         return;
       }
