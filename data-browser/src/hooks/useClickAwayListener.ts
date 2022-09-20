@@ -6,7 +6,7 @@ type SupportedEvents = 'click' | 'mouseout' | 'mousedown';
 const elementsContainTarget = (refs: RefList, target: HTMLElement) =>
   refs
     .filter(r => r.current)
-    .some(ref => ref.current === target || ref.current.contains(target));
+    .some(ref => ref.current === target || ref.current?.contains(target));
 
 const addListeners = (
   types: SupportedEvents[],

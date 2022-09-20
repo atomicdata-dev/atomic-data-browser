@@ -28,7 +28,7 @@ export function handleInfo(e: Error): void {
   }
 }
 
-export function initBugsnag(apiKey?: string): BugsnagErrorBoundary {
+export function initBugsnag(apiKey: string): BugsnagErrorBoundary {
   Bugsnag.start({
     apiKey,
     plugins: [new BugsnagPluginReact()],
@@ -37,5 +37,5 @@ export function initBugsnag(apiKey?: string): BugsnagErrorBoundary {
     autoDetectErrors: !isDev(),
   });
 
-  return Bugsnag.getPlugin('react').createErrorBoundary(React);
+  return Bugsnag.getPlugin('react')!.createErrorBoundary(React);
 }

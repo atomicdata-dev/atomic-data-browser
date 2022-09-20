@@ -18,8 +18,8 @@ function New(): JSX.Element {
   const [classSubject] = useQueryString('classSubject');
   const [parentSubject] = useQueryString('parentSubject');
   // For selecting a class
-  const [classInput, setClassInput] = useState<string>(undefined);
-  const [error, setError] = useState<Error>(null);
+  const [classInput, setClassInput] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const navigate = useNavigate();
   const classFull = useResource(classInput);
   const [className] = useString(classFull, urls.properties.shortname);
@@ -28,6 +28,12 @@ function New(): JSX.Element {
   const calculatedParent = parentSubject || drive;
 
   function handleClassSet(e) {
+    if (!classInput) {
+      setError(new Error('Please select a class'));
+
+      return;
+    }
+
     e.preventDefault();
     navigate(newURL(classInput, calculatedParent));
   }

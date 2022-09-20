@@ -412,6 +412,8 @@ test.describe('data-browser', async () => {
     await page.locator('text=Create property: test-prop').click();
     await expect(page.locator('h1:has-text("new property")')).toBeVisible();
     await page.locator('[data-test="input-datatype"]').click();
+    // click twice, first click is buggy, it closes the dropdown from earlier
+    await page.locator('[data-test="input-datatype"]').click();
     await page
       .locator(
         'li:has-text("boolean - Either `true` or `false`. In JSON-AD, th...")',

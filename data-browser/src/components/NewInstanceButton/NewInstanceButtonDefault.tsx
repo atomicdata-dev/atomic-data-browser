@@ -50,18 +50,25 @@ export function NewInstanceButtonDefault({
       }
 
       case classes.drive: {
+        const agentSubject = store.getAgent()?.subject;
+
+        if (!agentSubject) {
+          throw new Error(
+            'No agent set in the Store, required when creating a Drive',
+          );
+        }
+
         const newResource = await createResourceAndNavigate(
           'drive',
           {
             [properties.isA]: [classes.drive],
-            [properties.write]: [store.getAgent().subject],
-            [properties.read]: [store.getAgent().subject],
-            // [properties.parent]: null,
+            [properties.write]: [agentSubject],
+            [properties.read]: [agentSubject],
           },
           undefined,
           true,
         );
-        const agent = await store.getResourceAsync(store.getAgent().subject);
+        const agent = await store.getResourceAsync(agentSubject);
         agent.pushPropVal(properties.drives, newResource.getSubject());
         agent.save(store);
         setDrive(newResource.getSubject());

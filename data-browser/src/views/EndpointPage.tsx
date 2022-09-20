@@ -40,7 +40,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
       parameters.map(async propUrl => {
         const val = virtualResource.get(propUrl);
 
-        if (val !== null) {
+        if (val !== undefined) {
           const fullprop = await store.getProperty(propUrl);
           url.searchParams.set(fullprop.shortname, val.toString());
         }

@@ -12,7 +12,7 @@ export default function InputResourceArray({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [err, setErr] = useState<ArrayError>(null);
+  const [err, setErr] = useState<ArrayError | undefined>(undefined);
   const [array, setArray] = useArray(resource, property.subject, {
     handleValidationError: setErr,
   });
@@ -20,7 +20,7 @@ export default function InputResourceArray({
   const [lastIsNew, setLastIsNew] = useState(false);
 
   function handleAdd() {
-    setArray([...array, null]);
+    setArray([...array, undefined]);
     setLastIsNew(true);
   }
 
@@ -30,10 +30,24 @@ export default function InputResourceArray({
     setArray(newArray);
   }
 
-  function handleSetSubject(value: string, handleErr, index: number) {
-    array[index] = value;
-    setArray(array);
-    setLastIsNew(false);
+  function handleSetSubject(
+    value: string | undefined,
+    _handleErr,
+    index: number,
+  ) {
+    if (value) {
+      array[index] = value;
+      setArray(array);
+      setLastIsNew(false);
+    }
+  }
+
+  function errMaybe(index: number) {
+    if (err && err.index === index) {
+      return err;
+    }
+
+    return undefined;
   }
 
   return (
@@ -45,7 +59,7 @@ export default function InputResourceArray({
           setSubject={(set, handleErr) =>
             handleSetSubject(set, handleErr, index)
           }
-          error={err?.index === index && err}
+          error={errMaybe(index)}
           setError={setErr}
           classType={property.classType}
           handleRemove={() => handleRemove(index)}

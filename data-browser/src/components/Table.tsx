@@ -93,7 +93,7 @@ function HeaderItem({ subject }: HeaderItemProps) {
   function handleToggleSort() {
     if (sortBy === subject) {
       if (sortDesc === 'true') {
-        setSortDesc(null);
+        setSortDesc(undefined);
       } else {
         setSortDesc('true');
       }

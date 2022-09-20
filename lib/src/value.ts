@@ -1,7 +1,7 @@
 import { parseJsonADResource, Resource } from './index';
 
 export type JSONPrimitive = string | number | boolean;
-export type JSONValue = JSONPrimitive | JSONObject | JSONArray | null;
+export type JSONValue = JSONPrimitive | JSONObject | JSONArray | undefined;
 export type JSONObject = { [member: string]: JSONValue };
 export type JSONArray = Array<JSONValue>;
 
@@ -9,8 +9,8 @@ export type JSONArray = Array<JSONValue>;
  * Tries to convert the value as an array of resources, which can be both URLs
  * or Nested Resources. Throws an error when fails
  */
-export function valToArray(val: JSONValue): JSONArray {
-  if (val === undefined || val === null) {
+export function valToArray(val?: JSONValue): JSONArray {
+  if (val === undefined) {
     throw new Error(`Not an array: ${val}, is ${typeof val}`);
   }
 
@@ -23,7 +23,7 @@ export function valToArray(val: JSONValue): JSONArray {
 }
 
 /** Tries to make a boolean from this value. Throws if it is not a boolean. */
-export function valToBoolean(val: JSONValue): boolean {
+export function valToBoolean(val?: JSONValue): boolean {
   if (typeof val !== 'boolean') {
     throw new Error(`Not a boolean: ${val}, is a ${typeof val}`);
   }
@@ -35,7 +35,7 @@ export function valToBoolean(val: JSONValue): boolean {
  * Tries to convert the value (timestamp or date) to a JS Date. Throws an error
  * when fails.
  */
-export function valToDate(val: JSONValue): Date {
+export function valToDate(val?: JSONValue): Date {
   // If it's a unix epoch timestamp...
   if (typeof val === 'number') {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -52,7 +52,7 @@ export function valToDate(val: JSONValue): Date {
 }
 
 /** Returns a number of the value, or throws an error */
-export function valToNumber(val: JSONValue): number {
+export function valToNumber(val?: JSONValue): number {
   if (typeof val !== 'number') {
     throw new Error(`Not a number: ${val}, is a ${typeof val}`);
   }

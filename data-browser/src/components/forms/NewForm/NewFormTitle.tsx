@@ -34,7 +34,7 @@ export const NewFormTitle: React.FC<NewFormTitleProps> = ({
   const [klassDescription] = useString(klass, properties.description);
   const [showDetails, setShowDetails] = useState(false);
 
-  const HeadingComp = variantHeaderMapping.get(variant) ?? 'h2';
+  const HeadingComp = variantHeaderMapping.get(variant!) ?? 'h2';
 
   return (
     <>

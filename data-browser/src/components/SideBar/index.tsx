@@ -27,7 +27,9 @@ export function SideBar(): JSX.Element {
     2000,
   );
 
-  const isWideScreen = windowSize.width > SIDEBAR_TOGGLE_WIDTH;
+  const isWideScreen = windowSize.width
+    ? windowSize.width > SIDEBAR_TOGGLE_WIDTH
+    : false;
 
   const mountRefs = useCombineRefs([ref, targetRef]);
 

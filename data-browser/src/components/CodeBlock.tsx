@@ -5,16 +5,16 @@ import styled from 'styled-components';
 import { Button } from './Button';
 
 interface CodeBlockProps {
-  content: string;
+  content?: string;
   loading?: boolean;
 }
 
 export function CodeBlock({ content, loading }: CodeBlockProps) {
-  const [isCopied, setIsCopied] = useState<string>('');
+  const [isCopied, setIsCopied] = useState<string | undefined>(undefined);
 
   function copyToClipboard() {
     setIsCopied(content);
-    navigator.clipboard.writeText(content);
+    navigator.clipboard.writeText(content || '');
     toast.success('Copied to clipboard');
   }
 

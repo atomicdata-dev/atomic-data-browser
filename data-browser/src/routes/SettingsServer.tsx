@@ -17,7 +17,7 @@ import NewIntanceButton from '../components/NewInstanceButton';
 export function SettingsServer(): JSX.Element {
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
-  const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
+  const [baseUrlErr, setErrBaseUrl] = useState<Error | undefined>(undefined);
   const store = useStore();
 
   function handleSetBaseUrl(url: string) {
@@ -58,7 +58,7 @@ export function SettingsServer(): JSX.Element {
         </Button>
         <p>
           Websocket{' '}
-          {store.getDefaultWebSocket().readyState === WebSocket.OPEN
+          {store.getDefaultWebSocket()?.readyState === WebSocket.OPEN
             ? 'connected'
             : 'disconnected'}
         </p>

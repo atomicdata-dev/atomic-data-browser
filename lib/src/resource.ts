@@ -127,15 +127,8 @@ export class Resource {
   }
 
   /** Get a Value by its property */
-  public get(propUrl: string): JSONValue | null {
-    const result = this.propvals.get(propUrl);
-
-    if (result === undefined) {
-      // throw new Error(`not found property ${propUrl} in ${this.subject}`);
-      return null;
-    }
-
-    return result;
+  public get(propUrl: string): JSONValue {
+    return this.propvals.get(propUrl);
   }
 
   /**
@@ -171,11 +164,6 @@ export class Resource {
    */
   public getCommitBuilder(): CommitBuilder {
     return this.commitBuilder;
-  }
-
-  /** Returns the Error of the Resource */
-  public getError(): Error | undefined {
-    return this.error;
   }
 
   /** Returns the subject URL of the Resource */

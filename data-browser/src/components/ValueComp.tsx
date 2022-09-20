@@ -46,7 +46,7 @@ function ValueComp({ value, datatype, noMargin }: Props): JSX.Element {
   } catch (e) {
     return (
       <ErrMessage>
-        {e.message} original value: {value.toString()}
+        {e.message} original value: {value?.toString()}
       </ErrMessage>
     );
   }

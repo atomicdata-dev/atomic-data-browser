@@ -15,7 +15,7 @@ export default function InputNumber({
 
   function handleUpdate(e) {
     if (e.target.value === '') {
-      setValue(null);
+      setValue(undefined);
 
       return;
     }

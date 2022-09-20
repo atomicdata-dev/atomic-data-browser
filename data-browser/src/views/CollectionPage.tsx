@@ -109,17 +109,19 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
 
   function handlePrevPage() {
     if (currentPage !== 0) {
-      setPage(currentPage - 1);
+      const nextNumber = currentPage - 1;
+      setPage(nextNumber.toString());
     }
   }
 
   function handleNextPage() {
     if (currentPage !== totalPages - 1) {
-      setPage(currentPage + 1);
+      const nextNumber = currentPage + 1;
+      setPage(nextNumber.toString());
     }
   }
 
-  function handleSetSort(by: string) {
+  function handleSetSort(by: string | undefined) {
     setSortBy(by);
   }
 

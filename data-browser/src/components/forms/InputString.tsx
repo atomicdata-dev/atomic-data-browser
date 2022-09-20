@@ -8,7 +8,7 @@ export default function InputString({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const [value, setValue] = useString(resource, property.subject, {
     handleValidationError: setErr,
   });

@@ -15,7 +15,7 @@ export const useNewForm = (
   klass: Resource,
   subject: string,
   setSubject: (v: string) => void,
-  parent: string,
+  parent?: string,
 ) => {
   // TODO: Don't push to history, but replace, because currenlty back is broken
   const [klassShortname] = useString(klass, properties.shortname);

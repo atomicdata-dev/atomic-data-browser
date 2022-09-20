@@ -29,7 +29,7 @@ interface NavWrapperProps {
 /** Wraps the entire app and adds a navbar at the bottom or the top */
 export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
   const { navbarTop, navbarFloating } = useSettings();
-  const contentRef = React.useRef(null);
+  const contentRef = React.useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const Content = styled.div<ContentProps>`
 /** Persistently shown navigation bar */
 function NavBar() {
   const [subject] = useCurrentSubject();
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string | undefined>('');
   const [query] = useSearchQuery();
   const navigate = useNavigate();
   const [inputRef, setInputFocus] = useFocus();
@@ -82,7 +82,7 @@ function NavBar() {
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
   useEffect(() => {
-    setInput(query.toString());
+    setInput(query?.toString());
   }, [query]);
 
   useEffect(() => {
@@ -132,6 +132,10 @@ function NavBar() {
     isRunningInTauri();
 
   const handleSubmit = event => {
+    if (!subject) {
+      return;
+    }
+
     event.preventDefault();
     //@ts-ignore this does seem callable
     inputRef.current.blur();

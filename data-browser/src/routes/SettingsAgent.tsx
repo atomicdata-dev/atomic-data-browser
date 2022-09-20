@@ -20,12 +20,12 @@ import { useNavigate } from 'react-router';
 
 const SettingsAgent: React.FunctionComponent = () => {
   const { agent, setAgent } = useSettings();
-  const [subject, setSubject] = useState<string>('');
-  const [privateKey, setPrivateKey] = useState<string>('');
-  const [error, setError] = useState<Error>(undefined);
+  const [subject, setSubject] = useState<string | undefined>(undefined);
+  const [privateKey, setPrivateKey] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [advanced, setAdvanced] = useState(false);
-  const [secret, setSecret] = useState<string>('');
+  const [secret, setSecret] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
 
   // When there is an agent, set the advanced values
@@ -51,6 +51,10 @@ const SettingsAgent: React.FunctionComponent = () => {
 
   function fillAdvanced() {
     try {
+      if (!agent) {
+        throw new Error('No agent set');
+      }
+
       setSubject(agent.subject);
       setPrivateKey(agent.privateKey);
     } catch (e) {
@@ -73,7 +77,7 @@ const SettingsAgent: React.FunctionComponent = () => {
     }
   }
 
-  function setAgentIfChanged(oldAgent: Agent, newAgent: Agent) {
+  function setAgentIfChanged(oldAgent: Agent | undefined, newAgent: Agent) {
     if (JSON.stringify(oldAgent) !== JSON.stringify(newAgent)) {
       setAgent(newAgent);
     }
@@ -85,7 +89,7 @@ const SettingsAgent: React.FunctionComponent = () => {
     setError(undefined);
 
     try {
-      const newAgent = new Agent(privateKey, subject);
+      const newAgent = new Agent(privateKey!, subject);
       await newAgent.getPublicKey();
       await newAgent.checkPublicKey();
 
@@ -97,7 +101,7 @@ const SettingsAgent: React.FunctionComponent = () => {
   }
 
   function handleCopy() {
-    navigator.clipboard.writeText(secret);
+    secret && navigator.clipboard.writeText(secret);
   }
 
   /** When the Secret updates, parse it and try if the */
@@ -148,9 +152,9 @@ const SettingsAgent: React.FunctionComponent = () => {
               <FaUser /> You{"'"}re signed in as
             </LabelStyled>
             <p>
-              <ResourceInline subject={agent.subject} />
+              <ResourceInline subject={agent.subject!} />
             </p>
-            <Button onClick={() => navigate(editURL(agent.subject))}>
+            <Button onClick={() => navigate(editURL(agent.subject!))}>
               Edit profile
             </Button>
             <Margin />

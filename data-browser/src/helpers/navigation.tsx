@@ -35,7 +35,7 @@ export function searchURL(query: string): string {
 type setFunc = (latestValue: string) => void;
 
 /** Returns a getter and a setter for query parameters */
-export function useQueryString(key: string): [string, setFunc] {
+export function useQueryString(key: string): [string | undefined, setFunc] {
   const [params, set] = useSearchParams(key);
 
   const customSet = (subject: string) => {
@@ -43,7 +43,13 @@ export function useQueryString(key: string): [string, setFunc] {
     set(params);
   };
 
-  return [params.get(key), customSet];
+  const found = params.get(key);
+
+  if (found === null) {
+    return [undefined, customSet];
+  }
+
+  return [found, customSet];
 }
 
 /** A hook containing a getter and a setter for the current 'query' search param */

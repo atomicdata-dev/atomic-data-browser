@@ -101,7 +101,7 @@ function ResourceCardInner(props: Props): JSX.Element {
         <AtomicLink subject={subject}>
           <h2>{title}</h2>
         </AtomicLink>
-        {resource.getError().message}
+        {resource.error.message}
       </ErrorLook>
     );
   }
