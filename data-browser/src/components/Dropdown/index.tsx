@@ -24,8 +24,8 @@ export function DropdownMenu({
   trigger,
 }: DropdownMenuProps): JSX.Element {
   const menuId = useId();
-  const dropdownRef = useRef(null);
-  const triggerRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const [isActive, setIsActive] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -55,8 +55,8 @@ export function DropdownMenu({
       return;
     }
 
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const menuRect = dropdownRef.current.getBoundingClientRect();
+    const triggerRect = triggerRef.current!.getBoundingClientRect();
+    const menuRect = dropdownRef.current!.getBoundingClientRect();
     const topPos = triggerRect.y - menuRect.height;
 
     // If the top is outside of the screen, render it below

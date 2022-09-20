@@ -10,7 +10,7 @@ export function InputResource({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [error, setError] = useState<Error>(null);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const [subject, setSubject] = useSubject(resource, property.subject, {
     handleValidationError: setError,
   });
