@@ -90,6 +90,7 @@ module.exports = {
     "jsx-a11y/no-autofocus": "off",
     // This has a bug, so we use typescripts version
     "no-shadow": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "@typescript-eslint/no-shadow": ["error"],

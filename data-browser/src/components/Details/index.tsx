@@ -37,7 +37,7 @@ export function Details({
       <SummaryWrapper>
         <IconButton
           onClick={toggleOpen}
-          turn={isOpen}
+          turn={!!isOpen}
           hide={!!disabled}
           aria-label={isOpen ? 'collapse' : 'expand'}
         >
@@ -45,7 +45,7 @@ export function Details({
         </IconButton>
         <TitleWrapper>{title}</TitleWrapper>
       </SummaryWrapper>
-      <StyledCollapse open={isOpen}>{children}</StyledCollapse>
+      <StyledCollapse open={!!isOpen}>{children}</StyledCollapse>
     </>
   );
 }

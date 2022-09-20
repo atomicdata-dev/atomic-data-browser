@@ -63,6 +63,7 @@ export function Collapse({
   const onRefConnect = useCallback((div: HTMLDivElement) => {
     if (!div) return;
 
+    // @ts-ignore this works and is mutable, ts doesn't like it
     node.current = div;
     measureAndSet();
   }, []);

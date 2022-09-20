@@ -27,7 +27,7 @@ function EndpointPage({ resource }: EndpointProps): JSX.Element {
   const [description] = useString(resource, properties.description);
   const [parameters] = useArray(resource, properties.endpoint.parameters);
   const [results] = useArray(resource, properties.endpoint.results);
-  const virtualResource = useResource(null, { newResource: true });
+  const virtualResource = useResource(undefined, { newResource: true });
   const store = useStore();
   const navigate = useNavigate();
 

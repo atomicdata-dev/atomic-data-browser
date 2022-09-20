@@ -70,7 +70,7 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   >(
     e => {
       if (
-        !innerDialogRef.current.contains(e.target as HTMLElement) &&
+        !innerDialogRef.current?.contains(e.target as HTMLElement) &&
         innerDialogRef.current !== e.target
       ) {
         onClose();
@@ -111,7 +111,7 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
       return effectTimeout(() => {
         // @ts-ignore
         dialogRef.current.close();
-        dialogRef.current.removeAttribute('data-closing');
+        dialogRef.current?.removeAttribute('data-closing');
         onClosed();
       }, ANIM_MS);
     }

@@ -340,11 +340,11 @@ export function useSubject(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | null, (string: string) => Promise<void>] {
+): [string | undefined, (string: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (!val) {
-    return [null, setVal];
+    return [undefined, setVal];
   }
 
   if (typeof val === 'string') {

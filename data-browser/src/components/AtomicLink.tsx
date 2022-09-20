@@ -48,8 +48,9 @@ export const AtomicLink = ({
   let isOnCurrentPage: boolean;
 
   try {
-    isOnCurrentPage =
-      subject && window.location.toString() === constructOpenURL(subject);
+    isOnCurrentPage = subject
+      ? window.location.toString() === constructOpenURL(subject)
+      : false;
   } catch (e) {
     return <span>{subject}</span>;
   }
@@ -77,7 +78,7 @@ export const AtomicLink = ({
     }
   };
 
-  const hrefConstructed = href || subject || pathToURL(path);
+  const hrefConstructed = href || subject || pathToURL(path!);
 
   return (
     <LinkView

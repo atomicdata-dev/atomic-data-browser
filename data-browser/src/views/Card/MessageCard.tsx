@@ -16,11 +16,11 @@ export function MessageCard({ resource }: ResourcePageProps) {
     <>
       <Details>
         <Detail>
-          Message in <ResourceInline subject={parent} />
+          Message in <ResourceInline subject={parent!} />
         </Detail>
-        <CommitDetail commitSubject={lastCommit} />
+        <CommitDetail commitSubject={lastCommit!} />
       </Details>
-      <Markdown text={description} />
+      <Markdown text={description || ''} />
     </>
   );
 }

@@ -24,7 +24,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
         <h1>Unauthorized</h1>
         {agent ? (
           <>
-            <p>{resource.error.message}</p>
+            <p>{resource.error?.message}</p>
             <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
           </>
         ) : (
@@ -40,7 +40,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
   return (
     <ContainerNarrow>
       <h1>⚠️ Error opening {resource.getSubject()}</h1>
-      <ErrorLook>{resource.getError().message}</ErrorLook>
+      <ErrorLook>{resource.error?.message}</ErrorLook>
       <Row>
         <Button
           onClick={() => store.fetchResource(subject, { setLoading: true })}

@@ -9,7 +9,7 @@ export enum ErrorType {
 }
 
 /** Pass any error. If the error is an AtomicError and it's Unauthorized, return true */
-export function isUnauthorized(error: Error): boolean {
+export function isUnauthorized(error?: Error): boolean {
   if (error instanceof AtomicError) {
     if (error.type === ErrorType.Unauthorized) {
       return true;

@@ -69,12 +69,12 @@ export function EditableTitle({
     />
   ) : (
     <Title
-      canEdit={canEdit}
+      canEdit={!!canEdit}
       title={canEdit ? 'Edit title' : 'View title'}
       data-test='editable-title'
       onClick={handleClick}
       style={{ display: isEditing ? 'hidden' : 'visible' }}
-      subtle={canEdit && !text}
+      subtle={!!canEdit && !text}
     >
       <>
         {text ? text : canEdit ? placeholder : starndardTitle || 'Untitled'}

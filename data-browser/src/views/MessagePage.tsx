@@ -16,12 +16,12 @@ export function MessagePage({ resource }: ResourcePageProps) {
   return (
     <ContainerNarrow about={resource.getSubject()}>
       <h3>
-        Message in <ResourceInline subject={parent} />
+        Message in <ResourceInline subject={parent!} />
       </h3>
       <Details>
-        <CommitDetail commitSubject={lastCommit} />
+        <CommitDetail commitSubject={lastCommit!} />
       </Details>
-      <Markdown text={description} />
+      <Markdown text={description || ''} />
     </ContainerNarrow>
   );
 }

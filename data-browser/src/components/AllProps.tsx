@@ -5,7 +5,7 @@ import PropVal from './PropVal';
 
 type Props = {
   resource: Resource;
-  /** A list of property subjects (URLs) that need not be rendererd */
+  /** A list of property subjects (URLs) that need not be rendered */
   except?: string[];
   /** If set to true, adds a button which opens up a form for each property */
   editable?: boolean;
@@ -21,12 +21,7 @@ const AllPropsWrapper = styled.div`
 `;
 
 /** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */
-function AllProps({
-  resource,
-  except = [],
-  editable,
-  columns,
-}: Props): JSX.Element {
+function AllProps({ resource, except = [], editable, columns }: Props) {
   return (
     <AllPropsWrapper>
       {[...resource.getPropVals()].map(
@@ -34,7 +29,7 @@ function AllProps({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ([prop, _val]): JSX.Element => {
           if (except.includes(prop)) {
-            return null;
+            return <></>;
           }
 
           return (
@@ -43,7 +38,7 @@ function AllProps({
               key={prop}
               propertyURL={prop}
               resource={resource}
-              editable={editable}
+              editable={!!editable}
             />
           );
         },

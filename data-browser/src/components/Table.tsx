@@ -25,7 +25,7 @@ type TableProps = {
  * A table view for Collections. Header shows properties of the first class of
  * the collection
  */
-function Table({ resource, members, columns }: TableProps): JSX.Element {
+function Table({ resource, members, columns }: TableProps) {
   // Don't show the shortname, it's already shown in the first row.
   const propsArray = columns.filter(item => item !== urls.properties.shortname);
 
@@ -152,7 +152,10 @@ type RowProps = {
   propsArray: string[];
 };
 
-function TableRow({ subject, propsArray }: RowProps): JSX.Element {
+const TableRow = React.memo(function TableRow({
+  subject,
+  propsArray,
+}: RowProps) {
   const resource = useResource(subject, {
     // We don't need to fetch all members for Collections when looking at a Table view.
     allowIncomplete: true,
@@ -172,7 +175,7 @@ function TableRow({ subject, propsArray }: RowProps): JSX.Element {
       })}
     </RowStyled>
   );
-}
+});
 
 const RowStyled = styled.tr`
   background-color: ${p => p.theme.colors.bg};

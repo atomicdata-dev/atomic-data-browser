@@ -20,7 +20,7 @@ export const useNewForm = (
   // TODO: Don't push to history, but replace, because currenlty back is broken
   const [klassShortname] = useString(klass, properties.shortname);
 
-  const [subjectErr, setSubjectErr] = useState<Error>(null);
+  const [subjectErr, setSubjectErr] = useState<Error | undefined>(undefined);
   const store = useStore();
   const [subjectValue, setSubjectValue] = useState<string>(subject.toString());
   const resource = useResource(subject.toString(), resourseOpts);
@@ -53,7 +53,7 @@ export const useNewForm = (
       return;
     }
 
-    setSubjectErr(null);
+    setSubjectErr(undefined);
     // Expensive!
     store
       .renameSubject(oldSubject, defferedSubjectValue)

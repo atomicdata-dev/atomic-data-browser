@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 type RefList = Array<React.RefObject<HTMLElement | null>>;
-type SupportedEvents = 'click' | 'mouseout';
+type SupportedEvents = 'click' | 'mouseout' | 'mousedown';
 
 const elementsContainTarget = (refs: RefList, target: HTMLElement) =>
   refs
@@ -35,7 +35,7 @@ export const useClickAwayListener = (
   refs: RefList,
   onClickAway: () => void,
   shouldListen = true,
-  eventTypes: SupportedEvents[] = ['click'],
+  eventTypes: SupportedEvents[] = ['mousedown'],
 ): void => {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

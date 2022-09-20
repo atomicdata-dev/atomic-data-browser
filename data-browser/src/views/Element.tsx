@@ -28,7 +28,7 @@ export interface ElementEditPropsBase {
   /** Position of the active Element */
   current?: number;
   /** Sets the position of the active Element */
-  setCurrent: (i: number | undefined) => void;
+  setCurrent: (i: number) => void;
   /** Changes the subject of a specific item in the array */
   setElementSubject: (i: number, subject: string) => void;
   /** Show a drag icon */
@@ -108,7 +108,7 @@ export function ElementEdit({
 
       if ((active && isEmpty) || (active && isAResource)) {
         e.preventDefault();
-        index && deleteElement(index);
+        deleteElement(index!);
       }
     },
     // no keybaord events captured by ContentEditable
@@ -124,7 +124,7 @@ export function ElementEdit({
     e => {
       if (active) {
         e.preventDefault();
-        index && deleteElement(index);
+        deleteElement(index!);
       }
     },
     {
@@ -151,8 +151,8 @@ export function ElementEdit({
         tabIndex={0}
         className='element'
         active={active}
-        onFocus={() => index && setCurrent(index)}
-        onBlur={() => setCurrent(undefined)}
+        onFocus={() => setCurrent(index!)}
+        onBlur={() => setCurrent(-1)}
       >
         <ResourceCard subject={subject} />
         <Err />
@@ -166,9 +166,8 @@ export function ElementEdit({
         canDrag={canDrag}
         tabIndex={0}
         active={active}
-        // onClick={() => setCurrent(index)}
-        onFocus={() => index && setCurrent(index)}
-        onBlur={() => setCurrent(undefined)}
+        onFocus={() => setCurrent(index!)}
+        onBlur={() => setCurrent(-1)}
       >
         <Markdown text={text || ''} noMargin />
         <Err />
@@ -189,8 +188,8 @@ export function ElementEdit({
         active={active}
         ref={ref}
         onChange={handleOnChange}
-        onFocus={() => setCurrent(index)}
-        onBlur={() => setCurrent(undefined)}
+        onFocus={() => setCurrent(index!)}
+        onBlur={() => setCurrent(-1)}
         placeholder={`type something (try ${helpChar} or ${searchChar})`}
         // Not working, I think
         autoFocus={active}
