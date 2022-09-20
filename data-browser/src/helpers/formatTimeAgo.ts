@@ -16,7 +16,7 @@ const DIVISIONS: {
 ];
 
 // https://blog.webdevsimplified.com/2020-07/relative-time-format/
-export function formatTimeAgo(date: Date): string {
+export function formatTimeAgo(date: Date): string | undefined {
   let duration = (date.getTime() - new Date().getTime()) / 1000;
 
   for (let i = 0; i <= DIVISIONS.length; i++) {

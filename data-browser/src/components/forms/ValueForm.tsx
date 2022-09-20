@@ -37,7 +37,7 @@ export function ValueForm({
   noMargin,
   propertyURL,
   datatype,
-}: ValueFormProps): JSX.Element {
+}: ValueFormProps) {
   const [editMode, setEditMode] = useState(false);
   const property = useProperty(propertyURL);
   const [value] = useValue(resource, propertyURL);
@@ -52,10 +52,10 @@ export function ValueForm({
       enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
     },
   );
-  const [err, setErr] = useState<Error>(null);
-  const haveAgent = agent !== null;
+  const [err, setErr] = useState<Error | undefined>(undefined);
+  const haveAgent = agent !== undefined;
 
-  if (value === null) {
+  if (value === undefined) {
     return null;
   }
 
@@ -79,7 +79,7 @@ export function ValueForm({
   }
 
   function handleCancel() {
-    setErr(null);
+    setErr(undefined);
     setEditMode(false);
     // Should this maybe also remove the edits to the resource?
     // https://github.com/atomicdata-dev/atomic-data-browser/issues/36

@@ -38,7 +38,7 @@ function ResourceContextMenu({
   hide,
   trigger,
   simple,
-}: ResourceContextMenuProps): JSX.Element {
+}: ResourceContextMenuProps) {
   const store = useStore();
   const navigate = useNavigate();
   const location = useLocation();

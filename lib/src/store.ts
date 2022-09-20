@@ -284,7 +284,7 @@ export class Store {
     const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
 
-    if (datatypeUrl === null) {
+    if (datatypeUrl === undefined) {
       throw Error(
         `Property ${subject} has no datatype: ${resource.getPropVals()}`,
       );
@@ -292,7 +292,7 @@ export class Store {
 
     const shortname = resource.get(urls.properties.shortname);
 
-    if (shortname === null) {
+    if (shortname === undefined) {
       throw Error(
         `Property ${subject} has no shortname: ${resource.getPropVals()}`,
       );
@@ -300,7 +300,7 @@ export class Store {
 
     const description = resource.get(urls.properties.description);
 
-    if (description === null) {
+    if (description === undefined) {
       throw Error(
         `Property ${subject} has no description: ${resource.getPropVals()}`,
       );

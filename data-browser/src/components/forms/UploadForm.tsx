@@ -24,12 +24,12 @@ export default function UploadForm({
 
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       try {
-        setErr(null);
+        setErr(undefined);
         setIsUploading(true);
         const netUploaded = await uploadFiles(
           acceptedFiles,
@@ -63,7 +63,7 @@ export default function UploadForm({
           <Button
             subtle
             onClick={() => null}
-            loading={isUploading && 'Uploading...'}
+            loading={isUploading ? 'Uploading...' : undefined}
           >
             Upload file(s)...
           </Button>
@@ -95,11 +95,11 @@ export function UploadWrapper({
   const store = useStore();
   // const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       try {
-        setErr(null);
+        setErr(undefined);
         setIsUploading(true);
         const netUploaded = await uploadFiles(
           acceptedFiles,

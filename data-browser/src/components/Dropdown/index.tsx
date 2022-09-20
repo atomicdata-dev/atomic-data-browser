@@ -160,6 +160,7 @@ export function DropdownMenu({
                 handleClose();
                 onClick();
               }}
+              id={id}
               data-test={`menu-item-${id}`}
               disabled={disabled}
               key={id}
@@ -186,7 +187,7 @@ export interface MenuItemMinimial {
   onClick: () => unknown;
   label: string;
   helper?: string;
-  id?: string;
+  id: string;
   icon?: React.ReactNode;
   disabled?: boolean;
   /** Keyboard shortcut helper */

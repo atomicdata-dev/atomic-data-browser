@@ -67,9 +67,9 @@ export function ResourceForm({
   const [requires] = useArray(klass, properties.requires);
   const [recommends] = useArray(klass, properties.recommends);
   const [klassIsa] = useString(klass, properties.isA);
-  const [newPropErr, setNewPropErr] = useState<Error>(null);
+  const [newPropErr, setNewPropErr] = useState<Error | undefined>(undefined);
   const navigate = useNavigate();
-  const [newProperty, setNewProperty] = useState<string>(null);
+  const [newProperty, setNewProperty] = useState<string | undefined>(undefined);
   /** A list of custom properties, set by the User while editing this form */
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
@@ -110,7 +110,7 @@ export function ResourceForm({
   }
 
   if (resource.error) {
-    return <ErrMessage>{resource.getError().message}</ErrMessage>;
+    return <ErrMessage>{resource.error.message}</ErrMessage>;
   }
 
   if (klass.loading) {
@@ -127,11 +127,15 @@ export function ResourceForm({
   }
 
   function handleAddProp() {
-    setNewPropErr(null);
+    setNewPropErr(undefined);
 
     if (!isValidURL(newProperty)) {
       setNewPropErr(new Error('Invalid URL'));
 
+      return;
+    }
+
+    if (!newProperty) {
       return;
     }
 
@@ -149,7 +153,7 @@ export function ResourceForm({
       setTempOtherProps(tempOtherProps.concat(newProperty));
     }
 
-    setNewProperty(null);
+    setNewProperty(undefined);
   }
 
   function handleDelete(propertyURL: string) {
@@ -161,7 +165,7 @@ export function ResourceForm({
     <form about={resource.getSubject()} onSubmit={save}>
       {classSubject && klass.error && (
         <ErrMessage>
-          Error in class. {klass.getError().message}. You can still edit the
+          Error in class. {klass.error.message}. You can still edit the
           resource, though.
         </ErrMessage>
       )}
@@ -210,7 +214,7 @@ export function ResourceForm({
             <FaPlus />
           </Button>
           <ResourceSelector
-            value={null}
+            value={undefined}
             setSubject={(set, _setNewPropErr) => {
               setNewProperty(set);
             }}

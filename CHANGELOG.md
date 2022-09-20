@@ -20,6 +20,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Switch from `yarn` to `pnpm` #210
 - Fix dropdown resource select input #222
 - Stricter non-null checks, improved typings #220
+- Changed `null` to `undefined` in many places!
+- `resource.getError()` is deprecated in favor or `resource.error`
 
 ## v0.31.1
 

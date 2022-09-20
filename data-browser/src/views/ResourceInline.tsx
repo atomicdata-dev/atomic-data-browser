@@ -39,7 +39,7 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   if (resource.error) {
     return (
       <AtomicLink subject={subject} untabbable={untabbable}>
-        <ErrorLook about={subject} title={resource.getError().message}>
+        <ErrorLook about={subject} title={resource.error.message}>
           {title}
         </ErrorLook>
       </AtomicLink>
@@ -48,7 +48,7 @@ function ResourceInline({ subject, untabbable }: Props): JSX.Element {
 
   return (
     <AtomicLink subject={subject} untabbable={untabbable}>
-      <span title={description ? description : null}>{title}</span>
+      <span title={description ? description : ''}>{title}</span>
     </AtomicLink>
   );
 }

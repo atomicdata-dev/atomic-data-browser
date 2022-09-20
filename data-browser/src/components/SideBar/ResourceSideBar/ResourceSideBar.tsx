@@ -76,7 +76,7 @@ export function ResourceSideBar({
         resource={subject}
         ref={spanRef}
       >
-        <ErrorLook about={subject} title={resource.getError().message}>
+        <ErrorLook about={subject} title={resource.error.message}>
           {subject}
         </ErrorLook>
       </SideBarItem>

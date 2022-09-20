@@ -96,7 +96,7 @@ export function useResources(
 }
 
 /**
- * Hook for using a Property. Will return null if the Property is not yet
+ * Hook for using a Property. Will return `undefined` if the Property is not yet
  * loaded, and add Error strings to shortname and description if something goes wrong.
  */
 export function useProperty(subject: string): Property {
@@ -118,7 +118,7 @@ export function useProperty(subject: string): Property {
       datatype: Datatype.UNKNOWN,
       shortname: 'error',
       description: 'Error getting Property. ' + propertyResource.error.message,
-      error: propertyResource.getError(),
+      error: propertyResource.error,
     };
   }
 
@@ -172,7 +172,7 @@ type useValueOptions = {
 
 /**
  * Similar to React's `useState` hook. Returns a Value and a Setter as an array
- * of two items. Value will be null if the Resource isn't loaded yet. The
+ * of two items. Value will be `undefined` if the Resource isn't loaded yet. The
  * generated Setter function can be called to set the value. Be sure to look at
  * the various options for useValueOptions (debounce, commits, error handling).
  *
@@ -206,14 +206,14 @@ export function useValue(
   propertyURL: string,
   /** Saves the resource when the resource is changed, after 100ms */
   opts: useValueOptions = {},
-): [JSONValue | null, setValue] {
+): [JSONValue | undefined, setValue] {
   const {
     commit = false,
     validate = true,
     commitDebounce = 100,
     handleValidationError,
   } = opts;
-  const [val, set] = useState<JSONValue>(null);
+  const [val, set] = useState<JSONValue>(undefined);
   const store = useStore();
   const debounced = useDebounce(val, commitDebounce);
   const [touched, setTouched] = useState(false);
@@ -244,14 +244,14 @@ export function useValue(
 
   /**
    * Validates the value. If it fails, it calls the function in the second
-   * Argument. Pass null to remove existing value.
+   * Argument. Pass `undefined` to remove existing value.
    */
   const validateAndSet = useCallback(
     async (newVal: JSONValue): Promise<void> => {
-      if (newVal === null) {
+      if (newVal === undefined) {
         // remove the value
         resource.removePropVal(propertyURL);
-        set(null);
+        set(undefined);
 
         return;
       }
@@ -284,12 +284,12 @@ export function useValue(
   );
 
   // If a value has already been set, return it.
-  if (val !== null) {
+  if (val !== undefined) {
     return [val, validateAndSet];
   }
 
   // Value hasn't been set in state yet, so get the value
-  let value: JSONValue = null;
+  let value: JSONValue = undefined;
 
   // Try to actually get the value, log any errorr
   try {
@@ -303,9 +303,8 @@ export function useValue(
     store.handleError(e);
   }
 
-  // If it didn't work, return null to be more explicit
-  if (value === undefined || value === null) {
-    return [null, validateAndSet];
+  if (value === undefined) {
+    return [undefined, validateAndSet];
   }
 
   return [value, validateAndSet];
@@ -319,7 +318,7 @@ export function useString(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | undefined, (string: string) => Promise<void>] {
+): [string | undefined, (string: string | undefined) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (!val) {
@@ -340,7 +339,7 @@ export function useSubject(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | undefined, (string: string) => Promise<void>] {
+): [string | undefined, (string?: string) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (!val) {
@@ -420,7 +419,7 @@ export function useArray(
 ): [string[], setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
-  if (value === null) {
+  if (value === undefined) {
     return [[], set];
   }
 
@@ -445,10 +444,10 @@ export function useNumber(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [number | null, setValue] {
+): [number | undefined, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
-  if (value === null) {
+  if (value === undefined) {
     return [NaN, set];
   }
 
@@ -460,10 +459,10 @@ export function useBoolean(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [boolean | null, setValue] {
+): [boolean | undefined, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
-  if (value === null) {
+  if (value === undefined) {
     return [false, set];
   }
 
@@ -478,12 +477,12 @@ export function useDate(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): Date | null {
+): Date | undefined {
   const store = useStore();
   const [value] = useValue(resource, propertyURL, opts);
 
-  if (value === null) {
-    return null;
+  if (value === undefined) {
+    return undefined;
   }
 
   try {
@@ -491,7 +490,7 @@ export function useDate(
   } catch (e) {
     store.handleError(e);
 
-    return null;
+    return;
   }
 }
 
@@ -515,10 +514,10 @@ export function useStore(): Store {
 export function useCanWrite(
   resource: Resource,
   agent?: string,
-): [canWrite: boolean | null, message: string | null] {
+): [canWrite: boolean | undefined, message: string | undefined] {
   const store = useStore();
-  const [canWrite, setCanWrite] = useState<boolean | null>(null);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [canWrite, setCanWrite] = useState<boolean | undefined>(undefined);
+  const [msg, setMsg] = useState<string | undefined>(undefined);
   const agentStore = store.getAgent();
 
   // If the subject changes, make sure to change the resource!
@@ -550,7 +549,7 @@ export function useCanWrite(
       setCanWrite(canWriteAsync);
 
       if (canWriteAsync) {
-        setMsg(null);
+        setMsg(undefined);
       } else {
         setMsg(
           ("You don't have write rights in this resource or its parents: " +

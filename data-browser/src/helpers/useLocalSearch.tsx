@@ -13,7 +13,7 @@ export function useLocalSearch(
   subjects?: string[],
   disabled?: boolean,
 ): Hit[] {
-  const [index, setIndex] = React.useState<SearchIndex>(null);
+  const [index, setIndex] = React.useState<SearchIndex | undefined>(undefined);
   const [results, setResults] = React.useState<Hit[]>([]);
   const store = useStore();
   let resources = useResources(subjects || []);
@@ -41,7 +41,7 @@ export function useLocalSearch(
       return;
     }
 
-    if (index === null) {
+    if (index === undefined) {
       return;
     }
 
@@ -63,8 +63,8 @@ export function useLocalSearch(
  * not index commits or resources that are not ready
  */
 function constructIndex(resourceMap?: Map<string, Resource>): SearchIndex {
-  const resources = Array.from(resourceMap.values());
-  const dataArray = resources.reduce((array, resource) => {
+  const resources = Array.from(resourceMap?.values() || []);
+  const dataArray = resources.reduce((array: FoundResource[], resource) => {
     // Don't index resources that are loading / errored
     if (!resource.isReady()) return array;
 

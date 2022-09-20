@@ -10,14 +10,14 @@ import { debounce } from '../../helpers/debounce';
 import { paths } from '../../routes/paths';
 
 type UsePreviewReturnType = {
-  preview: string;
+  preview?: string;
   /** Call this to update the website URL */
   update: (websiteURL: string) => void;
   error?: Error;
   loading: boolean;
 };
 
-async function fetchBookmarkData(url: string, name: string, store: Store) {
+async function fetchBookmarkData(url: string, name = '', store: Store) {
   const bookmarkRoute = new URL(paths.fetchBookmark, store.getServerUrl());
 
   const searchParams = new URLSearchParams({
@@ -46,12 +46,12 @@ type AtomicSetter<T> = (val: T) => Promise<void>;
 const debouncedFetch = debounce(
   (
     url: string,
-    name: string,
+    name: string | undefined,
     store: Store,
     resource: Resource,
     setPreview: AtomicSetter<string>,
     setName: AtomicSetter<string>,
-    setError: Setter<Error>,
+    setError: Setter<Error | undefined>,
     setLoading: Setter<boolean>,
   ) => {
     startTransition(() => {
@@ -82,7 +82,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [name, setName] = useString(resource, urls.properties.name);
 
-  const [error, setHasError] = useState<Error>(undefined);
+  const [error, setHasError] = useState<Error | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const update = useCallback(
@@ -112,7 +112,7 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
   );
 
   useEffect(() => {
-    if (resource.isReady() && preview === undefined) {
+    if (resource.isReady() && preview === undefined && url) {
       update(url);
     }
   }, [preview, resource.isReady()]);

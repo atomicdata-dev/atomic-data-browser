@@ -19,7 +19,7 @@ export function BookmarkCard({ resource }: CardViewProps): JSX.Element {
       <AtomicLink subject={resource.getSubject()}>
         <Title>{title}</Title>
       </AtomicLink>
-      <ExternalLink to={url} variant={ExternalLinkVariant.Button}>
+      <ExternalLink to={url!} variant={ExternalLinkVariant.Button}>
         Open site
       </ExternalLink>
       {preview && (

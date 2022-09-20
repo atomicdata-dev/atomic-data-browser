@@ -24,11 +24,13 @@ interface InviteFormProps {
  * generated Subject after saving.
  */
 export function InviteForm({ target }: InviteFormProps) {
-  const invite = useResource(null, { newResource: true });
+  const invite = useResource(undefined, { newResource: true });
   const store = useStore();
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const [agent] = useCurrentAgent();
-  const [createdSubject, setCreatedSubject] = useState<string>(null);
+  const [createdSubject, setCreatedSubject] = useState<string | undefined>(
+    undefined,
+  );
 
   /** Stores the Invite, sends it to the server, shows the Subject to the User */
   async function createInvite() {
@@ -38,6 +40,10 @@ export function InviteForm({ target }: InviteFormProps) {
     invite.setSubject(store.createSubject('invite'));
 
     try {
+      if (!agent) {
+        throw new Error('No agent found');
+      }
+
       await invite.set(properties.parent, agent.subject, store);
       await invite.save(store);
       navigator.clipboard.writeText(invite.getSubject());

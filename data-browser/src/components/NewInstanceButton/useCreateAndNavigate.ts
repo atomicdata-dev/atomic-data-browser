@@ -19,7 +19,7 @@ import { constructOpenURL } from '../../helpers/navigation';
  * @param parent The parent resource of the new resource.
  * @returns A createAndNavigate function.
  */
-export function useCreateAndNavigate(klass: string, parent: string) {
+export function useCreateAndNavigate(klass: string, parent?: string) {
   const store = useStore();
   const classTypeResource = useResource(klass);
   const [title] = useTitle(classTypeResource);

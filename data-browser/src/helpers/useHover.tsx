@@ -1,13 +1,14 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { RefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // hook returns tuple(array) with type [any, boolean]
 // T - could be any type of HTML element like: HTMLDivElement, HTMLParagraphElement and etc.
 export function useHover<T extends HTMLElement>(
   disabled: boolean,
-): [MutableRefObject<T>, boolean] {
+): [RefObject<T>, boolean] {
   const [value, setValue] = useState<boolean>(false);
 
-  const ref = useRef<T | null>(null);
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     const handleMouseOver = (): void => setValue(true);

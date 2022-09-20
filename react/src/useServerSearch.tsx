@@ -23,7 +23,7 @@ interface SearchOpts {
 
 /** Pass a query to search the current server */
 export function useServerSearch(
-  query: string | null,
+  query: string | undefined,
   opts: SearchOpts = {},
 ): SearchResults {
   const { debounce = 50, include = false, limit = 30 } = opts;

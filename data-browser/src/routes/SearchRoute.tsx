@@ -15,7 +15,7 @@ export function Search(): JSX.Element {
     debounce: 0,
   });
   const navigate = useNavigate();
-  const htmlElRef = useRef(null);
+  const htmlElRef = useRef<HTMLDivElement | null>(null);
 
   /** Moves the viewport to the card at the selected index */
   function moveTo(index: number) {
@@ -64,7 +64,7 @@ export function Search(): JSX.Element {
 
   let message = 'No hits';
 
-  if (query.length === 0) {
+  if (query?.length === 0) {
     message = 'Enter a search query';
   }
 
@@ -75,7 +75,7 @@ export function Search(): JSX.Element {
   return (
     <ContainerNarrow ref={htmlElRef}>
       {error && <ErrorLook>{error.message}</ErrorLook>}
-      {query.length !== 0 && results.length !== 0 ? (
+      {query?.length !== 0 && results.length !== 0 ? (
         <>
           {results.map((subject, index) => (
             <ResourceCard

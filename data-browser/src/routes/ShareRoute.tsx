@@ -27,7 +27,7 @@ export function ShareRoute(): JSX.Element {
   const store = useStore();
   const [canWrite] = useCanWrite(resource);
   const [showInviteForm, setShowInviteForm] = useState(false);
-  const [err, setErr] = useState(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const navigate = useNavigate();
 
   const useValueOpts = {
@@ -63,6 +63,10 @@ export function ShareRoute(): JSX.Element {
 
     getTheRights();
   }, [resource]);
+
+  if (!subject) {
+    return <>No subject passed</>;
+  }
 
   function handleSetRight(agent: string, write: boolean, setToTrue: boolean) {
     let agents = write ? writers : readers;
@@ -125,7 +129,7 @@ export function ShareRoute(): JSX.Element {
     try {
       await resource.save(store);
       toast.success('Share settings saved');
-      navigate(constructOpenURL(subject));
+      navigate(constructOpenURL(subject!));
     } catch (e) {
       toast.error(e.message);
     }
@@ -146,7 +150,9 @@ export function ShareRoute(): JSX.Element {
             <AgentRights
               key={JSON.stringify(right)}
               {...right}
-              handleSetRight={canWrite && resource.isReady() && handleSetRight}
+              handleSetRight={
+                canWrite && resource.isReady() ? handleSetRight : undefined
+              }
             />
           ))}
         </CardInsideFull>
@@ -159,7 +165,7 @@ export function ShareRoute(): JSX.Element {
           Save
         </Button>
       )}
-      {err && <ErrorLook>{err}</ErrorLook>}
+      {err && <ErrorLook>{err.message}</ErrorLook>}
       {inheritedRights.length > 0 && (
         <Card>
           <RightsHeader text='inherited rights:' />
@@ -194,10 +200,16 @@ interface AgentRightsProps extends AgentRight {
   handleSetRight?: (agent: string, write: boolean, setToTrue: boolean) => void;
 }
 
-function AgentRights(props: AgentRightsProps): JSX.Element {
-  const isPublicRight = props.agentSubject === urls.instances.publicAgent;
-  const resource = useResource(props.agentSubject);
-  const disabled = !resource.isReady() || !props.handleSetRight;
+function AgentRights({
+  handleSetRight,
+  agentSubject,
+  inheritedFrom,
+  read,
+  write,
+}: AgentRightsProps): JSX.Element {
+  const isPublicRight = agentSubject === urls.instances.publicAgent;
+  const resource = useResource(agentSubject);
+  const disabled = !resource.isReady() || !handleSetRight;
 
   return (
     <CardRow>
@@ -211,12 +223,12 @@ function AgentRights(props: AgentRightsProps): JSX.Element {
               <FaGlobe /> Public (anyone){' '}
             </>
           ) : (
-            <ResourceInline subject={props.agentSubject} />
+            <ResourceInline subject={agentSubject} />
           )}
-          {props.inheritedFrom && (
+          {inheritedFrom && (
             <>
               {' (via '}
-              <ResourceInline subject={props.inheritedFrom} />
+              <ResourceInline subject={inheritedFrom} />
               {') '}
             </>
           )}
@@ -226,11 +238,12 @@ function AgentRights(props: AgentRightsProps): JSX.Element {
             type='checkbox'
             disabled={disabled}
             onChange={e =>
-              props.handleSetRight(props.agentSubject, false, e.target.checked)
+              handleSetRight &&
+              handleSetRight(agentSubject, false, e.target.checked)
             }
-            checked={props.read}
+            checked={read}
             title={
-              props.read
+              read
                 ? 'Read access. Toggle to remove access.'
                 : 'No read access. Toggle to give read access.'
             }
@@ -239,11 +252,12 @@ function AgentRights(props: AgentRightsProps): JSX.Element {
             type='checkbox'
             disabled={disabled}
             onChange={e =>
-              props.handleSetRight(props.agentSubject, true, e.target.checked)
+              handleSetRight &&
+              handleSetRight(agentSubject, true, e.target.checked)
             }
-            checked={props.write}
+            checked={write}
             title={
-              props.write
+              write
                 ? 'Write access. Toggle to remove access.'
                 : 'No write access. Toggle to give write access.'
             }

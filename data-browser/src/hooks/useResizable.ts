@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 interface UseResizeResult<E extends HTMLElement> {
   size: string;
-  targetRef: React.MutableRefObject<E>;
-  dragAreaRef: React.MutableRefObject<HTMLDivElement>;
+  targetRef: React.RefObject<E>;
+  dragAreaRef: React.RefObject<HTMLDivElement>;
   isDragging: boolean;
 }
 

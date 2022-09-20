@@ -11,6 +11,7 @@ import {
 } from '../../components/ExternalLink';
 import { usePreview } from './usePreview';
 import { InputStyled, InputWrapper } from '../../components/forms/InputStyles';
+import { ErrorLook } from '../ResourceInline';
 
 export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
   const [url, setUrl] = useString(resource, urls.properties.bookmark.url, {
@@ -48,9 +49,13 @@ export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
                   />
                 </InputWrapper>
               </FieldWrapper>
-              <ExternalLink to={url} variant={ExternalLinkVariant.Button}>
-                Open site{' '}
-              </ExternalLink>
+              {url ? (
+                <ExternalLink to={url} variant={ExternalLinkVariant.Button}>
+                  Open site{' '}
+                </ExternalLink>
+              ) : (
+                <ErrorLook>No url</ErrorLook>
+              )}
             </ControlBar>
           </ContainerFull>
         </ControlWrapper>

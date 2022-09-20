@@ -23,11 +23,17 @@ import { Row } from '../components/Row';
 function Data(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
-  const [textResponse, setTextResponse] = useState(null);
+  const [textResponse, setTextResponse] = useState<string | undefined>(
+    undefined,
+  );
   const [textResponseLoading, setTextResponseLoading] = useState(false);
-  const [err, setErr] = useState(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const { agent } = useSettings();
   const store = useStore();
+
+  if (!subject) {
+    <ContainerNarrow>No subject passed</ContainerNarrow>;
+  }
 
   if (resource.loading) {
     return <ContainerNarrow>Loading {subject}...</ContainerNarrow>;
@@ -36,7 +42,7 @@ function Data(): JSX.Element {
   if (resource.error) {
     return (
       <ContainerNarrow>
-        <ErrorLook>{resource.getError().message}</ErrorLook>
+        <ErrorLook>{resource.error.message}</ErrorLook>
       </ContainerNarrow>
     );
   }
@@ -46,17 +52,17 @@ function Data(): JSX.Element {
     headers['Accept'] = contentType;
 
     if (agent) {
-      headers = await signRequest(subject, agent, headers);
+      headers = await signRequest(subject!, agent, headers);
     }
 
     setTextResponseLoading(true);
 
     try {
-      const resp = await window.fetch(subject, { headers: headers });
+      const resp = await window.fetch(subject!, { headers: headers });
       const body = await resp.text();
       setTextResponseLoading(false);
       setTextResponse(body);
-      setErr(null);
+      setErr(undefined);
     } catch (e) {
       setTextResponseLoading(false);
       setErr(e);

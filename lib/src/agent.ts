@@ -20,6 +20,10 @@ export class Agent implements AgentInterface {
       tryValidURL(subject);
     }
 
+    if (!privateKey) {
+      throw new AtomicError(`Agent requires a private key`);
+    }
+
     this.subject = subject;
     this.privateKey = privateKey;
   }

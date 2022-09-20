@@ -14,11 +14,18 @@ import Parent from '../components/Parent';
 export function Edit(): JSX.Element {
   const [subject] = useCurrentSubject();
   const resource = useResource(subject);
-  const [subjectInput, setSubjectInput] = useState<string>(null);
+  const [subjectInput, setSubjectInput] = useState<string | undefined>(
+    undefined,
+  );
   const navigate = useNavigate();
 
   function handleClassSet(e) {
     e.preventDefault();
+
+    if (!subjectInput) {
+      throw new Error('No subject input');
+    }
+
     navigate(newURL(subjectInput));
   }
 
@@ -37,7 +44,7 @@ export function Edit(): JSX.Element {
           <form onSubmit={handleClassSet}>
             <h1>edit a resource</h1>
             <InputStyled
-              value={subjectInput || null}
+              value={subjectInput || undefined}
               onChange={e => setSubjectInput(e.target.value)}
               placeholder={'Enter a Resource URL...'}
             />
