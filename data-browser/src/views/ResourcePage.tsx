@@ -51,7 +51,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
     return <ErrorPage resource={resource} />;
   }
 
-  const ReturnComponent = selectComponent(klass);
+  const ReturnComponent = selectComponent(klass!);
 
   return (
     <>

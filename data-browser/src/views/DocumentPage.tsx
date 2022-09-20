@@ -77,7 +77,7 @@ function DocumentPageEdit({
   const store = useStore();
   const ref = React.useRef<HTMLInputElement>(null);
   const [err, setErr] = useState<Error | undefined>(undefined);
-  const [current, setCurrent] = React.useState<number | undefined>(undefined);
+  const [current, setCurrent] = React.useState<number>(0);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -176,7 +176,7 @@ function DocumentPageEdit({
     'esc',
     e => {
       e.preventDefault();
-      setCurrent(undefined);
+      setCurrent(-1);
     },
     { enableOnTags: ['TEXTAREA'] },
   );

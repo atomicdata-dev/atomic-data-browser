@@ -23,15 +23,15 @@ interface ResourceSelectorProps {
    * argument of a `useString` hook and pass the setString part to this property
    */
   setSubject: (
-    subject: string,
+    subject: string | undefined,
     errHandler: Dispatch<SetStateAction<Error>>,
   ) => void;
   /** The value (URL of the Resource that is selected) */
-  value: string;
+  value?: string;
   /** A function to remove this item. Only relevant in arrays. */
   handleRemove?: () => void;
   /** Only pass an error if it is applicable to this specific field */
-  error: Error;
+  error?: Error;
   /**
    * Set an ArrayError. A special type, because the parent needs to know where
    * in the Array the error occurred
@@ -75,10 +75,10 @@ export const ResourceSelector = React.memo(function ResourceSelector({
     /** The value of the input underneath, updated through a callback */
     inputValue,
     setInputValue,
-  ] = useState(value);
+  ] = useState(value || '');
 
   const handleUpdate = useCallback(
-    (newval: string) => {
+    (newval?: string) => {
       // Pass the error setter for validation purposes
       // Pass the Error handler to its parent, so validation errors appear locally
       setSubject(newval, setError);
@@ -89,7 +89,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   );
 
   const handleBlur = useCallback(() => {
-    value === null && handleUpdate(inputValue);
+    value === undefined && handleUpdate(inputValue);
   }, [inputValue, value]);
 
   const isInDialogTree = useContext(DialogTreeContext);
@@ -132,12 +132,11 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         <Dialog {...dialogProps}>
           {isDialogOpen && (
             <NewFormDialog
-              // Any resource needs a parent, but what do we do if the logical parent does not exist yet?
-              // https://github.com/atomicdata-dev/atomic-data-browser/issues/195
               parent={parent || drive}
-              classSubject={classType}
+              // I don't think we know for sure that there is a classType known here
+              classSubject={classType!}
               closeDialog={closeDialog}
-              initialTitle={inputValue}
+              initialTitle={inputValue!}
               onSave={handleUpdate}
             />
           )}
@@ -149,7 +148,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
 });
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
-export function getCollectionURL(classtypeUrl: string): string | undefined {
+export function getCollectionURL(classtypeUrl?: string): string | undefined {
   switch (classtypeUrl) {
     case urls.classes.property:
       return urls.properties.getAll;

@@ -58,8 +58,14 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   const [valueFilter] = useString(resource, properties.collection.value);
   const [propertyFilter] = useString(resource, properties.collection.property);
   // We use the currentPage and totalpages from the Collection Resource itself - not the query param. This gives us a default value.
-  const [currentPage] = useNumber(resource, properties.collection.currentPage);
-  const [totalPages] = useNumber(resource, properties.collection.totalPages);
+  const [currentPageQueryParam] = useNumber(
+    resource,
+    properties.collection.currentPage,
+  );
+  const currentPage: number = currentPageQueryParam || 0;
+  const [totalPagesQP] = useNumber(resource, properties.collection.totalPages);
+  const totalPages: number = totalPagesQP || 1;
+
   // Query parameters for Collections
   const [, setPage] = useSubjectParam('current_page');
   const [sortBy, setSortBy] = useSubjectParam('sort_by');

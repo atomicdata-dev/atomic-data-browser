@@ -25,7 +25,7 @@ function Markdown({
   noMargin,
   renderGFM,
   maxLength,
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   const [collapsed, setCollapsed] = React.useState(true);
 
   maxLength = maxLength || 5000;

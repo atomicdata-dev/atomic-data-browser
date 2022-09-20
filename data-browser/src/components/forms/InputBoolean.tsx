@@ -8,7 +8,7 @@ export default function InputBoolean({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const [value, setValue] = useBoolean(resource, property.subject, {
     handleValidationError: setErr,
   });
@@ -21,7 +21,7 @@ export default function InputBoolean({
     <>
       <InputStyled
         type='checkbox'
-        checked={value}
+        checked={!!value}
         onChange={handleUpdate}
         {...props}
       />

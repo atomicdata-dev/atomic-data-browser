@@ -11,7 +11,7 @@ export default function InputMarkdown({
   property,
   ...props
 }: InputProps): JSX.Element {
-  const [err, setErr] = useState<Error>(null);
+  const [err, setErr] = useState<Error | undefined>(undefined);
   const [value, setVale] = useString(resource, property.subject, {
     handleValidationError: setErr,
   });

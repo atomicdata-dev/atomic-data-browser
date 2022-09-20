@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./dist",
-    "strictNullChecks": false,
+    "strictNullChecks": true,
   },
   "include": [
     "./src",

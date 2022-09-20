@@ -18,6 +18,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Render floats
 - Hide unsortable items in tables
 - Switch from `yarn` to `pnpm` #210
+- Fix dropdown resource select input #222
+- Stricter non-null checks, improved typings #220
 
 ## v0.31.1
 

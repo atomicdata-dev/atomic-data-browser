@@ -10,7 +10,7 @@ interface CodeBlockProps {
 }
 
 export function CodeBlock({ content, loading }: CodeBlockProps) {
-  const [isCopied, setIsCopied] = useState(null);
+  const [isCopied, setIsCopied] = useState<string>('');
 
   function copyToClipboard() {
     setIsCopied(content);

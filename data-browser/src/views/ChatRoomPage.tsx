@@ -22,7 +22,7 @@ import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
 import { editURL } from '../helpers/navigation';
-import ResourceInline, { ErrorLook } from './ResourceInline';
+import ResourceInline from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
 
 /** Full page ChatRoom that shows a message list and a form to add Messages. */
@@ -30,9 +30,9 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [newMessageVal, setNewMessage] = useState('');
   const store = useStore();
-  const [isReplyTo, setReplyTo] = useState<string>(null);
-  const scrollRef = useRef(null);
-  const inputRef = useRef(null);
+  const [isReplyTo, setReplyTo] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [textAreaHight, setTextAreaHight] = useState(1);
 
   useHotkeys(
@@ -48,7 +48,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   useHotkeys(
     'escape',
     _e => {
-      inputRef.current.blur();
+      inputRef?.current?.blur();
     },
     { enableOnTags: ['TEXTAREA'] },
     [],
@@ -117,7 +117,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
 
   function handleReplyTo(subject: string) {
     setReplyTo(subject);
-    inputRef.current.focus();
+    inputRef?.current?.focus();
   }
 
   function handleChangeMessageText(e) {
@@ -147,13 +147,6 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   return (
     <FullPageWrapper about={resource.getSubject()}>
       <EditableTitle resource={resource} />
-      {!store.getDefaultWebSocket() ? (
-        <ErrorLook>No Websocket open</ErrorLook>
-      ) : (
-        store.getDefaultWebSocket().readyState === WebSocket.CLOSED && (
-          <ErrorLook>Closed websocket!</ErrorLook>
-        )
-      )}
       <ScrollingContent ref={scrollRef}>
         <MessagesPage
           subject={resource.getSubject()}
@@ -219,14 +212,14 @@ const Message = React.memo(function Message({
   }
 
   function handleCopyText() {
-    navigator.clipboard.writeText(description);
+    navigator.clipboard.writeText(description || '');
     toast.success('Copied message text to clipboard');
   }
 
   return (
     <MessageComponent about={subject}>
       <MessageDetails>
-        <CommitDetail commitSubject={lastCommit} />
+        <CommitDetail commitSubject={lastCommit!} />
         {replyTo && <MessageLine subject={replyTo} />}
         <MessageActions>
           <Button
@@ -263,7 +256,7 @@ const Message = React.memo(function Message({
           </Button>
         </MessageActions>
       </MessageDetails>
-      <Markdown noMargin text={description} maxLength={MESSAGE_MAX_LEN} />
+      <Markdown noMargin text={description || ''} maxLength={MESSAGE_MAX_LEN} />
     </MessageComponent>
   );
 });
@@ -289,13 +282,14 @@ function MessageLine({ subject }: MessageLineProps) {
   }
 
   // truncate and add ellipsis
-  const truncated = description.substring(0, MESSAGE_LINE_MAX_LEN);
-  const ellipsis = description.length > MESSAGE_LINE_MAX_LEN ? '...' : '';
+  const truncated = description?.substring(0, MESSAGE_LINE_MAX_LEN);
+  const ellipsis =
+    description && description.length > MESSAGE_LINE_MAX_LEN ? '...' : '';
 
   return (
     <MessageLineStyled>
       <span>to </span>
-      <ResourceInline subject={signer} />
+      <ResourceInline subject={signer!} />
       <AtomicLink subject={subject}>{`: ${truncated}${ellipsis}`}</AtomicLink>
     </MessageLineStyled>
   );

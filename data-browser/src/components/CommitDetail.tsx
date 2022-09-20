@@ -6,11 +6,11 @@ import DateTime from './datatypes/DateTime';
 import AtomicLink from './AtomicLink';
 
 type Props = {
-  commitSubject: string;
+  commitSubject?: string;
 };
 
 /** Shows the latest editor and edit date */
-export function CommitDetail({ commitSubject }: Props): JSX.Element {
+export function CommitDetail({ commitSubject }: Props): JSX.Element | null {
   const resource = useResource(commitSubject);
   const [signer] = useString(resource, properties.commit.signer);
   const [previousCommit] = useString(
