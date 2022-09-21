@@ -30,7 +30,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
   const [messages] = useArray(resource, properties.chatRoom.messages);
   const [newMessageVal, setNewMessage] = useState('');
   const store = useStore();
-  const [isReplyTo, setReplyTo] = useState<string | null>(null);
+  const [isReplyTo, setReplyTo] = useState<string | undefined>(undefined);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [textAreaHight, setTextAreaHight] = useState(1);
@@ -105,7 +105,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
         }
 
         await msgResource.save(store);
-        setReplyTo(null);
+        setReplyTo(undefined);
       }
     } catch (err) {
       setNewMessage(messageBackup);
@@ -156,7 +156,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       {isReplyTo && (
         <Detail>
           <MessageLine subject={isReplyTo} />
-          <Button icon subtle onClick={() => setReplyTo(null)}>
+          <Button icon subtle onClick={() => setReplyTo(undefined)}>
             <FaTimes />
           </Button>
         </Detail>

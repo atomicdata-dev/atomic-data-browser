@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 export type UseSaveResourceResult = [
   save: (e: React.SyntheticEvent) => void,
   saving: boolean,
-  error: Error | null,
+  error: Error | undefined,
 ];
 
 /**
@@ -20,13 +20,13 @@ export const useSaveResource = (
 ): UseSaveResourceResult => {
   const store = useStore();
   const [saving, setSaving] = useState(false);
-  const [error, setErr] = useState<Error | null>(null);
+  const [error, setErr] = useState<Error | undefined>(undefined);
 
   const save = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault();
       setSaving(true);
-      setErr(null);
+      setErr(undefined);
 
       try {
         await resource.save(store);

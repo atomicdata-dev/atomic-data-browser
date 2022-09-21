@@ -38,7 +38,11 @@ export const useCurrentAgent = (): [
   );
 
   useEffect(() => {
-    if (agentJSON && store.getAgent() === null && stateAgent === null) {
+    if (
+      agentJSON &&
+      store.getAgent() === undefined &&
+      stateAgent === undefined
+    ) {
       handleSetAgent(agentJSON);
     }
   }, [agentJSON]);
@@ -47,15 +51,21 @@ export const useCurrentAgent = (): [
 };
 
 /** Gets the Agent from local storage, if any. Useful when initializing app */
-export function initAgentFromLocalStorage(): Agent | null {
+export function initAgentFromLocalStorage(): Agent | undefined {
   const lsItem = localStorage.getItem(AGENT_LOCAL_STORAGE_KEY);
 
-  if (lsItem === null) {
-    return null;
+  if (lsItem === null || lsItem === undefined) {
+    return undefined;
   }
 
-  const agentJSON = JSON.parse(lsItem);
-  const agent: Agent | null = agentJSON && Agent.fromJSON(agentJSON);
+  try {
+    const agentJSON = JSON.parse(lsItem);
+    const agent: Agent | undefined = agentJSON && Agent.fromJSON(agentJSON);
 
-  return agent;
+    return agent;
+  } catch (e) {
+    console.error('Error parsing agent from local storage', e);
+
+    return undefined;
+  }
 }

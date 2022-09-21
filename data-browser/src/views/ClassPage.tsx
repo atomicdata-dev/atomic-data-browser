@@ -18,7 +18,7 @@ import { defaultHiddenProps } from './ResourcePageDefault';
  * definition export.
  */
 export function ClassPage({ resource }: ResourcePageProps) {
-  const [tsDef, setTSdef] = useState<string | null>(null);
+  const [tsDef, setTSdef] = useState<string | undefined>(undefined);
   const store = useStore();
 
   return (

@@ -27,7 +27,7 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
   );
 
   useEffect(() => {
-    if (serverURL !== null) {
+    if (serverURL !== undefined) {
       if (isValidURL(serverUrlJson)) {
         setBaseURL(serverUrlJson);
       } else {

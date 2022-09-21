@@ -31,13 +31,13 @@ export default function InputNumber({
         <InputStyled
           placeholder='Enter a number...'
           type='number'
-          value={value === null ? '' : Number.isNaN(value) ? '' : value}
+          value={value === undefined ? '' : Number.isNaN(value) ? '' : value}
           onChange={handleUpdate}
           {...props}
         />
       </InputWrapper>
-      {value !== null && err && <ErrMessage>{err.message}</ErrMessage>}
-      {value === null && <ErrMessage>Required</ErrMessage>}
+      {value !== undefined && err && <ErrMessage>{err.message}</ErrMessage>}
+      {value === undefined && <ErrMessage>Required</ErrMessage>}
     </>
   );
 }

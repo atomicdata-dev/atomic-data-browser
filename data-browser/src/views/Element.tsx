@@ -104,7 +104,7 @@ export function ElementEdit({
   useHotkeys(
     'backspace',
     e => {
-      const isEmpty = text === '' || text === null;
+      const isEmpty = text === '' || text === undefined;
 
       if ((active && isEmpty) || (active && isAResource)) {
         e.preventDefault();

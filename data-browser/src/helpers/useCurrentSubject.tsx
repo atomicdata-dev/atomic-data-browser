@@ -86,7 +86,7 @@ export function useSubjectParam(
 
   let returnVal = params?.get(key);
 
-  if (returnVal === null) {
+  if (returnVal === null || returnVal === undefined) {
     returnVal = undefined;
   }
 
