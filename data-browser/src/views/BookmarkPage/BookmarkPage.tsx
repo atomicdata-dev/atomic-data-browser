@@ -60,7 +60,11 @@ export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
           </ContainerFull>
         </ControlWrapper>
         <PreviewWrapper>
-          <BookmarkPreview preview={preview} error={error} loading={loading} />
+          <BookmarkPreview
+            preview={preview || ''}
+            error={error}
+            loading={loading}
+          />
         </PreviewWrapper>
       </Wrapper>
     </>
