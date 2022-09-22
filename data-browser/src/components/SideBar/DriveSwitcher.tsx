@@ -76,14 +76,14 @@ export function DriveSwitcher() {
       ),
       DIVIDER,
       {
-        id: 'advanced',
+        id: 'configure-drives',
         label: 'Configure Drives',
         icon: <FaCog />,
         helper: 'Load drives not displayed in this list.',
         onClick: () => navigate(paths.serverSettings),
       },
       {
-        id: 'new drive',
+        id: 'new-drive',
         label: 'New Drive',
         icon: <FaPlus />,
         helper: 'Create a new drive',
