@@ -15,6 +15,7 @@ import {
   valToString,
   FetchOpts,
   unknownSubject,
+  JSONArray,
 } from '@tomic/lib';
 import React from 'react';
 import { useDebounce } from './index';
@@ -426,6 +427,7 @@ export function useArray(
   opts?: useValueOptions,
 ): [string[], setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
+  const stableEmptyArray = useRef<JSONArray>([]);
 
   const values = useMemo(() => {
     if (value === undefined) {
@@ -445,7 +447,7 @@ export function useArray(
     }
   }, [value]);
 
-  return [values, set];
+  return [values as string[], set];
 }
 
 /** See {@link useValue} */

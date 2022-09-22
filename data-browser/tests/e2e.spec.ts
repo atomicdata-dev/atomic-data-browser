@@ -25,7 +25,7 @@ const {
 
 const timestamp = () => new Date().toLocaleTimeString();
 const editableTitle = '[data-test="editable-title"]';
-const sidebarDriveEdit = '[data-test="sidebar-drive-edit"]';
+const sideBarDriveSwitcher = '[title="Open Drive Settings"]';
 const sideBarNewResource = '[data-test="sidebar-new-resource"]';
 const currentDriveTitle = '[data-test=current-drive-title]';
 const publicReadRight =
@@ -37,7 +37,7 @@ test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     // Open the server
     await page.goto(frontEndUrl);
-    await expect(page.locator(sideBarNewResource)).toBeVisible();
+    await expect(page.locator(currentDriveTitle)).toBeVisible();
   });
 
   test('sidebar mobile', async ({ page }) => {
@@ -46,14 +46,12 @@ test.describe('data-browser', async () => {
     // TODO: this keeps hanging. How do I make sure something is _not_ visible?
     // await expect(page.locator('text=new resource')).not.toBeVisible();
     await page.click('[data-test="sidebar-toggle"]');
-    await expect(await page.locator(sideBarNewResource)).toBeVisible();
+    await expect(await page.locator(currentDriveTitle)).toBeVisible();
   });
 
   test('switch Server URL', async ({ page }) => {
     await expect(page.locator(`text=${demoInviteName}`)).not.toBeVisible();
-    await page.click(sidebarDriveEdit);
-    await page.fill('[data-test="server-url-input"]', 'https://atomicdata.dev');
-    await page.click('[data-test="server-url-save"]');
+    await changeDrive('https://atomicdata.dev', page);
     await expect(page.locator(`text=${demoInviteName}`)).toBeVisible();
   });
 
@@ -326,6 +324,7 @@ test.describe('data-browser', async () => {
 
   test('form validation', async ({ page }) => {
     await signIn(page);
+    await newDrive(page);
     await newResource('class', page);
     // Try entering a wrong slug
     await page.click('[data-test="input-shortname"]');
@@ -456,9 +455,8 @@ async function signIn(page: Page) {
  */
 async function newDrive(page: Page) {
   // Create new drive to prevent polluting the main drive
-  await page.locator(sidebarDriveEdit).click();
-  await expect(page).toHaveURL(`${frontEndUrl}/app/server`);
-  await page.locator('button:has-text("Create new drive")').click();
+  await page.locator(sideBarDriveSwitcher).click();
+  await page.locator('button:has-text("New Drive")').click();
   await expect(await page.locator('text="Create new resource"')).toBeVisible();
   const driveURL = await getCurrentSubject(page);
   await expect(driveURL).toContain('localhost');
@@ -490,9 +488,7 @@ async function getCurrentSubject(page: Page) {
 
 /** Set atomicdata.dev as current server */
 async function openAtomic(page: Page) {
-  await page.click(sidebarDriveEdit);
-  // Set AtomicData.dev as the server
-  await page.click('[data-test="server-url-atomic"]');
+  await changeDrive('https://atomicdata.dev', page);
   // Accept the invite, create an account if necessary
   await expect(await page.locator(currentDriveTitle)).toHaveText('Atomic Data');
 }
@@ -525,4 +521,17 @@ async function openNewSubjectWindow(browser: Browser, url: string) {
   await page2.setViewportSize({ width: 1000, height: 400 });
 
   return page2;
+}
+
+async function openDriveMenu(page: Page) {
+  await page.click(sideBarDriveSwitcher);
+  await page.click('[data-test="menu-item-configure-drives"]');
+}
+
+async function changeDrive(subject: string, page: Page) {
+  await openDriveMenu(page);
+  await expect(page.locator('text=Drive Configuration')).toBeVisible();
+
+  await page.fill('[data-test="server-url-input"]', subject);
+  await page.click('[data-test="server-url-save"]');
 }
