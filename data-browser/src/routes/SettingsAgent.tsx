@@ -189,6 +189,7 @@ const SettingsAgent: React.FunctionComponent = () => {
               name='secret'
               id='current-password'
               autoComplete='current-password'
+              spellCheck='false'
             />
             <ButtonInput
               type='button'

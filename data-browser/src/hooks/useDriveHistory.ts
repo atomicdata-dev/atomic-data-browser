@@ -1,38 +1,50 @@
-import { Resource, useLocalStorage, useResources } from '@tomic/react';
-import { useCallback } from 'react';
-import { useUserDrives } from './useUserDrives';
+import { useLocalStorage } from '@tomic/react';
+import { useCallback, useMemo } from 'react';
+import { useSavedDrives } from './useSavedDrives';
 
 const MAX_DRIVE_HISTORY = 5;
 
-export function useDriveHistory(): [
-  driveHistory: Map<string, Resource>,
+export function useDriveHistory(
+  filter: string[] = [],
+  limit = Number.MAX_VALUE,
+): [
+  driveHistory: string[],
   addDriveToHistory: (drive: string) => void,
+  removeFromHistory: (drive: string) => void,
 ] {
-  const userDrives = useUserDrives();
-  const [storedDriveHistory, setDriveHistory] = useLocalStorage<string[]>(
+  const [savedDrives] = useSavedDrives();
+  const [driveHistory, setDriveHistory] = useLocalStorage<string[]>(
     'driveHistory',
     [],
   );
 
-  const driveHistory = useResources(storedDriveHistory);
-
   const addDriveToHistory = useCallback(
     (drive: string) => {
-      if (!userDrives.has(drive)) {
-        setDriveHistory(prev => {
-          if (prev[0] === drive) {
-            return prev;
-          }
+      setDriveHistory(prev => {
+        if (prev[0] === drive) {
+          return prev;
+        }
 
-          return [drive, ...prev.filter(d => d !== drive)].slice(
-            0,
-            MAX_DRIVE_HISTORY,
-          );
-        });
-      }
+        return [drive, ...prev.filter(d => d !== drive)].slice(
+          0,
+          MAX_DRIVE_HISTORY,
+        );
+      });
     },
-    [userDrives, setDriveHistory],
+    [savedDrives, setDriveHistory],
   );
 
-  return [driveHistory, addDriveToHistory];
+  const removeFromHistory = useCallback(
+    (drive: string) => {
+      setDriveHistory(prev => prev.filter(d => d !== drive));
+    },
+    [setDriveHistory],
+  );
+
+  const slicedAndFilteredHistory = useMemo(
+    () => driveHistory.slice(0, limit).filter(d => !filter.includes(d)),
+    [driveHistory, filter],
+  );
+
+  return [slicedAndFilteredHistory, addDriveToHistory, removeFromHistory];
 }

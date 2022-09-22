@@ -1,4 +1,10 @@
-import { urls, useArray, useResource, useTitle } from '@tomic/react';
+import {
+  urls,
+  useArray,
+  useCanWrite,
+  useResource,
+  useTitle,
+} from '@tomic/react';
 import React from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +35,7 @@ export function SideBarDrive({
   const [subResources] = useArray(driveResource, urls.properties.subResources);
   const [title] = useTitle(driveResource);
   const navigate = useNavigate();
+  const [angentCanWrite] = useCanWrite(driveResource);
 
   return (
     <>
@@ -46,15 +53,17 @@ export function SideBarDrive({
             {title || drive}{' '}
           </DriveTitle>
         </TitleButton>
-        <SideBarButton
-          onClick={() => navigate(paths.new)}
-          icon
-          subtle
-          title={`Create a new resource in this drive (${shortcuts.new})`}
-          data-test='sidebar-new-resource'
-        >
-          <FaPlus />
-        </SideBarButton>
+        {angentCanWrite && (
+          <SideBarButton
+            onClick={() => navigate(paths.new)}
+            icon
+            subtle
+            title={`Create a new resource in this drive (${shortcuts.new})`}
+            data-test='sidebar-new-resource'
+          >
+            <FaPlus />
+          </SideBarButton>
+        )}
         <DriveSwitcher />
       </SideBarHeader>
       <ListWrapper>

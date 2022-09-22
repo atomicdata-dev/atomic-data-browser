@@ -4,51 +4,100 @@ import { FaExclamationTriangle, FaSignal } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useSettings } from '../../helpers/AppSettings';
 
-export function WSIndicator() {
+export interface WSIndicatorProps {
+  subject: string;
+  className?: string;
+}
+
+enum ReadyState {
+  CONNECTING = WebSocket.CONNECTING,
+  OPEN = WebSocket.OPEN,
+  CLOSING = WebSocket.CLOSING,
+  CLOSED = WebSocket.CLOSED,
+}
+
+function getIndicatorState(
+  readyState: ReadyState,
+): [icon: React.ReactNode, color: string] {
+  switch (readyState) {
+    case ReadyState.OPEN:
+      return [
+        <FaSignal
+          color='#3AA55D'
+          key='connected'
+          title='Websocket Connected'
+        />,
+        'green',
+      ];
+    case ReadyState.CLOSING:
+      return [
+        <FaSignal color='orange' key='closing' title='Websocket Closing' />,
+        '#FAA81A',
+      ];
+    case ReadyState.CLOSED:
+      return [
+        <FaExclamationTriangle
+          color='red'
+          key='closed'
+          title='Websocket Closed'
+        />,
+        '#ED4245',
+      ];
+    case ReadyState.CONNECTING:
+    default:
+      return [
+        <FaSignal
+          color='gray'
+          key='connecting'
+          title='Websocket Connecting...'
+        />,
+        'gray',
+      ];
+  }
+}
+
+export function WSIndicator({
+  subject,
+  className,
+}: WSIndicatorProps): JSX.Element {
   const store = useStore();
   const { drive } = useSettings();
 
-  const [websocketConnected, setWebsocketConnected] = useState<boolean>(false);
+  const [websocketReadyState, setWebsocketReadyState] = useState<ReadyState>(
+    store.getWebSocketForSubject(subject).readyState,
+  );
 
   useEffect(() => {
-    const ws = store.getDefaultWebSocket();
-    setWebsocketConnected(ws?.readyState === WebSocket.OPEN);
+    const ws = store.getWebSocketForSubject(subject);
 
-    const listener = (socket: WebSocket) => {
-      setWebsocketConnected(socket.readyState === WebSocket.OPEN);
-    };
+    setWebsocketReadyState(ws?.readyState);
 
-    ws?.addEventListener('open', listener as any);
+    const interval = setInterval(() => {
+      if (ws.readyState !== websocketReadyState) {
+        setWebsocketReadyState(ws.readyState);
+      }
+    }, 1000);
 
     return () => {
-      ws?.removeEventListener('open', listener as any);
+      clearInterval(interval);
     };
-  }, [drive]);
+  }, [drive, store]);
+
+  const [icon, color] = getIndicatorState(websocketReadyState);
 
   return (
-    <>
-      <IconWrapper connected={websocketConnected}>
-        {websocketConnected ? (
-          <FaSignal title='Websocket connected' />
-        ) : (
-          <FaExclamationTriangle title='Websocket disconnected' />
-        )}
-      </IconWrapper>
-      {!websocketConnected && <Warning>Websocket Disconnected</Warning>}
-    </>
+    <IconWrapper color={color} className={className}>
+      {icon}
+    </IconWrapper>
   );
 }
 
-interface IconWrapperProps {
-  connected: boolean;
+interface ColorProps {
+  color: string;
 }
 
-const IconWrapper = styled.div<IconWrapperProps>`
+const IconWrapper = styled.div<ColorProps>`
   display: contents;
-  color: ${p => (p.connected ? '#62ad62' : 'orange')};
-  font-size: 1.3rem;
-`;
-
-const Warning = styled.span`
-  color: orange;
+  color: ${p => p.color};
+  font-size: 1rem;
 `;

@@ -1,34 +1,32 @@
 import React from 'react';
 import NewIntanceButton from '../../components/NewInstanceButton';
 import { Card, CardInsideFull, CardRow } from '../../components/Card';
-import { ResourceInline } from '../../views/ResourceInline';
 import { urls } from '@tomic/react';
 import styled from 'styled-components';
-import { Button } from '../../components/Button';
 import { useSettings } from '../../helpers/AppSettings';
-import { isDev } from '../../config';
+import { DriveRow } from './DriveRow';
 
 export interface DriveCardProps {
-  userDrives: string[];
+  drives: string[];
   onDriveSelect: (drive: string) => void;
+  showNewOption?: boolean;
 }
 
-const rootDrives = [
-  'https://atomicdata.dev',
-  window.location.origin,
-  ...(isDev() ? ['http://localhost:9883'] : []),
-];
-
 export function DrivesCard({
-  userDrives,
+  drives,
   onDriveSelect,
+  showNewOption,
 }: DriveCardProps): JSX.Element {
   const { drive } = useSettings();
 
+  if (drives.length === 0) {
+    return <span>Nothing to show</span>;
+  }
+
   return (
-    <Card>
+    <ContainerCard>
       <CardInsideFull>
-        {rootDrives.map((subject, i) => {
+        {drives.map((subject, i) => {
           return (
             <CardRow key={subject} noBorder={i === 0}>
               <DriveRow
@@ -39,50 +37,24 @@ export function DrivesCard({
             </CardRow>
           );
         })}
-        {userDrives.map(subject => {
-          return (
-            <CardRow key={subject}>
-              <DriveRow
-                subject={subject}
-                onClick={onDriveSelect}
-                disabled={subject === drive}
-              />
-            </CardRow>
-          );
-        })}
-        <CardRow>
-          <StyledNewInstanceButton
-            klass={urls.classes.drive}
-            subtle
-            icon
-            label='New Drive'
-          />
-        </CardRow>
+        {showNewOption && (
+          <CardRow>
+            <StyledNewInstanceButton
+              klass={urls.classes.drive}
+              subtle
+              icon
+              label='New Drive'
+            />
+          </CardRow>
+        )}
       </CardInsideFull>
-    </Card>
+    </ContainerCard>
   );
 }
 
-interface DriveRowProps {
-  subject: string;
-  onClick: (subject: string) => void;
-  disabled?: boolean;
-}
-
-function DriveRow({ subject, onClick, disabled }: DriveRowProps) {
-  return (
-    <DriveRowWrapper>
-      <ResourceInline subject={subject} />
-      <SelectButton onClick={() => onClick(subject)} disabled={disabled}>
-        Select
-      </SelectButton>
-    </DriveRowWrapper>
-  );
-}
-
-const DriveRowWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+const ContainerCard = styled(Card)`
+  container-type: inline-size;
+  padding-top: 0;
 `;
 
 const StyledNewInstanceButton = styled(NewIntanceButton)`
@@ -94,9 +66,4 @@ const StyledNewInstanceButton = styled(NewIntanceButton)`
   &&:focus {
     box-shadow: none;
   }
-`;
-
-const SelectButton = styled(Button)`
-  background-color: ${p => (p.disabled ? p.theme.colors.main : 'transparent')};
-  color: ${p => (p.disabled ? 'white' : p.theme.colors.main)};
 `;

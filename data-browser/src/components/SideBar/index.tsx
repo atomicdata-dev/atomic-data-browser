@@ -126,7 +126,6 @@ const SideBarStyled = styled('nav').attrs<SideBarStyledProps>(p => ({
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  contain: paint;
 `;
 
 const SideBarBottom = styled('div')`

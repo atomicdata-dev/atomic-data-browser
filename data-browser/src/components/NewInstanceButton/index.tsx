@@ -23,3 +23,5 @@ export default function NewInstanceButton(
 
   return <Comp {...props} parent={parent ?? drive} />;
 }
+
+export { useDefaultNewInstanceHandler } from './useDefaultNewInstanceHandler';

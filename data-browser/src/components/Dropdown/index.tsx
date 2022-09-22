@@ -65,6 +65,22 @@ const createIndexOffset =
     return findNextAvailable(offset);
   };
 
+function normalizeItems(items: Item[]) {
+  return items.reduce((acc, current, i) => {
+    // If the item is a divider at the start or end of the list, remove it.
+    if ((i === 0 || i === items.length - 1) && !isItem(current)) {
+      return acc;
+    }
+
+    // If the current and previous item are dividers, remove the current one.
+    if (!isItem(current) && !isItem(acc[i - 1])) {
+      return acc;
+    }
+
+    return [...acc, current];
+  }, []);
+}
+
 /**
  * Menu that opens on click and shows a bunch of items. Closes on Escape and on
  * clicking outside. Use arrow keys to select items, and open items on Enter.
@@ -92,10 +108,12 @@ export function DropdownMenu({
     'mouseout',
   ]);
 
+  const normalizedItems = useMemo(() => normalizeItems(items), [items]);
+
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const getNewIndex = createIndexOffset(items);
+  const getNewIndex = createIndexOffset(normalizedItems);
   // if the keyboard is used to navigate the menu items
   const [useKeys, setUseKeys] = useState(false);
 
@@ -158,11 +176,11 @@ export function DropdownMenu({
     'enter',
     e => {
       e.preventDefault();
-      (items[selectedIndex] as MenuItemMinimial).onClick();
+      (normalizedItems[selectedIndex] as MenuItemMinimial).onClick();
       handleClose();
     },
     { enabled: isActive },
-    [selectedIndex, items],
+    [selectedIndex, normalizedItems],
   );
   // Move up (or to bottom if at top)
   useHotkeys(
@@ -200,7 +218,7 @@ export function DropdownMenu({
         menuId={menuId}
       />
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
-        {items.map((props, i) => {
+        {normalizedItems.map((props, i) => {
           if (!isItem(props)) {
             return <ItemDivider key={i} />;
           }

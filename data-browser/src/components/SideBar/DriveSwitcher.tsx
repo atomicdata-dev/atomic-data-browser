@@ -1,13 +1,20 @@
-import { Resource, urls, useResource } from '@tomic/react';
+import { classes, Resource, urls, useResources } from '@tomic/react';
 import React, { useMemo } from 'react';
-import { FaCog, FaRegCheckCircle, FaRegCircle, FaServer } from 'react-icons/fa';
+import {
+  FaCog,
+  FaPlus,
+  FaRegCheckCircle,
+  FaRegCircle,
+  FaServer,
+} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../helpers/AppSettings';
 import { useDriveHistory } from '../../hooks/useDriveHistory';
-import { useUserDrives } from '../../hooks/useUserDrives';
+import { useSavedDrives } from '../../hooks/useSavedDrives';
 import { paths } from '../../routes/paths';
 import { DIVIDER, DropdownMenu } from '../Dropdown';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
+import { useDefaultNewInstanceHandler } from '../NewInstanceButton';
 import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
 const Trigger = buildDefaultTrigger(
@@ -28,20 +35,36 @@ function dedupeAFromB<K, V>(a: Map<K, V>, b: Map<K, V>): Map<K, V> {
 
 export function DriveSwitcher() {
   const navigate = useNavigate();
-  const { drive, setDrive } = useSettings();
-  const drives = useUserDrives();
-  const currentDriveResource = useResource(drive);
-  const [history, addToHistory] = useDriveHistory();
+  const { drive, setDrive, agent } = useSettings();
+  const [savedDrives] = useSavedDrives();
+  const [history, addToHistory] = useDriveHistory(savedDrives, 5);
+
+  const savedDrivesMap = useResources(savedDrives);
+  const historyMap = useResources(history);
 
   const buildHandleHistoryDriveClick = (subject: string) => () => {
     setDrive(subject);
     addToHistory(subject);
   };
 
+  const createNewDrive = useDefaultNewInstanceHandler(
+    classes.drive,
+    agent.subject,
+  );
+
   const items = useMemo(
     () => [
-      // Dedupe history as there might be user drives in there if they were not loaded yet.
-      ...Array.from(dedupeAFromB(history, drives).entries()).map(
+      ...Array.from(savedDrivesMap.entries()).map(([subject, resource]) => ({
+        id: subject,
+        label: getTitle(resource),
+        helper: `Switch to ${getTitle(resource)}`,
+        disabled: subject === drive,
+        onClick: () => setDrive(subject),
+        icon: subject === drive ? <FaRegCheckCircle /> : <FaRegCircle />,
+      })),
+      DIVIDER,
+      // Dedupe history from savedDrives bause not all savedDrives might be loaded yet.
+      ...Array.from(dedupeAFromB(historyMap, savedDrivesMap)).map(
         ([subject, resource]) => ({
           label: getTitle(resource),
           id: subject,
@@ -52,15 +75,6 @@ export function DriveSwitcher() {
         }),
       ),
       DIVIDER,
-      ...Array.from(drives.entries()).map(([subject, resource]) => ({
-        id: subject,
-        label: getTitle(resource),
-        helper: `Switch to ${getTitle(resource)}`,
-        disabled: subject === drive,
-        onClick: () => setDrive(subject),
-        icon: subject === drive ? <FaRegCheckCircle /> : <FaRegCircle />,
-      })),
-      DIVIDER,
       {
         id: 'advanced',
         label: 'Configure Drives',
@@ -68,8 +82,15 @@ export function DriveSwitcher() {
         helper: 'Load drives not displayed in this list.',
         onClick: () => navigate(paths.serverSettings),
       },
+      {
+        id: 'new drive',
+        label: 'New Drive',
+        icon: <FaPlus />,
+        helper: 'Create a new drive',
+        onClick: createNewDrive,
+      },
     ],
-    [drives, currentDriveResource, drive, history],
+    [savedDrivesMap, drive, historyMap],
   );
 
   return <DropdownMenu trigger={Trigger} items={items} />;
