@@ -11,7 +11,7 @@ import { useSettings } from '../../helpers/AppSettings';
 import { newURL } from '../../helpers/navigation';
 import { useCreateAndNavigate } from './useCreateAndNavigate';
 
-export function useDefaultNewInstanceHandler(klass: string, parent: string) {
+export function useDefaultNewInstanceHandler(klass: string, parent?: string) {
   const store = useStore();
   const { setDrive } = useSettings();
   const navigate = useNavigate();
@@ -60,7 +60,6 @@ export function useDefaultNewInstanceHandler(klass: string, parent: string) {
             [properties.isA]: [classes.drive],
             [properties.write]: [agent.subject],
             [properties.read]: [agent.subject],
-            // [properties.parent]: null,
           },
           undefined,
           true,

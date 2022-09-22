@@ -27,7 +27,8 @@
     "prepare": "pnpm run lint-fix && pnpm run build",
     "start": "pnpm watch",
     "watch": "tsc --build --watch",
-    "tsc": "tsc --build"
+    "tsc": "tsc --build",
+    "typecheck": "tsc --noEmit"
   },
   "source": "src/index.ts",
   "type": "module",

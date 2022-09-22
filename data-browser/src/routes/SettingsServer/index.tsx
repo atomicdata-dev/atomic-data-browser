@@ -19,7 +19,7 @@ import { useSavedDrives } from '../../hooks/useSavedDrives';
 export function SettingsServer(): JSX.Element {
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
-  const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
+  const [baseUrlErr, setErrBaseUrl] = useState<Error | undefined>();
 
   const [savedDrives] = useSavedDrives();
 

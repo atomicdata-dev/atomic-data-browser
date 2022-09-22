@@ -33,7 +33,8 @@
     "watch": "tsc --build --watch",
     "start": "pnpm watch",
     "test": "NODE_OPTIONS='--experimental-vm-modules' ../node_modules/jest/bin/jest.js",
-    "tsc": "tsc --build"
+    "tsc": "tsc --build",
+    "typecheck": "tsc --noEmit"
   },
   "source": "src/index.ts",
   "type": "module",

@@ -49,7 +49,7 @@ export function DriveSwitcher() {
 
   const createNewDrive = useDefaultNewInstanceHandler(
     classes.drive,
-    agent.subject,
+    agent?.subject,
   );
 
   const items = useMemo(

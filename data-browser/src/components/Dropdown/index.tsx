@@ -35,7 +35,7 @@ const loopingIndex = (index: number, length: number) => {
 };
 
 export const isItem = (
-  item: MenuItemMinimial | string,
+  item: MenuItemMinimial | string | undefined,
 ): item is MenuItemMinimial =>
   typeof item !== 'string' && typeof item?.label === 'string';
 
@@ -66,7 +66,7 @@ const createIndexOffset =
   };
 
 function normalizeItems(items: Item[]) {
-  return items.reduce((acc, current, i) => {
+  return items.reduce((acc: Item[], current, i) => {
     // If the item is a divider at the start or end of the list, remove it.
     if ((i === 0 || i === items.length - 1) && !isItem(current)) {
       return acc;

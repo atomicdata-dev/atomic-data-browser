@@ -67,7 +67,8 @@
     "test": "playwright test",
     "test-debug": "PWDEBUG=1 playwright test",
     "test-new": "playwright codegen http://localhost:5173",
-    "test-query": "PWDEBUG=1 npx playwright test \"e2e.spec.ts\" -g"
+    "test-query": "PWDEBUG=1 npx playwright test \"e2e.spec.ts\" -g",
+    "typecheck": "tsc --noEmit"
   },
   "version": "0.30.9"
 }
