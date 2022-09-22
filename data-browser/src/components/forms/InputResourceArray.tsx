@@ -51,15 +51,6 @@ export default function InputResourceArray({
 
     return undefined;
   }
-  }
-
-  function errMaybe(index: number) {
-    if (err && err.index === index) {
-      return err;
-    }
-
-    return undefined;
-  }
 
   return (
     <Row direction='column'>

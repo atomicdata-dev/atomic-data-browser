@@ -32,7 +32,6 @@ import { ResourcePageProps } from './ResourcePage';
 import { useEffectOnce } from '../hooks/useEffectOnce';
 import { Row } from '../components/Row';
 import { EditableTitle } from '../components/EditableTitle';
-import Markdown from '../components/datatypes/Markdown';
 
 const displayStyles = [
   {

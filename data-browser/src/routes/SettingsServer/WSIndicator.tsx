@@ -64,11 +64,15 @@ export function WSIndicator({
   const { drive } = useSettings();
 
   const [websocketReadyState, setWebsocketReadyState] = useState<ReadyState>(
-    store.getWebSocketForSubject(subject).readyState,
+    store.getWebSocketForSubject(subject)?.readyState ?? ReadyState.CONNECTING,
   );
 
   useEffect(() => {
     const ws = store.getWebSocketForSubject(subject);
+
+    if (!ws) {
+      return setWebsocketReadyState(ReadyState.CONNECTING);
+    }
 
     setWebsocketReadyState(ws?.readyState);
 

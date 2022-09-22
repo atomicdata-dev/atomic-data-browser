@@ -11,7 +11,7 @@ import {
 } from '../../components/ExternalLink';
 import { usePreview } from './usePreview';
 import { InputStyled, InputWrapper } from '../../components/forms/InputStyles';
-import { ErrorLook } from '../ResourceInline';
+import { ErrorLook } from '../../components/ErrorLook';
 
 export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
   const [url, setUrl] = useString(resource, urls.properties.bookmark.url, {
