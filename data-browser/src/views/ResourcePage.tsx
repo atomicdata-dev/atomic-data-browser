@@ -66,7 +66,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
 
 const Main = styled.main`
   /* Makes the contents fit the entire page */
-  display: content;
+  display: contents;
 `;
 
 /** There properties are passed to every View at Page level */
