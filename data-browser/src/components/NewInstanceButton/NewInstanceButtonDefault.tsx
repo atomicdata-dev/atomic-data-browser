@@ -1,12 +1,8 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { newURL } from '../../helpers/navigation';
-import { useResource, useStore, useString, useTitle } from '@tomic/react';
-import { classes, properties } from '@tomic/react';
+import React from 'react';
+import { useResource, useTitle } from '@tomic/react';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
-import { Base } from './Base';
-import { useCreateAndNavigate } from './useCreateAndNavigate';
-import { useSettings } from '../../helpers/AppSettings';
+import { Base, Base } from './Base';
+import { useDefaultNewInstanceHandler } from './useDefaultNewInstanceHandler';
 
 /** Default handler for the new Instance button. DO NOT USE DIRECTLY. */
 export function NewInstanceButtonDefault({
@@ -20,68 +16,8 @@ export function NewInstanceButtonDefault({
 }: NewInstanceButtonProps): JSX.Element {
   const classResource = useResource(klass);
   const [title] = useTitle(classResource);
-  const navigate = useNavigate();
-  const store = useStore();
-  const [shortname] = useString(classResource, properties.shortname);
-  const { setDrive } = useSettings();
-  const createResourceAndNavigate = useCreateAndNavigate(klass, parent);
 
-  const onClick = useCallback(async () => {
-    switch (klass) {
-      case classes.chatRoom: {
-        createResourceAndNavigate('chatRoom', {
-          [properties.name]: 'New ChatRoom',
-          [properties.isA]: [classes.chatRoom],
-        });
-        break;
-      }
-
-      case classes.document: {
-        createResourceAndNavigate('documents', {
-          [properties.isA]: [classes.document],
-        });
-        break;
-      }
-
-      case classes.importer: {
-        createResourceAndNavigate('importer', {
-          [properties.isA]: [classes.importer],
-        });
-        break;
-      }
-
-      case classes.drive: {
-        const agentSubject = store.getAgent()?.subject;
-
-        if (!agentSubject) {
-          throw new Error(
-            'No agent set in the Store, required when creating a Drive',
-          );
-        }
-
-        const newResource = await createResourceAndNavigate(
-          'drive',
-          {
-            [properties.isA]: [classes.drive],
-            [properties.write]: [agentSubject],
-            [properties.read]: [agentSubject],
-          },
-          undefined,
-          true,
-        );
-        const agent = await store.getResourceAsync(agentSubject);
-        agent.pushPropVal(properties.drives, newResource.getSubject());
-        agent.save(store);
-        setDrive(newResource.getSubject());
-        break;
-      }
-
-      default: {
-        // Opens an `Edit` form with the class and a decent subject name
-        navigate(newURL(klass, parent, store.createSubject(shortname)));
-      }
-    }
-  }, [klass, store, parent, createResourceAndNavigate]);
+  const onClick = useDefaultNewInstanceHandler(klass, parent);
 
   return (
     <Base

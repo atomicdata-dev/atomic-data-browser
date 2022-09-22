@@ -427,13 +427,12 @@ export class Store {
   public openWebSocket(url: string) {
     // Check if we're running in a webbrowser
     if (typeof window !== 'undefined') {
-      if (this.webSockets.get(url)) {
+      if (this.webSockets.has(url)) {
         return;
       }
 
       this.webSockets.set(url, startWebsocket(url, this));
     } else {
-      // eslint-disable-next-line no-console
       console.warn('WebSockets not supported, no window available');
     }
   }

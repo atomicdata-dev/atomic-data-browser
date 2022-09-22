@@ -8,14 +8,20 @@ import {
 } from '@tomic/react';
 import { AtomicLink } from '../components/AtomicLink';
 import { ErrorLook } from '../components/ErrorLook';
+import { LoaderInline } from '../components/Loader';
 
 type Props = {
   subject: string;
   untabbable?: boolean;
+  className?: string;
 };
 
 /** Renders a Resource in a compact, inline link. Shows tooltip on hover. */
-export function ResourceInline({ subject, untabbable }: Props): JSX.Element {
+export function ResourceInline({
+  subject,
+  untabbable,
+  className,
+}: Props): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
@@ -25,11 +31,7 @@ export function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   }
 
   if (resource.loading) {
-    return (
-      <span about={subject} title={`${subject} is loading..`}>
-        ...
-      </span>
-    );
+    return <LoaderInline about={subject} title={`${subject} is loading..`} />;
   }
 
   if (!isValidURL(subject)) {
@@ -47,7 +49,7 @@ export function ResourceInline({ subject, untabbable }: Props): JSX.Element {
   }
 
   return (
-    <AtomicLink subject={subject} untabbable={untabbable}>
+    <AtomicLink subject={subject} untabbable={untabbable} className={className}>
       <span title={description ? description : ''}>{title}</span>
     </AtomicLink>
   );

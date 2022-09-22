@@ -9,6 +9,14 @@ export const ContainerNarrow = styled.div`
   padding-bottom: 10rem;
 `;
 
+export const ContainerWide = styled.div`
+  max-width: ${props => props.theme.containerWidthWide};
+  margin: auto;
+  padding: ${props => props.theme.margin}rem;
+  // Extra space for the navbar below
+  padding-bottom: 10rem;
+`;
+
 /** Full-page wrapper */
 export const ContainerFull = styled.div`
   padding: ${props => props.theme.margin}rem;

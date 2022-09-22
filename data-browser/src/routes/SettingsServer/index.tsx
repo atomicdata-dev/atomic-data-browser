@@ -9,22 +9,21 @@ import {
 } from '../../components/forms/InputStyles';
 import { useState } from 'react';
 import { useSettings } from '../../helpers/AppSettings';
-import { ContainerNarrow } from '../../components/Containers';
-import { urls, useArray, useResource } from '@tomic/react';
+import { ContainerWide } from '../../components/Containers';
 import { Row } from '../../components/Row';
 import { useDriveHistory } from '../../hooks/useDriveHistory';
 import { DrivesCard } from './DrivesCard';
 import styled from 'styled-components';
-import { WSIndicator } from './WSIndicator';
+import { useSavedDrives } from '../../hooks/useSavedDrives';
 
 export function SettingsServer(): JSX.Element {
-  const { drive: baseURL, setDrive: setBaseURL, agent } = useSettings();
-  const agentResource = useResource(agent?.subject);
+  const { drive: baseURL, setDrive: setBaseURL } = useSettings();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error>(null);
 
-  const [userDrives] = useArray(agentResource, urls.properties.drives);
-  const [_, addDriveToHistory] = useDriveHistory();
+  const [savedDrives] = useSavedDrives();
+
+  const [history, addDriveToHistory] = useDriveHistory(savedDrives);
 
   function handleSetBaseUrl(url: string) {
     try {
@@ -37,11 +36,8 @@ export function SettingsServer(): JSX.Element {
   }
 
   return (
-    <ContainerNarrow>
-      <HeadingWrapper>
-        <h1>Drive Configuration</h1>
-        <WSIndicator />
-      </HeadingWrapper>
+    <ContainerWide>
+      <Heading>Drive Configuration</Heading>
       <FieldStyled>
         <LabelStyled>Current Drive</LabelStyled>
         <Row>
@@ -57,26 +53,27 @@ export function SettingsServer(): JSX.Element {
             disabled={baseURL === baseUrlInput}
             data-test='server-url-save'
           >
-            save
+            Save
           </Button>
         </Row>
       </FieldStyled>
       <ErrMessage>{baseUrlErr?.message}</ErrMessage>
-
+      <Heading as='h2'>Saved</Heading>
       <DrivesCard
-        userDrives={userDrives}
+        showNewOption
+        drives={savedDrives}
         onDriveSelect={subject => handleSetBaseUrl(subject)}
       />
-    </ContainerNarrow>
+      <Heading as='h2'>Other</Heading>
+      <DrivesCard
+        drives={history}
+        onDriveSelect={subject => handleSetBaseUrl(subject)}
+      />
+    </ContainerWide>
   );
 }
 
-const HeadingWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  h1 {
-    margin: 0;
-  }
+const Heading = styled.h1`
+  margin: 0;
   margin-bottom: 1rem;
 `;

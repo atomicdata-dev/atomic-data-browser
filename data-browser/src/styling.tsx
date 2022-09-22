@@ -68,6 +68,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     0px 11.8px 17.9px rgba(0, 0, 0, 0.042),
     0px 22.1px 33.4px rgba(0, 0, 0, 0.05), 0px 53px 80px rgba(0, 0, 0, 0.07);`,
     containerWidth: 40,
+    containerWidthWide: '900px',
     fontSizeBody: 1,
     fontSizeH1: 2,
     sideBarWidth: 15,
@@ -113,6 +114,8 @@ declare module 'styled-components' {
     margin: number;
     /** Width of the container, in rem */
     containerWidth: number;
+    /** Width of the container, in pixels */
+    containerWidthWide: string;
     /** Width of the sidebar, in rem */
     sideBarWidth: number;
     /** Roundness of some elements / Border radius */
