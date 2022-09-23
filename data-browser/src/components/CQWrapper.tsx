@@ -5,6 +5,7 @@ import {
   StyledComponent,
 } from 'styled-components';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CT = React.FunctionComponent<any>;
 
 type SComp<

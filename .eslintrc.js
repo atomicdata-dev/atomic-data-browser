@@ -24,6 +24,14 @@ module.exports = {
       jsx: true, // Allows for the parsing of JSX
       arrowFunctions: true,
     },
+    // Next two lines enable deeper TS type checking
+    // https://typescript-eslint.io/docs/linting/typed-linting/
+    tsconfigRootDir: __dirname,
+    project: [
+      'lib/tsconfig.json',
+      'react/tsconfig.json',
+      'data-browser/tsconfig.json',
+    ],
   },
   plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'jsx-a11y'],
   settings: {
