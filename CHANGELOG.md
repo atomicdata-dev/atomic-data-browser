@@ -2,27 +2,36 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## Unreleased
+## v0.32.0
+
+### Breaking changes
+
+- Changed `null` to `undefined` in many places
+- `useTitle` returns an `array` with a `setTitle` function, similar to `useState`
+- `resource.getError()` is deprecated in favor or `resource.error`
+
+### New
 
 - Add Hierarchy in sidebar #75
+- Add DriveSwitcher #209
+- Add `new drive` option
 - Add `EventManager` to run custom functions when resources are added / edited / etc.
 - Add dialog / modal view #24 #181
 - Add bookmark import / reader mode #187
+
+### Fixes & improvements
+
+- Stricter non-null checks, improved typings #220
+- Switch from `yarn` to `pnpm` #210
 - Various improvements to Dropdown forms #194
 - Fix crash in circular parent rendering
 - Fix race condition #189
-- Add `new drive` option
 - Make all titles editable #199
 - Don't subscribe to search endpoint #200
 - Refactor e2e tests
 - Render floats
 - Hide unsortable items in tables
-- Switch from `yarn` to `pnpm` #210
 - Fix dropdown resource select input #222
-- Stricter non-null checks, improved typings #220
-- Changed `null` to `undefined` in many places!
-- `resource.getError()` is deprecated in favor or `resource.error`
-- Add DriveSwitcher #209
 
 ## v0.31.1
 
