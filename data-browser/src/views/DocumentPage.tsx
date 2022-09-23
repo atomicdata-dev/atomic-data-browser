@@ -408,13 +408,11 @@ function SortableElement(props: SortableElementProps) {
 }
 
 const DocumentContainer = styled.div`
-  max-width: ${p => p.theme.containerWidth}rem;
+  width: min(100%, ${p => p.theme.containerWidth}rem);
+  margin: auto;
   display: flex;
   flex: 1;
-  margin: auto;
   flex-direction: column;
-  min-height: 100%;
-  box-sizing: border-box;
   padding: 2rem;
   @media (max-width: ${props => props.theme.containerWidth}rem) {
     padding: ${p => p.theme.margin}rem;
@@ -448,6 +446,11 @@ interface GripItemProps {
 
 const FullPageWrapper = styled.div`
   background-color: ${p => p.theme.colors.bg};
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100%;
+  box-sizing: border-box;
 `;
 
 const SortHandleStyled = styled.div<GripItemProps>`
