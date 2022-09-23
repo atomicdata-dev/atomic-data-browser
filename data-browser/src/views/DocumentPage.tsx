@@ -48,13 +48,15 @@ export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
   }, [canWrite]);
 
   return (
-    <DocumentWrapper about={resource.getSubject()}>
-      {editMode ? (
-        <DocumentPageEdit resource={resource} setEditMode={setEditMode} />
-      ) : (
-        <DocumentPageShow resource={resource} setEditMode={setEditMode} />
-      )}
-    </DocumentWrapper>
+    <FullPageWrapper>
+      <DocumentContainer about={resource.getSubject()}>
+        {editMode ? (
+          <DocumentPageEdit resource={resource} setEditMode={setEditMode} />
+        ) : (
+          <DocumentPageShow resource={resource} setEditMode={setEditMode} />
+        )}
+      </DocumentContainer>
+    </FullPageWrapper>
   );
 }
 
@@ -405,10 +407,7 @@ function SortableElement(props: SortableElementProps) {
   );
 }
 
-const DocumentWrapper = styled.div`
-  background-color: ${p => p.theme.colors.bg};
-  border-left: solid 1px ${p => p.theme.colors.bg2};
-  border-right: solid 1px ${p => p.theme.colors.bg2};
+const DocumentContainer = styled.div`
   max-width: ${p => p.theme.containerWidth}rem;
   display: flex;
   flex: 1;
@@ -446,6 +445,10 @@ interface GripItemProps {
   /** The element is currently selected */
   active: boolean;
 }
+
+const FullPageWrapper = styled.div`
+  background-color: ${p => p.theme.colors.bg};
+`;
 
 const SortHandleStyled = styled.div<GripItemProps>`
   width: 1rem;
