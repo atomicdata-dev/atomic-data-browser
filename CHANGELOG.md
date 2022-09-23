@@ -22,6 +22,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Stricter non-null checks, improved typings #220
 - Changed `null` to `undefined` in many places!
 - `resource.getError()` is deprecated in favor or `resource.error`
+- Add DriveSwitcher #209
 
 ## v0.31.1
 
