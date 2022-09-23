@@ -32,8 +32,7 @@
   },
   "typedoc": {
     "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md",
-    "displayName": "@tomic/react"
+    "readmeFile": "./README.md"
   },
   "source": "src/index.ts",
   "type": "module",

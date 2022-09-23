@@ -37,8 +37,7 @@
   },
   "typedoc": {
     "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md",
-    "displayName": "@tomic/lib"
+    "readmeFile": "./README.md"
   },
   "source": "src/index.ts",
   "type": "module",
