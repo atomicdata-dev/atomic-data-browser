@@ -15,12 +15,12 @@ export interface DriveRowProps {
 export function DriveRow({ subject, onClick, disabled }: DriveRowProps) {
   return (
     <DriveRowWrapper>
-      <StyledFavoriteButton subject={subject} />
       <Title subject={subject} />
       <Subject>{subject}</Subject>
       <SelectButton onClick={() => onClick(subject)} disabled={disabled}>
         Select
       </SelectButton>
+      <StyledFavoriteButton subject={subject} />
       <StyledWSIndicator subject={subject} />
     </DriveRowWrapper>
   );
