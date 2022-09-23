@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@esm-bundle/chai': 4.3.4
-      '@playwright/test': ^1.25.2
+      '@playwright/test': ^1.26.0
       '@types/chai': ^4.2.22
       '@types/jest': ^27.0.2
       '@types/node': ^16.11.4
@@ -26,7 +26,7 @@ importers:
       eslint-plugin-react-hooks: ^4.3.0
       husky: ^7.0.4
       jest: ^29.0.2
-      playwright: ^1.25.2
+      playwright: ^1.26.0
       prettier: 2.4.1
       prettier-plugin-jsdoc: ^0.3.24
       react: ^18.2.0
@@ -39,7 +39,7 @@ importers:
       eslint-plugin-import: 2.26.0_gjbotgyudww5p2vzmeardfz6ve
     devDependencies:
       '@esm-bundle/chai': 4.3.4
-      '@playwright/test': 1.25.2
+      '@playwright/test': 1.26.0
       '@types/chai': 4.2.22
       '@types/jest': 27.0.2
       '@types/node': 16.11.4
@@ -59,7 +59,7 @@ importers:
       eslint-plugin-react-hooks: 4.3.0_eslint@8.23.0
       husky: 7.0.4
       jest: 29.0.2_@types+node@16.11.4
-      playwright: 1.25.2
+      playwright: 1.26.0
       prettier: 2.4.1
       prettier-plugin-jsdoc: 0.3.24_prettier@2.4.1
       react: 18.2.0
@@ -77,7 +77,7 @@ importers:
       '@dnd-kit/core': ^4.0.3
       '@dnd-kit/sortable': ^5.1.0
       '@dnd-kit/utilities': ^3.0.2
-      '@playwright/test': ^1.25.2
+      '@playwright/test': ^1.26.0
       '@tomic/react': workspace:*
       '@types/react': ^18.0.10
       '@types/react-dom': ^18.0.5
@@ -136,7 +136,7 @@ importers:
       styled-components: 5.3.3_uuaz5p7xzfmtjacf6iqf7idnby
       yamde: 1.7.1_ef5jwxihqo6n7gxfmzogljlgcm
     devDependencies:
-      '@playwright/test': 1.25.2
+      '@playwright/test': 1.26.0
       '@types/react': 18.0.20
       '@types/react-dom': 18.0.5
       '@types/react-router-dom': 5.3.3
@@ -1910,13 +1910,13 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@playwright/test/1.25.2:
-    resolution: {integrity: sha512-6qPznIR4Fw02OMbqXUPMG6bFFg1hDVNEdihKy0t9K0dmRbus1DyP5Q5XFQhGwEHQkLG5hrSfBuu9CW/foqhQHQ==}
+  /@playwright/test/1.26.0:
+    resolution: {integrity: sha512-D24pu1k/gQw3Lhbpc38G5bXlBjGDrH5A52MsrH12wz6ohGDeQ+aZg/JFSEsT/B3G8zlJe/EU4EkJK74hpqsjEg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 16.11.4
-      playwright-core: 1.25.2
+      playwright-core: 1.26.0
     dev: true
 
   /@rollup/plugin-babel/5.3.0_yzwiwxlebv3rv47aimfjn4byyu:
@@ -2788,7 +2788,7 @@ packages:
     dependencies:
       '@web/test-runner-core': 0.10.22
       '@web/test-runner-coverage-v8': 0.4.8
-      playwright: 1.25.2
+      playwright: 1.26.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7496,19 +7496,19 @@ packages:
       find-up: 4.1.0
     dev: true
 
-  /playwright-core/1.25.2:
-    resolution: {integrity: sha512-0yTbUE9lIddkEpLHL3u8PoCL+pWiZtj5A/j3U7YoNjcmKKDGBnCrgHJMzwd2J5vy6l28q4ki3JIuz7McLHhl1A==}
+  /playwright-core/1.26.0:
+    resolution: {integrity: sha512-p8huU8eU4gD3VkJd3DA1nA7R3XA6rFvFL+1RYS96cSljCF2yJE9CWEHTPF4LqX8KN9MoWCrAfVKP5381X3CZqg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
 
-  /playwright/1.25.2:
-    resolution: {integrity: sha512-RwMB5SFRV/8wSfK+tK8ycpqdzORvoqUNz9DUeRfSgZFrZej5uuBl9wFjWcc+OkXFEtaPmx1acAVGG7hA4IJ1kg==}
+  /playwright/1.26.0:
+    resolution: {integrity: sha512-XxTVlvFEYHdatxUkh1KiPq9BclNtFKMi3BgQnl/aactmhN4G9AkZUXwt0ck6NDAOrDFlfibhbM7A1kZwQJKSBw==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      playwright-core: 1.25.2
+      playwright-core: 1.26.0
     dev: true
 
   /please-upgrade-node/3.2.0:
