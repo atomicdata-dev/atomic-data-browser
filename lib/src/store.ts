@@ -70,11 +70,11 @@ export class Store {
       agent?: Agent;
     } = {},
   ) {
-    opts.serverUrl && this.setServerUrl(opts.serverUrl);
-    opts.agent && this.setAgent(opts.agent);
     this._resources = new Map();
     this.webSockets = new Map();
     this.subscribers = new Map();
+    opts.serverUrl && this.setServerUrl(opts.serverUrl);
+    opts.agent && this.setAgent(opts.agent);
 
     this.errorHandler = (e: Error) => {
       throw e;

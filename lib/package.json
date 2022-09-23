@@ -1,7 +1,7 @@
 {
   "author": "Joep Meindertsma",
   "dependencies": {
-    "@noble/ed25519": "^1.6.0",
+    "@noble/ed25519": "1.6.0",
     "@noble/hashes": "^0.5.7",
     "base64-arraybuffer": "^1.0.2",
     "cross-fetch": "^3.1.4",
@@ -10,7 +10,6 @@
   "description": "",
   "devDependencies": {
     "@types/fast-json-stable-stringify": "^2.1.0",
-    "@types/whatwg-fetch": "^0.0.33",
     "chai": "^4.3.4",
     "typescript": "^4.8",
     "whatwg-fetch": "^3.6.2"

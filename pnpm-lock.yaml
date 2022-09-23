@@ -150,10 +150,9 @@ importers:
 
   lib:
     specifiers:
-      '@noble/ed25519': ^1.6.0
+      '@noble/ed25519': 1.6.0
       '@noble/hashes': ^0.5.7
       '@types/fast-json-stable-stringify': ^2.1.0
-      '@types/whatwg-fetch': ^0.0.33
       base64-arraybuffer: ^1.0.2
       chai: ^4.3.4
       cross-fetch: ^3.1.4
@@ -162,13 +161,12 @@ importers:
       whatwg-fetch: ^3.6.2
     dependencies:
       '@noble/ed25519': 1.6.0
-      '@noble/hashes': 0.5.7
+      '@noble/hashes': 0.5.9
       base64-arraybuffer: 1.0.2
       cross-fetch: 3.1.4
       fast-json-stable-stringify: 2.1.0
     devDependencies:
       '@types/fast-json-stable-stringify': 2.1.0
-      '@types/whatwg-fetch': 0.0.33
       chai: 4.3.4
       typescript: 4.8.2
       whatwg-fetch: 3.6.2
@@ -2093,8 +2091,8 @@ packages:
     resolution: {integrity: sha512-UKju89WV37IUALIMfKhKW3psO8AqmrE/GvH6QbPKjzolQ98zM7WmGUeY+xdIgSf5tqPFf75ZCYMgym6E9Jsw3Q==}
     dev: false
 
-  /@noble/hashes/0.5.7:
-    resolution: {integrity: sha512-R9PPYv7TqoYi+enikzZvwRQesGTxR0+jwqzZJGL0uNcf2NFL+lt/uvCCewtXXmr6jWBxiMuNjBfJwKv9UJaCng==}
+  /@noble/hashes/0.5.9:
+    resolution: {integrity: sha512-7lN1Qh6d8DUGmfN36XRsbN/WcGIPNtTGhkw26vWId/DlCIGsYJJootTtPGghTLcn/AaXPx2Q0b3cacrwXa7OVw==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -2589,20 +2587,6 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
-
-  /@types/whatwg-fetch/0.0.33:
-    resolution: {integrity: sha512-XSWTlUwpjUyLiDu50HhtpUyhvt7QND1ANfyFfiw/TH63GC1ngZMl2rgxuH5SQKfPjMoKRXv94r7crWnJ3mg5tA==}
-    deprecated: fetch types are now provided by '--lib dom'
-    dependencies:
-      '@types/whatwg-streams': 3.2.1
-    dev: true
-
-  /@types/whatwg-streams/3.2.1:
-    resolution: {integrity: sha512-Syv05sRL25b8cC8tqgXSQgLZZmqGq2GO+NafrtHbjPJccP6gWBXmHvo2Trw3AWXQ4QLIkVuOB7uStCuhzswyiw==}
-    deprecated: This is a stub types definition. whatwg-streams provides its own type definitions, so you do not need this installed.
-    dependencies:
-      whatwg-streams: 0.1.1
-    dev: true
 
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
@@ -3449,10 +3433,6 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  /bluebird/1.0.8:
-    resolution: {integrity: sha512-e8rlJcByuxPdMiiwU3lGtENflMtUncAblzSlN7rBAZ9ygb75D/rng3Xt5FbZpYqVCzK+sFHVIMht4G6fbfUfbA==}
-    dev: true
-
   /boxen/4.2.0:
     resolution: {integrity: sha512-eB4uT9RGzg2odpER62bBwSLvUeGC+WbRjjyyFhGsKnc8wp/m0+hQsMUvUe3H2V0D5vw0nBdO1hCJoZo5mKeuIQ==}
     engines: {node: '>=8'}
@@ -4129,10 +4109,6 @@ packages:
       type-detect: 4.0.8
     dev: true
 
-  /deep-equal/0.1.2:
-    resolution: {integrity: sha512-rUCt39nKM7s6qUyYgp/reJmtXjgkOS/JbLO24DioMZaBNkD3b7C7cD3zJjSyjclEElNTpetAIRD6fMIbBIbX1Q==}
-    dev: true
-
   /deep-equal/1.0.1:
     resolution: {integrity: sha512-bHtC0iYvWhyaTzvV3CZgPeZQqCOBGyGsVV7v4eevpdkLHfiSrXUdBG+qAuSz4RI70sszvjQ1QSZ98An1yNwpSw==}
     dev: true
@@ -4171,10 +4147,6 @@ packages:
     dependencies:
       has-property-descriptors: 1.0.0
       object-keys: 1.1.1
-
-  /defined/0.0.0:
-    resolution: {integrity: sha512-zpqiCT8bODLu3QSmLLic8xJnYWBFjOSu/fBCm189oAiTtPq/PSanNACKZDS7kgSyCJY7P+IcODzlIogBK/9RBg==}
-    dev: true
 
   /delegates/1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
@@ -6486,10 +6458,6 @@ packages:
       graceful-fs: 4.2.10
     dev: true
 
-  /jsonify/0.0.0:
-    resolution: {integrity: sha512-trvBk1ki43VZptdBI5rIlG4YOzyeH/WefQt5rj1grasPn4iiZWKet8nkgc4GlsAylaztn0qZfUYOiTsASJFdNA==}
-    dev: true
-
   /jsonpointer/5.0.0:
     resolution: {integrity: sha512-PNYZIdMjVIvVgDSYKTT63Y+KZ6IZvGRNNWcxwD+GNnUz1MKPfv30J8ueCjdwcN0nDx2SlshgyB7Oy0epAzVRRg==}
     engines: {node: '>=0.10.0'}
@@ -8590,12 +8558,6 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /resumer/0.0.0:
-    resolution: {integrity: sha512-Fn9X8rX8yYF4m81rZCK/5VmrmsSbqS/i3rDLl6ZZHAXgC2nTAx3dhwG8q8odP/RmdLa2YrybDJaAMg+X1ajY3w==}
-    dependencies:
-      through: 2.3.8
-    dev: true
-
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -9135,18 +9097,6 @@ packages:
       deep-extend: 0.6.0
       typical: 5.2.0
       wordwrapjs: 4.0.1
-    dev: true
-
-  /tape/2.3.3:
-    resolution: {integrity: sha512-V3tQqlti/JJm577hhDdoCOw1xl4aPcDjTY6PesnFjWDcUYzB6fz39ETXFQuPr9piaoHPfc65sjAehTgbfXOvxQ==}
-    hasBin: true
-    dependencies:
-      deep-equal: 0.1.2
-      defined: 0.0.0
-      inherits: 2.0.4
-      jsonify: 0.0.0
-      resumer: 0.0.0
-      through: 2.3.8
     dev: true
 
   /tar-fs/2.1.1:
@@ -9754,13 +9704,6 @@ packages:
 
   /whatwg-fetch/3.6.2:
     resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==}
-    dev: true
-
-  /whatwg-streams/0.1.1:
-    resolution: {integrity: sha512-+UIxdkkbcbhhmcDJIdgVtGTJ7sxV81MY1K++LIWufM8BnIXek3andXURjVs8rV8h2MEFLQbH6YPPZOZATIkZiw==}
-    dependencies:
-      bluebird: 1.0.8
-      tape: 2.3.3
     dev: true
 
   /whatwg-url/11.0.0:
