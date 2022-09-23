@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPointStrategy": "Packages",
+  "entryPointStrategy": "packages",
   "excludeExternals": true,
   "readme": "DOCS.md",
   "name": "@tomic",

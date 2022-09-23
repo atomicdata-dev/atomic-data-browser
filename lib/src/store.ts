@@ -11,6 +11,7 @@ import {
 } from './index';
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
 
+/** Function called when a resource is updated or removed */
 type Callback = (resource: Resource) => void;
 
 export enum StoreEvents {
@@ -28,10 +29,13 @@ export enum StoreEvents {
   ResourceManuallyCreated = 'resource-manually-created',
 }
 
+/**
+ * Handlers are functions that are called when a certain event occurs.
+ */
 type StoreEventHandlers = {
-  [StoreEvents.ResourceSaved]: (resource: Resource) => void;
-  [StoreEvents.ResourceRemoved]: (resource: Resource) => void;
-  [StoreEvents.ResourceManuallyCreated]: (resource: Resource) => void;
+  [StoreEvents.ResourceSaved]: Callback;
+  [StoreEvents.ResourceRemoved]: Callback;
+  [StoreEvents.ResourceManuallyCreated]: Callback;
 };
 
 /**

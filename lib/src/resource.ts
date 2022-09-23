@@ -403,11 +403,15 @@ export class Resource {
   }
 }
 
+/** Type of Rights (e.g. read or write) */
 enum RightType {
+  /** Open a resource or its children */
   READ = 'read',
+  /** Edit or delete a resource or its children */
   WRITE = 'write',
 }
 
+/** A grant / permission that is set somewhere */
 export interface Right {
   /** Subject of the Agent who the right is for */
   for: string;

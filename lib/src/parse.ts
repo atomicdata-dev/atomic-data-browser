@@ -87,6 +87,8 @@ export function parseJsonADResource(
   return resource;
 }
 
+/** Resources in JSON-AD can be referenced by their URL (string),
+ * be entire (nested) resources, in which case they are JSONObjects */
 type StringOrNestedResource = string | JSONObject;
 
 /**
