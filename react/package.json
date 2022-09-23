@@ -30,10 +30,6 @@
     "tsc": "tsc --build",
     "typecheck": "tsc --noEmit"
   },
-  "typedoc": {
-    "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md"
-  },
   "source": "src/index.ts",
   "type": "module",
   "types": "dist/src/index.d.ts",

@@ -64,16 +64,16 @@ export function DriveSwitcher() {
       })),
       DIVIDER,
       // Dedupe history from savedDrives bause not all savedDrives might be loaded yet.
-      ...Array.from(dedupeAFromB(historyMap, savedDrivesMap)).map(
-        ([subject, resource]) => ({
+      ...Array.from(dedupeAFromB(historyMap, savedDrivesMap))
+        .map(([subject, resource]) => ({
           label: getTitle(resource),
           id: subject,
           helper: `Switch to ${getTitle(resource)}`,
           icon: subject === drive ? <FaRegCheckCircle /> : <FaRegCircle />,
           onClick: buildHandleHistoryDriveClick(subject),
           disabled: subject === drive,
-        }),
-      ),
+        }))
+        .slice(0, 10),
       DIVIDER,
       {
         id: 'configure-drives',
