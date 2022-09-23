@@ -300,7 +300,7 @@ export function useValue(
   // Value hasn't been set in state yet, so get the value
   let value: JSONValue = undefined;
 
-  // Try to actually get the value, log any errorr
+  // Try to actually get the value, log any error
   try {
     value = resource.get(propertyURL);
 
