@@ -70,5 +70,5 @@
     "test-query": "PWDEBUG=1 npx playwright test \"e2e.spec.ts\" -g",
     "typecheck": "tsc --noEmit"
   },
-  "version": "0.32.0"
+  "version": "0.32.1"
 }

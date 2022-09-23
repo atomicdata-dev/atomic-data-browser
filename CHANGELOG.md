@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.32.1
+
+- Lock ed25519 version #230
+
 ## v0.32.0
 
 ### Breaking changes
