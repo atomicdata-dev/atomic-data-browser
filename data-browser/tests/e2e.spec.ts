@@ -333,6 +333,12 @@ test.describe('data-browser', async () => {
     await page.click(sideBarDriveSwitcher);
     await page.click(`[id="${dropdownId}"] >> text=Atomic Data`);
     await expect(page.locator(currentDriveTitle)).toHaveText('Atomic Data');
+
+    // Cleanup drives for signed in user
+    await page.click('text=user settings');
+    await page.click('text=Edit profile');
+    await page.click('[data-test="input-drives-clear"]');
+    await page.click('[data-test="save"]');
   });
 
   test('configure drive page', async ({ page }) => {
