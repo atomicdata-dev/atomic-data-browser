@@ -5,7 +5,7 @@ import { Button } from '../Button';
 import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 import { Row } from '../Row';
 import styled from 'styled-components';
 
@@ -24,6 +24,11 @@ export default function InputResourceArray({
   function handleAdd() {
     setArray([...array, undefined]);
     setLastIsNew(true);
+  }
+
+  function handleClear() {
+    setArray([]);
+    setLastIsNew(false);
   }
 
   function handleRemove(index: number) {
@@ -72,21 +77,37 @@ export default function InputResourceArray({
           />
         ))}
       </div>
-      <NewButton
-        disabled={props.disabled}
-        title='Add an item to this list'
-        data-test={`input-${property.shortname}-add-resource`}
-        subtle
-        type='button'
-        onClick={handleAdd}
-      >
-        <FaPlus />
-      </NewButton>
+      <Row justify='space-between'>
+        <StyledButton
+          disabled={props.disabled}
+          title='Add an item to this list'
+          data-test={`input-${property.shortname}-add-resource`}
+          subtle
+          type='button'
+          onClick={handleAdd}
+        >
+          <FaPlus />
+        </StyledButton>
+        {array.length > 1 && (
+          <StyledButton
+            disabled={props.disabled}
+            title='Remove all items from this list'
+            data-test={`input-${property.shortname}-clear`}
+            subtle
+            type='button'
+            onClick={handleClear}
+          >
+            <Row gap='.5rem'>
+              <FaTrash /> Clear
+            </Row>
+          </StyledButton>
+        )}
+      </Row>
       {err?.index && <ErrMessage>{err?.message}</ErrMessage>}
     </Row>
   );
 }
 
-const NewButton = styled(Button)`
+const StyledButton = styled(Button)`
   align-self: flex-start;
 `;
