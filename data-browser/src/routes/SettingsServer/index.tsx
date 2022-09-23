@@ -15,9 +15,12 @@ import { useDriveHistory } from '../../hooks/useDriveHistory';
 import { DrivesCard } from './DrivesCard';
 import styled from 'styled-components';
 import { useSavedDrives } from '../../hooks/useSavedDrives';
+import { constructOpenURL } from '../../helpers/navigation';
+import { useNavigate } from 'react-router';
 
 export function SettingsServer(): JSX.Element {
   const { drive: baseURL, setDrive: setBaseURL } = useSettings();
+  const navigate = useNavigate();
   const [baseUrlInput, setBaseUrlInput] = useState<string>(baseURL);
   const [baseUrlErr, setErrBaseUrl] = useState<Error | undefined>();
 
@@ -30,6 +33,7 @@ export function SettingsServer(): JSX.Element {
       setBaseURL(url);
       setBaseUrlInput(url);
       addDriveToHistory(url);
+      navigate(constructOpenURL(url));
     } catch (e) {
       setErrBaseUrl(e);
     }

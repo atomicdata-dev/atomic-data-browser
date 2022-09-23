@@ -52,10 +52,10 @@ test.describe('data-browser', async () => {
   test('switch Server URL', async ({ page }) => {
     await expect(page.locator(`text=${demoInviteName}`)).not.toBeVisible();
     await changeDrive('https://atomicdata.dev', page);
-    await expect(page.locator(`text=${demoInviteName}`)).toBeVisible();
+    await expect(page.locator(`text=${demoInviteName}`).first()).toBeVisible();
   });
 
-  test('sign in with secret, edit profile, sign out', async ({ page }) => {
+  test('sign in with secret, edit prole, sign out', async ({ page }) => {
     await signIn(page);
     await editProfileAndCommit(page);
 

@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../helpers/AppSettings';
+import { constructOpenURL } from '../../helpers/navigation';
 import { useDriveHistory } from '../../hooks/useDriveHistory';
 import { useSavedDrives } from '../../hooks/useSavedDrives';
 import { paths } from '../../routes/paths';
@@ -45,6 +46,7 @@ export function DriveSwitcher() {
   const buildHandleHistoryDriveClick = (subject: string) => () => {
     setDrive(subject);
     addToHistory(subject);
+    navigate(constructOpenURL(subject));
   };
 
   const createNewDrive = useDefaultNewInstanceHandler(
@@ -59,7 +61,10 @@ export function DriveSwitcher() {
         label: getTitle(resource),
         helper: `Switch to ${getTitle(resource)}`,
         disabled: subject === drive,
-        onClick: () => setDrive(subject),
+        onClick: () => {
+          setDrive(subject);
+          navigate(constructOpenURL(subject));
+        },
         icon: subject === drive ? <FaRegCheckCircle /> : <FaRegCircle />,
       })),
       DIVIDER,
