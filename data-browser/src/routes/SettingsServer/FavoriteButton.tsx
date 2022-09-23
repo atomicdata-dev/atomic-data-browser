@@ -34,7 +34,11 @@ export function FavoriteButton({ subject, className }: FavoriteButtonProps) {
   ]);
 
   return (
-    <StyledButton className={className} onClick={handleClick}>
+    <StyledButton
+      className={className}
+      onClick={handleClick}
+      title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+    >
       <Icon />
     </StyledButton>
   );

@@ -322,6 +322,42 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=This domain is ')).toBeVisible();
   });
 
+  test('drive switcher', async ({ page }) => {
+    await signIn(page);
+    await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
+
+    const dropdownId = await page
+      .locator(sideBarDriveSwitcher)
+      .getAttribute('aria-controls');
+
+    await page.click(sideBarDriveSwitcher);
+    await page.click(`[id="${dropdownId}"] >> text=Atomic Data`);
+    await expect(page.locator(currentDriveTitle)).toHaveText('Atomic Data');
+  });
+
+  test('configure drive page', async ({ page }) => {
+    await signIn(page);
+    await openDriveMenu(page);
+    await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
+
+    await page.click(':text("https://atomicdata.dev") + button:text("Select")');
+    await expect(page.locator(currentDriveTitle)).toHaveText('Atomic Data');
+
+    await page.fill('[data-test="server-url-input"]', 'https://example.com');
+    await page.click('[data-test="server-url-save"]');
+
+    await expect(page.locator(currentDriveTitle)).toHaveText('example.com');
+
+    await page.click(':text("https://atomicdata.dev") + button:text("Select")');
+    await page.click(
+      ':text("https://example.com") ~ [title="Add to favorites"]',
+    );
+
+    await page.click(
+      ':text("https://example.com") ~ [title="Remove from favorites"]',
+    );
+  });
+
   test('form validation', async ({ page }) => {
     await signIn(page);
     await newDrive(page);
