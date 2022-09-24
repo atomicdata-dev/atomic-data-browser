@@ -5,7 +5,7 @@ export const testConfig: TestConfig = {
   demoFileName,
   demoFile: `./${demoFileName}`,
   demoInviteName: 'document demo',
-  serverUrl: 'http://localhost:9883',
+  serverUrl: process.env.SERVER_URL || 'http://localhost:9883',
   frontEndUrl: 'http://localhost:5173',
   initialTest: false,
 };
