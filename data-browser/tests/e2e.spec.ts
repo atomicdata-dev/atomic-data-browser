@@ -37,6 +37,11 @@ test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     // Open the server
     await page.goto(frontEndUrl);
+    // Sometimes we run the test server on a different port, but we should
+    // only change the drive if it is non-default.
+    if (serverUrl !== 'http://localhost:9883') {
+      await changeDrive(serverUrl, page);
+    }
     await expect(page.locator(currentDriveTitle)).toBeVisible();
   });
 
