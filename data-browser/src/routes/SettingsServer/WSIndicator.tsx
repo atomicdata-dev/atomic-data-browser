@@ -56,6 +56,7 @@ function getIndicatorState(
   }
 }
 
+/** Shows the status of a WebSocket connection for some resource. */
 export function WSIndicator({
   subject,
   className,

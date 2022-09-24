@@ -5,7 +5,8 @@ import { useSettings } from '../helpers/AppSettings';
 
 const rootDrives = [
   window.location.origin,
-  ...(isDev() ? ['https://atomicdata.dev', 'http://localhost:9883'] : []),
+  'https://atomicdata.dev',
+  ...(isDev() ? ['http://localhost:9883'] : []),
 ];
 
 const arrayOpts = {
