@@ -38,36 +38,9 @@ your React components.</li>
 template</a>.</p>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/99e2c26/react/src/index.ts#L25">react/src/index.ts:25</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/3b1a783/react/src/index.ts#L25">react/src/index.ts:25</a></li></ul></aside>
 <section class="tsd-panel-group">
-<section class="tsd-panel tsd-typography">
-<a href="#tomicreact-the-atomic-data-library-for-react" id="tomicreact-the-atomic-data-library-for-react" style="color: inherit; text-decoration: none;">
-  <h1>@tomic/react: The Atomic Data library for React</h1>
-</a>
-<p>A library for viewing and creating Atomic Data.
-Re-exports <code>@tomic/lib</code>.</p>
-<p><a href="https://codesandbox.io/s/atomic-data-react-template-4y9qu?file=/src/MyResource.tsx:0-1223"><strong>demo + template on codesandbox</strong>!</a></p>
-<p><a href="https://atomicdata-dev.github.io/atomic-data-browser/docs/modules/_tomic_react.html"><strong>docs</strong></a></p>
-
-<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
-  <h2>Setup</h2>
-</a>
-<p>When initializing your App, initialize the store, which will contain all data.
-Wrap your App in a <code>StoreContext.Provider</code>, and pass the newly initialized store to it.</p>
-<pre><code class="language-ts"><span class="hl-0">// App.tsx</span><br/><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">StoreContext</span><span class="hl-2">, </span><span class="hl-3">Store</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&quot;@tomic/react&quot;</span><span class="hl-2">;</span><br/><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">MyResource</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&quot;./MyResource&quot;</span><span class="hl-2">;</span><br/><br/><span class="hl-0">// The store contains all the data for</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">store</span><span class="hl-2"> = </span><span class="hl-5">new</span><span class="hl-2"> </span><span class="hl-7">Store</span><span class="hl-2">();</span><br/><br/><span class="hl-1">export</span><span class="hl-2"> </span><span class="hl-1">default</span><span class="hl-2"> </span><span class="hl-5">function</span><span class="hl-2"> </span><span class="hl-7">App</span><span class="hl-2">() {</span><br/><span class="hl-2">  </span><span class="hl-1">return</span><span class="hl-2"> (</span><br/><span class="hl-2">    &lt;</span><span class="hl-3">StoreContext</span><span class="hl-2">.</span><span class="hl-3">Provider</span><span class="hl-2"> </span><span class="hl-3">value</span><span class="hl-2">={</span><span class="hl-3">store</span><span class="hl-2">}&gt;</span><br/><span class="hl-2">      &lt;</span><span class="hl-3">MyResource</span><span class="hl-2"> </span><span class="hl-3">subject</span><span class="hl-2">={</span><span class="hl-3">subject</span><span class="hl-2">} /&gt;</span><br/><span class="hl-2">    &lt;/</span><span class="hl-3">StoreContext</span><span class="hl-2">.</span><span class="hl-3">Provider</span><span class="hl-2">&gt;</span><br/><span class="hl-2">  );</span><br/><span class="hl-2">}</span>
-</code></pre>
-<p>Now, your Store can be accessed in React&#39;s context, which you can use the <code>atomic-react</code> hooks!</p>
-
-<a href="#hooks" id="hooks" style="color: inherit; text-decoration: none;">
-  <h2>Hooks</h2>
-</a>
-
-<a href="#useresource-usestring-usetitle" id="useresource-usestring-usetitle" style="color: inherit; text-decoration: none;">
-  <h3>useResource, useString, useTitle</h3>
-</a>
-<pre><code class="language-ts"><span class="hl-0">// Get the Resouce, and all its properties</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">resource</span><span class="hl-2"> = </span><span class="hl-7">useResource</span><span class="hl-2">(</span><span class="hl-4">&#39;https://atomicdata.dev/classes/Agent&#39;</span><span class="hl-2">);</span><br/><span class="hl-0">// The title takes either the Title, the Shortname or the URL of the resource</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">title</span><span class="hl-2"> = </span><span class="hl-7">useTitle</span><span class="hl-2">(</span><span class="hl-3">resource</span><span class="hl-2">);</span><br/><span class="hl-0">// All useValue / useString / useArray / useBoolean hooks have a getter and a setter.</span><br/><span class="hl-0">// Use the setter in forms.</span><br/><span class="hl-5">const</span><span class="hl-2"> [</span><span class="hl-6">description</span><span class="hl-2">, </span><span class="hl-6">setDescription</span><span class="hl-2">] = </span><span class="hl-7">useString</span><span class="hl-2">(</span><span class="hl-3">resource</span><span class="hl-2">, </span><span class="hl-4">&#39;https://atomicdata.dev/properties/description&#39;</span><span class="hl-2">);</span><br/><span class="hl-0">// The current Agent is the signed in user, inluding their private key. This enables you to create Commits and update data on a server.</span><br/><span class="hl-5">const</span><span class="hl-2"> [</span><span class="hl-6">agent</span><span class="hl-2">, </span><span class="hl-6">setAgent</span><span class="hl-2">] = </span><span class="hl-7">useCurrentAgent</span><span class="hl-2">();</span><br/><br/><span class="hl-1">return</span><span class="hl-2"> (</span><br/><span class="hl-2">  &lt;&gt;</span><br/><span class="hl-2">    &lt;</span><span class="hl-8">h1</span><span class="hl-2">&gt;{</span><span class="hl-3">title</span><span class="hl-2">}&lt;/</span><span class="hl-3">h2</span><span class="hl-2">&gt;</span><br/><span class="hl-2">    &lt;</span><span class="hl-3">textarea</span><span class="hl-2"> </span><span class="hl-3">value</span><span class="hl-2">={</span><span class="hl-3">description</span><span class="hl-2">} </span><span class="hl-3">onChange</span><span class="hl-2">={</span><span class="hl-3">e</span><span class="hl-2"> </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">setDescription</span><span class="hl-2">(</span><span class="hl-3">e</span><span class="hl-2">.</span><span class="hl-3">target</span><span class="hl-2">.</span><span class="hl-3">value</span><span class="hl-2">)} /&gt;</span><br/><span class="hl-2">    &lt;</span><span class="hl-3">button</span><span class="hl-2"> </span><span class="hl-3">type</span><span class="hl-2">={</span><span class="hl-3">button</span><span class="hl-2">} </span><span class="hl-3">onClick</span><span class="hl-2">={resource.</span><span class="hl-3">save</span><span class="hl-2">}&gt;</span><span class="hl-3">Save</span><span class="hl-2"> &amp; </span><span class="hl-3">commit</span><span class="hl-2">&lt;/</span><span class="hl-3">button</span><span class="hl-2">&gt;</span><br/><span class="hl-2">  &lt;/&gt;</span><br/><span class="hl-2">)</span><br/>
-</code></pre>
-</section></section>
+<section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <h3 class="tsd-index-heading uppercase">Index</h3>
