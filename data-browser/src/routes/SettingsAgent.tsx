@@ -163,7 +163,7 @@ const SettingsAgent: React.FunctionComponent = () => {
         ) : (
           <p>
             You can create your own Agent by hosting an{' '}
-            <AtomicLink href='https://github.com/joepio/atomic/tree/master/server'>
+            <AtomicLink href='https://github.com/atomicdata-dev/atomic-data-rust/tree/master/server'>
               atomic-server
             </AtomicLink>
             . Alternatively, you can use{' '}

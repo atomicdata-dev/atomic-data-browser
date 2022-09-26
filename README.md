@@ -9,7 +9,7 @@ This repo consists of three components: a javascript / typescript library, a rea
 ## [`atomic-data-browser`](data-browser/README.md)
 
 A GUI for viewing, editing and browsing Atomic Data.
-Designed for interacting with [atomic-server](https://github.com/joepio/atomic-data-rust/).
+Designed for interacting with [atomic-server](https://github.com/atomicdata-dev/atomic-data-rust/).
 
 **demo on [atomicdata.dev](https://atomicdata.dev)**
 
@@ -65,7 +65,7 @@ React library with many useful hooks for rendering and editing Atomic Data.
 
 ## Also check out
 
-- [atomic-data-rust](https://github.com/joepio/atomic-data-rs), a rust [**library**](https://crates.io/crates/atomic-lib), [**server**](https://crates.io/crates/atomic-server) and [**cli**](https://crates.io/crates/atomic-cli) for Atomic Data.
+- [atomic-data-rust](https://github.com/atomicdata-dev/atomic-data-rs), a rust [**library**](https://crates.io/crates/atomic-lib), [**server**](https://crates.io/crates/atomic-server) and [**cli**](https://crates.io/crates/atomic-cli) for Atomic Data.
 - [sign up to the Atomic Data Newsletter](http://eepurl.com/hHcRA1)
 
 ## Contribute

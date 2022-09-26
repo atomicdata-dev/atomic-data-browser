@@ -109,7 +109,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refresh collection on opening page
 - Don't auto-accept invites
 - Improve server switcher design
-- Change default port of localhost to 9883 ([issue](https://github.com/joepio/atomic-data-rust/issues/229))
+- Change default port of localhost to 9883 ([issue](https://github.com/atomicdata-dev/atomic-data-rust/issues/229))
 
 ## v0.29.1
 
@@ -199,7 +199,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## v0.24.0
 
-- Match version number of [atomic-data-rust](https://github.com/joepio/atomic-data-rust)
+- Match version number of [atomic-data-rust](https://github.com/atomicdata-dev/atomic-data-rust)
 - Add Version button to menu
 - Disable menu buttons that are not usable
 - Improve error view in cards
