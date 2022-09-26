@@ -11,6 +11,7 @@ import {
   useDebounce,
   useCanWrite,
   isValidURL,
+  useStore,
 } from '@tomic/react';
 import styled from 'styled-components';
 import { FaCaretDown, FaCaretRight, FaPlus } from 'react-icons/fa';
@@ -74,8 +75,13 @@ export function ResourceForm({
   const [tempOtherProps, setTempOtherProps] = useState<string[]>([]);
   const [otherProps, setOtherProps] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const store = useStore();
+  const wasNew: boolean = resource.new;
 
   const [save, saving, err] = useSaveResource(resource, () => {
+    // We need to read the earlier .new state, because the resource is no
+    // longer new after it was saved, during this callback
+    wasNew && store.notifyResourceManuallyCreated(resource);
     navigate(constructOpenURL(resource.getSubject()));
   });
   // I'm not entirely sure if debouncing is needed here.
