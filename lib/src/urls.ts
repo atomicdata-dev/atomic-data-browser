@@ -21,6 +21,8 @@ export const classes = {
   file: 'https://atomicdata.dev/classes/File',
   message: 'https://atomicdata.dev/classes/Message',
   importer: 'https://atomicdata.dev/classes/Importer',
+  folder: 'https://atomicdata.dev/classes/Folder',
+  displayStyle: 'https://atomicdata.dev/class/DisplayStyle',
 };
 
 /** List of commonly used Atomic Data Properties. */
@@ -45,6 +47,7 @@ export const properties = {
   shortname: 'https://atomicdata.dev/properties/shortname',
   subResources: 'https://atomicdata.dev/properties/subresources',
   write: 'https://atomicdata.dev/properties/write',
+  displayStyle: 'https://atomicdata.dev/property/display-style',
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',
   },

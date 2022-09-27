@@ -25,6 +25,7 @@ import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
 import Parent from '../components/Parent';
 import styled from 'styled-components';
+import { FolderPage } from './FolderPage';
 
 type Props = {
   subject: string;
@@ -100,6 +101,8 @@ function selectComponent(klass: string) {
       return BookmarkPage;
     case urls.classes.importer:
       return ImporterPage;
+    case urls.classes.folder:
+      return FolderPage;
     default:
       return ResourcePageDefault;
   }

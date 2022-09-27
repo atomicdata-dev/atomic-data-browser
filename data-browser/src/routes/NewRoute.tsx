@@ -70,6 +70,11 @@ function New(): JSX.Element {
             {!classInput && (
               <>
                 <NewIntanceButton
+                  klass={urls.classes.folder}
+                  subtle
+                  parent={calculatedParent}
+                />
+                <NewIntanceButton
                   klass={urls.classes.document}
                   subtle
                   parent={calculatedParent}

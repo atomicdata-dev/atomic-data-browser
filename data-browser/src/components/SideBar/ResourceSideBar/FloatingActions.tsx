@@ -1,9 +1,8 @@
 import { useResource, useTitle } from '@tomic/react';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { FaEllipsisV, FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { paths } from '../../../routes/paths';
+import { useNewRoute } from '../../../helpers/useNewRoute';
 import { Button } from '../../Button';
 import { buildDefaultTrigger } from '../../Dropdown/DefaultTrigger';
 import ResourceContextMenu from '../../ResourceContextMenu';
@@ -13,27 +12,15 @@ export interface FloatingActionsProps {
   className?: string;
 }
 
-function buildURL(subject: string) {
-  const params = new URLSearchParams({
-    parentSubject: subject,
-  });
-
-  return `${paths.new}?${params.toString()}`;
-}
-
 /** Contains actions for a SideBarResource, such as a context menu and a new item button */
 export function FloatingActions({
   subject,
   className,
 }: FloatingActionsProps): JSX.Element {
-  const navigate = useNavigate();
   const parentResource = useResource(subject);
   const [parentName] = useTitle(parentResource);
 
-  const handleAddClick = useCallback(() => {
-    const url = buildURL(subject);
-    navigate(url);
-  }, [subject]);
+  const handleAddClick = useNewRoute(subject);
 
   return (
     <Wrapper className={className}>

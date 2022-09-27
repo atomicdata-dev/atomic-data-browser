@@ -449,7 +449,7 @@ const FullPageWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-height: 100%;
+  min-height: ${p => p.theme.heights.fullPage};
   box-sizing: border-box;
 `;
 
