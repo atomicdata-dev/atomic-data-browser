@@ -14,15 +14,7 @@ import { Base } from './Base';
 import { useCreateAndNavigate } from './useCreateAndNavigate';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 
-function normalizeWebAddress(url: string) {
-  if (/^[http://|https://]/i.test(url)) {
-    return url;
-  }
-
-  return `https://${url}`;
-}
-
-export function NewBookmarkButton({
+export function NewFolderButton({
   klass,
   subtle,
   icon,
@@ -32,8 +24,7 @@ export function NewBookmarkButton({
 }: NewInstanceButtonProps): JSX.Element {
   const resource = useResource(klass);
   const [title] = useTitle(resource);
-
-  const [url, setUrl] = useState('');
+  const [name, setName] = useState('');
 
   const [dialogProps, show, hide] = useDialog();
 
@@ -43,15 +34,13 @@ export function NewBookmarkButton({
     (e: FormEvent) => {
       e.preventDefault();
 
-      const normalizedUrl = normalizeWebAddress(url);
-
-      createResourceAndNavigate('bookmark', {
-        [properties.name]: 'New Bookmark',
-        [properties.bookmark.url]: normalizedUrl,
-        [properties.isA]: [classes.bookmark],
+      createResourceAndNavigate('Folder', {
+        [properties.name]: name,
+        [properties.displayStyle]: 'list',
+        [properties.isA]: [classes.folder],
       });
     },
-    [url],
+    [name],
   );
 
   return (
@@ -67,17 +56,17 @@ export function NewBookmarkButton({
       </Base>
       <Dialog {...dialogProps}>
         <DialogTitle>
-          <h1>New Bookmark</h1>
+          <h1>New Folder</h1>
         </DialogTitle>
         <DialogContent>
           <form onSubmit={onDone}>
             <Field required label='url'>
               <InputWrapper>
                 <InputStyled
-                  placeholder='https://example.com'
-                  value={url}
+                  placeholder='New Folder'
+                  value={name}
                   autoFocus={true}
-                  onChange={e => setUrl(e.target.value)}
+                  onChange={e => setName(e.target.value)}
                 />
               </InputWrapper>
             </Field>
@@ -87,7 +76,7 @@ export function NewBookmarkButton({
           <Button onClick={hide} subtle>
             Cancel
           </Button>
-          <Button onClick={onDone} disabled={url.trim() === ''}>
+          <Button onClick={onDone} disabled={name.trim() === ''}>
             Ok
           </Button>
         </DialogActions>

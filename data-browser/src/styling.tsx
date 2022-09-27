@@ -45,6 +45,8 @@ export const zIndex = {
 /** Default animation duration in ms */
 export const animationDuration = 100;
 
+const breadCrumbBarHeight = '2.2rem';
+
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
   const main = darkMode ? lighten(0.2, mainIn) : mainIn;
@@ -74,6 +76,10 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     sideBarWidth: 15,
     margin: 1,
     radius: '9px',
+    heights: {
+      breadCrumbBar: breadCrumbBarHeight,
+      fullPage: `calc(100% - ${breadCrumbBarHeight})`,
+    },
     colors: {
       main,
       mainLight: darkMode ? lighten(0.08)(main) : lighten(0.08)(main),
@@ -121,6 +127,10 @@ declare module 'styled-components' {
     /** Roundness of some elements / Border radius */
     radius: string;
     /** All theme colors */
+    heights: {
+      breadCrumbBar: string;
+      fullPage: string;
+    };
     colors: {
       /** Main accent color, used for links */
       main: string;

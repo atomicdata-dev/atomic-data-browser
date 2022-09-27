@@ -43,6 +43,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
 }
 
 const ParentWrapper = styled.nav`
+  height: ${p => p.theme.heights.breadCrumbBar};
   padding: 0.2rem;
   padding-left: 0.5rem;
   color: ${props => props.theme.colors.textLight2};
