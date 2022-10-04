@@ -53,11 +53,18 @@ const debouncedFetch = debounce(
     setName: AtomicSetter<string>,
     setError: Setter<Error | undefined>,
     setLoading: Setter<boolean>,
+    setImageUrl: AtomicSetter<string | undefined>,
+    setDescription: AtomicSetter<string | undefined>,
   ) => {
     startTransition(() => {
       fetchBookmarkData(url, name, store)
         .then(async res => {
-          await Promise.all([setPreview(res.preview), setName(res.name)]);
+          await Promise.all([
+            setPreview(res.preview),
+            setName(res.name),
+            setImageUrl(res['image-url']),
+            setDescription(res.description),
+          ]);
 
           setError(undefined);
           setLoading(false);
@@ -81,6 +88,11 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
 
   const [url] = useString(resource, urls.properties.bookmark.url);
   const [name, setName] = useString(resource, urls.properties.name);
+  const [_, setImageUrl] = useString(
+    resource,
+    urls.properties.bookmark.imageUrl,
+  );
+  const [__, setDescription] = useString(resource, urls.properties.description);
 
   const [error, setHasError] = useState<Error | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
@@ -106,6 +118,8 @@ export function usePreview(resource: Resource): UsePreviewReturnType {
         setName,
         setHasError,
         setLoading,
+        setImageUrl,
+        setDescription,
       );
     },
     [name, resource, store],

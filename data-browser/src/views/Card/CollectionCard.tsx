@@ -5,7 +5,7 @@ import Markdown from '../../components/datatypes/Markdown';
 import { AtomicLink } from '../../components/AtomicLink';
 import { CardInsideFull, CardRow } from '../../components/Card';
 import { ResourceInline } from '../ResourceInline';
-import { CardViewProps } from './ResourceCard';
+import { CardViewProps } from './CardViewProps';
 import { Button } from '../../components/Button';
 
 const MAX_COUNT = 5;

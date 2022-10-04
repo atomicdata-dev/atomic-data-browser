@@ -1,10 +1,4 @@
-import {
-  properties,
-  Resource,
-  useCanWrite,
-  useString,
-  useTitle,
-} from '@tomic/react';
+import { Resource, useCanWrite, useTitle } from '@tomic/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEdit } from 'react-icons/fa';
@@ -13,28 +7,26 @@ import styled, { css } from 'styled-components';
 export interface EditableTitleProps {
   resource: Resource;
   /** Uses `name` by default */
-  propertyURL?: string;
   parentRef?: React.RefObject<HTMLInputElement>;
 }
 
+const opts = {
+  commit: true,
+  validate: false,
+};
+
 export function EditableTitle({
   resource,
-  propertyURL,
   parentRef,
   ...props
 }: EditableTitleProps): JSX.Element {
-  propertyURL = propertyURL || properties.name;
-  const [text, setText] = useString(resource, propertyURL, {
-    commit: true,
-    validate: false,
-  });
+  const [text, setText] = useTitle(resource, Infinity, opts);
   const [isEditing, setIsEditing] = useState(false);
 
   const innerRef = useRef<HTMLInputElement>(null);
   const ref = parentRef || innerRef;
 
   const [canEdit] = useCanWrite(resource);
-  const [starndardTitle] = useTitle(resource);
 
   useHotkeys(
     'enter',
@@ -48,7 +40,7 @@ export function EditableTitle({
     setIsEditing(true);
   }
 
-  const placeholder = 'set a title';
+  const placeholder = canEdit ? 'set a title' : 'Untitled';
 
   useEffect(() => {
     ref.current?.focus();
@@ -77,7 +69,7 @@ export function EditableTitle({
       subtle={!!canEdit && !text}
     >
       <>
-        {text ? text : canEdit ? placeholder : starndardTitle || 'Untitled'}
+        {text || placeholder}
         {canEdit && <Icon />}
       </>
     </Title>
@@ -86,7 +78,6 @@ export function EditableTitle({
 
 const TitleShared = css`
   line-height: 1.1;
-  width: 100%;
 `;
 
 interface TitleProps {
@@ -98,6 +89,7 @@ const Title = styled.h1<TitleProps>`
   ${TitleShared}
   display: flex;
   align-items: center;
+  gap: ${p => p.theme.margin}rem;
   justify-content: space-between;
   cursor: pointer;
   cursor: ${props => (props.canEdit ? 'pointer' : 'initial')};
@@ -129,8 +121,7 @@ const TitleInput = styled.input`
 
 const Icon = styled(FaEdit)`
   opacity: 0;
-  margin-left: auto;
-
+  font-size: 0.8em;
   ${Title}:hover & {
     opacity: 0.5;
 

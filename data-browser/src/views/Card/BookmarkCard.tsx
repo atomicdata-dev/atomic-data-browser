@@ -7,7 +7,7 @@ import {
   ExternalLink,
   ExternalLinkVariant,
 } from '../../components/ExternalLink';
-import { CardViewProps } from './ResourceCard';
+import { CardViewProps } from './CardViewProps';
 
 export function BookmarkCard({ resource }: CardViewProps): JSX.Element {
   const [title] = useTitle(resource);

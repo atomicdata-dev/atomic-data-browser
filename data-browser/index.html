@@ -92,11 +92,19 @@
 
   <!-- Service worker -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js');
-      })
-    }
+    const registerServiceWorker = async () => {
+        if ('serviceWorker' in navigator) {
+          try {
+            await navigator.serviceWorker.register('/sw.js', {
+              scope: '/',
+            });
+          } catch (error) {
+            console.error(`Registration failed with ${error}`);
+          }
+        }
+      };
+
+      registerServiceWorker();
   </script>
 </body>
 

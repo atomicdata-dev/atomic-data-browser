@@ -2,7 +2,7 @@ import { useTitle } from '@tomic/react';
 import React from 'react';
 
 import { AtomicLink } from '../../components/AtomicLink';
-import { CardViewProps } from './ResourceCard';
+import { CardViewProps } from './CardViewProps';
 import { FileInner } from '../FilePage';
 
 function FileCard({ resource }: CardViewProps): JSX.Element {

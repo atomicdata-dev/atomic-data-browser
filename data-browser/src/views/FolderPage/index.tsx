@@ -1,40 +1,77 @@
-import { properties, useArray, useResources } from '@tomic/react';
-import React from 'react';
+import {
+  classes,
+  properties,
+  useArray,
+  useCanWrite,
+  useResources,
+  useString,
+} from '@tomic/react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { EditableTitle } from '../../components/EditableTitle';
 import { useNewRoute } from '../../helpers/useNewRoute';
 import { ResourcePageProps } from '../ResourcePage';
+import { DisplayStyleButton } from './DisplayStyleButton';
+import { GridView } from './GridView';
 import { ListView } from './ListView';
+
+const displayStyleOpts = {
+  commit: true,
+};
+
+const viewMap = new Map([
+  [classes.displayStyles.list, ListView],
+  [classes.displayStyles.grid, GridView],
+]);
 
 export function FolderPage({ resource }: ResourcePageProps) {
   const [subResourceSubjects] = useArray(resource, properties.subResources);
+  const [displayStyle, setDisplayStyle] = useString(
+    resource,
+    properties.displayStyle,
+    displayStyleOpts,
+  );
+
+  const View = useMemo(
+    () => viewMap.get(displayStyle!) ?? ListView,
+    [displayStyle],
+  );
 
   const subResources = useResources(subResourceSubjects);
   const navigateToNewRoute = useNewRoute(resource.getSubject());
+  const [canEdit] = useCanWrite(resource);
 
   return (
-    <FullPageWrapper>
+    <FullPageWrapper view={displayStyle!}>
       <TitleBar>
         <TitleBarInner>
           <EditableTitle resource={resource} />
+          <DisplayStyleButton
+            onClick={setDisplayStyle}
+            displayStyle={displayStyle}
+          />
         </TitleBarInner>
       </TitleBar>
       <Wrapper>
-        <ListView subResources={subResources} onNewClick={navigateToNewRoute} />
+        <View
+          subResources={subResources}
+          onNewClick={navigateToNewRoute}
+          showNewButton={canEdit!}
+        />
       </Wrapper>
     </FullPageWrapper>
   );
 }
 
 const TitleBar = styled.div`
-  display: flex;
   padding: ${p => p.theme.margin}rem;
-  background: ${p => p.theme.colors.bgBody};
 `;
 
 const TitleBarInner = styled.div`
+  display: flex;
   width: var(--container-width);
   margin-inline: auto;
+  justify-content: space-between;
 `;
 
 const Wrapper = styled.div`
@@ -42,8 +79,12 @@ const Wrapper = styled.div`
   padding: ${p => p.theme.margin}rem;
 `;
 
-const FullPageWrapper = styled.div`
+interface FullPageWrapperProps {
+  view: string;
+}
+
+const FullPageWrapper = styled.div<FullPageWrapperProps>`
   --container-width: min(1300px, 100%);
-  background-color: ${p => p.theme.colors.bg};
   min-height: ${p => p.theme.heights.fullPage};
+  padding-bottom: ${p => p.theme.heights.floatingSearchBarPadding};
 `;
