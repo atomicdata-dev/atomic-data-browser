@@ -36,7 +36,7 @@ export function NewFolderButton({
 
       createResourceAndNavigate('Folder', {
         [properties.name]: name,
-        [properties.displayStyle]: 'list',
+        [properties.displayStyle]: classes.displayStyles.list,
         [properties.isA]: [classes.folder],
       });
     },

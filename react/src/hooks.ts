@@ -375,21 +375,18 @@ const titleHookOpts: useValueOptions = {
 export function useTitle(
   resource: Resource,
   truncateLength = 40,
+  opts: useValueOptions = titleHookOpts,
 ): [string, (string: string) => Promise<void>] {
-  const [name, setName] = useString(
-    resource,
-    urls.properties.name,
-    titleHookOpts,
-  );
+  const [name, setName] = useString(resource, urls.properties.name, opts);
   const [shortname, setShortname] = useString(
     resource,
     urls.properties.shortname,
-    titleHookOpts,
+    opts,
   );
   const [filename, setFileName] = useString(
     resource,
     urls.properties.file.filename,
-    titleHookOpts,
+    opts,
   );
 
   if (resource.loading) {

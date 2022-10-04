@@ -10,11 +10,15 @@ import styled from 'styled-components';
 import { AtomicLink } from '../../components/AtomicLink';
 import { CommitDetail } from '../../components/CommitDetail';
 import { ViewProps } from './FolderDisplayStyle';
-import { iconMap } from './iconMap';
-import { FaAtom, FaPlus } from 'react-icons/fa';
+import { getIconForClass } from './iconMap';
+import { FaPlus } from 'react-icons/fa';
 import { Button } from '../../components/Button';
 
-export function ListView({ subResources, onNewClick }: ViewProps): JSX.Element {
+export function ListView({
+  subResources,
+  onNewClick,
+  showNewButton,
+}: ViewProps): JSX.Element {
   return (
     <Wrapper>
       <StyledTable>
@@ -45,11 +49,13 @@ export function ListView({ subResources, onNewClick }: ViewProps): JSX.Element {
           </tbody>
         </>
       </StyledTable>
-      <NewButton clean onClick={onNewClick}>
-        <span>
-          <FaPlus /> New Resource
-        </span>
-      </NewButton>
+      {showNewButton && (
+        <NewButton clean onClick={onNewClick}>
+          <span>
+            <FaPlus /> New Resource
+          </span>
+        </NewButton>
+      )}
     </Wrapper>
   );
 }
@@ -61,7 +67,7 @@ interface CellProps {
 function Title({ resource }: CellProps): JSX.Element {
   const [title] = useTitle(resource);
   const [classType] = useString(resource, properties.isA);
-  const Icon = iconMap.get(classType!) ?? FaAtom;
+  const Icon = getIconForClass(classType ?? '');
 
   return (
     <TitleWrapper>

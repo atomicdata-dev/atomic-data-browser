@@ -23,6 +23,10 @@ export const classes = {
   importer: 'https://atomicdata.dev/classes/Importer',
   folder: 'https://atomicdata.dev/classes/Folder',
   displayStyle: 'https://atomicdata.dev/class/DisplayStyle',
+  displayStyles: {
+    grid: 'https://atomicdata.dev/display-style/grid',
+    list: 'https://atomicdata.dev/display-style/list',
+  },
 };
 
 /** List of commonly used Atomic Data Properties. */
@@ -111,6 +115,7 @@ export const properties = {
   bookmark: {
     url: 'https://atomicdata.dev/property/url',
     preview: 'https://atomicdata.dev/property/preview',
+    imageUrl: 'https://atomicdata.dev/properties/imageUrl',
   },
 };
 

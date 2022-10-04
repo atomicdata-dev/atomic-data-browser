@@ -4,7 +4,6 @@ import {
   useString,
   useResource,
   useTitle,
-  Resource,
   properties,
   urls,
 } from '@tomic/react';
@@ -18,37 +17,20 @@ import FileCard from './FileCard';
 import { defaultHiddenProps } from '../ResourcePageDefault';
 import { MessageCard } from './MessageCard';
 import { BookmarkCard } from './BookmarkCard.jsx';
+import { CardViewPropsBase } from './CardViewProps';
 
-interface Props extends CardPropsBase {
+interface ResourceCardProps extends CardViewPropsBase {
   /** The subject URL - the identifier of the resource. */
   subject: string;
-}
-
-interface CardPropsBase {
-  /** Maximum height, only basic details are shown */
-  small?: boolean;
-  /** Show a highlight border */
-  highlight?: boolean;
-  /** An HTML reference */
-  ref?: React.RefObject<HTMLElement>;
-  /**
-   * If you expect to render this card in the initial view (e.g. it's in the top
-   * of some list)
-   */
-  initialInView?: boolean;
-}
-
-/** The properties passed to every CardView */
-export interface CardViewProps extends CardPropsBase {
-  /** The full Resource to be displayed */
-  resource: Resource;
 }
 
 /**
  * Renders a Resource and all its Properties in a random order. Title
  * (shortname) is rendered prominently at the top.
  */
-function ResourceCard(props: Props): JSX.Element {
+function ResourceCard(
+  props: ResourceCardProps & JSX.IntrinsicElements['div'],
+): JSX.Element {
   const { subject, initialInView } = props;
   const [isShown, setIsShown] = useState(false);
   // The (more expensive) ResourceCardInner is only rendered when the component has been in View
@@ -64,8 +46,6 @@ function ResourceCard(props: Props): JSX.Element {
   }, [inView, isShown]);
 
   return (
-    // eslint-disable-next-line
-    // @ts-ignore ref is not compatible
     <Card ref={ref} {...props} about={subject}>
       {isShown ? (
         <ResourceCardInner {...props} />
@@ -85,7 +65,7 @@ function ResourceCard(props: Props): JSX.Element {
  * The expensive view logic for a default Resource. This should only be rendered
  * if the card is in the viewport
  */
-function ResourceCardInner(props: Props): JSX.Element {
+function ResourceCardInner(props: ResourceCardProps): JSX.Element {
   const { small, subject } = props;
   const resource = useResource(subject);
   const [title] = useTitle(resource);

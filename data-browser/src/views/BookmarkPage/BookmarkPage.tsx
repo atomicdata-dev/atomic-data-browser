@@ -106,4 +106,5 @@ const ControlBar = styled.div`
 const PreviewWrapper = styled.div`
   background-color: ${props => props.theme.colors.bg};
   flex: 1;
+  padding-bottom: ${p => p.theme.heights.floatingSearchBarPadding};
 `;

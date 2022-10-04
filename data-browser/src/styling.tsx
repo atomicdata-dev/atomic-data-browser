@@ -46,6 +46,7 @@ export const zIndex = {
 export const animationDuration = 100;
 
 const breadCrumbBarHeight = '2.2rem';
+const floatingSearchBarPadding = '4.2rem';
 
 /** Construct a StyledComponents theme object */
 export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
@@ -78,6 +79,7 @@ export const buildTheme = (darkMode: boolean, mainIn: string): DefaultTheme => {
     radius: '9px',
     heights: {
       breadCrumbBar: breadCrumbBarHeight,
+      floatingSearchBarPadding: floatingSearchBarPadding,
       fullPage: `calc(100% - ${breadCrumbBarHeight})`,
     },
     colors: {
@@ -130,6 +132,7 @@ declare module 'styled-components' {
     heights: {
       breadCrumbBar: string;
       fullPage: string;
+      floatingSearchBarPadding: string;
     };
     colors: {
       /** Main accent color, used for links */
