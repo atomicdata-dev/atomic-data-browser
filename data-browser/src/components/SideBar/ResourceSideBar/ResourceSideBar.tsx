@@ -8,6 +8,7 @@ import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
 import { ErrorLook } from '../../ErrorLook';
 import { LoaderInline } from '../../Loader';
+import { getIconForClass } from '../../../views/FolderPage/iconMap';
 
 interface ResourceSideBarProps {
   subject: string;
@@ -37,6 +38,9 @@ export function ResourceSideBar({
 
   const [subResources] = useArray(resource, urls.properties.subResources);
   const hasSubResources = subResources.length > 0;
+
+  const [classType] = useString(resource, urls.properties.isA);
+  const Icon = getIconForClass(classType!);
 
   const handleDetailsToggle = useCallback((state: boolean) => {
     setOpen(state);
@@ -101,7 +105,10 @@ export function ResourceSideBar({
               title={description}
               ref={spanRef}
             >
-              {title}
+              <TextWrapper>
+                <Icon />
+                {title}
+              </TextWrapper>
             </SideBarItem>
           </Title>
           <FloatingActions subject={subject} />
@@ -136,4 +143,15 @@ const Title = styled(AtomicLink)<TitleProps>`
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
+`;
+
+const TextWrapper = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  svg {
+    /* color: ${p => p.theme.colors.text}; */
+    font-size: 0.8em;
+  }
 `;
