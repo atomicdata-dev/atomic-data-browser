@@ -33,10 +33,10 @@ import { ErrorLook } from '../components/ErrorLook';
 import { ElementEdit, ElementEditPropsBase, ElementShow } from './Element';
 import { Button } from '../components/Button';
 import { ResourcePageProps } from './ResourcePage';
-import { UploadWrapper } from '../components/forms/UploadForm';
 import toast from 'react-hot-toast';
 import { shortcuts } from '../components/HotKeyWrapper';
 import { EditableTitle } from '../components/EditableTitle';
+import { FileDropZone } from '../components/forms/FileDropzone/FileDropzone';
 
 /** A full page, editable document, consisting of Elements */
 export function DocumentPage({ resource }: ResourcePageProps): JSX.Element {
@@ -317,7 +317,7 @@ function DocumentPageEdit({
       </div>
 
       {err?.message && <ErrorLook>{err.message}</ErrorLook>}
-      <UploadWrapper
+      <FileDropZone
         onFilesUploaded={handleUploadedFiles}
         parentResource={resource}
       >
@@ -349,7 +349,7 @@ function DocumentPageEdit({
           </DndContext>
           <NewLine onClick={handleNewLineMaybe} />
         </div>
-      </UploadWrapper>
+      </FileDropZone>
     </>
   );
 }

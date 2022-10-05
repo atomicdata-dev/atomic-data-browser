@@ -9,6 +9,7 @@ import {
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { EditableTitle } from '../../components/EditableTitle';
+import { FileDropZone } from '../../components/forms/FileDropzone/FileDropzone';
 import { useNewRoute } from '../../helpers/useNewRoute';
 import { ResourcePageProps } from '../ResourcePage';
 import { DisplayStyleButton } from './DisplayStyleButton';
@@ -24,8 +25,16 @@ const viewMap = new Map([
   [classes.displayStyles.grid, GridView],
 ]);
 
+const subResourceOpts = {
+  commit: true,
+};
+
 export function FolderPage({ resource }: ResourcePageProps) {
-  const [subResourceSubjects] = useArray(resource, properties.subResources);
+  const [subResourceSubjects] = useArray(
+    resource,
+    properties.subResources,
+    subResourceOpts,
+  );
   const [displayStyle, setDisplayStyle] = useString(
     resource,
     properties.displayStyle,
@@ -53,11 +62,13 @@ export function FolderPage({ resource }: ResourcePageProps) {
         </TitleBarInner>
       </TitleBar>
       <Wrapper>
-        <View
-          subResources={subResources}
-          onNewClick={navigateToNewRoute}
-          showNewButton={canEdit!}
-        />
+        <FileDropZone parentResource={resource}>
+          <View
+            subResources={subResources}
+            onNewClick={navigateToNewRoute}
+            showNewButton={canEdit!}
+          />
+        </FileDropZone>
       </Wrapper>
     </FullPageWrapper>
   );
@@ -77,6 +88,7 @@ const TitleBarInner = styled.div`
 const Wrapper = styled.div`
   width: 100%;
   padding: ${p => p.theme.margin}rem;
+  flex: 1;
 `;
 
 interface FullPageWrapperProps {
@@ -87,4 +99,6 @@ const FullPageWrapper = styled.div<FullPageWrapperProps>`
   --container-width: min(1300px, 100%);
   min-height: ${p => p.theme.heights.fullPage};
   padding-bottom: ${p => p.theme.heights.floatingSearchBarPadding};
+  display: flex;
+  flex-direction: column;
 `;
