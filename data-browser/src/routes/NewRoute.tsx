@@ -1,9 +1,13 @@
 import { useResource, useString } from '@tomic/react';
 import { urls } from '@tomic/react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { newURL, useQueryString } from '../helpers/navigation';
+import {
+  constructOpenURL,
+  newURL,
+  useQueryString,
+} from '../helpers/navigation';
 import { ContainerNarrow } from '../components/Containers';
 import NewIntanceButton from '../components/NewInstanceButton';
 import { ResourceSelector } from '../components/forms/ResourceSelector';
@@ -13,6 +17,8 @@ import { Row } from '../components/Row';
 import { NewFormFullPage } from '../components/forms/NewForm/index';
 import { ResourceInline } from '../views/ResourceInline';
 import styled from 'styled-components';
+import { FileDropzoneInput } from '../components/forms/FileDropzone/FileDropzoneInput';
+import toast from 'react-hot-toast';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -27,6 +33,7 @@ function New(): JSX.Element {
   const { drive } = useSettings();
 
   const calculatedParent = parentSubject || drive;
+  const parentResource = useResource(calculatedParent);
 
   function handleClassSet(e) {
     if (!classInput) {
@@ -38,6 +45,17 @@ function New(): JSX.Element {
     e.preventDefault();
     navigate(newURL(classInput, calculatedParent));
   }
+
+  const onUploadComplete = useCallback(
+    (files: string[]) => {
+      toast.success(`Uploaded ${files.length} files.`);
+
+      if (parentSubject) {
+        navigate(constructOpenURL(parentSubject));
+      }
+    },
+    [parentSubject, navigate],
+  );
 
   return (
     <ContainerNarrow>
@@ -107,6 +125,10 @@ function New(): JSX.Element {
               </>
             )}
           </Row>
+          <FileDropzoneInput
+            parentResource={parentResource}
+            onFilesUploaded={onUploadComplete}
+          />
         </StyledForm>
       )}
     </ContainerNarrow>

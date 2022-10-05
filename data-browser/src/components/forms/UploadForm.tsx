@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { Resource, uploadFiles } from '@tomic/react';
 import { useStore } from '@tomic/react';
 import { useDropzone } from 'react-dropzone';
-import styled from 'styled-components';
-
 import { Button } from '../Button';
 import FilePill from '../FilePill';
 import { ErrMessage } from './InputStyles';
@@ -77,63 +75,3 @@ export default function UploadForm({
     </div>
   );
 }
-
-interface UploadWrapperProps extends UploadFormProps {
-  children: React.ReactNode;
-  onFilesUploaded: (filesSubjects: string[]) => unknown;
-}
-
-/**
- * A dropzone for adding files. Renders its children by default, unless you're
- * holding a file, an error occurred, or it's uploading.
- */
-export function UploadWrapper({
-  parentResource,
-  children,
-  onFilesUploaded,
-}: UploadWrapperProps) {
-  const store = useStore();
-  // const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
-  const [err, setErr] = useState<Error | undefined>(undefined);
-  const onDrop = useCallback(
-    async (acceptedFiles: File[]) => {
-      try {
-        setErr(undefined);
-        setIsUploading(true);
-        const netUploaded = await uploadFiles(
-          acceptedFiles,
-          store,
-          parentResource.getSubject(),
-        );
-        const allUploaded = [...netUploaded];
-        onFilesUploaded(allUploaded);
-        setIsUploading(false);
-      } catch (e) {
-        setErr(e);
-        setIsUploading(false);
-      }
-    },
-    [onFilesUploaded],
-  );
-  const { getRootProps, isDragActive } = useDropzone({ onDrop });
-
-  return (
-    <div
-      {...getRootProps()}
-      // For some reason this is tabbable by default, but it does not seem to actually help users.
-      // Let's disable it.
-      tabIndex={-1}
-    >
-      {isUploading && <p>{'Uploading...'}</p>}
-      {err && <ErrMessage>{err.message}</ErrMessage>}
-      {isDragActive ? <Fill>{'Drop the files here ...'}</Fill> : children}
-    </div>
-  );
-}
-
-const Fill = styled.div`
-  height: 100%;
-  width: 100%;
-  min-height: 4rem;
-`;
