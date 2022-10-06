@@ -1,4 +1,4 @@
-import { useResource, useString } from '@tomic/react';
+import { useResource, useString, useTitle } from '@tomic/react';
 import { urls } from '@tomic/react';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -19,6 +19,7 @@ import { ResourceInline } from '../views/ResourceInline';
 import styled from 'styled-components';
 import { FileDropzoneInput } from '../components/forms/FileDropzone/FileDropzoneInput';
 import toast from 'react-hot-toast';
+import { getIconForClass } from '../views/FolderPage/iconMap';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {
@@ -34,6 +35,16 @@ function New(): JSX.Element {
 
   const calculatedParent = parentSubject || drive;
   const parentResource = useResource(calculatedParent);
+
+  const buttons = [
+    urls.classes.folder,
+    urls.classes.document,
+    urls.classes.chatRoom,
+    urls.classes.bookmark,
+    urls.classes.class,
+    urls.classes.property,
+    urls.classes.importer,
+  ];
 
   function handleClassSet(e) {
     if (!classInput) {
@@ -87,41 +98,13 @@ function New(): JSX.Element {
             )}
             {!classInput && (
               <>
-                <NewIntanceButton
-                  klass={urls.classes.folder}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.document}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.chatRoom}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.bookmark}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.class}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.property}
-                  subtle
-                  parent={calculatedParent}
-                />
-                <NewIntanceButton
-                  klass={urls.classes.importer}
-                  subtle
-                  parent={calculatedParent}
-                />
+                {buttons.map(classType => (
+                  <WrappedButton
+                    key={classType}
+                    classType={classType}
+                    parent={calculatedParent}
+                  />
+                ))}
               </>
             )}
           </Row>
@@ -142,3 +125,24 @@ const StyledForm = styled.form`
 `;
 
 export default New;
+
+interface WrappedButtonProps {
+  classType: string;
+  parent: string;
+}
+
+function WrappedButton({ classType, parent }: WrappedButtonProps): JSX.Element {
+  const classResource = useResource(classType);
+  const [label] = useTitle(classResource);
+
+  return (
+    <NewIntanceButton
+      icon
+      IconComponent={getIconForClass(classType)}
+      klass={classType}
+      parent={parent}
+      label={label}
+      subtle
+    />
+  );
+}

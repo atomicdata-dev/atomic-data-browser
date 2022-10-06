@@ -18,6 +18,7 @@ export function NewFolderButton({
   klass,
   subtle,
   icon,
+  IconComponent,
   parent,
   children,
   label,
@@ -49,6 +50,7 @@ export function NewFolderButton({
         onClick={show}
         title={title}
         icon={icon}
+        IconComponent={IconComponent}
         subtle={subtle}
         label={label}
       >
@@ -60,7 +62,7 @@ export function NewFolderButton({
         </DialogTitle>
         <DialogContent>
           <form onSubmit={onDone}>
-            <Field required label='url'>
+            <Field required label='Name'>
               <InputWrapper>
                 <InputStyled
                   placeholder='New Folder'

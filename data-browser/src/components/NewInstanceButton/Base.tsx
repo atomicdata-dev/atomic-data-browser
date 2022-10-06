@@ -1,6 +1,7 @@
 import { useStore } from '@tomic/react';
 import React, { useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { IconType } from 'react-icons';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,6 +13,7 @@ export interface InstanceButtonBaseProps {
   subtle?: boolean;
   title: string;
   icon?: boolean;
+  IconComponent?: IconType;
   label?: string;
   className?: string;
 }
@@ -22,6 +24,7 @@ export function Base({
   title,
   icon,
   onClick,
+  IconComponent,
   label,
   className,
 }: React.PropsWithChildren<InstanceButtonBaseProps>): JSX.Element {
@@ -41,6 +44,8 @@ export function Base({
     onClick();
   }, [agent, navigate]);
 
+  const Icon = IconComponent ?? FaPlus;
+
   return (
     <Button
       onClick={handleClick}
@@ -50,7 +55,7 @@ export function Base({
     >
       {icon ? (
         <IconWrapper>
-          <FaPlus />
+          <Icon />
           {label}
         </IconWrapper>
       ) : (
@@ -64,5 +69,5 @@ export function Base({
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
 `;

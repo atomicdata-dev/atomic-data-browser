@@ -2,10 +2,10 @@ import { classes, Resource, urls, useResources } from '@tomic/react';
 import React, { useMemo } from 'react';
 import {
   FaCog,
+  FaHdd,
   FaPlus,
   FaRegCheckCircle,
   FaRegCircle,
-  FaServer,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../helpers/AppSettings';
@@ -19,7 +19,7 @@ import { useDefaultNewInstanceHandler } from '../NewInstanceButton';
 import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
 const Trigger = buildDefaultTrigger(
-  <FaServer />,
+  <FaHdd />,
   SideBarButton,
   'Open Drive Settings',
 );

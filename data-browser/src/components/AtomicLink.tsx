@@ -6,7 +6,8 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../components/ErrorLook';
 import { isRunningInTauri } from '../helpers/tauri';
 
-export interface AtomicLinkProps {
+export interface AtomicLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children?: ReactNode;
   /** An http URL to an Atomic Data resource, opened in this app and fetched as JSON-AD */
   subject?: string;
@@ -115,7 +116,6 @@ export const LinkView = styled.a<LinkViewProps>`
   pointer-events: ${props => (props.disabled ? 'none' : 'inherit')};
 
   svg {
-    margin-left: 0.3rem;
     font-size: 60%;
   }
 

@@ -1,37 +1,7 @@
-import {
-  FaCog,
-  FaExternalLinkAlt,
-  FaInfo,
-  FaKeyboard,
-  FaUser,
-} from 'react-icons/fa';
+import { FaCog, FaInfo, FaKeyboard, FaUser } from 'react-icons/fa';
 import React from 'react';
 import { paths } from '../../routes/paths';
 import { SideBarMenuItemProps } from './SideBarMenuItem';
-
-export const aboutMenuItems: SideBarMenuItemProps[] = [
-  {
-    // icon: <FaGithub />,
-    icon: <FaExternalLinkAlt />,
-    label: 'github',
-    helper: 'View the source code for this application',
-    href: 'https://github.com/atomicdata-dev/atomic-data-browser',
-  },
-  {
-    // icon: <FaDiscord />,
-    icon: <FaExternalLinkAlt />,
-    label: 'discord',
-    helper: 'Chat with the Atomic Data community',
-    href: 'https://discord.gg/a72Rv2P',
-  },
-  {
-    // icon: <FaBook />,
-    icon: <FaExternalLinkAlt />,
-    label: 'docs',
-    helper: 'View the Atomic Data documentation',
-    href: 'https://docs.atomicdata.dev',
-  },
-];
 
 export const appMenuItems: SideBarMenuItemProps[] = [
   {
