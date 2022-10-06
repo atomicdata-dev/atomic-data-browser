@@ -9,6 +9,7 @@ export function NewInstanceButtonDefault({
   klass,
   subtle,
   icon,
+  IconComponent,
   parent,
   children,
   label,
@@ -23,6 +24,7 @@ export function NewInstanceButtonDefault({
     <Base
       className={className}
       onClick={onClick}
+      IconComponent={IconComponent}
       title={title}
       icon={icon}
       subtle={subtle}

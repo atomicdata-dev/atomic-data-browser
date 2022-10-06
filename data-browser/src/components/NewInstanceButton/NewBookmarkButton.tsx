@@ -26,6 +26,7 @@ export function NewBookmarkButton({
   klass,
   subtle,
   icon,
+  IconComponent,
   parent,
   children,
   label,
@@ -60,6 +61,7 @@ export function NewBookmarkButton({
         onClick={show}
         title={title}
         icon={icon}
+        IconComponent={IconComponent}
         subtle={subtle}
         label={label}
       >

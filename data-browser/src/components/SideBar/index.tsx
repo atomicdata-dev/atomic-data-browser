@@ -3,13 +3,14 @@ import * as React from 'react';
 import { useHover } from '../../helpers/useHover';
 import { useSettings } from '../../helpers/AppSettings';
 import { useWindowSize } from '../../helpers/useWindowSize';
-import { Logo } from '../Logo';
-import { aboutMenuItems, appMenuItems } from './menuItems';
+import { appMenuItems } from './menuItems';
 import { SideBarMenuItem } from './SideBarMenuItem';
 import { SideBarDrive } from './SideBarDrive';
 import { SideBarHeader } from './SideBarHeader';
 import { DragAreaBase, useResizable } from '../../hooks/useResizable';
 import { useCombineRefs } from '../../hooks/useCombineRefs';
+import { About } from './About';
+import { NavBarSpacer } from '../NavbarSpacer';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
@@ -17,7 +18,7 @@ export const SIDEBAR_TOGGLE_WIDTH = 600;
 const SideBarDriveMemo = React.memo(SideBarDrive);
 
 export function SideBar(): JSX.Element {
-  const { drive, navbarTop, sideBarLocked, setSideBarLocked } = useSettings();
+  const { drive, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLElement>(sideBarLocked);
   const windowSize = useWindowSize();
 
@@ -53,7 +54,7 @@ export function SideBar(): JSX.Element {
         locked={isWideScreen && sideBarLocked}
         exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen)}
       >
-        {navbarTop && <Padding />}
+        <NavBarSpacer position='top' />
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
         <SideBarDriveMemo handleClickItem={closeSideBar} key={drive} />
         <SideBarBottom>
@@ -65,18 +66,9 @@ export function SideBar(): JSX.Element {
               handleClickItem={closeSideBar}
             />
           ))}{' '}
-          <SideBarHeader>
-            <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
-          </SideBarHeader>
-          {aboutMenuItems.map(p => (
-            <SideBarMenuItem
-              key={p.label}
-              {...p}
-              handleClickItem={closeSideBar}
-            />
-          ))}
+          <About />
         </SideBarBottom>
-        <Padding small={navbarTop} />
+        <NavBarSpacer baseMargin='1rem' position='bottom' />
         <SideBarDragArea ref={dragAreaRef} isDragging={isDragging} />
       </SideBarStyled>
       <SideBarOverlay
@@ -96,14 +88,6 @@ interface SideBarStyledProps {
 interface SideBarOverlayProps {
   visible: boolean;
 }
-
-interface PaddingProps {
-  small?: boolean;
-}
-
-const Padding = styled.div<PaddingProps>`
-  min-height: ${p => (p.small ? 1 : 3)}rem;
-`;
 
 // eslint-disable-next-line prettier/prettier
 const SideBarStyled = styled('nav').attrs<SideBarStyledProps>(p => ({

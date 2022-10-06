@@ -21,6 +21,7 @@ import ResourceContextMenu from './ResourceContextMenu';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';
 import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTrigger';
+import { NavBarSpacer } from './NavbarSpacer';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -46,6 +47,7 @@ export function NavWrapper({ children }: NavWrapperProps): JSX.Element {
           navbarTop={navbarTop}
           navbarFloating={navbarFloating}
         >
+          <NavBarSpacer position='top' />
           {children}
         </Content>
       </SideBarWrapper>
@@ -62,12 +64,7 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   display: block;
   flex: 1;
-  margin-top: ${props => (props.navbarTop ? '2rem' : '0')};
-  margin-bottom: ${props =>
-    props.navbarTop || props.navbarFloating ? '0' : '2rem'};
   overflow-y: auto;
-  /* For smooth navbar position adjustments */
-  transition: margin 0.2s;
 `;
 
 /** Persistently shown navigation bar */
