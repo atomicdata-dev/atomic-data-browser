@@ -32,10 +32,7 @@ export function BookmarkPage({ resource }: ResourcePageProps): JSX.Element {
     <>
       <Wrapper>
         <ContainerFull>
-          <EditableTitle
-            resource={resource}
-            propertyURL={urls.properties.name}
-          />
+          <EditableTitle resource={resource} />
         </ContainerFull>
         <ControlWrapper>
           <ContainerFull>

@@ -63,7 +63,7 @@ export function valToNumber(val?: JSONValue): number {
 /** Returns a default string representation of the value. */
 export function valToString(val: JSONValue): string {
   // val && val.toString();
-  return val?.toString() || 'undefined';
+  return val?.toString() ?? 'undefined';
 }
 
 /** Returns either the URL of the resource, or the NestedResource itself. */

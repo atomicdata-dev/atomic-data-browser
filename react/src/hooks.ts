@@ -275,7 +275,7 @@ export function useValue(
       async function setAsync() {
         try {
           await resource.set(propertyURL, newVal, store, validate);
-          handleValidationError && handleValidationError(undefined);
+          handleValidationError?.(undefined);
           // Clone resource to force hooks to re-evaluate due to shallow comparison.
           store.notify(resource.clone());
         } catch (e) {
@@ -330,7 +330,11 @@ export function useString(
 ): [string | undefined, (string: string | undefined) => Promise<void>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
-  if (!val) {
+  if (typeof val === 'string') {
+    return [val, setVal];
+  }
+
+  if (val === undefined) {
     return [undefined, setVal];
   }
 

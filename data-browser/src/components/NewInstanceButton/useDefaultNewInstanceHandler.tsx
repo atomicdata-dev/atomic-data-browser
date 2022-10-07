@@ -34,6 +34,7 @@ export function useDefaultNewInstanceHandler(klass: string, parent?: string) {
       case classes.document: {
         createResourceAndNavigate('documents', {
           [properties.isA]: [classes.document],
+          [properties.name]: 'Untitled Document',
         });
         break;
       }
