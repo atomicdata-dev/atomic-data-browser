@@ -21,7 +21,7 @@ export function ListView({
 }: ViewProps): JSX.Element {
   return (
     <Wrapper>
-      <StyledTable>
+      <StyledTable data-test='folder-list'>
         <>
           <thead>
             <tr>

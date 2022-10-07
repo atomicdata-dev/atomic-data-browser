@@ -57,7 +57,6 @@ export function EditableTitle({
       onChange={e => setText(e.target.value)}
       value={text || ''}
       onBlur={() => setIsEditing(false)}
-      style={{ visibility: isEditing ? 'visible' : 'hidden' }}
     />
   ) : (
     <Title
@@ -65,7 +64,6 @@ export function EditableTitle({
       title={canEdit ? 'Edit title' : 'View title'}
       data-test='editable-title'
       onClick={handleClick}
-      style={{ display: isEditing ? 'hidden' : 'visible' }}
       subtle={!!canEdit && !text}
     >
       <>
