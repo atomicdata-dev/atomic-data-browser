@@ -58,6 +58,7 @@ export async function signRequest(
   agent: Agent,
   headers: HeadersObject | Headers,
 ): Promise<HeadersObject> {
+  console.log('sign request', subject);
   const timestamp = getTimestampNow();
 
   if (agent?.subject && !localTryingExternal(subject, agent)) {
