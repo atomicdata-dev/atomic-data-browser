@@ -51,7 +51,7 @@ jobs:
         run: nohup pnpm start &
       - name: Run atomic-server docker image in background (for testing)
         run: nohup docker run -p 80:80 -p 443:443 -v atomic-storage:/atomic-storage joepmeneer/atomic-server --initialize &
-      - run: pnpx playwright install
+      - run: pnpm playwright-install
       - run: SERVER_URL=http://localhost pnpm test
       - name: Upload failed e2e test screenshots
         uses: actions/upload-artifact@v3
