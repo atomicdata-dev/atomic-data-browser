@@ -21,7 +21,7 @@ import ResourceContextMenu from './ResourceContextMenu';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';
 import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTrigger';
-import { NavBarSpacer } from './NavbarSpacer';
+import { NavBarSpacer } from './NavBarSpacer';
 
 interface NavWrapperProps {
   children: React.ReactNode;
