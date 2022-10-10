@@ -1,4 +1,10 @@
-import { classes, Resource, urls, useResources } from '@tomic/react';
+import {
+  classes,
+  Resource,
+  truncateUrl,
+  urls,
+  useResources,
+} from '@tomic/react';
 import React, { useMemo } from 'react';
 import {
   FaCog,
@@ -21,7 +27,8 @@ const Trigger = buildDefaultTrigger(<FaHdd />, 'Open Drive Settings');
 
 function getTitle(resource: Resource): string {
   return (
-    (resource.get(urls.properties.name) as string) ?? resource.getSubject()
+    (resource.get(urls.properties.name) as string) ??
+    truncateUrl(resource.getSubject(), 20)
   );
 }
 

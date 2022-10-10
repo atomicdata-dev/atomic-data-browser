@@ -19,7 +19,8 @@ import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
 import { ImporterPage } from '../views/ImporterPage';
 
-const homeURL = window.location.origin;
+/** Server URLs should have a `/` at the end */
+const homeURL = window.location.origin + '/';
 
 const isDev = import.meta.env.MODE === 'development';
 
