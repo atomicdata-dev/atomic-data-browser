@@ -2,6 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## UNRELEASED
+
+- Add folders with list & grid views, allow drag & drop uploads #228
+- Show icons in sidebar
+
 ## v0.32.1
 
 - Lock ed25519 version #230
