@@ -43,6 +43,7 @@ jobs:
       # This is needed when playwright is used in tests #70
       - run: pnpm lint-fix
       - run: pnpm build
+      - run: pnpm typecheck
       # Mayb we can do without these?
       # - run: npx playwright install-deps
       # - run: npx playwright install

@@ -57,7 +57,7 @@
     "url": "https://github.com/atomicdata-dev/atomic-data-browser/"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build",
     "deploy": "gh-pages -d build",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",

@@ -10,7 +10,7 @@ import { SideBarHeader } from './SideBarHeader';
 import { DragAreaBase, useResizable } from '../../hooks/useResizable';
 import { useCombineRefs } from '../../hooks/useCombineRefs';
 import { About } from './About';
-import { NavBarSpacer } from '../NavbarSpacer';
+import { NavBarSpacer } from '../NavBarSpacer';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
