@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { constructOpenURL } from '../../helpers/navigation';
 
 /**
- * Hook that builds a function that will create a new resoure with the given
+ * Hook that builds a function that will create a new resource with the given
  * properties and then navigate to it.
  *
  * @param klass The type of resource to create a new instance of.
