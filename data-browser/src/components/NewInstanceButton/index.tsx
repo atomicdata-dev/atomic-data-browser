@@ -4,14 +4,12 @@ import { NewBookmarkButton } from './NewBookmarkButton';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 import { NewInstanceButtonDefault } from './NewInstanceButtonDefault';
 import { useSettings } from '../../helpers/AppSettings';
-import { NewFolderButton } from './NewFolderButton';
 
 type InstanceButton = (props: NewInstanceButtonProps) => JSX.Element;
 
 /** If your New Instance button requires custom logic, such as a custom dialog */
 const classMap = new Map<string, InstanceButton>([
   [classes.bookmark, NewBookmarkButton],
-  [classes.folder, NewFolderButton],
 ]);
 
 /** A button for creating a new instance of some thing */

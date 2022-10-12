@@ -134,6 +134,7 @@ export const datatypes = {
 
 export const instances = {
   publicAgent: 'https://atomicdata.dev/agents/publicAgent',
+  displayStyleGrid: 'https://atomicdata.dev/agents/publicAgent',
 };
 
 export const urls = {
