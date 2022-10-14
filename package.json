@@ -37,7 +37,7 @@
     "lint": "pnpm run -r lint",
     "lint-fix": "pnpm run -r lint-fix",
     "build": "pnpm run -r build",
-    "build-server": "pnpm run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts",
+    "build-server": "pnpm run build && cp -r data-browser/dist/assets/ ../atomic-data-rust/server/app_assets/dist/ && cp data-browser/tests/e2e.spec.ts ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts && cp data-browser/tests/testimage.svg ../atomic-data-rust/server/e2e_tests/testimage.svg && cp -r data-browser/tests/e2e.spec.ts-snapshots/ ../atomic-data-rust/server/e2e_tests/e2e-generated.spec.ts-snapshots/",
     "test": "pnpm run -r test",
     "test-query": "pnpm run --filter @tomic/data-browser test-query",
     "start": "pnpm run -r --parallel start",
