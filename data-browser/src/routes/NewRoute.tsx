@@ -57,11 +57,13 @@ function New(): JSX.Element {
   }
 
   const onUploadComplete = useCallback(
-    (files: string[]) => {
-      toast.success(`Uploaded ${files.length} files.`);
+    (fileSubjects: string[]) => {
+      toast.success(`Uploaded ${fileSubjects.length} files.`);
 
-      if (parentSubject) {
+      if (fileSubjects.length > 1 && parentSubject) {
         navigate(constructOpenURL(parentSubject));
+      } else {
+        navigate(constructOpenURL(fileSubjects[0]));
       }
     },
     [parentSubject, navigate],
