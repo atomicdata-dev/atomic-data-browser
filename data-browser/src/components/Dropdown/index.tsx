@@ -26,6 +26,8 @@ interface DropdownMenuProps {
   /** The list of menu items */
   items: Item[];
   trigger: DropdownTriggerRenderFunction;
+  /** Enables the keyboard shortcut */
+  isMainMenu?: boolean;
 }
 
 /** Gets the index of an array and loops around when at the beginning or end */
@@ -88,6 +90,7 @@ function normalizeItems(items: Item[]) {
 export function DropdownMenu({
   items,
   trigger,
+  isMainMenu,
 }: DropdownMenuProps): JSX.Element {
   const menuId = useId();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -167,7 +170,7 @@ export function DropdownMenu({
       handleToggle();
       setUseKeys(true);
     },
-    {},
+    { enabled: !!isMainMenu },
     [isActive],
   );
   // Click / open the item
