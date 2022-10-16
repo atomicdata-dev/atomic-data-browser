@@ -49,7 +49,7 @@ test.describe('data-browser', async () => {
 
     // Sometimes we run the test server on a different port, but we should
     // only change the drive if it is non-default.
-    if (serverUrl !== 'http://localhost:9883') {
+    if (serverUrl !== defaultDevServer) {
       await changeDrive(serverUrl, page);
     }
 
