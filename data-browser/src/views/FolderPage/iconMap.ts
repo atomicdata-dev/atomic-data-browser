@@ -5,10 +5,15 @@ import {
   FaBook,
   FaClock,
   FaComment,
+  FaCube,
+  FaCubes,
   FaFile,
   FaFileAlt,
+  FaFileImport,
   FaFolder,
   FaHdd,
+  FaListAlt,
+  FaShareSquare,
 } from 'react-icons/fa';
 
 const iconMap = new Map<string, IconType>([
@@ -19,6 +24,11 @@ const iconMap = new Map<string, IconType>([
   [classes.file, FaFile],
   [classes.drive, FaHdd],
   [classes.commit, FaClock],
+  [classes.importer, FaFileImport],
+  [classes.invite, FaShareSquare],
+  [classes.collection, FaListAlt],
+  [classes.class, FaCube],
+  [classes.property, FaCubes],
 ]);
 
 export function getIconForClass(

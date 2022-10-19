@@ -2,6 +2,7 @@ import React from 'react';
 import { properties, Resource, useString } from '@tomic/react';
 import { ResourceInline } from '../views/ResourceInline';
 import { Detail } from './Detail';
+import { getIconForClass } from '../views/FolderPage/iconMap';
 
 type Props = {
   resource: Resource;
@@ -15,8 +16,11 @@ export function ClassDetail({ resource }: Props): JSX.Element {
     <React.Fragment>
       {klass && (
         <Detail>
-          {'is a '}
-          <ResourceInline subject={klass} />
+          <>
+            {'is a '}
+            {getIconForClass(klass)}
+            <ResourceInline subject={klass} />
+          </>
         </Detail>
       )}
     </React.Fragment>
