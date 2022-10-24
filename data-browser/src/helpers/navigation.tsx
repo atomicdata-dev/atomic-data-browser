@@ -28,18 +28,26 @@ export function constructOpenURL(
   }
 }
 
-export function searchURL(query: string): string {
-  return constructURL(paths.search, { query });
+export function searchURL(query: string, scope?: string): string {
+  return constructURL(paths.search, {
+    query,
+    ...(parent ? { queryscope: scope } : {}),
+  });
 }
 
-type setFunc = (latestValue: string) => void;
+type setFunc = (latestValue: string | undefined) => void;
 
 /** Returns a getter and a setter for query parameters */
 export function useQueryString(key: string): [string | undefined, setFunc] {
   const [params, set] = useSearchParams(key);
 
-  const customSet = (subject: string) => {
-    params.set(key, subject);
+  const customSet = (subject: string | undefined) => {
+    if (subject === undefined) {
+      params.delete(key);
+    } else {
+      params.set(key, subject);
+    }
+
     set(params);
   };
 

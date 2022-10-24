@@ -20,9 +20,11 @@ import {
   FaEdit,
   FaEllipsisV,
   FaRedo,
+  FaSearch,
   FaShareSquare,
   FaTrash,
 } from 'react-icons/fa';
+import { useQueryScopeHandler } from '../../hooks/useQueryScope';
 
 export interface ResourceContextMenuProps {
   subject: string;
@@ -42,6 +44,7 @@ function ResourceContextMenu({
   const store = useStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const { enableScope } = useQueryScopeHandler(subject);
   // Try to not have a useResource hook in here, as that will lead to many costly fetches when the user enters a new subject
 
   if (subject === undefined) {
@@ -107,6 +110,13 @@ function ResourceContextMenu({
       icon: <FaEdit />,
       shortcut: simple ? '' : shortcuts.edit,
       onClick: () => navigate(editURL(subject)),
+    },
+    {
+      id: 'scope',
+      label: 'search in',
+      helper: 'Scope search to resource',
+      icon: <FaSearch />,
+      onClick: enableScope,
     },
     {
       // disabled: !canWrite || history.location.pathname.startsWith(paths.edit),

@@ -1,27 +1,19 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaBars } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { tryValidURL } from '@tomic/react';
 
-import {
-  constructOpenURL,
-  searchURL,
-  useSearchQuery,
-} from '../helpers/navigation';
-import { useFocus } from '../helpers/useFocus';
 import { ButtonBar } from './Button';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { useSettings } from '../helpers/AppSettings';
-import { transparentize } from 'polished';
 import { SideBar } from './SideBar';
 import ResourceContextMenu from './ResourceContextMenu';
 import { isRunningInTauri } from '../helpers/tauri';
 import { shortcuts } from './HotKeyWrapper';
 import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTrigger';
 import { NavBarSpacer } from './NavBarSpacer';
+import { Searchbar } from './Searchbar';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -70,55 +62,10 @@ const Content = styled.div<ContentProps>`
 /** Persistently shown navigation bar */
 function NavBar() {
   const [subject] = useCurrentSubject();
-  const [input, setInput] = useState<string | undefined>('');
-  const [query] = useSearchQuery();
   const navigate = useNavigate();
-  const [inputRef, setInputFocus] = useFocus();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } =
     useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
-
-  useEffect(() => {
-    setInput(query?.toString());
-  }, [query]);
-
-  useEffect(() => {
-    // Prevents setting an empty input if the first letter of a query has just been typed
-    !query && setInput(subject);
-  }, [subject, query]);
-
-  useHotkeys(shortcuts.search, e => {
-    e.preventDefault();
-    //@ts-ignore this does seem callable
-    inputRef.current.select();
-    setInputFocus();
-  });
-
-  useHotkeys(
-    'esc',
-    e => {
-      e.preventDefault();
-      //@ts-ignore this does seem callable
-      inputRef.current.blur();
-    },
-    { enableOnTags: ['INPUT'] },
-  );
-
-  function handleChange(e) {
-    setInput(e.target.value);
-
-    try {
-      tryValidURL(e.target.value);
-      // Replace instead of push to make the back-button behavior better.
-      navigate(constructOpenURL(e.target.value), { replace: true });
-    } catch (_err) {
-      navigate(searchURL(e.target.value), { replace: true });
-    }
-  }
-
-  function handleSelect(e) {
-    e.target.select();
-  }
 
   /** Checks if the app is running in PWA / stand alone mode or in a browser */
   const isInStandaloneMode = () =>
@@ -128,27 +75,9 @@ function NavBar() {
     document.referrer.includes('android-app://') ||
     isRunningInTauri();
 
-  const handleSubmit = event => {
-    if (!subject) {
-      return;
-    }
-
-    event.preventDefault();
-    //@ts-ignore this does seem callable
-    inputRef.current.blur();
-    //@ts-ignore this does seem callable
-    document.activeElement.blur();
-    handleNavigation(constructOpenURL(subject));
-  };
-
-  const handleNavigation = (to: string) => {
-    navigate(to);
-  };
-
   /** Hide buttons if the input element is quite small */
-  function maybeHideButtons() {
-    //@ts-ignore this does seem callable
-    if (inputRef.current.getBoundingClientRect().width < 280) {
+  function maybeHideButtons(event: React.FocusEvent<HTMLInputElement>) {
+    if (event.target.getBoundingClientRect().width < 280) {
       setShowButtons(false);
     }
   }
@@ -160,8 +89,6 @@ function NavBar() {
       top={navbarTop}
       aria-label='search'
       floating={navbarFloating}
-      onSubmit={handleSubmit}
-      autoComplete='off'
     >
       {showButtons && (
         <React.Fragment>
@@ -194,21 +121,12 @@ function NavBar() {
           )}
         </React.Fragment>
       )}
-      <input
-        autoComplete='false'
-        // @ts-ignore this seems to work fine
-        ref={inputRef}
-        type='text'
-        data-test='address-bar'
-        name='search'
-        aria-label='Search'
-        onClick={handleSelect}
+      <Searchbar
+        subject={subject}
         onFocus={maybeHideButtons}
         onBlur={() => setShowButtons(true)}
-        value={input || ''}
-        onChange={handleChange}
-        placeholder='Enter an Atomic URL or search   (press "/" )'
       />
+
       {showButtons && subject && (
         <ResourceContextMenu
           subject={subject}
@@ -225,7 +143,7 @@ interface NavBarStyledProps {
 }
 
 /** Don't use this directly - use NavBarFloating or NavBarFixed */
-const NavBarBase = styled.form<NavBarStyledProps>`
+const NavBarBase = styled.div<NavBarStyledProps>`
   /* transition: all 0.2s; */
   position: fixed;
   z-index: ${p => p.theme.zIndex.sidebar};
@@ -233,39 +151,6 @@ const NavBarBase = styled.form<NavBarStyledProps>`
   display: flex;
   border: solid 1px ${props => props.theme.colors.bg2};
   background-color: ${props => props.theme.colors.bg};
-
-  /* Search bar and buttons */
-  input {
-    border: none;
-    font-size: 0.9rem;
-    padding: 0.4rem 1.2rem;
-    color: ${props => props.theme.colors.text};
-  }
-
-  /* Search bar */
-  input[type='text'] {
-    flex: 1;
-    min-width: 1rem;
-    background-color: ${props => props.theme.colors.bg};
-    outline: 0;
-    border-radius: 999px;
-    color: ${p => p.theme.colors.textLight};
-
-    &:hover {
-      color: ${p => p.theme.colors.text};
-      box-shadow: inset 0 0 0 2px
-        ${props => transparentize(0.6, props.theme.colors.main)};
-    }
-
-    &:focus {
-      color: ${p => p.theme.colors.text};
-      outline: none;
-      box-shadow: inset 0 0 0 2px ${props => props.theme.colors.main};
-      /* border-radius: ${props => props.theme.radius}; */
-      box-sizing: border-box;
-      /* outline-offset: -1px; */
-    }
-  }
 `;
 
 /** Width of the floating navbar in rem */

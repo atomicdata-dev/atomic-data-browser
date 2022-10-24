@@ -3,8 +3,8 @@ import React from 'react';
 import { FaEllipsisV, FaPlus } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { useNewRoute } from '../../../helpers/useNewRoute';
-import { Button } from '../../Button';
 import { buildDefaultTrigger } from '../../Dropdown/DefaultTrigger';
+import { IconButton } from '../../IconButton';
 import ResourceContextMenu from '../../ResourceContextMenu';
 
 export interface FloatingActionsProps {
@@ -24,15 +24,13 @@ export function FloatingActions({
 
   return (
     <Wrapper className={className}>
-      <SideBarButton
-        icon
-        subtle
+      <IconButton
         data-test='add-subresource'
         onClick={handleAddClick}
         title={`Create new resource under ${parentName}`}
       >
         <FaPlus />
-      </SideBarButton>
+      </IconButton>
       <ResourceContextMenu
         simple
         subject={subject}
@@ -45,33 +43,17 @@ export function FloatingActions({
 const Wrapper = styled.span`
   visibility: hidden;
   display: none;
+  font-size: 0.9rem;
+  color: ${p => p.theme.colors.main};
 `;
 
 export const floatingHoverStyles = css`
   position: relative;
+
   &:hover ${Wrapper}, &:focus ${Wrapper} {
     visibility: visible;
     display: inline;
   }
 `;
 
-export const SideBarButton = styled(Button)`
-  color: ${p => p.theme.colors.main};
-  border-radius: ${p => p.theme.radius};
-  border: unset;
-  height: 100%;
-  width: 2rem;
-  &&:hover,
-  &&:focus {
-    background-color: ${p => p.theme.colors.bg1} !important;
-    box-shadow: unset;
-  }
-  &&:active {
-    background-color: ${p => p.theme.colors.bg2} !important;
-  }
-`;
-
-const SideBarDropDownTrigger = buildDefaultTrigger(
-  <FaEllipsisV />,
-  SideBarButton as typeof Button,
-);
+const SideBarDropDownTrigger = buildDefaultTrigger(<FaEllipsisV />);

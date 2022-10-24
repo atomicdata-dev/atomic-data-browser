@@ -268,26 +268,20 @@ export function useValue(
       set(newVal);
       setTouched(true);
 
-      /**
-       * Validates and sets a property / value combination. Will invoke the
-       * callback if the value is not valid.
-       */
-      async function setAsync() {
-        try {
-          await resource.set(propertyURL, newVal, store, validate);
-          handleValidationError?.(undefined);
-          // Clone resource to force hooks to re-evaluate due to shallow comparison.
-          store.notify(resource.clone());
-        } catch (e) {
-          if (handleValidationError) {
-            handleValidationError(e);
-          } else {
-            store.handleError(e);
-          }
+      // Validates and sets a property / value combination. Will invoke the
+      // callback if the value is not valid.
+      try {
+        await resource.set(propertyURL, newVal, store, validate);
+        handleValidationError?.(undefined);
+        // Clone resource to force hooks to re-evaluate due to shallow comparison.
+        store.notify(resource.clone());
+      } catch (e) {
+        if (handleValidationError) {
+          handleValidationError(e);
+        } else {
+          store.handleError(e);
         }
       }
-
-      await setAsync();
     },
     [resource, handleValidationError, store, validate],
   );

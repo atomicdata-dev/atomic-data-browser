@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { transition } from '../helpers/transition';
 import { Spinner } from './Spinner';
 
 export interface ButtonProps
@@ -44,12 +45,6 @@ export const Button = React.forwardRef<
 
 Button.displayName = 'Button';
 
-// /** Style-only props */
-// interface ButtonProps {
-//   // Less visually agressive button. Show only borders in color, instead of entire button
-//   subtle?: boolean;
-// }
-
 /** Extremly minimal set of button properties */
 export const ButtonClean = styled.button<ButtonProps>`
   cursor: pointer;
@@ -61,7 +56,7 @@ export const ButtonClean = styled.button<ButtonProps>`
   margin: 0;
   -webkit-appearance: none;
   background-color: initial;
-  -webkit-tap-highlight-color: transparent; /** Remove the tap / click effect on touch devices */
+  -webkit-tap-highlight-color: transparent; /* Remove the tap / click effect on touch devices */
 `;
 
 /** Base button style. You're likely to want to use ButtonMargin in most places */
@@ -73,10 +68,11 @@ export const ButtonBase = styled(ButtonClean)`
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
   white-space: nowrap;
-  transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow, 0.1s color;
+  transition: ${() =>
+    transition('background-color', 'box-shadow', 'transform', 'color')};
   margin-bottom: ${p => (p.gutter ? `${p.theme.margin}rem` : '')};
 
-  /** Prevent sticky hover buttons on touch devices */
+  // Prevent sticky hover buttons on touch devices
   @media (hover: hover) and (pointer: fine) {
     &:hover:not([disabled]),
     &:focus-visible:not([disabled]) {

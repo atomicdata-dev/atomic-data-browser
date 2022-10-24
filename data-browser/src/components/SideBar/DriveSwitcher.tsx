@@ -16,13 +16,8 @@ import { paths } from '../../routes/paths';
 import { DIVIDER, DropdownMenu } from '../Dropdown';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
 import { useDefaultNewInstanceHandler } from '../NewInstanceButton';
-import { SideBarButton } from './ResourceSideBar/FloatingActions';
 
-const Trigger = buildDefaultTrigger(
-  <FaHdd />,
-  SideBarButton,
-  'Open Drive Settings',
-);
+const Trigger = buildDefaultTrigger(<FaHdd />, 'Open Drive Settings');
 
 function getTitle(resource: Resource): string {
   return (

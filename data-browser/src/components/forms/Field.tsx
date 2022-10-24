@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { FaAsterisk, FaInfo, FaTrash } from 'react-icons/fa';
 import styled from 'styled-components';
-import { ButtonIcon } from '../Button';
+import { Collapse } from '../Collapse';
+import { IconButton, IconButtonVariant } from '../IconButton';
+import { Row } from '../Row';
 import {
   ErrMessage,
   FieldStyled,
   LabelHelper,
-  LabelStyled,
   LabelWrapper,
 } from './InputStyles';
 
@@ -25,42 +26,44 @@ function Field({
   return (
     <FieldStyled>
       <LabelWrapper>
-        <LabelStyled data-test={`field-label-${label}`}>
-          {label}{' '}
+        <Row gap='0.4rem' center>
+          <FieldLabel data-test={`field-label-${label}`}>
+            <span>{label}</span>
+            {required && <FaAsterisk title='Required field' />}
+          </FieldLabel>
           {helper && (
-            <ButtonIcon
-              subtle={collapsedHelper}
+            <IconButton
+              variant={IconButtonVariant.Outline}
+              color='textLight'
               type='button'
+              size='0.7rem'
               onClick={() => setCollapsed(!collapsedHelper)}
-              style={{ marginRight: '.2rem' }}
               title='Show helper'
             >
               <FaInfo />
-            </ButtonIcon>
+            </IconButton>
           )}
-          {required && (
-            <IconWrapper title='Required field'>
-              <FaAsterisk />
-            </IconWrapper>
+          {!disabled && handleDelete && (
+            <IconButton
+              variant={IconButtonVariant.Outline}
+              title='Delete this property'
+              color='textLight'
+              type='button'
+              size='0.7rem'
+              onClick={() => handleDelete('test')}
+            >
+              <FaTrash />
+            </IconButton>
           )}
-        </LabelStyled>
-        {!disabled && handleDelete && (
-          <ButtonIcon
-            subtle
-            title='Delete this property'
-            type='button'
-            onClick={() => handleDelete('test')}
-          >
-            <FaTrash />
-          </ButtonIcon>
-        )}
+        </Row>
       </LabelWrapper>
-      {!collapsedHelper && (
-        <LabelHelper>
+
+      <LabelHelper>
+        <Collapse open={!collapsedHelper}>
           {helper}
           {required && <p>Required field.</p>}
-        </LabelHelper>
-      )}
+        </Collapse>
+      </LabelHelper>
       {children}
       {error && (
         <ErrMessage title={`Error: ${JSON.stringify(error)}`}>
@@ -71,9 +74,17 @@ function Field({
   );
 }
 
-const IconWrapper = styled.span`
-  font-size: 0.8rem;
-  color: ${props => props.theme.colors.textLight};
+const FieldLabel = styled.label`
+  text-transform: capitalize;
+  display: inline-flex;
+  gap: 0.2rem;
+  align-items: center;
+  font-weight: bold;
+
+  svg {
+    color: ${props => props.theme.colors.textLight};
+    font-size: 0.8rem;
+  }
 `;
 
 interface IFieldProps {

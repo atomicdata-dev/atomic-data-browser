@@ -87,7 +87,7 @@ function Data(): JSX.Element {
           <Button onClick={() => resource.save(store)}>save</Button>
         </>
       ) : null}
-      <Row wrapFlex>
+      <Row wrapItems>
         <Button
           subtle
           onClick={() => fetchAs('application/ad+json')}

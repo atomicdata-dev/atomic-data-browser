@@ -36,6 +36,7 @@ export function Details({
     <>
       <SummaryWrapper>
         <IconButton
+          type='button'
           onClick={toggleOpen}
           turn={!!isOpen}
           hide={!!disabled}
