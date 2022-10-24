@@ -10,7 +10,10 @@ import {
 } from '@tomic/react';
 import { useNavigate } from 'react-router';
 import { constructOpenURL } from '../helpers/navigation';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaSearch } from 'react-icons/fa';
+import { Row } from './Row';
+import { useQueryScopeHandler } from '../hooks/useQueryScope';
+import { IconButton } from './IconButton';
 
 type ParentProps = {
   resource: Resource;
@@ -21,10 +24,11 @@ function Parent({ resource }: ParentProps): JSX.Element {
   const [parent] = useString(resource, properties.parent);
   const [title, setTitle] = useTitle(resource);
   const [canEdit] = useCanWrite(resource);
+  const { enableScope } = useQueryScopeHandler(resource.getSubject());
 
   return (
     <ParentWrapper aria-label='Breadcrumbs'>
-      <List>
+      <Row fullWidth center gap='initial'>
         {parent && <NestedParent subject={parent} depth={0} />}
         {canEdit ? (
           <BreadCrumbInputWrapper>
@@ -37,7 +41,15 @@ function Parent({ resource }: ParentProps): JSX.Element {
         ) : (
           <BreadCrumbCurrent>{title}</BreadCrumbCurrent>
         )}
-      </List>
+        <Spacer />
+        <ScopedSearchButton
+          onClick={enableScope}
+          title={`Search in ${title}`}
+          color='textLight'
+        >
+          <FaSearch />
+        </ScopedSearchButton>
+      </Row>
     </ParentWrapper>
   );
 }
@@ -45,7 +57,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
 const ParentWrapper = styled.nav`
   height: ${p => p.theme.heights.breadCrumbBar};
   padding: 0.2rem;
-  padding-left: 0.5rem;
+  padding-inline: 0.5rem;
   color: ${props => props.theme.colors.textLight2};
   border-bottom: 1px solid ${props => props.theme.colors.bg2};
   background-color: ${props => props.theme.colors.bg};
@@ -144,9 +156,12 @@ const Breadcrumb = styled.a`
   }
 `;
 
-const List = styled.div`
-  display: flex;
-  direction: row;
+const Spacer = styled.span`
+  flex: 1;
+`;
+
+const ScopedSearchButton = styled(IconButton)`
+  justify-self: flex-end;
 `;
 
 export default Parent;

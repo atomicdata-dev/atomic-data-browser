@@ -7,7 +7,7 @@ export const FieldStyled = styled.div`
 export const LabelWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const LabelStyled = styled.label`

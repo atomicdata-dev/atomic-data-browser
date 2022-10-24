@@ -19,7 +19,8 @@ import { SideBarHeader } from './SideBarHeader';
 import { shortcuts } from '../HotKeyWrapper';
 import { ErrorLook } from '../ErrorLook';
 import { DriveSwitcher } from './DriveSwitcher';
-import { SideBarButton } from './ResourceSideBar/FloatingActions';
+import { IconButton } from '../IconButton';
+import { Row } from '../Row';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -53,18 +54,18 @@ export function SideBarDrive({
             {title || drive}{' '}
           </DriveTitle>
         </TitleButton>
-        {angentCanWrite && (
-          <SideBarButton
-            onClick={() => navigate(paths.new)}
-            icon
-            subtle
-            title={`Create a new resource in this drive (${shortcuts.new})`}
-            data-test='sidebar-new-resource'
-          >
-            <FaPlus />
-          </SideBarButton>
-        )}
-        <DriveSwitcher />
+        <HeadingButtonWrapper gap='0'>
+          {angentCanWrite && (
+            <IconButton
+              onClick={() => navigate(paths.new)}
+              title={`Create a new resource in this drive (${shortcuts.new})`}
+              data-test='sidebar-new-resource'
+            >
+              <FaPlus />
+            </IconButton>
+          )}
+          <DriveSwitcher />
+        </HeadingButtonWrapper>
       </SideBarHeader>
       <ListWrapper>
         {driveResource.isReady() ? (
@@ -119,4 +120,9 @@ const ListWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   margin-left: 0.5rem;
+`;
+
+const HeadingButtonWrapper = styled(Row)`
+  color: ${p => p.theme.colors.main};
+  font-size: 0.9rem;
 `;

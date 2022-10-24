@@ -92,7 +92,7 @@ function New(): JSX.Element {
               classType={urls.classes.class}
             />
           </div>
-          <Row wrapFlex>
+          <Row wrapItems>
             {classInput && (
               <Button onClick={handleClassSet}>new {className}</Button>
             )}

@@ -6,22 +6,27 @@ import { constructOpenURL, useSearchQuery } from '../helpers/navigation';
 import ResourceCard from '../views/Card/ResourceCard';
 import { useServerSearch } from '@tomic/react';
 import { ErrorLook } from '../components/ErrorLook';
+import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
+import { useQueryScopeHandler } from '../hooks/useQueryScope';
 
 /** Full text search route */
 export function Search(): JSX.Element {
   const [query] = useSearchQuery();
+  const { scope } = useQueryScopeHandler();
+
   const [selectedIndex, setSelected] = useState(0);
   const { results, loading, error } = useServerSearch(query, {
     debounce: 0,
+    scope,
   });
   const navigate = useNavigate();
   const htmlElRef = useRef<HTMLDivElement | null>(null);
 
-  /** Moves the viewport to the card at the selected index */
-  function moveTo(index: number) {
+  function selectResult(index: number) {
     setSelected(index);
     const currentElm = htmlElRef?.current?.children[index];
-    currentElm?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    currentElm?.scrollIntoView({ block: 'nearest' });
   }
 
   useHotkeys(
@@ -45,7 +50,7 @@ export function Search(): JSX.Element {
     e => {
       e.preventDefault();
       const newSelected = selectedIndex > 0 ? selectedIndex - 1 : 0;
-      moveTo(newSelected);
+      selectResult(newSelected);
     },
     { enableOnTags: ['INPUT'] },
   );
@@ -57,7 +62,7 @@ export function Search(): JSX.Element {
         selectedIndex === results.length - 1
           ? results.length - 1
           : selectedIndex + 1;
-      moveTo(newSelected);
+      selectResult(newSelected);
     },
     { enableOnTags: ['INPUT'] },
   );
@@ -77,6 +82,13 @@ export function Search(): JSX.Element {
       {error && <ErrorLook>{error.message}</ErrorLook>}
       {query?.length !== 0 && results.length !== 0 ? (
         <>
+          <Heading>
+            <FaSearch />
+            <span>
+              {results.length} {results.length > 1 ? 'Results' : 'Result'} for{' '}
+              <QueryText>{query}</QueryText>
+            </span>
+          </Heading>
           {results.map((subject, index) => (
             <ResourceCard
               initialInView={index < 5}
@@ -93,3 +105,22 @@ export function Search(): JSX.Element {
     </ContainerNarrow>
   );
 }
+
+const Heading = styled.h1`
+  color: ${p => p.theme.colors.text};
+  display: flex;
+  align-items: center;
+  gap: 0.7ch;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1.5;
+  margin-bottom: ${p => p.theme.margin * 3}rem;
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const QueryText = styled.span`
+  color: ${p => p.theme.colors.textLight};
+`;

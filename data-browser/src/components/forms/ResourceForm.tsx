@@ -25,6 +25,8 @@ import Field from './Field';
 import UploadForm from './UploadForm';
 import { Gutter } from '../Gutter';
 import { useSaveResource } from './hooks/useSaveResource';
+import { Row } from '../Row';
+import { Collapse } from '../Collapse';
 
 export enum ResourceFormVariant {
   Default,
@@ -239,18 +241,16 @@ export function ResourceForm({
         style={{ display: 'flex', marginBottom: '1rem', alignItems: 'center' }}
         onClick={() => setShowAdvanced(!showAdvanced)}
       >
-        <strong>
-          advanced options {showAdvanced ? <FaCaretDown /> : <FaCaretRight />}
-        </strong>
+        <Row as='strong' gap='0.4rem' center>
+          {showAdvanced ? <FaCaretDown /> : <FaCaretRight />} Advanced Options
+        </Row>
       </Button>
-      {showAdvanced && (
-        <>
-          <ResourceField propertyURL={properties.isA} resource={resource} />
-          <ResourceField propertyURL={properties.parent} resource={resource} />
-          <ResourceField propertyURL={properties.write} resource={resource} />
-          <ResourceField propertyURL={properties.read} resource={resource} />
-        </>
-      )}
+      <Collapse open={showAdvanced}>
+        <ResourceField propertyURL={properties.isA} resource={resource} />
+        <ResourceField propertyURL={properties.parent} resource={resource} />
+        <ResourceField propertyURL={properties.write} resource={resource} />
+        <ResourceField propertyURL={properties.read} resource={resource} />
+      </Collapse>
       {variant !== ResourceFormVariant.Dialog && (
         <>
           {err && <ErrMessage>{err.message}</ErrMessage>}

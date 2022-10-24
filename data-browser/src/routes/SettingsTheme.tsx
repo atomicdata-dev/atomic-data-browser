@@ -6,7 +6,7 @@ import { LabelStyled } from '../components/forms/InputStyles';
 import { useSettings } from '../helpers/AppSettings';
 import { NavStyleButton } from '../components/NavStyleButton';
 import { DarkModeOption } from '../helpers/useDarkMode';
-import { Row } from '../components/Row';
+import { Column, Row } from '../components/Row';
 
 export const SettingsTheme: React.FunctionComponent = () => {
   const { darkModeSetting, setDarkMode } = useSettings();
@@ -14,7 +14,7 @@ export const SettingsTheme: React.FunctionComponent = () => {
   return (
     <ContainerNarrow>
       <h1>Theme Settings</h1>
-      <Row direction='column'>
+      <Column>
         <LabelStyled>Dark mode</LabelStyled>
         <Row>
           <Button
@@ -45,7 +45,7 @@ export const SettingsTheme: React.FunctionComponent = () => {
         </Row>
         <LabelStyled>Main color</LabelStyled>
         <MainColorPicker />
-      </Row>
+      </Column>
       <br />
     </ContainerNarrow>
   );

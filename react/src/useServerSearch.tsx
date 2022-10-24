@@ -19,6 +19,8 @@ interface SearchOpts {
   include?: boolean;
   /** Max of how many results to return */
   limit?: number;
+  /** Subject of resource to scope the search to */
+  scope?: string;
 }
 
 /** Pass a query to search the current server */
@@ -26,21 +28,26 @@ export function useServerSearch(
   query: string | undefined,
   opts: SearchOpts = {},
 ): SearchResults {
-  const { debounce = 50, include = false, limit = 30 } = opts;
+  const { debounce = 50, include = false, limit = 30, scope } = opts;
+
   const [results, setResults] = useState<string[]>([]);
   const store = useStore();
   // Calculating the query takes a while, so we debounce it
-  const debouncedQuery = useDebounce(query, debounce);
+  const debouncedQuery = useDebounce(query, debounce) ?? '';
 
   const urlString: string = useMemo(() => {
     const url = new URL(store.getServerUrl());
     url.pathname = 'search';
-    debouncedQuery && url.searchParams.set('q', debouncedQuery);
+    url.searchParams.set('q', debouncedQuery);
     url.searchParams.set('include', include.toString());
     url.searchParams.set('limit', limit.toString());
 
+    if (scope) {
+      url.searchParams.set('parent', scope);
+    }
+
     return url.toString();
-  }, [debouncedQuery, include, limit]);
+  }, [debouncedQuery, scope, include, limit]);
 
   const resource = useResource(urlString, {
     noWebSocket: true,

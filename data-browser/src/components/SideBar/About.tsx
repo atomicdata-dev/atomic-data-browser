@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { AtomicLink } from '../AtomicLink';
 import { Logo } from '../Logo';
 import { SideBarHeader } from './SideBarHeader';
 import React from 'react';
 import { FaGithub, FaDiscord, FaBook } from 'react-icons/fa';
+import { IconButtonLink } from '../IconButton';
 
 interface AboutItem {
   icon: React.ReactNode;
@@ -36,8 +36,16 @@ export function About() {
         <Logo style={{ height: '1.1rem', maxWidth: '100%' }} />
       </SideBarHeader>
       <AboutWrapper>
-        {aboutMenuItems.map(p => (
-          <AboutIcon key={p.helper} {...p} />
+        {aboutMenuItems.map(({ href, icon, helper }) => (
+          <IconButtonLink
+            key={href}
+            href={href}
+            title={helper}
+            size='1.2em'
+            color='textLight'
+          >
+            {icon}
+          </IconButtonLink>
         ))}
       </AboutWrapper>
     </>
@@ -51,34 +59,4 @@ const AboutWrapper = styled.div`
   align-items: center;
   gap: 0.5rem;
   margin-left: calc(1rem - var(--inner-padding));
-`;
-
-interface AboutIconProps {
-  href?: string;
-  icon: React.ReactNode;
-  helper: string;
-}
-
-function AboutIcon({ icon, helper, href }: AboutIconProps) {
-  return (
-    <StyledAtomicLink href={href} clean title={helper}>
-      {icon}
-    </StyledAtomicLink>
-  );
-}
-
-const StyledAtomicLink = styled(AtomicLink)`
-  padding: 0.5rem;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1 / 1;
-  border-radius: ${p => p.theme.radius};
-  color: ${p => p.theme.colors.textLight};
-  font-size: 1.6rem;
-  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
-  &:hover,
-  &:focus {
-    background: ${p => p.theme.colors.bg1};
-    color: ${p => p.theme.colors.text};
-  }
 `;

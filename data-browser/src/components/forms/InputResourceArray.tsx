@@ -6,7 +6,7 @@ import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';
 import { ResourceSelector } from './ResourceSelector';
 import { FaPlus, FaTrash } from 'react-icons/fa';
-import { Row } from '../Row';
+import { Column, Row } from '../Row';
 import styled from 'styled-components';
 
 export default function InputResourceArray({
@@ -58,25 +58,27 @@ export default function InputResourceArray({
   }
 
   return (
-    <Row direction='column'>
-      <div>
-        {array.map((subject, index) => (
-          <ResourceSelector
-            key={`${property.subject}${index}`}
-            value={subject}
-            setSubject={(set, handleErr) =>
-              handleSetSubject(set, handleErr, index)
-            }
-            error={errMaybe(index)}
-            setError={setErr}
-            classType={property.classType}
-            handleRemove={() => handleRemove(index)}
-            parent={resource.getSubject()}
-            {...props}
-            autoFocus={lastIsNew && index === array.length - 1}
-          />
-        ))}
-      </div>
+    <Column>
+      {array.length > 0 && (
+        <div>
+          {array.map((subject, index) => (
+            <ResourceSelector
+              key={`${property.subject}${index}`}
+              value={subject}
+              setSubject={(set, handleErr) =>
+                handleSetSubject(set, handleErr, index)
+              }
+              error={errMaybe(index)}
+              setError={setErr}
+              classType={property.classType}
+              handleRemove={() => handleRemove(index)}
+              parent={resource.getSubject()}
+              {...props}
+              autoFocus={lastIsNew && index === array.length - 1}
+            />
+          ))}
+        </div>
+      )}
       <Row justify='space-between'>
         <StyledButton
           disabled={props.disabled}
@@ -104,7 +106,7 @@ export default function InputResourceArray({
         )}
       </Row>
       {err?.index && <ErrMessage>{err?.message}</ErrMessage>}
-    </Row>
+    </Column>
   );
 }
 

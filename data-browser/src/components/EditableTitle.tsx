@@ -22,7 +22,6 @@ export function EditableTitle({
 }: EditableTitleProps): JSX.Element {
   const [text, setText] = useTitle(resource, Infinity, opts);
   const [isEditing, setIsEditing] = useState(false);
-
   const innerRef = useRef<HTMLInputElement>(null);
   const ref = parentRef || innerRef;
 
