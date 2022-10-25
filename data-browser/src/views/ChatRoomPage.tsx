@@ -21,6 +21,7 @@ import { CommitDetail } from '../components/CommitDetail';
 import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
+import { Guard } from '../components/Guard';
 import { editURL } from '../helpers/navigation';
 import { ResourceInline } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
@@ -161,25 +162,27 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           </Button>
         </Detail>
       )}
-      <MessageForm onSubmit={sendMessage}>
-        <MessageInput
-          rows={textAreaHight}
-          ref={inputRef}
-          autoFocus
-          value={newMessageVal}
-          onChange={handleChangeMessageText}
-          placeholder={'type a message'}
-          data-test='message-input'
-        />
-        <SendButton
-          title='Send message [enter]'
-          disabled={disableSend}
-          clean
-          onClick={sendMessage}
-        >
-          Send
-        </SendButton>
-      </MessageForm>
+      <Guard>
+        <MessageForm onSubmit={sendMessage}>
+          <MessageInput
+            rows={textAreaHight}
+            ref={inputRef}
+            autoFocus
+            value={newMessageVal}
+            onChange={handleChangeMessageText}
+            placeholder={'type a message'}
+            data-test='message-input'
+          />
+          <SendButton
+            title='Send message [enter]'
+            disabled={disableSend}
+            clean
+            onClick={sendMessage}
+          >
+            Send
+          </SendButton>
+        </MessageForm>
+      </Guard>
     </FullPageWrapper>
   );
 }
