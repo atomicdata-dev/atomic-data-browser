@@ -6,6 +6,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 - Add folders with list & grid views, allow drag & drop uploads #228
 - Show icons in sidebar
+- Add scoped search, funded by NGI NLnet Discovery #245
 
 ## v0.32.1
 
