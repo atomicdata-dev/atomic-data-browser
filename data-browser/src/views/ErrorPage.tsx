@@ -3,11 +3,11 @@ import { isUnauthorized, useStore } from '@tomic/react';
 import { ContainerWide } from '../components/Containers';
 import { ErrorBlock } from '../components/ErrorLook';
 import { Button } from '../components/Button';
-import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
 import { Column, Row } from '../components/Row';
 import CrashPage from './CrashPage';
+import { Guard } from '../components/Guard';
 
 /**
  * A View for Resource Errors. Not to be confused with the CrashPage, which is
@@ -17,6 +17,11 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
   const { agent } = useSettings();
   const store = useStore();
   const subject = resource.getSubject();
+
+  React.useEffect(() => {
+    // Try again when agent changes
+    store.fetchResource(subject);
+  }, [agent]);
 
   if (isUnauthorized(resource.error)) {
     return (
@@ -35,7 +40,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
           ) : (
             <>
               <p>{"You don't have access to this, try signing in:"}</p>
-              <SignInButton />
+              <Guard />
             </>
           )}
         </Column>

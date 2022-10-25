@@ -36,7 +36,7 @@ export function NewBookmarkButton({
 
   const [url, setUrl] = useState('');
 
-  const [dialogProps, show, hide] = useDialog();
+  const { dialogProps, show, close } = useDialog();
 
   const createResourceAndNavigate = useCreateAndNavigate(klass, parent);
 
@@ -86,7 +86,7 @@ export function NewBookmarkButton({
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={hide} subtle>
+          <Button onClick={close} subtle>
             Cancel
           </Button>
           <Button onClick={onDone} disabled={url.trim() === ''}>
