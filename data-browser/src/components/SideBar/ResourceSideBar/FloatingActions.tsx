@@ -4,7 +4,7 @@ import { FaEllipsisV, FaPlus } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { useNewRoute } from '../../../helpers/useNewRoute';
 import { buildDefaultTrigger } from '../../Dropdown/DefaultTrigger';
-import { IconButton } from '../../IconButton';
+import { IconButton } from '../../IconButton/IconButton';
 import ResourceContextMenu from '../../ResourceContextMenu';
 
 export interface FloatingActionsProps {

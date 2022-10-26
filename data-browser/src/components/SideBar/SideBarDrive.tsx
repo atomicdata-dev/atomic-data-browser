@@ -19,7 +19,7 @@ import { SideBarHeader } from './SideBarHeader';
 import { shortcuts } from '../HotKeyWrapper';
 import { ErrorLook } from '../ErrorLook';
 import { DriveSwitcher } from './DriveSwitcher';
-import { IconButton } from '../IconButton';
+import { IconButton } from '../IconButton/IconButton';
 import { Row } from '../Row';
 
 interface SideBarDriveProps {

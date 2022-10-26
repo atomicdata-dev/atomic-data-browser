@@ -13,7 +13,7 @@ import {
 import { useFocus } from '../helpers/useFocus';
 import { useQueryScopeHandler } from '../hooks/useQueryScope';
 import { shortcuts } from './HotKeyWrapper';
-import { IconButton, IconButtonVariant } from './IconButton';
+import { IconButton, IconButtonVariant } from './IconButton/IconButton';
 
 export interface SearchbarProps {
   onFocus?: React.FocusEventHandler<HTMLInputElement>;

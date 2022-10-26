@@ -13,7 +13,7 @@ import { constructOpenURL } from '../helpers/navigation';
 import { FaEdit, FaSearch } from 'react-icons/fa';
 import { Row } from './Row';
 import { useQueryScopeHandler } from '../hooks/useQueryScope';
-import { IconButton } from './IconButton';
+import { IconButton } from './IconButton/IconButton';
 
 type ParentProps = {
   resource: Resource;
