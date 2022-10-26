@@ -7,6 +7,7 @@ publish
 .nohup
 */lib
 */dist
+*/dev-dist
 */yarn-error.log
 test-results
 */nohup.out

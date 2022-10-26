@@ -39,7 +39,8 @@ export const zIndex = {
   sidebar: 10,
   dialog: 100,
   dropdown: 200,
-  toast: 300,
+  networkIndicator: 300,
+  toast: 400,
 };
 
 /** Default animation duration in ms */

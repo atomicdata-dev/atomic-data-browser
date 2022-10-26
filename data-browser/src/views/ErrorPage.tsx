@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { isUnauthorized, useStore } from '@tomic/react';
-import { ContainerNarrow } from '../components/Containers';
-import { ErrorLook } from '../components/ErrorLook';
+import { ContainerWide } from '../components/Containers';
+import { ErrorBlock } from '../components/ErrorLook';
 import { Button } from '../components/Button';
 import { SignInButton } from '../components/SignInButton';
 import { useSettings } from '../helpers/AppSettings';
 import { ResourcePageProps } from './ResourcePage';
-import { Row } from '../components/Row';
+import { Column, Row } from '../components/Row';
 import CrashPage from './CrashPage';
 
 /**
@@ -20,43 +20,54 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
 
   if (isUnauthorized(resource.error)) {
     return (
-      <ContainerNarrow>
-        <h1>Unauthorized</h1>
-        {agent ? (
-          <>
-            <p>{resource.error?.message}</p>
-            <Button onClick={() => store.fetchResource(subject)}>Retry</Button>
-          </>
-        ) : (
-          <>
-            <p>{"You don't have access to this, try signing in:"}</p>
-            <SignInButton />
-          </>
-        )}
-      </ContainerNarrow>
+      <ContainerWide>
+        <Column>
+          <h1>Unauthorized</h1>
+          {agent ? (
+            <>
+              <ErrorBlock error={resource.error!} />
+              <span>
+                <Button onClick={() => store.fetchResource(subject)}>
+                  Retry
+                </Button>
+              </span>
+            </>
+          ) : (
+            <>
+              <p>{"You don't have access to this, try signing in:"}</p>
+              <SignInButton />
+            </>
+          )}
+        </Column>
+      </ContainerWide>
     );
   }
 
   return (
-    <ContainerNarrow>
-      <h1>⚠️ Error opening {resource.getSubject()}</h1>
-      <ErrorLook>{resource.error?.message}</ErrorLook>
-      <Row>
-        <Button
-          onClick={() => store.fetchResource(subject, { setLoading: true })}
-        >
-          Retry
-        </Button>
-        <Button
-          onClick={() =>
-            store.fetchResource(subject, { fromProxy: true, setLoading: true })
-          }
-          title={`Fetches the URL from your current Atomic-Server (${store.getServerUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
-        >
-          Use proxy
-        </Button>
-      </Row>
-    </ContainerNarrow>
+    <ContainerWide>
+      <Column>
+        <h1>Could not open {resource.getSubject()}</h1>
+        <ErrorBlock error={resource.error!} />
+        <Row>
+          <Button
+            onClick={() => store.fetchResource(subject, { setLoading: true })}
+          >
+            Retry
+          </Button>
+          <Button
+            onClick={() =>
+              store.fetchResource(subject, {
+                fromProxy: true,
+                setLoading: true,
+              })
+            }
+            title={`Fetches the URL from your current Atomic-Server (${store.getServerUrl()}), instead of from the actual URL itself. Can be useful if the URL is down, but the resource is cached in your server.`}
+          >
+            Use proxy
+          </Button>
+        </Row>
+      </Column>
+    </ContainerWide>
   );
 }
 

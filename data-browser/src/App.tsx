@@ -22,6 +22,15 @@ import toast from 'react-hot-toast';
 import { DialogContainer } from './components/Dialog/DialogContainer';
 import { registerHandlers } from './handlers';
 import { ErrorBoundary } from './views/ErrorPage';
+import { NetworkIndicator } from './components/NetworkIndicator';
+
+function fixDevUrl(url: string) {
+  if (isDev()) {
+    return url.replace('5173', '9883');
+  }
+
+  return url;
+}
 
 /** Initialize the store */
 const store = new Store();
@@ -30,11 +39,8 @@ const store = new Store();
  * In dev envs, we want to default to port 9883
  */
 const currentOrigin = window.location.origin;
-store.setServerUrl(
-  currentOrigin === 'http://localhost:5173'
-    ? 'http://localhost:9883'
-    : currentOrigin,
-);
+
+store.setServerUrl(fixDevUrl(currentOrigin));
 
 /** Show an error when things go wrong */
 store.errorHandler = e => {
@@ -86,16 +92,17 @@ function App(): JSX.Element {
           <BrowserRouter basename='/'>
             <HotKeysWrapper>
               <ThemeWrapper>
+                {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
+                <GlobalStyle />
                 {/* @ts-ignore fallback component type too strict */}
                 <ErrBoundary FallbackComponent={CrashPage}>
-                  {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
-                  <GlobalStyle />
                   <Toaster />
                   <MetaSetter />
                   <DialogContainer>
                     <NavWrapper>
                       <AppRoutes />
                     </NavWrapper>
+                    <NetworkIndicator />
                   </DialogContainer>
                 </ErrBoundary>
               </ThemeWrapper>
