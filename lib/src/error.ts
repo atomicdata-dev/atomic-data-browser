@@ -28,6 +28,7 @@ export function isUnauthorized(error?: Error): boolean {
 export class AtomicError extends Error {
   public type: ErrorType;
 
+  /** Creates an AtomicError. The message can be either a plain string, or a JSON-AD Error Resource */
   public constructor(message: string, type = ErrorType.Client) {
     super(message);
     // https://stackoverflow.com/questions/31626231/custom-error-class-in-typescript

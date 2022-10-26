@@ -1,4 +1,4 @@
-import { Agent, getTimestampNow, HeadersObject, signToBase64 } from '.';
+import { Agent, getTimestampNow, HeadersObject, signToBase64, Store } from '.';
 
 /** Returns a JSON-AD resource of an Authentication */
 export async function createAuthentication(subject: string, agent: Agent) {
@@ -68,3 +68,40 @@ export async function signRequest(
 
   return headers as HeadersObject;
 }
+
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
+const setCookieExpires = (
+  name: string,
+  value: string,
+  store: Store,
+  expires_in_ms = ONE_DAY,
+) => {
+  const expiry = new Date(Date.now() + expires_in_ms).toUTCString();
+  const encodedValue = encodeURIComponent(value);
+
+  const domain = new URL(store.getServerUrl()).hostname;
+
+  const cookieString = `${name}=${encodedValue};Expires=${expiry};Domain=${domain};SameSite=Lax;path=/`;
+  document.cookie = cookieString;
+};
+
+/** Sets a cookie for the current Agent, signing the Authentication. It expires after some default time. */
+export const setCookieAuthentication = (store: Store, agent: Agent) => {
+  createAuthentication(store.getServerUrl(), agent).then(auth => {
+    setCookieExpires('atomic_session', btoa(JSON.stringify(auth)), store);
+  });
+};
+
+/** Returns false if the auth cookie is not set / expired */
+export const checkAuthenticationCookie = (): boolean => {
+  const matches = document.cookie.match(
+    /^(.*;)?\s*atomic_session\s*=\s*[^;]+(.*)?$/,
+  );
+
+  if (!matches) {
+    return false;
+  }
+
+  return matches.length > 0;
+};
