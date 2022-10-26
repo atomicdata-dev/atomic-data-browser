@@ -33,6 +33,7 @@ const publicReadRight =
 const contextMenu = '[data-test="context-menu"]';
 const addressBar = '[data-test="address-bar"]';
 const defaultDevServer = 'http://localhost:9883';
+const currentDialogOkButton = 'dialog[open] >> footer >> text=Ok';
 // Depends on server index throttle time, `commit_monitor.rs`
 const REBUILD_INDEX_TIME = 6000;
 
@@ -120,7 +121,7 @@ test.describe('data-browser', async () => {
     await page.locator('[data-test="sidebar-new-resource"]').click();
     await page.locator('button:has-text("folder")').click();
     await page.locator('[placeholder="New Folder"]').fill('Not This Folder');
-    await page.locator('text=Ok').nth(1).click();
+    await page.locator(currentDialogOkButton).click();
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -135,7 +136,7 @@ test.describe('data-browser', async () => {
     // Create folder called 'This folder'
     await page.locator('button:has-text("folder")').click();
     await page.locator('[placeholder="New Folder"]').fill('This Folder');
-    await page.locator('text=Ok').nth(1).click();
+    await page.locator(currentDialogOkButton).click();
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -382,7 +383,7 @@ test.describe('data-browser', async () => {
     const input = page.locator('[placeholder="https\\:\\/\\/example\\.com"]');
     await input.click();
     await input.fill('https://example.com');
-    await page.locator('dialog[open] >> footer >> text=Ok').click();
+    await page.locator(currentDialogOkButton).click();
 
     await expect(page.locator('text=This domain is ')).toBeVisible();
   });
@@ -398,7 +399,7 @@ test.describe('data-browser', async () => {
     const input = page.locator('[placeholder="New Folder"]');
     await input.click();
     await input.fill('RAM Downloads');
-    await page.locator('dialog[open] >> footer >> text=Ok').click();
+    await page.locator(currentDialogOkButton).click();
 
     await expect(page.locator('h1:text("Ram Downloads")')).toBeVisible();
 
