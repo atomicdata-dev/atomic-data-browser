@@ -3,6 +3,7 @@
 
 import {
   AtomicError,
+  checkAuthenticationCookie,
   Commit,
   ErrorType,
   parseCommit,
@@ -10,12 +11,13 @@ import {
   parseJsonADResource,
   Resource,
   serializeDeterministically,
+  setCookieAuthentication,
+  signRequest,
   Store,
 } from './index';
 
 /** Works both in node and the browser */
 import fetch from 'cross-fetch';
-import { signRequest } from './authentication';
 
 /**
  * One key-value pair per HTTP Header. Since we need to support both browsers
@@ -55,8 +57,16 @@ export async function fetchResource(
     // Sign the request if there is an agent present
     const agent = store?.getAgent();
 
-    if (agent) {
-      await signRequest(subject, agent, requestHeaders);
+    if (agent && store) {
+      // Cookies only work for same-origin requests right now
+      // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
+      if (subject.startsWith(window.location.origin)) {
+        if (!checkAuthenticationCookie()) {
+          setCookieAuthentication(store, agent);
+        }
+      } else {
+        await signRequest(subject, agent, requestHeaders);
+      }
     }
 
     let url = subject;
@@ -88,10 +98,7 @@ export async function fetchResource(
         );
       }
     } else if (response.status === 401) {
-      throw new AtomicError(
-        `You don't have the rights to do view ${subject}. Are you signed in with the right Agent? More detailed error from server: ${body}`,
-        ErrorType.Unauthorized,
-      );
+      throw new AtomicError(body, ErrorType.Unauthorized);
     } else if (response.status === 500) {
       throw new AtomicError(body, ErrorType.Server);
     } else if (response.status === 404) {
@@ -194,12 +201,9 @@ export async function uploadFiles(
     throw new AtomicError(`No agent present. Can't sign the upload request.`);
   }
 
-  const signedHeaders = await signRequest(uploadURL.toString(), agent, {});
-
   const options = {
     method: 'POST',
     body: formData,
-    headers: signedHeaders,
   };
 
   const resp = await fetch(uploadURL.toString(), options);

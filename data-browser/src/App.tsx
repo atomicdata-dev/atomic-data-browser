@@ -8,7 +8,6 @@ import {
   urls,
 } from '@tomic/react';
 
-import { setCookieAuthentication } from './helpers/cookieAuthentication';
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { AppRoutes } from './routes/Routes';
 import { NavWrapper } from './components/Navigation';
@@ -63,7 +62,6 @@ const agent = initAgentFromLocalStorage();
 
 if (agent) {
   store.setAgent(agent);
-  setCookieAuthentication(store, agent);
 }
 
 /** Fetch all the Properties and Classes - this helps speed up the app. */

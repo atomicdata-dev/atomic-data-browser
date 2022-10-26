@@ -1,3 +1,4 @@
+import { setCookieAuthentication } from './authentication';
 import { EventManager } from './EventManager';
 import {
   Agent,
@@ -165,6 +166,9 @@ export class Store {
 
     // Use WebSocket if available, else use HTTP(S)
     const ws = this.getWebSocketForSubject(subject);
+
+    // TEMP!!
+    opts.noWebSocket = true;
 
     if (!opts.noWebSocket && ws?.readyState === WebSocket.OPEN) {
       fetchWebSocket(ws, subject);
@@ -403,6 +407,7 @@ export class Store {
     this.agent = agent;
 
     if (agent) {
+      setCookieAuthentication(this, agent);
       this.webSockets.forEach(ws => {
         authenticate(ws, this);
       });

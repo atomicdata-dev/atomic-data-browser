@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Agent, useStore } from '@tomic/react';
+import { Agent } from '@tomic/react';
 import { FaCog, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
 
 import { useSettings } from '../helpers/AppSettings';
@@ -12,7 +12,6 @@ import {
 import { ButtonInput, Button } from '../components/Button';
 import { Margin } from '../components/Card';
 import Field from '../components/forms/Field';
-import { setCookieAuthentication } from '../helpers/cookieAuthentication';
 import { ResourceInline } from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 import { AtomicLink } from '../components/AtomicLink';
@@ -29,7 +28,6 @@ const SettingsAgent: React.FunctionComponent = () => {
   const [advanced, setAdvanced] = useState(false);
   const [secret, setSecret] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
-  const store = useStore();
 
   // When there is an agent, set the advanced values
   // Otherwise, reset the secret value
@@ -83,7 +81,6 @@ const SettingsAgent: React.FunctionComponent = () => {
   function setAgentIfChanged(oldAgent: Agent | undefined, newAgent: Agent) {
     if (JSON.stringify(oldAgent) !== JSON.stringify(newAgent)) {
       setAgent(newAgent);
-      setCookieAuthentication(store, newAgent);
     }
   }
 
