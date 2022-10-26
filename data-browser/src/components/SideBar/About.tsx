@@ -3,7 +3,7 @@ import { Logo } from '../Logo';
 import { SideBarHeader } from './SideBarHeader';
 import React from 'react';
 import { FaGithub, FaDiscord, FaBook } from 'react-icons/fa';
-import { IconButtonLink } from '../IconButton';
+import { IconButtonLink } from '../IconButton/IconButton';
 
 interface AboutItem {
   icon: React.ReactNode;
