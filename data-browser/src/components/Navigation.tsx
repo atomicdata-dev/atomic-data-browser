@@ -14,6 +14,7 @@ import { shortcuts } from './HotKeyWrapper';
 import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTrigger';
 import { NavBarSpacer } from './NavBarSpacer';
 import { Searchbar } from './Searchbar';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -60,20 +61,26 @@ const Content = styled.div<ContentProps>`
 `;
 
 /** Persistently shown navigation bar */
-function NavBar() {
+function NavBar(): JSX.Element {
   const [subject] = useCurrentSubject();
   const navigate = useNavigate();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } =
     useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
 
-  /** Checks if the app is running in PWA / stand alone mode or in a browser */
-  const isInStandaloneMode = () =>
-    window.matchMedia('(display-mode: standalone)').matches ||
-    // @ts-ignore standalone doesn't exist, but it does
-    window.navigator.standalone ||
-    document.referrer.includes('android-app://') ||
-    isRunningInTauri();
+  const machesStandalone = useMediaQuery(
+    '(display-mode: standalone) or (display-mode: fullscreen)',
+  );
+
+  const isInStandaloneMode = React.useMemo<boolean>(
+    () =>
+      machesStandalone ||
+      //@ts-ignore
+      window.navigator.standalone ||
+      document.referrer.includes('android-app://') ||
+      isRunningInTauri(),
+    [machesStandalone],
+  );
 
   /** Hide buttons if the input element is quite small */
   function maybeHideButtons(event: React.FocusEvent<HTMLInputElement>) {
@@ -101,19 +108,19 @@ function NavBar() {
           >
             <FaBars />
           </ButtonBar>
-          {isInStandaloneMode() && (
+          {isInStandaloneMode && (
             <>
               <ButtonBar
                 type='button'
                 title='Go back'
-                onClick={() => navigate(1)}
+                onClick={() => navigate(-1)}
               >
                 <FaArrowLeft />
               </ButtonBar>{' '}
               <ButtonBar
                 type='button'
                 title='Go forward'
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(1)}
               >
                 <FaArrowRight />
               </ButtonBar>

@@ -3,14 +3,12 @@ import * as React from 'react';
 import { useHover } from '../../helpers/useHover';
 import { useSettings } from '../../helpers/AppSettings';
 import { useWindowSize } from '../../helpers/useWindowSize';
-import { appMenuItems } from './menuItems';
-import { SideBarMenuItem } from './SideBarMenuItem';
 import { SideBarDrive } from './SideBarDrive';
-import { SideBarHeader } from './SideBarHeader';
 import { DragAreaBase, useResizable } from '../../hooks/useResizable';
 import { useCombineRefs } from '../../hooks/useCombineRefs';
-import { About } from './About';
 import { NavBarSpacer } from '../NavBarSpacer';
+import { AppMenu } from './AppMenu';
+import { About } from './About';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
@@ -57,17 +55,10 @@ export function SideBar(): JSX.Element {
         <NavBarSpacer position='top' />
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}
         <SideBarDriveMemo handleClickItem={closeSideBar} key={drive} />
-        <SideBarBottom>
-          <SideBarHeader>App</SideBarHeader>
-          {appMenuItems.map(p => (
-            <SideBarMenuItem
-              key={p.label}
-              {...p}
-              handleClickItem={closeSideBar}
-            />
-          ))}{' '}
+        <MenuWrapper>
+          <AppMenu onItemClick={closeSideBar} />
           <About />
-        </SideBarBottom>
+        </MenuWrapper>
         <NavBarSpacer baseMargin='1rem' position='bottom' />
         <SideBarDragArea ref={dragAreaRef} isDragging={isDragging} />
       </SideBarStyled>
@@ -112,7 +103,7 @@ const SideBarStyled = styled('nav').attrs<SideBarStyledProps>(p => ({
   overflow-x: hidden;
 `;
 
-const SideBarBottom = styled('div')`
+const MenuWrapper = styled.div`
   margin-top: auto;
   flex-direction: column;
   justify-items: flex-end;

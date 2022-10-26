@@ -1,15 +1,6 @@
 import { isValidURL } from '@tomic/lib';
 import { useCallback } from 'react';
-import { isDev } from './helpers/isDev';
 import { useLocalStorage, useStore } from './index';
-
-function fixDevUrl(url: string) {
-  if (isDev()) {
-    return url.replace('5173', '9883');
-  }
-
-  return url;
-}
 
 /**
  * A hook for using and adjusting the Server URL. Also saves to localStorage. If
@@ -20,7 +11,7 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
   const store = useStore();
   const [serverUrl, setServerUrl] = useLocalStorage<string>(
     'serverUrl',
-    store.getServerUrl() ?? fixDevUrl(window?.location.origin),
+    store.getServerUrl(),
   );
 
   const set = useCallback(

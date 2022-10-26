@@ -97,8 +97,11 @@ export function Searchbar({
   );
 
   useEffect(() => {
-    setInput(query?.toString());
-    setInputFocus();
+    setInput(query ?? '');
+
+    if (query || scope) {
+      setInputFocus();
+    }
   }, [query, scope]);
 
   return (

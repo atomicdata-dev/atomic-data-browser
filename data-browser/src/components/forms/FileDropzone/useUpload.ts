@@ -14,6 +14,10 @@ export interface UseUploadResult {
   error: Error | undefined;
 }
 
+const opts = {
+  commit: true,
+};
+
 export function useUpload(parentResource: Resource): UseUploadResult {
   const store = useStore();
   const [isUploading, setIsUploading] = useState(false);
@@ -21,6 +25,7 @@ export function useUpload(parentResource: Resource): UseUploadResult {
   const [subResources, setSubResources] = useArray(
     parentResource,
     properties.subResources,
+    opts,
   );
 
   const upload = useCallback(
