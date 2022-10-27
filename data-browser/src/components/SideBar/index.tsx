@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import * as React from 'react';
 import { useHover } from '../../helpers/useHover';
 import { useSettings } from '../../helpers/AppSettings';
-import { useWindowSize } from '../../helpers/useWindowSize';
 import { SideBarDrive } from './SideBarDrive';
 import { DragAreaBase, useResizable } from '../../hooks/useResizable';
 import { useCombineRefs } from '../../hooks/useCombineRefs';
 import { NavBarSpacer } from '../NavBarSpacer';
 import { AppMenu } from './AppMenu';
 import { About } from './About';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 /** Amount of pixels where the sidebar automatically shows */
 export const SIDEBAR_TOGGLE_WIDTH = 600;
@@ -18,17 +18,14 @@ const SideBarDriveMemo = React.memo(SideBarDrive);
 export function SideBar(): JSX.Element {
   const { drive, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLElement>(sideBarLocked);
-  const windowSize = useWindowSize();
+  // Check if the window is small enough to hide the sidebar
+  const isWideScreen = useMediaQuery(`(min-width: ${SIDEBAR_TOGGLE_WIDTH}px)`);
 
   const { size, targetRef, dragAreaRef, isDragging } = useResizable(
     300,
     200,
     2000,
   );
-
-  const isWideScreen = windowSize.width
-    ? windowSize.width > SIDEBAR_TOGGLE_WIDTH
-    : false;
 
   const mountRefs = useCombineRefs([ref, targetRef]);
 

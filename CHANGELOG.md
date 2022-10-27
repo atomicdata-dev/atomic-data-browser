@@ -9,6 +9,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add scoped search, funded by NGI NLnet Discovery #245
 - Make web app installable #30
 - Add cookie based authentication #241
+- Get rid of `useWindowSize` #256
 
 ## v0.32.1
 
