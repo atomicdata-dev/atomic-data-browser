@@ -1,3 +1,4 @@
+import { instances } from './urls';
 import {
   Agent,
   CommitBuilder,
@@ -76,6 +77,10 @@ export class Resource {
     }
 
     if (writeArray && valToArray(writeArray).includes(agent)) {
+      return [true, undefined];
+    }
+
+    if (writeArray && valToArray(writeArray).includes(instances.publicAgent)) {
       return [true, undefined];
     }
 
