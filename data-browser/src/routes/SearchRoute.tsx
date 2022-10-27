@@ -9,16 +9,18 @@ import { ErrorLook } from '../components/ErrorLook';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { useQueryScopeHandler } from '../hooks/useQueryScope';
+import { useSettings } from '../helpers/AppSettings';
 
 /** Full text search route */
 export function Search(): JSX.Element {
   const [query] = useSearchQuery();
+  const { drive } = useSettings();
   const { scope } = useQueryScopeHandler();
 
   const [selectedIndex, setSelected] = useState(0);
   const { results, loading, error } = useServerSearch(query, {
     debounce: 0,
-    scope,
+    scope: scope || drive,
   });
   const navigate = useNavigate();
   const htmlElRef = useRef<HTMLDivElement | null>(null);
