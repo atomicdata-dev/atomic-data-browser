@@ -167,9 +167,6 @@ export class Store {
     // Use WebSocket if available, else use HTTP(S)
     const ws = this.getWebSocketForSubject(subject);
 
-    // TEMP!!
-    opts.noWebSocket = true;
-
     if (!opts.noWebSocket && ws?.readyState === WebSocket.OPEN) {
       fetchWebSocket(ws, subject);
     } else {
