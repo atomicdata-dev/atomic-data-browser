@@ -1,4 +1,5 @@
 import {
+  AtomicError,
   properties,
   Resource,
   uploadFiles,
@@ -44,7 +45,7 @@ export function useUpload(parentResource: Resource): UseUploadResult {
 
         return allUploaded;
       } catch (e) {
-        setError(e);
+        setError(new AtomicError(e?.message));
         setIsUploading(false);
 
         return [];

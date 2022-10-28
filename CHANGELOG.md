@@ -11,6 +11,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add cookie based authentication #241
 - Get rid of `useWindowSize` #256
 - `canWrite` check should succeed for `publicAgent` #252
+- Improve error look & text
 
 ## v0.32.1
 

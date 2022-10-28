@@ -201,9 +201,14 @@ export async function uploadFiles(
     throw new AtomicError(`No agent present. Can't sign the upload request.`);
   }
 
+  // TODO: Use cookie authentication here if possible
+  // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
+  const signedHeaders = await signRequest(uploadURL.toString(), agent, {});
+
   const options = {
     method: 'POST',
     body: formData,
+    headers: signedHeaders,
   };
 
   const resp = await fetch(uploadURL.toString(), options);
