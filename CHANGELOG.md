@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## UNRELEASED
+## v0.34.0
 
 - Add folders with list & grid views, allow drag & drop uploads #228
 - Show icons in sidebar
