@@ -2,10 +2,12 @@
 
 declare global {
   interface Window {
-    __TAURI__: unknown;
+    __TAURI_METADATA__: unknown;
   }
 }
 
 export function isRunningInTauri(): boolean {
-  return typeof window !== 'undefined' && window.__TAURI__ !== undefined;
+  return (
+    typeof window !== 'undefined' && window.__TAURI_METADATA__ !== undefined
+  );
 }
