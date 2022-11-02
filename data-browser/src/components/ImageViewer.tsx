@@ -29,8 +29,10 @@ const ImageViewerStyled = styled.img<Props>`
   z-index: ${t => (t.showFull ? '100' : 'auto')};
   object-fit: contain;
   /* Depends on navbarheight */
-  top: ${t => (t.showFull ? '2.5rem' : '0')};
+  /* top: ${t => (t.showFull ? '2.5rem' : '0')}; */
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: ${t => t.theme.colors.bg};
 `;
