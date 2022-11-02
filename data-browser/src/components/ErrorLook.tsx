@@ -2,6 +2,7 @@ import { lighten } from 'polished';
 import styled from 'styled-components';
 import React from 'react';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import { Column } from './Row';
 
 export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
@@ -20,13 +21,15 @@ export function ErrorBlock({ error, showTrace }: ErrorBlockProps): JSX.Element {
         <FaExclamationTriangle />
         Something went wrong
       </BiggerText>
-      <CodeBlock>{error.message}</CodeBlock>
-      {showTrace && (
-        <>
-          <span>Stack trace:</span>
-          <CodeBlock>{error.stack}</CodeBlock>
-        </>
-      )}
+      <Column>
+        <CodeBlock>{error.message}</CodeBlock>
+        {showTrace && (
+          <>
+            Stack trace:
+            <CodeBlock>{error.stack}</CodeBlock>
+          </>
+        )}
+      </Column>
     </ErrorLookBig>
   );
 }
