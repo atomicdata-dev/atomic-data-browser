@@ -23,11 +23,11 @@ export function Search(): JSX.Element {
     scope: scope || drive,
   });
   const navigate = useNavigate();
-  const htmlElRef = useRef<HTMLDivElement | null>(null);
+  const resultsDiv = useRef<HTMLDivElement | null>(null);
 
   function selectResult(index: number) {
     setSelected(index);
-    const currentElm = htmlElRef?.current?.children[index];
+    const currentElm = resultsDiv?.current?.children[index];
     currentElm?.scrollIntoView({ block: 'nearest' });
   }
 
@@ -36,7 +36,7 @@ export function Search(): JSX.Element {
     e => {
       e.preventDefault();
       const subject =
-        htmlElRef?.current?.children[selectedIndex]?.getAttribute('about');
+        resultsDiv?.current?.children[selectedIndex]?.getAttribute('about');
 
       if (subject) {
         //@ts-ignore blur does exist though
@@ -80,9 +80,10 @@ export function Search(): JSX.Element {
   }
 
   return (
-    <ContainerNarrow ref={htmlElRef}>
-      {error && <ErrorLook>{error.message}</ErrorLook>}
-      {query?.length !== 0 && results.length !== 0 ? (
+    <ContainerNarrow>
+      {error ? (
+        <ErrorLook>{error.message}</ErrorLook>
+      ) : query?.length !== 0 && results.length !== 0 ? (
         <>
           <Heading>
             <FaSearch />
@@ -91,15 +92,17 @@ export function Search(): JSX.Element {
               <QueryText>{query}</QueryText>
             </span>
           </Heading>
-          {results.map((subject, index) => (
-            <ResourceCard
-              initialInView={index < 5}
-              small
-              subject={subject}
-              key={subject}
-              highlight={index === selectedIndex}
-            />
-          ))}
+          <div ref={resultsDiv}>
+            {results.map((subject, index) => (
+              <ResourceCard
+                initialInView={index < 5}
+                small
+                subject={subject}
+                key={subject}
+                highlight={index === selectedIndex}
+              />
+            ))}
+          </div>
         </>
       ) : (
         <>{message}</>

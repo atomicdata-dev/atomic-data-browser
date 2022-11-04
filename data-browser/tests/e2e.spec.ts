@@ -107,10 +107,11 @@ test.describe('data-browser', async () => {
     await editProfileAndCommit(page);
   });
 
-  test('search', async ({ page }) => {
-    await page.fill(addressBar, 'setup');
-    await page.click('text=setup');
-    await expect(page.locator('text=Use this Invite')).toBeVisible();
+  test('text search', async ({ page }) => {
+    await page.fill(addressBar, 'welcome');
+    await expect(page.locator('text=Welcome to your')).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('text=resources:')).toBeVisible();
   });
 
   test('scoped search', async ({ page }) => {
