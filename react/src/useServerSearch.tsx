@@ -19,6 +19,12 @@ interface SearchOptsHook extends SearchOpts {
   debounce?: number;
 }
 
+const noResultsResult = {
+  results: [],
+  loading: false,
+  error: undefined,
+};
+
 /** Pass a query to search the current server */
 export function useServerSearch(
   query: string | undefined,
@@ -53,6 +59,15 @@ export function useServerSearch(
     resource.loading,
   ]);
 
+  const result = useMemo(
+    () => ({
+      results,
+      loading: resource.loading,
+      error: resource.error,
+    }),
+    [results, resource.loading, resource.error],
+  );
+
   if (!query) {
     return {
       results: emptyArray,
@@ -62,5 +77,5 @@ export function useServerSearch(
   }
 
   // Return the width so we can use it in our components
-  return { results, loading: resource.loading, error: resource.error };
+  return result;
 }

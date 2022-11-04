@@ -380,7 +380,6 @@ export class Store {
       throw Error(`Property ${subject} cannot be loaded: ${resource.error}`);
     }
 
-    const prop = new Property();
     const datatypeUrl = resource.get(urls.properties.datatype);
 
     if (datatypeUrl === undefined) {
@@ -406,12 +405,16 @@ export class Store {
     }
 
     const classTypeURL = resource.get(urls.properties.classType)?.toString();
-    prop.classType = classTypeURL;
-    prop.shortname = shortname.toString();
-    prop.description = description.toString();
-    prop.datatype = datatypeFromUrl(datatypeUrl.toString());
 
-    return prop;
+    const propery: Property = {
+      subject,
+      classType: classTypeURL,
+      shortname: shortname.toString(),
+      description: description.toString(),
+      datatype: datatypeFromUrl(datatypeUrl.toString()),
+    };
+
+    return propery;
   }
 
   /**
@@ -757,22 +760,22 @@ export class Store {
  * A Property represents a relationship between a Subject and its Value.
  * https://atomicdata.dev/classes/Property
  */
-export class Property {
-  public subject: string;
+export interface Property {
+  subject: string;
   /** https://atomicdata.dev/properties/datatype */
-  public datatype: Datatype;
+  datatype: Datatype;
   /** https://atomicdata.dev/properties/shortname */
-  public shortname: string;
+  shortname: string;
   /** https://atomicdata.dev/properties/description */
-  public description: string;
+  description: string;
   /** https://atomicdata.dev/properties/classType */
-  public classType?: string;
+  classType?: string;
   /** If the Property cannot be found or parsed, this will contain the error */
-  public error?: Error;
+  error?: Error;
   /** https://atomicdata.dev/properties/isDynamic */
-  public isDynamic?: boolean;
+  isDynamic?: boolean;
   /** When the Property is still awaiting a server response */
-  public loading?: boolean;
+  loading?: boolean;
 }
 
 export interface FetchOpts {

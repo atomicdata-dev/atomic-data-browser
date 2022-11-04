@@ -1,0 +1,9 @@
+{
+	"StyledTheme": {
+  "prefix": "theme-interpolation",
+  "body": [
+    "${p => p.theme.${1:colors}.$2};"
+  ],
+  "description": "Insert Theme interpolation in styled-component"
+}
+}

@@ -29,6 +29,7 @@ import { FolderPage } from './FolderPage';
 import { ArticlePage } from './Article';
 import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
 import { getTransitionName } from '../helpers/transitionName';
+import { TablePage } from './TablePage';
 
 type Props = {
   subject: string;
@@ -114,6 +115,8 @@ function selectComponent(klass: string) {
       return FolderPage;
     case urls.classes.article:
       return ArticlePage;
+    case urls.classes.table:
+      return TablePage;
     default:
       return ResourcePageDefault;
   }

@@ -311,10 +311,6 @@ export function useValue(
     store.notifyError(e);
   }
 
-  if (value === undefined) {
-    return [undefined, validateAndSet];
-  }
-
   return [value, validateAndSet];
 }
 
