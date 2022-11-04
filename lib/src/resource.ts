@@ -383,6 +383,8 @@ export class Resource {
    * Set a Property, Value combination and perform a validation. Will throw if
    * property is not valid for the datatype. Will fetch the datatype if it's not
    * available. Adds the property to the commitbuilder.
+   *
+   * When undefined is passed as value, the property is removed from the resource.
    */
   public async set(
     prop: string,
@@ -402,6 +404,12 @@ export class Resource {
     if (validate) {
       const fullProp = await store.getProperty(prop);
       validateDatatype(value, fullProp.datatype);
+    }
+
+    if (value === undefined) {
+      this.removePropVal(prop);
+
+      return;
     }
 
     this.propvals.set(prop, value);

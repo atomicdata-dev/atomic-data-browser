@@ -25,6 +25,8 @@ export const classes = {
     grid: 'https://atomicdata.dev/display-style/grid',
     list: 'https://atomicdata.dev/display-style/list',
   },
+  // TODO: Change
+  table: 'http://localhost:9883/class/u1f8218a0up',
 };
 
 /** List of commonly used Atomic Data Properties. */
