@@ -3,6 +3,12 @@
     "compilerOptions": {
         "composite": true,
         "outDir": "./dist",
+        "lib": [
+            "ES6",
+            "ES7",
+            "ESNext",
+            "DOM"
+        ],
         "rootDir": ".",
         "jsx": "react"
     },
