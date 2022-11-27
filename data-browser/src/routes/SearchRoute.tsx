@@ -93,7 +93,7 @@ export function Search(): JSX.Element {
   }
 
   if (loading) {
-    message = 'Loading results...';
+    message = 'Loading results for';
   }
 
   if (results.length > 0) {

@@ -14,6 +14,7 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaInfo,
+  FaPlus,
   FaTable,
   FaThLarge,
 } from 'react-icons/fa';
@@ -168,8 +169,9 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
         </Button>
         {isClass && (
           <NewInstanceButton
+            IconComponent={FaPlus}
             subtle
-            icon
+            icon={true}
             klass={valueFilter}
             parent={resource.getSubjectNoParams()}
           />
