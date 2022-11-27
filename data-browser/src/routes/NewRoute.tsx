@@ -84,15 +84,6 @@ function New(): JSX.Element {
               </>
             )}
           </h1>
-          <div>
-            <ResourceSelector
-              setSubject={setClassInput}
-              value={classInput}
-              error={error}
-              setError={setError}
-              classType={urls.classes.class}
-            />
-          </div>
           <Row wrapItems>
             {classInput && (
               <Button onClick={handleClassSet}>new {className}</Button>
@@ -109,6 +100,15 @@ function New(): JSX.Element {
               </>
             )}
           </Row>
+          <div>
+            <ResourceSelector
+              setSubject={setClassInput}
+              value={classInput}
+              error={error}
+              setError={setError}
+              classType={urls.classes.class}
+            />
+          </div>
           <FileDropzoneInput
             parentResource={parentResource}
             onFilesUploaded={onUploadComplete}

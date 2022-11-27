@@ -9,8 +9,9 @@ import { ResourceInline } from '../views/ResourceInline';
 import { ContainerNarrow } from '../components/Containers';
 import { editURL } from '../helpers/navigation';
 import { ErrorLook } from '../components/ErrorLook';
-import { Guard, SettingsAgent } from '../components/Guard';
+import { Guard } from '../components/Guard';
 import { useNavigate } from 'react-router';
+import { SettingsAgent } from '../components/SettingsAgent';
 
 export function SettingsAgentRoute() {
   const { agent, setAgent } = useSettings();

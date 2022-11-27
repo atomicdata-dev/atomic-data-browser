@@ -10,18 +10,22 @@ interface RegisterResult {
 }
 
 // Allow users to register and create a drive on the `/register` route.
-export function useRegister(): (userName: string) => Promise<RegisterResult> {
+export function useRegister(): (
+  userName: string,
+  email: string,
+) => Promise<RegisterResult> {
   const store = useStore();
 
   const register = useCallback(
     /** Returns redirect URL of new drie on success */
-    async (name: string): Promise<RegisterResult> => {
+    async (name: string, email: string): Promise<RegisterResult> => {
       const keypair = await generateKeyPair();
       const newAgent = new Agent(keypair.privateKey);
       const publicKey = await newAgent.getPublicKey();
       const url = new URL('/register', store.getServerUrl());
       url.searchParams.set('name', name);
       url.searchParams.set('public-key', publicKey);
+      url.searchParams.set('email', email);
       const resource = await store.getResourceAsync(url.toString());
       const destination = resource.get(
         properties.redirect.destination,

@@ -69,29 +69,33 @@ export function Search(): JSX.Element {
     { enableOnTags: ['INPUT'] },
   );
 
-  let message = 'No hits';
+  let message = 'No results for';
 
   if (query?.length === 0) {
     message = 'Enter a search query';
   }
 
   if (loading) {
-    message = 'Loading results...';
+    message = 'Loading results for';
+  }
+
+  if (results.length > 0) {
+    message = `${results.length} results for`;
   }
 
   return (
     <ContainerNarrow>
-      {error ? (
-        <ErrorLook>{error.message}</ErrorLook>
-      ) : query?.length !== 0 && results.length !== 0 ? (
-        <>
-          <Heading>
-            <FaSearch />
-            <span>
-              {results.length} {results.length > 1 ? 'Results' : 'Result'} for{' '}
-              <QueryText>{query}</QueryText>
-            </span>
-          </Heading>
+      <>
+        <Heading>
+          <FaSearch />
+          <span>
+            {message + ' '}
+            <QueryText>{query}</QueryText>
+          </span>
+        </Heading>
+        {error ? (
+          <ErrorLook>{error.message}</ErrorLook>
+        ) : (
           <div ref={resultsDiv}>
             {results.map((subject, index) => (
               <ResourceCard
@@ -103,10 +107,8 @@ export function Search(): JSX.Element {
               />
             ))}
           </div>
-        </>
-      ) : (
-        <>{message}</>
-      )}
+        )}
+      </>
     </ContainerNarrow>
   );
 }
