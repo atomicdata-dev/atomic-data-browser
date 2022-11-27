@@ -1,4 +1,10 @@
-import { Agent, getTimestampNow, HeadersObject, signToBase64, Store } from '.';
+import {
+  Agent,
+  getTimestampNow,
+  HeadersObject,
+  signToBase64,
+  Store,
+} from './index.js';
 
 /** Returns a JSON-AD resource of an Authentication */
 export async function createAuthentication(subject: string, agent: Agent) {

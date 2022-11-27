@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import { CommitBuilder } from './commit';
+import { CommitBuilder } from './commit.js';
 import {
   generatePublicKeyFromPrivate,
   parseAndApplyCommit,
   serializeDeterministically,
   signToBase64,
   Store,
-} from './index';
+} from './index.js';
 
 // These are disabled for now, as they require TextEncoder to be available
 // https://github.com/facebook/jest/issues/9983

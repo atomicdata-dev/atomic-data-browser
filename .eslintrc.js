@@ -4,6 +4,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:prettier/recommended',
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
     'plugin:@typescript-eslint/eslint-recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
@@ -50,6 +52,8 @@ module.exports = {
     'comma-dangle': 'off', // https://eslint.org/docs/rules/comma-dangle
     'function-paren-newline': 'off', // https://eslint.org/docs/rules/function-paren-newline
     'global-require': 'off', // https://eslint.org/docs/rules/global-require
+    "import/extensions": ["error", "ignorePackages"],
+    "import/no-unresolved": "off",
     'import/no-dynamic-require': 'off', // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations// New rules
     'class-methods-use-this': 'off',

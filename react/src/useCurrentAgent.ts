@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Agent } from '@tomic/lib';
-import { useLocalStorage, useStore } from './index';
+import { useLocalStorage, useStore } from './index.js';
 
 const AGENT_LOCAL_STORAGE_KEY = 'agent';
 

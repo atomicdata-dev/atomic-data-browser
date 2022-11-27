@@ -4,7 +4,7 @@ import {
   generatePublicKeyFromPrivate,
   properties,
   tryValidURL,
-} from './index';
+} from './index.js';
 
 /**
  * An Agent is a user or machine that can write data to an Atomic Server. An
