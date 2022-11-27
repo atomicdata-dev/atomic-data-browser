@@ -14,7 +14,7 @@ import {
   setCookieAuthentication,
   signRequest,
   Store,
-} from './index';
+} from './index.js';
 
 /** Works both in node and the browser */
 import fetch from 'cross-fetch';

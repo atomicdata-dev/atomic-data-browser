@@ -21,7 +21,8 @@ Talk with other devs on our [Discord][discord-url]!
 - `pnpm publish -r`
   - Choose a new version. Versions should match `atomic-data-rs`.
   - This updates the `package.json` files, creates a commit, tags it, pushes it to github, and publishes the builds to npm.
-  - If this fails, try `pnpm version patch` and `pnpm npm publish`
+  - If this fails, try `pnpm version patch` and `pnpm publish`
+  - DONT run `pnpm npm publish`, as it will not resolve workspace dependencies correctly.
 
 ## Understanding vite and pnpm workspaces
 

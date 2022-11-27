@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Datatype, urls, validateDatatype } from './index';
+import { Datatype, urls, validateDatatype } from './index.js';
 
 describe('Datatypes', () => {
   it('throws errors when datatypes dont match values', async () => {

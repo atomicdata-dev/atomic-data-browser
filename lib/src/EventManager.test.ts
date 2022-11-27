@@ -1,4 +1,4 @@
-import { EventManager } from './EventManager';
+import { EventManager } from './EventManager.js';
 enum Events {
   Click = 'click',
   LotteryWon = 'lotterywon',

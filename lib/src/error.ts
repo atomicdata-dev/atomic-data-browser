@@ -1,5 +1,4 @@
-import { Resource } from './resource';
-import { properties } from './urls';
+import { Resource, properties } from './index.js';
 
 export enum ErrorType {
   Unauthorized = 'Unauthorized',

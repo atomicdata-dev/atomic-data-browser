@@ -1,5 +1,5 @@
-import { useResource } from './';
 import { useEffect, useState } from 'react';
+import { useResource } from './index.js';
 
 /** Easily send JSON-AD or a URL containing it to your server. */
 export function useImporter(importerUrl?: string) {

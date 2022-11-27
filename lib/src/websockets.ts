@@ -1,11 +1,11 @@
-import { createAuthentication } from './authentication';
+import { createAuthentication } from './authentication.js';
 import {
   parseAndApplyCommit,
   parseJsonADResource,
   Resource,
   Store,
   unknownSubject,
-} from './index';
+} from './index.js';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(url: string, store: Store): WebSocket {

@@ -1,8 +1,13 @@
-import { AtomicError } from './error';
-import { urls } from './urls';
-import { isArray, JSONValue, Store } from './index';
-import { Resource, unknownSubject } from './resource';
-import { JSONObject } from './value';
+import {
+  AtomicError,
+  urls,
+  isArray,
+  JSONValue,
+  JSONObject,
+  Store,
+  Resource,
+  unknownSubject,
+} from './index.js';
 
 /**
  * Parses an JSON-AD object containing a resource, adds it to the input

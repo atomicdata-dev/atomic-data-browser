@@ -7,7 +7,7 @@ import {
   Property,
   Resource,
   Store,
-} from './index';
+} from './index.js';
 
 /** Returns the Typescript interface string based on the Class */
 export async function classToTypescriptDefinition(

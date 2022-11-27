@@ -1,6 +1,4 @@
-import { urls } from './urls';
-import { tryValidURL } from './client';
-import { JSONValue } from './value';
+import { JSONValue, tryValidURL, urls } from './index.js';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793

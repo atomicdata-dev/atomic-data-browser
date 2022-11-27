@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import {
   Property,
   Store,
@@ -17,8 +23,7 @@ import {
   unknownSubject,
   JSONArray,
 } from '@tomic/lib';
-import React from 'react';
-import { useDebounce } from './index';
+import { useDebounce } from './index.js';
 
 /**
  * Hook for getting a Resource in a React component. Will try to fetch the
