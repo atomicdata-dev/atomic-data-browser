@@ -1,4 +1,5 @@
 {
+  "version": "0.34.1",
   "author": "Joep Meindertsma",
   "description": "Atomic Data React library",
   "dependencies": {
@@ -33,6 +34,5 @@
   "source": "src/index.ts",
   "type": "module",
   "types": "dist/src/index.d.ts",
-  "version": "0.34.0",
   "gitHead": "2172c73d8df4e5f273e6386676abc91b6c5b2707"
 }
