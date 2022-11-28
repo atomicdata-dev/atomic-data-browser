@@ -52,7 +52,8 @@ module.exports = {
     'comma-dangle': 'off', // https://eslint.org/docs/rules/comma-dangle
     'function-paren-newline': 'off', // https://eslint.org/docs/rules/function-paren-newline
     'global-require': 'off', // https://eslint.org/docs/rules/global-require
-    "import/extensions": ["error", "ignorePackages"],
+    // Turn this on when we have migrated all import paths to use `.js`
+    // "import/extensions": ["error", "ignorePackages"],
     "import/no-unresolved": "off",
     'import/no-dynamic-require': 'off', // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations// New rules
