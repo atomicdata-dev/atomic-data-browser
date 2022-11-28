@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { EventManager } from './EventManager.js';
 enum Events {
   Click = 'click',
