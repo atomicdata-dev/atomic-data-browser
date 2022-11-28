@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
 import {
   useLocalStorage,
