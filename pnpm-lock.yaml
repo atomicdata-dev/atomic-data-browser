@@ -74,9 +74,9 @@ importers:
       '@bugsnag/core': ^7.16.1
       '@bugsnag/js': ^7.16.5
       '@bugsnag/plugin-react': ^7.16.5
-      '@dnd-kit/core': ^4.0.3
-      '@dnd-kit/sortable': ^5.1.0
-      '@dnd-kit/utilities': ^3.0.2
+      '@dnd-kit/core': ^6.0.5
+      '@dnd-kit/sortable': ^7.0.1
+      '@dnd-kit/utilities': ^3.2.0
       '@playwright/test': ^1.26.0
       '@tomic/react': workspace:*
       '@types/react': ^18.0.10
@@ -98,7 +98,7 @@ importers:
       react-hot-toast: ^2.4.0
       react-hotkeys-hook: ^3.1.0
       react-icons: ^4.2.0
-      react-intersection-observer: ^8.31.1
+      react-intersection-observer: ^9.4.1
       react-is: ^18
       react-markdown: ^8.0.3
       react-router: ^6.0.0
@@ -114,9 +114,9 @@ importers:
       '@bugsnag/core': 7.16.1
       '@bugsnag/js': 7.16.5
       '@bugsnag/plugin-react': 7.16.5_@bugsnag+core@7.16.1
-      '@dnd-kit/core': 4.0.3_ef5jwxihqo6n7gxfmzogljlgcm
-      '@dnd-kit/sortable': 5.1.0_oi62vnn5u4h5vmyqaf2mmvtpvu
-      '@dnd-kit/utilities': 3.0.2_react@18.1.0
+      '@dnd-kit/core': 6.0.5_ef5jwxihqo6n7gxfmzogljlgcm
+      '@dnd-kit/sortable': 7.0.1_xfa4xoyyoay3waoakt6v5w3n4i
+      '@dnd-kit/utilities': 3.2.0_react@18.1.0
       '@tomic/react': link:../react
       polished: 4.1.3
       query-string: 7.0.1
@@ -129,7 +129,7 @@ importers:
       react-hot-toast: 2.4.0_xb3noawg3grui6hzaob7jwa63y
       react-hotkeys-hook: 3.4.4_ef5jwxihqo6n7gxfmzogljlgcm
       react-icons: 4.3.1_react@18.1.0
-      react-intersection-observer: 8.32.1_react@18.1.0
+      react-intersection-observer: 9.4.1_react@18.1.0
       react-is: 18.2.0
       react-markdown: 8.0.3_cweqlka2zkiirfe2jqsmqzgzhu
       react-router: 6.3.0_react@18.1.0
@@ -1525,33 +1525,33 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@dnd-kit/core/4.0.3_ef5jwxihqo6n7gxfmzogljlgcm:
-    resolution: {integrity: sha512-uT1uHZxKx3iEkupmLfknMIvbykMJSetoXXmra6sGGvtWy+OMKrWm3axH2c90+JC/q6qaeKs2znd3Qs8GLnCa5Q==}
+  /@dnd-kit/core/6.0.5_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-3nL+Zy5cT+1XwsWdlXIvGIFvbuocMyB4NBxTN74DeBaBqeWdH9JsnKwQv7buZQgAHmAH+eIENfS1ginkvW6bCw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@dnd-kit/accessibility': 3.0.0_react@18.1.0
-      '@dnd-kit/utilities': 3.0.2_react@18.1.0
+      '@dnd-kit/utilities': 3.2.0_react@18.1.0
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       tslib: 2.3.1
     dev: false
 
-  /@dnd-kit/sortable/5.1.0_oi62vnn5u4h5vmyqaf2mmvtpvu:
-    resolution: {integrity: sha512-CPyiUHbTrSYzhddfgdeoX0ERg/dEyVKIWx9+4O6uqpoppo84SXCBHVFiFBRVpQ9wtpsXs7prtUAnAUTcvFQTZg==}
+  /@dnd-kit/sortable/7.0.1_xfa4xoyyoay3waoakt6v5w3n4i:
+    resolution: {integrity: sha512-n77qAzJQtMMywu25sJzhz3gsHnDOUlEjTtnRl8A87rWIhnu32zuP+7zmFjwGgvqfXmRufqiHOSlH7JPC/tnJ8Q==}
     peerDependencies:
-      '@dnd-kit/core': ^4.0.2
+      '@dnd-kit/core': ^6.0.4
       react: '>=16.8.0'
     dependencies:
-      '@dnd-kit/core': 4.0.3_ef5jwxihqo6n7gxfmzogljlgcm
-      '@dnd-kit/utilities': 3.0.2_react@18.1.0
+      '@dnd-kit/core': 6.0.5_ef5jwxihqo6n7gxfmzogljlgcm
+      '@dnd-kit/utilities': 3.2.0_react@18.1.0
       react: 18.1.0
       tslib: 2.3.1
     dev: false
 
-  /@dnd-kit/utilities/3.0.2_react@18.1.0:
-    resolution: {integrity: sha512-J4WpZXKbLJzBkuALqsIy5KmQr6PQk86ixoPKoixzjWj1+XGE5KdA2vga9Vf43EB/Ewpng+E5SmXVLfTs7ukbhw==}
+  /@dnd-kit/utilities/3.2.0_react@18.1.0:
+    resolution: {integrity: sha512-h65/pn2IPCCIWwdlR2BMLqRkDxpTEONA+HQW3n765HBijLYGyrnTCLa2YQt8VVjjSQD6EfFlTE6aS2Q/b6nb2g==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
@@ -7909,10 +7909,10 @@ packages:
       react: 18.1.0
     dev: false
 
-  /react-intersection-observer/8.32.1_react@18.1.0:
-    resolution: {integrity: sha512-FOmMkMw7MeJ8FkuADpU8TRcvGuTvPB+DRkaikS1QXcWArYLCWC3mjRorq2XeRGBuqmaueOBd27PUazTu9AgInw==}
+  /react-intersection-observer/9.4.1_react@18.1.0:
+    resolution: {integrity: sha512-IXpIsPe6BleFOEHKzKh5UjwRUaz/JYS0lT/HPsupWEQou2hDqjhLMStc5zyE3eQVT4Fk3FufM8Fw33qW1uyeiw==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.1.0
     dev: false

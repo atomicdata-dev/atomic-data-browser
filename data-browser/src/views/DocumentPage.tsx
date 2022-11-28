@@ -272,13 +272,13 @@ function DocumentPageEdit({
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = elements.indexOf(active.id);
+      const oldIndex = elements.indexOf(active.id.toString());
 
       if (!over?.id) {
         return;
       }
 
-      const newIndex = elements.indexOf(over.id);
+      const newIndex = elements.indexOf(over.id.toString());
       moveElement(oldIndex, newIndex);
     }
   }
