@@ -1,8 +1,9 @@
 // This file is copied from `atomic-data-browser` to `atomic-data-server` when `pnpm build-server` is run.
 // This is why the `testConfig` is imported.
 
-import { test, expect, Page, Browser } from '@playwright/test';
-import { testConfig } from './test-config';
+import { test, expect } from '@playwright/test';
+import type { Browser, Page } from '@playwright/test';
+import { testConfig } from './test-config.js';
 
 export interface TestConfig {
   demoFileName: string;
@@ -42,13 +43,16 @@ test.describe('data-browser', async () => {
     if (!serverUrl) {
       throw new Error('serverUrl is not set');
     }
+
     // Open the server
     await page.goto(frontEndUrl);
+
     // Sometimes we run the test server on a different port, but we should
     // only change the drive if it is non-default.
     if (serverUrl !== 'http://localhost:9883') {
       await changeDrive(serverUrl, page);
     }
+
     await expect(page.locator(currentDriveTitle)).toBeVisible();
   });
 
@@ -659,10 +663,12 @@ async function openNewSubjectWindow(browser: Browser, url: string) {
   const context2 = await browser.newContext();
   const page = await context2.newPage();
   await page.goto(frontEndUrl);
+
   // Only when we run on `localhost` we don't need to change drive during tests
   if (serverUrl !== defaultDevServer) {
     await changeDrive(serverUrl, page);
   }
+
   await openSubject(page, url);
   await page.setViewportSize({ width: 1000, height: 400 });
 

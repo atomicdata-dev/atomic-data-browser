@@ -1,4 +1,4 @@
-import { TestConfig } from './e2e.spec';
+import type { TestConfig } from './e2e.spec.js';
 const demoFileName = 'testimage.svg';
 
 export const testConfig: TestConfig = {
