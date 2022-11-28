@@ -23,6 +23,8 @@
     // Todo: enable this
     // "noImplicitAny": true
     "downlevelIteration": true,
+    // Prevent typecheck to fail if some library is doing something wrong
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
