@@ -1,5 +1,5 @@
-import { setCookieAuthentication } from './authentication';
-import { EventManager } from './EventManager';
+import { setCookieAuthentication } from './authentication.js';
+import { EventManager } from './EventManager.js';
 import {
   Agent,
   Datatype,
@@ -9,8 +9,8 @@ import {
   tryValidURL,
   unknownSubject,
   urls,
-} from './index';
-import { authenticate, fetchWebSocket, startWebsocket } from './websockets';
+} from './index.js';
+import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 
 /** Function called when a resource is updated or removed */
 type Callback = (resource: Resource) => void;
@@ -339,6 +339,11 @@ export class Store {
    * not be performed client side when offline.
    */
   public isOffline(): boolean {
+    // If we are in a node/server environment assume we are online.
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     return !window?.navigator?.onLine;
   }
 

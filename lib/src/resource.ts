@@ -1,4 +1,4 @@
-import { instances } from './urls';
+import { instances } from './urls.js';
 import {
   Agent,
   CommitBuilder,
@@ -11,8 +11,8 @@ import {
   tryValidURL,
   validateDatatype,
   valToArray,
-} from './index';
-import { JSONArray } from './value';
+} from './index.js';
+import { JSONArray } from './value.js';
 
 /** Contains the PropertyURL / Value combinations */
 export type PropVals = Map<string, JSONValue>;

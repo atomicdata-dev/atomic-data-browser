@@ -29,16 +29,16 @@
  * @module
  */
 
-export * from './agent';
-export * from './authentication';
-export * from './class';
-export * from './client';
-export * from './commit';
-export * from './error';
-export * from './datatypes';
-export * from './parse';
-export * from './resource';
-export * from './store';
-export * from './value';
-export * from './urls';
-export * from './truncate';
+export * from './agent.js';
+export * from './authentication.js';
+export * from './class.js';
+export * from './client.js';
+export * from './commit.js';
+export * from './error.js';
+export * from './datatypes.js';
+export * from './parse.js';
+export * from './resource.js';
+export * from './store.js';
+export * from './value.js';
+export * from './urls.js';
+export * from './truncate.js';
