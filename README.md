@@ -33,7 +33,7 @@ pnpm start # run the server!
   <img src="https://img.shields.io/npm/dm/@tomic/lib?color=%2344cc10" />
 </a>
 <a href="https://bundlephobia.com/result?p=@tomic/lib" target="_blank">
-  <img src="https://badgen.net/bundlephobia/minzip/@tomic/lib">
+  <img src="https://img.shields.io/bundlephobia/min/@tomic/lib">
 </a>
 
 Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
@@ -51,7 +51,7 @@ Library with `Store`, `Commit`, `JSON-AD` parsing, and more.
   <img src="https://img.shields.io/npm/dm/@tomic/react?color=%2344cc10" />
 </a>
 <a href="https://bundlephobia.com/result?p=@tomic/react" target="_blank">
-  <img src="https://badgen.net/bundlephobia/minzip/@tomic/react">
+  <img src="https://img.shields.io/bundlephobia/min/@tomic/react">
 </a>
 
 
