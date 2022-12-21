@@ -1,5 +1,4 @@
-import { RefObject } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 // hook returns tuple(array) with type [any, boolean]
 // T - could be any type of HTML element like: HTMLDivElement, HTMLParagraphElement and etc.

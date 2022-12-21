@@ -1,5 +1,10 @@
-import { properties, unknownSubject } from '@tomic/react';
-import { useResource, useString, useTitle } from '@tomic/react';
+import {
+  properties,
+  unknownSubject,
+  useResource,
+  useString,
+  useTitle,
+} from '@tomic/react';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSettings } from '../helpers/AppSettings';

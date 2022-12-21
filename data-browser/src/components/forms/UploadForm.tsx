@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Resource, uploadFiles } from '@tomic/react';
-import { useStore } from '@tomic/react';
+import { Resource, uploadFiles, useStore } from '@tomic/react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '../Button';
 import FilePill from '../FilePill';

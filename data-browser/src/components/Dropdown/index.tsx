@@ -1,5 +1,4 @@
-import React, { useId, useMemo, useRef, useState } from 'react';
-import { useCallback } from 'react';
+import React, { useId, useMemo, useRef, useState, useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import styled from 'styled-components';
 import { useClickAwayListener } from '../../hooks/useClickAwayListener';

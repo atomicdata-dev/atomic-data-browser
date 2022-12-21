@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ArrayError } from '@tomic/react';
-import { useArray } from '@tomic/react';
+import { ArrayError, useArray } from '@tomic/react';
 import { Button } from '../Button';
 import { InputProps } from './ResourceField';
 import { ErrMessage } from './InputStyles';

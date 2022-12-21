@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
@@ -7,7 +7,6 @@ import { ButtonInput } from '../Button';
 import { ResourceInline } from '../../views/ResourceInline';
 import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
 import ResourceLine from '../../views/ResourceLine';
-import { useCallback } from 'react';
 import { useClickAwayListener } from '../../hooks/useClickAwayListener';
 import { useResource, useTitle } from '@tomic/react';
 

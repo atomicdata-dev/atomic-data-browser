@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useProperty } from '@tomic/react';
-import { Resource, Property } from '@tomic/react';
+import { useProperty, Resource, Property } from '@tomic/react';
 import styled from 'styled-components';
 import Field from './Field';
 import Markdown from '../datatypes/Markdown';

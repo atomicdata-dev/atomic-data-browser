@@ -5,9 +5,7 @@ import {
 } from 'styled-components';
 import { darken, lighten } from 'polished';
 import './reset.css';
-import React from 'react';
-import 'styled-components';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { SettingsContext } from './helpers/AppSettings';
 
 interface ThemeWrapperProps {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isValidURL } from '@tomic/react';
-import { useStore } from '@tomic/react';
+import { isValidURL, useStore } from '@tomic/react';
 import {
   editURL,
   dataURL,

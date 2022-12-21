@@ -1,5 +1,8 @@
-import { classToTypescriptDefinition, properties } from '@tomic/react';
-import { useStore } from '@tomic/react';
+import {
+  classToTypescriptDefinition,
+  properties,
+  useStore,
+} from '@tomic/react';
 import React, { useState } from 'react';
 import AllProps from '../components/AllProps';
 import { Button } from '../components/Button';
