@@ -339,6 +339,11 @@ export class Store {
    * not be performed client side when offline.
    */
   public isOffline(): boolean {
+    // If we are in a node/server environment assume we are online.
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     return !window?.navigator?.onLine;
   }
 
