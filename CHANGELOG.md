@@ -2,9 +2,11 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## UNRELEASED
+## v0.34.9
 
+- Fix @tomic/lib exports for non-ts contexts #270
 - Fix back / forward buttons in desktop build #263
+- Fix `isOffline` for node
 
 ## v0.34.0
 
