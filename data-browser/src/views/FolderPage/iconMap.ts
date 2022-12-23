@@ -11,6 +11,7 @@ import {
   FaFileAlt,
   FaFileImport,
   FaFolder,
+  FaHashtag,
   FaHdd,
   FaListAlt,
   FaShareSquare,
@@ -31,6 +32,7 @@ const iconMap = new Map<string, IconType>([
   [classes.class, FaCube],
   [classes.property, FaCubes],
   [classes.table, FaTable],
+  [classes.property, FaHashtag],
 ]);
 
 export function getIconForClass(

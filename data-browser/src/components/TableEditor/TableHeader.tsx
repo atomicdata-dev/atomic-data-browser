@@ -14,6 +14,7 @@ export type TableHeadingComponent<T> = ({
 export interface TableHeaderProps<T> {
   columns: T[];
   onResize: (index: number, size: string) => void;
+  onNewColumnClick?: React.MouseEventHandler<HTMLButtonElement>;
   HeadingComponent: TableHeadingComponent<T>;
   columnToKey: (column: T) => string;
 }
@@ -21,6 +22,7 @@ export interface TableHeaderProps<T> {
 export function TableHeader<T>({
   columns,
   onResize,
+  onNewColumnClick,
   HeadingComponent,
   columnToKey,
 }: TableHeaderProps<T>): JSX.Element {
@@ -37,7 +39,7 @@ export function TableHeader<T>({
         </TableHeading>
       ))}
       <TableHeadingWrapper>
-        <IconButton title='Add column'>
+        <IconButton title='Add column' onClick={onNewColumnClick}>
           <FaPlus />
         </IconButton>
       </TableHeadingWrapper>

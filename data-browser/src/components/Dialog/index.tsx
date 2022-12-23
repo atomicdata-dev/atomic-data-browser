@@ -17,7 +17,7 @@ import { useDialog } from './useDialog';
 
 export interface InternalDialogProps {
   show: boolean;
-  onClose: () => void;
+  onClose: (success: boolean) => void;
   onClosed: () => void;
 }
 
@@ -65,6 +65,10 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   const innerDialogRef = useRef<HTMLDivElement>(null);
   const portalRef = useContext(DialogPortalContext);
 
+  const cancelDialog = useCallback(() => {
+    onClose(false);
+  }, [onClose]);
+
   const handleOutSideClick = useCallback<
     React.MouseEventHandler<HTMLDialogElement>
   >(
@@ -73,17 +77,17 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
         !innerDialogRef.current?.contains(e.target as HTMLElement) &&
         innerDialogRef.current !== e.target
       ) {
-        onClose();
+        cancelDialog();
       }
     },
-    [innerDialogRef.current],
+    [innerDialogRef.current, cancelDialog],
   );
 
   // Close the dialog when the escape key is pressed
   useHotkeys(
     'esc',
     () => {
-      onClose();
+      cancelDialog();
     },
     { enabled: show },
   );
@@ -115,18 +119,18 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
         onClosed();
       }, ANIM_MS);
     }
-  }, [show]);
+  }, [show, onClosed]);
 
   if (!portalRef.current) {
     return null;
   }
 
   return createPortal(
-    <StyledDialog ref={dialogRef} onClick={handleOutSideClick}>
+    <StyledDialog ref={dialogRef} onMouseDown={handleOutSideClick}>
       <DialogTreeContext.Provider value={true}>
         <StyledInnerDialog ref={innerDialogRef}>
           <CloseButtonSlot slot='close'>
-            <Button icon onClick={onClose} aria-label='close'>
+            <Button icon onClick={cancelDialog} aria-label='close'>
               <FaTimes />
             </Button>
           </CloseButtonSlot>

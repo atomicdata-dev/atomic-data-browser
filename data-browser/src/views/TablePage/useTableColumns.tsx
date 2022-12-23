@@ -1,24 +1,11 @@
-import {
-  Resource,
-  useStore,
-  useSubject,
-  urls,
-  useResource,
-  useArray,
-  Property,
-} from '@tomic/react';
+import { Resource, useStore, urls, useArray, Property } from '@tomic/react';
 import { useEffect, useState } from 'react';
 
-export function useTableColumns(resource: Resource): Property[] {
+export function useTableColumns(tableClass: Resource): Property[] {
   const store = useStore();
-  const [classSubject] = useSubject(resource, urls.properties.classType);
-  const classResource = useResource(classSubject);
 
-  const [requiredProps] = useArray(classResource, urls.properties.requires);
-  const [recommendedProps] = useArray(
-    classResource,
-    urls.properties.recommends,
-  );
+  const [requiredProps] = useArray(tableClass, urls.properties.requires);
+  const [recommendedProps] = useArray(tableClass, urls.properties.recommends);
 
   const [columns, setColumns] = useState<Property[]>([]);
 

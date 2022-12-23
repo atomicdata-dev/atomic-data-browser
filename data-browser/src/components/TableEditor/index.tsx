@@ -26,6 +26,7 @@ interface FancyTableProps<T> {
   onClearRow?: (index: number) => void;
   onClearCells?: (cells: CellIndex<T>[]) => void;
   onCopyCommand?: (cells: CellIndex<T>[]) => Promise<CopyValue[][]>;
+  onNewColumnClick?: React.MouseEventHandler<HTMLButtonElement>;
 
   HeadingComponent: TableHeadingComponent<T>;
 }
@@ -35,7 +36,7 @@ interface RowProps {
   style: React.CSSProperties;
 }
 
-type OnScroll = (props: ListOnScrollProps) => any;
+type OnScroll = (props: ListOnScrollProps) => unknown;
 
 export function FancyTable<T>(props: FancyTableProps<T>): JSX.Element {
   return (
@@ -59,6 +60,7 @@ function FancyTableInner<T>({
   onClearCells,
   onClearRow,
   onCopyCommand,
+  onNewColumnClick,
 }: FancyTableProps<T>): JSX.Element {
   const tableRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -126,9 +128,10 @@ function FancyTableInner<T>({
         <PercentageInsanityFix>
           <TableHeader
             columns={columns}
-            onResize={resizeCell}
             HeadingComponent={HeadingComponent}
             columnToKey={columnToKey}
+            onResize={resizeCell}
+            onNewColumnClick={onNewColumnClick}
           />
           <AutoSizeTamer>
             <Autosizer disableWidth>{List}</Autosizer>
