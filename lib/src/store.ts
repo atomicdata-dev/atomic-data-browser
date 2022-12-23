@@ -452,12 +452,14 @@ export class Store {
     Promise.allSettled(callbacks.map(async cb => cb(resource)));
   }
 
-  public notifyResourceSaved(resource: Resource): void {
-    this.eventManager.emit(StoreEvents.ResourceSaved, resource);
+  public async notifyResourceSaved(resource: Resource): Promise<void> {
+    await this.eventManager.emit(StoreEvents.ResourceSaved, resource);
   }
 
-  public notifyResourceManuallyCreated(resource: Resource): void {
-    this.eventManager.emit(StoreEvents.ResourceManuallyCreated, resource);
+  public async notifyResourceManuallyCreated(
+    resource: Resource,
+  ): Promise<void> {
+    await this.eventManager.emit(StoreEvents.ResourceManuallyCreated, resource);
   }
 
   /** Parses the HTML document for `JSON-AD` data in <meta> tags, adds it to the store */

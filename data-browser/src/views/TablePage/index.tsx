@@ -1,5 +1,5 @@
 import { Collection, Property, urls, useStore } from '@tomic/react';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ContainerFull } from '../../components/Containers';
 import { EditableTitle } from '../../components/EditableTitle';
 import { CellIndex, CopyValue, FancyTable } from '../../components/TableEditor';
@@ -9,6 +9,7 @@ import { useTableColumns } from './useTableColumns';
 import { TableNewRow, TableRow } from './TableRow';
 import { useTableData } from './useTableData';
 import { getValuesFromSubject } from './helpers/clipboard';
+import { NewPropertyDialog } from './PropertyForm/NewPropertyDialog';
 
 const columnToKey = (column: Property) => column.subject;
 
@@ -29,12 +30,11 @@ const transformToPropertiesPerSubject = async (
 
 export function TablePage({ resource }: ResourcePageProps): JSX.Element {
   const store = useStore();
-  const [collection, invalidateTable] = useTableData(
-    urls.properties.parent,
-    resource.getSubject(),
-  );
+  const [showNewPropertyDialog, setShowNewPropertyDialog] = useState(false);
 
-  const columns = useTableColumns(resource);
+  const [tableClass, collection, invalidateTable] = useTableData(resource);
+
+  const columns = useTableColumns(tableClass);
 
   useEffect(() => {
     console.log('Table mount');
@@ -80,6 +80,10 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     },
     [store, collection, invalidateTable],
   );
+
+  const handleNewColumnClick = useCallback(() => {
+    setShowNewPropertyDialog(true);
+  }, []);
 
   const handleCopyCommand = useCallback(
     async (cells: CellIndex<Property>[]): Promise<CopyValue[][]> => {
@@ -131,9 +135,15 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
         onClearRow={handleDeleteRow}
         onClearCells={handleClearCells}
         onCopyCommand={handleCopyCommand}
+        onNewColumnClick={handleNewColumnClick}
       >
         {Row}
       </FancyTable>
+      <NewPropertyDialog
+        showDialog={showNewPropertyDialog}
+        tableClassResource={tableClass}
+        bindShow={setShowNewPropertyDialog}
+      />
     </ContainerFull>
   );
 }

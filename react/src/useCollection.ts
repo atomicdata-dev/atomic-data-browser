@@ -3,6 +3,11 @@ import { useCallback, useState } from 'react';
 import { useServerURL } from './useServerURL';
 import { useStore } from './hooks';
 
+export type UseCollectionResult = [
+  collection: Collection,
+  invalidateCollection: () => Promise<void>,
+];
+
 const buildCollection = (
   store: Store,
   server: string,
@@ -28,7 +33,7 @@ const buildCollection = (
 export function useCollection(
   queryFilter: QueryFilter,
   pageSize?: number,
-): [collection: Collection, invalidateCollection: () => Promise<void>] {
+): UseCollectionResult {
   const store = useStore();
   const [server] = useServerURL();
 
