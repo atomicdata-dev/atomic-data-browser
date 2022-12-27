@@ -13,5 +13,6 @@ export const paths = {
   import: '/app/import',
   allVersions: '/all-versions',
   sandbox: '/sandbox',
+  confirmEmail: '/confirm-email',
   fetchBookmark: '/fetch-bookmark',
 };

@@ -14,6 +14,17 @@
 		},
 		{
 			"type": "npm",
+			"script": "build-server",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"label": "build server JS assets",
+			"detail": "pnpm workspace @tomic/data-browser build-server",
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"type": "npm",
 			"script": "test",
 			"problemMatcher": [
 				"$tsc-watch"

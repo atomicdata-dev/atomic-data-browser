@@ -23,6 +23,7 @@ export const useDialog = (): UseDialogReturnType => {
   }, []);
 
   const close = useCallback(() => {
+    console.log('close', close);
     setShowDialog(false);
   }, []);
 

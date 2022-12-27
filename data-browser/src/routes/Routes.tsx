@@ -18,6 +18,7 @@ import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
 import { ImporterPage } from '../views/ImporterPage';
+import ConfirmEmail from './ConfirmEmail';
 
 /** Server URLs should have a `/` at the end */
 const homeURL = window.location.origin + '/';
@@ -46,6 +47,7 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
       {isDev && <Route path={paths.sandbox} element={<Sandbox />} />}
+      <Route path={paths.confirmEmail} element={<ConfirmEmail />} />
       <Route path='/' element={<ResourcePage subject={homeURL} />} />
       <Route path='*' element={<Local />} />
     </Routes>
