@@ -8,7 +8,13 @@ import {
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { Button } from './Button';
-import { Agent, nameRegex, useRegister, useServerURL } from '@tomic/react';
+import {
+  Agent,
+  nameRegex,
+  register,
+  useServerURL,
+  useStore,
+} from '@tomic/react';
 import Field from './forms/Field';
 import { InputWrapper, InputStyled } from './forms/InputStyles';
 import { Row } from './Row';
@@ -30,7 +36,7 @@ export function RegisterSignIn({
 }: React.PropsWithChildren<RegisterSignInProps>): JSX.Element {
   const { dialogProps, show } = useDialog();
   const { agent } = useSettings();
-  const [register, setRegister] = useState(true);
+  const [isRegister, setRegister] = useState(true);
 
   if (agent) {
     return <>{children}</>;
@@ -56,7 +62,9 @@ export function RegisterSignIn({
             Sign In
           </Button>
         </Row>
-        <Dialog {...dialogProps}>{register ? <Register /> : <SignIn />}</Dialog>
+        <Dialog {...dialogProps}>
+          {isRegister ? <Register /> : <SignIn />}
+        </Dialog>
       </>
     );
 }
@@ -69,8 +77,9 @@ function Register() {
   const [newAgent, setNewAgent] = useState<Agent | undefined>(undefined);
   const [serverUrlStr] = useServerURL();
   const [nameErr, setErr] = useState<Error | undefined>(undefined);
-  const register = useRegister();
+  const doRegister = useCallback(register, []);
   const { setAgent } = useSettings();
+  const store = useStore();
 
   const serverUrl = new URL(serverUrlStr);
   serverUrl.host = `${name}.${serverUrl.host}`;
@@ -95,7 +104,11 @@ function Register() {
       }
 
       try {
-        const { driveURL: newDriveURL, agent } = await register(name, email);
+        const { driveURL: newDriveURL, agent } = await doRegister(
+          store,
+          name,
+          email,
+        );
         setDriveURL(newDriveURL);
         setSecret(agent.buildSecret());
         setNewAgent(agent);

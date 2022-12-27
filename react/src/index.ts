@@ -30,5 +30,4 @@ export * from './useImporter.js';
 export * from './useLocalStorage.js';
 export * from './useMarkdown.js';
 export * from './useServerSearch.js';
-export * from './useRegister.js';
 export * from '@tomic/lib';
