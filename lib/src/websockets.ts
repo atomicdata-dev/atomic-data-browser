@@ -23,6 +23,7 @@ export function startWebsocket(url: string, store: Store): WebSocket {
 }
 
 function handleOpen(store: Store, client: WebSocket) {
+  console.log('open client', client);
   // Make sure user is authenticated before sending any messages
   authenticate(client, store).then(() => {
     // Subscribe to all existing messages
@@ -72,8 +73,8 @@ export async function authenticate(client: WebSocket, store: Store) {
   }
 
   if (
-    !client.url.startsWith('ws://localhost:') &&
-    agent?.subject?.startsWith('http://localhost')
+    agent?.subject?.startsWith('http://localhost') &&
+    !client.url.includes('localhost')
   ) {
     console.warn("Can't authenticate localhost Agent over websocket");
 

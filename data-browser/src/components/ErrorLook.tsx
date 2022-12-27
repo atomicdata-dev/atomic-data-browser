@@ -26,7 +26,13 @@ export function ErrorBlock({ error, showTrace }: ErrorBlockProps): JSX.Element {
         {showTrace && (
           <>
             Stack trace:
-            <CodeBlock>{error.stack}</CodeBlock>
+            <CodeBlock
+              style={{
+                maxHeight: '10rem',
+              }}
+            >
+              {error.stack}
+            </CodeBlock>
           </>
         )}
       </Column>

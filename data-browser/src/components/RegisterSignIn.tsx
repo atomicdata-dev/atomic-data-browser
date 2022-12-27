@@ -8,18 +8,11 @@ import {
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { Button } from './Button';
-import {
-  Agent,
-  nameRegex,
-  register,
-  useServerURL,
-  useStore,
-} from '@tomic/react';
+import { nameRegex, register, useServerURL, useStore } from '@tomic/react';
 import Field from './forms/Field';
 import { InputWrapper, InputStyled } from './forms/InputStyles';
 import { Row } from './Row';
 import { ErrorLook } from './ErrorLook';
-import { CodeBlock } from './CodeBlock';
 import { SettingsAgent } from './SettingsAgent';
 
 interface RegisterSignInProps {
@@ -34,9 +27,9 @@ interface RegisterSignInProps {
 export function RegisterSignIn({
   children,
 }: React.PropsWithChildren<RegisterSignInProps>): JSX.Element {
-  const { dialogProps, show } = useDialog();
+  const { dialogProps, show, close } = useDialog();
   const { agent } = useSettings();
-  const [isRegister, setRegister] = useState(true);
+  const [isRegistering, setRegister] = useState(true);
 
   if (agent) {
     return <>{children}</>;
@@ -63,23 +56,19 @@ export function RegisterSignIn({
           </Button>
         </Row>
         <Dialog {...dialogProps}>
-          {isRegister ? <Register /> : <SignIn />}
+          {isRegistering ? <Register close={close} /> : <SignIn />}
         </Dialog>
       </>
     );
 }
 
-function Register() {
+function Register({ close }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [secret, setSecret] = useState('');
-  const [driveURL, setDriveURL] = useState('');
-  const [newAgent, setNewAgent] = useState<Agent | undefined>(undefined);
   const [serverUrlStr] = useServerURL();
   const [nameErr, setErr] = useState<Error | undefined>(undefined);
-  const doRegister = useCallback(register, []);
-  const { setAgent } = useSettings();
   const store = useStore();
+  const [mailSent, setMailSent] = useState(false);
 
   const serverUrl = new URL(serverUrlStr);
   serverUrl.host = `${name}.${serverUrl.host}`;
@@ -104,14 +93,8 @@ function Register() {
       }
 
       try {
-        const { driveURL: newDriveURL, agent } = await doRegister(
-          store,
-          name,
-          email,
-        );
-        setDriveURL(newDriveURL);
-        setSecret(agent.buildSecret());
-        setNewAgent(agent);
+        await register(store, name, email);
+        setMailSent(true);
       } catch (er) {
         setErr(er);
       }
@@ -119,29 +102,22 @@ function Register() {
     [name, email],
   );
 
-  const handleSaveAgent = useCallback(() => {
-    setAgent(newAgent);
-  }, [newAgent]);
-
-  if (driveURL) {
+  if (mailSent) {
     return (
       <>
         <DialogTitle>
-          <h1>Save your Passphrase, {name}</h1>
+          <h1>Go to your email inbox</h1>
         </DialogTitle>
         <DialogContent>
           <p>
-            Your Passphrase is like your password. Never share it with anyone.
-            Use a password manager to store it securely. You will need this to
-            log in next!
+            {"We've sent a confirmation link to "}
+            <strong>{email}</strong>
+            {'.'}
           </p>
-          <CodeBlock content={secret} wrapContent />
+          <p>Your account will be created when you open that link.</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSaveAgent}>Continue here</Button>
-          <a href={driveURL} target='_blank' rel='noreferrer'>
-            Open my new Drive!
-          </a>
+          <Button onClick={close}>Ok, I will!</Button>
         </DialogActions>
       </>
     );

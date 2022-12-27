@@ -12,5 +12,6 @@ export const paths = {
   about: '/app/about',
   allVersions: '/all-versions',
   sandbox: '/sandbox',
+  confirmEmail: '/confirm-email',
   fetchBookmark: '/fetch-bookmark',
 };

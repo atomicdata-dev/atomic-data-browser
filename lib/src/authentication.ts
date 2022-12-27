@@ -9,6 +9,7 @@ import {
 
 /** Returns a JSON-AD resource of an Authentication */
 export async function createAuthentication(subject: string, agent: Agent) {
+  console.log('create authentication', subject);
   const timestamp = getTimestampNow();
 
   if (!agent.subject) {
@@ -113,48 +114,102 @@ export const checkAuthenticationCookie = (): boolean => {
   return matches.length > 0;
 };
 
-export interface RegisterResult {
-  agent: Agent;
-  driveURL: string;
-}
-
-/** Only lowercase chars, numbers and a hyphen */
+/** Only allows lowercase chars and numbers  */
 export const nameRegex = '^[a-z0-9_-]+';
 
-/** Creates a new Agent + Drive using a shortname and email. Uses the serverURL from the Store. */
-export const register = async (
+/** Asks the server to create an Agent + a Drive.
+ * Sends the confirmation email to the user.
+ * Throws if the name is not available or the email is invalid.
+ * The Agent and Drive are only created after the Email is confirmed. */
+export async function register(
   store: Store,
   name: string,
   email: string,
-): Promise<RegisterResult> => {
-  const keypair = await generateKeyPair();
-  const agent = new Agent(keypair.privateKey);
-  const publicKey = await agent.getPublicKey();
+): Promise<void> {
   const url = new URL('/register', store.getServerUrl());
   url.searchParams.set('name', name);
-  url.searchParams.set('public-key', publicKey);
   url.searchParams.set('email', email);
   const resource = await store.getResourceAsync(url.toString());
-  const driveURL = resource.get(properties.redirect.destination) as string;
-  const agentSubject = resource.get(
-    properties.redirect.redirectAgent,
-  ) as string;
+
+  if (!resource) {
+    throw new Error('No resource received');
+  }
 
   if (resource.error) {
     throw resource.error;
   }
 
-  if (!driveURL) {
-    throw new Error('No redirect destination');
+  const description = resource.get(properties.description) as string;
+
+  if (!description.includes('success')) {
+    throw new Error('ERRORORRRR');
   }
 
-  if (!agentSubject) {
-    throw new Error('No agent returned');
+  return;
+}
+
+/** When the user receives a confirmation link, call this function with the provided URL.
+ * If there is no agent in the store, a new one will be created.  */
+export async function confirmEmail(
+  store: Store,
+  tokenURL: string,
+): Promise<{ agent: Agent; destination: string }> {
+  const url = new URL(tokenURL);
+  const token = url.searchParams.get('token');
+
+  if (!token) {
+    throw new Error('No token provided');
   }
 
-  agent.subject = agentSubject;
+  const parsed = parseJwt(token);
+
+  if (!parsed.name || !parsed.email) {
+    throw new Error('token does not contain name or email');
+  }
+
+  let agent = store.getAgent();
+
+  if (!agent) {
+    const keypair = await generateKeyPair();
+    const newAgent = new Agent(keypair.privateKey);
+    newAgent.subject = `${store.getServerUrl()}/agents/${parsed.name}`;
+    agent = newAgent;
+  }
+
+  url.searchParams.set('public-key', await agent.getPublicKey());
+  const resource = await store.getResourceAsync(url.toString());
+
+  if (!resource) {
+    throw new Error('no resource!');
+  }
+
+  if (resource.error) {
+    throw resource.error;
+  }
+
+  const destination = resource.get(properties.redirect.destination) as string;
+
+  if (!destination) {
+    throw new Error('No redirect destination in response');
+  }
 
   store.setAgent(agent);
 
-  return { driveURL, agent };
-};
+  return { agent, destination };
+}
+
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+
+  return JSON.parse(jsonPayload);
+}
