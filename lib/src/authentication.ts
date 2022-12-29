@@ -9,7 +9,6 @@ import {
 
 /** Returns a JSON-AD resource of an Authentication */
 export async function createAuthentication(subject: string, agent: Agent) {
-  console.log('create authentication', subject);
   const timestamp = getTimestampNow();
 
   if (!agent.subject) {

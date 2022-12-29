@@ -23,7 +23,6 @@ export function startWebsocket(url: string, store: Store): WebSocket {
 }
 
 function handleOpen(store: Store, client: WebSocket) {
-  console.log('open client', client);
   // Make sure user is authenticated before sending any messages
   authenticate(client, store).then(() => {
     // Subscribe to all existing messages

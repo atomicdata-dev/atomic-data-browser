@@ -31,6 +31,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Fix Dialogue form #308
 - Refactor search, escape query strings for Tantivy
 - Add `import` context menu, allows importing anywhere
+- Let users register using e-mail address, improve sign-up UX.
+- `store.createSubject` allows creating nested paths
 
 ### @tomic/react
 
