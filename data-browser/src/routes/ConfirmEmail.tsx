@@ -1,11 +1,12 @@
 import { confirmEmail, useStore } from '@tomic/react';
 import * as React from 'react';
 import { useState } from 'react';
-import { CodeBlock } from '../components/CodeBlock';
+import toast from 'react-hot-toast';
+import { Button } from '../components/Button';
+import { CodeBlockStyled } from '../components/CodeBlock';
 import { ContainerNarrow } from '../components/Containers';
 import { isDev } from '../config';
 import { useSettings } from '../helpers/AppSettings';
-import { handleError } from '../helpers/handlers';
 import {
   useCurrentSubject,
   useSubjectParam,
@@ -19,10 +20,13 @@ const ConfirmEmail: React.FunctionComponent = () => {
   const [secret, setSecret] = useState('');
   const store = useStore();
   const [token] = useSubjectParam('token');
-  const { agent, setAgent } = useSettings();
+  const { setAgent } = useSettings();
   const [destinationToGo, setDestination] = useState<string>();
+  const [err, setErr] = useState<Error | undefined>(undefined);
+  const [triedConfirm, setTriedConfirm] = useState(false);
 
-  const handleConfirm = async () => {
+  const handleConfirm = React.useCallback(async () => {
+    setTriedConfirm(true);
     let tokenUrl = subject as string;
 
     if (isDev()) {
@@ -37,37 +41,68 @@ const ConfirmEmail: React.FunctionComponent = () => {
         store,
         tokenUrl,
       );
-      setAgent(newAgent);
       setSecret(newAgent.buildSecret());
       setDestination(destination);
+      setAgent(newAgent);
+      toast.success('Email confirmed!');
     } catch (e) {
-      handleError(e);
+      setErr(e);
     }
-  };
+  }, [subject]);
 
-  if (!agent) {
-    return (
-      <ContainerNarrow>
-        <button onClick={handleConfirm}>confirm</button>
-      </ContainerNarrow>
-    );
+  if (!triedConfirm && subject) {
+    handleConfirm();
+  }
+
+  if (err) {
+    if (err.message.includes('expired')) {
+      return (
+        <ContainerNarrow>
+          The link has expired. Request a new one by Registering again.
+        </ContainerNarrow>
+      );
+    }
+
+    return <ContainerNarrow>{err?.message}</ContainerNarrow>;
+  }
+
+  if (secret) {
+    return <SavePassphrase secret={secret} destination={destinationToGo} />;
+  }
+
+  return <ContainerNarrow>Verifying token...</ContainerNarrow>;
+};
+
+function SavePassphrase({ secret, destination }) {
+  const [copied, setCopied] = useState(false);
+
+  function copyToClipboard() {
+    setCopied(secret);
+    navigator.clipboard.writeText(secret || '');
+    toast.success('Copied to clipboard');
   }
 
   return (
     <ContainerNarrow>
-      <h1>Save your Passphrase</h1>
+      <h1>Mail confirmed, please save your passphrase</h1>
       <p>
         Your Passphrase is like your password. Never share it with anyone. Use a
-        password manager to store it securely. You will need this to log in
-        next!
+        password manager like{' '}
+        <a href='https://bitwarden.com/' target='_blank' rel='noreferrer'>
+          BitWarden
+        </a>{' '}
+        to store it securely.
       </p>
-      <CodeBlock content={secret} wrapContent />
-      {/* <Button onClick={handleGoToDestination}>Continue here</Button> */}
-      <a href={destinationToGo} target='_blank' rel='noreferrer'>
-        Open my new Drive!
-      </a>
+      <CodeBlockStyled wrapContent>{secret}</CodeBlockStyled>
+      {copied ? (
+        <a href={destination} target='_blank' rel='noreferrer'>
+          {"I've saved my PassPhrase, open my new Drive!"}
+        </a>
+      ) : (
+        <Button onClick={copyToClipboard}>Copy Passphrase</Button>
+      )}
     </ContainerNarrow>
   );
-};
+}
 
 export default ConfirmEmail;
