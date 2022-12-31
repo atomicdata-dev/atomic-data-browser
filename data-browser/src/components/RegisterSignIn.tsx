@@ -151,7 +151,6 @@ function Register({ close }) {
             <InputWrapper>
               <InputStyled
                 autoFocus={true}
-                // pattern={emailRegex}
                 type={'email'}
                 required
                 value={email}
@@ -186,8 +185,10 @@ function SignIn() {
       </DialogTitle>
       <DialogContent>
         <SettingsAgent />
-        <p>Lost your passphrase?</p>
       </DialogContent>
+      <DialogActions>
+        <p>Lost your passphrase?</p>
+      </DialogActions>
     </>
   );
 }

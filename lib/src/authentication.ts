@@ -151,6 +151,7 @@ export async function register(
  * If there is no agent in the store, a new one will be created.  */
 export async function confirmEmail(
   store: Store,
+  /** Full http URL including the `token` query parameter */
   tokenURL: string,
 ): Promise<{ agent: Agent; destination: string }> {
   const url = new URL(tokenURL);
@@ -198,17 +199,21 @@ export async function confirmEmail(
 }
 
 function parseJwt(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join(''),
-  );
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join(''),
+    );
 
-  return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    throw new Error('Invalid token: ' + e);
+  }
 }

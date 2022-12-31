@@ -3,9 +3,11 @@ import BugsnagPluginReact, {
   BugsnagErrorBoundary,
 } from '@bugsnag/plugin-react';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import { isDev } from '../config';
 
 export function handleError(e: Error): void {
+  toast.error(e.message);
   console.error(e);
 
   if (!isDev) {

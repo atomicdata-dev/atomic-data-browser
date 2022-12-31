@@ -24,6 +24,9 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
   }, [agent]);
 
   if (isUnauthorized(resource.error)) {
+    // This might be a bit too aggressive, but it fixes 'Unauthorized' messages after signing in to a new drive.
+    store.fetchResource(subject);
+
     return (
       <ContainerWide>
         <Column>
