@@ -143,7 +143,34 @@ export async function register(
   const description = resource.get(properties.description) as string;
 
   if (!description.includes('success')) {
-    throw new Error('ERRORORRRR');
+    throw new Error('Expected a `success` message, did not receive one');
+  }
+
+  return;
+}
+
+/** Asks the server to add a public key to an account. Will lead to a confirmation link being sent */
+export async function addPublicKey(store: Store, email: string): Promise<void> {
+  if (!email) {
+    throw new Error('No email provided');
+  }
+
+  const url = new URL('/add-public-key', store.getServerUrl());
+  url.searchParams.set('email', email);
+  const resource = await store.getResourceAsync(url.toString());
+
+  if (!resource) {
+    throw new Error('No resource received');
+  }
+
+  if (resource.error) {
+    throw resource.error;
+  }
+
+  const description = resource.get(properties.description) as string;
+
+  if (!description.includes('success')) {
+    throw new Error('Expected a `success` message, did not receive one');
   }
 
   return;
@@ -171,11 +198,19 @@ export async function confirmEmail(
 
   let agent = store.getAgent();
 
+  // No agent, create a new one
   if (!agent) {
     const keypair = await generateKeyPair();
     const newAgent = new Agent(keypair.privateKey);
     newAgent.subject = `${store.getServerUrl()}/agents/${parsed.name}`;
     agent = newAgent;
+  }
+
+  // An agent already exists, make sure it matches the confirm email token
+  if (!agent?.subject?.includes(parsed.name)) {
+    throw new Error(
+      'You cannot confirm this email, you are already logged in as a different user',
+    );
   }
 
   url.searchParams.set('public-key', await agent.getPublicKey());
