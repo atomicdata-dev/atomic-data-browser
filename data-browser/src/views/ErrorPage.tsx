@@ -33,6 +33,11 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
           <h1>Unauthorized</h1>
           {agent ? (
             <>
+              <p>
+                {
+                  "You don't have access to this. Try asking for access, or sign in with a different account."
+                }
+              </p>
               <ErrorBlock error={resource.error!} />
               <span>
                 <Button onClick={() => store.fetchResourceFromServer(subject)}>

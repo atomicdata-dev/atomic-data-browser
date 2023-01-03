@@ -8,7 +8,13 @@ import {
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSettings } from '../helpers/AppSettings';
 import { Button } from './Button';
-import { nameRegex, register, useServerURL, useStore } from '@tomic/react';
+import {
+  addPublicKey,
+  nameRegex,
+  register as createRegistration,
+  useServerURL,
+  useStore,
+} from '@tomic/react';
 import Field from './forms/Field';
 import { InputWrapper, InputStyled } from './forms/InputStyles';
 import { Row } from './Row';
@@ -20,6 +26,16 @@ interface RegisterSignInProps {
   redirect?: string;
 }
 
+/** What is currently showing */
+enum PageStateOpts {
+  none,
+  signIn,
+  register,
+  reset,
+  mailSentRegistration,
+  mailSentAddPubkey,
+}
+
 /**
  * Two buttons: Register / Sign in.
  * Opens a Dialog / Modal with the appropriate form.
@@ -29,7 +45,8 @@ export function RegisterSignIn({
 }: React.PropsWithChildren<RegisterSignInProps>): JSX.Element {
   const { dialogProps, show, close } = useDialog();
   const { agent } = useSettings();
-  const [isRegistering, setRegister] = useState(true);
+  const [pageState, setPageState] = useState<PageStateOpts>(PageStateOpts.none);
+  const [email, setEmail] = useState('');
 
   if (agent) {
     return <>{children}</>;
@@ -39,7 +56,7 @@ export function RegisterSignIn({
         <Row>
           <Button
             onClick={() => {
-              setRegister(true);
+              setPageState(PageStateOpts.register);
               show();
             }}
           >
@@ -48,7 +65,7 @@ export function RegisterSignIn({
           <Button
             subtle
             onClick={() => {
-              setRegister(false);
+              setPageState(PageStateOpts.signIn);
               show();
             }}
           >
@@ -56,19 +73,108 @@ export function RegisterSignIn({
           </Button>
         </Row>
         <Dialog {...dialogProps}>
-          {isRegistering ? <Register close={close} /> : <SignIn />}
+          {pageState === PageStateOpts.register && (
+            <Register
+              setPageState={setPageState}
+              email={email}
+              setEmail={setEmail}
+            />
+          )}
+          {pageState === PageStateOpts.signIn && (
+            <SignIn setPageState={setPageState} />
+          )}
+          {pageState === PageStateOpts.reset && (
+            <Reset
+              email={email}
+              setEmail={setEmail}
+              setPageState={setPageState}
+            />
+          )}
+          {pageState === PageStateOpts.mailSentRegistration && (
+            <MailSentConfirm
+              email={email}
+              close={close}
+              message={'Your account will be created when you open that link.'}
+            />
+          )}
+          {pageState === PageStateOpts.mailSentAddPubkey && (
+            <MailSentConfirm
+              email={email}
+              close={close}
+              message={'Click that link to create a new PassPhrase.'}
+            />
+          )}
         </Dialog>
       </>
     );
 }
 
-function Register({ close }) {
+function Reset({ email, setEmail, setPageState }) {
+  const store = useStore();
+  const [err, setErr] = useState<Error | undefined>(undefined);
+
+  const handleRequestReset = useCallback(async () => {
+    try {
+      await addPublicKey(store, email);
+      setPageState(PageStateOpts.mailSentAddPubkey);
+    } catch (e) {
+      setErr(e);
+    }
+  }, [email]);
+
+  return (
+    <>
+      <DialogTitle>
+        <h1>Reset your PassKey</h1>
+      </DialogTitle>
+      <DialogContent>
+        <p>
+          {
+            "Lost it? No worries, we'll send a link that let's you create a new one."
+          }
+        </p>
+        <EmailField
+          email={email}
+          setEmail={(e: any) => {
+            setErr(undefined);
+            setEmail(e);
+          }}
+        />
+        {err && <ErrorLook>{err.message}</ErrorLook>}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleRequestReset}>Send me</Button>
+      </DialogActions>
+    </>
+  );
+}
+
+function MailSentConfirm({ email, close, message }) {
+  return (
+    <>
+      <DialogTitle>
+        <h1>Go to your email inbox</h1>
+      </DialogTitle>
+      <DialogContent>
+        <p>
+          {"We've sent a confirmation link to "}
+          <strong>{email}</strong>
+          {'.'}
+        </p>
+        <p>{message}</p>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={close}>{"Ok, I'll open my mailbox!"}</Button>
+      </DialogActions>
+    </>
+  );
+}
+
+function Register({ setPageState, email, setEmail }) {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [serverUrlStr] = useServerURL();
   const [nameErr, setErr] = useState<Error | undefined>(undefined);
   const store = useStore();
-  const [mailSent, setMailSent] = useState(false);
 
   const serverUrl = new URL(serverUrlStr);
   serverUrl.host = `${name}.${serverUrl.host}`;
@@ -93,35 +199,14 @@ function Register({ close }) {
       }
 
       try {
-        await register(store, name, email);
-        setMailSent(true);
+        await createRegistration(store, name, email);
+        setPageState(PageStateOpts.mailSentRegistration);
       } catch (er) {
         setErr(er);
       }
     },
     [name, email],
   );
-
-  if (mailSent) {
-    return (
-      <>
-        <DialogTitle>
-          <h1>Go to your email inbox</h1>
-        </DialogTitle>
-        <DialogContent>
-          <p>
-            {"We've sent a confirmation link to "}
-            <strong>{email}</strong>
-            {'.'}
-          </p>
-          <p>Your account will be created when you open that link.</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={close}>Ok, I will!</Button>
-        </DialogActions>
-      </>
-    );
-  }
 
   return (
     <>
@@ -147,48 +232,63 @@ function Register({ close }) {
               />
             </InputWrapper>
           </Field>
-          <Field label='E-mail'>
-            <InputWrapper>
-              <InputStyled
-                autoFocus={true}
-                type={'email'}
-                required
-                value={email}
-                onChange={e => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </InputWrapper>
-          </Field>
+          <EmailField email={email} setEmail={setEmail} />
           {name && nameErr && <ErrorLook>{nameErr.message}</ErrorLook>}
         </form>
       </DialogContent>
       <DialogActions>
+        <Button subtle onClick={() => setPageState(PageStateOpts.signIn)}>
+          Sign in
+        </Button>
         <Button
           type='submit'
           form='register-form'
           disabled={!name || !!nameErr}
           onClick={handleSubmit}
         >
-          Create
+          Save
         </Button>
       </DialogActions>
     </>
   );
 }
 
-function SignIn() {
+function SignIn({ setPageState }) {
   return (
     <>
       <DialogTitle>
-        <h1>Sign in </h1>
+        <h1>Sign in</h1>
       </DialogTitle>
       <DialogContent>
         <SettingsAgent />
       </DialogContent>
       <DialogActions>
-        <p>Lost your passphrase?</p>
+        <Button subtle onClick={() => setPageState(PageStateOpts.register)}>
+          Register
+        </Button>
+        <Button subtle onClick={() => setPageState(PageStateOpts.reset)}>
+          I lost my passphrase
+        </Button>
       </DialogActions>
     </>
+  );
+}
+
+function EmailField({ setEmail, email }) {
+  return (
+    <Field label='E-mail'>
+      <InputWrapper>
+        <InputStyled
+          // This is not properly working atm
+          autoFocus
+          type={'email'}
+          required
+          value={email}
+          onChange={e => {
+            setEmail(e.target.value);
+          }}
+        />
+      </InputWrapper>
+    </Field>
   );
 }
