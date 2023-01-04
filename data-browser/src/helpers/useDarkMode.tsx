@@ -19,7 +19,7 @@ export const useDarkMode = (): [
   Dispatch<boolean | undefined>,
   DarkModeOption,
 ] => {
-  const [dark, setDark] = useState(() => checkPrefersDark());
+  const [dark, setDark] = useState<boolean>(() => checkPrefersDark());
   const [darkLocal, setDarkLocal] = useLocalStorage<DarkModeOption>(
     'darkMode',
     DarkModeOption.auto,
@@ -41,7 +41,9 @@ export const useDarkMode = (): [
 
   useEffect(() => {
     const onChange = (e: MediaQueryListEvent) => {
-      setDarkBoth(e.matches);
+      if (darkLocal === DarkModeOption.auto) {
+        setDark(e.matches);
+      }
     };
 
     const list = window.matchMedia('(prefers-color-scheme: dark)');
