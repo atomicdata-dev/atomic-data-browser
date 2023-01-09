@@ -195,7 +195,9 @@ export class Store {
     if (found) {
       return found;
     } else {
-      this.webSockets.set(url.origin, startWebsocket(url.origin, this));
+      if (typeof window !== 'undefined') {
+        this.webSockets.set(url.origin, startWebsocket(url.origin, this));
+      }
     }
 
     return;

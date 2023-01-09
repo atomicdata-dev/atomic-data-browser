@@ -2,6 +2,10 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.34.10
+
+- Don't use WebSocket in Node context #280
+
 ## v0.34.9
 
 - Fix @tomic/lib exports for non-ts contexts #270
