@@ -15,6 +15,9 @@ import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 /** Function called when a resource is updated or removed */
 type Callback = (resource: Resource) => void;
 
+/** Returns True if the client has WebSocket support */
+const supportsWebSockets = () => typeof WebSocket !== 'undefined';
+
 export enum StoreEvents {
   /**
    * Whenever `Resource.save()` is called, so only when the user of this library
@@ -167,7 +170,11 @@ export class Store {
     // Use WebSocket if available, else use HTTP(S)
     const ws = this.getWebSocketForSubject(subject);
 
-    if (!opts.noWebSocket && WebSocket && ws?.readyState === WebSocket.OPEN) {
+    if (
+      !opts.noWebSocket &&
+      supportsWebSockets() &&
+      ws?.readyState === WebSocket.OPEN
+    ) {
       fetchWebSocket(ws, subject);
     } else {
       fetchResource(
@@ -433,13 +440,13 @@ export class Store {
 
     this.serverUrl = url;
     // TODO This is not the right place
-    this.openWebSocket(url);
+    supportsWebSockets() && this.openWebSocket(url);
   }
 
   /** Opens a WebSocket for this Atomic Server URL */
   public openWebSocket(url: string) {
     // Check if we're running in a webbrowser
-    if (typeof window !== 'undefined') {
+    if (supportsWebSockets()) {
       if (this.webSockets.has(url)) {
         return;
       }

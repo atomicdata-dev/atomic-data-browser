@@ -15,4 +15,18 @@ describe('Store', () => {
       .toString();
     expect(atomString).to.equal(testval);
   });
+
+  it('fetches a resource', async () => {
+    const store = new Store({ serverUrl: 'https://atomicdata.dev' });
+    const resource = await store.getResourceAsync(
+      'https://atomicdata.dev/properties/createdAt',
+    );
+
+    if (resource.error) {
+      throw resource.error;
+    }
+
+    const atomString = resource.get(urls.properties.shortname)!.toString();
+    expect(atomString).to.equal('created-at');
+  });
 });
