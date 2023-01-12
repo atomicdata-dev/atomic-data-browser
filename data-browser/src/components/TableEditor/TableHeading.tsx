@@ -46,6 +46,7 @@ export const TableHeadingWrapper = styled.div<TableHeadingWrapperProps>`
   padding-inline: var(--table-inner-padding);
   font-weight: bold;
   white-space: nowrap;
+  overflow: hidden;
 `;
 
 const ResizeHandle = styled(DragAreaBase)`

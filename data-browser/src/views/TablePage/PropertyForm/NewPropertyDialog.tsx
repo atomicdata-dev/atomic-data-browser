@@ -1,5 +1,6 @@
 import { Resource, Store, urls, useStore } from '@tomic/react';
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Button } from '../../../components/Button';
 import {
   Dialog,
@@ -15,6 +16,7 @@ interface NewPropertyDialogProps {
   showDialog: boolean;
   tableClassResource: Resource;
   bindShow: React.Dispatch<boolean>;
+  selectedCategory?: string;
 }
 
 const createSubjectWithBase = (base: string) => {
@@ -23,7 +25,7 @@ const createSubjectWithBase = (base: string) => {
   return `${base}${sepperator}property-${randomString(8)}`;
 };
 
-const polulatePropertyWithDefaults = async (
+const populatePropertyWithDefaults = async (
   property: Resource,
   tableClass: Resource,
   store: Store,
@@ -38,6 +40,7 @@ const polulatePropertyWithDefaults = async (
 
 export function NewPropertyDialog({
   showDialog,
+  selectedCategory,
   tableClassResource,
   bindShow,
 }: NewPropertyDialogProps): JSX.Element {
@@ -61,13 +64,9 @@ export function NewPropertyDialog({
     await resource.save(store);
     await store.notifyResourceManuallyCreated(resource);
 
-    const currentRecommends =
-      tableClassResource.get(urls.properties.recommends) ?? [];
-
-    await tableClassResource.set(
+    tableClassResource.pushPropVal(
       urls.properties.recommends,
-      [...(currentRecommends as string[]), resource.getSubject()],
-      store,
+      resource.getSubject(),
     );
 
     await tableClassResource.save(store);
@@ -86,7 +85,7 @@ export function NewPropertyDialog({
       newResource: true,
     });
 
-    await polulatePropertyWithDefaults(
+    await populatePropertyWithDefaults(
       propertyResource,
       tableClassResource,
       store,
@@ -118,10 +117,12 @@ export function NewPropertyDialog({
   return (
     <Dialog {...dialogProps}>
       <DialogTitle>
-        <h1>New Column</h1>
+        <h1>
+          New <Capitalize>{selectedCategory}</Capitalize> Column
+        </h1>
       </DialogTitle>
       <DialogContent>
-        <PropertyForm resource={resource} />
+        <PropertyForm resource={resource} category={selectedCategory} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelClick} subtle>
@@ -132,3 +133,7 @@ export function NewPropertyDialog({
     </Dialog>
   );
 }
+
+const Capitalize = styled('span')`
+  text-transform: capitalize;
+`;

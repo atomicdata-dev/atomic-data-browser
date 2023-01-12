@@ -187,6 +187,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     /** Pretty dark mode transition */
     transition: background .2s ease, border-color .2s ease, color .2s ease;
+    font-size: 15px;
   }
 
   input, button, body {

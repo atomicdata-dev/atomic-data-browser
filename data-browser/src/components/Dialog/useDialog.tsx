@@ -23,6 +23,7 @@ export const useDialog = (
   const [wasSuccess, setWasSuccess] = useState(false);
 
   const show = useCallback(() => {
+    document.body.setAttribute('inert', '');
     setShowDialog(true);
     setVisible(true);
     bindShow?.(true);
@@ -34,6 +35,7 @@ export const useDialog = (
   }, []);
 
   const handleClosed = useCallback(() => {
+    document.body.removeAttribute('inert');
     bindShow?.(false);
     setVisible(false);
 

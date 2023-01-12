@@ -22,6 +22,8 @@ const matchModifier = (
 const matchCondition = (handler: KeyboardHandler, context: HandlerContext) =>
   handler.condition === undefined || handler.condition(context);
 
+const isDialogOpened = () => document.body.hasAttribute('inert');
+
 export function useTableEditorKeyboardNavigation(
   columnCount: number,
   rowCount: number,
@@ -40,6 +42,10 @@ export function useTableEditorKeyboardNavigation(
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (isDialogOpened()) {
+        return;
+      }
+
       const translateCursor = (r: number, c: number) => {
         let row = (selectedRow ?? 0) + r;
         let column = (selectedColumn ?? 0) + c;

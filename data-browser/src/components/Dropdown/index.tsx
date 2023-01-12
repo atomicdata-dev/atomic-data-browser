@@ -1,4 +1,11 @@
-import React, { useId, useMemo, useRef, useState, useCallback } from 'react';
+import React, {
+  useContext,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import styled from 'styled-components';
 import { useClickAwayListener } from '../../hooks/useClickAwayListener';
@@ -7,6 +14,8 @@ import { DropdownTriggerRenderFunction } from './DropdownTrigger';
 import { shortcuts } from '../HotKeyWrapper';
 import { Shortcut } from '../Shortcut';
 import { transition } from '../../helpers/transition';
+import { createPortal } from 'react-dom';
+import { DropdownPortalContext } from './dropdownContext';
 
 export const DIVIDER = 'divider' as const;
 
@@ -96,11 +105,10 @@ export function DropdownMenu({
   const menuId = useId();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
   const [isActive, setIsActive] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   const handleClose = useCallback(() => {
-    setVisible(false);
     // Whenever the menu closes, assume that the next one will be opened with mouse
     setUseKeys(false);
     // Always reset to the top item on close
@@ -153,8 +161,6 @@ export function DropdownMenu({
       } else {
         setX(triggerRect.x - menuRect.width + triggerRect.width);
       }
-
-      setVisible(true);
     });
   }, [isActive]);
 
@@ -228,37 +234,56 @@ export function DropdownMenu({
         isActive={isActive}
         menuId={menuId}
       />
-      <Menu ref={dropdownRef} visible={visible} x={x} y={y} id={menuId}>
-        {isActive &&
-          normalizedItems.map((props, i) => {
-            if (!isItem(props)) {
-              return <ItemDivider key={i} />;
-            }
+      {isActive && (
+        <DropdownPortal>
+          <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
+            {normalizedItems.map((props, i) => {
+              if (!isItem(props)) {
+                return <ItemDivider key={i} />;
+              }
 
-            const { label, onClick, helper, id, disabled, shortcut, icon } =
-              props;
+              const { label, onClick, helper, id, disabled, shortcut, icon } =
+                props;
 
-            return (
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  onClick();
-                }}
-                id={id}
-                data-test={`menu-item-${id}`}
-                disabled={disabled}
-                key={id}
-                helper={shortcut ? `${helper} (${shortcut})` : helper}
-                label={label}
-                selected={useKeys && selectedIndex === i}
-                icon={icon}
-                shortcut={shortcut}
-              />
-            );
-          })}
-      </Menu>
+              return (
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    onClick();
+                  }}
+                  id={id}
+                  data-test={`menu-item-${id}`}
+                  disabled={disabled}
+                  key={id}
+                  helper={shortcut ? `${helper} (${shortcut})` : helper}
+                  label={label}
+                  selected={useKeys && selectedIndex === i}
+                  icon={icon}
+                  shortcut={shortcut}
+                />
+              );
+            })}
+          </Menu>
+        </DropdownPortal>
+      )}
     </>
   );
+}
+
+const DropdownPortal = ({ children }: React.PropsWithChildren) => {
+  const portalRef = useContext(DropdownPortalContext);
+
+  if (!portalRef.current) {
+    return null;
+  }
+
+  return createPortal(children, portalRef.current);
+};
+
+interface MenuProps {
+  isActive: boolean;
+  x: number;
+  y: number;
 }
 
 export interface MenuItemSidebarProps extends MenuItemMinimial {
@@ -346,14 +371,8 @@ const ItemDivider = styled.div`
   border-bottom: 1px solid ${p => p.theme.colors.bg2};
 `;
 
-interface MenuProps {
-  visible: boolean;
-  x: number;
-  y: number;
-}
-
 const Menu = styled.div<MenuProps>`
-  font-size: ${p => p.theme.fontSizeBody}rem;
+  font-size: 0.9rem;
   overflow: hidden;
   background: ${p => p.theme.colors.bg};
   border: ${p =>
@@ -362,12 +381,12 @@ const Menu = styled.div<MenuProps>`
   padding-bottom: 0.4rem;
   border-radius: 8px;
   position: fixed;
-  z-index: 1;
+  z-index: ${p => p.theme.zIndex.dropdown};
   top: ${p => p.y}px;
   left: ${p => p.x}px;
   width: auto;
   box-shadow: ${p => p.theme.boxShadowSoft};
-  opacity: ${p => (p.visible ? 1 : 0)};
+  opacity: ${p => (p.isActive ? 1 : 0)};
 
   ${transition('opacity')};
 `;
