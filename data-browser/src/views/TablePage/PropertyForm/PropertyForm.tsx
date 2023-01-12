@@ -1,31 +1,37 @@
 import { Resource, urls, useString } from '@tomic/react';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import {
   InputStyled,
   InputWrapper,
 } from '../../../components/forms/InputStyles';
-import ResourceField from '../../../components/forms/ResourceField';
 import { stringToSlug } from '../../../helpers/stringToSlug';
-import { dataTypeIconMap } from '../dataTypeMaps';
+import type { PropertyCategoryFormProps } from './PropertyCategoryFormProps';
+import { TextPropertyForm } from './TextPropertyForm';
+
+type Category =
+  | 'text'
+  | 'number'
+  | 'date'
+  | 'checkbox'
+  | 'file'
+  | 'select'
+  | 'relation';
 
 interface PropertyFormProps {
   resource: Resource;
+  category?: Category;
 }
 
-const camelCaseToDisplayName = (camelCaseString: string) => {
-  const split = camelCaseString.replace(/[A-Z]/gm, ' $&');
+const categoryForms = new Map<Category, React.FC<PropertyCategoryFormProps>>();
+categoryForms.set('text', TextPropertyForm);
 
-  return split.charAt(0).toUpperCase() + split.slice(1);
-};
-
-export function PropertyForm({ resource }: PropertyFormProps): JSX.Element {
+export function PropertyForm({
+  resource,
+  category,
+}: PropertyFormProps): JSX.Element {
   const [name, setName] = useString(resource, urls.properties.name);
-  const [shortName, setShortName] = useString(
-    resource,
-    urls.properties.shortname,
-  );
-  const [datatype, setDatatype] = useString(resource, urls.properties.datatype);
+  const [_, setShortName] = useString(resource, urls.properties.shortname);
 
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,32 +44,20 @@ export function PropertyForm({ resource }: PropertyFormProps): JSX.Element {
     [setName, setShortName],
   );
 
-  const handleDataTypeChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setDatatype(e.target.value);
-    },
-    [setDatatype],
-  );
+  const CategoryForm = useMemo(() => {
+    if (category && categoryForms.has(category)) {
+      return categoryForms.get(category)!;
+    }
 
-  const Icon = useMemo(() => dataTypeIconMap.get(datatype!), [datatype]);
+    return NoCategorySelected;
+  }, [category]);
 
   return (
     <Form>
-      <div>
-        <InputWrapper>
-          <InputStyled type='text' value={name} onChange={handleNameChange} />
-        </InputWrapper>
-        {shortName}
-      </div>
-      <select placeholder='Datatype' onChange={handleDataTypeChange}>
-        {Object.entries(urls.datatypes).map(([key, value]) => (
-          <option key={value} value={value} selected={value === datatype}>
-            <>
-              {Icon} {camelCaseToDisplayName(key)}
-            </>
-          </option>
-        ))}
-      </select>
+      <InputWrapper>
+        <InputStyled type='text' value={name} onChange={handleNameChange} />
+      </InputWrapper>
+      <CategoryForm resource={resource} />
     </Form>
   );
 }
@@ -73,3 +67,9 @@ const Form = styled.form`
   flex-direction: column;
   gap: 1rem;
 `;
+
+const NoCategorySelected: React.FC<PropertyCategoryFormProps> = ({
+  resource: _,
+}) => {
+  return <span>No Type selected</span>;
+};

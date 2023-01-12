@@ -1,7 +1,5 @@
 import React from 'react';
-import { FaPlus } from 'react-icons/fa';
 import styled from 'styled-components';
-import { IconButton } from '../IconButton/IconButton';
 import { TableHeading, TableHeadingWrapper } from './TableHeading';
 import { TableRow } from './TableRow';
 
@@ -14,17 +12,17 @@ export type TableHeadingComponent<T> = ({
 export interface TableHeaderProps<T> {
   columns: T[];
   onResize: (index: number, size: string) => void;
-  onNewColumnClick?: React.MouseEventHandler<HTMLButtonElement>;
-  HeadingComponent: TableHeadingComponent<T>;
   columnToKey: (column: T) => string;
+  HeadingComponent: TableHeadingComponent<T>;
+  NewColumnButtonComponent: React.ComponentType;
 }
 
 export function TableHeader<T>({
   columns,
   onResize,
-  onNewColumnClick,
-  HeadingComponent,
   columnToKey,
+  HeadingComponent,
+  NewColumnButtonComponent,
 }: TableHeaderProps<T>): JSX.Element {
   return (
     <StyledTableRow>
@@ -39,9 +37,7 @@ export function TableHeader<T>({
         </TableHeading>
       ))}
       <TableHeadingWrapper>
-        <IconButton title='Add column' onClick={onNewColumnClick}>
-          <FaPlus />
-        </IconButton>
+        <NewColumnButtonComponent />
       </TableHeadingWrapper>
     </StyledTableRow>
   );

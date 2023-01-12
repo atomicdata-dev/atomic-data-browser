@@ -1,5 +1,5 @@
-import { Collection, Property, urls, useStore } from '@tomic/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Collection, Property, useStore } from '@tomic/react';
+import React, { useCallback, useMemo } from 'react';
 import { ContainerFull } from '../../components/Containers';
 import { EditableTitle } from '../../components/EditableTitle';
 import { CellIndex, CopyValue, FancyTable } from '../../components/TableEditor';
@@ -9,7 +9,8 @@ import { useTableColumns } from './useTableColumns';
 import { TableNewRow, TableRow } from './TableRow';
 import { useTableData } from './useTableData';
 import { getValuesFromSubject } from './helpers/clipboard';
-import { NewPropertyDialog } from './PropertyForm/NewPropertyDialog';
+import { NewColumnButton } from './NewColumnButton';
+import { TablePageContext } from './tablePageContext';
 
 const columnToKey = (column: Property) => column.subject;
 
@@ -30,15 +31,16 @@ const transformToPropertiesPerSubject = async (
 
 export function TablePage({ resource }: ResourcePageProps): JSX.Element {
   const store = useStore();
-  const [showNewPropertyDialog, setShowNewPropertyDialog] = useState(false);
-
   const [tableClass, collection, invalidateTable] = useTableData(resource);
 
   const columns = useTableColumns(tableClass);
 
-  useEffect(() => {
-    console.log('Table mount');
-  }, []);
+  const tablePageContext = useMemo(
+    () => ({
+      tableClassResource: tableClass,
+    }),
+    [tableClass],
+  );
 
   const handleDeleteRow = useCallback(
     async (index: number) => {
@@ -81,10 +83,6 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     [store, collection, invalidateTable],
   );
 
-  const handleNewColumnClick = useCallback(() => {
-    setShowNewPropertyDialog(true);
-  }, []);
-
   const handleCopyCommand = useCallback(
     async (cells: CellIndex<Property>[]): Promise<CopyValue[][]> => {
       const propertiesPerSubject = await transformToPropertiesPerSubject(
@@ -126,24 +124,21 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
 
   return (
     <ContainerFull>
-      <EditableTitle resource={resource} />
-      <FancyTable
-        columns={columns}
-        itemCount={collection.totalMembers + 1}
-        HeadingComponent={TableHeading}
-        columnToKey={columnToKey}
-        onClearRow={handleDeleteRow}
-        onClearCells={handleClearCells}
-        onCopyCommand={handleCopyCommand}
-        onNewColumnClick={handleNewColumnClick}
-      >
-        {Row}
-      </FancyTable>
-      <NewPropertyDialog
-        showDialog={showNewPropertyDialog}
-        tableClassResource={tableClass}
-        bindShow={setShowNewPropertyDialog}
-      />
+      <TablePageContext.Provider value={tablePageContext}>
+        <EditableTitle resource={resource} />
+        <FancyTable
+          columns={columns}
+          itemCount={collection.totalMembers + 1}
+          columnToKey={columnToKey}
+          onClearRow={handleDeleteRow}
+          onClearCells={handleClearCells}
+          onCopyCommand={handleCopyCommand}
+          HeadingComponent={TableHeading}
+          NewColumnButtonComponent={NewColumnButton}
+        >
+          {Row}
+        </FancyTable>
+      </TablePageContext.Provider>
     </ContainerFull>
   );
 }

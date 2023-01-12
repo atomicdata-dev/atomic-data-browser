@@ -18,6 +18,7 @@ import { registerHandlers } from './handlers';
 import { ErrorBoundary } from './views/ErrorPage';
 import { NetworkIndicator } from './components/NetworkIndicator';
 import { getAgentFromLocalStorage } from './helpers/agentStorage';
+import { DropdownContainer } from './components/Dropdown/DropdownContainer';
 
 function fixDevUrl(url: string) {
   if (isDev()) {
@@ -79,12 +80,14 @@ function App(): JSX.Element {
                 <ErrBoundary FallbackComponent={CrashPage}>
                   <Toaster />
                   <MetaSetter />
-                  <DialogContainer>
-                    <NavWrapper>
-                      <AppRoutes />
-                    </NavWrapper>
-                    <NetworkIndicator />
-                  </DialogContainer>
+                  <DropdownContainer>
+                    <DialogContainer>
+                      <NavWrapper>
+                        <AppRoutes />
+                      </NavWrapper>
+                      <NetworkIndicator />
+                    </DialogContainer>
+                  </DropdownContainer>
                 </ErrBoundary>
               </ThemeWrapper>
             </HotKeysWrapper>

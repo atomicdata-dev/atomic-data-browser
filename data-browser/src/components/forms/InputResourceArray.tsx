@@ -104,7 +104,7 @@ export default function InputResourceArray({
           </StyledButton>
         )}
       </Row>
-      {err?.index && <ErrMessage>{err?.message}</ErrMessage>}
+      {!!err?.index && <ErrMessage>{err?.message}</ErrMessage>}
     </Column>
   );
 }
