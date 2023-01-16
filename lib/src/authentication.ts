@@ -77,6 +77,7 @@ export async function signRequest(
 }
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const COOKIE_NAME_AUTH = 'atomic_session';
 
 const setCookieExpires = (
   name: string,
@@ -100,6 +101,10 @@ export const setCookieAuthentication = (serverURL: string, agent: Agent) => {
   createAuthentication(serverURL, agent).then(auth => {
     setCookieExpires(COOKIE_NAME_AUTH, btoa(JSON.stringify(auth)), serverURL);
   });
+};
+
+export const removeCookieAuthentication = () => {
+  document.cookie = `${COOKIE_NAME_AUTH}=;Max-Age=-99999999`;
 };
 
 /** Returns false if the auth cookie is not set / expired */
