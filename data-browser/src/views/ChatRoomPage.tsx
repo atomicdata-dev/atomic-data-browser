@@ -183,6 +183,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
             Send
           </SendButton>
         </MessageForm>
+        <NavBarSpacer baseMargin='2rem' position='bottom' />
       </Guard>
       <NavBarSpacer baseMargin='2rem' position='bottom' />
     </FullPageWrapper>
