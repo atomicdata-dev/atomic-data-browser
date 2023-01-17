@@ -62,7 +62,6 @@ export function displayShortcut(shortcut: string): string {
 }
 
 /** App-wide keyboard events handler. */
-// Keep changes in sync with ShortcutsRoute.tsx
 function HotKeysWrapper({ children }: Props): JSX.Element {
   const navigate = useNavigate();
   const [subject] = useCurrentSubject();

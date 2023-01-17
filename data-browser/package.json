@@ -32,7 +32,6 @@
     "yamde": "^1.7.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.26.0",
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.0.0",
@@ -69,9 +68,8 @@
     "test": "playwright test --config=./tests/playwright.config.ts",
     "test-debug": "PWDEBUG=1 playwright test",
     "test-new": "playwright codegen http://localhost:5173",
-    "test-query": "PWDEBUG=1 npx playwright test \"e2e.spec.ts\" -g",
+    "test-query": "PWDEBUG=1 playwright test \"e2e.spec.ts\" -g",
     "typecheck": "tsc --noEmit"
   },
-  "type": "module",
   "version": "0.34.0"
 }
