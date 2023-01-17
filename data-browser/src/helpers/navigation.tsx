@@ -66,6 +66,13 @@ export function useSearchQuery() {
   return useQueryString('query');
 }
 
+/** Query parameters used by the `/new` route */
+export const newURLParams = {
+  classSubject: 'classSubject',
+  parent: 'parent',
+  newSubject: 'newSubject',
+};
+
 /** Constructs a URL for the New Resource form */
 export function newURL(
   classUrl: string,
@@ -74,9 +81,9 @@ export function newURL(
 ): string {
   const navTo = new URL(location.origin);
   navTo.pathname = paths.new;
-  navTo.searchParams.append('classSubject', classUrl);
-  parentURL && navTo.searchParams.append('parent', parentURL);
-  subject && navTo.searchParams.append('newSubject', subject);
+  navTo.searchParams.append(newURLParams.classSubject, classUrl);
+  parentURL && navTo.searchParams.append(newURLParams.parent, parentURL);
+  subject && navTo.searchParams.append(newURLParams.newSubject, subject);
 
   return paths.new + navTo.search;
 }
