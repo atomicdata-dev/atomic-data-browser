@@ -37,7 +37,7 @@ export function SettingsAgentRoute() {
       <Guard>
         {agent && (
           <>
-            {agent?.subject?.startsWith('http://localhost') && (
+            {agent?.subject?.includes('localhost') && (
               <p>
                 <ErrorLook>Warning:</ErrorLook>
                 {
