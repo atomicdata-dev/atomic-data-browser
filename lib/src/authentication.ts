@@ -102,7 +102,9 @@ export const setCookieAuthentication = (store: Store, agent: Agent) => {
 };
 
 export const removeCookieAuthentication = () => {
-  document.cookie = `${COOKIE_NAME_AUTH}=;Max-Age=-99999999`;
+  if (typeof document !== 'undefined') {
+    document.cookie = `${COOKIE_NAME_AUTH}=;Max-Age=-99999999`;
+  }
 };
 
 /** Returns false if the auth cookie is not set / expired */
