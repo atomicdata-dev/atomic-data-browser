@@ -82,9 +82,11 @@ test.describe('data-browser', async () => {
     // Sign out
     await page.click('text=user settings');
     await page.click('[data-test="sign-out"]');
-    await expect(page.locator('text=Enter your Agent secret')).toBeVisible();
+    await page.click('text=Sign in');
+    await expect(page.locator('#current-password')).toBeVisible();
     await page.reload();
-    await expect(page.locator('text=Enter your Agent secret')).toBeVisible();
+    await page.click('text=Sign in');
+    await expect(page.locator('#current-password')).toBeVisible();
   });
 
   test('sign up and edit document atomicdata.dev', async ({ page }) => {
@@ -125,8 +127,8 @@ test.describe('data-browser', async () => {
     // Create folder called 'Not This folder'
     await page.locator('[data-test="sidebar-new-resource"]').click();
     await page.locator('button:has-text("folder")').click();
-    await page.locator('[placeholder="New Folder"]').fill('Not This Folder');
-    await page.locator(currentDialogOkButton).click();
+    await page.locator(editableTitle).click();
+    await page.locator(editableTitle).fill('Not This Folder');
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -140,8 +142,8 @@ test.describe('data-browser', async () => {
 
     // Create folder called 'This folder'
     await page.locator('button:has-text("folder")').click();
-    await page.locator('[placeholder="New Folder"]').fill('This Folder');
-    await page.locator(currentDialogOkButton).click();
+    await page.locator(editableTitle).click();
+    await page.locator(editableTitle).fill('This Folder');
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -581,6 +583,7 @@ async function signIn(page: Page) {
   // If there are any issues with this agent, try creating a new one https://atomicdata.dev/invites/1
   const test_agent =
     'eyJzdWJqZWN0IjoiaHR0cHM6Ly9hdG9taWNkYXRhLmRldi9hZ2VudHMvaElNWHFoR3VLSDRkM0QrV1BjYzAwUHVFbldFMEtlY21GWStWbWNVR2tEWT0iLCJwcml2YXRlS2V5IjoiZkx0SDAvY29VY1BleFluNC95NGxFemFKbUJmZTYxQ3lEekUwODJyMmdRQT0ifQ==';
+  await page.click('text=Sign in');
   await page.click('#current-password');
   await page.fill('#current-password', test_agent);
   await expect(await page.locator('text=Edit profile')).toBeVisible();
