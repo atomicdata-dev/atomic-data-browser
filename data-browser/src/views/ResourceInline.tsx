@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  useString,
-  useResource,
-  useTitle,
-  urls,
-  isValidURL,
-} from '@tomic/react';
+import { useString, useResource, useTitle, urls, Client } from '@tomic/react';
 import { AtomicLink } from '../components/AtomicLink';
 import { ErrorLook } from '../components/ErrorLook';
 import { LoaderInline } from '../components/Loader';
@@ -30,14 +24,6 @@ export function ResourceInline({
     return <ErrorLook>No subject passed</ErrorLook>;
   }
 
-  if (resource.loading) {
-    return <LoaderInline about={subject} title={`${subject} is loading..`} />;
-  }
-
-  if (!isValidURL(subject)) {
-    return <ErrorLook>{subject} is not a valid URL</ErrorLook>;
-  }
-
   if (resource.error) {
     return (
       <AtomicLink subject={subject} untabbable={untabbable}>
@@ -46,6 +32,14 @@ export function ResourceInline({
         </ErrorLook>
       </AtomicLink>
     );
+  }
+
+  if (resource.loading) {
+    return <LoaderInline about={subject} title={`${subject} is loading..`} />;
+  }
+
+  if (!Client.isValidURL(subject)) {
+    return <ErrorLook>{subject} is not a valid URL</ErrorLook>;
   }
 
   return (

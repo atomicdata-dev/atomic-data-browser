@@ -4,9 +4,8 @@ import {
   Agent,
   Datatype,
   datatypeFromUrl,
-  fetchResource,
+  Client,
   Resource,
-  tryValidURL,
   unknownSubject,
   urls,
 } from './index.js';
@@ -17,6 +16,7 @@ type Callback = (resource: Resource) => void;
 
 /** Returns True if the client has WebSocket support */
 const supportsWebSockets = () => typeof WebSocket !== 'undefined';
+type Fetch = typeof fetch;
 
 export enum StoreEvents {
   /**
@@ -56,6 +56,7 @@ export class Store {
    * error, but can be overwritten
    */
   public errorHandler: (e: Error) => unknown;
+  private injectedFetch: Fetch;
   /**
    * The base URL of an Atomic Server. This is where to send commits, create new
    * instances, search, etc.
@@ -70,6 +71,8 @@ export class Store {
 
   private eventManager = new EventManager<StoreEvents, StoreEventHandlers>();
 
+  private client: Client;
+
   public constructor(
     opts: {
       /** The default store URL, where to send commits and where to create new instances */
@@ -83,6 +86,7 @@ export class Store {
     this.subscribers = new Map();
     opts.serverUrl && this.setServerUrl(opts.serverUrl);
     opts.agent && this.setAgent(opts.agent);
+    this.client = new Client(this.injectedFetch);
 
     this.errorHandler = (e: Error) => {
       throw e;
@@ -94,7 +98,21 @@ export class Store {
     return this._resources;
   }
 
+  /** Inject a custom fetch implementation to use when fetching resources over http */
+  public injectFetch(fetchOverride: Fetch) {
+    this.injectedFetch = fetchOverride;
+    this.client.setFetch(fetchOverride);
+  }
+
+  public addResources(...resources: Resource[]): void {
+    for (const resource of resources) {
+      this.addResource(resource);
+    }
+  }
+
   /**
+   * @deprecated Will be marked private in the future, please use `addResources`
+   *
    * Adds a Resource to the store and notifies subscribers. Replaces existing
    * resources, unless this new resource is explicitly incomplete.
    */
@@ -145,8 +163,8 @@ export class Store {
     return `${this.getServerUrl()}/${className}/${random}`;
   }
 
-  /** Fetches a resource by URL and adds it to the store. */
-  public fetchResource(
+  /** Always fetches resource from the server and returns it. */
+  public async fetchResourceFromServer(
     /** The resource URL to be fetched */
     subject: string,
     opts: {
@@ -160,11 +178,11 @@ export class Store {
       /** Do not use WebSockets, use HTTP(S) */
       noWebSocket?: boolean;
     } = {},
-  ): void {
+  ): Promise<Resource> {
     if (opts.setLoading) {
       const newR = new Resource(subject);
       newR.loading = true;
-      this.addResource(newR);
+      this.addResources(newR);
     }
 
     // Use WebSocket if available, else use HTTP(S)
@@ -177,12 +195,17 @@ export class Store {
     ) {
       fetchWebSocket(ws, subject);
     } else {
-      fetchResource(
+      const [_, createdResources] = await this.client.fetchResourceHTTP(
         subject,
-        this,
-        opts.fromProxy ? this.getServerUrl() : undefined,
+        {
+          from: opts.fromProxy ? this.getServerUrl() : undefined,
+        },
       );
+
+      this.addResources(...createdResources);
     }
+
+    return this.resources.get(subject)!;
   }
 
   public getAllSubjects(): string[] {
@@ -245,10 +268,10 @@ export class Store {
     if (!found) {
       const newR = new Resource(subject, opts.newResource);
       newR.loading = true;
-      this.addResource(newR);
+      this.addResources(newR);
 
       if (!opts.newResource) {
-        this.fetchResource(subject, opts);
+        this.fetchResourceFromServer(subject, opts);
       }
 
       return newR;
@@ -257,8 +280,8 @@ export class Store {
       // This checks if the resource is incomplete and fetches it if it is.
       if (found.get(urls.properties.incomplete)) {
         found.loading = true;
-        this.addResource(found);
-        this.fetchResource(subject, opts);
+        this.addResources(found);
+        this.fetchResourceFromServer(subject, opts);
       }
     }
 
@@ -273,13 +296,11 @@ export class Store {
   public async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
 
-    if (!found) {
-      const newR = await fetchResource(subject, this);
-
-      return newR;
+    if (found) {
+      return found;
     }
 
-    return found;
+    return this.fetchResourceFromServer(subject);
   }
 
   /** Gets a property by URL. */
@@ -391,7 +412,7 @@ export class Store {
     oldSubject: string,
     newSubject: string,
   ): Promise<void> {
-    tryValidURL(newSubject);
+    Client.tryValidURL(newSubject);
     const old = this.resources.get(oldSubject);
 
     if (old === undefined) {
@@ -418,13 +439,13 @@ export class Store {
     this.agent = agent;
 
     if (agent) {
-      setCookieAuthentication(this, agent);
+      setCookieAuthentication(this.serverUrl, agent);
       this.webSockets.forEach(ws => {
         authenticate(ws, this);
       });
       this.resources.forEach(r => {
         if (r.isUnauthorized()) {
-          this.fetchResource(r.getSubject());
+          this.fetchResourceFromServer(r.getSubject());
         }
       });
     }
@@ -432,9 +453,9 @@ export class Store {
 
   /** Sets the Server base URL, without the trailing slash. */
   public setServerUrl(url: string): void {
-    tryValidURL(url);
+    Client.tryValidURL(url);
 
-    if (url.substr(-1) === '/') {
+    if (url.substring(-1) === '/') {
       throw Error('baseUrl should not have a trailing slash');
     }
 
@@ -528,6 +549,25 @@ export class Store {
 
   public on<T extends StoreEvents>(event: T, callback: StoreEventHandlers[T]) {
     return this.eventManager.register(event, callback);
+  }
+
+  public async uploadFiles(files: File[], parent: string): Promise<string[]> {
+    const agent = this.getAgent();
+
+    if (!agent) {
+      throw Error('No agent set, cannot upload files');
+    }
+
+    const resources = await this.client.uploadFiles(
+      files,
+      this.getServerUrl(),
+      agent,
+      parent,
+    );
+
+    this.addResources(...resources);
+
+    return resources.map(r => r.getSubject());
   }
 
   private randomPart(): string {

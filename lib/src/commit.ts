@@ -10,12 +10,12 @@ import {
   isArray,
   JSONArray,
   JSONValue,
-  parseJsonAdResourceValue,
-  removeQueryParamsFromURL,
   Resource,
   properties,
   urls,
   Store,
+  Client,
+  JSONADParser,
 } from './index.js';
 
 /** A {@link Commit} without its signature, signer and timestamp */
@@ -66,7 +66,7 @@ export class CommitBuilder {
 
   /** Removes any query parameters from the Subject */
   public constructor(subject: string, base: CommitBuilderBase = {}) {
-    this._subject = removeQueryParamsFromURL(subject);
+    this._subject = Client.removeQueryParamsFromURL(subject);
     this._set = base.set ?? new Map();
     this._push = base.push ?? new Map();
     this._remove = base.remove ?? new Set();
@@ -422,48 +422,15 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
   }
 
   if (set) {
-    Object.keys(set).forEach(propUrl => {
-      let newVal = set[propUrl];
-
-      if (newVal?.constructor === {}.constructor) {
-        newVal = parseJsonAdResourceValue(newVal, resource, propUrl, store);
-      }
-
-      if (isArray(newVal)) {
-        newVal = newVal.map(resourceOrURL => {
-          return parseJsonAdResourceValue(
-            resourceOrURL,
-            resource,
-            propUrl,
-            store,
-          );
-        });
-      }
-
-      resource.setUnsafe(propUrl, newVal);
-    });
+    execSetCommit(set, resource, store);
   }
 
   if (remove) {
-    remove.forEach(propUrl => {
-      resource.removePropValLocally(propUrl);
-    });
+    execRemoveCommit(remove, resource);
   }
 
   if (push) {
-    Object.keys(push).forEach(propUrl => {
-      const current = (resource.get(propUrl) as JSONArray) || [];
-      const newArr = push[propUrl] as JSONArray;
-      // The `push` arrays may contain full resources.
-      // We parse these here, add them to the store, and turn them into Subjects.
-      const stringArr = newArr.map(val =>
-        parseJsonAdResourceValue(val, resource, propUrl, store),
-      );
-      // Merge both the old and new items
-      const new_arr = current.concat(stringArr);
-      // Save it!
-      resource.setUnsafe(propUrl, new_arr);
-    });
+    execPushCommit(push, resource, store);
   }
 
   if (id) {
@@ -477,6 +444,72 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
     return;
   } else {
     resource.appliedCommitSignatures.add(signature);
-    store.addResource(resource);
+    store.addResources(resource);
   }
+}
+
+function execSetCommit(
+  set: Record<string, JSONValue>,
+  resource: Resource,
+  store: Store,
+) {
+  const parser = new JSONADParser();
+  const parsedResources: Resource[] = [];
+
+  for (const [key, value] of Object.entries(set)) {
+    let newVal = value;
+
+    if (value?.constructor === {}.constructor) {
+      const [result, foundResources] = parser.parseValue(value, key);
+      newVal = result;
+      parsedResources.push(...foundResources);
+    }
+
+    if (isArray(value)) {
+      newVal = value.map(resourceOrURL => {
+        const [result, foundResources] = parser.parseValue(resourceOrURL, key);
+        parsedResources.push(...foundResources);
+
+        return result;
+      });
+    }
+
+    resource.setUnsafe(key, newVal);
+  }
+
+  store.addResources(...parsedResources);
+}
+
+function execRemoveCommit(remove: string[], resource: Resource) {
+  for (const prop of remove) {
+    resource.removePropValLocally(prop);
+  }
+}
+
+function execPushCommit(
+  push: Record<string, JSONArray>,
+  resource: Resource,
+  store: Store,
+) {
+  const parser = new JSONADParser();
+  const parsedResources: Resource[] = [];
+
+  for (const [key, value] of Object.entries(push)) {
+    const current = (resource.get(key) as JSONArray) || [];
+    const newArr = value as JSONArray;
+    // The `push` arrays may contain full resources.
+    // We parse these here, add them to the store, and turn them into Subjects.
+    const stringArr = newArr.map(val => {
+      const [result, foundResources] = parser.parseValue(val, key);
+      parsedResources.push(...foundResources);
+
+      return result;
+    });
+    // Merge both the old and new items
+    const new_arr = [...current, ...stringArr];
+    // Save it!
+    resource.setUnsafe(key, new_arr);
+  }
+
+  store.addResources(...parsedResources);
 }

@@ -27,7 +27,7 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
             <>
               <ErrorBlock error={resource.error!} />
               <span>
-                <Button onClick={() => store.fetchResource(subject)}>
+                <Button onClick={() => store.fetchResourceFromServer(subject)}>
                   Retry
                 </Button>
               </span>
@@ -50,13 +50,15 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
         <ErrorBlock error={resource.error!} />
         <Row>
           <Button
-            onClick={() => store.fetchResource(subject, { setLoading: true })}
+            onClick={() =>
+              store.fetchResourceFromServer(subject, { setLoading: true })
+            }
           >
             Retry
           </Button>
           <Button
             onClick={() =>
-              store.fetchResource(subject, {
+              store.fetchResourceFromServer(subject, {
                 fromProxy: true,
                 setLoading: true,
               })

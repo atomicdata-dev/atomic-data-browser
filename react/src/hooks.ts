@@ -470,7 +470,7 @@ export function useBoolean(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [boolean | undefined, setValue] {
+): [boolean, setValue] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === undefined) {

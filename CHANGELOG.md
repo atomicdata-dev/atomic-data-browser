@@ -2,6 +2,18 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## v0.35.0
+
+### @tomic/lib
+
+- Add the ability to change the `fetch` function used to fetch resources over http.
+- `store.addResource` is depricated in favor of `store.addResources`.
+
+#### Breaking Changes:
+
+- `tryValidURL` and `isValidURL` are now static methods on `Client`.
+- Rename `store.fetchResource` to `store.fetchResourceFromServer`.
+
 ## v0.34.10
 
 - Don't use WebSocket in Node context #280

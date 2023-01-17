@@ -90,7 +90,7 @@ function Collection({ resource }: ResourcePageProps): JSX.Element {
   useEffectOnce(() => {
     // Always refresh the collection when opening this page.
     // We don't have cool collection invalidation yet.
-    store.fetchResource(resource.getSubject());
+    store.fetchResourceFromServer(resource.getSubject());
   });
 
   function handleToggleView() {

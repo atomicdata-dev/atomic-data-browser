@@ -1,4 +1,4 @@
-import { isValidURL } from '@tomic/lib';
+import { Client } from '@tomic/lib';
 import { useCallback } from 'react';
 import { useLocalStorage, useStore } from './index.js';
 
@@ -22,7 +22,7 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
 
       let newValue = 'https://atomicdata.dev';
 
-      if (isValidURL(value)) {
+      if (Client.isValidURL(value)) {
         newValue = value;
       } else {
         store.handleError(

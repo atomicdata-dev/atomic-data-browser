@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isValidURL, useStore } from '@tomic/react';
+import { Client, useStore } from '@tomic/react';
 import {
   editURL,
   dataURL,
@@ -50,7 +50,7 @@ function ResourceContextMenu({
     return null;
   }
 
-  if (!isValidURL(subject)) {
+  if (!Client.isValidURL(subject)) {
     return null;
   }
 
@@ -98,7 +98,7 @@ function ResourceContextMenu({
             label: 'refresh',
             helper:
               'Fetch the resouce again from the server, possibly see new changes.',
-            onClick: () => store.fetchResource(subject),
+            onClick: () => store.fetchResourceFromServer(subject),
           },
         ]),
     {

@@ -10,7 +10,7 @@ import {
   urls,
   useDebounce,
   useCanWrite,
-  isValidURL,
+  Client,
   useStore,
 } from '@tomic/react';
 import styled from 'styled-components';
@@ -137,7 +137,7 @@ export function ResourceForm({
   function handleAddProp() {
     setNewPropErr(undefined);
 
-    if (!isValidURL(newProperty)) {
+    if (!Client.isValidURL(newProperty)) {
       setNewPropErr(new Error('Invalid URL'));
 
       return;

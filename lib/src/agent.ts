@@ -1,9 +1,8 @@
 import {
   AtomicError,
-  fetchResource,
+  Client,
   generatePublicKeyFromPrivate,
   properties,
-  tryValidURL,
 } from './index.js';
 
 /**
@@ -15,15 +14,18 @@ export class Agent implements AgentInterface {
   public publicKey?: string;
   public subject?: string;
 
+  public client: Client;
+
   public constructor(privateKey: string, subject?: string) {
     if (subject) {
-      tryValidURL(subject);
+      Client.tryValidURL(subject);
     }
 
     if (!privateKey) {
       throw new AtomicError(`Agent requires a private key`);
     }
 
+    this.client = new Client();
     this.subject = subject;
     this.privateKey = privateKey;
   }
@@ -72,7 +74,7 @@ export class Agent implements AgentInterface {
       throw new AtomicError(`Agent has no subject`);
     }
 
-    const resource = await fetchResource(this.subject);
+    const [resource] = await this.client.fetchResourceHTTP(this.subject);
 
     if (resource.error) {
       throw new Error(

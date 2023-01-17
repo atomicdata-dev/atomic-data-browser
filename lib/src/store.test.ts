@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { jest } from '@jest/globals';
 import { Resource, urls, Store } from './index.js';
 
 describe('Store', () => {
@@ -8,7 +9,7 @@ describe('Store', () => {
     const testval = 'Hi world';
     const newResource = new Resource(subject);
     newResource.setUnsafe(urls.properties.description, testval);
-    store.addResource(newResource);
+    store.addResources(newResource);
     const gotResource = store.getResourceLoading(subject);
     const atomString = gotResource!
       .get(urls.properties.description)!
@@ -28,5 +29,31 @@ describe('Store', () => {
 
     const atomString = resource.get(urls.properties.shortname)!.toString();
     expect(atomString).to.equal('created-at');
+  });
+
+  it('accepts a custom fetch implementation', async () => {
+    const testResourceSubject = 'https://example.com/test';
+
+    const customFetch = jest.fn(
+      async (url: RequestInfo | URL, options: any) => {
+        return fetch(url, options);
+      },
+    );
+
+    const store = new Store();
+
+    await store.fetchResourceFromServer(testResourceSubject, {
+      noWebSocket: true,
+    });
+
+    expect(customFetch.mock.calls).to.have.length(0);
+
+    store.injectFetch(customFetch);
+
+    await store.fetchResourceFromServer(testResourceSubject, {
+      noWebSocket: true,
+    });
+
+    expect(customFetch.mock.calls).to.have.length(1);
   });
 });

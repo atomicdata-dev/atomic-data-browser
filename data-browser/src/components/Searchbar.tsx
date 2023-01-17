@@ -1,4 +1,4 @@
-import { tryValidURL, useResource, useTitle } from '@tomic/react';
+import { Client, useResource, useTitle } from '@tomic/react';
 import { transparentize } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -41,7 +41,7 @@ export function Searchbar({
     setInput(e.target.value);
 
     try {
-      tryValidURL(e.target.value);
+      Client.tryValidURL(e.target.value);
       // Replace instead of push to make the back-button behavior better.
       navigate(constructOpenURL(e.target.value), { replace: true });
     } catch (_err) {

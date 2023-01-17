@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isValidURL } from '@tomic/react';
+import { Client } from '@tomic/react';
 import ResourcePage from '../views/ResourcePage';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
 import { Search } from './SearchRoute';
@@ -14,7 +14,7 @@ const Show: React.FunctionComponent = () => {
     return <About />;
   }
 
-  if (isValidURL(subject)) {
+  if (Client.isValidURL(subject)) {
     return <ResourcePage key={subject} subject={subject} />;
   } else {
     return <Search />;

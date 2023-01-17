@@ -2,18 +2,17 @@
 // Send requests to the server and receive responses.
 
 import {
+  Agent,
   AtomicError,
   checkAuthenticationCookie,
   Commit,
   ErrorType,
+  JSONADParser,
   parseCommit,
-  parseJsonADArray,
-  parseJsonADResource,
   Resource,
   serializeDeterministically,
   setCookieAuthentication,
   signRequest,
-  Store,
 } from './index.js';
 
 /** Works both in node and the browser */
@@ -27,220 +26,243 @@ export interface HeadersObject {
   [key: string]: string;
 }
 
-const JsonAdMime = 'application/ad+json';
+const JSON_AD_MIME = 'application/ad+json';
 
-/**
- * Fetches and Parses a Resource. Can fetch through another atomic server if you
- * pass the `from` argument, which should be the baseURL of an Atomic Server. If
- * you need to add the resources to the Store or authenticate, pass a Store.
- */
-export async function fetchResource(
-  subject: string,
+interface FetchResourceOptions {
   /**
-   * Pass the Store if you want to directly add the resource (and its possible
-   * nested child Resources) to the Store.
+   * if the HTTP request needs to be signed by an agent, pass the agent here.
    */
-  store?: Store,
+  signInfo?: {
+    agent: Agent;
+    serverURL: string;
+  };
   /**
    * Pass a server URL if you want to use the `/path` endpoint to indirectly
    * fetch through that server.
    */
-  from?: string,
-): Promise<Resource> {
-  let resource = new Resource(subject);
+  from?: string;
+}
 
-  try {
-    tryValidURL(subject);
-    const requestHeaders: HeadersObject = {};
-    requestHeaders['Accept'] = JsonAdMime;
+type HTTPResult = [resource: Resource, createdResources: Resource[]];
 
-    // Sign the request if there is an agent present
-    const agent = store?.getAgent();
+export class Client {
+  private __fetchOverride?: typeof fetch;
 
-    if (agent && store) {
-      // Cookies only work for same-origin requests right now
-      // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
-      if (subject.startsWith(window.location.origin)) {
-        if (!checkAuthenticationCookie()) {
-          setCookieAuthentication(store, agent);
-        }
-      } else {
-        await signRequest(subject, agent, requestHeaders);
-      }
-    }
+  public constructor(fetchOverride?: typeof fetch) {
+    this.__fetchOverride = fetchOverride;
+  }
 
-    let url = subject;
+  private get fetch() {
+    const fetchFunction = this.__fetchOverride ?? fetch;
 
-    if (from !== undefined) {
-      const newURL = new URL(`${from}/path`);
-      newURL.searchParams.set('path', subject);
-      url = newURL.href;
-    }
-
-    if (fetch === undefined) {
+    if (typeof fetchFunction === 'undefined') {
       throw new AtomicError(
-        `No window object available this lib currently requires the DOM for fetching`,
+        `No fetch available, If the current environment doesn't have a fetch implementation you can pass one yourself.`,
       );
     }
 
-    const response = await fetch(url, {
-      headers: requestHeaders,
-    });
+    return fetchFunction;
+  }
+
+  /** Throws an error if the URL is not valid */
+  public static tryValidURL(subject: string | undefined): void {
+    try {
+      new URL(subject as string);
+    } catch (e) {
+      throw new Error(`Not a valid URL: ${subject}. ${e}`);
+    }
+  }
+
+  /** Throws an error if the URL is not valid */
+  public static isValidURL(subject: string | undefined): boolean {
+    if (typeof subject !== 'string') return false;
+
+    try {
+      Client.tryValidURL(subject);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /**
+   * Removes query params from the URL if it can build a URL. Will return the
+   * normal URL if things go wrong.
+   */
+  // TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
+  public static removeQueryParamsFromURL(subject: string): string {
+    return subject?.split('?')[0];
+  }
+
+  public setFetch(fetchOverride: typeof fetch) {
+    this.__fetchOverride = fetchOverride;
+  }
+
+  /**
+   * Fetches and Parses a Resource. Can fetch through another atomic server if you
+   * pass the `from` argument, which should be the baseURL of an Atomic Server. If
+   * you need to add the resources to the Store or authenticate, pass a Store.
+   */
+  public async fetchResourceHTTP(
+    subject: string,
+    opts: FetchResourceOptions = {},
+  ): Promise<HTTPResult> {
+    const { signInfo, from } = opts;
+    const createdResources: Resource[] = [];
+    const parser = new JSONADParser();
+    let resource = new Resource(subject);
+
+    try {
+      Client.tryValidURL(subject);
+      const requestHeaders: HeadersObject = {};
+      requestHeaders['Accept'] = JSON_AD_MIME;
+
+      if (signInfo) {
+        // Cookies only work for same-origin requests right now
+        // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
+        if (subject.startsWith(window.location.origin)) {
+          if (!checkAuthenticationCookie()) {
+            setCookieAuthentication(signInfo.serverURL, signInfo.agent);
+          }
+        } else {
+          await signRequest(subject, signInfo.agent, requestHeaders);
+        }
+      }
+
+      let url = subject;
+
+      if (from !== undefined) {
+        const newURL = new URL(`${from}/path`);
+        newURL.searchParams.set('path', subject);
+        url = newURL.href;
+      }
+
+      const response = await this.fetch(url, {
+        headers: requestHeaders,
+      });
+      const body = await response.text();
+
+      if (response.status === 200) {
+        try {
+          const json = JSON.parse(body);
+
+          const [parsedResource, parsedCreatedResources] = parser.parseObject(
+            json,
+            subject,
+          );
+
+          resource = parsedResource;
+          createdResources.push(...parsedCreatedResources);
+        } catch (e) {
+          throw new AtomicError(
+            `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
+          );
+        }
+      } else if (response.status === 401) {
+        throw new AtomicError(body, ErrorType.Unauthorized);
+      } else if (response.status === 500) {
+        throw new AtomicError(body, ErrorType.Server);
+      } else if (response.status === 404) {
+        throw new AtomicError(body, ErrorType.NotFound);
+      } else {
+        throw new AtomicError(body);
+      }
+    } catch (e) {
+      resource.setError(e);
+      createdResources.push(resource);
+      console.error(subject, e);
+    }
+
+    resource.loading = false;
+
+    return [resource, createdResources];
+  }
+
+  /** Posts a Commit to some endpoint. Returns the Commit created by the server. */
+  public async postCommit(
+    commit: Commit,
+    /** URL to post to, e.g. https://atomicdata.dev/commit */
+    endpoint: string,
+  ): Promise<Commit> {
+    const serialized = serializeDeterministically({ ...commit });
+    const requestHeaders: HeadersInit = new Headers();
+    requestHeaders.set('Content-Type', 'application/ad+json');
+    let response: Response;
+
+    try {
+      response = await this.fetch(endpoint, {
+        headers: requestHeaders,
+        method: 'POST',
+        body: serialized,
+      });
+    } catch (e) {
+      throw new AtomicError(`Posting Commit to ${endpoint} failed: ${e}`);
+    }
+
     const body = await response.text();
 
-    if (response.status === 200) {
-      try {
-        const json = JSON.parse(body);
-        resource = parseJsonADResource(json, resource, store);
-      } catch (e) {
-        throw new AtomicError(
-          `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
-        );
-      }
-    } else if (response.status === 401) {
-      throw new AtomicError(body, ErrorType.Unauthorized);
-    } else if (response.status === 500) {
+    if (response.status !== 200) {
       throw new AtomicError(body, ErrorType.Server);
-    } else if (response.status === 404) {
-      throw new AtomicError(body, ErrorType.NotFound);
-    } else {
-      throw new AtomicError(body);
     }
-  } catch (e) {
-    resource.setError(e);
+
+    return parseCommit(body);
   }
 
-  resource.loading = false;
-  store && store.addResource(resource);
+  /**
+   * Uploads files to the `/upload` endpoint of the Store. Signs the Headers using
+   * the Store's Default Agent. Adds the created File resources to the Store.
+   * Returns the subjects of these newly created File resources.
+   */
+  public async uploadFiles(
+    files: File[],
+    serverUrl: string,
+    agent: Agent,
+    parent: string,
+  ): Promise<Resource[]> {
+    const parser = new JSONADParser();
+    const formData = new FormData();
 
-  return resource;
-}
-
-/** Posts a Commit to some endpoint. Returns the Commit created by the server. */
-export async function postCommit(
-  commit: Commit,
-  /** URL to post to, e.g. https://atomicdata.dev/commit */
-  endpoint: string,
-): Promise<Commit> {
-  const serialized = serializeDeterministically({ ...commit });
-  const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set('Content-Type', 'application/ad+json');
-  let response;
-
-  try {
-    response = await fetch(endpoint, {
-      headers: requestHeaders,
-      method: 'POST',
-      body: serialized,
+    files.map(file => {
+      formData.append('assets', file, file.name);
     });
-  } catch (e) {
-    throw new AtomicError(`Posting Commit to ${endpoint} failed: ${e}`);
+
+    const uploadURL = new URL(`${serverUrl}/upload`);
+    uploadURL.searchParams.set('parent', parent);
+
+    // TODO: Use cookie authentication here if possible
+    // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
+    const signedHeaders = await signRequest(uploadURL.toString(), agent, {});
+
+    const options = {
+      method: 'POST',
+      body: formData,
+      headers: signedHeaders,
+    };
+
+    const resp = await this.fetch(uploadURL.toString(), options);
+    const body = await resp.text();
+
+    if (resp.status !== 200) {
+      throw Error(body);
+    }
+
+    const json = JSON.parse(body);
+    const [resources] = parser.parseArray(json);
+
+    return resources;
   }
 
-  const body = await response.text();
+  /** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
+  public async importJsonAdUrl(
+    /** The URL of the JSON-AD to import */
+    jsonAdUrl: string,
+    /** Importer URL. Servers tend to have one at `example.com/import` */
+    importerUrl: string,
+  ): Promise<HTTPResult> {
+    const url = new URL(importerUrl);
+    url.searchParams.set('url', jsonAdUrl);
 
-  if (response.status !== 200) {
-    throw new AtomicError(body, ErrorType.Server);
+    return this.fetchResourceHTTP(url.toString());
   }
-
-  return parseCommit(body);
-}
-
-/** Throws an error if the URL is not valid */
-export function tryValidURL(subject: string | undefined): void {
-  try {
-    new URL(subject as string);
-  } catch (e) {
-    throw new Error(`Not a valid URL: ${subject}. ${e}`);
-  }
-}
-
-/** Returns true if a URL is valid. */
-export function isValidURL(subject: string | undefined): boolean {
-  if (typeof subject !== 'string') return false;
-
-  try {
-    tryValidURL(subject);
-
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-/**
- * Removes query params from the URL if it can build a URL. Will return the
- * normal URL if things go wrong.
- */
-// TODO: Not sure about this. Was done because `new Commit()` failed with `unknown-subject`.
-export function removeQueryParamsFromURL(subject: string): string {
-  return subject?.split('?')[0];
-}
-
-/**
- * Uploads files to the `/upload` endpoint of the Store. Signs the Headers using
- * the Store's Default Agent. Adds the created File resources to the Store.
- * Returns the subjects of these newly created File resources.
- */
-export async function uploadFiles(
-  files: File[],
-  store: Store,
-  parent: string,
-): Promise<string[]> {
-  const formData = new FormData();
-
-  files.map(file => {
-    formData.append('assets', file, file.name);
-  });
-
-  const uploadURL = new URL(store.getServerUrl() + '/upload');
-  uploadURL.searchParams.set('parent', parent);
-  const agent = store?.getAgent();
-
-  if (!agent) {
-    throw new AtomicError(`No agent present. Can't sign the upload request.`);
-  }
-
-  // TODO: Use cookie authentication here if possible
-  // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
-  const signedHeaders = await signRequest(uploadURL.toString(), agent, {});
-
-  const options = {
-    method: 'POST',
-    body: formData,
-    headers: signedHeaders,
-  };
-
-  const resp = await fetch(uploadURL.toString(), options);
-  const body = await resp.text();
-
-  if (resp.status !== 200) {
-    throw Error(body);
-  }
-
-  const json = JSON.parse(body);
-  const resources = parseJsonADArray(json);
-  const fileSubjects: string[] = [];
-
-  for (const r of resources) {
-    store.addResource(r);
-    fileSubjects.push(r.getSubject());
-  }
-
-  return fileSubjects;
-}
-
-/** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
-export async function importJsonAdUrl(
-  /** The URL of the JSON-AD to import */
-  jsonAdUrl: string,
-  /** Importer URL. Servers tend to have one at `example.com/import` */
-  importerUrl: string,
-  store: Store,
-) {
-  const url = new URL(importerUrl);
-  url.searchParams.set('url', jsonAdUrl);
-  const resourceReturned = await fetchResource(url.toString(), store);
-
-  return resourceReturned;
 }
