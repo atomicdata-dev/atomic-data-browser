@@ -22,6 +22,7 @@ import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
 import { Guard } from '../components/Guard';
+import { NavBarSpacer } from '../components/NavBarSpacer';
 import { editURL } from '../helpers/navigation';
 import { ResourceInline } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
@@ -137,7 +138,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     // in Firefox, scrollHeight only works if overflow is set to scroll
     const height = e.target.scrollHeight;
     e.target.style.overflow = overflowStyle;
-    const rowHeight = 25;
+    const rowHeight = 30;
     const trows = Math.ceil(height / rowHeight) - 1;
 
     if (trows !== textAreaHight) {
@@ -182,6 +183,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
             Send
           </SendButton>
         </MessageForm>
+        <NavBarSpacer baseMargin='2rem' position='bottom' />
       </Guard>
     </FullPageWrapper>
   );
