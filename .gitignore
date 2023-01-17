@@ -12,6 +12,9 @@ publish
 test-results
 */nohup.out
 */yarn-error.log
+lib/coverage
+react/coverage
+data-browser/coverage
 .yarn/*
 !.yarn/cache
 !.yarn/patches

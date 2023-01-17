@@ -1,11 +1,5 @@
 import { createAuthentication } from './authentication.js';
-import {
-  parseAndApplyCommit,
-  parseJsonADResource,
-  Resource,
-  Store,
-  unknownSubject,
-} from './index.js';
+import { JSONADParser, parseAndApplyCommit, Store } from './index.js';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(url: string, store: Store): WebSocket {
@@ -48,8 +42,10 @@ function handleMessage(ev: MessageEvent, store: Store) {
   } else if (ev.data.startsWith('RESOURCE ')) {
     const resourceJSON: string = ev.data.slice(9);
     const parsed = JSON.parse(resourceJSON);
-    const newResource = new Resource(unknownSubject);
-    parseJsonADResource(parsed, newResource, store);
+    const parser = new JSONADParser();
+    const [_, resources] = parser.parseObject(parsed);
+
+    store.addResources(...resources);
   } else {
     console.warn('Unknown websocket message:', ev);
   }

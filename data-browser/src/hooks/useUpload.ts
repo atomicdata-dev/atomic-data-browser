@@ -2,7 +2,6 @@ import {
   AtomicError,
   properties,
   Resource,
-  uploadFiles,
   useArray,
   useStore,
 } from '@tomic/react';
@@ -34,9 +33,8 @@ export function useUpload(parentResource: Resource): UseUploadResult {
       try {
         setError(undefined);
         setIsUploading(true);
-        const netUploaded = await uploadFiles(
+        const netUploaded = await store.uploadFiles(
           acceptedFiles,
-          store,
           parentResource.getSubject(),
         );
         const allUploaded = [...netUploaded];
@@ -51,7 +49,7 @@ export function useUpload(parentResource: Resource): UseUploadResult {
         return [];
       }
     },
-    [parentResource],
+    [parentResource, store, setSubResources, subResources],
   );
 
   return {

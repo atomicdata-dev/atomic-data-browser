@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  isValidURL,
+  Client,
   Resource,
   urls,
   useResources,
@@ -52,7 +52,7 @@ export function useLocalSearch(
     }
 
     // For some reason, searching for a URL as query takes infinitely long..?
-    if (isValidURL(debouncedQuery)) {
+    if (Client.isValidURL(debouncedQuery)) {
       return;
     }
 

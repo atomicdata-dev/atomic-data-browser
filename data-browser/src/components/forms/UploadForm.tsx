@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { Resource, uploadFiles, useStore } from '@tomic/react';
+import { Resource } from '@tomic/react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '../Button';
 import FilePill from '../FilePill';
 import { ErrMessage } from './InputStyles';
+import { useUpload } from '../../hooks/useUpload';
 
 interface UploadFormProps {
   /**
@@ -17,31 +18,16 @@ interface UploadFormProps {
 export default function UploadForm({
   parentResource,
 }: UploadFormProps): JSX.Element {
-  const store = useStore();
-
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
-  const [err, setErr] = useState<Error | undefined>(undefined);
+  const { upload, isUploading, error } = useUpload(parentResource);
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[]) => {
-      try {
-        setErr(undefined);
-        setIsUploading(true);
-        const netUploaded = await uploadFiles(
-          acceptedFiles,
-          store,
-          parentResource.getSubject(),
-        );
-        const allUploaded = [...uploadedFiles, ...netUploaded];
-        setUploadedFiles(allUploaded);
-        setIsUploading(false);
-      } catch (e) {
-        setErr(e);
-        setIsUploading(false);
-      }
+    async (files: File[]) => {
+      const result = await upload(files);
+
+      setUploadedFiles(result);
     },
-    [uploadedFiles, setUploadedFiles],
+    [upload],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -65,7 +51,7 @@ export default function UploadForm({
             Upload file(s)...
           </Button>
         )}
-        {err && <ErrMessage>{err.message}</ErrMessage>}
+        {error && <ErrMessage>{error.message}</ErrMessage>}
       </div>
       {uploadedFiles.length > 0 &&
         uploadedFiles.map(fileSubject => (

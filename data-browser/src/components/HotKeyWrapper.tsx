@@ -3,7 +3,7 @@ import { dataURL, editURL } from '../helpers/navigation';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentSubject } from '../helpers/useCurrentSubject';
-import { isValidURL } from '@tomic/react';
+import { Client } from '@tomic/react';
 import { useSettings } from '../helpers/AppSettings';
 import { paths } from '../routes/paths';
 
@@ -71,7 +71,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     shortcuts.edit,
     e => {
       e.preventDefault();
-      isValidURL(subject) && navigate(editURL(subject!));
+      Client.isValidURL(subject) && navigate(editURL(subject!));
     },
     {},
     [subject],
@@ -80,7 +80,7 @@ function HotKeysWrapper({ children }: Props): JSX.Element {
     shortcuts.data,
     e => {
       e.preventDefault();
-      isValidURL(subject) && navigate(dataURL(subject!));
+      Client.isValidURL(subject) && navigate(dataURL(subject!));
     },
     {},
     [subject],

@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
 import { ErrMessage } from '../InputStyles';
-import { useUpload } from './useUpload';
+import { useUpload } from '../../../hooks/useUpload';
 
 export interface FileDropZoneProps {
   parentResource: Resource;

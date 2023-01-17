@@ -1,17 +1,15 @@
 import {
   Agent,
   CommitBuilder,
-  fetchResource,
   isUnauthorized,
   JSONValue,
-  postCommit,
   properties,
   Store,
-  tryValidURL,
   validateDatatype,
   valToArray,
   instances,
   JSONArray,
+  Client,
 } from './index.js';
 
 /** Contains the PropertyURL / Value combinations */
@@ -163,6 +161,13 @@ export class Resource {
     return this.getSubjects(properties.isA);
   }
 
+  /** Checks if the resource is all of the given classes */
+  public hasClasses(...classSubjects: string[]): boolean {
+    return classSubjects.every(classSubject =>
+      this.getClasses().includes(classSubject),
+    );
+  }
+
   /**
    * Returns the current Commit Builder, which describes the pending changes of
    * the resource
@@ -250,7 +255,9 @@ export class Resource {
 
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
-    await postCommit(commit, endpoint);
+    // TODO: Use store to post commit.
+    const client = new Client();
+    await client.postCommit(commit, endpoint);
     store.removeResource(this.getSubject());
   }
 
@@ -320,7 +327,9 @@ export class Resource {
 
     try {
       this.commitError = undefined;
-      const createdCommit = await postCommit(commit, endpoint);
+      // TODO: Use store to commit.
+      const client = new Client();
+      const createdCommit = await client.postCommit(commit, endpoint);
       this.setUnsafe(properties.commit.lastCommit, createdCommit.id!);
       // The first `SUBSCRIBE` message will not have worked, because the resource didn't exist yet.
       // That's why we need to repeat the process
@@ -336,8 +345,11 @@ export class Resource {
       if (e.message.includes('previousCommit')) {
         console.warn('previousCommit missing or mismatch, retrying...');
         // We try again, but first we fetch the latest version of the resource to get its `lastCommit`
-        const resourceFetched = await fetchResource(this.getSubject(), store);
-        const fixedLastCommit = resourceFetched
+        const resourceFetched = await store.fetchResourceFromServer(
+          this.getSubject(),
+        );
+
+        const fixedLastCommit = resourceFetched!
           .get(properties.commit.lastCommit)
           ?.toString();
 
@@ -402,7 +414,7 @@ export class Resource {
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
   public setSubject(subject: string): void {
-    tryValidURL(subject);
+    Client.tryValidURL(subject);
     this.commitBuilder.setSubject(subject);
     this.subject = subject;
   }

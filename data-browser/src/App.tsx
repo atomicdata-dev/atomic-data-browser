@@ -71,8 +71,8 @@ if (agent) {
 }
 
 /** Fetch all the Properties and Classes - this helps speed up the app. */
-store.fetchResource(urls.properties.getAll);
-store.fetchResource(urls.classes.getAll);
+store.fetchResourceFromServer(urls.properties.getAll);
+store.fetchResourceFromServer(urls.classes.getAll);
 
 // Register global event handlers.
 registerHandlers(store);

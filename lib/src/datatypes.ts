@@ -1,4 +1,4 @@
-import { JSONValue, tryValidURL, urls } from './index.js';
+import { Client, JSONValue, urls } from './index.js';
 
 /** Each possible Atomic Datatype. See https://atomicdata.dev/collections/datatype */
 // TODO: use strings from `./urls`, requires TS fix: https://github.com/microsoft/TypeScript/issues/40793
@@ -122,7 +122,7 @@ export const validateDatatype = (
         break;
       }
 
-      tryValidURL(value);
+      Client.tryValidURL(value);
       break;
     }
 
@@ -134,7 +134,7 @@ export const validateDatatype = (
 
       value.map((item, index) => {
         try {
-          tryValidURL(item);
+          Client.tryValidURL(item);
         } catch (e) {
           const arrError: ArrayError = new Error(`Invalid URL`);
           arrError.index = index;

@@ -1,4 +1,4 @@
-import { parseJsonADResource, Resource } from './index.js';
+import { JSONADParser, Resource } from './index.js';
 
 export type JSONPrimitive = string | number | boolean;
 export type JSONValue = JSONPrimitive | JSONObject | JSONArray | undefined;
@@ -81,9 +81,8 @@ export function valToResource(val: JSONValue): string | Resource {
   }
 
   if (typeof val === 'object') {
-    //@ts-ignore
-    const resource = new Resource('nested-resource');
-    parseJsonADResource(val as JSONObject, resource);
+    const parser = new JSONADParser();
+    const [resource] = parser.parseObject(val as JSONObject, 'nested-resource');
 
     return resource;
   }
