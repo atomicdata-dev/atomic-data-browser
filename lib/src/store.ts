@@ -12,11 +12,20 @@ import {
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 
 /** Function called when a resource is updated or removed */
-type Callback = (resource: Resource) => void;
+type ResourceCallback = (resource: Resource) => void;
+/** Callback called when the stores agent changes */
+type AgentCallback = (agent: Agent | undefined) => void;
 
 /** Returns True if the client has WebSocket support */
 const supportsWebSockets = () => typeof WebSocket !== 'undefined';
 type Fetch = typeof fetch;
+
+export interface StoreOpts {
+  /** The default store URL, where to send commits and where to create new instances */
+  serverUrl?: string;
+  /** Default Agent, used for signing commits. Is required for posting things. */
+  agent?: Agent;
+}
 
 export enum StoreEvents {
   /**
@@ -31,15 +40,18 @@ export enum StoreEvents {
    * the SideBar.
    */
   ResourceManuallyCreated = 'resource-manually-created',
+  /** Event that gets called whenever the stores agent changes */
+  AgentChanged = 'agent-changed',
 }
 
 /**
  * Handlers are functions that are called when a certain event occurs.
  */
 type StoreEventHandlers = {
-  [StoreEvents.ResourceSaved]: Callback;
-  [StoreEvents.ResourceRemoved]: Callback;
-  [StoreEvents.ResourceManuallyCreated]: Callback;
+  [StoreEvents.ResourceSaved]: ResourceCallback;
+  [StoreEvents.ResourceRemoved]: ResourceCallback;
+  [StoreEvents.ResourceManuallyCreated]: ResourceCallback;
+  [StoreEvents.AgentChanged]: AgentCallback;
 };
 
 /**
@@ -50,7 +62,7 @@ type StoreEventHandlers = {
  */
 export class Store {
   /** A list of all functions that need to be called when a certain resource is updated */
-  public subscribers: Map<string, Array<Callback>>;
+  public subscribers: Map<string, Array<ResourceCallback>>;
   /**
    * Is called when the store encounters an error. By default simply throws the
    * error, but can be overwritten
@@ -73,14 +85,7 @@ export class Store {
 
   private client: Client;
 
-  public constructor(
-    opts: {
-      /** The default store URL, where to send commits and where to create new instances */
-      serverUrl?: string;
-      /** Default Agent, used for signing commits. Is required for posting things. */
-      agent?: Agent;
-    } = {},
-  ) {
+  public constructor(opts: StoreOpts = {}) {
     this._resources = new Map();
     this.webSockets = new Map();
     this.subscribers = new Map();
@@ -91,6 +96,10 @@ export class Store {
     this.errorHandler = (e: Error) => {
       throw e;
     };
+
+    // We need to bind this method because it is passed down by other functions
+    this.getAgent = this.getAgent.bind(this);
+    this.setAgent = this.setAgent.bind(this);
   }
 
   /** All the resources of the store */
@@ -195,10 +204,15 @@ export class Store {
     ) {
       fetchWebSocket(ws, subject);
     } else {
+      const signInfo = this.agent
+        ? { agent: this.agent, serverURL: this.getServerUrl() }
+        : undefined;
+
       const [_, createdResources] = await this.client.fetchResourceHTTP(
         subject,
         {
           from: opts.fromProxy ? this.getServerUrl() : undefined,
+          signInfo,
         },
       );
 
@@ -440,15 +454,19 @@ export class Store {
 
     if (agent) {
       setCookieAuthentication(this.serverUrl, agent);
+
       this.webSockets.forEach(ws => {
         authenticate(ws, this);
       });
+
       this.resources.forEach(r => {
         if (r.isUnauthorized()) {
           this.fetchResourceFromServer(r.getSubject());
         }
       });
     }
+
+    this.eventManager.emit(StoreEvents.AgentChanged, agent);
   }
 
   /** Sets the Server base URL, without the trailing slash. */
@@ -483,7 +501,7 @@ export class Store {
    * this, you should probably also call .unsubscribe some time later.
    */
   // TODO: consider subscribing to properties, maybe add a second subscribe function, use that in useValue
-  public subscribe(subject: string, callback: Callback): void {
+  public subscribe(subject: string, callback: ResourceCallback): void {
     if (subject === undefined) {
       throw Error('Cannot subscribe to undefined subject');
     }
@@ -533,7 +551,7 @@ export class Store {
   }
 
   /** Unregisters the callback (see `subscribe()`) */
-  public unsubscribe(subject: string, callback: Callback): void {
+  public unsubscribe(subject: string, callback: ResourceCallback): void {
     if (subject === undefined) {
       return;
     }

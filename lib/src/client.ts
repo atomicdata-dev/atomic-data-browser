@@ -109,7 +109,7 @@ export class Client {
     opts: FetchResourceOptions = {},
   ): Promise<HTTPResult> {
     const { signInfo, from } = opts;
-    const createdResources: Resource[] = [];
+    let createdResources: Resource[] = [];
     const parser = new JSONADParser();
     let resource = new Resource(subject);
 
@@ -170,7 +170,7 @@ export class Client {
       }
     } catch (e) {
       resource.setError(e);
-      createdResources.push(resource);
+      createdResources = [resource];
       console.error(subject, e);
     }
 
