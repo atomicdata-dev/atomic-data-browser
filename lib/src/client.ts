@@ -15,7 +15,7 @@ import {
   signRequest,
 } from './index.js';
 
-/** Works both in node and the browser */
+// Works both in node and the browser
 import fetch from 'cross-fetch';
 
 /**
@@ -101,8 +101,8 @@ export class Client {
 
   /**
    * Fetches and Parses a Resource. Can fetch through another atomic server if you
-   * pass the `from` argument, which should be the baseURL of an Atomic Server. If
-   * you need to add the resources to the Store or authenticate, pass a Store.
+   * pass the `from` argument, which should be the baseURL of an Atomic Server.
+   * Returns a tuple of the requested resource and a list of all resources found in the response.
    */
   public async fetchResourceHTTP(
     subject: string,
@@ -211,8 +211,8 @@ export class Client {
 
   /**
    * Uploads files to the `/upload` endpoint of the Store. Signs the Headers using
-   * the Store's Default Agent. Adds the created File resources to the Store.
-   * Returns the subjects of these newly created File resources.
+   * the given agent.
+   * Returns the newly created resources
    */
   public async uploadFiles(
     files: File[],

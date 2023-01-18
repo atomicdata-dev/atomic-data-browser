@@ -498,7 +498,7 @@ function execPushCommit(
     const current = (resource.get(key) as JSONArray) || [];
     const newArr = value as JSONArray;
     // The `push` arrays may contain full resources.
-    // We parse these here, add them to the store, and turn them into Subjects.
+    // We parse these here and add them to a list of resources to add to the store.
     const stringArr = newArr.map(val => {
       const [result, foundResources] = parser.parseValue(val, key);
       parsedResources.push(...foundResources);
