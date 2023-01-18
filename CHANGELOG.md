@@ -4,13 +4,23 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## v0.35.0
 
+### @tomic/react
+
+#### Breaking changes
+
+- Remove `initAgentFromLocalStorage()`.
+- No longer save agent to local storage.
+
 ### @tomic/lib
 
 - Add the ability to change the `fetch` function used to fetch resources over http.
 - `store.addResource` is depricated in favor of `store.addResources`.
+- Add `AgentChange` event on store that is fired whenever the stores agent changes.
 
 #### Breaking Changes:
 
+- `uploadFiles()` has moved to `store.uploadFiles()`.
+- Remove `Agent.fromJSON()`
 - `tryValidURL` and `isValidURL` are now static methods on `Client`.
 - Rename `store.fetchResource` to `store.fetchResourceFromServer`.
 

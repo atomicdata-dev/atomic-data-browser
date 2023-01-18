@@ -39,7 +39,7 @@ export const AppSettingsContextProvider = (
     setBaseURL(url.origin);
   }
 
-  const setAgentToast = (newAgent: Agent | undefined) => {
+  const setAgentAndShowToast = (newAgent: Agent | undefined) => {
     try {
       setAgent(newAgent);
       newAgent?.subject && toast.success('Signed in!');
@@ -67,7 +67,7 @@ export const AppSettingsContextProvider = (
         sideBarLocked,
         setSideBarLocked,
         agent,
-        setAgent: setAgentToast,
+        setAgent: setAgentAndShowToast,
       }}
     >
       {props.children}

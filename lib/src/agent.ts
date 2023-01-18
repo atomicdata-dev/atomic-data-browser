@@ -43,11 +43,6 @@ export class Agent implements AgentInterface {
     return agent;
   }
 
-  /** Parses a JSON object containing a privateKey and an Agent subject */
-  public static fromJSON(obj: AgentInterface): Agent {
-    return new Agent(obj.privateKey, obj.subject);
-  }
-
   /** Returns existing public key or generates one using the private key */
   public async getPublicKey(): Promise<string> {
     if (!this.publicKey) {

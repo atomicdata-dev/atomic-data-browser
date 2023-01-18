@@ -1,12 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import {
-  initAgentFromLocalStorage,
-  StoreContext,
-  Store,
-  urls,
-} from '@tomic/react';
+import { StoreContext, Store, urls, StoreEvents } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { AppRoutes } from './routes/Routes';
@@ -23,6 +18,10 @@ import { DialogContainer } from './components/Dialog/DialogContainer';
 import { registerHandlers } from './handlers';
 import { ErrorBoundary } from './views/ErrorPage';
 import { NetworkIndicator } from './components/NetworkIndicator';
+import {
+  getAgentFromLocalStorage,
+  saveAgentToLocalStorage,
+} from './helpers/agentStorage';
 
 function fixDevUrl(url: string) {
   if (isDev()) {
@@ -32,8 +31,15 @@ function fixDevUrl(url: string) {
   return url;
 }
 
-/** Initialize the store */
-const store = new Store();
+const initalAgent = getAgentFromLocalStorage();
+
+// Initialize the store
+const store = new Store({
+  agent: initalAgent,
+});
+
+store.on(StoreEvents.AgentChanged, saveAgentToLocalStorage);
+
 /**
  * Defaulting to the current URL's origin will make sense in most non-dev environments.
  * In dev envs, we want to default to port 9883
@@ -42,7 +48,7 @@ const currentOrigin = window.location.origin;
 
 store.setServerUrl(fixDevUrl(currentOrigin));
 
-/** Show an error when things go wrong */
+// Show an error when things go wrong
 store.errorHandler = e => {
   handleError(e);
 
@@ -58,19 +64,12 @@ declare global {
     bugsnagApiKey: string;
   }
 }
-/** Setup bugsnag for error handling, but only if there's an API key */
+// Setup bugsnag for error handling, but only if there's an API key
 const ErrBoundary = window.bugsnagApiKey
   ? initBugsnag(window.bugsnagApiKey)
   : ErrorBoundary;
 
-/** Initialize the agent from localstorage */
-const agent = initAgentFromLocalStorage();
-
-if (agent) {
-  store.setAgent(agent);
-}
-
-/** Fetch all the Properties and Classes - this helps speed up the app. */
+// Fetch all the Properties and Classes - this helps speed up the app.
 store.fetchResourceFromServer(urls.properties.getAll);
 store.fetchResourceFromServer(urls.classes.getAll);
 

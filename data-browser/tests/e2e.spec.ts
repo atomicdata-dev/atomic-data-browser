@@ -334,8 +334,8 @@ test.describe('data-browser', async () => {
       page.click('button:has-text("Upload file")'),
     ]);
     await fileChooser.setFiles(demoFile);
-    await page.click(`[data-test]:has-text("${demoFileName}")`);
-    const image = await page.locator('[data-test="image-viewer"]');
+    await page.click(`a:has-text("${demoFileName}")`);
+    const image = page.locator('[data-test="image-viewer"]');
     await expect(image).toBeVisible();
     await expect(image).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
   });
@@ -387,10 +387,10 @@ test.describe('data-browser', async () => {
     // Fetch `example.com
     const input = page.locator('[placeholder="https\\:\\/\\/example\\.com"]');
     await input.click();
-    await input.fill('https://example.com');
+    await input.fill('https://ontola.io');
     await page.locator(currentDialogOkButton).click();
 
-    await expect(page.locator('text=This domain is ')).toBeVisible();
+    await expect(page.locator(':text-is("Full-service")')).toBeVisible();
   });
 
   test('folder', async ({ page }) => {
@@ -525,7 +525,6 @@ test.describe('data-browser', async () => {
     const d1 = 'depth1';
     await setTitle(d1);
 
-    // Not sure why we need this, I'd prefer to wait for commits...
     await expect(
       page.locator(`[data-test="sidebar"] >> text=${d1}`),
     ).toBeVisible();
