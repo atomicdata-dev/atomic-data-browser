@@ -71,6 +71,5 @@
     "test-query": "PWDEBUG=1 playwright test \"e2e.spec.ts\" -g",
     "typecheck": "tsc --noEmit"
   },
-  "type": "module",
   "version": "0.35.0-beta.0"
 }
