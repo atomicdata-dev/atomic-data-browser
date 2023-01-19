@@ -50,7 +50,7 @@ export function useCreateAndNavigate(klass: string, parent?: string) {
         toast.success(`${title} created`);
         store.notifyResourceManuallyCreated(resource);
       } catch (e) {
-        store.handleError(e);
+        store.notifyError(e);
       }
 
       return resource;

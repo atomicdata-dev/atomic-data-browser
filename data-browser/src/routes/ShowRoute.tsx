@@ -14,7 +14,7 @@ const Show: React.FunctionComponent = () => {
     return <About />;
   }
 
-  if (Client.isValidURL(subject)) {
+  if (Client.isValidSubject(subject)) {
     return <ResourcePage key={subject} subject={subject} />;
   } else {
     return <Search />;

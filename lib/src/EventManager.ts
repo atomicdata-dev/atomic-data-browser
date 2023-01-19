@@ -38,6 +38,10 @@ export class EventManager<Types extends string, H extends Handlers<Types>> {
 
     await Promise.allSettled([...handlers].map(handler => wrap(handler)));
   }
+
+  public hasSubscriptions<T extends Types>(event: T): boolean {
+    return this.subscriptions.has(event);
+  }
 }
 
 /* EXAMPLE:

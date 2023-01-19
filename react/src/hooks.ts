@@ -252,7 +252,7 @@ export function useValue(
     // Touched prevents the resource from being saved when it is loaded (and not changed)
     if (commit && touched) {
       setTouched(false);
-      resource.save(store, store.getAgent()).catch(e => store.handleError(e));
+      resource.save(store, store.getAgent()).catch(e => store.notifyError(e));
     }
   }, [JSON.stringify(debounced)]);
 
@@ -284,7 +284,7 @@ export function useValue(
         if (handleValidationError) {
           handleValidationError(e);
         } else {
-          store.handleError(e);
+          store.notifyError(e);
         }
       }
     },
@@ -308,7 +308,7 @@ export function useValue(
       console.error('useValue', val, resource.getSubject());
     }
   } catch (e) {
-    store.handleError(e);
+    store.notifyError(e);
   }
 
   if (value === undefined) {
@@ -499,7 +499,7 @@ export function useDate(
   try {
     return valToDate(value);
   } catch (e) {
-    store.handleError(e);
+    store.notifyError(e);
 
     return;
   }

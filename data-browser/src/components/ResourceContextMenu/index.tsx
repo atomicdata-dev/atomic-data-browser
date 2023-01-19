@@ -50,7 +50,7 @@ function ResourceContextMenu({
     return null;
   }
 
-  if (!Client.isValidURL(subject)) {
+  if (!Client.isValidSubject(subject)) {
     return null;
   }
 

@@ -18,7 +18,7 @@ export class Agent implements AgentInterface {
 
   public constructor(privateKey: string, subject?: string) {
     if (subject) {
-      Client.tryValidURL(subject);
+      Client.tryValidSubject(subject);
     }
 
     if (!privateKey) {
@@ -43,7 +43,7 @@ export class Agent implements AgentInterface {
     return agent;
   }
 
-  /** Returns existing public key or generates one using the private key */
+  /** Returns public key or generates one using the private key */
   public async getPublicKey(): Promise<string> {
     if (!this.publicKey) {
       const pubKey = await generatePublicKeyFromPrivate(this.privateKey);
@@ -64,12 +64,12 @@ export class Agent implements AgentInterface {
   }
 
   /** Fetches the public key for the agent, checks if it matches with the current one */
-  public async checkPublicKey(): Promise<void> {
+  public async verifyPublicKeyWithServer(): Promise<void> {
     if (!this.subject) {
       throw new AtomicError(`Agent has no subject`);
     }
 
-    const [resource] = await this.client.fetchResourceHTTP(this.subject);
+    const { resource } = await this.client.fetchResourceHTTP(this.subject);
 
     if (resource.error) {
       throw new Error(

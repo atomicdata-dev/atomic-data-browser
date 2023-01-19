@@ -137,7 +137,7 @@ export function ResourceForm({
   function handleAddProp() {
     setNewPropErr(undefined);
 
-    if (!Client.isValidURL(newProperty)) {
+    if (!Client.isValidSubject(newProperty)) {
       setNewPropErr(new Error('Invalid URL'));
 
       return;

@@ -255,9 +255,7 @@ export class Resource {
 
     const commit = await newCommitBuilder.sign(agent.privateKey, agent.subject);
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
-    // TODO: Use store to post commit.
-    const client = new Client();
-    await client.postCommit(commit, endpoint);
+    await store.postCommit(commit, endpoint);
     store.removeResource(this.getSubject());
   }
 
@@ -294,7 +292,7 @@ export class Resource {
   public async save(store: Store, differentAgent?: Agent): Promise<string> {
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
-    store.addResource(this);
+    store.addResources(this);
 
     const agent = store.getAgent() ?? differentAgent;
 
@@ -327,9 +325,8 @@ export class Resource {
 
     try {
       this.commitError = undefined;
-      // TODO: Use store to commit.
-      const client = new Client();
-      const createdCommit = await client.postCommit(commit, endpoint);
+      const createdCommit = await store.postCommit(commit, endpoint);
+
       this.setUnsafe(properties.commit.lastCommit, createdCommit.id!);
       // The first `SUBSCRIBE` message will not have worked, because the resource didn't exist yet.
       // That's why we need to repeat the process
@@ -364,7 +361,7 @@ export class Resource {
       // If it fails, revert to the old resource with the old CommitBuilder
       this.commitBuilder = oldCommitBuilder;
       this.commitError = e;
-      store.addResource(this);
+      store.addResources(this);
       throw e;
     }
   }
@@ -414,7 +411,7 @@ export class Resource {
 
   /** Set the Subject / ID URL of the Resource. Does not update the Store. */
   public setSubject(subject: string): void {
-    Client.tryValidURL(subject);
+    Client.tryValidSubject(subject);
     this.commitBuilder.setSubject(subject);
     this.subject = subject;
   }
