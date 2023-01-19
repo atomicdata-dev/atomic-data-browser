@@ -25,7 +25,7 @@ Agent (User).</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">Store</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L48">lib/src/store.ts:48</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L69">lib/src/store.ts:69</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -39,8 +39,9 @@ Agent (User).</p>
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="_tomic_lib.Store.html#_resources" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>_resources</span></a>
 <a href="_tomic_lib.Store.html#agent" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>agent?</span></a>
-<a href="_tomic_lib.Store.html#errorHandler" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>error<wbr/>Handler</span></a>
+<a href="_tomic_lib.Store.html#client" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>client</span></a>
 <a href="_tomic_lib.Store.html#eventManager" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>event<wbr/>Manager</span></a>
+<a href="_tomic_lib.Store.html#injectedFetch" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>injected<wbr/>Fetch</span></a>
 <a href="_tomic_lib.Store.html#serverUrl" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>server<wbr/>Url</span></a>
 <a href="_tomic_lib.Store.html#subscribers" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>subscribers</span></a>
 <a href="_tomic_lib.Store.html#webSockets" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>web<wbr/>Sockets</span></a>
@@ -52,10 +53,11 @@ Agent (User).</p>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="_tomic_lib.Store.html#addResource" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Resource</span></a>
+<a href="_tomic_lib.Store.html#addResources" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>add<wbr/>Resources</span></a>
 <a href="_tomic_lib.Store.html#buildUniqueSubjectFromParts" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>build<wbr/>Unique<wbr/>Subject<wbr/>From<wbr/>Parts</span></a>
 <a href="_tomic_lib.Store.html#checkSubjectTaken" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>check<wbr/>Subject<wbr/>Taken</span></a>
 <a href="_tomic_lib.Store.html#createSubject" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create<wbr/>Subject</span></a>
-<a href="_tomic_lib.Store.html#fetchResource" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>fetch<wbr/>Resource</span></a>
+<a href="_tomic_lib.Store.html#fetchResourceFromServer" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>fetch<wbr/>Resource<wbr/>From<wbr/>Server</span></a>
 <a href="_tomic_lib.Store.html#findAvailableSubject" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>find<wbr/>Available<wbr/>Subject</span></a>
 <a href="_tomic_lib.Store.html#getAgent" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Agent</span></a>
 <a href="_tomic_lib.Store.html#getAllSubjects" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>All<wbr/>Subjects</span></a>
@@ -65,13 +67,15 @@ Agent (User).</p>
 <a href="_tomic_lib.Store.html#getResourceLoading" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Resource<wbr/>Loading</span></a>
 <a href="_tomic_lib.Store.html#getServerUrl" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Server<wbr/>Url</span></a>
 <a href="_tomic_lib.Store.html#getWebSocketForSubject" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Web<wbr/>Socket<wbr/>For<wbr/>Subject</span></a>
-<a href="_tomic_lib.Store.html#handleError" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>handle<wbr/>Error</span></a>
+<a href="_tomic_lib.Store.html#injectFetch" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>inject<wbr/>Fetch</span></a>
 <a href="_tomic_lib.Store.html#isOffline" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>is<wbr/>Offline</span></a>
 <a href="_tomic_lib.Store.html#notify" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>notify</span></a>
+<a href="_tomic_lib.Store.html#notifyError" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>notify<wbr/>Error</span></a>
 <a href="_tomic_lib.Store.html#notifyResourceManuallyCreated" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>notify<wbr/>Resource<wbr/>Manually<wbr/>Created</span></a>
 <a href="_tomic_lib.Store.html#notifyResourceSaved" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>notify<wbr/>Resource<wbr/>Saved</span></a>
 <a href="_tomic_lib.Store.html#on" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>on</span></a>
 <a href="_tomic_lib.Store.html#openWebSocket" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>open<wbr/>Web<wbr/>Socket</span></a>
+<a href="_tomic_lib.Store.html#postCommit" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>post<wbr/>Commit</span></a>
 <a href="_tomic_lib.Store.html#randomPart" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>random<wbr/>Part</span></a>
 <a href="_tomic_lib.Store.html#removeResource" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Resource</span></a>
 <a href="_tomic_lib.Store.html#renameSubject" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>rename<wbr/>Subject</span></a>
@@ -81,31 +85,23 @@ Agent (User).</p>
 <a href="_tomic_lib.Store.html#subscribeWebSocket" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>subscribe<wbr/>Web<wbr/>Socket</span></a>
 <a href="_tomic_lib.Store.html#unSubscribeWebSocket" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>un<wbr/>Subscribe<wbr/>Web<wbr/>Socket</span></a>
 <a href="_tomic_lib.Store.html#unsubscribe" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>unsubscribe</span></a>
+<a href="_tomic_lib.Store.html#uploadFiles" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>upload<wbr/>Files</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_Store">new <wbr/>Store<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>agent<span class="tsd-signature-symbol">?: </span><a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a><span class="tsd-signature-symbol">; </span>serverUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_tomic_lib.Store.html" class="tsd-signature-type" data-tsd-kind="Class">Store</a><a href="#constructor.new_Store" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_Store">new <wbr/>Store<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_tomic_lib.StoreOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">StoreOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_tomic_lib.Store.html" class="tsd-signature-type" data-tsd-kind="Class">Store</a><a href="#constructor.new_Store" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>opts: <span class="tsd-signature-symbol">{ </span>agent<span class="tsd-signature-symbol">?: </span><a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a><span class="tsd-signature-symbol">; </span>serverUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
-<ul class="tsd-parameters">
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> agent<span class="tsd-signature-symbol">?: </span><a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a></h5>
-<div class="tsd-comment tsd-typography"><p>Default Agent, used for signing commits. Is required for posting things.</p>
-</div></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> server<wbr/>Url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The default store URL, where to send commits and where to create new instances</p>
-</div></li></ul></li></ul></div>
+<h5>opts: <a href="../interfaces/_tomic_lib.StoreOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">StoreOpts</a><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="_tomic_lib.Store.html" class="tsd-signature-type" data-tsd-kind="Class">Store</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L70">lib/src/store.ts:70</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L89">lib/src/store.ts:89</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="_resources" class="tsd-anchor"></a>
@@ -114,40 +110,44 @@ Agent (User).</p>
 <div class="tsd-comment tsd-typography"><p>All the resources of the store</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L62">lib/src/store.ts:62</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L79">lib/src/store.ts:79</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="agent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagOptional">Optional</code> <span>agent</span><a href="#agent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">agent<span class="tsd-signature-symbol">?:</span> <a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a></div>
 <div class="tsd-comment tsd-typography"><p>Current Agent, used for signing commits. Is required for posting things.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L64">lib/src/store.ts:64</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="errorHandler" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>error<wbr/>Handler</span><a href="#errorHandler" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">error<wbr/>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span></div>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L81">lib/src/store.ts:81</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="client" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>client</span><a href="#client" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">client<span class="tsd-signature-symbol">:</span> <a href="_tomic_lib.Client.html" class="tsd-signature-type" data-tsd-kind="Class">Client</a></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L87">lib/src/store.ts:87</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="eventManager" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>event<wbr/>Manager</span><a href="#eventManager" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">event<wbr/>Manager<span class="tsd-signature-symbol">:</span> <a href="_tomic_lib._internal_.EventManager.html" class="tsd-signature-type" data-tsd-kind="Class">EventManager</a><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_tomic_lib.StoreEvents.html" class="tsd-signature-type" data-tsd-kind="Enumeration">StoreEvents</a><span class="tsd-signature-symbol">, </span><a href="../types/_tomic_lib._internal_.StoreEventHandlers.html" class="tsd-signature-type" data-tsd-kind="Type alias">StoreEventHandlers</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L85">lib/src/store.ts:85</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="injectedFetch" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>injected<wbr/>Fetch</span><a href="#injectedFetch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">injected<wbr/>Fetch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
 <div class="tsd-type-declaration">
 <h4>Type declaration</h4>
 <ul class="tsd-parameters">
 <li class="tsd-parameter-signature">
 <ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-class">
-<li class="tsd-signature" id="__type.__type-1"><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span></li>
+<li class="tsd-signature" id="__type.__type-1"><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Is called when the store encounters an error. By default simply throws the
-error, but can be overwritten</p>
-</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>e: <span class="tsd-signature-type">Error</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">unknown</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
+<h5>input: <span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L55">lib/src/store.ts:55</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="eventManager" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>event<wbr/>Manager</span><a href="#eventManager" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">event<wbr/>Manager<span class="tsd-signature-symbol">:</span> <a href="_tomic_lib._internal_.EventManager.html" class="tsd-signature-type" data-tsd-kind="Class">EventManager</a><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_tomic_lib.StoreEvents.html" class="tsd-signature-type" data-tsd-kind="Enumeration">StoreEvents</a><span class="tsd-signature-symbol">, </span><a href="../types/_tomic_lib._internal_.StoreEventHandlers.html" class="tsd-signature-type" data-tsd-kind="Type alias">StoreEventHandlers</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L68">lib/src/store.ts:68</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L72">lib/src/store.ts:72</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="serverUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>server<wbr/>Url</span><a href="#serverUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">server<wbr/>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
@@ -155,21 +155,21 @@ error, but can be overwritten</p>
 instances, search, etc.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L60">lib/src/store.ts:60</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L77">lib/src/store.ts:77</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="subscribers" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>subscribers</span><a href="#subscribers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">subscribers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../types/_tomic_lib._internal_.Callback.html" class="tsd-signature-type" data-tsd-kind="Type alias">Callback</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
+<div class="tsd-signature">subscribers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../types/_tomic_lib._internal_.ResourceCallback.html" class="tsd-signature-type" data-tsd-kind="Type alias">ResourceCallback</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>A list of all functions that need to be called when a certain resource is updated</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L50">lib/src/store.ts:50</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L71">lib/src/store.ts:71</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="webSockets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>web<wbr/>Sockets</span><a href="#webSockets" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">web<wbr/>Sockets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">WebSocket</span><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>Mapped from origin to websocket</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L66">lib/src/store.ts:66</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L83">lib/src/store.ts:83</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="resources" class="tsd-anchor"></a>
@@ -181,7 +181,7 @@ instances, search, etc.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L90">lib/src/store.ts:90</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L103">lib/src/store.ts:103</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addResource" class="tsd-anchor"></a>
@@ -189,7 +189,9 @@ instances, search, etc.</p>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="addResource.addResource-1">add<wbr/>Resource<span class="tsd-signature-symbol">(</span>resource<span class="tsd-signature-symbol">: </span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addResource.addResource-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Adds a Resource to the store and notifies subscribers. Replaces existing
+<div class="tsd-comment tsd-typography">
+<h3>Deprecated</h3><p>Will be marked private in the future, please use <code>addResources</code></p>
+<p>Adds a Resource to the store and notifies subscribers. Replaces existing
 resources, unless this new resource is explicitly incomplete.</p>
 </div>
 <div class="tsd-parameters">
@@ -199,7 +201,20 @@ resources, unless this new resource is explicitly incomplete.</p>
 <h5>resource: <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L98">lib/src/store.ts:98</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L125">lib/src/store.ts:125</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addResources" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>add<wbr/>Resources</span><a href="#addResources" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="addResources.addResources-1">add<wbr/>Resources<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>resources<span class="tsd-signature-symbol">: </span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addResources.addResources-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>resources: <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L113">lib/src/store.ts:113</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="buildUniqueSubjectFromParts" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>build<wbr/>Unique<wbr/>Subject<wbr/>From<wbr/>Parts</span><a href="#buildUniqueSubjectFromParts" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -215,7 +230,7 @@ Will retry until it works.</p>
 <h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>parts: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L129">lib/src/store.ts:129</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L156">lib/src/store.ts:156</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="checkSubjectTaken" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>check<wbr/>Subject<wbr/>Taken</span><a href="#checkSubjectTaken" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -230,7 +245,7 @@ Will retry until it works.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L115">lib/src/store.ts:115</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L142">lib/src/store.ts:142</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="createSubject" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>Subject</span><a href="#createSubject" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -245,13 +260,13 @@ Will retry until it works.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> className: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L138">lib/src/store.ts:138</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fetchResource" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>fetch<wbr/>Resource</span><a href="#fetchResource" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L165">lib/src/store.ts:165</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fetchResourceFromServer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>fetch<wbr/>Resource<wbr/>From<wbr/>Server</span><a href="#fetchResourceFromServer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="fetchResource.fetchResource-1">fetch<wbr/>Resource<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>fromProxy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>noWebSocket<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>setLoading<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#fetchResource.fetchResource-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="fetchResourceFromServer.fetchResourceFromServer-1">fetch<wbr/>Resource<wbr/>From<wbr/>Server<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>fromProxy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>noWebSocket<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>setLoading<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">&gt;</span><a href="#fetchResourceFromServer.fetchResourceFromServer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Fetches a resource by URL and adds it to the store.</p>
+<div class="tsd-comment tsd-typography"><p>Always fetches resource from the server then returns it and adds it to the store</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,9 +291,9 @@ is a proxy / cache.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> set<wbr/>Loading<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
 <div class="tsd-comment tsd-typography"><p>Overwrites the existing resource and sets it to loading.</p>
 </div></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L146">lib/src/store.ts:146</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L173">lib/src/store.ts:173</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="findAvailableSubject" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>find<wbr/>Available<wbr/>Subject</span><a href="#findAvailableSubject" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -293,7 +308,7 @@ is a proxy / cache.</p>
 <h5>firstTry: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L523">lib/src/store.ts:523</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L597">lib/src/store.ts:597</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getAgent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Agent</span><a href="#getAgent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -304,7 +319,7 @@ to first run <code>store.setAgent()</code>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L213">lib/src/store.ts:213</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L256">lib/src/store.ts:256</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getAllSubjects" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>All<wbr/>Subjects</span><a href="#getAllSubjects" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -312,7 +327,7 @@ to first run <code>store.setAgent()</code>.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L181">lib/src/store.ts:181</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L222">lib/src/store.ts:222</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getDefaultWebSocket" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Default<wbr/>Web<wbr/>Socket</span><a href="#getDefaultWebSocket" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -322,7 +337,7 @@ to first run <code>store.setAgent()</code>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">WebSocket</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L186">lib/src/store.ts:186</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L227">lib/src/store.ts:227</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getProperty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Property</span><a href="#getProperty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -337,7 +352,7 @@ to first run <code>store.setAgent()</code>.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_tomic_lib.Property.html" class="tsd-signature-type" data-tsd-kind="Class">Property</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L277">lib/src/store.ts:277</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L318">lib/src/store.ts:318</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getResourceAsync" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Resource<wbr/>Async</span><a href="#getResourceAsync" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -354,7 +369,7 @@ resources to be fetched multiple times.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L264">lib/src/store.ts:264</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L307">lib/src/store.ts:307</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getResourceLoading" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Resource<wbr/>Loading</span><a href="#getResourceLoading" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -374,7 +389,7 @@ resource will be returned.</p>
 <h5>opts: <a href="../interfaces/_tomic_lib.FetchOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">FetchOpts</a><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L223">lib/src/store.ts:223</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L266">lib/src/store.ts:266</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getServerUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Server<wbr/>Url</span><a href="#getServerUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -384,7 +399,7 @@ resource will be returned.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L205">lib/src/store.ts:205</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L248">lib/src/store.ts:248</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getWebSocketForSubject" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Web<wbr/>Socket<wbr/>For<wbr/>Subject</span><a href="#getWebSocketForSubject" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -399,23 +414,35 @@ resource will be returned.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">WebSocket</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L191">lib/src/store.ts:191</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="handleError" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>handle<wbr/>Error</span><a href="#handleError" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L232">lib/src/store.ts:232</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="injectFetch" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>inject<wbr/>Fetch</span><a href="#injectFetch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="handleError.handleError-1">handle<wbr/>Error<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#handleError.handleError-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="injectFetch.injectFetch-1">inject<wbr/>Fetch<span class="tsd-signature-symbol">(</span>fetchOverride<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#injectFetch.injectFetch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>This is called when Errors occur in some of the library functions. Set your
-errorhandler function to <code>store.errorHandler</code>.</p>
+<div class="tsd-comment tsd-typography"><p>Inject a custom fetch implementation to use when fetching resources over http</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>e: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></h5></li></ul></div>
+<h5>fetchOverride: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures tsd-kind-type-literal">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>input: <span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestInfo</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L327">lib/src/store.ts:327</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L108">lib/src/store.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="isOffline" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Offline</span><a href="#isOffline" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -427,7 +454,7 @@ not be performed client side when offline.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L341">lib/src/store.ts:341</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L383">lib/src/store.ts:383</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="notify" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notify</span><a href="#notify" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -442,7 +469,23 @@ not be performed client side when offline.</p>
 <h5>resource: <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L346">lib/src/store.ts:346</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L393">lib/src/store.ts:393</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="notifyError" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>notify<wbr/>Error</span><a href="#notifyError" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="notifyError.notifyError-1">notify<wbr/>Error<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#notifyError.notifyError-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This is called when Errors occur in some of the library functions. Set your
+errorhandler function to <code>store.errorHandler</code>.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>e: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L368">lib/src/store.ts:368</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="notifyResourceManuallyCreated" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notify<wbr/>Resource<wbr/>Manually<wbr/>Created</span><a href="#notifyResourceManuallyCreated" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -455,7 +498,7 @@ not be performed client side when offline.</p>
 <h5>resource: <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L361">lib/src/store.ts:361</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L408">lib/src/store.ts:408</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="notifyResourceSaved" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notify<wbr/>Resource<wbr/>Saved</span><a href="#notifyResourceSaved" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -468,7 +511,7 @@ not be performed client side when offline.</p>
 <h5>resource: <a href="_tomic_lib.Resource.html" class="tsd-signature-type" data-tsd-kind="Class">Resource</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L357">lib/src/store.ts:357</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L404">lib/src/store.ts:404</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="on" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on</span><a href="#on" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -496,7 +539,7 @@ not be performed client side when offline.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L515">lib/src/store.ts:515</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L566">lib/src/store.ts:566</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="openWebSocket" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>open<wbr/>Web<wbr/>Socket</span><a href="#openWebSocket" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -511,7 +554,22 @@ not be performed client side when offline.</p>
 <h5>url: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L433">lib/src/store.ts:433</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L484">lib/src/store.ts:484</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="postCommit" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>post<wbr/>Commit</span><a href="#postCommit" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="postCommit.postCommit-1">post<wbr/>Commit<span class="tsd-signature-symbol">(</span>commit<span class="tsd-signature-symbol">: </span><a href="../interfaces/_tomic_lib.Commit.html" class="tsd-signature-type" data-tsd-kind="Interface">Commit</a>, endpoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_tomic_lib.Commit.html" class="tsd-signature-type" data-tsd-kind="Interface">Commit</a><span class="tsd-signature-symbol">&gt;</span><a href="#postCommit.postCommit-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>commit: <a href="../interfaces/_tomic_lib.Commit.html" class="tsd-signature-type" data-tsd-kind="Interface">Commit</a></h5></li>
+<li>
+<h5>endpoint: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_tomic_lib.Commit.html" class="tsd-signature-type" data-tsd-kind="Interface">Commit</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L589">lib/src/store.ts:589</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="randomPart" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>random<wbr/>Part</span><a href="#randomPart" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -519,7 +577,7 @@ not be performed client side when offline.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L519">lib/src/store.ts:519</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L593">lib/src/store.ts:593</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removeResource" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>Resource</span><a href="#removeResource" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -534,7 +592,7 @@ not be performed client side when offline.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L366">lib/src/store.ts:366</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L413">lib/src/store.ts:413</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="renameSubject" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>rename<wbr/>Subject</span><a href="#renameSubject" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -552,7 +610,7 @@ errors if so.</p>
 <h5>newSubject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L376">lib/src/store.ts:376</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L423">lib/src/store.ts:423</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setAgent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Agent</span><a href="#setAgent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -570,7 +628,7 @@ might have security implications for your application.</p>
 <h5>agent: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="_tomic_lib.Agent.html" class="tsd-signature-type" data-tsd-kind="Class">Agent</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L403">lib/src/store.ts:403</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L450">lib/src/store.ts:450</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setServerUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Server<wbr/>Url</span><a href="#setServerUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -585,11 +643,11 @@ might have security implications for your application.</p>
 <h5>url: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L420">lib/src/store.ts:420</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L471">lib/src/store.ts:471</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="subscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>subscribe</span><a href="#subscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="subscribe.subscribe-1">subscribe<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../types/_tomic_lib._internal_.Callback.html" class="tsd-signature-type" data-tsd-kind="Type alias">Callback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#subscribe.subscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="subscribe.subscribe-1">subscribe<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../types/_tomic_lib._internal_.ResourceCallback.html" class="tsd-signature-type" data-tsd-kind="Type alias">ResourceCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#subscribe.subscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Registers a callback for when the a resource is updated. When you call
 this, you should probably also call .unsubscribe some time later.</p>
@@ -600,10 +658,10 @@ this, you should probably also call .unsubscribe some time later.</p>
 <li>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li>
 <li>
-<h5>callback: <a href="../types/_tomic_lib._internal_.Callback.html" class="tsd-signature-type" data-tsd-kind="Type alias">Callback</a></h5></li></ul></div>
+<h5>callback: <a href="../types/_tomic_lib._internal_.ResourceCallback.html" class="tsd-signature-type" data-tsd-kind="Type alias">ResourceCallback</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L451">lib/src/store.ts:451</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L502">lib/src/store.ts:502</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="subscribeWebSocket" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>subscribe<wbr/>Web<wbr/>Socket</span><a href="#subscribeWebSocket" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -616,7 +674,7 @@ this, you should probably also call .unsubscribe some time later.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L468">lib/src/store.ts:468</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L519">lib/src/store.ts:519</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="unSubscribeWebSocket" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>un<wbr/>Subscribe<wbr/>Web<wbr/>Socket</span><a href="#unSubscribeWebSocket" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -629,11 +687,11 @@ this, you should probably also call .unsubscribe some time later.</p>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L487">lib/src/store.ts:487</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L538">lib/src/store.ts:538</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="unsubscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>unsubscribe</span><a href="#unsubscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="unsubscribe.unsubscribe-1">unsubscribe<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../types/_tomic_lib._internal_.Callback.html" class="tsd-signature-type" data-tsd-kind="Type alias">Callback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#unsubscribe.unsubscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="unsubscribe.unsubscribe-1">unsubscribe<span class="tsd-signature-symbol">(</span>subject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../types/_tomic_lib._internal_.ResourceCallback.html" class="tsd-signature-type" data-tsd-kind="Type alias">ResourceCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#unsubscribe.unsubscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Unregisters the callback (see <code>subscribe()</code>)</p>
 </div>
@@ -643,10 +701,25 @@ this, you should probably also call .unsubscribe some time later.</p>
 <li>
 <h5>subject: <span class="tsd-signature-type">string</span></h5></li>
 <li>
-<h5>callback: <a href="../types/_tomic_lib._internal_.Callback.html" class="tsd-signature-type" data-tsd-kind="Type alias">Callback</a></h5></li></ul></div>
+<h5>callback: <a href="../types/_tomic_lib._internal_.ResourceCallback.html" class="tsd-signature-type" data-tsd-kind="Type alias">ResourceCallback</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/e351214/lib/src/store.ts#L501">lib/src/store.ts:501</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L552">lib/src/store.ts:552</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="uploadFiles" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>upload<wbr/>Files</span><a href="#uploadFiles" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="uploadFiles.uploadFiles-1">upload<wbr/>Files<span class="tsd-signature-symbol">(</span>files<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span><span class="tsd-signature-symbol">[]</span>, parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#uploadFiles.uploadFiles-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>files: <span class="tsd-signature-type">File</span><span class="tsd-signature-symbol">[]</span></h5></li>
+<li>
+<h5>parent: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/atomicdata-dev/atomic-data-browser/blob/4b55260/lib/src/store.ts#L570">lib/src/store.ts:570</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -680,17 +753,19 @@ this, you should probably also call .unsubscribe some time later.</p>
 <li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_tomic_lib.Store.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#_resources" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>_resources</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#agent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>agent?</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class"><a href="_tomic_lib.Store.html#errorHandler" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>error<wbr/>Handler</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#client" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>client</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#eventManager" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>event<wbr/>Manager</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#injectedFetch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>injected<wbr/>Fetch</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#serverUrl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>server<wbr/>Url</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="_tomic_lib.Store.html#subscribers" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>subscribers</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#webSockets" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>web<wbr/>Sockets</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_tomic_lib.Store.html#resources" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>resources</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#addResource" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Resource</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#addResources" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Resources</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#buildUniqueSubjectFromParts" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>build<wbr/>Unique<wbr/>Subject<wbr/>From<wbr/>Parts</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#checkSubjectTaken" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>check<wbr/>Subject<wbr/>Taken</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#createSubject" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create<wbr/>Subject</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#fetchResource" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>fetch<wbr/>Resource</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#fetchResourceFromServer" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>fetch<wbr/>Resource<wbr/>From<wbr/>Server</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#findAvailableSubject" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>find<wbr/>Available<wbr/>Subject</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#getAgent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Agent</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#getAllSubjects" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>All<wbr/>Subjects</a></li>
@@ -700,13 +775,15 @@ this, you should probably also call .unsubscribe some time later.</p>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#getResourceLoading" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Resource<wbr/>Loading</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#getServerUrl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Server<wbr/>Url</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#getWebSocketForSubject" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Web<wbr/>Socket<wbr/>For<wbr/>Subject</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#handleError" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>handle<wbr/>Error</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#injectFetch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>inject<wbr/>Fetch</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#isOffline" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>is<wbr/>Offline</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#notify" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>notify</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#notifyError" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>notify<wbr/>Error</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#notifyResourceManuallyCreated" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>notify<wbr/>Resource<wbr/>Manually<wbr/>Created</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#notifyResourceSaved" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>notify<wbr/>Resource<wbr/>Saved</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#on" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>on</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#openWebSocket" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>open<wbr/>Web<wbr/>Socket</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#postCommit" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>post<wbr/>Commit</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_tomic_lib.Store.html#randomPart" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>random<wbr/>Part</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#removeResource" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Resource</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#renameSubject" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>rename<wbr/>Subject</a></li>
@@ -715,7 +792,8 @@ this, you should probably also call .unsubscribe some time later.</p>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#subscribe" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>subscribe</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#subscribeWebSocket" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>subscribe<wbr/>Web<wbr/>Socket</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#unSubscribeWebSocket" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>un<wbr/>Subscribe<wbr/>Web<wbr/>Socket</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#unsubscribe" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>unsubscribe</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#unsubscribe" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>unsubscribe</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="_tomic_lib.Store.html#uploadFiles" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>upload<wbr/>Files</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
