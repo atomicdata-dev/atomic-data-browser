@@ -38,8 +38,8 @@ export function ResourceInline({
     return <LoaderInline about={subject} title={`${subject} is loading..`} />;
   }
 
-  if (!Client.isValidURL(subject)) {
-    return <ErrorLook>{subject} is not a valid URL</ErrorLook>;
+  if (!Client.isValidSubject(subject)) {
+    return <ErrorLook>{subject} is not a valid subject.</ErrorLook>;
   }
 
   return (

@@ -92,7 +92,7 @@ const SettingsAgent: React.FunctionComponent = () => {
     try {
       const newAgent = new Agent(privateKey!, subject);
       await newAgent.getPublicKey();
-      await newAgent.checkPublicKey();
+      await newAgent.verifyPublicKeyWithServer();
 
       setAgentIfChanged(agent, newAgent);
     } catch (e) {

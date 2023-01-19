@@ -43,7 +43,10 @@ interface FetchResourceOptions {
   from?: string;
 }
 
-type HTTPResult = [resource: Resource, createdResources: Resource[]];
+interface HTTPResult {
+  resource: Resource;
+  createdResources: Resource[];
+}
 
 export class Client {
   private __fetchOverride?: typeof fetch;
@@ -64,8 +67,8 @@ export class Client {
     return fetchFunction;
   }
 
-  /** Throws an error if the URL is not valid */
-  public static tryValidURL(subject: string | undefined): void {
+  /** Throws an error if the subject is not valid */
+  public static tryValidSubject(subject: string | undefined): void {
     try {
       new URL(subject as string);
     } catch (e) {
@@ -73,12 +76,12 @@ export class Client {
     }
   }
 
-  /** Throws an error if the URL is not valid */
-  public static isValidURL(subject: string | undefined): boolean {
+  /** Returns true if the given subject is valid */
+  public static isValidSubject(subject: string | undefined): boolean {
     if (typeof subject !== 'string') return false;
 
     try {
-      Client.tryValidURL(subject);
+      Client.tryValidSubject(subject);
 
       return true;
     } catch (e) {
@@ -114,7 +117,7 @@ export class Client {
     let resource = new Resource(subject);
 
     try {
-      Client.tryValidURL(subject);
+      Client.tryValidSubject(subject);
       const requestHeaders: HeadersObject = {};
       requestHeaders['Accept'] = JSON_AD_MIME;
 
@@ -176,7 +179,7 @@ export class Client {
 
     resource.loading = false;
 
-    return [resource, createdResources];
+    return { resource, createdResources };
   }
 
   /** Posts a Commit to some endpoint. Returns the Commit created by the server. */

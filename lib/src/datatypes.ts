@@ -122,7 +122,7 @@ export const validateDatatype = (
         break;
       }
 
-      Client.tryValidURL(value);
+      Client.tryValidSubject(value);
       break;
     }
 
@@ -134,7 +134,7 @@ export const validateDatatype = (
 
       value.map((item, index) => {
         try {
-          Client.tryValidURL(item);
+          Client.tryValidSubject(item);
         } catch (e) {
           const arrError: ArrayError = new Error(`Invalid URL`);
           arrError.index = index;

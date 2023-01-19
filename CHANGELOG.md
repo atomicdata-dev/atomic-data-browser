@@ -16,13 +16,18 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add the ability to change the `fetch` function used to fetch resources over http.
 - `store.addResource` is depricated in favor of `store.addResources`.
 - Add `AgentChange` event on store that is fired whenever the stores agent changes.
+- `store.fetchResourceFromServer` now returns the requested resource.
+- Add `postCommit` method to `store` that respects the injected `fetch` function.
 
 #### Breaking Changes:
 
 - `uploadFiles()` has moved to `store.uploadFiles()`.
 - Remove `Agent.fromJSON()`
-- `tryValidURL` and `isValidURL` are now static methods on `Client`.
+- `tryValidURL` and `isValidURL` are now static methods on `Client` and have been renamed to `tryValidSubject` and `isValidSubject`.
 - Rename `store.fetchResource` to `store.fetchResourceFromServer`.
+- Rename `store.handleError` to `store.notifyError`.
+- Rename `agent.checkPublicKey` to `agent.verifyPublicKeyWithServer`.
+- Remove `store.errorHandler` and replace with new `StoreEvents.Error` event.
 
 ## v0.34.10
 

@@ -22,10 +22,10 @@ export const useServerURL = (): [string, (serverUrl: string) => void] => {
 
       let newValue = 'https://atomicdata.dev';
 
-      if (Client.isValidURL(value)) {
+      if (Client.isValidSubject(value)) {
         newValue = value;
       } else {
-        store.handleError(
+        store.notifyError(
           new Error(`Invalid base URL: ${value}, defaulting to atomicdata.dev`),
         );
       }

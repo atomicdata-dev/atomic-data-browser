@@ -8,6 +8,7 @@ import {
   Resource,
   unknownSubject,
   urls,
+  Commit,
 } from './index.js';
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 
@@ -15,9 +16,8 @@ import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 type ResourceCallback = (resource: Resource) => void;
 /** Callback called when the stores agent changes */
 type AgentCallback = (agent: Agent | undefined) => void;
+type ErrorCallback = (e: Error) => void;
 
-/** Returns True if the client has WebSocket support */
-const supportsWebSockets = () => typeof WebSocket !== 'undefined';
 type Fetch = typeof fetch;
 
 export interface StoreOpts {
@@ -42,6 +42,8 @@ export enum StoreEvents {
   ResourceManuallyCreated = 'resource-manually-created',
   /** Event that gets called whenever the stores agent changes */
   AgentChanged = 'agent-changed',
+  /** Event that gets called whenever the store encounters an error */
+  Error = 'error',
 }
 
 /**
@@ -52,7 +54,11 @@ type StoreEventHandlers = {
   [StoreEvents.ResourceRemoved]: ResourceCallback;
   [StoreEvents.ResourceManuallyCreated]: ResourceCallback;
   [StoreEvents.AgentChanged]: AgentCallback;
+  [StoreEvents.Error]: ErrorCallback;
 };
+
+/** Returns True if the client has WebSocket support */
+const supportsWebSockets = () => typeof WebSocket !== 'undefined';
 
 /**
  * An in memory store that has a bunch of usefful methods for retrieving Atomic
@@ -63,11 +69,6 @@ type StoreEventHandlers = {
 export class Store {
   /** A list of all functions that need to be called when a certain resource is updated */
   public subscribers: Map<string, Array<ResourceCallback>>;
-  /**
-   * Is called when the store encounters an error. By default simply throws the
-   * error, but can be overwritten
-   */
-  public errorHandler: (e: Error) => unknown;
   private injectedFetch: Fetch;
   /**
    * The base URL of an Atomic Server. This is where to send commits, create new
@@ -92,10 +93,6 @@ export class Store {
     opts.serverUrl && this.setServerUrl(opts.serverUrl);
     opts.agent && this.setAgent(opts.agent);
     this.client = new Client(this.injectedFetch);
-
-    this.errorHandler = (e: Error) => {
-      throw e;
-    };
 
     // We need to bind this method because it is passed down by other functions
     this.getAgent = this.getAgent.bind(this);
@@ -172,7 +169,7 @@ export class Store {
     return `${this.getServerUrl()}/${className}/${random}`;
   }
 
-  /** Always fetches resource from the server and returns it. */
+  /** Always fetches resource from the server then returns it and adds it to the store */
   public async fetchResourceFromServer(
     /** The resource URL to be fetched */
     subject: string,
@@ -208,7 +205,7 @@ export class Store {
         ? { agent: this.agent, serverURL: this.getServerUrl() }
         : undefined;
 
-      const [_, createdResources] = await this.client.fetchResourceHTTP(
+      const { createdResources } = await this.client.fetchResourceHTTP(
         subject,
         {
           from: opts.fromProxy ? this.getServerUrl() : undefined,
@@ -368,13 +365,14 @@ export class Store {
    * This is called when Errors occur in some of the library functions. Set your
    * errorhandler function to `store.errorHandler`.
    */
-  public handleError(e: Error | string): void {
-    if (typeof e === 'string') {
-      e = new Error(e);
-    }
+  public notifyError(e: Error | string): void {
+    const error = e instanceof Error ? e : new Error(e);
 
-    // eslint-disable-next-line no-console
-    this.errorHandler(e) || console.error(e);
+    if (this.eventManager.hasSubscriptions(StoreEvents.Error)) {
+      this.eventManager.emit(StoreEvents.Error, error);
+    } else {
+      throw error;
+    }
   }
 
   /**
@@ -426,7 +424,7 @@ export class Store {
     oldSubject: string,
     newSubject: string,
   ): Promise<void> {
-    Client.tryValidURL(newSubject);
+    Client.tryValidSubject(newSubject);
     const old = this.resources.get(oldSubject);
 
     if (old === undefined) {
@@ -471,7 +469,7 @@ export class Store {
 
   /** Sets the Server base URL, without the trailing slash. */
   public setServerUrl(url: string): void {
-    Client.tryValidURL(url);
+    Client.tryValidSubject(url);
 
     if (url.substring(-1) === '/') {
       throw Error('baseUrl should not have a trailing slash');
@@ -586,6 +584,10 @@ export class Store {
     this.addResources(...resources);
 
     return resources.map(r => r.getSubject());
+  }
+
+  public async postCommit(commit: Commit, endpoint: string): Promise<Commit> {
+    return this.client.postCommit(commit, endpoint);
   }
 
   private randomPart(): string {

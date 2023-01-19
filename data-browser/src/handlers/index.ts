@@ -1,4 +1,6 @@
 import { Store, StoreEvents } from '@tomic/react';
+import { saveAgentToLocalStorage } from '../helpers/agentStorage';
+import { errorHandler } from './errorHandler';
 import {
   buildSideBarNewResourceHandler,
   buildSideBarRemoveResourceHandler,
@@ -13,4 +15,6 @@ export function registerHandlers(store: Store) {
     StoreEvents.ResourceRemoved,
     buildSideBarRemoveResourceHandler(store),
   );
+  store.on(StoreEvents.Error, errorHandler);
+  store.on(StoreEvents.AgentChanged, saveAgentToLocalStorage);
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { StoreContext, Store, urls, StoreEvents } from '@tomic/react';
+import { StoreContext, Store, urls } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { AppRoutes } from './routes/Routes';
@@ -9,19 +9,15 @@ import { NavWrapper } from './components/Navigation';
 import { MetaSetter } from './components/MetaSetter';
 import { Toaster } from './components/Toaster';
 import { isDev } from './config';
-import { handleError, initBugsnag } from './helpers/handlers';
+import { initBugsnag } from './helpers/loggingHandlers';
 import HotKeysWrapper from './components/HotKeyWrapper';
 import { AppSettingsContextProvider } from './helpers/AppSettings';
 import CrashPage from './views/CrashPage';
-import toast from 'react-hot-toast';
 import { DialogContainer } from './components/Dialog/DialogContainer';
 import { registerHandlers } from './handlers';
 import { ErrorBoundary } from './views/ErrorPage';
 import { NetworkIndicator } from './components/NetworkIndicator';
-import {
-  getAgentFromLocalStorage,
-  saveAgentToLocalStorage,
-} from './helpers/agentStorage';
+import { getAgentFromLocalStorage } from './helpers/agentStorage';
 
 function fixDevUrl(url: string) {
   if (isDev()) {
@@ -31,33 +27,18 @@ function fixDevUrl(url: string) {
   return url;
 }
 
+/**
+ * Defaulting to the current URL's origin will make sense in most non-dev environments.
+ * In dev envs, we want to default to port 9883
+ */
+const serverUrl = fixDevUrl(window.location.origin);
 const initalAgent = getAgentFromLocalStorage();
 
 // Initialize the store
 const store = new Store({
   agent: initalAgent,
+  serverUrl,
 });
-
-store.on(StoreEvents.AgentChanged, saveAgentToLocalStorage);
-
-/**
- * Defaulting to the current URL's origin will make sense in most non-dev environments.
- * In dev envs, we want to default to port 9883
- */
-const currentOrigin = window.location.origin;
-
-store.setServerUrl(fixDevUrl(currentOrigin));
-
-// Show an error when things go wrong
-store.errorHandler = e => {
-  handleError(e);
-
-  if (e.message.length > 100) {
-    e.message = e.message.substring(0, 100) + '...';
-  }
-
-  toast.error(e.message);
-};
 
 declare global {
   interface Window {

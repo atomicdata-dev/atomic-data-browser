@@ -38,7 +38,7 @@ function handleMessage(ev: MessageEvent, store: Store) {
     const commit = ev.data.slice(7);
     parseAndApplyCommit(commit, store);
   } else if (ev.data.startsWith('ERROR ')) {
-    store.handleError(ev.data.slice(6));
+    store.notifyError(ev.data.slice(6));
   } else if (ev.data.startsWith('RESOURCE ')) {
     const resourceJSON: string = ev.data.slice(9);
     const parsed = JSON.parse(resourceJSON);

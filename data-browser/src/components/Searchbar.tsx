@@ -41,7 +41,7 @@ export function Searchbar({
     setInput(e.target.value);
 
     try {
-      Client.tryValidURL(e.target.value);
+      Client.tryValidSubject(e.target.value);
       // Replace instead of push to make the back-button behavior better.
       navigate(constructOpenURL(e.target.value), { replace: true });
     } catch (_err) {

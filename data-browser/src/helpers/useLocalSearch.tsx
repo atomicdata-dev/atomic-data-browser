@@ -52,7 +52,7 @@ export function useLocalSearch(
     }
 
     // For some reason, searching for a URL as query takes infinitely long..?
-    if (Client.isValidURL(debouncedQuery)) {
+    if (Client.isValidSubject(debouncedQuery)) {
       return;
     }
 
