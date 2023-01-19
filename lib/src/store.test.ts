@@ -35,7 +35,7 @@ describe('Store', () => {
     const testResourceSubject = 'https://example.com/test';
 
     const customFetch = jest.fn(
-      async (url: RequestInfo | URL, options: any) => {
+      async (url: RequestInfo | URL, options: RequestInit | undefined) => {
         return fetch(url, options);
       },
     );

@@ -13,7 +13,7 @@ import EndpointPage from './EndpointPage';
 import DrivePage from './DrivePage';
 import RedirectPage from './RedirectPage';
 import InvitePage from './InvitePage';
-import DocumentPage from './DocumentPage';
+import { DocumentPage } from './DocumentPage';
 import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
 import { FilePage } from './FilePage';
