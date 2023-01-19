@@ -334,7 +334,7 @@ test.describe('data-browser', async () => {
       page.click('button:has-text("Upload file")'),
     ]);
     await fileChooser.setFiles(demoFile);
-    await page.click(`a:has-text("${demoFileName}")`);
+    await page.click(`[data-test="file-pill"]:has-text("${demoFileName}")`);
     const image = page.locator('[data-test="image-viewer"]');
     await expect(image).toBeVisible();
     await expect(image).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
