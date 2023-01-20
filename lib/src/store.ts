@@ -169,7 +169,9 @@ export class Store {
     return `${this.getServerUrl()}/${className}/${random}`;
   }
 
-  /** Always fetches resource from the server then returns it and adds it to the store */
+  /**
+   * Always fetches resource from the server then adds it to the store.
+   */
   public async fetchResourceFromServer(
     /** The resource URL to be fetched */
     subject: string,
@@ -195,11 +197,12 @@ export class Store {
     const ws = this.getWebSocketForSubject(subject);
 
     if (
+      !opts.fromProxy &&
       !opts.noWebSocket &&
       supportsWebSockets() &&
       ws?.readyState === WebSocket.OPEN
     ) {
-      fetchWebSocket(ws, subject);
+      await fetchWebSocket(ws, subject);
     } else {
       const signInfo = this.agent
         ? { agent: this.agent, serverURL: this.getServerUrl() }

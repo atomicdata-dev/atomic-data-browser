@@ -1,5 +1,5 @@
 import { createAuthentication } from './authentication.js';
-import { JSONADParser, parseAndApplyCommit, Store } from './index.js';
+import { JSONADParser, parseAndApplyCommit, Resource, Store } from './index.js';
 
 /** Opens a Websocket Connection at `/ws` for the current Drive */
 export function startWebsocket(url: string, store: Store): WebSocket {
@@ -40,11 +40,7 @@ function handleMessage(ev: MessageEvent, store: Store) {
   } else if (ev.data.startsWith('ERROR ')) {
     store.notifyError(ev.data.slice(6));
   } else if (ev.data.startsWith('RESOURCE ')) {
-    const resourceJSON: string = ev.data.slice(9);
-    const parsed = JSON.parse(resourceJSON);
-    const parser = new JSONADParser();
-    const [_, resources] = parser.parseObject(parsed);
-
+    const resources = parseResourceMessage(ev);
     store.addResources(...resources);
   } else {
     console.warn('Unknown websocket message:', ev);
@@ -53,6 +49,15 @@ function handleMessage(ev: MessageEvent, store: Store) {
 
 function handleError(ev: Event) {
   console.error('websocket error:', ev);
+}
+
+function parseResourceMessage(ev: MessageEvent): Resource[] {
+  const resourceJSON: string = ev.data.slice(9);
+  const parsed = JSON.parse(resourceJSON);
+  const parser = new JSONADParser();
+  const [_, resources] = parser.parseObject(parsed);
+
+  return resources;
 }
 
 /**
@@ -79,7 +84,35 @@ export async function authenticate(client: WebSocket, store: Store) {
   client.send('AUTHENTICATE ' + JSON.stringify(json));
 }
 
+const defaultTimeout = 5000;
+
 /** Sends a GET message for some resource over websockets. */
-export async function fetchWebSocket(client: WebSocket, subject: string) {
-  client.send('GET ' + subject);
+export async function fetchWebSocket(
+  client: WebSocket,
+  subject: string,
+): Promise<Resource> {
+  return new Promise((resolve, reject) => {
+    client.addEventListener('message', function listener(ev) {
+      const timeoutId = setTimeout(() => {
+        client.removeEventListener('message', listener);
+        reject(
+          new Error(
+            `Request for subject "${subject}" timed out after ${defaultTimeout}ms.`,
+          ),
+        );
+      }, defaultTimeout);
+
+      if (ev.data.startsWith('RESOURCE ')) {
+        parseResourceMessage(ev).forEach(resource => {
+          // if it is the requested subject, return the resource
+          if (resource.getSubject() === subject) {
+            clearTimeout(timeoutId);
+            client.removeEventListener('message', listener);
+            resolve(resource);
+          }
+        });
+      }
+    });
+    client.send('GET ' + subject);
+  });
 }
