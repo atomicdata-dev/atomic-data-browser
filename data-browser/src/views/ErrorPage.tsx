@@ -20,12 +20,12 @@ function ErrorPage({ resource }: ResourcePageProps): JSX.Element {
 
   React.useEffect(() => {
     // Try again when agent changes
-    store.fetchResource(subject);
+    store.fetchResourceFromServer(subject);
   }, [agent]);
 
   if (isUnauthorized(resource.error)) {
     // This might be a bit too aggressive, but it fixes 'Unauthorized' messages after signing in to a new drive.
-    store.fetchResource(subject);
+    store.fetchResourceFromServer(subject);
 
     return (
       <ContainerWide>
