@@ -96,8 +96,7 @@ const setCookieExpires = (
 };
 
 /** Sets a cookie for the current Agent, signing the Authentication. It expires after some default time. */
-export const setCookieAuthentication = (store: Store, agent: Agent) => {
-  const serverURL = store.getServerUrl();
+export const setCookieAuthentication = (serverURL: string, agent: Agent) => {
   createAuthentication(serverURL, agent).then(auth => {
     setCookieExpires(COOKIE_NAME_AUTH, btoa(JSON.stringify(auth)), serverURL);
   });
