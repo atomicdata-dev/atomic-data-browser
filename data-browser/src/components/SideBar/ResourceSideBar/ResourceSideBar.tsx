@@ -39,8 +39,8 @@ export function ResourceSideBar({
   const [subResources] = useArray(resource, urls.properties.subResources);
   const hasSubResources = subResources.length > 0;
 
-  const [classType] = useString(resource, urls.properties.isA);
-  const Icon = getIconForClass(classType!);
+  const [classType] = useArray(resource, urls.properties.isA);
+  const Icon = getIconForClass(classType[0]!);
 
   const handleDetailsToggle = useCallback((state: boolean) => {
     setOpen(state);

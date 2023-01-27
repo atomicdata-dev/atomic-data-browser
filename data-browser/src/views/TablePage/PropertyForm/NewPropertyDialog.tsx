@@ -9,8 +9,9 @@ import {
   DialogTitle,
   useDialog,
 } from '../../../components/Dialog';
+import { FormValidationContextProvider } from '../../../components/forms/formValidation/FormValidationContextProvider';
 import { randomString } from '../../../helpers/randomString';
-import { PropertyForm } from './PropertyForm';
+import { PropertyForm, PropertyFormCategory } from './PropertyForm';
 
 interface NewPropertyDialogProps {
   showDialog: boolean;
@@ -32,8 +33,8 @@ const populatePropertyWithDefaults = async (
 ) => {
   await property.set(urls.properties.isA, [urls.classes.property], store);
   await property.set(urls.properties.parent, tableClass.getSubject(), store);
-  await property.set(urls.properties.shortname, 'new-column', store);
-  await property.set(urls.properties.name, 'New Column', store);
+  await property.set(urls.properties.shortname, '', store, false);
+  await property.set(urls.properties.name, '', store, false);
   await property.set(urls.properties.description, 'A column in a table', store);
   await property.set(urls.properties.datatype, urls.datatypes.string, store);
 };
@@ -44,6 +45,8 @@ export function NewPropertyDialog({
   tableClassResource,
   bindShow,
 }: NewPropertyDialogProps): JSX.Element {
+  const [valid, setValid] = useState(false);
+
   const store = useStore();
   const [resource, setResource] = useState<Resource | null>(null);
 
@@ -115,22 +118,29 @@ export function NewPropertyDialog({
   }
 
   return (
-    <Dialog {...dialogProps}>
-      <DialogTitle>
-        <h1>
-          New <Capitalize>{selectedCategory}</Capitalize> Column
-        </h1>
-      </DialogTitle>
-      <DialogContent>
-        <PropertyForm resource={resource} category={selectedCategory} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCancelClick} subtle>
-          Cancel
-        </Button>
-        <Button onClick={handleCreateClick}>Create</Button>
-      </DialogActions>
-    </Dialog>
+    <FormValidationContextProvider onValidationChange={setValid}>
+      <Dialog {...dialogProps}>
+        <DialogTitle>
+          <h1>
+            New <Capitalize>{selectedCategory}</Capitalize> Column
+          </h1>
+        </DialogTitle>
+        <DialogContent>
+          <PropertyForm
+            resource={resource}
+            category={selectedCategory as PropertyFormCategory}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelClick} subtle>
+            Cancel
+          </Button>
+          <Button onClick={handleCreateClick} disabled={!valid}>
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </FormValidationContextProvider>
   );
 }
 
