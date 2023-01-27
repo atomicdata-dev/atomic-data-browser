@@ -26,7 +26,11 @@ export const classes = {
     grid: 'https://atomicdata.dev/display-style/grid',
     list: 'https://atomicdata.dev/display-style/list',
   },
-  // TODO: Change
+  // CHANGE - Change to atomicdata.dev
+  constraintProperties: {
+    rangeProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/Halx6Km9lW',
+  },
+  // CHANGE - Change to atomicdata.dev
   table: 'http://localhost:9883/class/u1f8218a0up',
 };
 
@@ -116,6 +120,11 @@ export const properties = {
     url: 'https://atomicdata.dev/property/url',
     preview: 'https://atomicdata.dev/property/preview',
     imageUrl: 'https://atomicdata.dev/properties/imageUrl',
+  },
+  // CHANGE - CHANGE TO ATOMICDATA.DEV
+  constraints: {
+    min: 'http://localhost:9883/Folder/qbty0u7lc8d/zdJJDLgVQj',
+    max: 'http://localhost:9883/Folder/qbty0u7lc8d/5A6nIzgSyD',
   },
 };
 

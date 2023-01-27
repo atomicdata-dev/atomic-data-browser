@@ -36,8 +36,8 @@ export function ResourceSideBar({
   const [subResources] = useArray(resource, urls.properties.subResources);
   const hasSubResources = subResources.length > 0;
 
-  const [classType] = useString(resource, urls.properties.isA);
-  const Icon = getIconForClass(classType!);
+  const [classType] = useArray(resource, urls.properties.isA);
+  const Icon = getIconForClass(classType[0]!);
 
   useEffect(() => {
     if (ancestry.includes(subject) && ancestry[0] !== subject) {

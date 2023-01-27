@@ -1,7 +1,7 @@
 import { Collection, CollectionBuilder, QueryFilter, Store } from '@tomic/lib';
-import { useCallback, useState } from 'react';
-import { useServerURL } from './useServerURL';
-import { useStore } from './hooks';
+import { useCallback, useEffect, useState } from 'react';
+import { useServerURL } from './useServerURL.js';
+import { useStore } from './hooks.js';
 
 export type UseCollectionResult = [
   collection: Collection,
@@ -28,7 +28,6 @@ const buildCollection = (
  * Creates a collection resource that is rebuild when the query filter changes or `invalidateCollection` is called.
  * @param queryFilter
  * @param pageSize number of items per collection resource, defaults to 30.
- * @returns
  */
 export function useCollection(
   queryFilter: QueryFilter,
@@ -40,6 +39,12 @@ export function useCollection(
   const [collection, setCollection] = useState(() =>
     buildCollection(store, server, queryFilter, pageSize),
   );
+
+  useEffect(() => {
+    collection.waitForReady().then(() => {
+      setCollection(collection);
+    });
+  }, []);
 
   const invalidateCollection = useCallback(async () => {
     await collection.invalidate();

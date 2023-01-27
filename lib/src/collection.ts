@@ -1,7 +1,7 @@
-import { isNumber } from './datatypes';
-import { Resource } from './resource';
-import { Store } from './store';
-import { urls } from './urls';
+import { isNumber } from './datatypes.js';
+import { Resource } from './resource.js';
+import { Store } from './store.js';
+import { urls } from './urls.js';
 
 export interface QueryFilter {
   property?: string;
@@ -101,7 +101,7 @@ export class Collection {
       this.store.subscribe(page1Subject, callback);
 
       this.pages.forEach(page => {
-        this.store.fetchResource(page.getSubject());
+        this.store.fetchResourceFromServer(page.getSubject());
       });
 
       this.pages.clear();
@@ -123,6 +123,16 @@ export class Collection {
   private async fetchPage(page: number): Promise<void> {
     const subject = this.buildSubject(page);
     const resource = await this.store.getResourceAsync(subject);
+
+    if (!resource) {
+      throw new Error('Invalid collection: resource does not exist');
+    }
+
+    if (resource.error) {
+      throw new Error(
+        `Invalid collection: resource has error: ${resource.error}`,
+      );
+    }
 
     this.pages.set(page, resource);
 

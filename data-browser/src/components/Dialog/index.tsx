@@ -173,13 +173,15 @@ const CloseButtonSlot = styled(Slot)`
 `;
 
 const DialogContentSlot = styled(Slot)`
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: visible;
   /* The main section should leave room for the footer */
   max-height: calc(80vh - 8rem);
   padding-bottom: ${({ theme }) => theme.margin}rem;
   // Position the scrollbar against the side of the dialog without any spacing inbetween.
-  margin-right: -${p => p.theme.margin}rem;
-  padding-right: ${p => p.theme.margin}rem;
+  // This also fixes ugly horizontal shadow cutoff.
+  margin-inline: -${p => p.theme.margin}rem;
+  padding-inline: ${p => p.theme.margin}rem;
 `;
 
 const DialogActionsSlot = styled(Slot)`
@@ -235,7 +237,7 @@ const StyledDialog = styled.dialog`
   max-inline-size: min(90vw, 75ch);
   max-block-size: 100vh;
 
-  overflow: hidden;
+  overflow: visible;
   box-shadow: ${p => p.theme.boxShadowSoft};
 
   // Animation props

@@ -455,7 +455,7 @@ export function useNumber(
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === undefined) {
-    return [NaN, set];
+    return [undefined, set];
   }
 
   return [valToNumber(value), set];

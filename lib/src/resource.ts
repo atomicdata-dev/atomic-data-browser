@@ -445,6 +445,11 @@ export class Resource {
      */
     validate = true,
   ): Promise<void> {
+    // If the value is the same, don't do anything. We don't want unnecessary commits.
+    if (this.compareValues(prop, value)) {
+      return;
+    }
+
     if (store.isOffline()) {
       console.warn('Offline, not validating');
       validate = false;
@@ -484,6 +489,16 @@ export class Resource {
     Client.tryValidSubject(subject);
     this.commitBuilder.setSubject(subject);
     this.subject = subject;
+  }
+
+  private compareValues(prop: string, value: JSONValue) {
+    const ownValue = this.get(prop);
+
+    if (value === Object(value)) {
+      return JSON.stringify(ownValue) === JSON.stringify(value);
+    }
+
+    return ownValue === value;
   }
 }
 

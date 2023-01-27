@@ -1,15 +1,17 @@
 import { Resource, urls, useString } from '@tomic/react';
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
+import { ErrorChip } from '../../../components/forms/ErrorChip';
+import { useValidation } from '../../../components/forms/formValidation/useValidation';
 import {
   InputStyled,
   InputWrapper,
 } from '../../../components/forms/InputStyles';
+import { buildComponentFactory } from '../../../helpers/buildComponentFactory';
 import { stringToSlug } from '../../../helpers/stringToSlug';
-import type { PropertyCategoryFormProps } from './PropertyCategoryFormProps';
 import { TextPropertyForm } from './TextPropertyForm';
 
-type Category =
+export type PropertyFormCategory =
   | 'text'
   | 'number'
   | 'date'
@@ -20,18 +22,47 @@ type Category =
 
 interface PropertyFormProps {
   resource: Resource;
-  category?: Category;
+  category?: PropertyFormCategory;
 }
 
-const categoryForms = new Map<Category, React.FC<PropertyCategoryFormProps>>();
-categoryForms.set('text', TextPropertyForm);
+const NoCategorySelected = () => {
+  return <span>No Type selected</span>;
+};
+
+const categoryFormFactory = buildComponentFactory(
+  new Map([['text', TextPropertyForm]]),
+  NoCategorySelected,
+);
 
 export function PropertyForm({
   resource,
   category,
 }: PropertyFormProps): JSX.Element {
-  const [name, setName] = useString(resource, urls.properties.name);
-  const [_, setShortName] = useString(resource, urls.properties.shortname);
+  const [nameError, setNameError, onNameBlur] = useValidation('Required');
+
+  const valueOptions = useMemo(
+    () => ({
+      handleValidationError(e: Error | undefined) {
+        if (e) {
+          setNameError('Invalid Name');
+        } else {
+          setNameError(undefined);
+        }
+      },
+    }),
+    [],
+  );
+
+  const [name, setName] = useString(
+    resource,
+    urls.properties.name,
+    valueOptions,
+  );
+  const [_, setShortName] = useString(
+    resource,
+    urls.properties.shortname,
+    valueOptions,
+  );
 
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,19 +75,22 @@ export function PropertyForm({
     [setName, setShortName],
   );
 
-  const CategoryForm = useMemo(() => {
-    if (category && categoryForms.has(category)) {
-      return categoryForms.get(category)!;
-    }
-
-    return NoCategorySelected;
-  }, [category]);
+  const CategoryForm = categoryFormFactory(category);
 
   return (
     <Form>
-      <InputWrapper>
-        <InputStyled type='text' value={name} onChange={handleNameChange} />
-      </InputWrapper>
+      <div>
+        <InputWrapper invalid={!!nameError}>
+          <InputStyled
+            type='text'
+            value={name}
+            onChange={handleNameChange}
+            placeholder='New Column'
+            onBlur={onNameBlur}
+          />
+        </InputWrapper>
+        {nameError && <ErrorChip>{nameError}</ErrorChip>}
+      </div>
       <CategoryForm resource={resource} />
     </Form>
   );
@@ -67,9 +101,3 @@ const Form = styled.form`
   flex-direction: column;
   gap: 1rem;
 `;
-
-const NoCategorySelected: React.FC<PropertyCategoryFormProps> = ({
-  resource: _,
-}) => {
-  return <span>No Type selected</span>;
-};

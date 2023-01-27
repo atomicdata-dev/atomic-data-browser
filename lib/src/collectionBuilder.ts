@@ -1,5 +1,5 @@
-import { Collection, CollectionParams } from './collection';
-import { Store } from './store';
+import { Collection, CollectionParams } from './collection.js';
+import { Store } from './store.js';
 
 export class CollectionBuilder {
   private store: Store;
@@ -39,5 +39,13 @@ export class CollectionBuilder {
 
   public build(): Collection {
     return new Collection(this.store, this.server, this.params);
+  }
+
+  public async buildAndFetch() {
+    const collection = this.build();
+
+    await collection.waitForReady();
+
+    return collection;
   }
 }
