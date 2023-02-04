@@ -19,7 +19,10 @@ export function SideBar(): JSX.Element {
   const { drive, sideBarLocked, setSideBarLocked } = useSettings();
   const [ref, hoveringOverSideBar] = useHover<HTMLElement>(sideBarLocked);
   // Check if the window is small enough to hide the sidebar
-  const isWideScreen = useMediaQuery(`(min-width: ${SIDEBAR_TOGGLE_WIDTH}px)`);
+  const isWideScreen = useMediaQuery(
+    `(min-width: ${SIDEBAR_TOGGLE_WIDTH}px)`,
+    true,
+  );
 
   const { size, targetRef, dragAreaRef, isDragging } = useResizable(
     300,
