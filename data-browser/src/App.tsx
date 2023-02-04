@@ -40,6 +40,8 @@ const store = new Store({
   serverUrl,
 });
 
+store.parseMetaTags();
+
 declare global {
   interface Window {
     bugsnagApiKey: string;
