@@ -9,6 +9,7 @@ import {
   unknownSubject,
   urls,
   Commit,
+  JSONADParser,
 } from './index.js';
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 
@@ -410,6 +411,28 @@ export class Store {
 
   public notifyResourceManuallyCreated(resource: Resource): void {
     this.eventManager.emit(StoreEvents.ResourceManuallyCreated, resource);
+  }
+
+  /** Parses the HTML document for `JSON-AD` data in <meta> tags, adds it to the store */
+  public parseMetaTags(): void {
+    const metaTags = document.querySelectorAll(
+      'meta[property="json-ad-initial"]',
+    );
+    const parser = new JSONADParser();
+
+    metaTags.forEach(tag => {
+      const content = tag.getAttribute('content');
+
+      if (content === null) {
+        return;
+      }
+
+      // convert base64 content to JSON
+      const json = JSON.parse(atob(content));
+
+      const [_, resources] = parser.parseObject(json);
+      this.addResources(...resources);
+    });
   }
 
   /** Removes (destroys / deletes) resource from this store */
