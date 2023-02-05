@@ -8,6 +8,7 @@ import {
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../helpers/AppSettings';
+import { handleError } from '../../helpers/loggingHandlers';
 import { newURL } from '../../helpers/navigation';
 import { useCreateAndNavigate } from './useCreateAndNavigate';
 

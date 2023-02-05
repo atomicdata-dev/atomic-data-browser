@@ -24,6 +24,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ### @tomic/browser
 
+- Let users register using e-mail address, improve sign-up UX.
+- Add `Store.parseMetaTags` to load JSON-AD objects stored in the DOM. Speeds up initial page load by allowing server to set JSON-AD objects in the initial HTML response.
 - Move static assets around, align build with server and fix PWA #292
 - Add `useChildren` hook and `Store.getChildren` method
 - Add new file preview UI for images, audio, text and PDF files.
@@ -32,6 +34,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refactor search, escape query strings for Tantivy
 - Add `import` context menu, allows importing anywhere
 - Let users register using e-mail address, improve sign-up UX.
+- `store.createSubject` allows creating nested paths
 - `store.createSubject` allows creating nested paths
 
 ### @tomic/react
