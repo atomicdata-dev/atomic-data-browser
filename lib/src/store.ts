@@ -166,9 +166,13 @@ export class Store {
   }
 
   /** Creates a random URL. Add a classnme (e.g. 'persons') to make a nicer name */
-  public createSubject(className?: string): string {
+  public createSubject(className?: string, parentSubject?: string): string {
     const random = this.randomPart();
     className = className ? className : 'things';
+
+    if (parentSubject) {
+      return `${parentSubject}/${className}/${random}`;
+    }
 
     return `${this.getServerUrl()}/${className}/${random}`;
   }

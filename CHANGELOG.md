@@ -4,9 +4,10 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## UNRELEASED
 
+- Let users register using e-mail address, improve sign-up UX.
 - Add `Store.parseMetaTags` to load JSON-AD objects stored in the DOM. Speeds up initial page load by allowing server to set JSON-AD objects in the initial HTML response.
 - Move static assets around, align build with server and fix PWA #292
-- Let users register using e-mail address, improve sign-up UX.
+- `store.createSubject` allows creating nested paths
 
 ## v0.35.0
 
