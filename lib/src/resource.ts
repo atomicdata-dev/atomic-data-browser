@@ -176,6 +176,21 @@ export class Resource {
     return this.commitBuilder;
   }
 
+  /** Returns the subject of the list of Children */
+  public getChildrenCollection(): string | undefined {
+    // We create a collection that contains all children of the current Subject
+    const generatedCollectionURL = new URL(this.subject);
+    generatedCollectionURL.pathname = '/collections';
+    generatedCollectionURL.searchParams.set('property', properties.parent);
+    generatedCollectionURL.searchParams.set('value', this.subject);
+
+    const childrenCollection = generatedCollectionURL.toString();
+
+    console.log('Children collection', childrenCollection);
+
+    return childrenCollection;
+  }
+
   /** Returns the subject URL of the Resource */
   public getSubject(): string {
     return this.subject;
