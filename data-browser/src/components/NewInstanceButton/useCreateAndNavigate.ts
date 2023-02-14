@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { constructOpenURL } from '../../helpers/navigation';
 
 /**
- * Hook that builds a function that will create a new resoure with the given
+ * Hook that builds a function that will create a new resource with the given
  * properties and then navigate to it.
  *
  * @param klass The type of resource to create a new instance of.
@@ -34,7 +34,7 @@ export function useCreateAndNavigate(klass: string, parent?: string) {
       /** Do not set a parent for the new resource. Useful for top-level resources */
       noParent?: boolean,
     ): Promise<Resource> => {
-      const subject = store.createSubject(className);
+      const subject = store.createSubject(className, parent);
       const resource = new Resource(subject, true);
 
       await Promise.all([

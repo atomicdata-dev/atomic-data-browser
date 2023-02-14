@@ -43,7 +43,7 @@ export const About: React.FunctionComponent = () => {
       </p>
       <p>
         The back-end of this app is{' '}
-        <AtomicLink href='https://github.com/joepio/atomic'>
+        <AtomicLink href='https://github.com/atomicdata-dev/atomic-data-rust'>
           atomic-server
         </AtomicLink>
         , which you can think of as an open source, web-native database.
@@ -63,7 +63,7 @@ export const About: React.FunctionComponent = () => {
       <h2>Run your own server</h2>
       <p>
         The easiest way to run an{' '}
-        <AtomicLink href='https://github.com/joepio/atomic'>
+        <AtomicLink href='https://github.com/atomicdata-dev/atomic-data-rust'>
           atomic-server
         </AtomicLink>{' '}
         is by using Docker:

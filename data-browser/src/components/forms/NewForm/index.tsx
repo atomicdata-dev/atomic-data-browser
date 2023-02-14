@@ -1,6 +1,6 @@
 import { properties, useResource, useStore, useTitle } from '@tomic/react';
 import React, { useCallback, useState } from 'react';
-import { useQueryString } from '../../../helpers/navigation';
+import { newURLParams, useQueryString } from '../../../helpers/navigation';
 import { useEffectOnce } from '../../../hooks/useEffectOnce';
 import { Button } from '../../Button';
 import { DialogActions, DialogContent, DialogTitle } from '../../Dialog';
@@ -28,14 +28,16 @@ export const NewFormFullPage = ({
   classSubject,
 }: NewFormProps): JSX.Element => {
   const klass = useResource(classSubject);
-  const [subject, setSubject] = useQueryString('newSubject');
-  const [parentSubject] = useQueryString('parent');
+  const [subject, setSubject] = useQueryString(newURLParams.newSubject);
+  const [parent] = useQueryString(newURLParams.parent);
 
   const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
     klass,
-    subject!,
+    subject
+      ? subject
+      : `${parent}/${Math.random().toString(36).substring(2, 9)}`,
     setSubject,
-    parentSubject,
+    parent,
   );
 
   return (

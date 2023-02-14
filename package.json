@@ -38,6 +38,7 @@
     "build": "pnpm run -r build",
     "test": "pnpm run -r test",
     "test-query": "pnpm run --filter @tomic/data-browser test-query",
+    "dev": "pnpm run start",
     "start": "pnpm run -r --parallel start",
     "typedoc": "typedoc . --options typedoc.json",
     "typecheck": "pnpm run -r --parallel typecheck",

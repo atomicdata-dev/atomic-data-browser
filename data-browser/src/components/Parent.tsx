@@ -65,6 +65,7 @@ const ParentWrapper = styled.nav`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  overflow-y: hidden;
 `;
 
 type NestedParentProps = {
@@ -111,6 +112,7 @@ const BreadCrumbBase = css`
   font-family: ${props => props.theme.fontFamily};
   padding: 0.1rem 0.5rem;
   color: ${p => p.theme.colors.textLight};
+  white-space: nowrap;
 `;
 
 const BreadCrumbCurrent = styled.div`

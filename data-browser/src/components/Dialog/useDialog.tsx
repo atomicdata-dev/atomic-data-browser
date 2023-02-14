@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
 import { InternalDialogProps } from './index';
 
-export type UseDialogReturnType = [
+export type UseDialogReturnType = {
   /** Props meant to pass to a {@link Dialog} component */
-  dialogProps: InternalDialogProps,
+  dialogProps: InternalDialogProps;
   /** Function to show the dialog */
-  show: () => void,
+  show: () => void;
   /** Function to close the dialog */
-  close: () => void,
+  close: () => void;
   /** Boolean indicating wether the dialog is currently open */
-  isOpen: boolean,
-];
+  isOpen: boolean;
+};
 
 /** Sets up state, and functions to use with a {@link Dialog} */
 export const useDialog = (): UseDialogReturnType => {
@@ -40,5 +40,5 @@ export const useDialog = (): UseDialogReturnType => {
     [showDialog, close, handleClosed],
   );
 
-  return [dialogProps, show, close, visible];
+  return { dialogProps, show, close, isOpen: visible };
 };

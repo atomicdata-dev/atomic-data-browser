@@ -41,13 +41,18 @@ interface FetchResourceOptions {
    * fetch through that server.
    */
   from?: string;
+  method?: 'GET' | 'POST';
+  /** The body is only used combined with the `POST` method */
+  body?: ArrayBuffer | string;
 }
 
-interface HTTPResult {
+/** Contains one or more Resources */
+interface HTTPResourceResult {
   resource: Resource;
   createdResources: Resource[];
 }
 
+/** Contains a `fetch` instance, provides methods to GET and POST several types */
 export class Client {
   private __fetchOverride?: typeof fetch;
 
@@ -110,8 +115,8 @@ export class Client {
   public async fetchResourceHTTP(
     subject: string,
     opts: FetchResourceOptions = {},
-  ): Promise<HTTPResult> {
-    const { signInfo, from } = opts;
+  ): Promise<HTTPResourceResult> {
+    const { signInfo, from, body: bodyReq } = opts;
     let createdResources: Resource[] = [];
     const parser = new JSONADParser();
     let resource = new Resource(subject);
@@ -143,6 +148,8 @@ export class Client {
 
       const response = await this.fetch(url, {
         headers: requestHeaders,
+        method: bodyReq ? 'POST' : 'GET',
+        body: bodyReq,
       });
       const body = await response.text();
 
@@ -256,16 +263,30 @@ export class Client {
     return resources;
   }
 
-  /** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
-  public async importJsonAdUrl(
-    /** The URL of the JSON-AD to import */
-    jsonAdUrl: string,
-    /** Importer URL. Servers tend to have one at `example.com/import` */
-    importerUrl: string,
-  ): Promise<HTTPResult> {
-    const url = new URL(importerUrl);
-    url.searchParams.set('url', jsonAdUrl);
+  // /** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
+  // public async importJsonAdUrl(
+  //   /** The URL of the JSON-AD to import */
+  //   jsonAdUrl: string,
+  //   /** Importer URL. Servers tend to have one at `example.com/import` */
+  //   importerUrl: string,
+  // ): Promise<HTTPResourceResult> {
+  //   const url = new URL(importerUrl);
+  //   url.searchParams.set('url', jsonAdUrl);
 
-    return this.fetchResourceHTTP(url.toString());
-  }
+  //   return this.fetchResourceHTTP(url.toString());
+  // }
+
+  // /** Instructs an Atomic Server to fetch a URL and get its JSON-AD */
+  // public async importJsonAdString(
+  //   /** The JSON-AD to import */
+  //   jsonAdString: string,
+  //   /** Importer URL. Servers tend to have one at `example.com/import` */
+  //   importerUrl: string,
+  // ): Promise<HTTPResourceResult> {
+  //   const url = new URL(importerUrl);
+
+  //   return this.fetchResourceHTTP(url.toString(), {
+  //     body: jsonAdString,
+  //   });
+  // }
 }

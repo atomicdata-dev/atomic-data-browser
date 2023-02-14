@@ -1,4 +1,10 @@
-import { classes, Resource, urls, useResources } from '@tomic/react';
+import {
+  classes,
+  Resource,
+  truncateUrl,
+  urls,
+  useResources,
+} from '@tomic/react';
 import React, { useMemo } from 'react';
 import {
   FaCog,
@@ -21,7 +27,8 @@ const Trigger = buildDefaultTrigger(<FaHdd />, 'Open Drive Settings');
 
 function getTitle(resource: Resource): string {
   return (
-    (resource.get(urls.properties.name) as string) ?? resource.getSubject()
+    (resource.get(urls.properties.name) as string) ??
+    truncateUrl(resource.getSubject(), 20)
   );
 }
 
@@ -31,7 +38,7 @@ function dedupeAFromB<K, V>(a: Map<K, V>, b: Map<K, V>): Map<K, V> {
 
 export function DriveSwitcher() {
   const navigate = useNavigate();
-  const { drive, setDrive, agent } = useSettings();
+  const { drive, setDrive } = useSettings();
   const [savedDrives] = useSavedDrives();
   const [history, addToHistory] = useDriveHistory(savedDrives, 5);
 
@@ -44,10 +51,7 @@ export function DriveSwitcher() {
     navigate(constructOpenURL(subject));
   };
 
-  const createNewDrive = useDefaultNewInstanceHandler(
-    classes.drive,
-    agent?.subject,
-  );
+  const createNewDrive = useDefaultNewInstanceHandler(classes.drive);
 
   const items = useMemo(
     () => [

@@ -52,6 +52,10 @@ export const properties = {
   subResources: 'https://atomicdata.dev/properties/subresources',
   write: 'https://atomicdata.dev/properties/write',
   displayStyle: 'https://atomicdata.dev/property/display-style',
+  article: {
+    publishedAt: 'https://atomicdata.dev/properties/published-at',
+    tags: 'https://atomicdata.dev/properties/tags',
+  },
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',
   },
@@ -134,6 +138,7 @@ export const datatypes = {
 
 export const instances = {
   publicAgent: 'https://atomicdata.dev/agents/publicAgent',
+  displayStyleGrid: 'https://atomicdata.dev/agents/publicAgent',
 };
 
 export const urls = {

@@ -72,10 +72,12 @@ export async function authenticate(client: WebSocket, store: Store) {
   }
 
   if (
-    !client.url.startsWith('ws://localhost:') &&
-    agent?.subject?.startsWith('http://localhost')
+    agent?.subject?.startsWith('http://localhost') &&
+    !client.url.includes('localhost')
   ) {
-    console.warn("Can't authenticate localhost Agent over websocket");
+    console.warn(
+      "Can't authenticate localhost Agent over websocket with remote server, because the server will nog be able to retrieve your Agent and verify your public key.",
+    );
 
     return;
   }

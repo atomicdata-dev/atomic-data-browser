@@ -1,6 +1,6 @@
 import React from 'react';
 import toast, { ToastBar, Toaster as ReactHotToast } from 'react-hot-toast';
-import { FaTimes } from 'react-icons/fa';
+import { FaCopy, FaTimes } from 'react-icons/fa';
 import { useTheme } from 'styled-components';
 import { zIndex } from '../styling';
 import { Button } from './Button';
@@ -37,22 +37,48 @@ export function Toaster(): JSX.Element {
           }}
         >
           {({ icon, message }) => (
-            <>
-              {icon}
-              {message}
-              {t.type !== 'loading' && (
-                <Button
-                  title='Clear'
-                  subtle
-                  onClick={() => toast.dismiss(t.id)}
-                >
-                  <FaTimes />
-                </Button>
-              )}
-            </>
+            <ToastMessage icon={icon} message={message} t={t} />
           )}
         </ToastBar>
       )}
     </ReactHotToast>
+  );
+}
+
+function ToastMessage({ icon, message, t }) {
+  let text = message.props.children;
+
+  function handleCopy() {
+    toast.success('Copied error to clipboard');
+    navigator.clipboard.writeText(message.props.children);
+    toast.dismiss(t.id);
+  }
+
+  if (text.length > 100) {
+    text = text.substring(0, 100) + '...';
+  }
+
+  return (
+    <>
+      {icon}
+      {text}
+      {t.type !== 'loading' && (
+        <div
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+          }}
+        >
+          <Button title='Clear' subtle onClick={() => toast.dismiss(t.id)}>
+            <FaTimes />
+          </Button>
+          {t.type !== 'success' && (
+            <Button title='Copy' subtle onClick={handleCopy}>
+              <FaCopy />
+            </Button>
+          )}
+        </div>
+      )}
+    </>
   );
 }

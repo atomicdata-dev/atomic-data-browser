@@ -80,7 +80,12 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   const requiredClass = useResource(classType);
   const [classTypeTitle] = useTitle(requiredClass);
   const store = useStore();
-  const [dialogProps, showDialog, closeDialog, isDialogOpen] = useDialog();
+  const {
+    dialogProps,
+    show: showDialog,
+    close: closeDialog,
+    isOpen: isDialogOpen,
+  } = useDialog();
   const { drive } = useSettings();
 
   const [

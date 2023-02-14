@@ -1,4 +1,7 @@
-import { setCookieAuthentication } from './authentication.js';
+import {
+  removeCookieAuthentication,
+  setCookieAuthentication,
+} from './authentication.js';
 import { EventManager } from './EventManager.js';
 import {
   Agent,
@@ -163,9 +166,13 @@ export class Store {
   }
 
   /** Creates a random URL. Add a classnme (e.g. 'persons') to make a nicer name */
-  public createSubject(className?: string): string {
+  public createSubject(className?: string, parentSubject?: string): string {
     const random = this.randomPart();
     className = className ? className : 'things';
+
+    if (parentSubject) {
+      return `${parentSubject}/${className}/${random}`;
+    }
 
     return `${this.getServerUrl()}/${className}/${random}`;
   }
@@ -186,6 +193,10 @@ export class Store {
       setLoading?: boolean;
       /** Do not use WebSockets, use HTTP(S) */
       noWebSocket?: boolean;
+      /** HTTP Method, defaults to GET */
+      method?: 'GET' | 'POST';
+      /** HTTP Body for POSTing */
+      body?: ArrayBuffer | string;
     } = {},
   ): Promise<Resource> {
     if (opts.setLoading) {
@@ -203,8 +214,10 @@ export class Store {
       supportsWebSockets() &&
       ws?.readyState === WebSocket.OPEN
     ) {
+      // Use WebSocket
       await fetchWebSocket(ws, subject);
     } else {
+      // Use HTTPS
       const signInfo = this.agent
         ? { agent: this.agent, serverURL: this.getServerUrl() }
         : undefined;
@@ -213,6 +226,8 @@ export class Store {
         subject,
         {
           from: opts.fromProxy ? this.getServerUrl() : undefined,
+          method: opts.method,
+          body: opts.body,
           signInfo,
         },
       );
@@ -435,6 +450,18 @@ export class Store {
     });
   }
 
+  /** Sends an HTTP POST request to the server to the Subject. Parses the returned Resource and adds it to the store. */
+  public async postToServer(
+    subject: string,
+    data: ArrayBuffer | string,
+  ): Promise<Resource> {
+    return this.fetchResourceFromServer(subject, {
+      body: data,
+      noWebSocket: true,
+      method: 'POST',
+    });
+  }
+
   /** Removes (destroys / deletes) resource from this store */
   public removeResource(subject: string): void {
     const resource = this.resources.get(subject);
@@ -480,7 +507,7 @@ export class Store {
       setCookieAuthentication(this.serverUrl, agent);
 
       this.webSockets.forEach(ws => {
-        authenticate(ws, this);
+        ws.readyState === ws.OPEN && authenticate(ws, this);
       });
 
       this.resources.forEach(r => {
@@ -488,6 +515,8 @@ export class Store {
           this.fetchResourceFromServer(r.getSubject());
         }
       });
+    } else {
+      removeCookieAuthentication();
     }
 
     this.eventManager.emit(StoreEvents.AgentChanged, agent);

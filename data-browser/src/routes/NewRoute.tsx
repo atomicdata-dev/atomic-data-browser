@@ -57,11 +57,13 @@ function New(): JSX.Element {
   }
 
   const onUploadComplete = useCallback(
-    (files: string[]) => {
-      toast.success(`Uploaded ${files.length} files.`);
+    (fileSubjects: string[]) => {
+      toast.success(`Uploaded ${fileSubjects.length} files.`);
 
-      if (parentSubject) {
+      if (fileSubjects.length > 1 && parentSubject) {
         navigate(constructOpenURL(parentSubject));
+      } else {
+        navigate(constructOpenURL(fileSubjects[0]));
       }
     },
     [parentSubject, navigate],
@@ -82,15 +84,6 @@ function New(): JSX.Element {
               </>
             )}
           </h1>
-          <div>
-            <ResourceSelector
-              setSubject={setClassInput}
-              value={classInput}
-              error={error}
-              setError={setError}
-              classType={urls.classes.class}
-            />
-          </div>
           <Row wrapItems>
             {classInput && (
               <Button onClick={handleClassSet}>new {className}</Button>
@@ -107,6 +100,15 @@ function New(): JSX.Element {
               </>
             )}
           </Row>
+          <div>
+            <ResourceSelector
+              setSubject={setClassInput}
+              value={classInput}
+              error={error}
+              setError={setError}
+              classType={urls.classes.class}
+            />
+          </div>
           <FileDropzoneInput
             parentResource={parentResource}
             onFilesUploaded={onUploadComplete}

@@ -21,6 +21,8 @@ import { CommitDetail } from '../components/CommitDetail';
 import Markdown from '../components/datatypes/Markdown';
 import { Detail } from '../components/Detail';
 import { EditableTitle } from '../components/EditableTitle';
+import { Guard } from '../components/Guard';
+import { NavBarSpacer } from '../components/NavBarSpacer';
 import { editURL } from '../helpers/navigation';
 import { ResourceInline } from './ResourceInline';
 import { ResourcePageProps } from './ResourcePage';
@@ -73,7 +75,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
       e && e.preventDefault();
 
       if (!disableSend) {
-        const subject = store.createSubject('messages');
+        const subject = store.createSubject('messages', resource.getSubject());
         const msgResource = new Resource(subject, true);
         await msgResource.set(
           properties.parent,
@@ -136,7 +138,7 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
     // in Firefox, scrollHeight only works if overflow is set to scroll
     const height = e.target.scrollHeight;
     e.target.style.overflow = overflowStyle;
-    const rowHeight = 25;
+    const rowHeight = 30;
     const trows = Math.ceil(height / rowHeight) - 1;
 
     if (trows !== textAreaHight) {
@@ -161,25 +163,28 @@ export function ChatRoomPage({ resource }: ResourcePageProps) {
           </Button>
         </Detail>
       )}
-      <MessageForm onSubmit={sendMessage}>
-        <MessageInput
-          rows={textAreaHight}
-          ref={inputRef}
-          autoFocus
-          value={newMessageVal}
-          onChange={handleChangeMessageText}
-          placeholder={'type a message'}
-          data-test='message-input'
-        />
-        <SendButton
-          title='Send message [enter]'
-          disabled={disableSend}
-          clean
-          onClick={sendMessage}
-        >
-          Send
-        </SendButton>
-      </MessageForm>
+      <Guard>
+        <MessageForm onSubmit={sendMessage}>
+          <MessageInput
+            rows={textAreaHight}
+            ref={inputRef}
+            autoFocus
+            value={newMessageVal}
+            onChange={handleChangeMessageText}
+            placeholder={'type a message'}
+            data-test='message-input'
+          />
+          <SendButton
+            title='Send message [enter]'
+            disabled={disableSend}
+            clean
+            onClick={sendMessage}
+          >
+            Send
+          </SendButton>
+        </MessageForm>
+        <NavBarSpacer baseMargin='2rem' position='bottom' />
+      </Guard>
     </FullPageWrapper>
   );
 }

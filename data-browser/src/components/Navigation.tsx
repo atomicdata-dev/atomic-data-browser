@@ -136,6 +136,7 @@ function NavBar(): JSX.Element {
 
       {showButtons && subject && (
         <ResourceContextMenu
+          isMainMenu
           subject={subject}
           trigger={MenuBarDropdownTrigger}
         />

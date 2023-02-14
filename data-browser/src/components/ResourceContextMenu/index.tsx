@@ -31,6 +31,8 @@ export interface ResourceContextMenuProps {
   hide?: string[];
   trigger?: DropdownTriggerRenderFunction;
   simple?: boolean;
+  /** If it's the primary menu in the navbar. Used for triggering keyboard shortcut */
+  isMainMenu?: boolean;
 }
 
 /** Dropdown menu that opens a bunch of actions for some resource */
@@ -39,6 +41,7 @@ function ResourceContextMenu({
   hide,
   trigger,
   simple,
+  isMainMenu,
 }: ResourceContextMenuProps) {
   const store = useStore();
   const navigate = useNavigate();
@@ -149,7 +152,13 @@ function ResourceContextMenu({
 
   const triggerComp = trigger ?? buildDefaultTrigger(<FaEllipsisV />);
 
-  return <DropdownMenu items={filteredItems} trigger={triggerComp} />;
+  return (
+    <DropdownMenu
+      items={filteredItems}
+      trigger={triggerComp}
+      isMainMenu={isMainMenu}
+    />
+  );
 }
 
 export default ResourceContextMenu;
