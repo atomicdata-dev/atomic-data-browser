@@ -193,6 +193,10 @@ export class Store {
       setLoading?: boolean;
       /** Do not use WebSockets, use HTTP(S) */
       noWebSocket?: boolean;
+      /** HTTP Method, defaults to GET */
+      method?: 'GET' | 'POST';
+      /** HTTP Body for POSTing */
+      body?: ArrayBuffer | string;
     } = {},
   ): Promise<Resource> {
     if (opts.setLoading) {
@@ -210,8 +214,10 @@ export class Store {
       supportsWebSockets() &&
       ws?.readyState === WebSocket.OPEN
     ) {
+      // Use WebSocket
       await fetchWebSocket(ws, subject);
     } else {
+      // Use HTTPS
       const signInfo = this.agent
         ? { agent: this.agent, serverURL: this.getServerUrl() }
         : undefined;
@@ -220,6 +226,8 @@ export class Store {
         subject,
         {
           from: opts.fromProxy ? this.getServerUrl() : undefined,
+          method: opts.method,
+          body: opts.body,
           signInfo,
         },
       );
@@ -439,6 +447,18 @@ export class Store {
 
       const [_, resources] = parser.parseObject(json);
       this.addResources(...resources);
+    });
+  }
+
+  /** Sends an HTTP POST request to the server to the Subject. Parses the returned Resource and adds it to the store. */
+  public async postToServer(
+    subject: string,
+    data: ArrayBuffer | string,
+  ): Promise<Resource> {
+    return this.fetchResourceFromServer(subject, {
+      body: data,
+      noWebSocket: true,
+      method: 'POST',
     });
   }
 
