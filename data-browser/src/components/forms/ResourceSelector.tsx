@@ -104,7 +104,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
     value === undefined && handleUpdate(inputValue);
   }, [inputValue, value]);
 
-  const isInDialogTree = useContext(DialogTreeContext);
+  const { inDialog } = useContext(DialogTreeContext);
 
   if (options.length === 0) {
     options = store.getAllSubjects();
@@ -140,7 +140,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
       {value && value !== '' && error && (
         <ErrMessage>{error?.message}</ErrMessage>
       )}
-      {!isInDialogTree && (
+      {!inDialog && (
         <Dialog {...dialogProps}>
           {isDialogOpen && (
             <NewFormDialog

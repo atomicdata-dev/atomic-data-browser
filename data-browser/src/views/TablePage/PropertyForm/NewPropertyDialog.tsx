@@ -39,6 +39,30 @@ const populatePropertyWithDefaults = async (
   await property.set(urls.properties.datatype, urls.datatypes.string, store);
 };
 
+const getChildren = (store: Store, resource: Resource) =>
+  store.clientSideQuery(
+    res => res.get(urls.properties.parent) === resource?.getSubject(),
+  );
+
+const destroyChildren = async (store: Store, resource: Resource) => {
+  const children = getChildren(store, resource);
+
+  await Promise.all(
+    children.map(child => {
+      try {
+        child.destroy(store);
+      } catch (e) {
+        return;
+      }
+    }),
+  );
+};
+
+const saveChildren = async (store: Store, resource: Resource) => {
+  const children = getChildren(store, resource);
+  await Promise.all(children.map(child => child.save(store)));
+};
+
 export function NewPropertyDialog({
   showDialog,
   selectedCategory,
@@ -51,8 +75,13 @@ export function NewPropertyDialog({
   const [resource, setResource] = useState<Resource | null>(null);
 
   const handleUserCancelAction = useCallback(async () => {
+    if (!resource) {
+      return;
+    }
+
     try {
-      await resource?.destroy(store);
+      await destroyChildren(store, resource);
+      await resource.destroy(store);
     } finally {
       // Server does not have this resource yet so it will nag at us. We set the state to null anyway.
       setResource(null);
@@ -65,6 +94,7 @@ export function NewPropertyDialog({
     }
 
     await resource.save(store);
+    await saveChildren(store, resource);
     await store.notifyResourceManuallyCreated(resource);
 
     tableClassResource.pushPropVal(

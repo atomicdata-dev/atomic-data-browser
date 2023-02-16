@@ -696,6 +696,14 @@ export class Store {
     return this.client.postCommit(commit, endpoint);
   }
 
+  /**
+   * Returns a list of resources currently in the store which pass the given filter function.
+   * This is a client-side filter, and does not query the server.
+   */
+  public clientSideQuery(filter: (resource: Resource) => boolean): Resource[] {
+    return Array.from(this.resources.values()).filter(filter);
+  }
+
   private randomPart(): string {
     return Math.random().toString(36).substring(2);
   }

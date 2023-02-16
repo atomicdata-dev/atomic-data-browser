@@ -19,6 +19,7 @@ import { ErrorBoundary } from './views/ErrorPage';
 import { NetworkIndicator } from './components/NetworkIndicator';
 import { getAgentFromLocalStorage } from './helpers/agentStorage';
 import { DropdownContainer } from './components/Dropdown/DropdownContainer';
+import { PopoverContainer } from './components/Popover';
 
 function fixDevUrl(url: string) {
   if (isDev()) {
@@ -82,9 +83,11 @@ function App(): JSX.Element {
                   <MetaSetter />
                   <DropdownContainer>
                     <DialogContainer>
-                      <NavWrapper>
-                        <AppRoutes />
-                      </NavWrapper>
+                      <PopoverContainer>
+                        <NavWrapper>
+                          <AppRoutes />
+                        </NavWrapper>
+                      </PopoverContainer>
                       <NetworkIndicator />
                     </DialogContainer>
                   </DropdownContainer>

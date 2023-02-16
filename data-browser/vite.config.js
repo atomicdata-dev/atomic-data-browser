@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -117,7 +118,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/chunk_[name].js`,
         assetFileNames: `assets/[name].[ext]`,
       },
     },

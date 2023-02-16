@@ -1,20 +1,167 @@
-import { JSONValue } from '@tomic/react';
-import React from 'react';
-import { AtomicURLCell } from './AtomicURLCell';
+import {
+  JSONValue,
+  properties,
+  Store,
+  useArray,
+  useResource,
+  useStore,
+} from '@tomic/react';
+import React, { useCallback, useMemo } from 'react';
+import { FaPlus, FaTimes } from 'react-icons/fa';
+import * as RadixPopover from '@radix-ui/react-popover';
+import styled from 'styled-components';
+import { IconButton } from '../../../components/IconButton/IconButton';
+import { Popover } from '../../../components/Popover';
+import { SelectableTag, Tag } from '../PropertyForm/Tag';
 import { CellContainer, DisplayCellProps, EditCellProps } from './Type';
+import {
+  InputStyled,
+  InputWrapper,
+} from '../../../components/forms/InputStyles';
+import { Row } from '../../../components/Row';
+import { stringToSlug } from '../../../helpers/stringToSlug';
+import { loopingIndex } from '../../../helpers/loopingIndex';
+import { fadeIn } from '../../../helpers/commonAnimations';
+import { useCellOptions } from '../../../components/TableEditor/hooks/useCellOptions';
+
+const TAG_SPACING = '0.5rem';
+
+function buildListWithTitles(
+  store: Store,
+  subjects: string[],
+): { subject: string; title: string }[] {
+  return subjects.map(subject => {
+    const resource = store.getResourceLoading(subject);
+    const title = resource?.get(properties.shortname) ?? subject;
+
+    return { subject, title: title as string };
+  });
+}
+
+const cellOptions = {
+  hideActiveIndicator: true,
+};
 
 function ResourceArrayCellEdit({
   value,
+  property,
   onChange,
 }: EditCellProps<JSONValue>): JSX.Element {
-  return (
-    <input
-      value={value as string}
-      autoFocus
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        onChange(e.target.value)
+  const store = useStore();
+  const propertyResource = useResource(property);
+  const [allowsOnly] = useArray(propertyResource, properties.allowsOnly);
+  const [filteredTags, setFilteredTags] = React.useState<string[]>(allowsOnly);
+  const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  useCellOptions(cellOptions);
+  const listWithTitles = useMemo(
+    () => buildListWithTitles(store, allowsOnly),
+    [allowsOnly],
+  );
+
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const query = stringToSlug(e.target.value);
+      const filtered = listWithTitles.filter(v => v.title.includes(query));
+      setFilteredTags(filtered.map(v => v.subject));
+      setSelectedIndex(0);
+    },
+    [listWithTitles],
+  );
+
+  const val = (value as string[]) ?? [];
+
+  const handleAddTag = useCallback(
+    (subject: string) => {
+      onChange(Array.from(new Set([...val, subject])));
+    },
+    [val, onChange],
+  );
+
+  const handleRemoveTag = useCallback(
+    (subject: string) => {
+      onChange(val.filter(tagSubject => tagSubject !== subject));
+    },
+    [val, onChange],
+  );
+
+  const changeSelection = useCallback(
+    (mod: number) => {
+      setSelectedIndex(prev => loopingIndex(prev + mod, filteredTags.length));
+    },
+    [filteredTags],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      switch (e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          changeSelection(-1);
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          changeSelection(1);
+          break;
+        case 'Enter':
+          e.preventDefault();
+          handleAddTag(filteredTags[selectedIndex]);
+          break;
+        case 'Escape':
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(false);
+          break;
       }
-    />
+    },
+    [changeSelection, filteredTags, selectedIndex],
+  );
+
+  return (
+    <AbsoluteCell>
+      <Row gap={TAG_SPACING} center wrapItems>
+        {val.map(v => (
+          <Tag subject={v} key={v}>
+            <TagIconButton
+              title='remove tag'
+              onClick={() => handleRemoveTag(v)}
+            >
+              <FaTimes />
+            </TagIconButton>
+          </Tag>
+        ))}
+        <Popover
+          open={open}
+          onOpenChange={setOpen}
+          Trigger={
+            <IconButton title='Add tag' as={RadixPopover.Trigger}>
+              <StyledIcon />
+            </IconButton>
+          }
+        >
+          <Content onKeyDown={handleKeyDown}>
+            <SearchInputWrapper>
+              <InputStyled
+                placeholder='Search tag...'
+                onChange={handleSearch}
+              />
+            </SearchInputWrapper>
+            <ResultWrapper>
+              <Row wrapItems gap={TAG_SPACING}>
+                {filteredTags.map((v, i) => (
+                  <SelectableTag
+                    key={v}
+                    subject={v}
+                    onClick={handleAddTag}
+                    selected={i === selectedIndex}
+                  />
+                ))}
+              </Row>
+            </ResultWrapper>
+          </Content>
+        </Popover>
+      </Row>
+    </AbsoluteCell>
   );
 }
 
@@ -26,16 +173,64 @@ function ResourceArrayCellDisplay({
   }
 
   return (
-    <>
-      {(value as string[]).map((v, i) => (
-        <>
-          {i !== 0 && ', '}
-          <AtomicURLCell.Display value={v} key={v} />
-        </>
+    <Row gap={TAG_SPACING}>
+      {(value as string[]).map(v => (
+        <Tag subject={v} key={v} />
       ))}
-    </>
+    </Row>
   );
 }
+
+const StyledIcon = styled(FaPlus)`
+  animation: ${fadeIn} 0.1s ease-in-out;
+  color: ${p => p.theme.colors.textLight};
+`;
+
+const TagIconButton = styled(IconButton)`
+  height: unset;
+  width: unset;
+  padding: unset;
+
+  color: var(--tag-dark-color);
+  background-blend-mode: lighten;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    transform: scale(1.2);
+    background-color: unset;
+  }
+`;
+
+const AbsoluteCell = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  background-color: ${p => p.theme.colors.bg};
+  box-shadow: ${p => p.theme.boxShadowSoft};
+  border: 2px solid ${p => p.theme.colors.main};
+  height: fit-content;
+  width: 100%;
+  padding-inline: var(--table-inner-padding);
+  padding-block: 3px;
+  min-height: 40px;
+`;
+
+const Content = styled.div`
+  width: min(40ch, 90vh);
+  border-radius: ${p => p.theme.radius};
+`;
+
+const ResultWrapper = styled.div`
+  padding: ${p => p.theme.margin}rem;
+`;
+
+const SearchInputWrapper = styled(InputWrapper)`
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+`;
 
 export const ResourceArrayCell: CellContainer<JSONValue> = {
   Edit: ResourceArrayCellEdit,

@@ -11,8 +11,13 @@ import { FaTimes } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
 import { effectTimeout } from '../../helpers/effectTimeout';
 import { Button } from '../Button';
+import { PopoverContainer } from '../Popover';
 import { Slot } from '../Slot';
-import { DialogPortalContext, DialogTreeContext } from './dialogContext';
+import {
+  DialogPortalContext,
+  DialogTreeContextProvider,
+  useDialogTreeContext,
+} from './dialogContext';
 import { useDialog } from './useDialog';
 
 export interface InternalDialogProps {
@@ -55,7 +60,14 @@ type DialogSlotComponent = React.FC<React.PropsWithChildren<unknown>>;
  *  );
  * ```
  */
-export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
+export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> =
+  props => (
+    <DialogTreeContextProvider>
+      <InnerDialog {...props} />
+    </DialogTreeContextProvider>
+  );
+
+const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   children,
   show,
   onClose,
@@ -64,6 +76,7 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const innerDialogRef = useRef<HTMLDivElement>(null);
   const portalRef = useContext(DialogPortalContext);
+  const { hasOpenInnerPopup } = useDialogTreeContext();
 
   const cancelDialog = useCallback(() => {
     onClose(false);
@@ -89,7 +102,7 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
     () => {
       cancelDialog();
     },
-    { enabled: show },
+    { enabled: show && !hasOpenInnerPopup },
   );
 
   // When closing the `data-closing` attribute must be set before rendering so the animation has started when the regular useEffect is called.
@@ -127,16 +140,16 @@ export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
 
   return createPortal(
     <StyledDialog ref={dialogRef} onMouseDown={handleOutSideClick}>
-      <DialogTreeContext.Provider value={true}>
-        <StyledInnerDialog ref={innerDialogRef}>
+      <StyledInnerDialog ref={innerDialogRef}>
+        <PopoverContainer>
           <CloseButtonSlot slot='close'>
             <Button icon onClick={cancelDialog} aria-label='close'>
               <FaTimes />
             </Button>
           </CloseButtonSlot>
           {children}
-        </StyledInnerDialog>
-      </DialogTreeContext.Provider>
+        </PopoverContainer>
+      </StyledInnerDialog>
     </StyledDialog>,
     portalRef.current,
   );
