@@ -138,7 +138,6 @@ export const CellWrapper = styled.div<CellWrapperProps>`
   user-select: ${p => (p.allowUserSelect ? 'text' : 'none')};
   padding-inline: var(--table-inner-padding);
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
 `;

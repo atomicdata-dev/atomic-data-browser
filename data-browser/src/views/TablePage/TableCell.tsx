@@ -114,9 +114,17 @@ export function TableCell({
       onEnterEditModeWithCharacter={handleEnterEditModeWithCharacter}
     >
       {isEditing ? (
-        <Editor.Edit value={value} onChange={onChange} />
+        <Editor.Edit
+          value={value}
+          onChange={onChange}
+          property={property.subject}
+        />
       ) : (
-        <Editor.Display value={value} onChange={onChange} />
+        <Editor.Display
+          value={value}
+          onChange={onChange}
+          property={property.subject}
+        />
       )}
     </Cell>
   );

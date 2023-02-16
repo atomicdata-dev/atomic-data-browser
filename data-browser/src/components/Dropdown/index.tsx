@@ -16,6 +16,7 @@ import { Shortcut } from '../Shortcut';
 import { transition } from '../../helpers/transition';
 import { createPortal } from 'react-dom';
 import { DropdownPortalContext } from './dropdownContext';
+import { loopingIndex } from '../../helpers/loopingIndex';
 
 export const DIVIDER = 'divider' as const;
 
@@ -39,11 +40,6 @@ interface DropdownMenuProps {
   /** Enables the keyboard shortcut */
   isMainMenu?: boolean;
 }
-
-/** Gets the index of an array and loops around when at the beginning or end */
-const loopingIndex = (index: number, length: number) => {
-  return ((index % length) + length) % length;
-};
 
 export const isItem = (
   item: MenuItemMinimial | string | undefined,

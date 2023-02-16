@@ -1,8 +1,11 @@
-import { JSONValue } from '@tomic/react';
+import { JSONValue, urls, useResource, useString } from '@tomic/react';
 import React from 'react';
 import styled from 'styled-components';
 import { InputBase } from './InputBase';
+import { ProgressBar } from './ProgressBar';
 import { CellContainer, DisplayCellProps, EditCellProps } from './Type';
+
+const { numberFormats } = urls.instances;
 
 function IntegerCellEdit({
   value,
@@ -28,8 +31,23 @@ function IntegerCellEdit({
 
 function IntegerCellDisplay({
   value,
+  property,
 }: DisplayCellProps<JSONValue>): JSX.Element {
-  return <Aligned>{value as number}</Aligned>;
+  const propertyResource = useResource(property);
+  const [numberFormatting] = useString(
+    propertyResource,
+    urls.properties.constraints.numberFormatting,
+  );
+
+  const isPercentage = numberFormatting === numberFormats.percentage;
+  const suffix = isPercentage ? ' %' : '';
+
+  return (
+    <>
+      <Aligned>{value && `${value}${suffix}`}</Aligned>
+      {isPercentage && <ProgressBar percentage={value as number} />}
+    </>
+  );
 }
 
 export const IntegerCell: CellContainer<JSONValue> = {

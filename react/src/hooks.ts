@@ -159,7 +159,9 @@ export function useProperty(subject: string): Property {
   return property;
 }
 
-type setValue = (val: JSONValue) => Promise<void>;
+export type SetValue<T extends JSONValue = JSONValue> = (
+  val: T | undefined,
+) => Promise<void>;
 
 /** Extra options for useValue hooks, mostly related to commits and validation */
 type useValueOptions = {
@@ -220,7 +222,7 @@ export function useValue(
   propertyURL: string,
   /** Saves the resource when the resource is changed, after 100ms */
   opts: useValueOptions = {},
-): [JSONValue | undefined, setValue] {
+): [JSONValue | undefined, SetValue] {
   const {
     commit = false,
     validate = true,
@@ -322,7 +324,7 @@ export function useString(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | undefined, (string: string | undefined) => Promise<void>] {
+): [string | undefined, SetValue<string>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (typeof val === 'string') {
@@ -347,7 +349,7 @@ export function useSubject(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string | undefined, (string?: string) => Promise<void>] {
+): [string | undefined, SetValue<string>] {
   const [val, setVal] = useValue(resource, propertyURL, opts);
 
   if (!val) {
@@ -375,7 +377,7 @@ export function useTitle(
   resource: Resource,
   truncateLength = 40,
   opts: useValueOptions = titleHookOpts,
-): [string, (string: string) => Promise<void>] {
+): [string, SetValue<string>] {
   const [name, setName] = useString(resource, urls.properties.name, opts);
   const [shortname, setShortname] = useString(
     resource,
@@ -421,7 +423,7 @@ export function useArray(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [string[], setValue] {
+): [string[], SetValue<JSONArray>] {
   const [value, set] = useValue(resource, propertyURL, opts);
   const stableEmptyArray = useRef<JSONArray>([]);
 
@@ -451,7 +453,7 @@ export function useNumber(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [number | undefined, setValue] {
+): [number | undefined, SetValue<number>] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === undefined) {
@@ -466,7 +468,7 @@ export function useBoolean(
   resource: Resource,
   propertyURL: string,
   opts?: useValueOptions,
-): [boolean, setValue] {
+): [boolean, SetValue<boolean>] {
   const [value, set] = useValue(resource, propertyURL, opts);
 
   if (value === undefined) {

@@ -2,7 +2,7 @@ import { Datatype, urls, useStore } from '@tomic/react';
 import React, { useState } from 'react';
 import { RadioGroup, RadioInput } from '../../../components/forms/RadioInput';
 import { FormGroupHeading } from './FormGroupHeading';
-import { TextRangeInput } from './Inputs/TextRangeInput';
+import { TableRangeInput } from './Inputs/TableRangeInput';
 import { PropertyCategoryFormProps } from './PropertyCategoryFormProps';
 
 export const TextPropertyForm = ({
@@ -47,7 +47,12 @@ export const TextPropertyForm = ({
         </RadioInput>
       </RadioGroup>
       <FormGroupHeading>Length</FormGroupHeading>
-      <TextRangeInput resource={resource} />
+      <TableRangeInput
+        resource={resource}
+        minProp={urls.properties.constraints.min}
+        maxProp={urls.properties.constraints.max}
+        constraintClass={urls.classes.constraintProperties.rangeProperty}
+      />
     </>
   );
 };

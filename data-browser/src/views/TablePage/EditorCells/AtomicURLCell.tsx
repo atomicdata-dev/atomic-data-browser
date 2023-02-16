@@ -7,8 +7,9 @@ import {
   useTitle,
 } from '@tomic/react';
 import React, { useCallback, useMemo, useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 import styled from 'styled-components';
-import { Popover } from '../../../components/Popover';
+import { DefaultTrigger, Popover } from '../../../components/Popover';
 import {
   CursorMode,
   useTableEditorContext,
@@ -98,7 +99,11 @@ function AtomicURLCellEdit({
   return (
     <>
       <Popover
-        label={title as string}
+        Trigger={
+          <DefaultTrigger>
+            <FaEdit /> {title}
+          </DefaultTrigger>
+        }
         open={open}
         onOpenChange={handleOpenChange}
       >

@@ -11,13 +11,14 @@ export enum IconButtonVariant {
 
 type ColorProp = keyof DefaultTheme['colors'] | 'inherit';
 
-interface BaseProps {
+type BaseProps = {
   className?: string;
   variant?: IconButtonVariant;
   color?: ColorProp;
   size?: string;
   title: string;
-}
+  as?: string | React.ComponentType<any>;
+};
 
 export type IconButtonProps = BaseProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -67,11 +68,11 @@ IconButtonLink.displayName = 'IconButtonLink';
 
 IconButtonLink.defaultProps = defaultProps as IconButtonLinkProps;
 
-interface BaseProps {
+interface ButtonBaseProps {
   size?: string;
 }
 
-const IconButtonBase = styled.button<BaseProps>`
+const IconButtonBase = styled.button<ButtonBaseProps>`
   --button-padding: 0.4em;
   cursor: pointer;
   display: inline-grid;

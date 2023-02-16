@@ -56,6 +56,7 @@ export function ActiveCellIndicator({
     activeCellRef,
     isDragging,
     cursorMode,
+    indicatorHidden,
     multiSelectCornerCellRef,
   } = useTableEditorContext();
 
@@ -178,6 +179,7 @@ export function ActiveCellIndicator({
       height={height}
       noTransition={isDragging || scrolling || transitioningOffscreen}
       cursorMode={cursorMode}
+      hidden={indicatorHidden}
     />
   );
 }
@@ -189,6 +191,7 @@ interface IndicatorProps {
   height: number;
   noTransition: boolean;
   cursorMode: CursorMode;
+  hidden: boolean;
 }
 
 const Indicator = styled.div.attrs<IndicatorProps>(p => ({
@@ -200,6 +203,7 @@ const Indicator = styled.div.attrs<IndicatorProps>(p => ({
   },
 }))<IndicatorProps>`
   --speed: ${p => (p.noTransition ? 0 : 70)}ms;
+  visibility: ${p => (p.hidden ? 'hidden' : 'visible')};
   position: absolute;
   top: 0;
   left: 0;

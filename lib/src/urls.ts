@@ -29,13 +29,19 @@ export const classes = {
   // CHANGE - Change to atomicdata.dev
   constraintProperties: {
     rangeProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/Halx6Km9lW',
+    formattedNumber: 'http://localhost:9883/Folder/qbty0u7lc8d/A5H01v3SJ5',
+    selectProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/lAv6M6fcjS',
   },
   // CHANGE - Change to atomicdata.dev
   table: 'http://localhost:9883/class/u1f8218a0up',
+  tag: 'http://localhost:9883/Folder/qbty0u7lc8d/cKoNb4fwxH',
 };
 
 /** List of commonly used Atomic Data Properties. */
 export const properties = {
+  /** Collection of all the AtomicData.dev properties */
+  allowsOnly: 'https://atomicdata.dev/properties/allowsOnly',
+  getAll: 'https://atomicdata.dev/properties/?page_size=999',
   children: 'https://atomicdata.dev/properties/children',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',
@@ -125,7 +131,12 @@ export const properties = {
   constraints: {
     min: 'http://localhost:9883/Folder/qbty0u7lc8d/zdJJDLgVQj',
     max: 'http://localhost:9883/Folder/qbty0u7lc8d/5A6nIzgSyD',
+    numberFormatting: 'http://localhost:9883/Folder/qbty0u7lc8d/p6mPHZuRcO',
+    decimalPlaces: 'http://localhost:9883/Folder/qbty0u7lc8d/lCL38YWB7o',
   },
+  // CHANGE - CHANGE TO ATOMICDATA.DEV
+  color: 'http://localhost:9883/Folder/qbty0u7lc8d/5UajS5BYMC',
+  emoji: 'http://localhost:9883/property/emoji',
 };
 
 export const datatypes = {
@@ -144,6 +155,12 @@ export const datatypes = {
 export const instances = {
   publicAgent: 'https://atomicdata.dev/agents/publicAgent',
   displayStyleGrid: 'https://atomicdata.dev/agents/publicAgent',
+  // CHANGE - CHANGE TO ATOMICDATA.DEV
+  numberFormats: {
+    number: 'http://localhost:9883/number-format/7tz0rnu99hi',
+    currency: 'http://localhost:9883/number-format/mf2rewej6mi',
+    percentage: 'http://localhost:9883/number-format/ykeh58h1yj',
+  },
 };
 
 export const endpoints = {

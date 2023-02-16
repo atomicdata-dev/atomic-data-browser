@@ -9,6 +9,9 @@ import {
 } from '../../../components/forms/InputStyles';
 import { buildComponentFactory } from '../../../helpers/buildComponentFactory';
 import { stringToSlug } from '../../../helpers/stringToSlug';
+import { CheckboxPropertyForm } from './CheckboxPropertyForm';
+import { NumberPropertyForm } from './NumberPropertyForm';
+import { SelectPropertyForm } from './SelectPropertyForm';
 import { TextPropertyForm } from './TextPropertyForm';
 
 export type PropertyFormCategory =
@@ -30,7 +33,12 @@ const NoCategorySelected = () => {
 };
 
 const categoryFormFactory = buildComponentFactory(
-  new Map([['text', TextPropertyForm]]),
+  new Map([
+    ['text', TextPropertyForm],
+    ['number', NumberPropertyForm],
+    ['checkbox', CheckboxPropertyForm],
+    ['select', SelectPropertyForm],
+  ]),
   NoCategorySelected,
 );
 

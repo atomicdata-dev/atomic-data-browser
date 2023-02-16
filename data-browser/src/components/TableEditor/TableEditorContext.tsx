@@ -26,6 +26,8 @@ export interface TableEditorContext {
   multiSelectCornerRow: number | undefined;
   multiSelectCornerColumn: number | undefined;
   setActiveCell: (row: number | undefined, column: number | undefined) => void;
+  indicatorHidden: boolean;
+  setIndicatorHidden: React.Dispatch<React.SetStateAction<boolean>>;
   setMultiSelectCorner: (
     row: number | undefined,
     column: number | undefined,
@@ -52,6 +54,8 @@ const initial = {
   multiSelectCornerRow: undefined,
   multiSelectCornerColumn: undefined,
   setActiveCell: () => undefined,
+  indicatorHidden: false,
+  setIndicatorHidden: (_: boolean | ((__: boolean) => boolean)) => false,
   setMultiSelectCorner: () => undefined,
   activeCellRef: { current: null },
   multiSelectCornerCellRef: { current: null },
@@ -86,6 +90,8 @@ export function TableEditorContextProvider({
 
   const [isDragging, setIsDragging] = useState(false);
   const [cursorMode, setCursorMode] = useState(CursorMode.Visual);
+
+  const [indicatorHidden, setIndicatorHidden] = useState(false);
 
   const activeCellRef = useRef<HTMLDivElement | null>(null);
   const multiSelectCornerCellRef = useRef<HTMLDivElement | null>(null);
@@ -130,6 +136,8 @@ export function TableEditorContextProvider({
       selectedColumn,
       multiSelectCornerRow,
       multiSelectCornerColumn,
+      indicatorHidden,
+      setIndicatorHidden,
       setActiveCell,
       setMultiSelectCorner,
       activeCellRef,
@@ -149,6 +157,7 @@ export function TableEditorContextProvider({
       selectedColumn,
       multiSelectCornerColumn,
       multiSelectCornerRow,
+      indicatorHidden,
       setActiveCell,
       setMultiSelectCorner,
       isDragging,

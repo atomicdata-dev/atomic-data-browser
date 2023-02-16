@@ -179,6 +179,27 @@ export class Resource {
     );
   }
 
+  /** Remove the given classes from the resource */
+  public removeClasses(
+    store: Store,
+    ...classSubjects: string[]
+  ): Promise<void> {
+    return this.set(
+      properties.isA,
+      this.getClasses().filter(
+        classSubject => !classSubjects.includes(classSubject),
+      ),
+      store,
+    );
+  }
+
+  /** Adds the given classes to the resource */
+  public addClasses(store: Store, ...classSubject: string[]): Promise<void> {
+    const classesSet = new Set([...this.getClasses(), ...classSubject]);
+
+    return this.set(properties.isA, Array.from(classesSet), store);
+  }
+
   /**
    * Returns the current Commit Builder, which describes the pending changes of
    * the resource
@@ -302,6 +323,12 @@ export class Resource {
 
   /** Removes the resource form both the server and locally */
   public async destroy(store: Store, agent?: Agent): Promise<void> {
+    if (this.new) {
+      store.removeResource(this.getSubject());
+
+      return;
+    }
+
     const newCommitBuilder = new CommitBuilder(this.getSubject());
     newCommitBuilder.setDestroy(true);
 
