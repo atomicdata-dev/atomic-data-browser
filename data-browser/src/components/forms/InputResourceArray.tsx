@@ -31,8 +31,8 @@ export default function InputResourceArray({
   }
 
   function handleRemove(index: number) {
-    array.splice(index, 1);
     const newArray = [...array];
+    newArray.splice(index, 1);
     setArray(newArray);
   }
 
