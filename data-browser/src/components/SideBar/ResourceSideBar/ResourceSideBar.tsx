@@ -6,9 +6,10 @@ import { AtomicLink } from '../../AtomicLink';
 import styled from 'styled-components';
 import { Details } from '../../Details';
 import { FloatingActions, floatingHoverStyles } from './FloatingActions';
-import { ErrorLook } from '../../ErrorLook';
+import { errorLookStyle } from '../../ErrorLook';
 import { LoaderInline } from '../../Loader';
 import { getIconForClass } from '../../../views/FolderPage/iconMap';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 interface ResourceSideBarProps {
   subject: string;
@@ -71,7 +72,7 @@ export function ResourceSideBar({
   if (resource.loading) {
     return (
       <SideBarItem
-        onClick={handleClose}
+        onClick={onClick}
         disabled={active}
         resource={subject}
         title={`${subject} is loading...`}
@@ -83,16 +84,19 @@ export function ResourceSideBar({
 
   if (resource.error) {
     return (
-      <SideBarItem
-        onClick={handleClose}
-        disabled={active}
-        resource={subject}
-        ref={spanRef}
-      >
-        <ErrorLook about={subject} title={resource.error.message}>
-          {subject}
-        </ErrorLook>
-      </SideBarItem>
+      <StyledLink subject={subject} clean>
+        <SideBarItem
+          onClick={onClick}
+          disabled={active}
+          resource={subject}
+          ref={spanRef}
+        >
+          <SideBarErrorWrapper>
+            <FaExclamationTriangle />
+            Resource with error
+          </SideBarErrorWrapper>
+        </SideBarItem>
+      </StyledLink>
     );
   }
 
@@ -121,11 +125,7 @@ const ActionWrapper = styled.div`
   ${floatingHoverStyles}
 `;
 
-interface TitleProps {
-  active: boolean;
-}
-
-const Title = styled(AtomicLink)<TitleProps>`
+const StyledLink = styled(AtomicLink)`
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
@@ -140,4 +140,9 @@ const TextWrapper = styled.span`
     /* color: ${p => p.theme.colors.text}; */
     font-size: 0.8em;
   }
+`;
+
+const SideBarErrorWrapper = styled(TextWrapper)`
+  margin-left: 1.3rem;
+  ${errorLookStyle}
 `;
