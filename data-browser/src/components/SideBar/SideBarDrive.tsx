@@ -74,7 +74,7 @@ export function SideBarDrive({
               <ResourceSideBar
                 key={child}
                 subject={child}
-                handleClose={handleClickItem}
+                onClick={handleClickItem}
               />
             );
           })
