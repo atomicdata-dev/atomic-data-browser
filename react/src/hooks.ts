@@ -443,7 +443,7 @@ export function useArray(
       // https://github.com/atomicdata-dev/atomic-data-browser/issues/85
       return stableEmptyArray.current;
     }
-  }, [value]);
+  }, [value, resource, propertyURL]);
 
   return [values as string[], set];
 }
