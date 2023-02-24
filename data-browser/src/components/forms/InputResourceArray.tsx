@@ -20,7 +20,7 @@ export default function InputResourceArray({
   /** Add focus to the last added item */
   const [lastIsNew, setLastIsNew] = useState(false);
 
-  function handleAdd() {
+  function handleAddRow() {
     setArray([...array, undefined]);
     setLastIsNew(true);
   }
@@ -42,8 +42,9 @@ export default function InputResourceArray({
     index: number,
   ) {
     if (value) {
-      array[index] = value;
-      setArray(array);
+      const newArray = [...array];
+      newArray[index] = value;
+      setArray(newArray);
       setLastIsNew(false);
     }
   }
@@ -85,7 +86,7 @@ export default function InputResourceArray({
           data-test={`input-${property.shortname}-add-resource`}
           subtle
           type='button'
-          onClick={handleAdd}
+          onClick={handleAddRow}
         >
           <FaPlus />
         </StyledButton>
