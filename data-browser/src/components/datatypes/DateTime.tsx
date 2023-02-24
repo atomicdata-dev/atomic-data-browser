@@ -8,7 +8,7 @@ type Props = {
 function DateTime({ date }: Props): JSX.Element {
   return (
     <span title={date.toLocaleString()}>
-      {date.toLocaleDateString()} {date.toLocaleTimeString()}
+      {date.toLocaleDateString()} at {date.toLocaleTimeString()}
     </span>
   );
 }

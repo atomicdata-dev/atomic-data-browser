@@ -30,6 +30,7 @@ export const classes = {
     rangeProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/Halx6Km9lW',
     formattedNumber: 'http://localhost:9883/Folder/qbty0u7lc8d/A5H01v3SJ5',
     selectProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/lAv6M6fcjS',
+    formattedDate: 'http://localhost:9883/Folder/qbty0u7lc8d/Az1tCcvIhq',
   },
   // CHANGE - Change to atomicdata.dev
   table: 'http://localhost:9883/class/u1f8218a0up',
@@ -131,6 +132,7 @@ export const properties = {
     max: 'http://localhost:9883/Folder/qbty0u7lc8d/5A6nIzgSyD',
     numberFormatting: 'http://localhost:9883/Folder/qbty0u7lc8d/p6mPHZuRcO',
     decimalPlaces: 'http://localhost:9883/Folder/qbty0u7lc8d/lCL38YWB7o',
+    dateFormat: 'http://localhost:9883/Folder/qbty0u7lc8d/S9NujMXIoA',
   },
   // CHANGE - CHANGE TO ATOMICDATA.DEV
   color: 'http://localhost:9883/Folder/qbty0u7lc8d/5UajS5BYMC',
@@ -158,6 +160,13 @@ export const instances = {
     number: 'http://localhost:9883/number-format/7tz0rnu99hi',
     currency: 'http://localhost:9883/number-format/mf2rewej6mi',
     percentage: 'http://localhost:9883/number-format/ykeh58h1yj',
+  },
+  // CHANGE - CHANGE TO ATOMICDATA.DEV
+  dateFormats: {
+    localNumeric: 'http://localhost:9883/date-format/t2vkojkqifo',
+    localLong: 'http://localhost:9883/Folder/qbty0u7lc8d/AZMFruGxC3/local-long',
+    localRelative:
+      'http://localhost:9883/Folder/qbty0u7lc8d/AZMFruGxC3/local-relative',
   },
 };
 

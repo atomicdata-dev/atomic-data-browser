@@ -13,6 +13,8 @@ import {
 import { CellAlign } from '../../components/TableEditor/Cell';
 import { AtomicURLCell } from './EditorCells/AtomicURLCell';
 import { BooleanCell } from './EditorCells/BooleanCell';
+import { DateCell } from './EditorCells/DateCell';
+import { DateTimeCell } from './EditorCells/DateTimeCell';
 import { FloatCell } from './EditorCells/FloatCell';
 import { IntegerCell } from './EditorCells/IntegerCell';
 import { ResourceArrayCell } from './EditorCells/ResourceArrayCell';
@@ -41,6 +43,8 @@ export const dataTypeCellMap = new Map<Datatype, CellContainer<JSONValue>>([
   [Datatype.INTEGER, IntegerCell],
   [Datatype.FLOAT, FloatCell],
   [Datatype.BOOLEAN, BooleanCell],
+  [Datatype.TIMESTAMP, DateTimeCell],
+  [Datatype.DATE, DateCell],
 ]);
 
 export const dataTypeAlignmentMap = new Map<string, CellAlign>([

@@ -21,6 +21,7 @@ import { ErrorLook } from '../ErrorLook';
 import { DriveSwitcher } from './DriveSwitcher';
 import { IconButton } from '../IconButton/IconButton';
 import { Row } from '../Row';
+import { ScrollArea } from '../ScrollArea';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -67,35 +68,37 @@ export function SideBarDrive({
           <DriveSwitcher />
         </HeadingButtonWrapper>
       </SideBarHeader>
-      <ListWrapper>
-        {driveResource.isReady() ? (
-          subResources.map(child => {
-            return (
-              <ResourceSideBar
-                key={child}
-                subject={child}
-                onClick={handleClickItem}
-              />
-            );
-          })
-        ) : driveResource.loading ? null : (
-          <SideBarErr>
-            {driveResource.error ? (
-              driveResource.isUnauthorized() ? (
-                agent ? (
-                  'unauthorized'
+      <StyledScrollArea>
+        <ListWrapper>
+          {driveResource.isReady() ? (
+            subResources.map(child => {
+              return (
+                <ResourceSideBar
+                  key={child}
+                  subject={child}
+                  onClick={handleClickItem}
+                />
+              );
+            })
+          ) : driveResource.loading ? null : (
+            <SideBarErr>
+              {driveResource.error ? (
+                driveResource.isUnauthorized() ? (
+                  agent ? (
+                    'unauthorized'
+                  ) : (
+                    <SignInButton />
+                  )
                 ) : (
-                  <SignInButton />
+                  driveResource.error.message
                 )
               ) : (
-                driveResource.error.message
-              )
-            ) : (
-              'this should not happen'
-            )}
-          </SideBarErr>
-        )}
-      </ListWrapper>
+                'this should not happen'
+              )}
+            </SideBarErr>
+          )}
+        </ListWrapper>
+      </StyledScrollArea>
     </>
   );
 }
@@ -117,7 +120,6 @@ const SideBarErr = styled(ErrorLook)`
 `;
 
 const ListWrapper = styled.div`
-  overflow-y: auto;
   overflow-x: hidden;
   margin-left: 0.5rem;
 `;
@@ -125,4 +127,8 @@ const ListWrapper = styled.div`
 const HeadingButtonWrapper = styled(Row)`
   color: ${p => p.theme.colors.main};
   font-size: 0.9rem;
+`;
+
+const StyledScrollArea = styled(ScrollArea)`
+  overflow: hidden;
 `;

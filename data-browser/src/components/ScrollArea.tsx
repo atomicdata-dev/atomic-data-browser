@@ -14,14 +14,12 @@ export const ScrollArea = React.forwardRef<
   React.PropsWithChildren<ScrollAreaProps>
 >(({ children, className }, ref): JSX.Element => {
   return (
-    <RadixScrollArea.Root type='scroll'>
-      <RadixScrollArea.Viewport className={className} ref={ref}>
-        {children}
-      </RadixScrollArea.Viewport>
-      <ScrollBar orientation='horizontal'>
+    <RadixScrollArea.Root type='scroll' className={className}>
+      <ScrollViewPort ref={ref}>{children}</ScrollViewPort>
+      <ScrollBar orientation='vertical'>
         <Thumb />
       </ScrollBar>
-      <ScrollBar orientation='vertical'>
+      <ScrollBar orientation='horizontal'>
         <Thumb />
       </ScrollBar>
       <RadixScrollArea.Corner />
@@ -44,6 +42,9 @@ const ScrollBar = styled(RadixScrollArea.Scrollbar)`
     flex-direction: column;
     height: ${() => SIZE};
   }
+  &[data-orientation='vertical'] {
+    width: ${() => SIZE};
+  }
 `;
 
 const Thumb = styled(RadixScrollArea.Thumb)`
@@ -54,4 +55,9 @@ const Thumb = styled(RadixScrollArea.Thumb)`
   border-radius: ${() => SIZE};
   backdrop-filter: blur(10px);
   z-index: 2;
+`;
+
+export const ScrollViewPort = styled(RadixScrollArea.Viewport)`
+  width: 100%;
+  height: 100%;
 `;

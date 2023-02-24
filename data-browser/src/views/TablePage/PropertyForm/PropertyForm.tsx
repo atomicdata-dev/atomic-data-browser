@@ -10,6 +10,7 @@ import {
 import { buildComponentFactory } from '../../../helpers/buildComponentFactory';
 import { stringToSlug } from '../../../helpers/stringToSlug';
 import { CheckboxPropertyForm } from './CheckboxPropertyForm';
+import { DatePropertyForm } from './DatePropertyForm';
 import { NumberPropertyForm } from './NumberPropertyForm';
 import { SelectPropertyForm } from './SelectPropertyForm';
 import { TextPropertyForm } from './TextPropertyForm';
@@ -38,6 +39,7 @@ const categoryFormFactory = buildComponentFactory(
     ['number', NumberPropertyForm],
     ['checkbox', CheckboxPropertyForm],
     ['select', SelectPropertyForm],
+    ['date', DatePropertyForm],
   ]),
   NoCategorySelected,
 );

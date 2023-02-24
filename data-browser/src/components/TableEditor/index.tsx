@@ -12,7 +12,7 @@ import {
 } from './TableEditorContext';
 import { useTableEditorKeyboardNavigation } from './hooks/useTableEditorKeyboardNavigation';
 import { ActiveCellIndicator } from './ActiveCellIndicator';
-import { ScrollArea } from '../ScrollArea';
+import { ScrollArea, ScrollViewPort } from '../ScrollArea';
 import { useCopyCommand } from './hooks/useCopyCommand';
 import { CellIndex, CopyValue } from './types';
 import { useClearCommands } from './hooks/useClearCommands';
@@ -193,7 +193,9 @@ const AutoSizeTamer = styled.div`
 `;
 
 const RelativeScrollArea = styled(ScrollArea)`
-  position: relative;
+  & ${ScrollViewPort} {
+    position: relative;
+  }
 `;
 
 export { Cell } from './Cell';
