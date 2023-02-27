@@ -3,6 +3,7 @@ import {
   getTimestampNow,
   HeadersObject,
   signToBase64,
+  Store,
 } from './index.js';
 
 /** Returns a JSON-AD resource of an Authentication */
@@ -91,10 +92,13 @@ const setCookieExpires = (
   document.cookie = cookieString;
 };
 
+const COOKIE_NAME_AUTH = 'atomic_session';
+
 /** Sets a cookie for the current Agent, signing the Authentication. It expires after some default time. */
-export const setCookieAuthentication = (serverUrl: string, agent: Agent) => {
-  createAuthentication(serverUrl, agent).then(auth => {
-    setCookieExpires('atomic_session', btoa(JSON.stringify(auth)), serverUrl);
+export const setCookieAuthentication = (store: Store, agent: Agent) => {
+  const serverURL = store.getServerUrl();
+  createAuthentication(serverURL, agent).then(auth => {
+    setCookieExpires(COOKIE_NAME_AUTH, btoa(JSON.stringify(auth)), serverURL);
   });
 };
 
