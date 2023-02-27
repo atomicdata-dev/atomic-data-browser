@@ -114,3 +114,7 @@ export const checkAuthenticationCookie = (): boolean => {
 
   return matches.length > 0;
 };
+
+export const removeCookieAuthentication = () => {
+  document.cookie = `${COOKIE_NAME_AUTH}=;Max-Age=-99999999`;
+};
