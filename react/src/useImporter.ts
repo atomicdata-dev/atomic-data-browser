@@ -10,6 +10,7 @@ export function useImporter(importerUrl?: string) {
   const [url, setUrl] = useState(importerUrl);
   const [success, setSuccess] = useState(false);
   const resource = useResource(url);
+  const store = useStore();
 
   // Get the error from the resource
   useEffect(() => {
@@ -29,10 +30,21 @@ export function useImporter(importerUrl?: string) {
     setUrl(parsed.toString());
   }
 
-  function importJsonAd(jsonAdString: string) {
-    const parsed = new URL(importerUrl!);
-    parsed.searchParams.set('json', jsonAdString);
-    setUrl(parsed.toString());
+  async function importJsonAd(jsonAdString: string) {
+    if (!importerUrl) {
+      throw Error('No importer URL given');
+    }
+
+    try {
+      const resp = await importJsonAdString(store, importerUrl, jsonAdString);
+
+      if (resp.error) {
+        throw resp.error;
+      }
+    } catch (e) {
+      store.notifyError(e);
+      setSuccess(false);
+    }
   }
 
   return { importJsonAd, importURL, resource, success };
