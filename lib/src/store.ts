@@ -1,4 +1,7 @@
-import { setCookieAuthentication } from './authentication.js';
+import {
+  removeCookieAuthentication,
+  setCookieAuthentication,
+} from './authentication.js';
 import { EventManager } from './EventManager.js';
 import {
   Agent,
@@ -504,6 +507,8 @@ export class Store {
           this.fetchResourceFromServer(r.getSubject());
         }
       });
+    } else {
+      removeCookieAuthentication();
     }
 
     this.eventManager.emit(StoreEvents.AgentChanged, agent);
