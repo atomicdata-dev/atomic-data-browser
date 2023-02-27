@@ -13,7 +13,7 @@ import { Card } from '../../components/Card';
 import CollectionCard from './CollectionCard';
 import { ErrorLook } from '../../components/ErrorLook';
 import { ValueForm } from '../../components/forms/ValueForm';
-import FileCard from './FileCard';
+import FileCard from '../File/FileCard';
 import { defaultHiddenProps } from '../ResourcePageDefault';
 import { MessageCard } from './MessageCard';
 import { BookmarkCard } from './BookmarkCard.jsx';

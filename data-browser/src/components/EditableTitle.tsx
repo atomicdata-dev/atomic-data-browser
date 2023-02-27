@@ -8,6 +8,7 @@ export interface EditableTitleProps {
   resource: Resource;
   /** Uses `name` by default */
   parentRef?: React.RefObject<HTMLInputElement>;
+  className?: string;
 }
 
 const opts = {
@@ -18,6 +19,7 @@ const opts = {
 export function EditableTitle({
   resource,
   parentRef,
+  className,
   ...props
 }: EditableTitleProps): JSX.Element {
   const [text, setText] = useTitle(resource, Infinity, opts);
@@ -56,6 +58,7 @@ export function EditableTitle({
       onChange={e => setText(e.target.value)}
       value={text || ''}
       onBlur={() => setIsEditing(false)}
+      className={className}
     />
   ) : (
     <Title
@@ -64,6 +67,7 @@ export function EditableTitle({
       data-test='editable-title'
       onClick={handleClick}
       subtle={!!canEdit && !text}
+      className={className}
     >
       <>
         {text || placeholder}
