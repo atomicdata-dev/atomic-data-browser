@@ -435,6 +435,22 @@ export class Store {
     });
   }
 
+  /** Sends an HTTP POST request to the server to the Subject. Parses the returned Resource and adds it to the store. */
+  public async postToServer(
+    parent: string,
+    data: ArrayBuffer | string,
+  ): Promise<Resource> {
+    const url = new URL(parent);
+    url.searchParams.set('parent', parent);
+    url.pathname = '/import';
+
+    return this.fetchResourceFromServer(url.toString(), {
+      body: data,
+      noWebSocket: true,
+      method: 'POST',
+    });
+  }
+
   /** Removes (destroys / deletes) resource from this store */
   public removeResource(subject: string): void {
     const resource = this.resources.get(subject);
