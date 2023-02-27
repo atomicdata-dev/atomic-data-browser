@@ -4,11 +4,7 @@ import { handleError } from '../helpers/loggingHandlers';
 export const errorHandler = (e: Error) => {
   handleError(e);
 
-  let message = e.message;
-
-  if (e.message.length > 100) {
-    message = e.message.substring(0, 100) + '...';
-  }
+  const message = e.message;
 
   toast.error(message);
 };
