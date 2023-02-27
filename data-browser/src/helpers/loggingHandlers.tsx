@@ -6,6 +6,8 @@ import React from 'react';
 import { isDev } from '../config';
 
 export function handleError(e: Error): void {
+  // We already toast in the `errorHandler`
+  // toast.error(e.message);
   console.error(e);
 
   if (!isDev) {
