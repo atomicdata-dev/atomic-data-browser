@@ -22,3 +22,4 @@ data-browser/coverage
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+.DS_Store

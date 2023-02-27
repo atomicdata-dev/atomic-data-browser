@@ -16,7 +16,7 @@ import InvitePage from './InvitePage';
 import { DocumentPage } from './DocumentPage';
 import ErrorPage from './ErrorPage';
 import { ClassPage } from './ClassPage';
-import { FilePage } from './FilePage';
+import { FilePage } from './File/FilePage';
 import { ResourcePageDefault } from './ResourcePageDefault';
 import { Spinner } from '../components/Spinner';
 import { ChatRoomPage } from './ChatRoomPage';
