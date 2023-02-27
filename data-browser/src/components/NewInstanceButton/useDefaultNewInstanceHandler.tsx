@@ -99,7 +99,7 @@ export function useDefaultNewInstanceHandler(klass: string, parent?: string) {
         }
       }
     } catch (e) {
-      store.handleError(e);
+      store.notifyError(e);
     }
   }, [klass, store, parent, createResourceAndNavigate]);
 
