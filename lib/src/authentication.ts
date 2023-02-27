@@ -3,7 +3,6 @@ import {
   getTimestampNow,
   HeadersObject,
   signToBase64,
-  Store,
 } from './index.js';
 
 /** Returns a JSON-AD resource of an Authentication */

@@ -8,7 +8,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Move static assets around, align build with server and fix PWA #292
 - `store.createSubject` allows creating nested paths
 - Add `useChildren` hook and `Store.getChildren` method
-- Add `Store.postToServer` method, add `endpoints`, `import_json_ad_string`
+- Add `Store.postToServer` method, add `endpoints`, `importJsonAdString`
 
 ## v0.35.0
 

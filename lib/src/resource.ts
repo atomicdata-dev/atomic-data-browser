@@ -186,8 +186,6 @@ export class Resource {
 
     const childrenCollection = generatedCollectionURL.toString();
 
-    console.log('Children collection', childrenCollection);
-
     return childrenCollection;
   }
 
