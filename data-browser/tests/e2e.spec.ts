@@ -38,6 +38,12 @@ const currentDialogOkButton = 'dialog[open] >> footer >> text=Ok';
 // Depends on server index throttle time, `commit_monitor.rs`
 const REBUILD_INDEX_TIME = 6000;
 
+async function setTitle(page, title: string) {
+  await page.locator(editableTitle).click();
+  await page.fill(editableTitle, title);
+  await page.waitForTimeout(300);
+}
+
 test.describe('data-browser', async () => {
   test.beforeEach(async ({ page }) => {
     if (!serverUrl) {
@@ -125,8 +131,7 @@ test.describe('data-browser', async () => {
     // Create folder called 'Not This folder'
     await page.locator('[data-test="sidebar-new-resource"]').click();
     await page.locator('button:has-text("folder")').click();
-    await page.locator('[placeholder="New Folder"]').fill('Not This Folder');
-    await page.locator(currentDialogOkButton).click();
+    await setTitle(page, 'Not This Folder');
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -140,8 +145,7 @@ test.describe('data-browser', async () => {
 
     // Create folder called 'This folder'
     await page.locator('button:has-text("folder")').click();
-    await page.locator('[placeholder="New Folder"]').fill('This Folder');
-    await page.locator(currentDialogOkButton).click();
+    await setTitle(page, 'This Folder');
 
     // Create document called 'Avocado Salad'
     await page.locator('button:has-text("New Resource")').click();
@@ -437,7 +441,7 @@ test.describe('data-browser', async () => {
   test('configure drive page', async ({ page }) => {
     await signIn(page);
     await openDriveMenu(page);
-    await expect(page.locator(currentDriveTitle)).toHaveText('Main drive');
+    await expect(page.locator(currentDriveTitle)).toHaveText('localhost');
 
     // temp disable this, because of trailing slash in base URL
     // await page.click(':text("https://atomicdata.dev") + button:text("Select")');
@@ -494,31 +498,20 @@ test.describe('data-browser', async () => {
     await newDrive(page);
 
     // create a resource, make sure its visible in the sidebar (and after refresh)
-    const klass = 'importer';
+    const klass = 'folder';
     await newResource(klass, page);
     await expect(
-      page.locator('[data-test="sidebar"] >> text=importer'),
+      page.locator(`[data-test="sidebar"] >> text=${klass}`),
     ).toBeVisible();
-    // await page.reload();
-    // await expect(
-    //   page.locator('[data-test="sidebar"] >> text=importer'),
-    // ).toBeVisible();
-
-    async function setTitle(title: string) {
-      await page.locator(editableTitle).click();
-      await page.fill(editableTitle, title);
-      await page.waitForTimeout(300);
-    }
-
     const d0 = 'depth0';
-    await setTitle(d0);
+    await setTitle(page, d0);
 
     // Create a subresource, and later check it in the sidebar
     await page.locator(`[data-test="sidebar"] >> text=${d0}`).hover();
     await page.locator(`[title="Create new resource under ${d0}"]`).click();
     await page.click(`button:has-text("${klass}")`);
     const d1 = 'depth1';
-    await setTitle(d1);
+    await setTitle(page, d1);
 
     await expect(
       page.locator(`[data-test="sidebar"] >> text=${d1}`),
