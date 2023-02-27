@@ -38,6 +38,8 @@ export function About() {
       <AboutWrapper>
         {aboutMenuItems.map(({ href, icon, helper }) => (
           <IconButtonLink
+            target='_blank'
+            rel='noreferrer'
             key={href}
             href={href}
             title={helper}
