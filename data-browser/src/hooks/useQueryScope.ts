@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { useQueryString } from '../helpers/navigation';
 
 export interface QueryScopeHandler {
@@ -11,10 +12,14 @@ export function useQueryScopeHandler(subject: string): QueryScopeHandler;
 export function useQueryScopeHandler(): Omit<QueryScopeHandler, 'enableScope'>;
 export function useQueryScopeHandler(subject?: string): QueryScopeHandler {
   const [scope, setScope] = useQueryString('queryscope');
+  const navigate = useNavigate();
 
   const enableScope = useCallback(() => {
-    setScope(subject);
-    // setQuery('');
+    const params = new URLSearchParams({
+      queryscope: subject ?? '',
+    });
+
+    navigate(`/app/search?${params.toString()}`, { replace: true });
   }, [setScope, subject]);
 
   const clearScope = useCallback(() => {
