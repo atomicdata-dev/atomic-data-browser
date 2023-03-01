@@ -1,7 +1,9 @@
 import React from 'react';
 import { FaDownload } from 'react-icons/fa';
 import styled from 'styled-components';
+import { Button } from '../../components/Button';
 import { IconButton } from '../../components/IconButton/IconButton';
+import { Row } from '../../components/Row';
 import { displayFileSize } from './displayFileSize';
 
 interface DownloadButtonProps {
@@ -9,7 +11,7 @@ interface DownloadButtonProps {
   fileSize?: number;
 }
 
-export function DownloadButton({
+export function DownloadIconButton({
   downloadFile,
   fileSize,
 }: DownloadButtonProps): JSX.Element {
@@ -26,3 +28,20 @@ export function DownloadButton({
 const DownloadIcon = styled(FaDownload)`
   color: ${({ theme }) => theme.colors.main};
 `;
+
+export function DownloadButton({
+  downloadFile,
+  fileSize,
+}: DownloadButtonProps): JSX.Element {
+  return (
+    <Button
+      onClick={downloadFile}
+      title={`Download file (${displayFileSize(fileSize ?? 0)})`}
+    >
+      <Row gap='0.5rem'>
+        <FaDownload />
+        Download
+      </Row>
+    </Button>
+  );
+}

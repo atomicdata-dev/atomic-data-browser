@@ -5,7 +5,7 @@ import { AtomicLink } from '../../components/AtomicLink';
 import { Row } from '../../components/Row';
 import { useFileInfo } from '../../hooks/useFile';
 import { CardViewProps } from '../Card/CardViewProps';
-import { DownloadButton } from './DownloadButton';
+import { DownloadIconButton } from './DownloadButton';
 import { FilePreview } from './FilePreview';
 
 function FileCard({ resource }: CardViewProps): JSX.Element {
@@ -18,7 +18,7 @@ function FileCard({ resource }: CardViewProps): JSX.Element {
         <AtomicLink subject={resource.getSubject()}>
           <h2>{title}</h2>
         </AtomicLink>
-        <DownloadButton downloadFile={downloadFile} fileSize={bytes} />
+        <DownloadIconButton downloadFile={downloadFile} fileSize={bytes} />
       </Row>
       <FilePreview resource={resource} />
     </React.Fragment>
