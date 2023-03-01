@@ -77,7 +77,7 @@ export default ErrorPage;
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
-  FallBackComponent: React.ComponentType;
+  FallBackComponent?: React.ComponentType<{ error: Error }>;
 }
 
 interface ErrorBoundaryState {
@@ -100,6 +100,10 @@ export class ErrorBoundary extends React.Component<
 
   public render() {
     if (this.state.error) {
+      if (this.props.FallBackComponent) {
+        return <this.props.FallBackComponent error={this.state.error} />;
+      }
+
       return (
         <CrashPage
           error={this.state.error}

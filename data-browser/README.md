@@ -59,6 +59,7 @@ You can set the Agent on the `/app/agent` route.
 - **Accessing the store from the browser console** can be done in develop mode in your browser with the global `store` object.
 - **Forms** use the various value hooks (e.g. `useString`) for maintaining actual resource state. When the form input changes, the new value will be `.set()` on the `Resource`, and this will throw an error if there is a validation error. These should be catched by passing an error handler to the `useString` hook.
 - **Error handling** is set in `App.tsx` on initialization. We set `Store.errorHandler` which is called when something goes wrong. This should result in a toaster error shown to the user, and a message sent to BugSnag if `window.bugsnagApiKey` is set.
+- **Bundle Splitting** is used for components that use a large dependancy that is not vital to the main application. These component are located in the `chunks` folder and should **always** be imported dynamically to avoid adding the dependancy to the main bundle.
 
 ## Directory structure
 

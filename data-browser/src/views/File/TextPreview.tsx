@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Markdown from '../../components/datatypes/Markdown';
 
 interface TextPreviewProps {
   downloadUrl: string;
   mimeType: string;
+  className?: string;
 }
 
 const fetchFile = async (
@@ -26,6 +27,7 @@ const fetchFile = async (
 export function TextPreview({
   downloadUrl,
   mimeType,
+  className,
 }: TextPreviewProps): JSX.Element {
   const [data, setData] = useState('');
 
@@ -41,29 +43,15 @@ export function TextPreview({
 
   if (mimeType === 'text/markdown') {
     return (
-      <MarkdownWrapper>
+      <div className={className}>
         <Markdown text={data} />
-      </MarkdownWrapper>
+      </div>
     );
   }
 
-  return <Wrapper>{data}</Wrapper>;
+  return <Wrapper className={className}>{data}</Wrapper>;
 }
 
-const textFileSurface = css`
-  width: min(90ch, 100%);
-  border: 1px solid ${({ theme }) => theme.colors.bg2};
-  background-color: ${({ theme }) => theme.colors.bg};
-  border-radius: ${({ theme }) => theme.radius};
-  padding: ${({ theme }) => theme.margin}rem;
-  position: relative;
-`;
-
-const MarkdownWrapper = styled.div`
-  ${textFileSurface}
-`;
-
 const Wrapper = styled.pre`
-  ${textFileSurface}
   white-space: pre-wrap;
 `;

@@ -19,6 +19,7 @@ import { FaFolder } from 'react-icons/fa';
 import { ChatRoomGridItem } from './ChatRoomGridItem';
 import { DocumentGridItem } from './DocumentGridItem';
 import { FileGridItem } from './FileGridItem';
+import { ErrorBoundary } from '../../ErrorPage';
 
 export interface ResourceGridItemProps {
   subject: string;
@@ -73,7 +74,9 @@ export function ResourceGridItem({
             <Icon />
             <span>{classTypeName}</span>
           </ClassBanner>
-          <Resource resource={resource} />
+          <ErrorBoundary FallBackComponent={GridItemError}>
+            <Resource resource={resource} />
+          </ErrorBoundary>
         </GridCard>
       )}
     </GridItemWrapper>
@@ -106,4 +109,17 @@ const FolderIcon = styled(FaFolder)`
   ${GridItemWrapper}:hover & {
     color: ${p => p.theme.colors.main};
   }
+`;
+
+interface GridItemErrorProps {
+  error: Error;
+}
+
+const GridItemError: React.FC<GridItemErrorProps> = ({ error }) => {
+  return <GridItemErrorWrapper>{error.message}</GridItemErrorWrapper>;
+};
+
+const GridItemErrorWrapper = styled.div`
+  color: ${p => p.theme.colors.alert};
+  text-align: center;
 `;

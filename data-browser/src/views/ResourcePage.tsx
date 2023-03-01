@@ -14,7 +14,7 @@ import DrivePage from './DrivePage';
 import RedirectPage from './RedirectPage';
 import InvitePage from './InvitePage';
 import { DocumentPage } from './DocumentPage';
-import ErrorPage from './ErrorPage';
+import ErrorPage, { ErrorBoundary } from './ErrorPage';
 import { ClassPage } from './ClassPage';
 import { FilePage } from './File/FilePage';
 import { ResourcePageDefault } from './ResourcePageDefault';
@@ -24,7 +24,7 @@ import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
 import Parent from '../components/Parent';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FolderPage } from './FolderPage';
 
 type Props = {
@@ -59,15 +59,30 @@ function ResourcePage({ subject }: Props): JSX.Element {
     <>
       <Parent resource={resource} />
       <Main>
-        <ReturnComponent resource={resource} />
+        <ErrorBoundary>
+          <ReturnComponent resource={resource} />
+        </ErrorBoundary>
       </Main>
     </>
   );
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const Main = styled.main`
   /* Makes the contents fit the entire page */
   display: contents;
+
+  & > * {
+    animation: ${fadeIn} 0.1s ease-out;
+  }
 `;
 
 /** There properties are passed to every View at Page level */

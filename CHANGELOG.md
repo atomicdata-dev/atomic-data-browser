@@ -9,6 +9,8 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - `store.createSubject` allows creating nested paths
 - Add `useChildren` hook and `Store.getChildren` method
 - Add `Store.postToServer` method, add `endpoints`, `importJsonAdString`
+- Add new file preview UI for images, audio, text and PDF files.
+- Add new file preview types to the folder grid view.
 
 ## v0.35.0
 

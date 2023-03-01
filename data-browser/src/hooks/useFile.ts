@@ -11,6 +11,14 @@ export function useFileInfo(resource: Resource) {
     window.open(downloadUrl);
   }, [downloadUrl]);
 
+  if (
+    downloadUrl === undefined ||
+    mimeType === undefined ||
+    bytes === undefined
+  ) {
+    throw new Error('File resource is missing properties');
+  }
+
   return {
     downloadFile,
     downloadUrl,
