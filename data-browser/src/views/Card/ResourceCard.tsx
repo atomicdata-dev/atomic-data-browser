@@ -18,6 +18,7 @@ import { defaultHiddenProps } from '../ResourcePageDefault';
 import { MessageCard } from './MessageCard';
 import { BookmarkCard } from './BookmarkCard.jsx';
 import { CardViewPropsBase } from './CardViewProps';
+import { ElementCard } from './ElementCard';
 
 interface ResourceCardProps extends CardViewPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -96,6 +97,8 @@ function ResourceCardInner(props: ResourceCardProps): JSX.Element {
       return <MessageCard resource={resource} {...props} />;
     case urls.classes.bookmark:
       return <BookmarkCard resource={resource} {...props} />;
+    case urls.classes.elements.paragraph:
+      return <ElementCard resource={resource} {...props} />;
   }
 
   return (
