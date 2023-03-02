@@ -62,7 +62,7 @@ export const useNewForm = (
     store
       .renameSubject(oldSubject, defferedSubjectValue)
       .then(() => {
-        // setSubject(defferedSubjectValue);
+        setSubject(defferedSubjectValue);
       })
       .catch(e => setSubjectErr(e));
   }, [defferedSubjectValue, resource]);
