@@ -33,7 +33,7 @@ export function useDefaultNewInstanceHandler(klass: string, parent?: string) {
       switch (klass) {
         case classes.chatRoom: {
           createResourceAndNavigate('chatRoom', {
-            [properties.name]: 'Untitled   ChatRoom',
+            [properties.name]: 'Untitled ChatRoom',
             [properties.isA]: [classes.chatRoom],
           });
           break;

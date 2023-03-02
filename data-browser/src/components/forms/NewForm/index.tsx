@@ -33,7 +33,7 @@ export const NewFormFullPage = ({
 
   const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
     klass,
-    subject!,
+    subject,
     setSubject,
     parentSubject,
   );
