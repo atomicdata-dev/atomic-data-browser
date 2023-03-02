@@ -25,10 +25,12 @@ function New(): JSX.Element {
   const [classSubject] = useQueryString('classSubject');
   const [parentSubject] = useQueryString('parentSubject');
   // For selecting a class
-  const [classInput, setClassInput] = useState<string | undefined>(undefined);
+  const [classInputValue, setClassInputValue] = useState<string | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<Error | undefined>(undefined);
   const navigate = useNavigate();
-  const classFull = useResource(classInput);
+  const classFull = useResource(classInputValue);
   const [className] = useString(classFull, urls.properties.shortname);
   const { drive } = useSettings();
 
@@ -46,14 +48,14 @@ function New(): JSX.Element {
   ];
 
   function handleClassSet(e) {
-    if (!classInput) {
+    if (!classInputValue) {
       setError(new Error('Please select a class'));
 
       return;
     }
 
     e.preventDefault();
-    navigate(newURL(classInput, calculatedParent));
+    navigate(newURL(classInputValue, calculatedParent));
   }
 
   const onUploadComplete = useCallback(
@@ -84,18 +86,18 @@ function New(): JSX.Element {
           </h1>
           <div>
             <ResourceSelector
-              setSubject={setClassInput}
-              value={classInput}
+              setSubject={setClassInputValue}
+              value={classInputValue}
               error={error}
               setError={setError}
               classType={urls.classes.class}
             />
           </div>
           <Row wrapItems>
-            {classInput && (
+            {classInputValue && (
               <Button onClick={handleClassSet}>new {className}</Button>
             )}
-            {!classInput && (
+            {!classInputValue && (
               <>
                 {buttons.map(classType => (
                   <WrappedButton
