@@ -31,7 +31,7 @@ export function constructOpenURL(
 export function searchURL(query: string, scope?: string): string {
   return constructURL(paths.search, {
     query,
-    ...(parent ? { queryscope: scope } : {}),
+    ...(scope ? { queryscope: scope } : {}),
   });
 }
 
