@@ -494,7 +494,11 @@ test.describe('data-browser', async () => {
     // Dropdown select
     await page.click('[data-test="input-recommends-add-resource"]');
     await page.locator('text=append').click();
-    await expect(page.locator('text=https://atomicdata.dev')).not.toBeVisible();
+    await expect(
+      page.locator(
+        '[data-test="input-recommends"] >> text=https://atomicdata.dev',
+      ),
+    ).not.toBeVisible();
 
     // Try to save without a description
     page.locator('button:has-text("Save")').click();
