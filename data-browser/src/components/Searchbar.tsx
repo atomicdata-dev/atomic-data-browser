@@ -62,11 +62,6 @@ export function Searchbar({
     navigate(constructOpenURL(subject));
   };
 
-  useEffect(() => {
-    // Prevents setting an empty input if the first letter of a query has just been typed
-    !query && setInput(subject);
-  }, [subject, query]);
-
   useHotkeys(shortcuts.search, e => {
     e.preventDefault();
     //@ts-ignore this does seem callable
@@ -97,12 +92,16 @@ export function Searchbar({
   );
 
   useEffect(() => {
-    setInput(query ?? '');
+    if (query) {
+      setInput(query);
+    } else {
+      setInput(subject);
+    }
 
     if (query || scope) {
       setInputFocus();
     }
-  }, [query, scope]);
+  }, [query, scope, subject]);
 
   return (
     <Form onSubmit={handleSubmit} autoComplete='off'>
