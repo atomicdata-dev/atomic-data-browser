@@ -9,6 +9,14 @@ import { AtomicLink } from '../AtomicLink';
 import { useState } from 'react';
 import { Button } from '../Button';
 
+function generateErrorPropName(prop: Property): string {
+  if (prop.error) {
+    const endOfPath = prop.subject.split('/').pop();
+
+    return endOfPath || 'error';
+  } else return prop.shortname;
+}
+
 /** An input field for a single Property, rendered with a Label. Has a loading state. */
 function ResourceField({
   handleDelete,
@@ -32,7 +40,10 @@ function ResourceField({
     );
   }
 
-  const label = labelProp || property.shortname;
+  const label =
+    labelProp || property.error
+      ? generateErrorPropName(property)
+      : property.shortname;
 
   if (property.isDynamic && collapsedDynamic) {
     return (
@@ -88,7 +99,7 @@ function HelperText({ text, link }: HelperTextProps) {
   return (
     <HelperTextWraper>
       <Markdown text={text} />
-      <AtomicLink subject={link}>Go to Property</AtomicLink>
+      <AtomicLink subject={link}>{link}</AtomicLink>
     </HelperTextWraper>
   );
 }
