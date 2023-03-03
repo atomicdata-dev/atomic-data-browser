@@ -13,12 +13,12 @@ import { ResourceSelector } from '../components/forms/ResourceSelector';
 import { Button } from '../components/Button';
 import { useSettings } from '../helpers/AppSettings';
 import { Row } from '../components/Row';
-import { NewFormFullPage } from '../components/forms/NewForm/index';
 import { ResourceInline } from '../views/ResourceInline';
 import styled from 'styled-components';
 import { FileDropzoneInput } from '../components/forms/FileDropzone/FileDropzoneInput';
 import toast from 'react-hot-toast';
 import { getIconForClass } from '../views/FolderPage/iconMap';
+import { NewFormFullPage } from '../components/forms/NewForm/NewFormPage';
 
 /** Start page for instantiating a new Resource from some Class */
 function New(): JSX.Element {

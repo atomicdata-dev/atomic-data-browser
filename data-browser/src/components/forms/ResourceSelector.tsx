@@ -17,9 +17,9 @@ import { ErrMessage, InputWrapper } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 import { Dialog, useDialog } from '../Dialog';
 import { DialogTreeContext } from '../Dialog/dialogContext';
-import { NewFormDialog } from './NewForm';
 import { useSettings } from '../../helpers/AppSettings';
 import styled from 'styled-components';
+import { NewFormDialog } from './NewForm/NewFormDialog';
 
 interface ResourceSelectorProps {
   /**

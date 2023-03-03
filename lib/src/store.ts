@@ -494,22 +494,19 @@ export class Store {
    * errors if so.
    */
   public async renameSubject(
-    oldSubject: string,
+    resource: Resource,
     newSubject: string,
   ): Promise<void> {
     Client.tryValidSubject(newSubject);
-    const old = this.resources.get(oldSubject);
-
-    if (old === undefined) {
-      throw Error(`Old subject does not exist in store: ${oldSubject}`);
-    }
+    const oldSubject = resource.getSubject();
 
     if (await this.checkSubjectTaken(newSubject)) {
       throw Error(`New subject name is already taken: ${newSubject}`);
     }
 
-    old.setSubject(newSubject);
-    this.resources.set(newSubject, old);
+    resource.setSubject(newSubject);
+    this.addResources(resource);
+    this.resources.set(newSubject, resource);
     this.removeResource(oldSubject);
   }
 
