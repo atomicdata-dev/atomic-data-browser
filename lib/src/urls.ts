@@ -1,6 +1,4 @@
 export const classes = {
-  /** Collection of all the AtomicData.dev classes */
-  getAll: 'https://atomicdata.dev/classes/?page_size=999',
   agent: 'https://atomicdata.dev/classes/Agent',
   chatRoom: 'https://atomicdata.dev/classes/ChatRoom',
   collection: 'https://atomicdata.dev/classes/Collection',
@@ -31,8 +29,6 @@ export const classes = {
 
 /** List of commonly used Atomic Data Properties. */
 export const properties = {
-  /** Collection of all the AtomicData.dev properties */
-  getAll: 'https://atomicdata.dev/properties/?page_size=999',
   children: 'https://atomicdata.dev/properties/children',
   classType: 'https://atomicdata.dev/properties/classtype',
   createdBy: 'https://atomicdata.dev/properties/createdBy',

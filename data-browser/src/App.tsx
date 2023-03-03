@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { StoreContext, Store, urls } from '@tomic/react';
+import { StoreContext, Store } from '@tomic/react';
 
 import { GlobalStyle, ThemeWrapper } from './styling';
 import { AppRoutes } from './routes/Routes';
@@ -53,8 +53,7 @@ const ErrBoundary = window.bugsnagApiKey
   : ErrorBoundary;
 
 // Fetch all the Properties and Classes - this helps speed up the app.
-store.fetchResourceFromServer(urls.properties.getAll);
-store.fetchResourceFromServer(urls.classes.getAll);
+store.preloadPropsAndClasses();
 
 // Register global event handlers.
 registerHandlers(store);

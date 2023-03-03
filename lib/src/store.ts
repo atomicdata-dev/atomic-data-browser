@@ -446,6 +446,26 @@ export class Store {
     });
   }
 
+  /**
+   * Fetches all Classes and Properties from your current server, including external resources.
+   * This helps to speed up time to interactive, but may not be necessary for all applications.
+   */
+  public async preloadPropsAndClasses(): Promise<void> {
+    // TODO: use some sort of CollectionBuilder for this.
+    const classesUrl = new URL('/classes', this.serverUrl);
+    const propertiesUrl = new URL('/properties', this.serverUrl);
+    classesUrl.searchParams.set('include_external', 'true');
+    propertiesUrl.searchParams.set('include_external', 'true');
+    classesUrl.searchParams.set('include_nested', 'true');
+    propertiesUrl.searchParams.set('include_nested', 'true');
+    classesUrl.searchParams.set('page_size', '999');
+    propertiesUrl.searchParams.set('page_size', '999');
+    await Promise.all([
+      this.fetchResourceFromServer(classesUrl.toString()),
+      this.fetchResourceFromServer(propertiesUrl.toString()),
+    ]);
+  }
+
   /** Sends an HTTP POST request to the server to the Subject. Parses the returned Resource and adds it to the store. */
   public async postToServer(
     parent: string,
