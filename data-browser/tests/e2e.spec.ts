@@ -560,8 +560,11 @@ test.describe('data-browser', async () => {
     await fillInput('shortname', page);
     await fillInput('description', page);
     await page.click('[data-test="save"]');
-    // go back browser history
-    await page.goBack();
+    await page.locator('text=Resource Saved');
+    await page.click(contextMenu);
+    await page
+      .locator('[data-test="menu-item-edit"] >> visible = true')
+      .click();
 
     await page
       .locator('[title="Add an item to this list"] >> nth=0')
