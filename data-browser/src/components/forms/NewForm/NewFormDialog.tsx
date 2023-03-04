@@ -1,20 +1,16 @@
 import { properties, useResource, useStore, useTitle } from '@tomic/react';
-import React, { useCallback, useState } from 'react';
-import { useQueryString } from '../../../helpers/navigation';
+import React, { useState, useCallback } from 'react';
 import { useEffectOnce } from '../../../hooks/useEffectOnce';
 import { Button } from '../../Button';
-import { DialogActions, DialogContent, DialogTitle } from '../../Dialog';
+import { DialogTitle, DialogContent, DialogActions } from '../../Dialog';
 import { ErrorLook } from '../../ErrorLook';
 import { useSaveResource } from '../hooks/useSaveResource';
 import { InlineErrMessage } from '../InputStyles';
 import { ResourceForm, ResourceFormVariant } from '../ResourceForm';
+import { NewFormProps } from './NewFormPage';
 import { NewFormTitle, NewFormTitleVariant } from './NewFormTitle';
 import { SubjectField } from './SubjectField';
 import { useNewForm } from './useNewForm';
-
-export interface NewFormProps {
-  classSubject: string;
-}
 
 export interface NewFormDialogProps extends NewFormProps {
   closeDialog: () => void;
@@ -22,39 +18,6 @@ export interface NewFormDialogProps extends NewFormProps {
   onSave: (subject: string) => void;
   parent: string;
 }
-
-/** Fullpage Form for instantiating a new Resource from some Class */
-export const NewFormFullPage = ({
-  classSubject,
-}: NewFormProps): JSX.Element => {
-  const klass = useResource(classSubject);
-  const [subject, setSubject] = useQueryString('newSubject');
-  const [parentSubject] = useQueryString('parent');
-
-  const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
-    klass,
-    subject!,
-    setSubject,
-    parentSubject,
-  );
-
-  return (
-    <>
-      <NewFormTitle classSubject={classSubject} />
-      <SubjectField
-        error={subjectErr}
-        value={subjectValue}
-        onChange={setSubjectValue}
-      />
-      {/* Key is required for re-rendering when subject changes */}
-      <ResourceForm
-        resource={resource}
-        classSubject={classSubject}
-        key={`${classSubject}+${subject}`}
-      />
-    </>
-  );
-};
 
 /** Form for instantiating a new Resource from some Class in a Modal / Dialog view */
 export const NewFormDialog = ({
@@ -72,12 +35,12 @@ export const NewFormDialog = ({
 
   const [subject, setSubject] = useState(store.createSubject());
 
-  const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm(
+  const { subjectErr, subjectValue, setSubjectValue, resource } = useNewForm({
     klass,
-    subject,
     setSubject,
+    initialSubject: subject,
     parent,
-  );
+  });
 
   const onResourceSave = useCallback(() => {
     onSave(resource.getSubject());

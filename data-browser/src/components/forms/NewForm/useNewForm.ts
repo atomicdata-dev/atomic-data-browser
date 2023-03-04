@@ -6,62 +6,63 @@ import {
   useResource,
   useArray,
 } from '@tomic/react';
-import { useState, useEffect, useDeferredValue } from 'react';
+import { useState, useEffect } from 'react';
 
 const resourseOpts = { newResource: true };
 
+type UseNewForm = {
+  klass: Resource;
+  setSubject: (v: string) => void;
+  initialSubject?: string;
+  parent?: string;
+};
+
 /** Shared logic for NewForm components. */
-export const useNewForm = (
-  klass: Resource,
-  subject: string,
-  setSubject: (v: string) => void,
-  parent?: string,
-) => {
-  // TODO: Don't push to history, but replace, because currenlty back is broken
+export const useNewForm = (args: UseNewForm) => {
+  const { klass, setSubject, initialSubject, parent } = args;
+
+  const store = useStore();
   const [klassShortname] = useString(klass, properties.shortname);
+  const [subjectValue, setSubjectValueInternal] = useState<string>(() => {
+    if (initialSubject === undefined) {
+      return store.createSubject(klassShortname);
+    }
+
+    return initialSubject;
+  });
 
   const [subjectErr, setSubjectErr] = useState<Error | undefined>(undefined);
-  const store = useStore();
-  const [subjectValue, setSubjectValue] = useState<string>(subject.toString());
-  const resource = useResource(subject.toString(), resourseOpts);
-  const [_, setParent] = useString(resource, properties.parent);
+  const resource = useResource(subjectValue, resourseOpts);
+  const [parentVal, setParent] = useString(resource, properties.parent);
+  const [isAVal, setIsA] = useArray(resource, properties.isA);
 
+  // When the resource is created or updated, make sure that the parent and class are present
   useEffect(() => {
-    if (subject === undefined) {
-      setSubject(store.createSubject(klassShortname));
+    if (parentVal !== parent) {
+      setParent(parent);
     }
-  }, [subject]);
 
-  useEffect(() => {
-    setParent(parent);
-  }, [parent]);
+    if (isAVal.length === 0) {
+      setIsA([klass.getSubject()]);
+    }
+  }, [resource, parent]);
 
-  // Set the class for new resources
-  const [currentClass] = useArray(resource, properties.isA);
+  async function setSubjectValue(newSubject: string) {
+    setSubjectValueInternal(newSubject);
+    setSubjectErr(undefined);
+    setSubject(newSubject);
 
-  if (currentClass.length === 0) {
-    resource.set(properties.isA, [klass.getSubject()], store);
-  }
-
-  const defferedSubjectValue = useDeferredValue(subjectValue);
-  /** Changes the URL of a subject. Updates the store */
-  // Should be debounced as it is quite expensive, but getting that to work turned out to be really hard
-  useEffect(() => {
-    const oldSubject = resource.getSubject();
-
-    if (oldSubject === defferedSubjectValue) {
+    if (resource.get(properties.parent) !== parent) {
+      // This prevents that we move an empty temporary resource
       return;
     }
 
-    setSubjectErr(undefined);
-    // Expensive!
-    store
-      .renameSubject(oldSubject, defferedSubjectValue)
-      .then(() => {
-        setSubject(defferedSubjectValue);
-      })
-      .catch(e => setSubjectErr(e));
-  }, [defferedSubjectValue, resource]);
+    try {
+      await store.renameSubject(resource, newSubject);
+    } catch (e) {
+      setSubjectErr(e);
+    }
+  }
 
   return {
     subjectErr,

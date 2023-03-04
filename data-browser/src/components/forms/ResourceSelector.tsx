@@ -17,9 +17,9 @@ import { ErrMessage, InputWrapper } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 import { Dialog, useDialog } from '../Dialog';
 import { DialogTreeContext } from '../Dialog/dialogContext';
-import { NewFormDialog } from './NewForm';
 import { useSettings } from '../../helpers/AppSettings';
 import styled from 'styled-components';
+import { NewFormDialog } from './NewForm/NewFormDialog';
 
 interface ResourceSelectorProps {
   /**
@@ -160,12 +160,13 @@ export const ResourceSelector = React.memo(function ResourceSelector({
 });
 
 /** For a given class URL, this tries to return a URL of a Collection containing these. */
+// TODO: Scope to current store / make adjustable https://github.com/atomicdata-dev/atomic-data-browser/issues/295
 export function getCollectionURL(classtypeUrl?: string): string | undefined {
   switch (classtypeUrl) {
     case urls.classes.property:
-      return urls.properties.getAll;
+      return 'https://atomicdata.dev/properties/?page_size=999';
     case urls.classes.class:
-      return urls.classes.getAll;
+      return 'https://atomicdata.dev/classes/?page_size=999';
     case urls.classes.agent:
       return 'https://atomicdata.dev/agents/';
     case urls.classes.commit:

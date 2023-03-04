@@ -173,8 +173,8 @@ export function ResourceForm({
     <form about={resource.getSubject()} onSubmit={save}>
       {classSubject && klass.error && (
         <ErrMessage>
-          Error in class. {klass.error.message}. You can still edit the
-          resource, though.
+          Error in class, so this form could miss properties. You can still edit
+          the resource, though. Error message: `{klass.error.message}`
         </ErrMessage>
       )}
       {canWriteErr && <ErrMessage>Cannot save edits: {canWriteErr}</ErrMessage>}
