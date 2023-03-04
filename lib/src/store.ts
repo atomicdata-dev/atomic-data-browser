@@ -322,8 +322,31 @@ export class Store {
   public async getResourceAsync(subject: string): Promise<Resource> {
     const found = this.resources.get(subject);
 
-    if (found) {
+    if (found && found.isReady()) {
       return found;
+    }
+
+    /** Fix the case where a resource was previously requested but still not ready */
+    if (found && !found.isReady()) {
+      return new Promise((resolve, reject) => {
+        const defaultTimeout = 5000;
+
+        const cb = res => {
+          this.unsubscribe(subject, cb);
+          resolve(res);
+        };
+
+        this.subscribe(subject, cb);
+
+        setTimeout(() => {
+          this.unsubscribe(subject, cb);
+          reject(
+            new Error(
+              `Async Request for subject "${subject}" timed out after ${defaultTimeout}ms.`,
+            ),
+          );
+        }, defaultTimeout);
+      });
     }
 
     return this.fetchResourceFromServer(subject);

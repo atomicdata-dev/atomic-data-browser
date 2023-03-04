@@ -13,6 +13,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add new file preview types to the folder grid view.
 - Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
 - Fix Dialogue form #308
+- Fix Race condition of `store.getResourceAsync` #309
 
 ## v0.35.0
 
