@@ -144,10 +144,20 @@ export class Store {
 
   /** Checks if a subject is free to use */
   public async checkSubjectTaken(subject: string): Promise<boolean> {
-    const r = await this.getResourceAsync(subject);
+    const r = this.resources.get(subject);
 
-    if (r.isReady()) {
+    if (r?.isReady() && !r.new) {
       return true;
+    }
+
+    try {
+      const resp = await this.fetchResourceFromServer(subject);
+
+      if (resp.isReady()) {
+        return true;
+      }
+    } catch (e) {
+      // If the resource doesn't exist, we can use it
     }
 
     return false;
