@@ -7,20 +7,27 @@ import ResourceCard from '../views/Card/ResourceCard';
 import { useServerSearch } from '@tomic/react';
 import { ErrorLook } from '../components/ErrorLook';
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
+import { FaFilter, FaSearch } from 'react-icons/fa';
 import { useQueryScopeHandler } from '../hooks/useQueryScope';
 import { useSettings } from '../helpers/AppSettings';
+import { ClassFilter } from '../components/SearchFilter';
+import { Button } from '../components/Button';
 
 /** Full text search route */
 export function Search(): JSX.Element {
   const [query] = useSearchQuery();
   const { drive } = useSettings();
   const { scope } = useQueryScopeHandler();
+  const [filters, setFilters] = useState({
+    // 'is-a': classes.document,
+  });
+  const [showFilter, setShowFilter] = useState(false);
 
   const [selectedIndex, setSelected] = useState(0);
   const { results, loading, error } = useServerSearch(query, {
     debounce: 0,
     scope: scope || drive,
+    filters,
   });
   const navigate = useNavigate();
   const resultsDiv = useRef<HTMLDivElement | null>(null);
@@ -69,7 +76,7 @@ export function Search(): JSX.Element {
     { enableOnTags: ['INPUT'] },
   );
 
-  let message = 'No hits';
+  let message: string | undefined = 'No hits';
 
   if (query?.length === 0) {
     message = 'Enter a search query';
@@ -79,19 +86,43 @@ export function Search(): JSX.Element {
     message = 'Loading results...';
   }
 
+  if (results.length > 0) {
+    message = undefined;
+  }
+
   return (
     <ContainerNarrow>
       {error ? (
         <ErrorLook>{error.message}</ErrorLook>
-      ) : query?.length !== 0 && results.length !== 0 ? (
+      ) : (
         <>
-          <Heading>
-            <FaSearch />
-            <span>
-              {results.length} {results.length > 1 ? 'Results' : 'Result'} for{' '}
-              <QueryText>{query}</QueryText>
-            </span>
-          </Heading>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Heading>
+              <FaSearch />
+              <span>
+                {message ? (
+                  message
+                ) : (
+                  <>
+                    {results.length} {results.length > 1 ? 'Results' : 'Result'}{' '}
+                    for <QueryText>{query}</QueryText>
+                  </>
+                )}
+              </span>
+            </Heading>
+            <Button onClick={() => setShowFilter(!showFilter)}>
+              <FaFilter />
+              Filter
+            </Button>
+          </div>
+          {showFilter && (
+            <ClassFilter setFilters={setFilters} filters={filters} />
+          )}
           <div ref={resultsDiv}>
             {results.map((subject, index) => (
               <ResourceCard
@@ -104,8 +135,6 @@ export function Search(): JSX.Element {
             ))}
           </div>
         </>
-      ) : (
-        <>{message}</>
       )}
     </ContainerNarrow>
   );
