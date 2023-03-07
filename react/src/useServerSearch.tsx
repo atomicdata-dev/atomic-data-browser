@@ -1,4 +1,4 @@
-import { urls } from '@tomic/lib';
+import { buildSearchSubject, SearchOpts, urls } from '@tomic/lib';
 import { useEffect, useMemo, useState } from 'react';
 import { useArray, useDebounce, useResource, useStore } from './index.js';
 
@@ -9,47 +9,32 @@ interface SearchResults {
   error?: Error;
 }
 
-interface SearchOpts {
+interface SearchOptsHook extends SearchOpts {
   /**
    * Debouncing makes queries slower, but prevents sending many request. Number
    * respresents milliseconds.
    */
   debounce?: number;
-  /** Fetch full resources instead of subjects */
-  include?: boolean;
-  /** Max of how many results to return */
-  limit?: number;
-  /** Subject of resource to scope the search to */
-  scope?: string;
 }
 
 /** Pass a query to search the current server */
 export function useServerSearch(
   query: string | undefined,
-  opts: SearchOpts = {},
+  opts: SearchOptsHook = {},
 ): SearchResults {
-  const { debounce = 50, include = false, limit = 30, scope } = opts;
+  const { debounce = 50 } = opts;
 
   const [results, setResults] = useState<string[]>([]);
   const store = useStore();
   // Calculating the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce) ?? '';
 
-  const urlString: string = useMemo(() => {
-    const url = new URL(store.getServerUrl());
-    url.pathname = 'search';
-    url.searchParams.set('q', debouncedQuery);
-    url.searchParams.set('include', include.toString());
-    url.searchParams.set('limit', limit.toString());
+  const searchSubjectURL: string = useMemo(
+    () => buildSearchSubject(store, debouncedQuery, opts),
+    [debouncedQuery, opts],
+  );
 
-    if (scope) {
-      url.searchParams.set('parent', scope);
-    }
-
-    return url.toString();
-  }, [debouncedQuery, scope, include, limit]);
-
-  const resource = useResource(urlString, {
+  const resource = useResource(searchSubjectURL, {
     noWebSocket: true,
   });
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);

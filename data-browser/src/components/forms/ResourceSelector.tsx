@@ -48,7 +48,7 @@ interface ResourceSelectorProps {
    * Set an ArrayError. A special type, because the parent needs to know where
    * in the Array the error occurred
    */
-  setError: Dispatch<SetStateAction<ArrayError | undefined>>;
+  setError?: Dispatch<SetStateAction<ArrayError | undefined>>;
   disabled?: boolean;
   autoFocus?: boolean;
   /** Is used when a new item is created using the ResourceSelector */
