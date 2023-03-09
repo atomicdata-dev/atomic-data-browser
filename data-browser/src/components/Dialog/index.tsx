@@ -11,6 +11,7 @@ import { FaTimes } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
 import { effectTimeout } from '../../helpers/effectTimeout';
 import { Button } from '../Button';
+import { DropdownContainer } from '../Dropdown/DropdownContainer';
 import { PopoverContainer } from '../Popover';
 import { Slot } from '../Slot';
 import {
@@ -142,12 +143,14 @@ const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
     <StyledDialog ref={dialogRef} onMouseDown={handleOutSideClick}>
       <StyledInnerDialog ref={innerDialogRef}>
         <PopoverContainer>
-          <CloseButtonSlot slot='close'>
-            <Button icon onClick={cancelDialog} aria-label='close'>
-              <FaTimes />
-            </Button>
-          </CloseButtonSlot>
-          {children}
+          <DropdownContainer>
+            <CloseButtonSlot slot='close'>
+              <Button icon onClick={cancelDialog} aria-label='close'>
+                <FaTimes />
+              </Button>
+            </CloseButtonSlot>
+            {children}
+          </DropdownContainer>
         </PopoverContainer>
       </StyledInnerDialog>
     </StyledDialog>,

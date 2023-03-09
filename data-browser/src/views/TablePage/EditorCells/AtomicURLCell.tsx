@@ -1,20 +1,32 @@
 import {
   JSONValue,
+  unknownSubject,
   urls,
   useArray,
   useResource,
-  useServerSearch,
+  useString,
   useTitle,
 } from '@tomic/react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FaEdit } from 'react-icons/fa';
+import * as RadixPopover from '@radix-ui/react-popover';
 import styled from 'styled-components';
-import { DefaultTrigger, Popover } from '../../../components/Popover';
+import { FileDropzoneInput } from '../../../components/forms/FileDropzone/FileDropzoneInput';
+import {
+  InputStyled,
+  InputWrapper,
+} from '../../../components/forms/InputStyles';
+import { Popover } from '../../../components/Popover';
 import {
   CursorMode,
   useTableEditorContext,
 } from '../../../components/TableEditor/TableEditorContext';
-import { useSettings } from '../../../helpers/AppSettings';
 import { getIconForClass } from '../../FolderPage/iconMap';
 import { AgentCell } from './ResourceCells/AgentCell';
 import { FileCell } from './ResourceCells/FileCell';
@@ -25,56 +37,41 @@ import {
   EditCellProps,
   ResourceCellProps,
 } from './Type';
+import { useResourceSearch } from './useResourceSearch';
+
+const useClassType = (subject: string) => {
+  const resource = useResource(subject);
+  const [classType] = useString(resource, urls.properties.classType);
+  const classTypeResource = useResource(classType);
+  const [classTypeTitle] = useTitle(classTypeResource);
+
+  return {
+    classType,
+    classTypeTitle,
+  };
+};
 
 function AtomicURLCellEdit({
   value,
   onChange,
+  property,
+  resource: row,
 }: EditCellProps<JSONValue>): JSX.Element {
-  const resource = useResource(value as string);
-  const [title] = useTitle(resource);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const { drive } = useSettings();
+  const cell = useResource(value as string);
+  const { classType, classTypeTitle } = useClassType(property);
+  const [title] = useTitle(cell);
   const [open, setOpen] = useState(true);
   const { setCursorMode } = useTableEditorContext();
+  const selectedElement = useRef<HTMLLIElement>(null);
 
-  const searchOpts = useMemo(
-    () => ({
-      scope: drive,
-    }),
-    [drive],
-  );
-
-  const [searchValue, setSearchValue] = useState(title);
-  const { results } = useServerSearch(searchValue, searchOpts);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      e.stopPropagation();
-
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedIndex(i => Math.max(0, i - 1));
-      }
-
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedIndex(i => Math.min(results.length - 1, i + 1));
-      }
-
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        e.stopPropagation();
-        onChange(results[selectedIndex]);
-      }
-    },
-    [results, onChange, selectedIndex],
+  const [searchValue, setSearchValue] = useState(() =>
+    cell.getSubject() === unknownSubject ? '' : title,
   );
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setSearchValue(e.target.value);
-    setSelectedIndex(0);
   }, []);
 
   const handleResultClick = useCallback(
@@ -96,36 +93,101 @@ function AtomicURLCellEdit({
     [setCursorMode],
   );
 
+  const { results, selectedIndex, handleKeyDown } = useResourceSearch(
+    searchValue,
+    classType,
+    handleResultClick,
+  );
+
+  const modifiedHandleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setOpen(false);
+
+        return;
+      }
+
+      handleKeyDown(e);
+    },
+    [handleKeyDown],
+  );
+
+  const handleFilesUploaded = useCallback(
+    (files: string[]) => {
+      const file = files[0];
+
+      if (file) {
+        onChange(file);
+        setOpen(false);
+      }
+    },
+    [onChange, setOpen],
+  );
+
+  const Trigger = useMemo(() => {
+    return (
+      <PopoverTrigger>
+        <FaEdit />{' '}
+        {cell.getSubject() === unknownSubject
+          ? `select ${classTypeTitle ?? 'resource'}`
+          : title}
+      </PopoverTrigger>
+    );
+  }, [title, cell, classTypeTitle]);
+
+  useEffect(() => {
+    if (selectedElement.current) {
+      selectedElement.current.scrollIntoView(false);
+    }
+  }, [selectedIndex]);
+
+  const placehoder = classType ? `Search ${classTypeTitle}` : 'Search...';
+
+  const showFileDropzone =
+    results.length === 0 && classType === urls.classes.file;
+  const showNoResults = results.length === 0 && classType !== urls.classes.file;
+
   return (
     <>
-      <Popover
-        Trigger={
-          <DefaultTrigger>
-            <FaEdit /> {title}
-          </DefaultTrigger>
-        }
+      <SearchPopover
+        Trigger={Trigger}
         open={open}
         onOpenChange={handleOpenChange}
       >
-        <SearchInput
-          type='search'
-          value={searchValue}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
+        <InputWrapper>
+          <InputStyled
+            type='search'
+            value={searchValue}
+            placeholder={placehoder}
+            onChange={handleChange}
+            onKeyDown={modifiedHandleKeyDown}
+          />
+        </InputWrapper>
         <ResultWrapper>
           {results.length > 0 && (
             <ol>
               {results.map((result, index) => (
-                <li key={result} data-selected={index === selectedIndex}>
+                <li
+                  key={result}
+                  data-selected={index === selectedIndex}
+                  ref={index === selectedIndex ? selectedElement : null}
+                >
                   <Result subject={result} onClick={handleResultClick} />
                 </li>
               ))}
             </ol>
           )}
-          {results.length === 0 && 'No results found'}
+          {showNoResults && 'No results'}
+          {showFileDropzone && (
+            <StyledFileDropzoneInput
+              parentResource={row}
+              maxFiles={1}
+              onFilesUploaded={handleFilesUploaded}
+            />
+          )}
         </ResultWrapper>
-      </Popover>
+      </SearchPopover>
     </>
   );
 }
@@ -179,7 +241,7 @@ function Result({ subject, onClick }: ResultProps) {
   }, [subject]);
 
   return (
-    <ResultButton onClick={handleClick}>
+    <ResultButton onClick={handleClick} tabIndex={-1}>
       <Icon />
       {title}
     </ResultButton>
@@ -191,30 +253,24 @@ export const AtomicURLCell: CellContainer<JSONValue> = {
   Display: AtomicURLCellDisplay,
 };
 
-const SearchInput = styled.input`
-  margin-right: var(--popover-close-safe-area);
-  padding: 0.5rem;
-  border-radius: ${p => p.theme.radius};
-  border: 1px solid ${p => p.theme.colors.bg2};
-  outline: none;
-
-  :focus {
-    box-shadow: 0 0 0 2px ${p => p.theme.colors.main};
-  }
-`;
-
 const ResultButton = styled.button`
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 0.5rem;
   background: none;
   border: none;
   color: currentColor;
   cursor: pointer;
-  padding: 0.2rem;
+  padding: 0.3rem;
+  border-radius: ${p => p.theme.radius};
+  &:hover {
+    background: ${p => p.theme.colors.main};
+    color: white;
 
-  :hover {
-    background: ${p => p.theme.colors.bg1};
+    svg {
+      color: white;
+    }
   }
 
   svg {
@@ -222,12 +278,19 @@ const ResultButton = styled.button`
   }
 `;
 
+const SearchPopover = styled(Popover)`
+  padding: 1rem;
+  border: 1px solid ${p => p.theme.colors.bg2};
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
 const ResultWrapper = styled.div`
   height: min(90vh, 20rem);
   width: min(90vw, 35rem);
   overflow-x: hidden;
   overflow-y: auto;
-  margin-top: 1rem;
 
   ol {
     padding: 0;
@@ -236,8 +299,28 @@ const ResultWrapper = styled.div`
 
   li {
     list-style: none;
-    &[data-selected='true'] {
-      color: ${p => p.theme.colors.main};
+    &[data-selected='true'] button {
+      background: ${p => p.theme.colors.main};
+      color: white;
+
+      svg {
+        color: white;
+      }
     }
   }
+`;
+
+const StyledFileDropzoneInput = styled(FileDropzoneInput)`
+  height: 100%;
+`;
+
+const PopoverTrigger = styled(RadixPopover.Trigger)`
+  border: none;
+  background: none;
+  color: ${p => p.theme.colors.main};
+  display: inline-flex;
+  gap: 1ch;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
 `;

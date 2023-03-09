@@ -138,6 +138,15 @@ export class Store {
       }
     }
 
+    // Check if the resource is the same as the one we already have, if so, we don't want to notify the store so we don't trigger rerenders.
+    const storeResource = this.resources.get(resource.getSubject());
+
+    if (storeResource) {
+      if (JSON.stringify(storeResource) === JSON.stringify(resource)) {
+        return;
+      }
+    }
+
     this.resources.set(resource.getSubject(), resource);
 
     this.notify(resource.clone());

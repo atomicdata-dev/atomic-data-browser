@@ -100,9 +100,19 @@ export const ResourceSelector = React.memo(function ResourceSelector({
     [setSubject],
   );
 
-  const handleBlur = useCallback(() => {
-    value === undefined && handleUpdate(inputValue);
-  }, [inputValue, value]);
+  const onInputChange = useCallback(
+    (str: string) => {
+      setInputValue(str);
+
+      try {
+        new URL(str);
+        handleUpdate(str);
+      } catch (e) {
+        handleUpdate(undefined);
+      }
+    },
+    [setInputValue, handleUpdate],
+  );
 
   const { inDialog } = useContext(DialogTreeContext);
 
@@ -131,10 +141,8 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         initial={value}
         disabled={disabled}
         classType={classType}
-        // setValue={setValue}
         onCreateClick={showDialog}
-        onInputChange={setInputValue}
-        onBlur={handleBlur}
+        onInputChange={onInputChange}
         {...props}
       />
       {value && value !== '' && error && (

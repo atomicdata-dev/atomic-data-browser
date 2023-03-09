@@ -1,14 +1,26 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useContext,
+} from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import * as RadixPopover from '@radix-ui/react-popover';
+import { useResource, useTitle } from '@tomic/react';
 import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { Hit, useLocalSearch } from '../../helpers/useLocalSearch';
 import { ButtonInput } from '../Button';
 import { ResourceInline } from '../../views/ResourceInline';
 import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
-import ResourceLine from '../../views/ResourceLine';
+import ResourceLine, {
+  ResourceLineDescription,
+} from '../../views/ResourceLine';
 import { useClickAwayListener } from '../../hooks/useClickAwayListener';
-import { useResource, useTitle } from '@tomic/react';
+import { useAvailableSpace } from './hooks/useAvailableSpace';
+import { DropdownPortalContext } from '../Dropdown/dropdownContext';
+import { ScrollArea } from '../ScrollArea';
 
 interface DropDownListProps {
   required?: boolean;
@@ -73,6 +85,13 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   const dropdownRef = useRef(null);
   const openMenuButtonRef = useRef(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useContext(DropdownPortalContext);
+  const {
+    ref: inputWrapperRef,
+    above,
+    below,
+    width,
+  } = useAvailableSpace<HTMLDivElement>(isOpen);
 
   /** Close the menu and set the value */
   const handleClickOutside = useCallback(() => {
@@ -142,87 +161,103 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
     }, 20);
   }
 
+  const handleItemSelected = useCallback(
+    (item: string) => {
+      setInputValue(item);
+      setSelectedItem(item);
+      onUpdate(item);
+      setIsOpen(false);
+      setIsFocus(false);
+    },
+    [setInputValue, setSelectedItem, onUpdate, setIsOpen],
+  );
+
   return (
-    <>
+    <RadixPopover.Root open={isOpen}>
       <DropDownStyled>
-        <InputWrapper>
-          <ResourceInputOverlayWrapper>
-            {selectedItem && !isFocus && (
-              <StyledInputOverlay>
-                <ResourceInline subject={selectedItem} untabbable />
-              </StyledInputOverlay>
+        <RadixPopover.Anchor>
+          <InputWrapper ref={inputWrapperRef}>
+            <ResourceInputOverlayWrapper>
+              {selectedItem && !isFocus && (
+                <StyledInputOverlay>
+                  <ResourceInline subject={selectedItem} untabbable />
+                </StyledInputOverlay>
+              )}
+              <InputStyled
+                onFocus={handleFocus}
+                disabled={disabled}
+                size={5}
+                required={required}
+                placeholder={placeholder}
+                // This might not be the most pretty approach, maybe I should use an overlay element
+                // That would also allow for a richer resource view in the input
+                value={inputValue}
+                onChange={handleInputChange}
+                ref={inputRef}
+                {...props}
+              />
+            </ResourceInputOverlayWrapper>
+            {selectedItem ? (
+              <ButtonInput
+                disabled={disabled}
+                type='button'
+                onClick={clearSelection}
+                title='clear selection'
+                aria-label='clear selection'
+              >
+                <FaTimes />
+              </ButtonInput>
+            ) : null}
+            {options.length > 0 && selectedItem === undefined && (
+              <ButtonInput
+                disabled={disabled}
+                type='button'
+                onClick={() => setIsOpen(!isOpen)}
+                title='toggle menu'
+                ref={openMenuButtonRef}
+                aria-label={'toggle menu'}
+              >
+                <FaCaretDown />
+              </ButtonInput>
             )}
-            <InputStyled
-              onFocus={handleFocus}
-              disabled={disabled}
-              size={5}
-              required={required}
-              placeholder={placeholder}
-              // This might not be the most pretty approach, maybe I should use an overlay element
-              // That would also allow for a richer resource view in the input
-              value={inputValue}
-              onChange={handleInputChange}
-              ref={inputRef}
-              {...props}
-            />
-          </ResourceInputOverlayWrapper>
-          {selectedItem ? (
-            <ButtonInput
-              disabled={disabled}
-              type='button'
-              onClick={clearSelection}
-              title='clear selection'
-              aria-label='clear selection'
-            >
-              <FaTimes />
-            </ButtonInput>
-          ) : null}
-          {options.length > 0 && selectedItem === undefined && (
-            <ButtonInput
-              disabled={disabled}
-              type='button'
-              onClick={() => setIsOpen(!isOpen)}
-              title='toggle menu'
-              ref={openMenuButtonRef}
-              aria-label={'toggle menu'}
-            >
-              <FaCaretDown />
-            </ButtonInput>
-          )}
-          {onRemove !== undefined && (
-            <ButtonInput
-              disabled={disabled}
-              type='button'
-              onClick={onRemove}
-              title='remove item'
-              aria-label='remove item'
-            >
-              <FaTrash />
-            </ButtonInput>
-          )}
-        </InputWrapper>{' '}
-        <DropDownWrapperWrapper onMouseEnter={() => setUseKeys(false)}>
-          {isOpen && (
-            <DropDownItemsMenu
-              options={options}
-              dropdownRef={dropdownRef}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-              setInputValue={setInputValue}
-              setSelectedItem={setSelectedItem}
-              onUpdate={onUpdate}
-              onCreateClick={onCreateClick}
-              setIsOpen={setIsOpen}
-              isOpen={isOpen}
-              useKeys={useKeys}
-              setUseKeys={setUseKeys}
-              inputValue={inputValue}
-              classType={classType}
-            />
-          )}
-        </DropDownWrapperWrapper>
+            {onRemove !== undefined && (
+              <ButtonInput
+                disabled={disabled}
+                type='button'
+                onClick={onRemove}
+                title='remove item'
+                aria-label='remove item'
+              >
+                <FaTrash />
+              </ButtonInput>
+            )}
+          </InputWrapper>
+        </RadixPopover.Anchor>
+        <RadixPopover.Portal container={containerRef.current}>
+          <RadixPopover.Content collisionPadding={2} sideOffset={8}>
+            <div onMouseEnter={() => setUseKeys(false)}>
+              {isOpen && (
+                <DropDownItemsMenu
+                  options={options}
+                  dropdownRef={dropdownRef}
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                  onCreateClick={onCreateClick}
+                  isOpen={isOpen}
+                  useKeys={useKeys}
+                  setUseKeys={setUseKeys}
+                  inputValue={inputValue}
+                  classType={classType}
+                  maxHeight={Math.max(above, below)}
+                  width={width}
+                  onItemSelect={handleItemSelected}
+                />
+              )}
+            </div>
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
       </DropDownStyled>
-    </>
+    </RadixPopover.Root>
   );
 };
 
@@ -234,25 +269,14 @@ interface DropDownItemsMenuProps {
   useKeys: boolean;
   setUseKeys: (useKeys: boolean) => void;
   inputValue: string;
-  setInputValue: (inputValue: string) => void;
-  setSelectedItem: (item: string | undefined) => void;
-  /** Is called when the Component sets the actual value */
-  onUpdate: (item: string | undefined) => void;
   /** When the new option in the dropdown menu is selected */
   onCreateClick?: () => void;
-  setIsOpen: (isOpen: boolean) => void;
   isOpen: boolean;
   /** URL of the Class. Used for showing the label for `onCreateClick` */
   classType?: string;
-}
-
-function scrollIntoView(
-  index: number,
-  dropdownRef: React.MutableRefObject<null>,
-) {
-  // @ts-ignore
-  const currentElm = dropdownRef?.current?.children[index];
-  currentElm?.scrollIntoView({ block: 'nearest' });
+  maxHeight: number;
+  width: number;
+  onItemSelect: (item: string) => void;
 }
 
 /**
@@ -264,18 +288,18 @@ function DropDownItemsMenu({
   dropdownRef,
   inputValue,
   isOpen,
-  onUpdate,
   onCreateClick,
   options,
   selectedIndex,
-  setInputValue,
-  setIsOpen,
   setSelectedIndex,
-  setSelectedItem,
   setUseKeys,
   useKeys,
   classType,
+  maxHeight,
+  width,
+  onItemSelect,
 }: DropDownItemsMenuProps): JSX.Element | null {
+  const selectedItemRef = useRef<HTMLLIElement>(null);
   const searchResults = useLocalSearch(inputValue, options);
   const showCreateOption = onCreateClick && !inputValue.startsWith('http');
 
@@ -286,13 +310,6 @@ function DropDownItemsMenu({
 
   const klass = useResource(classType);
   const [classTypeTitle] = useTitle(klass);
-
-  function handleSelectItem(item: string) {
-    setInputValue(item);
-    setSelectedItem(item);
-    onUpdate(item);
-    setIsOpen(false);
-  }
 
   // Select the item
   useHotkeys(
@@ -308,9 +325,9 @@ function DropDownItemsMenu({
       }
 
       if (selectedIndex > 0) {
-        handleSelectItem(item.item.subject);
+        onItemSelect(item.item.subject);
       } else {
-        handleSelectItem(inputValue);
+        onItemSelect(inputValue);
       }
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
@@ -326,7 +343,6 @@ function DropDownItemsMenu({
       const newSelected =
         selectedIndex <= 0 ? items.length - 1 : selectedIndex - 1;
       setSelectedIndex(newSelected);
-      scrollIntoView(newSelected, dropdownRef);
     },
     { enabled: isOpen, enableOnTags: ['INPUT'] },
     [selectedIndex],
@@ -341,7 +357,6 @@ function DropDownItemsMenu({
       const newSelected =
         selectedIndex === items.length - 1 ? 0 : selectedIndex + 1;
       setSelectedIndex(newSelected);
-      scrollIntoView(newSelected, dropdownRef);
 
       return false;
     },
@@ -349,43 +364,51 @@ function DropDownItemsMenu({
     [selectedIndex],
   );
 
+  useEffect(() => {
+    selectedItemRef.current?.scrollIntoView({ block: 'nearest' });
+  }, [selectedIndex]);
+
   if (!items || items.length === 0) {
     return null;
   }
 
   return (
-    <DropDownWrapper ref={dropdownRef}>
-      {items.map((item, index) => {
-        if (isCreateOption(item)) {
+    <DropDownWrapper ref={dropdownRef} height={maxHeight} width={width}>
+      <StyledScrollArea height={maxHeight}>
+        {items.map((item, index) => {
+          if (isCreateOption(item)) {
+            return (
+              <DropDownItem
+                onClick={onCreateClick}
+                key={inputValue}
+                useKeys={useKeys}
+                selected={index === selectedIndex}
+                ref={index === selectedIndex ? selectedItemRef : null}
+              >
+                Create {classType ? classTypeTitle : 'new item'}:{' '}
+                <NewItemName>{inputValue}</NewItemName>
+              </DropDownItem>
+            );
+          }
+
           return (
             <DropDownItem
-              onClick={onCreateClick}
-              key={inputValue}
-              useKeys={useKeys}
+              onClick={() => onItemSelect(item.item.subject)}
+              key={item.item.subject}
               selected={index === selectedIndex}
+              useKeys={useKeys}
+              ref={index === selectedIndex ? selectedItemRef : null}
             >
-              Create {classType ? classTypeTitle : 'new item'}:{' '}
-              <NewItemName>{inputValue}</NewItemName>
+              <ResourceLine subject={item.item.subject} />
             </DropDownItem>
           );
-        }
-
-        return (
-          <DropDownItem
-            onClick={() => handleSelectItem(item.item.subject)}
-            key={item.item.subject}
-            selected={index === selectedIndex}
-            useKeys={useKeys}
-          >
-            <ResourceLine subject={item.item.subject} />
-          </DropDownItem>
-        );
-      })}
+        })}
+      </StyledScrollArea>
     </DropDownWrapper>
   );
 }
 
-/** A wrapper all dropdown items */
+/** A wrapper for all dropdown items */
 const ResourceInputOverlayWrapper = styled.div`
   position: relative;
   display: flex;
@@ -398,24 +421,33 @@ const DropDownStyled = styled.div`
   flex: 1;
 `;
 
-const DropDownWrapperWrapper = styled.ul`
-  margin-bottom: 0;
+interface StyledScrollAreaProps {
+  height: number;
+}
+
+const StyledScrollArea = styled(ScrollArea)<StyledScrollAreaProps>`
+  height: min(calc(${p => p.height}px - 2rem), 30rem);
+  width: var(--dropdown-width);
+  overflow-x: hidden;
 `;
 
+interface DropdownWrapperProps {
+  height: number;
+  width: number;
+}
+
 /** A wrapper all dropdown items */
-const DropDownWrapper = styled.div`
+const DropDownWrapper = styled.ul<DropdownWrapperProps>`
   display: flex;
   flex-direction: column;
   background-color: ${props => props.theme.colors.bg};
   border: solid 1px ${props => props.theme.colors.bg2};
   border-radius: ${props => props.theme.radius};
-  box-shadow: ${props => props.theme.boxShadowIntense};
-  position: absolute;
-  z-index: ${p => p.theme.zIndex.dropdown};
-  max-height: 30rem;
-  overflow-y: auto;
-  left: 0;
-  right: 0;
+  box-shadow: ${props => props.theme.boxShadowSoft};
+  max-height: min(calc(${p => p.height}px - 2rem), 30rem);
+  contain: paint;
+  --dropdown-width: ${p => p.width}px;
+  width: var(--dropdown-width);
   min-width: 10rem;
 `;
 
@@ -427,18 +459,25 @@ interface DropDownItemProps {
 /** A wrapper all dropdown items */
 const DropDownItem = styled.li<DropDownItemProps>`
   display: flex;
+  width: var(--dropdown-width);
+  overflow-x: hidden;
   flex-direction: row;
   border-bottom: solid 1px ${props => props.theme.colors.bg2};
   cursor: pointer;
   margin: 0;
+  white-space: nowrap;
   padding: 0.3rem;
-  text-decoration: ${p => (p.selected ? 'underline' : 'none')};
+  /* text-decoration: ${p => (p.selected ? 'underline' : 'none')}; */
 
   ${props =>
     props.selected &&
     css`
       background-color: ${p => p.theme.colors.main};
       color: ${p => p.theme.colors.bg};
+
+      & ${ResourceLineDescription} {
+        color: ${p => p.theme.colors.bg};
+      }
     `}
 
   ${props =>
@@ -449,6 +488,10 @@ const DropDownItem = styled.li<DropDownItemProps>`
       &:focus {
         background-color: ${p => p.theme.colors.main};
         color: ${p => p.theme.colors.bg};
+
+        & ${ResourceLineDescription} {
+          color: ${p => p.theme.colors.bg};
+        }
       }
     `}
 `;

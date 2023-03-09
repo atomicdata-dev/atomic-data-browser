@@ -118,6 +118,7 @@ export function TableCell({
           value={value}
           onChange={onChange}
           property={property.subject}
+          resource={resource}
         />
       ) : (
         <Editor.Display

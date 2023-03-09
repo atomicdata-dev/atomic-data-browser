@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import * as RadixPopover from '@radix-ui/react-popover';
 import styled, { keyframes } from 'styled-components';
-import { useDialogTreeContext } from './Dialog/dialogContext';
 import { transparentize } from 'polished';
+import { useDialogTreeContext } from './Dialog/dialogContext';
 
 export interface PopoverProps {
   Trigger: React.ReactNode;
@@ -73,9 +73,7 @@ const Content = styled(RadixPopover.Content)`
       ${p => p.theme.margin}rem
   );
   background-color: ${p => transparentize(0.2, p.theme.colors.bgBody)};
-  backdrop-filter: blur(5px);
-  /* border: 1px solid ${p => p.theme.colors.bg2}; */
-  /* padding: ${p => p.theme.margin}rem; */
+  backdrop-filter: blur(10px);
   box-shadow: ${p => p.theme.boxShadowSoft};
   border-radius: ${p => p.theme.radius};
   position: relative;

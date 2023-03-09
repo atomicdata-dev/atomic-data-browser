@@ -11,7 +11,9 @@ import { buildComponentFactory } from '../../../helpers/buildComponentFactory';
 import { stringToSlug } from '../../../helpers/stringToSlug';
 import { CheckboxPropertyForm } from './CheckboxPropertyForm';
 import { DatePropertyForm } from './DatePropertyForm';
+import { FilePropertyForm } from './FilePropertyForm';
 import { NumberPropertyForm } from './NumberPropertyForm';
+import { RelationPropertyForm } from './RelationPropertyForm';
 import { SelectPropertyForm } from './SelectPropertyForm';
 import { TextPropertyForm } from './TextPropertyForm';
 
@@ -40,6 +42,8 @@ const categoryFormFactory = buildComponentFactory(
     ['checkbox', CheckboxPropertyForm],
     ['select', SelectPropertyForm],
     ['date', DatePropertyForm],
+    ['file', FilePropertyForm],
+    ['relation', RelationPropertyForm],
   ]),
   NoCategorySelected,
 );
