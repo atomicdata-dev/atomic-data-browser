@@ -23,6 +23,10 @@ const noResultsResult = {
   error: undefined,
 };
 
+/** Escape values for use in filter string */
+export const escapeFilterValue = (value: string) =>
+  value.replace(/[+^`:{}"[\]()!\\*\s]/gm, '\\$&');
+
 /** Pass a query to search the current server */
 export function useServerSearch(
   query: string | undefined,

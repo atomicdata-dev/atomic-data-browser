@@ -9,6 +9,8 @@ import { useUpload } from '../../../hooks/useUpload';
 export interface FileDropzoneInputProps {
   parentResource: Resource;
   onFilesUploaded?: (files: string[]) => void;
+  className?: string;
+  maxFiles?: number;
 }
 
 /**
@@ -17,6 +19,8 @@ export interface FileDropzoneInputProps {
  */
 export function FileDropzoneInput({
   parentResource,
+  className,
+  maxFiles,
   onFilesUploaded,
 }: FileDropzoneInputProps): JSX.Element {
   const { upload, isUploading, error } = useUpload(parentResource);
@@ -31,16 +35,21 @@ export function FileDropzoneInput({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onFileSelect,
+    maxFiles,
   });
+
+  const text =
+    maxFiles === 1
+      ? 'Drop a file or click here to upload.'
+      : 'Drop files or click here to upload.';
 
   return (
     <>
-      <VisualDropZone {...getRootProps()}>
+      <VisualDropZone {...getRootProps()} className={className}>
         {error && <ErrMessage>{error.message}</ErrMessage>}
         <input {...getInputProps()} />
         <TextWrapper>
-          <FaUpload />{' '}
-          {isUploading ? 'Uploading...' : 'Drop files or click here to upload.'}
+          <FaUpload /> {isUploading ? 'Uploading...' : text}
         </TextWrapper>
       </VisualDropZone>
     </>

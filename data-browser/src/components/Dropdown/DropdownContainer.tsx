@@ -10,11 +10,11 @@ export const DropdownContainer: React.FC<React.PropsWithChildren<unknown>> = ({
   return (
     <DropdownPortalContext.Provider value={portalRef}>
       {children}
-      <StyledDiv ref={portalRef}></StyledDiv>
+      <DropdownContainerDiv ref={portalRef}></DropdownContainerDiv>
     </DropdownPortalContext.Provider>
   );
 };
 
-const StyledDiv = styled.div`
+const DropdownContainerDiv = styled.div`
   display: contents;
 `;

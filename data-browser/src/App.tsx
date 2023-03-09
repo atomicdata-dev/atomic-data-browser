@@ -84,9 +84,11 @@ function App(): JSX.Element {
                   <DropdownContainer>
                     <DialogContainer>
                       <PopoverContainer>
-                        <NavWrapper>
-                          <AppRoutes />
-                        </NavWrapper>
+                        <DropdownContainer>
+                          <NavWrapper>
+                            <AppRoutes />
+                          </NavWrapper>
+                        </DropdownContainer>
                       </PopoverContainer>
                       <NetworkIndicator />
                     </DialogContainer>

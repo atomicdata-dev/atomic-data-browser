@@ -4,6 +4,7 @@ export interface EditCellProps<T extends JSONValue> {
   value: T;
   onChange: (value: T) => void;
   property: string;
+  resource: Resource;
 }
 
 export interface DisplayCellProps<T extends JSONValue> {

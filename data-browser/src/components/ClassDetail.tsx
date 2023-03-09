@@ -18,7 +18,7 @@ export function ClassDetail({ resource }: Props): JSX.Element {
         <Detail>
           <>
             {'is a '}
-            {getIconForClass(klass)}
+            {getIconForClass(classes[0])}
             <InlineFormattedResourceList subjects={classes} />
           </>
         </Detail>
