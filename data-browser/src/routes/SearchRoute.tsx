@@ -18,9 +18,18 @@ export function Search(): JSX.Element {
   const [query] = useSearchQuery();
   const { drive } = useSettings();
   const { scope } = useQueryScopeHandler();
-  const [filters, setFilters] = useState({
-    // 'is-a': classes.document,
-  });
+  const [filters, setFilters] = useState({});
+  const [enableFilter, setEnableFilter] = useState(false);
+
+  useHotkeys(
+    'f12',
+    e => {
+      e.preventDefault();
+      setEnableFilter(!enableFilter);
+    },
+    [enableFilter],
+  );
+
   const [showFilter, setShowFilter] = useState(false);
 
   const [selectedIndex, setSelected] = useState(0);
@@ -115,10 +124,12 @@ export function Search(): JSX.Element {
                 )}
               </span>
             </Heading>
-            <Button onClick={() => setShowFilter(!showFilter)}>
-              <FaFilter />
-              Filter
-            </Button>
+            {enableFilter && (
+              <Button onClick={() => setShowFilter(!showFilter)}>
+                <FaFilter />
+                Filter
+              </Button>
+            )}
           </div>
           {showFilter && (
             <ClassFilter setFilters={setFilters} filters={filters} />

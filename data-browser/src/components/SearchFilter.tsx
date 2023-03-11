@@ -18,7 +18,7 @@ export function ClassFilter({ filters, setFilters }): JSX.Element {
     // Set the filters to the default values of the properties
     setFilters({
       ...filters,
-      'is-a': klass,
+      [urls.properties.isA]: klass,
     });
   }, [klass, JSON.stringify(filters)]);
 

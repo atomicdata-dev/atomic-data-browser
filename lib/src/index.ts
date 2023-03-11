@@ -38,6 +38,7 @@ export * from './error.js';
 export * from './endpoints.js';
 export * from './datatypes.js';
 export * from './parse.js';
+export * from './search.js';
 export * from './resource.js';
 export * from './store.js';
 export * from './value.js';
