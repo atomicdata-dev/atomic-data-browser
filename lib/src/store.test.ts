@@ -32,7 +32,7 @@ describe('Store', () => {
   });
 
   it('accepts a custom fetch implementation', async () => {
-    const testResourceSubject = 'https://example.com/test';
+    const testResourceSubject = 'https://atomicdata.dev';
 
     const customFetch = jest.fn(
       async (url: RequestInfo | URL, options: RequestInit | undefined) => {
