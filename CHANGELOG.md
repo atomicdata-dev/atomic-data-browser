@@ -4,17 +4,27 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## UNRELEASED
 
-- Add `Store.parseMetaTags` to load JSON-AD objects stored in the DOM. Speeds up initial page load by allowing server to set JSON-AD objects in the initial HTML response.
+### @tomic/browser
+
 - Move static assets around, align build with server and fix PWA #292
-- `store.createSubject` allows creating nested paths
 - Add `useChildren` hook and `Store.getChildren` method
-- Add `Store.postToServer` method, add `endpoints`, `importJsonAdString`
 - Add new file preview UI for images, audio, text and PDF files.
 - Add new file preview types to the folder grid view.
-- Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
 - Fix Dialogue form #308
-- Fix Race condition of `store.getResourceAsync` #309
 - Refactor search, escape query strings for Tantivy
+
+### @tomic/react
+
+- Add more options to `useSearch`
+
+### @tomic/lib
+
+- Add `Store.parseMetaTags` to load JSON-AD objects stored in the DOM. Speeds up initial page load by allowing server to set JSON-AD objects in the initial HTML response.
+- `store.createSubject` allows creating nested paths
+- Add `Store.postToServer` method, add `endpoints`, `importJsonAdString`
+- Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
+- Fix Race condition of `store.getResourceAsync` #309
+- Add `buildSearchSubject` in `search.ts` which allows you to build full text search queries to send to Atomic-Server.
 
 ## v0.35.0
 
