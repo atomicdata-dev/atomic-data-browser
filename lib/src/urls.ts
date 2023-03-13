@@ -26,16 +26,17 @@ export const classes = {
     grid: 'https://atomicdata.dev/display-style/grid',
     list: 'https://atomicdata.dev/display-style/list',
   },
-  // CHANGE - Change to atomicdata.dev
+  dateFormat: 'https://atomicdata.dev/classes/DateFormat',
+  numberFormat: 'https://atomicdata.dev/classes/NumberFormat',
   constraintProperties: {
-    rangeProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/Halx6Km9lW',
-    formattedNumber: 'http://localhost:9883/Folder/qbty0u7lc8d/A5H01v3SJ5',
-    selectProperty: 'http://localhost:9883/Folder/qbty0u7lc8d/lAv6M6fcjS',
-    formattedDate: 'http://localhost:9883/Folder/qbty0u7lc8d/Az1tCcvIhq',
+    rangeProperty: 'https://atomicdata.dev/classes/RangeProperty',
+    floatRangeProperty: 'https://atomicdata.dev/classes/FloatRangeProperty',
+    formattedNumber: 'https://atomicdata.dev/classes/FormattedNumber',
+    selectProperty: 'https://atomicdata.dev/classes/SelectProperty',
+    formattedDate: 'https://atomicdata.dev/classes/FormattedDate',
   },
-  // CHANGE - Change to atomicdata.dev
-  table: 'http://localhost:9883/class/u1f8218a0up',
-  tag: 'http://localhost:9883/Folder/qbty0u7lc8d/cKoNb4fwxH',
+  table: 'https://atomicdata.dev/classes/Table',
+  tag: 'https://atomicdata.dev/classes/Tag',
 };
 
 /** List of commonly used Atomic Data Properties. */
@@ -128,17 +129,17 @@ export const properties = {
     preview: 'https://atomicdata.dev/property/preview',
     imageUrl: 'https://atomicdata.dev/properties/imageUrl',
   },
-  // CHANGE - CHANGE TO ATOMICDATA.DEV
   constraints: {
-    min: 'http://localhost:9883/Folder/qbty0u7lc8d/zdJJDLgVQj',
-    max: 'http://localhost:9883/Folder/qbty0u7lc8d/5A6nIzgSyD',
-    numberFormatting: 'http://localhost:9883/Folder/qbty0u7lc8d/p6mPHZuRcO',
-    decimalPlaces: 'http://localhost:9883/Folder/qbty0u7lc8d/lCL38YWB7o',
-    dateFormat: 'http://localhost:9883/Folder/qbty0u7lc8d/S9NujMXIoA',
+    max: 'https://atomicdata.dev/properties/max',
+    min: 'https://atomicdata.dev/properties/min',
+    maxFloat: 'https://atomicdata.dev/properties/maxFloat',
+    minFloat: 'https://atomicdata.dev/properties/minFloat',
+    numberFormatting: 'https://atomicdata.dev/properties/numberFormatting',
+    decimalPlaces: 'https://atomicdata.dev/properties/decimalPlaces',
+    dateFormat: 'https://atomicdata.dev/properties/dateFormat',
   },
-  // CHANGE - CHANGE TO ATOMICDATA.DEV
-  color: 'http://localhost:9883/Folder/qbty0u7lc8d/5UajS5BYMC',
-  emoji: 'http://localhost:9883/property/emoji',
+  color: 'https://atomicdata.dev/properties/color',
+  emoji: 'https://atomicdata.dev/properties/emoji',
 };
 
 export const datatypes = {
@@ -157,18 +158,14 @@ export const datatypes = {
 export const instances = {
   publicAgent: 'https://atomicdata.dev/agents/publicAgent',
   displayStyleGrid: 'https://atomicdata.dev/agents/publicAgent',
-  // CHANGE - CHANGE TO ATOMICDATA.DEV
   numberFormats: {
-    number: 'http://localhost:9883/number-format/7tz0rnu99hi',
-    currency: 'http://localhost:9883/number-format/mf2rewej6mi',
-    percentage: 'http://localhost:9883/number-format/ykeh58h1yj',
+    number: 'https://atomicdata.dev/classes/NumberFormat/number',
+    percentage: 'https://atomicdata.dev/classes/NumberFormat/Percentage',
   },
-  // CHANGE - CHANGE TO ATOMICDATA.DEV
   dateFormats: {
-    localNumeric: 'http://localhost:9883/date-format/t2vkojkqifo',
-    localLong: 'http://localhost:9883/Folder/qbty0u7lc8d/AZMFruGxC3/local-long',
-    localRelative:
-      'http://localhost:9883/Folder/qbty0u7lc8d/AZMFruGxC3/local-relative',
+    localNumeric: 'https://atomicdata.dev/classes/DateFormat/localNumeric',
+    localLong: 'https://atomicdata.dev/classes/DateFormat/localLong',
+    localRelative: 'https://atomicdata.dev/classes/DateFormat/localRelative',
   },
 };
 
