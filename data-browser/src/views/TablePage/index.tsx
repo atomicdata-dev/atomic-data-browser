@@ -31,7 +31,8 @@ const transformToPropertiesPerSubject = async (
 
 export function TablePage({ resource }: ResourcePageProps): JSX.Element {
   const store = useStore();
-  const [tableClass, collection, invalidateTable] = useTableData(resource);
+  const { tableClass, collection, invalidateCollection, collectionVersion } =
+    useTableData(resource);
 
   const columns = useTableColumns(tableClass);
 
@@ -52,9 +53,9 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
 
       const rowResource = store.getResourceLoading(row);
       await rowResource.destroy(store);
-      invalidateTable();
+      invalidateCollection();
     },
-    [collection, store, invalidateTable],
+    [collection, store, invalidateCollection],
   );
 
   const handleClearCells = useCallback(
@@ -78,9 +79,9 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
         Array.from(Object.entries(resourcePropMap)).map(removePropvals),
       );
 
-      invalidateTable();
+      invalidateCollection();
     },
-    [store, collection, invalidateTable],
+    [store, collection, invalidateCollection],
   );
 
   const handleCopyCommand = useCallback(
@@ -115,12 +116,16 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
           parent={resource}
           columns={columns}
           index={index}
-          invalidateTable={invalidateTable}
+          invalidateTable={invalidateCollection}
         />
       );
     },
-    [collection, columns],
+    [collection, columns, collectionVersion],
   );
+
+  if (collectionVersion === 0) {
+    return <ContainerFull>Loading...</ContainerFull>;
+  }
 
   return (
     <ContainerFull>
