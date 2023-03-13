@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
-import { copyToClipboard, CopyValue } from '../helpers/clipboard';
+import { copyToClipboard } from '../helpers/clipboard';
 import { useTableEditorContext } from '../TableEditorContext';
-import { CellIndex, useGetSelectedCells } from './useGetSelectedCells';
+import { CellIndex, CopyValue } from '../types';
+import { useGetSelectedCells } from './useGetSelectedCells';
 
 export function useCopyCommand<T>(
   columns: T[],
