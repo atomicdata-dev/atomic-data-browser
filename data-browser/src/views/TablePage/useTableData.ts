@@ -11,11 +11,13 @@ import { useMemo } from 'react';
 const PAGE_SIZE = 30;
 const DEFAULT_SORT = urls.properties.commit.createdAt;
 
-export function useTableData(
-  resource: Resource,
-): [Resource, ...UseCollectionResult] {
+type UseTableDataResult = {
+  tableClass: Resource;
+} & UseCollectionResult;
+
+export function useTableData(resource: Resource): UseTableDataResult {
   const [classSubject] = useSubject(resource, urls.properties.classType);
-  const classResource = useResource(classSubject);
+  const tableClass = useResource(classSubject);
 
   const queryFilter = useMemo(
     () => ({
@@ -26,5 +28,5 @@ export function useTableData(
     [resource.getSubject()],
   );
 
-  return [classResource, ...useCollection(queryFilter, PAGE_SIZE)];
+  return { tableClass, ...useCollection(queryFilter, PAGE_SIZE) };
 }

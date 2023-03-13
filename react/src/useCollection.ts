@@ -3,10 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useServerURL } from './useServerURL.js';
 import { useStore } from './hooks.js';
 
-export type UseCollectionResult = [
-  collection: Collection,
-  invalidateCollection: () => Promise<void>,
-];
+export type UseCollectionResult = {
+  collection: Collection;
+  invalidateCollection: () => Promise<void>;
+  /** Because collection is a class and fetches data after it is created we need a way to track if it changes so we can rerender parts of the UI */
+  collectionVersion: number;
+};
 
 const buildCollection = (
   store: Store,
@@ -35,6 +37,7 @@ export function useCollection(
 ): UseCollectionResult {
   const store = useStore();
   const [server] = useServerURL();
+  const [collectionVersion, setCollectionVersion] = useState(0);
 
   const [collection, setCollection] = useState(() =>
     buildCollection(store, server, queryFilter, pageSize),
@@ -42,7 +45,7 @@ export function useCollection(
 
   useEffect(() => {
     collection.waitForReady().then(() => {
-      setCollection(collection);
+      setCollectionVersion(version => version + 1);
     });
   }, []);
 
@@ -53,7 +56,8 @@ export function useCollection(
 
     await newCollection.waitForReady();
     setCollection(newCollection);
+    setCollectionVersion(version => version + 1);
   }, [collection, store, server, queryFilter, pageSize]);
 
-  return [collection, invalidateCollection];
+  return { collection, invalidateCollection, collectionVersion };
 }
