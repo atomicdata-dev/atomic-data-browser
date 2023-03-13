@@ -426,11 +426,8 @@ test.describe('data-browser', async () => {
 
     await page.click(sideBarDriveSwitcher);
     // temp disable for trailing slash
-    // const dropdownId = await page
-    //   .locator(sideBarDriveSwitcher)
-    //   .getAttribute('aria-controls');
-    // await page.click(`[id="${dropdownId}"] >> text=Atomic Data`);
-    // await expect(page.locator(currentDriveTitle)).toHaveText('Atomic Data');
+    await page.click(`[id="${dropdownId}"] >> text=Atomic Data`);
+    await expect(page.locator(currentDriveTitle)).toHaveText('Atomic Data');
 
     // Cleanup drives for signed in user
     await page.click('text=user settings');

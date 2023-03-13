@@ -95,8 +95,6 @@ const setCookieExpires = (
   document.cookie = cookieString;
 };
 
-const COOKIE_NAME_AUTH = 'atomic_session';
-
 /** Sets a cookie for the current Agent, signing the Authentication. It expires after some default time. */
 export const setCookieAuthentication = (serverURL: string, agent: Agent) => {
   createAuthentication(serverURL, agent).then(auth => {
@@ -242,10 +240,6 @@ export async function confirmEmail(
 
   return { agent, destination };
 }
-
-export const removeCookieAuthentication = () => {
-  document.cookie = `${COOKIE_NAME_AUTH}=;Max-Age=-99999999`;
-};
 
 function parseJwt(token) {
   try {

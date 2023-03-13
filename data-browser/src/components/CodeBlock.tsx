@@ -49,6 +49,7 @@ export function CodeBlock({ content, loading, wrapContent }: CodeBlockProps) {
 }
 
 interface Props {
+  /** Renders all in a single line */
   wrapContent?: boolean;
 }
 
@@ -62,5 +63,5 @@ export const CodeBlockStyled = styled.pre<Props>`
   width: 100%;
   overflow-x: auto;
   word-wrap: ${p => (p.wrapContent ? 'break-word' : 'initial')};
-  white-space: ${p => (p.wrapContent ? 'pre-wrap' : 'initial')};
+  white-space: ${p => (p.wrapContent ? 'pre-wrap' : 'pre')};
 `;

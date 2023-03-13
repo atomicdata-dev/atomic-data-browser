@@ -1,6 +1,5 @@
 import { Agent } from '@tomic/react';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useSettings } from '../helpers/AppSettings';
 import { ButtonInput } from './Button';
@@ -67,7 +66,7 @@ export const SettingsAgent: React.FunctionComponent = () => {
     try {
       const newAgent = new Agent(privateKey!, subject);
       await newAgent.getPublicKey();
-      await newAgent.checkPublicKey();
+      await newAgent.verifyPublicKeyWithServer();
 
       setAgentIfChanged(agent, newAgent);
     } catch (e) {

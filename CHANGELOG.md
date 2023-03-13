@@ -36,6 +36,9 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Let users register using e-mail address, improve sign-up UX.
 - `store.createSubject` allows creating nested paths
 - `store.createSubject` allows creating nested paths
+- Add `useChildren` hook and `Store.getChildren` method
+- Add `Store.postToServer` method, add `endpoints`, `import_json_ad_string`
+- Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
 
 ### @tomic/react
 
