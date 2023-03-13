@@ -12,6 +12,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add new file preview types to the folder grid view.
 - Fix Dialogue form #308
 - Refactor search, escape query strings for Tantivy
+- Add `import` context menu, allows importing anywhere
 
 ### @tomic/react
 
@@ -25,6 +26,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
 - Fix Race condition of `store.getResourceAsync` #309
 - Add `buildSearchSubject` in `search.ts` which allows you to build full text search queries to send to Atomic-Server.
+- Add `importJSONADString` function, allowing you to import resources from external sources.
 
 ## v0.35.0
 

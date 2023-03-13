@@ -97,6 +97,10 @@ export function pathToURL(path: string): string {
   return window.location.origin + path;
 }
 
+export function importerURL(subject: string): string {
+  return constructURL(paths.import, { subject });
+}
+
 /**
  * Constructs the URL for the `all-versions` endpoint. Assumes the current URL
  * supports that endpoint

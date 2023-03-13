@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Show from './ShowRoute';
 import { Search } from './SearchRoute';
-import New from './NewRoute';
+import NewRoute from './NewRoute';
 import { SettingsTheme } from './SettingsTheme';
 import { Edit } from './EditRoute';
 import Data from './DataRoute';
@@ -17,6 +17,7 @@ import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
+import { ImporterPage } from '../views/ImporterPage';
 
 const homeURL = window.location.origin;
 
@@ -31,13 +32,14 @@ const isDev = import.meta.env.MODE === 'development';
 export function AppRoutes(): JSX.Element {
   return (
     <Routes>
-      <Route path={paths.new} element={<New />} />
+      <Route path={paths.new} element={<NewRoute />} />
       <Route path={paths.themeSettings} element={<SettingsTheme />} />
       <Route path={paths.agentSettings} element={<SettingsAgent />} />
       <Route path={paths.serverSettings} element={<SettingsServer />} />
       <Route path={paths.shortcuts} element={<Shortcuts />} />
       <Route path={paths.data} element={<Data />} />
       <Route path={paths.edit} element={<Edit />} />
+      <Route path={paths.import} element={<ImporterPage />} />
       <Route path={paths.share} element={<ShareRoute />} />
       <Route path={paths.show} element={<Show />} />
       <Route path={paths.about} element={<About />} />

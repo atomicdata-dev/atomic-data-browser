@@ -7,6 +7,7 @@ import {
   constructOpenURL,
   versionsURL,
   shareURL,
+  importerURL,
 } from '../../helpers/navigation';
 import { DIVIDER, DropdownMenu, isItem, Item } from '../Dropdown';
 import toast from 'react-hot-toast';
@@ -16,6 +17,7 @@ import { DropdownTriggerRenderFunction } from '../Dropdown/DropdownTrigger';
 import { buildDefaultTrigger } from '../Dropdown/DefaultTrigger';
 import {
   FaClock,
+  FaDownload,
   FaEdit,
   FaEllipsisV,
   FaRedo,
@@ -143,6 +145,13 @@ function ResourceContextMenu({
       label: 'versions',
       helper: 'Show the versions of this resource',
       onClick: () => navigate(versionsURL(subject, store.getServerUrl())),
+    },
+    {
+      id: 'import',
+      icon: <FaDownload />,
+      label: 'import',
+      helper: 'Import Atomic Data to this resource',
+      onClick: () => navigate(importerURL(subject)),
     },
   ];
 

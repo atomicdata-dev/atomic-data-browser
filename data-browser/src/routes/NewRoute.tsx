@@ -21,21 +21,32 @@ import { getIconForClass } from '../views/FolderPage/iconMap';
 import { NewFormFullPage } from '../components/forms/NewForm/NewFormPage';
 
 /** Start page for instantiating a new Resource from some Class */
-function New(): JSX.Element {
+function NewRoute(): JSX.Element {
   const [classSubject] = useQueryString('classSubject');
+
+  return (
+    <ContainerNarrow>
+      {classSubject ? (
+        <NewFormFullPage classSubject={classSubject.toString()} />
+      ) : (
+        <NewResourceSelector />
+      )}
+    </ContainerNarrow>
+  );
+}
+
+function NewResourceSelector() {
   const [parentSubject] = useQueryString('parentSubject');
-  // For selecting a class
+  const { drive } = useSettings();
+  const calculatedParent = parentSubject || drive;
+  const parentResource = useResource(calculatedParent);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const [classInputValue, setClassInputValue] = useState<string | undefined>(
     undefined,
   );
-  const [error, setError] = useState<Error | undefined>(undefined);
-  const navigate = useNavigate();
   const classFull = useResource(classInputValue);
   const [className] = useString(classFull, urls.properties.shortname);
-  const { drive } = useSettings();
-
-  const calculatedParent = parentSubject || drive;
-  const parentResource = useResource(calculatedParent);
+  const navigate = useNavigate();
 
   const buttons = [
     urls.classes.folder,
@@ -44,7 +55,6 @@ function New(): JSX.Element {
     urls.classes.bookmark,
     urls.classes.class,
     urls.classes.property,
-    urls.classes.importer,
   ];
 
   function handleClassSet(e) {
@@ -70,52 +80,46 @@ function New(): JSX.Element {
   );
 
   return (
-    <ContainerNarrow>
-      {classSubject ? (
-        <NewFormFullPage classSubject={classSubject.toString()} />
-      ) : (
-        <StyledForm onSubmit={handleClassSet}>
-          <h1>
-            Create new resource{' '}
-            {parentSubject && (
-              <>
-                {`under `}
-                <ResourceInline subject={parentSubject} />
-              </>
-            )}
-          </h1>
-          <div>
-            <ResourceSelector
-              setSubject={setClassInputValue}
-              value={classInputValue}
-              error={error}
-              setError={setError}
-              classType={urls.classes.class}
-            />
-          </div>
-          <Row wrapItems>
-            {classInputValue && (
-              <Button onClick={handleClassSet}>new {className}</Button>
-            )}
-            {!classInputValue && (
-              <>
-                {buttons.map(classType => (
-                  <WrappedButton
-                    key={classType}
-                    classType={classType}
-                    parent={calculatedParent}
-                  />
-                ))}
-              </>
-            )}
-          </Row>
-          <FileDropzoneInput
-            parentResource={parentResource}
-            onFilesUploaded={onUploadComplete}
-          />
-        </StyledForm>
-      )}
-    </ContainerNarrow>
+    <StyledForm onSubmit={handleClassSet}>
+      <h1>
+        Create new resource{' '}
+        {parentSubject && (
+          <>
+            {`under `}
+            <ResourceInline subject={parentSubject} />
+          </>
+        )}
+      </h1>
+      <div>
+        <ResourceSelector
+          setSubject={setClassInputValue}
+          value={classInputValue}
+          error={error}
+          setError={setError}
+          classType={urls.classes.class}
+        />
+      </div>
+      <Row wrapItems>
+        {classInputValue && (
+          <Button onClick={handleClassSet}>new {className}</Button>
+        )}
+        {!classInputValue && (
+          <>
+            {buttons.map(classType => (
+              <WrappedButton
+                key={classType}
+                classType={classType}
+                parent={calculatedParent}
+              />
+            ))}
+          </>
+        )}
+      </Row>
+      <FileDropzoneInput
+        parentResource={parentResource}
+        onFilesUploaded={onUploadComplete}
+      />
+    </StyledForm>
   );
 }
 
@@ -125,7 +129,7 @@ const StyledForm = styled.form`
   gap: ${({ theme }) => theme.margin}rem;
 `;
 
-export default New;
+export default NewRoute;
 
 interface WrappedButtonProps {
   classType: string;

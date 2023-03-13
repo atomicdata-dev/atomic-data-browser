@@ -133,8 +133,13 @@ export const instances = {
   displayStyleGrid: 'https://atomicdata.dev/agents/publicAgent',
 };
 
+export const endpoints = {
+  import: '/import',
+};
+
 export const urls = {
   properties,
+  endpoints,
   classes,
   datatypes,
   instances,

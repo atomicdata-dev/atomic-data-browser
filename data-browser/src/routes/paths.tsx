@@ -10,6 +10,7 @@ export const paths = {
   data: '/app/data',
   edit: '/app/edit',
   about: '/app/about',
+  import: '/app/import',
   allVersions: '/all-versions',
   sandbox: '/sandbox',
   fetchBookmark: '/fetch-bookmark',

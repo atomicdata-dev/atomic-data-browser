@@ -81,6 +81,8 @@ export const InputStyled = styled.input`
 
 export const TextAreaStyled = styled.textarea`
   ${inputStyle}
+  min-height: 5rem;
+  height: unset;
 `;
 
 export const ErrMessage = styled.div`

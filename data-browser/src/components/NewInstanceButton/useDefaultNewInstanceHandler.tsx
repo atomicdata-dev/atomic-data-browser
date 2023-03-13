@@ -56,13 +56,6 @@ export function useDefaultNewInstanceHandler(klass: string, parent?: string) {
           break;
         }
 
-        case classes.importer: {
-          createResourceAndNavigate('importer', {
-            [properties.isA]: [classes.importer],
-          });
-          break;
-        }
-
         case classes.drive: {
           const agent = store.getAgent();
 
