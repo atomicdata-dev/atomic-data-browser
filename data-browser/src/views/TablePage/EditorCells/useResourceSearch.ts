@@ -1,4 +1,4 @@
-import { SearchOpts, useServerSearch } from '@tomic/react';
+import { SearchOpts, urls, useServerSearch } from '@tomic/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSettings } from '../../../helpers/AppSettings';
 
@@ -13,11 +13,7 @@ export function useResourceSearch(
   const searchOpts = useMemo(
     (): SearchOpts => ({
       scope: drive,
-      ...(classType
-        ? {
-            filters: `is-a:"${classType}"`,
-          }
-        : {}),
+      filters: classType ? { [urls.properties.isA]: classType } : undefined,
     }),
     [drive, classType],
   );
