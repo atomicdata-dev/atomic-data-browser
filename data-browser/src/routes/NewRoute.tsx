@@ -49,6 +49,7 @@ function NewResourceSelector() {
   const buttons = [
     urls.classes.folder,
     urls.classes.document,
+    urls.classes.table,
     urls.classes.chatRoom,
     urls.classes.bookmark,
     urls.classes.class,
