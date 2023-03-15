@@ -1,5 +1,6 @@
 import {
   JSONValue,
+  Resource,
   unknownSubject,
   urls,
   useArray,
@@ -14,7 +15,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTimes } from 'react-icons/fa';
 import * as RadixPopover from '@radix-ui/react-popover';
 import styled from 'styled-components';
 import { FileDropzoneInput } from '../../../components/forms/FileDropzone/FileDropzoneInput';
@@ -38,6 +39,8 @@ import {
   ResourceCellProps,
 } from './Type';
 import { useResourceSearch } from './useResourceSearch';
+import { IconButton } from '../../../components/IconButton/IconButton';
+import { AtomicLink } from '../../../components/AtomicLink';
 
 const useClassType = (subject: string) => {
   const resource = useResource(subject);
@@ -64,9 +67,7 @@ function AtomicURLCellEdit({
   const { setCursorMode } = useTableEditorContext();
   const selectedElement = useRef<HTMLLIElement>(null);
 
-  const [searchValue, setSearchValue] = useState(() =>
-    cell.getSubject() === unknownSubject ? '' : title,
-  );
+  const [searchValue, setSearchValue] = useState('');
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -180,9 +181,10 @@ function AtomicURLCellEdit({
           )}
           {showNoResults && 'No results'}
           {showFileDropzone && (
-            <StyledFileDropzoneInput
-              parentResource={row}
-              maxFiles={1}
+            <FileUploadContainer
+              cellResource={cell}
+              onChange={onChange}
+              row={row}
               onFilesUploaded={handleFilesUploaded}
             />
           )}
@@ -245,6 +247,53 @@ function Result({ subject, onClick }: ResultProps) {
       <Icon />
       {title}
     </ResultButton>
+  );
+}
+
+interface FileUploadContainerProps {
+  cellResource: Resource;
+  onFilesUploaded: (files: string[]) => void;
+  row: Resource;
+  onChange: (value: JSONValue) => void;
+}
+
+function FileUploadContainer({
+  cellResource,
+  onFilesUploaded,
+  row,
+  onChange,
+}: FileUploadContainerProps): JSX.Element {
+  const [mimeType] = useString(cellResource, urls.properties.file.mimetype);
+  const [downloadUrl] = useString(
+    cellResource,
+    urls.properties.file.downloadUrl,
+  );
+  const [filename] = useString(cellResource, urls.properties.file.filename);
+  const [description] = useString(cellResource, urls.properties.description);
+
+  const isImage = mimeType?.startsWith('image/');
+
+  if (!mimeType) {
+    return (
+      <StyledFileDropzoneInput
+        parentResource={row}
+        onFilesUploaded={onFilesUploaded}
+      />
+    );
+  }
+
+  return (
+    <ViewerWrapper>
+      {isImage && (
+        <PreviewImg src={downloadUrl ?? ''} alt={description ?? ''} />
+      )}
+      {!isImage ? (
+        <AtomicLink subject={cellResource.getSubject()}>{filename}</AtomicLink>
+      ) : null}
+      <ClearFileButton title='Clear' onClick={() => onChange(undefined)}>
+        <FaTimes />
+      </ClearFileButton>
+    </ViewerWrapper>
   );
 }
 
@@ -323,4 +372,27 @@ const PopoverTrigger = styled(RadixPopover.Trigger)`
   align-items: center;
   user-select: none;
   cursor: pointer;
+`;
+
+const ViewerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  padding: ${p => p.theme.margin}rem;
+  border-radius: ${p => p.theme.radius};
+  border: 1px solid ${p => p.theme.colors.bg2};
+`;
+
+const ClearFileButton = styled(IconButton)`
+  position: absolute;
+  height: fit-content;
+  top: ${p => p.theme.margin}rem;
+  right: ${p => p.theme.margin}rem;
+`;
+
+const PreviewImg = styled.img`
+  height: 100%;
+  border-radius: ${p => p.theme.radius};
 `;
