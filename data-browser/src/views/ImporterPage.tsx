@@ -28,6 +28,7 @@ export function ImporterPage({ resource }: ImporterPageProps) {
   const [overwriteOutside, setOverwriteOutside] = useState(false);
   const [parent, setParent] = useCurrentSubject();
   const resourceByS = useResource(parent);
+  const [isImporting, setIsImporting] = useState(false);
 
   resource = resourceByS || resource;
 
@@ -36,13 +37,16 @@ export function ImporterPage({ resource }: ImporterPageProps) {
 
   const handleImport = useCallback(async () => {
     try {
+      setIsImporting(true);
       await importJsonAdString(store, jsonAd, {
         overwriteOutside,
         parent: parent!,
       });
       toast.success('Imported!');
+      setIsImporting(false);
     } catch (e) {
       toast.error(e.message);
+      setIsImporting(false);
     }
   }, [parent, jsonAd, overwriteOutside, store]);
 
@@ -112,7 +116,7 @@ export function ImporterPage({ resource }: ImporterPageProps) {
             disabled={!parent}
             onClick={handleImport}
           >
-            Send JSON
+            {isImporting ? 'Importing...' : 'Send JSON'}
           </Button>
         )}
       </Column>

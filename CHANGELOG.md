@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## UNRELEASED
+## v0.35.0
 
 ### @tomic/browser
 
@@ -28,7 +28,7 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add `buildSearchSubject` in `search.ts` which allows you to build full text search queries to send to Atomic-Server.
 - Add `importJSONADString` function, allowing you to import resources from external sources.
 
-## v0.35.0
+## v0.35.0-beta.1
 
 ### @tomic/react
 

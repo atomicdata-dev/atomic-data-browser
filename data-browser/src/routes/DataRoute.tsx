@@ -18,6 +18,7 @@ import { CodeBlock } from '../components/CodeBlock';
 import { Title } from '../components/Title';
 import { Row } from '../components/Row';
 import { ErrorLook } from '../components/ErrorLook';
+import { Childrenlist as ChildrenCard } from '../components/ChildrenList';
 
 /** Renders the data of some Resource */
 function Data(): JSX.Element {
@@ -77,6 +78,7 @@ function Data(): JSX.Element {
         <AtomicLink subject={subject}>{subject}</AtomicLink>
       </PropValRow>
       <AllProps resource={resource} editable columns />
+      <ChildrenCard resource={resource} />
       {resource.getCommitBuilder().hasUnsavedChanges() ? (
         <>
           <h2>⚠️ contains uncommitted changes</h2>

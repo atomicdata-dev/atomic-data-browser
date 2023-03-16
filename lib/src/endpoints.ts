@@ -37,6 +37,7 @@ export async function importJsonAdString(
 ) {
   const url = addParams(store.getServerUrl() + urls.endpoints.import, {
     parent: opts.parent,
+    'overwrite-outside': opts.overwriteOutside ? 'true' : 'false',
   });
 
   return resourceToErr(await store.postToServer(url, jsonAdString));
