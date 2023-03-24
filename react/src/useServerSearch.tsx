@@ -9,6 +9,8 @@ interface SearchResults {
   error?: Error;
 }
 
+const emptyArray = [];
+
 interface SearchOptsHook extends SearchOpts {
   /**
    * Debouncing makes queries slower, but prevents sending many request. Number
@@ -37,6 +39,7 @@ export function useServerSearch(
   const resource = useResource(searchSubjectURL, {
     noWebSocket: true,
   });
+
   const [resultsIn] = useArray(resource, urls.properties.endpoint.results);
 
   // Only set new results if the resource is no longer loading, which improves UX
@@ -52,7 +55,7 @@ export function useServerSearch(
 
   if (!query) {
     return {
-      results: [],
+      results: emptyArray,
       loading: false,
       error: undefined,
     };

@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useString, useResource, useTitle, urls, useArray } from '@tomic/react';
 import { useCurrentSubject } from '../../../helpers/useCurrentSubject';
 import { SideBarItem } from '../SideBarItem';
@@ -30,10 +37,12 @@ export function ResourceSideBar({
   const spanRef = useRef<HTMLSpanElement>(null);
   const resource = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
+  const deferredUrl = useDeferredValue(currentUrl);
+
   const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
-  const active = currentUrl === subject;
+  const active = deferredUrl === subject;
   const [open, setOpen] = useState(active);
 
   const [subResources] = useArray(resource, urls.properties.subResources);
@@ -59,6 +68,29 @@ export function ResourceSideBar({
       onOpen?.(true);
     }
   }, [active, open]);
+
+  const TitleComp = useMemo(
+    () => (
+      <ActionWrapper>
+        <Title subject={subject} clean active={active}>
+          <SideBarItem
+            onClick={handleClose}
+            disabled={active}
+            resource={subject}
+            title={description}
+            ref={spanRef}
+          >
+            <TextWrapper>
+              <Icon />
+              {title}
+            </TextWrapper>
+          </SideBarItem>
+        </Title>
+        <FloatingActions subject={subject} />
+      </ActionWrapper>
+    ),
+    [subject, active, handleClose, description, title],
+  );
 
   if (resource.loading) {
     return (
@@ -95,32 +127,14 @@ export function ResourceSideBar({
       disabled={!hasSubResources}
       onStateToggle={handleDetailsToggle}
       data-test='resource-sidebar'
-      title={
-        <ActionWrapper>
-          <Title subject={subject} clean active={active}>
-            <SideBarItem
-              onClick={handleClose}
-              disabled={active}
-              resource={subject}
-              title={description}
-              ref={spanRef}
-            >
-              <TextWrapper>
-                <Icon />
-                {title}
-              </TextWrapper>
-            </SideBarItem>
-          </Title>
-          <FloatingActions subject={subject} />
-        </ActionWrapper>
-      }
+      title={TitleComp}
     >
       {hasSubResources &&
         subResources.map(child => (
           <ResourceSideBar
             subject={child}
-            key={child}
             onOpen={setAndPropagateOpen}
+            key={child}
           />
         ))}
     </Details>

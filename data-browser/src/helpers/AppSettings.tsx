@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { DarkModeOption, useDarkMode } from './useDarkMode';
 import {
   useLocalStorage,
@@ -33,43 +33,68 @@ export const AppSettingsContextProvider = (
   const [baseURL, setBaseURL] = useServerURL();
   const [drive, innerSetDrive] = useLocalStorage('drive', baseURL);
 
-  function setDrive(newDrive: string) {
-    const url = new URL(newDrive);
-    innerSetDrive(newDrive);
-    setBaseURL(url.origin);
-  }
+  const setDrive = useCallback(
+    (newDrive: string) => {
+      const url = new URL(newDrive);
+      innerSetDrive(newDrive);
+      setBaseURL(url.origin);
+    },
+    [innerSetDrive, setBaseURL],
+  );
 
-  const setAgentAndShowToast = (newAgent: Agent | undefined) => {
-    try {
-      setAgent(newAgent);
-      newAgent?.subject && toast.success('Signed in!');
-      newAgent === undefined && toast.success('Signed out.');
-    } catch (e) {
-      toast.error('Agent setting failed: ' + e.message);
-      console.error(e);
-    }
-  };
+  const setAgentAndShowToast = useCallback(
+    (newAgent: Agent | undefined) => {
+      try {
+        setAgent(newAgent);
+        newAgent?.subject && toast.success('Signed in!');
+        newAgent === undefined && toast.success('Signed out.');
+      } catch (e) {
+        toast.error('Agent setting failed: ' + e.message);
+        console.error(e);
+      }
+    },
+    [setAgent],
+  );
+
+  const context = useMemo(
+    () => ({
+      drive,
+      setDrive,
+      darkMode,
+      darkModeSetting,
+      setDarkMode,
+      mainColor,
+      setMainColor,
+      navbarTop,
+      setNavbarTop,
+      navbarFloating,
+      setNavbarFloating,
+      sideBarLocked,
+      setSideBarLocked,
+      agent,
+      setAgent: setAgentAndShowToast,
+    }),
+    [
+      drive,
+      setDrive,
+      darkMode,
+      darkModeSetting,
+      setDarkMode,
+      mainColor,
+      setMainColor,
+      navbarTop,
+      setNavbarTop,
+      navbarFloating,
+      setNavbarFloating,
+      sideBarLocked,
+      setSideBarLocked,
+      agent,
+      setAgentAndShowToast,
+    ],
+  );
 
   return (
-    <SettingsContext.Provider
-      value={{
-        drive,
-        setDrive,
-        darkMode,
-        darkModeSetting,
-        setDarkMode,
-        mainColor,
-        setMainColor,
-        navbarTop,
-        setNavbarTop,
-        navbarFloating,
-        setNavbarFloating,
-        sideBarLocked,
-        setSideBarLocked,
-        agent,
-        setAgent: setAgentAndShowToast,
-      }}
-    >
+    <SettingsContext.Provider value={context}>
       {props.children}
     </SettingsContext.Provider>
   );
