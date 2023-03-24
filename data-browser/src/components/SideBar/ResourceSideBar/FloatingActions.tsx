@@ -50,7 +50,7 @@ const Wrapper = styled.span`
 export const floatingHoverStyles = css`
   position: relative;
 
-  &:hover ${Wrapper}, &:focus ${Wrapper} {
+  &:hover ${Wrapper}, &:focus-within ${Wrapper} {
     visibility: visible;
     display: inline;
   }

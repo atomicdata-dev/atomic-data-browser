@@ -220,32 +220,33 @@ export function DropdownMenu({
         menuId={menuId}
       />
       <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
-        {normalizedItems.map((props, i) => {
-          if (!isItem(props)) {
-            return <ItemDivider key={i} />;
-          }
+        {isActive &&
+          normalizedItems.map((props, i) => {
+            if (!isItem(props)) {
+              return <ItemDivider key={i} />;
+            }
 
-          const { label, onClick, helper, id, disabled, shortcut, icon } =
-            props;
+            const { label, onClick, helper, id, disabled, shortcut, icon } =
+              props;
 
-          return (
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                onClick();
-              }}
-              id={id}
-              data-test={`menu-item-${id}`}
-              disabled={disabled}
-              key={id}
-              helper={shortcut ? `${helper} (${shortcut})` : helper}
-              label={label}
-              selected={useKeys && selectedIndex === i}
-              icon={icon}
-              shortcut={shortcut}
-            />
-          );
-        })}
+            return (
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  onClick();
+                }}
+                id={id}
+                data-test={`menu-item-${id}`}
+                disabled={disabled}
+                key={id}
+                helper={shortcut ? `${helper} (${shortcut})` : helper}
+                label={label}
+                selected={useKeys && selectedIndex === i}
+                icon={icon}
+                shortcut={shortcut}
+              />
+            );
+          })}
       </Menu>
     </>
   );
