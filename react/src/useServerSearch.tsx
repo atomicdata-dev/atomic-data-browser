@@ -1,6 +1,6 @@
 import { buildSearchSubject, SearchOpts, urls } from '@tomic/lib';
 import { useEffect, useMemo, useState } from 'react';
-import { useArray, useDebounce, useResource, useStore } from './index.js';
+import { useArray, useDebounce, useResource, useServerURL } from './index.js';
 
 interface SearchResults {
   /** Subject URLs for resources that match the query */
@@ -27,13 +27,13 @@ export function useServerSearch(
   const { debounce = 50 } = opts;
 
   const [results, setResults] = useState<string[]>([]);
-  const store = useStore();
+  const [serverURL] = useServerURL();
   // Calculating the query takes a while, so we debounce it
   const debouncedQuery = useDebounce(query, debounce) ?? '';
 
   const searchSubjectURL: string = useMemo(
-    () => buildSearchSubject(store, debouncedQuery, opts),
-    [debouncedQuery, opts],
+    () => buildSearchSubject(serverURL, debouncedQuery, opts),
+    [debouncedQuery, opts, serverURL],
   );
 
   const resource = useResource(searchSubjectURL, {
