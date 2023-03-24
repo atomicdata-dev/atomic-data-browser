@@ -1,5 +1,3 @@
-import { Store } from './index.js';
-
 export interface SearchOpts {
   /** Fetch full resources instead of subjects */
   include?: boolean;
@@ -53,12 +51,12 @@ function buildFilterString(filters: { [key: string]: string }): string {
 
 /** Returns the URL of the search query. Fetch that and you get your results! */
 export function buildSearchSubject(
-  store: Store,
+  serverURL: string,
   query: string,
   opts: SearchOpts = {},
 ) {
   const { include = false, limit = 30, scope, filters } = opts;
-  const url = new URL(store.getServerUrl());
+  const url = new URL(serverURL);
   url.pathname = 'search';
   query && url.searchParams.set('q', query);
   include && url.searchParams.set('include', include.toString());

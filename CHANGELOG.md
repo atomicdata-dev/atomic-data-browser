@@ -2,6 +2,14 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
+## URELEASED
+
+### @tomic/lib
+
+#### Breaking changes
+
+- `buildSearchSubject` now takes a serverURL instead of the store.
+
 ## v0.35.0
 
 ### @tomic/browser
