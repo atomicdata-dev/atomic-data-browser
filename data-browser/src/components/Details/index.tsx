@@ -24,7 +24,6 @@ export function Details({
   const [isOpen, setIsOpen] = React.useState(initialState);
 
   useEffect(() => {
-    console.log('opening details');
     setIsOpen(open);
   }, [open]);
 
