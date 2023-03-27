@@ -8,6 +8,7 @@ import {
 } from '@tomic/react';
 import toast from 'react-hot-toast';
 import { SIDEBAR_TOGGLE_WIDTH } from '../components/SideBar';
+import { handleError } from './loggingHandlers';
 
 interface ProviderProps {
   children: ReactNode;
@@ -49,8 +50,7 @@ export const AppSettingsContextProvider = (
         newAgent?.subject && toast.success('Signed in!');
         newAgent === undefined && toast.success('Signed out.');
       } catch (e) {
-        toast.error('Agent setting failed: ' + e.message);
-        console.error(e);
+        handleError(new Error('Agent setting failed: ' + e.message));
       }
     },
     [setAgent],
