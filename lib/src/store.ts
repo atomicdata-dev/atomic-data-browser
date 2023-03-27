@@ -691,6 +691,34 @@ export class Store {
     return this.client.postCommit(commit, endpoint);
   }
 
+  /**
+   * Returns the ancestry of a resource, starting with the resource itself.
+   */
+  public async getResourceAncestry(resource: Resource): Promise<string[]> {
+    const ancestry: string[] = [resource.getSubject()];
+
+    let lastAncestor: string = resource.get(urls.properties.parent) as string;
+    lastAncestor && ancestry.push(lastAncestor);
+
+    while (lastAncestor) {
+      const lastResource = await this.getResourceAsync(lastAncestor);
+
+      if (lastResource) {
+        lastAncestor = lastResource.get(urls.properties.parent) as string;
+
+        if (ancestry.includes(lastAncestor)) {
+          throw new Error(
+            `Resource ${resource.getSubject()} ancestry is cyclical. ${lastAncestor} is already in the ancestry}`,
+          );
+        }
+
+        ancestry.push(lastAncestor);
+      }
+    }
+
+    return ancestry;
+  }
+
   private randomPart(): string {
     return Math.random().toString(36).substring(2);
   }

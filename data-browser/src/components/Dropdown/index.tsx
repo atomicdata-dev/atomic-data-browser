@@ -6,6 +6,7 @@ import { Button } from '../Button';
 import { DropdownTriggerRenderFunction } from './DropdownTrigger';
 import { shortcuts } from '../HotKeyWrapper';
 import { Shortcut } from '../Shortcut';
+import { transition } from '../../helpers/transition';
 
 export const DIVIDER = 'divider' as const;
 
@@ -96,13 +97,17 @@ export function DropdownMenu({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [isActive, setIsActive] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const handleClose = useCallback(() => {
-    setIsActive(false);
+    setVisible(false);
     // Whenever the menu closes, assume that the next one will be opened with mouse
     setUseKeys(false);
     // Always reset to the top item on close
-    setSelectedIndex(0);
+    setTimeout(() => {
+      setIsActive(false);
+      setSelectedIndex(0);
+    }, 100);
   }, []);
 
   useClickAwayListener([triggerRef, dropdownRef], handleClose, isActive, [
@@ -126,27 +131,31 @@ export function DropdownMenu({
       return;
     }
 
-    const triggerRect = triggerRef.current!.getBoundingClientRect();
-    const menuRect = dropdownRef.current!.getBoundingClientRect();
-    const topPos = triggerRect.y - menuRect.height;
-
-    // If the top is outside of the screen, render it below
-    if (topPos < 0) {
-      setY(triggerRect.y + triggerRect.height / 2);
-    } else {
-      setY(topPos + triggerRect.height / 2);
-    }
-
-    const leftPos = triggerRect.x - menuRect.width;
-
-    // If the left is outside of the screen, render it to the right
-    if (leftPos < 0) {
-      setX(triggerRect.x);
-    } else {
-      setX(triggerRect.x - menuRect.width + triggerRect.width);
-    }
-
     setIsActive(true);
+
+    requestAnimationFrame(() => {
+      const triggerRect = triggerRef.current!.getBoundingClientRect();
+      const menuRect = dropdownRef.current!.getBoundingClientRect();
+      const topPos = triggerRect.y - menuRect.height;
+
+      // If the top is outside of the screen, render it below
+      if (topPos < 0) {
+        setY(triggerRect.y + triggerRect.height / 2);
+      } else {
+        setY(topPos + triggerRect.height / 2);
+      }
+
+      const leftPos = triggerRect.x - menuRect.width;
+
+      // If the left is outside of the screen, render it to the right
+      if (leftPos < 0) {
+        setX(triggerRect.x);
+      } else {
+        setX(triggerRect.x - menuRect.width + triggerRect.width);
+      }
+
+      setVisible(true);
+    });
   }, [isActive]);
 
   const handleTriggerClick = useCallback(() => {
@@ -219,7 +228,7 @@ export function DropdownMenu({
         isActive={isActive}
         menuId={menuId}
       />
-      <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
+      <Menu ref={dropdownRef} visible={visible} x={x} y={y} id={menuId}>
         {isActive &&
           normalizedItems.map((props, i) => {
             if (!isItem(props)) {
@@ -250,12 +259,6 @@ export function DropdownMenu({
       </Menu>
     </>
   );
-}
-
-interface MenuProps {
-  isActive: boolean;
-  x: number;
-  y: number;
 }
 
 export interface MenuItemSidebarProps extends MenuItemMinimial {
@@ -343,6 +346,12 @@ const ItemDivider = styled.div`
   border-bottom: 1px solid ${p => p.theme.colors.bg2};
 `;
 
+interface MenuProps {
+  visible: boolean;
+  x: number;
+  y: number;
+}
+
 const Menu = styled.div<MenuProps>`
   font-size: ${p => p.theme.fontSizeBody}rem;
   overflow: hidden;
@@ -358,6 +367,7 @@ const Menu = styled.div<MenuProps>`
   left: ${p => p.x}px;
   width: auto;
   box-shadow: ${p => p.theme.boxShadowSoft};
-  opacity: ${p => (p.isActive ? 1 : 0)};
-  visibility: ${p => (p.isActive ? 'visible' : 'hidden')};
+  opacity: ${p => (p.visible ? 1 : 0)};
+
+  transition: ${() => transition('opacity')};
 `;
