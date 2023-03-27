@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useString, useResource, useTitle, urls, useArray } from '@tomic/react';
 import { useCurrentSubject } from '../../../helpers/useCurrentSubject';
 import { SideBarItem } from '../SideBarItem';
@@ -19,30 +12,25 @@ import { getIconForClass } from '../../../views/FolderPage/iconMap';
 
 interface ResourceSideBarProps {
   subject: string;
+  ancestry: string[];
   /** When a SideBar item is clicked, we should close the SideBar (on mobile devices) */
   handleClose?: () => unknown;
-  /**
-   * Is called when any of the subResources is the CurrentURL. This is used to
-   * recursively open the sidebar menus when the user opens a resource.
-   */
-  onOpen?: (open: boolean) => void;
 }
 
 /** Renders a Resource as a nav item for in the sidebar. */
 export function ResourceSideBar({
   subject,
+  ancestry,
   handleClose,
-  onOpen,
 }: ResourceSideBarProps): JSX.Element {
   const spanRef = useRef<HTMLSpanElement>(null);
   const resource = useResource(subject, { allowIncomplete: true });
   const [currentUrl] = useCurrentSubject();
-  const deferredUrl = useDeferredValue(currentUrl);
 
   const [title] = useTitle(resource);
   const [description] = useString(resource, urls.properties.description);
 
-  const active = deferredUrl === subject;
+  const active = currentUrl === subject;
   const [open, setOpen] = useState(active);
 
   const [subResources] = useArray(resource, urls.properties.subResources);
@@ -51,23 +39,11 @@ export function ResourceSideBar({
   const [classType] = useString(resource, urls.properties.isA);
   const Icon = getIconForClass(classType!);
 
-  const handleDetailsToggle = useCallback((state: boolean) => {
-    setOpen(state);
-  }, []);
-
-  const setAndPropagateOpen = useCallback(
-    (state: boolean) => {
-      setOpen(state);
-      onOpen?.(state);
-    },
-    [onOpen],
-  );
-
   useEffect(() => {
-    if (active || open) {
-      onOpen?.(true);
+    if (ancestry.includes(subject) && ancestry[0] !== subject) {
+      setOpen(true);
     }
-  }, [active, open]);
+  }, [ancestry]);
 
   const TitleComp = useMemo(
     () => (
@@ -125,17 +101,13 @@ export function ResourceSideBar({
       initialState={open}
       open={open}
       disabled={!hasSubResources}
-      onStateToggle={handleDetailsToggle}
+      onStateToggle={setOpen}
       data-test='resource-sidebar'
       title={TitleComp}
     >
       {hasSubResources &&
         subResources.map(child => (
-          <ResourceSideBar
-            subject={child}
-            onOpen={setAndPropagateOpen}
-            key={child}
-          />
+          <ResourceSideBar subject={child} key={child} ancestry={ancestry} />
         ))}
     </Details>
   );

@@ -3,9 +3,10 @@ import {
   useArray,
   useCanWrite,
   useResource,
+  useStore,
   useTitle,
 } from '@tomic/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,6 +22,7 @@ import { ErrorLook } from '../ErrorLook';
 import { DriveSwitcher } from './DriveSwitcher';
 import { IconButton } from '../IconButton/IconButton';
 import { Row } from '../Row';
+import { useCurrentSubject } from '../../helpers/useCurrentSubject';
 
 interface SideBarDriveProps {
   /** Closes the sidebar on small screen devices */
@@ -31,12 +33,22 @@ interface SideBarDriveProps {
 export function SideBarDrive({
   handleClickItem,
 }: SideBarDriveProps): JSX.Element {
+  const store = useStore();
   const { drive, agent } = useSettings();
   const driveResource = useResource(drive);
   const [subResources] = useArray(driveResource, urls.properties.subResources);
   const [title] = useTitle(driveResource);
   const navigate = useNavigate();
   const [angentCanWrite] = useCanWrite(driveResource);
+  const [currentSubject] = useCurrentSubject();
+  const currentResource = useResource(currentSubject);
+  const [ancestry, setAncestry] = useState<string[]>([]);
+
+  useEffect(() => {
+    store.getResourceAncestry(currentResource).then(result => {
+      setAncestry(result);
+    });
+  }, [store, currentResource]);
 
   return (
     <>
@@ -74,6 +86,7 @@ export function SideBarDrive({
               <ResourceSideBar
                 key={child}
                 subject={child}
+                ancestry={ancestry}
                 handleClose={handleClickItem}
               />
             );

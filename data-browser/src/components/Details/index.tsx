@@ -24,12 +24,16 @@ export function Details({
   const [isOpen, setIsOpen] = React.useState(initialState);
 
   useEffect(() => {
+    console.log('opening details');
     setIsOpen(open);
   }, [open]);
 
   const toggleOpen = useCallback(() => {
-    onStateToggle?.(!isOpen);
-    setIsOpen(p => !p);
+    setIsOpen(p => {
+      onStateToggle?.(!p);
+
+      return !p;
+    });
   }, []);
 
   return (

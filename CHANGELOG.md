@@ -6,6 +6,9 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ### @tomic/lib
 
+- Add `store.getResourceAncestry` method, which returns the ancestry of a resource, including the resource itself.
+- Add `resource.title` property, which returns the name of a resource, or the first property that is can be used to name the resource.
+
 #### Breaking changes
 
 - `buildSearchSubject` now takes a serverURL instead of the store.
