@@ -4,6 +4,10 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ## URELEASED
 
+### Atomic Browser
+
+- Improve performance collapsed sidebar items.
+
 ### @tomic/lib
 
 - Add `store.getResourceAncestry` method, which returns the ancestry of a resource, including the resource itself.
