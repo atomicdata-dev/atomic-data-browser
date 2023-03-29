@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { CommitDetail } from '../../components/CommitDetail';
 import { ContainerWide } from '../../components/Containers';
 import { EditableTitle } from '../../components/EditableTitle';
+import UploadForm from '../../components/forms/UploadForm';
 import { NewCard } from '../../components/NewCard';
 import { useCreateAndNavigate } from '../../components/NewInstanceButton';
 import { Column } from '../../components/Row';
@@ -49,6 +50,7 @@ export function ArticlePage({ resource }: ResourcePageProps): JSX.Element {
                 <CommitDetail commitSubject={lastCommit} />
               </HeadingWrapper>
               <ArticleDescription resource={resource} canEdit={canEdit} />
+              <UploadForm parentResource={resource} />
             </Column>
           </Content>
         </ArticleContainer>
