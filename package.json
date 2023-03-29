@@ -33,6 +33,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "pnpm run start",
     "lint": "pnpm run -r lint",
     "lint-fix": "pnpm run -r lint-fix",
     "build": "pnpm run -r build",
