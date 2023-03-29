@@ -34,7 +34,10 @@ export function useCreateAndNavigate(klass: string, parent?: string) {
       /** Do not set a parent for the new resource. Useful for top-level resources */
       noParent?: boolean,
     ): Promise<Resource> => {
-      const subject = store.createSubject(className, parent);
+      const subject = store.createSubject(
+        className,
+        noParent ? undefined : parent,
+      );
       const resource = new Resource(subject, true);
 
       await Promise.all([
