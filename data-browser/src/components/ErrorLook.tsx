@@ -6,6 +6,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 export const ErrorLook = styled.span`
   color: ${props => props.theme.colors.alert};
   font-family: monospace;
+  line-height: 1.2rem;
 `;
 
 export interface ErrorBlockProps {

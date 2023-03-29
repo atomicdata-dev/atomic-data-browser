@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import {
   useString,
@@ -19,6 +19,7 @@ import { MessageCard } from './MessageCard';
 import { BookmarkCard } from './BookmarkCard.jsx';
 import { CardViewPropsBase } from './CardViewProps';
 import { ElementCard } from './ElementCard';
+import { ArticleCard } from '../Article';
 
 interface ResourceCardProps extends CardViewPropsBase {
   /** The subject URL - the identifier of the resource. */
@@ -47,18 +48,20 @@ function ResourceCard(
   }, [inView, isShown]);
 
   return (
-    <Card ref={ref} {...props} about={subject}>
-      {isShown ? (
-        <ResourceCardInner {...props} />
-      ) : (
-        <>
-          <h2>
-            <AtomicLink subject={subject}>{subject}</AtomicLink>
-          </h2>
-          <p>Resource is loading...</p>
-        </>
-      )}
-    </Card>
+    <Suspense>
+      <Card ref={ref} {...props} about={subject}>
+        {isShown ? (
+          <ResourceCardInner {...props} />
+        ) : (
+          <>
+            <h2>
+              <AtomicLink subject={subject}>{subject}</AtomicLink>
+            </h2>
+            <p>Resource is loading...</p>
+          </>
+        )}
+      </Card>
+    </Suspense>
   );
 }
 
@@ -99,6 +102,8 @@ function ResourceCardInner(props: ResourceCardProps): JSX.Element {
       return <BookmarkCard resource={resource} {...props} />;
     case urls.classes.elements.paragraph:
       return <ElementCard resource={resource} {...props} />;
+    case urls.classes.article:
+      return <ArticleCard resource={resource} {...props} />;
   }
 
   return (

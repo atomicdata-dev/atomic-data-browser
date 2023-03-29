@@ -525,9 +525,9 @@ export function useStore(): Store {
 export function useCanWrite(
   resource: Resource,
   agent?: string,
-): [canWrite: boolean | undefined, message: string | undefined] {
+): [canWrite: boolean, message: string | undefined] {
   const store = useStore();
-  const [canWrite, setCanWrite] = useState<boolean | undefined>(undefined);
+  const [canWrite, setCanWrite] = useState<boolean>(false);
   const [msg, setMsg] = useState<string | undefined>(undefined);
   const agentStore = store.getAgent();
 

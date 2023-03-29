@@ -26,6 +26,7 @@ import { ImporterPage } from './ImporterPage.jsx';
 import Parent from '../components/Parent';
 import styled, { keyframes } from 'styled-components';
 import { FolderPage } from './FolderPage';
+import { ArticlePage } from './Article';
 
 type Props = {
   subject: string;
@@ -118,6 +119,8 @@ function selectComponent(klass: string) {
       return ImporterPage;
     case urls.classes.folder:
       return FolderPage;
+    case urls.classes.article:
+      return ArticlePage;
     default:
       return ResourcePageDefault;
   }

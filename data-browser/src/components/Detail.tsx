@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 /** Small component showing some metadata. They appear next to each other. */
 export const Detail = styled.div`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 1ch;
   margin-right: 2rem;
 `;
 

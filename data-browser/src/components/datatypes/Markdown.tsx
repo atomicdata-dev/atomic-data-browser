@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import remarkGFM from 'remark-gfm';
 import { Button } from '../Button';
+import { truncateMarkdown } from '../../helpers/markdown';
 
 type Props = {
   text: string;
@@ -112,25 +113,3 @@ const MarkdownWrapper = styled.div<MarkdownWrapperProps>`
 `;
 
 export default Markdown;
-
-function truncateMarkdown(value: string, length: number) {
-  if (value.length <= length) {
-    return value;
-  }
-
-  const head = value.slice(0, length);
-
-  if (head.endsWith('\n')) {
-    return head + '...';
-  }
-
-  const tail = value.slice(length);
-  const firstNewLine = tail.indexOf('\n');
-
-  return (
-    value.slice(
-      0,
-      length + (firstNewLine === -1 ? tail.length : firstNewLine),
-    ) + '...'
-  );
-}

@@ -28,7 +28,7 @@ export function ResourceInline({
     return (
       <AtomicLink subject={subject} untabbable={untabbable}>
         <ErrorLook about={subject} title={resource.error.message}>
-          {title}
+          Unknown Resource
         </ErrorLook>
       </AtomicLink>
     );

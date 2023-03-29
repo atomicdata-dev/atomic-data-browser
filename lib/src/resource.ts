@@ -186,7 +186,7 @@ export class Resource {
   }
 
   /** Returns the subject of the list of Children */
-  public getChildrenCollection(): string | undefined {
+  public getChildrenCollection(): string {
     // We create a collection that contains all children of the current Subject
     const generatedCollectionURL = new URL(this.subject);
     generatedCollectionURL.pathname = '/collections';

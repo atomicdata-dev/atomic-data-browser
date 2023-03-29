@@ -53,9 +53,13 @@ export function ResourceGridItem({
 
   const Icon = getIconForClass(classTypeSubject ?? '');
 
-  const handleClick = useCallback(() => {
-    navigate(constructOpenURL(subject));
-  }, [subject]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      navigate(constructOpenURL(subject));
+    },
+    [subject],
+  );
 
   const Resource = useMemo(() => {
     return getResourceRenderer(classTypeSubject ?? '');
@@ -64,7 +68,7 @@ export function ResourceGridItem({
   const isFolder = classTypeSubject === classes.folder;
 
   return (
-    <GridItemWrapper onClick={handleClick}>
+    <GridItemWrapper onClick={handleClick} href={subject}>
       <GridItemTitle>{title}</GridItemTitle>
       {isFolder ? (
         <FolderIcon />

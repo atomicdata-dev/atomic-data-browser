@@ -12,6 +12,7 @@ import { useQueryScopeHandler } from '../hooks/useQueryScope';
 import { useSettings } from '../helpers/AppSettings';
 import { ClassFilter } from '../components/SearchFilter';
 import { Button } from '../components/Button';
+import { Column } from '../components/Row';
 
 /** Full text search route */
 export function Search(): JSX.Element {
@@ -134,7 +135,7 @@ export function Search(): JSX.Element {
           {showFilter && (
             <ClassFilter setFilters={setFilters} filters={filters} />
           )}
-          <div ref={resultsDiv}>
+          <Column ref={resultsDiv} gap='1rem'>
             {results.map((subject, index) => (
               <ResourceCard
                 initialInView={index < 5}
@@ -144,7 +145,7 @@ export function Search(): JSX.Element {
                 highlight={index === selectedIndex}
               />
             ))}
-          </div>
+          </Column>
         </>
       )}
     </ContainerNarrow>
