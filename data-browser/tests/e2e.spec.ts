@@ -403,8 +403,9 @@ test.describe('data-browser', async () => {
 
     // Create a new folder
     await newResource('folder', page);
-    // Createa sub-resource
-    await page.click('[data-test="new-resource-folder"]');
+    // Createa sub-resource in the folder
+    await page.click('text=Untitled folder');
+    await page.click('main >> text=New Resource');
     await page.click('button:has-text("Document")');
     await page.locator(editableTitle).click();
     await page.keyboard.type('RAM Downloading Strategies');
@@ -486,7 +487,7 @@ test.describe('data-browser', async () => {
     );
     await page.keyboard.press('Enter');
     await page.click('[title="Add this property"]');
-    await expect(page.locator('text=usages-left')).toBeVisible();
+    await expect(page.locator('text=Usages-left').first()).toBeVisible();
     // Integer validation
     await page.click('[data-test="input-usages-left"]');
     await page.keyboard.type('asdf' + '1');

@@ -15,14 +15,14 @@ interface ResourceSideBarProps {
   subject: string;
   ancestry: string[];
   /** When a SideBar item is clicked, we should close the SideBar (on mobile devices) */
-  handleClose?: () => unknown;
+  onClick?: () => unknown;
 }
 
 /** Renders a Resource as a nav item for in the sidebar. */
 export function ResourceSideBar({
   subject,
   ancestry,
-  handleClose,
+  onClick,
 }: ResourceSideBarProps): JSX.Element {
   const spanRef = useRef<HTMLSpanElement>(null);
   const resource = useResource(subject, { allowIncomplete: true });
@@ -49,9 +49,9 @@ export function ResourceSideBar({
   const TitleComp = useMemo(
     () => (
       <ActionWrapper>
-        <Title subject={subject} clean active={active}>
+        <StyledLink subject={subject} clean>
           <SideBarItem
-            onClick={handleClose}
+            onClick={onClick}
             disabled={active}
             resource={subject}
             title={description}
@@ -62,11 +62,11 @@ export function ResourceSideBar({
               {title}
             </TextWrapper>
           </SideBarItem>
-        </Title>
+        </StyledLink>
         <FloatingActions subject={subject} />
       </ActionWrapper>
     ),
-    [subject, active, handleClose, description, title],
+    [subject, active, onClick, description, title],
   );
 
   if (resource.loading) {

@@ -88,7 +88,7 @@ export function SideBarDrive({
                   key={child}
                   subject={child}
                   ancestry={ancestry}
-                  handleClose={handleClickItem}
+                  onClick={handleClickItem}
                 />
               );
             })

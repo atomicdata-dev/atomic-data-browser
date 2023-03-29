@@ -9,8 +9,6 @@ interface SearchResults {
   error?: Error;
 }
 
-const emptyArray = [];
-
 interface SearchOptsHook extends SearchOpts {
   /**
    * Debouncing makes queries slower, but prevents sending many request. Number
@@ -73,11 +71,7 @@ export function useServerSearch(
   );
 
   if (!query) {
-    return {
-      results: emptyArray,
-      loading: false,
-      error: undefined,
-    };
+    return noResultsResult;
   }
 
   // Return the width so we can use it in our components

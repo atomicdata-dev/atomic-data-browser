@@ -473,7 +473,7 @@ export class Resource {
     validate = true,
   ): Promise<void> {
     // If the value is the same, don't do anything. We don't want unnecessary commits.
-    if (this.compareValues(prop, value)) {
+    if (this.equalsCurrentValue(prop, value)) {
       return;
     }
 
@@ -518,7 +518,8 @@ export class Resource {
     this.subject = subject;
   }
 
-  private compareValues(prop: string, value: JSONValue) {
+  /** Returns true if the value has not changed */
+  private equalsCurrentValue(prop: string, value: JSONValue) {
     const ownValue = this.get(prop);
 
     if (value === Object(value)) {

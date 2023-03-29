@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Collection,
   Property,
@@ -9,7 +9,6 @@ import {
   useResource,
   useStore,
 } from '@tomic/react';
-import { useEffect } from 'react';
 import { TableCell } from './TableCell';
 import { randomString } from '../../helpers/randomString';
 import styled, { keyframes } from 'styled-components';
