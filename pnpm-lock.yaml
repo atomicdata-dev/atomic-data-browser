@@ -98,8 +98,8 @@ importers:
       react-is: ^18
       react-markdown: ^8.0.3
       react-pdf: ^6.2.2
-      react-router: ^6.0.0
-      react-router-dom: ^6.0.0
+      react-router: ^6.9.0
+      react-router-dom: ^6.9.0
       remark-gfm: ^3.0.1
       styled-components: ^5.3.3
       types-wm: ^1.1.0
