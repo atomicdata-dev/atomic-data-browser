@@ -368,6 +368,5 @@ const Menu = styled.div<MenuProps>`
   width: auto;
   box-shadow: ${p => p.theme.boxShadowSoft};
   opacity: ${p => (p.visible ? 1 : 0)};
-
   ${transition('opacity')};
 `;
