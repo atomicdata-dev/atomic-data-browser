@@ -20,6 +20,7 @@ export const classes = {
   message: 'https://atomicdata.dev/classes/Message',
   importer: 'https://atomicdata.dev/classes/Importer',
   folder: 'https://atomicdata.dev/classes/Folder',
+  article: 'https://atomicdata.dev/classes/Article',
   displayStyle: 'https://atomicdata.dev/class/DisplayStyle',
   displayStyles: {
     grid: 'https://atomicdata.dev/display-style/grid',
@@ -48,6 +49,7 @@ export const properties = {
   subResources: 'https://atomicdata.dev/properties/subresources',
   write: 'https://atomicdata.dev/properties/write',
   displayStyle: 'https://atomicdata.dev/property/display-style',
+  publishedAt: 'https://atomicdata.dev/properties/published-at',
   agent: {
     publicKey: 'https://atomicdata.dev/properties/publicKey',
   },

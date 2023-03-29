@@ -369,5 +369,5 @@ const Menu = styled.div<MenuProps>`
   box-shadow: ${p => p.theme.boxShadowSoft};
   opacity: ${p => (p.visible ? 1 : 0)};
 
-  transition: ${() => transition('opacity')};
+  ${transition('opacity')};
 `;

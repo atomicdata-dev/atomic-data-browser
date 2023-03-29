@@ -41,9 +41,7 @@ function NewResourceSelector() {
   const calculatedParent = parentSubject || drive;
   const parentResource = useResource(calculatedParent);
   const [error, setError] = useState<Error | undefined>(undefined);
-  const [classInputValue, setClassInputValue] = useState<string | undefined>(
-    undefined,
-  );
+  const [classInputValue, setClassInputValue] = useState<string | undefined>();
   const classFull = useResource(classInputValue);
   const [className] = useString(classFull, urls.properties.shortname);
   const navigate = useNavigate();

@@ -10,7 +10,7 @@ export const ContainerNarrow = styled.div`
 `;
 
 export const ContainerWide = styled.div`
-  max-width: ${props => props.theme.containerWidthWide};
+  width: min(100%, ${props => props.theme.containerWidthWide});
   margin: auto;
   padding: ${props => props.theme.margin}rem;
   // Extra space for the navbar below

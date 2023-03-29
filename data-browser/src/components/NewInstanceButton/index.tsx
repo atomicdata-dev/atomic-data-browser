@@ -25,3 +25,4 @@ export default function NewInstanceButton(
 }
 
 export { useDefaultNewInstanceHandler } from './useDefaultNewInstanceHandler';
+export { useCreateAndNavigate } from './useCreateAndNavigate';

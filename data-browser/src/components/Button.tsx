@@ -68,9 +68,8 @@ export const ButtonBase = styled(ButtonClean)`
   background-color: ${props => props.theme.colors.main};
   color: ${props => props.theme.colors.bg};
   white-space: nowrap;
-  transition: ${() =>
-    transition('background-color', 'box-shadow', 'transform', 'color')};
   margin-bottom: ${p => (p.gutter ? `${p.theme.margin}rem` : '')};
+  ${transition('background-color', 'box-shadow', 'transform', 'color')};
 
   // Prevent sticky hover buttons on touch devices
   @media (hover: hover) and (pointer: fine) {

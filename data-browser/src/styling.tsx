@@ -121,7 +121,7 @@ declare module 'styled-components' {
     margin: number;
     /** Width of the container, in rem */
     containerWidth: number;
-    /** Width of the container, in pixels */
+    /** Width of the container */
     containerWidthWide: string;
     /** Width of the sidebar, in rem */
     sideBarWidth: number;

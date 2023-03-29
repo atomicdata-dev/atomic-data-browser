@@ -6,6 +6,7 @@ export enum IconButtonVariant {
   Simple,
   Outline,
   Fill,
+  Colored,
 }
 
 type ColorProp = keyof DefaultTheme['colors'] | 'inherit';
@@ -75,7 +76,7 @@ const IconButtonBase = styled.button<BaseProps>`
   cursor: pointer;
   display: inline-grid;
   place-items: center;
-  transition: ${() => transition('background-color', 'color', 'box-shadow')};
+  ${transition('background-color', 'color', 'box-shadow', 'filter')};
   color: ${p => p.theme.colors.text};
   font-size: ${p => p.size ?? '1em'};
   border: none;
@@ -143,8 +144,22 @@ const FillIconButton = styled(IconButtonBase)<ButtonStyleProps>`
   }
 `;
 
+const ColoredIconButton = styled(IconButtonBase)<ButtonStyleProps>`
+  color: white;
+  background-color: ${p =>
+    p.color === 'inherit' ? 'inherit' : p.theme.colors[p.color]};
+  border-radius: 50%;
+  &:hover,
+  &:focus {
+    color: white;
+    filter: brightness(1.3);
+    box-shadow: ${p => p.theme.boxShadowSoft};
+  }
+`;
+
 const ComponentMap = new Map([
   [IconButtonVariant.Simple, SimpleIconButton],
   [IconButtonVariant.Outline, OutlineIconButton],
   [IconButtonVariant.Fill, FillIconButton],
+  [IconButtonVariant.Colored, ColoredIconButton],
 ]);

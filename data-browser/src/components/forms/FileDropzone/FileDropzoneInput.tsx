@@ -9,6 +9,10 @@ import { useUpload } from '../../../hooks/useUpload';
 export interface FileDropzoneInputProps {
   parentResource: Resource;
   onFilesUploaded?: (files: string[]) => void;
+  text?: string;
+  maxFiles?: number;
+  className?: string;
+  accept?: string[];
 }
 
 /**
@@ -16,7 +20,11 @@ export interface FileDropzoneInputProps {
  * holding a file, an error occurred, or it's uploading.
  */
 export function FileDropzoneInput({
+  accept,
   parentResource,
+  text,
+  maxFiles,
+  className,
   onFilesUploaded,
 }: FileDropzoneInputProps): JSX.Element {
   const { upload, isUploading, error } = useUpload(parentResource);
@@ -31,16 +39,20 @@ export function FileDropzoneInput({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onFileSelect,
+    maxFiles,
+    accept,
   });
 
   return (
     <>
-      <VisualDropZone {...getRootProps()}>
+      <VisualDropZone {...getRootProps()} className={className}>
         {error && <ErrMessage>{error.message}</ErrMessage>}
         <input {...getInputProps()} />
         <TextWrapper>
           <FaUpload />{' '}
-          {isUploading ? 'Uploading...' : 'Drop files or click here to upload.'}
+          {isUploading
+            ? 'Uploading...'
+            : text ?? 'Drop files or click here to upload.'}
         </TextWrapper>
       </VisualDropZone>
     </>
@@ -61,7 +73,7 @@ const VisualDropZone = styled.div`
   cursor: pointer;
 
   &:hover,
-  &focus {
+  &:focus {
     color: ${p => p.theme.colors.main};
     border-color: ${p => p.theme.colors.main};
   }

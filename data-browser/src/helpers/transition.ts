@@ -1,9 +1,19 @@
-import { animationDuration } from '../styling';
+import {
+  css,
+  DefaultTheme,
+  FlattenInterpolation,
+  ThemeProps,
+} from 'styled-components';
 
-export function transition(...properties: string[]): string {
-  const cssStr = properties
-    .map(p => `${p} ${animationDuration}ms ease-in-out`)
-    .join(',');
+export function transition(
+  ...properties: string[]
+): FlattenInterpolation<ThemeProps<DefaultTheme>> {
+  const interpolate = (theme: DefaultTheme) =>
+    properties
+      .map(p => `${p} ${theme.animation.duration} ease-in-out`)
+      .join(',');
 
-  return cssStr;
+  return css`
+    transition: ${({ theme }) => interpolate(theme)};
+  `;
 }

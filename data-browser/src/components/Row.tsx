@@ -20,29 +20,35 @@ export type ColumnProps = Omit<FlexProps, 'direction'> & {
   reverse?: boolean;
 };
 
-export const Row: React.FC<React.PropsWithChildren<RowProps>> = ({
-  children,
-  reverse,
-  ...props
-}) => {
+export const Row = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<RowProps>
+>(({ children, reverse, ...props }, ref) => {
   return (
-    <Flex {...props} direction={reverse ? 'row-reverse' : 'row'}>
+    <Flex {...props} direction={reverse ? 'row-reverse' : 'row'} ref={ref}>
       {children}
     </Flex>
   );
-};
+});
 
-export const Column: React.FC<React.PropsWithChildren<ColumnProps>> = ({
-  children,
-  reverse,
-  ...props
-}) => {
+Row.displayName = 'Row';
+
+export const Column = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<ColumnProps>
+>(({ children, reverse, ...props }, ref) => {
   return (
-    <Flex {...props} direction={reverse ? 'column-reverse' : 'column'}>
+    <Flex
+      {...props}
+      direction={reverse ? 'column-reverse' : 'column'}
+      ref={ref}
+    >
       {children}
     </Flex>
   );
-};
+});
+
+Column.displayName = 'Column';
 
 const Flex = styled.div<FlexProps>`
   align-items: ${p => (p.center ? 'center' : 'initial')};

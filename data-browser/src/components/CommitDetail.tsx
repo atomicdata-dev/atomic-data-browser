@@ -30,7 +30,7 @@ export function CommitDetail({ commitSubject }: Props): JSX.Element | null {
   return (
     <Detail>
       {signer && <ResourceInline subject={signer} />}
-      {' - '}
+      {'-'}
       <AtomicLink subject={commitSubject}>
         {previousCommit ? 'edited ' : ''}
         {createdAt && <DateTime date={createdAt} />}

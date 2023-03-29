@@ -267,6 +267,7 @@ const GridItem = styled.div`
   word-break: break-word;
   overflow: hidden; /* fix for Firefox */
   break-inside: avoid-column;
+  margin-bottom: ${p => p.theme.margin}rem;
 `;
 
 const ButtonsBar = styled.div`
