@@ -61,6 +61,7 @@ function InvitePage({ resource }: ResourcePageProps): JSX.Element {
       inviteURL.searchParams.set('agent', agentSubject!);
     }
 
+    // Will be a `Redirect`, see RedirectPage
     navigate(constructOpenURL(inviteURL.href));
   }
 

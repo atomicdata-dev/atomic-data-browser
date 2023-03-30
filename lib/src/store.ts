@@ -553,7 +553,7 @@ export class Store {
   public setAgent(agent: Agent | undefined): void {
     this.agent = agent;
 
-    if (agent) {
+    if (agent && agent.subject) {
       setCookieAuthentication(this.serverUrl, agent);
 
       this.webSockets.forEach(ws => {

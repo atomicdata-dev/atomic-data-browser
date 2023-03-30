@@ -67,7 +67,7 @@ function parseResourceMessage(ev: MessageEvent): Resource[] {
 export async function authenticate(client: WebSocket, store: Store) {
   const agent = store.getAgent();
 
-  if (!agent) {
+  if (!agent || !agent.subject) {
     return;
   }
 
