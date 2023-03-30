@@ -557,7 +557,7 @@ export class Store {
       setCookieAuthentication(this.serverUrl, agent);
 
       this.webSockets.forEach(ws => {
-        authenticate(ws, this);
+        ws.readyState === ws.OPEN && authenticate(ws, this);
       });
 
       this.resources.forEach(r => {

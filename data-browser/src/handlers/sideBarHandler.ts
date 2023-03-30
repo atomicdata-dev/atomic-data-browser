@@ -6,7 +6,9 @@ export function buildSideBarNewResourceHandler(store: Store) {
     const parentSubject = resource.get(urls.properties.parent);
 
     if (!isString(parentSubject)) {
-      throw new Error("Resource doesn't have a parent");
+      throw new Error(
+        `Resource doesn't have a parent: ${resource.getSubject()} `,
+      );
     }
 
     const parent = await store.getResourceAsync(parentSubject);
@@ -31,7 +33,9 @@ export function buildSideBarRemoveResourceHandler(store: Store) {
     const parentSubject = resource.get(urls.properties.parent);
 
     if (!isString(parentSubject)) {
-      throw new Error("Resource doesn't have a parent");
+      throw new Error(
+        `Resource doesn't have a parent: ${resource.getSubject()} `,
+      );
     }
 
     const parent = await store.getResourceAsync(parentSubject);
