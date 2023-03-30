@@ -124,6 +124,21 @@ export const checkAuthenticationCookie = (): boolean => {
 /** Only allows lowercase chars and numbers  */
 export const nameRegex = '^[a-z0-9_-]+';
 
+export async function serverSupportsRegister(store: Store) {
+  const url = new URL('/register', store.getServerUrl());
+  const resource = await store.getResourceAsync(url.toString());
+
+  if (!resource) {
+    return false;
+  }
+
+  if (resource.error) {
+    return false;
+  }
+
+  return true;
+}
+
 /** Asks the server to create an Agent + a Drive.
  * Sends the confirmation email to the user.
  * Throws if the name is not available or the email is invalid.

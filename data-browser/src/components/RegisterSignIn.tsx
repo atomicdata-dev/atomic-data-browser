@@ -12,6 +12,7 @@ import {
   addPublicKey,
   nameRegex,
   register as createRegistration,
+  useServerSupports,
   useServerURL,
   useStore,
 } from '@tomic/react';
@@ -22,7 +23,7 @@ import { ErrorLook } from './ErrorLook';
 import { SettingsAgent } from './SettingsAgent';
 
 interface RegisterSignInProps {
-  // URL where to send the user to after succesful registration
+  // URL where to send the user to after successful registration
   redirect?: string;
 }
 
@@ -47,66 +48,70 @@ export function RegisterSignIn({
   const { agent } = useSettings();
   const [pageState, setPageState] = useState<PageStateOpts>(PageStateOpts.none);
   const [email, setEmail] = useState('');
+  const { emailRegister } = useServerSupports();
 
   if (agent) {
     return <>{children}</>;
-  } else
-    return (
-      <>
-        <Row>
-          <Button
-            onClick={() => {
-              setPageState(PageStateOpts.register);
-              show();
-            }}
-          >
-            Register
-          </Button>
-          <Button
-            subtle
-            onClick={() => {
-              setPageState(PageStateOpts.signIn);
-              show();
-            }}
-          >
-            Sign In
-          </Button>
-        </Row>
-        <Dialog {...dialogProps}>
-          {pageState === PageStateOpts.register && (
-            <Register
-              setPageState={setPageState}
-              email={email}
-              setEmail={setEmail}
-            />
-          )}
-          {pageState === PageStateOpts.signIn && (
-            <SignIn setPageState={setPageState} />
-          )}
-          {pageState === PageStateOpts.reset && (
-            <Reset
-              email={email}
-              setEmail={setEmail}
-              setPageState={setPageState}
-            />
-          )}
-          {pageState === PageStateOpts.mailSentRegistration && (
-            <MailSentConfirm
-              email={email}
-              close={close}
-              message={'Your account will be created when you open that link.'}
-            />
-          )}
-          {pageState === PageStateOpts.mailSentAddPubkey && (
-            <MailSentConfirm
-              email={email}
-              close={close}
-              message={'Click that link to create a new PassPhrase.'}
-            />
-          )}
-        </Dialog>
-      </>
-    );
+  } else if (!emailRegister) {
+    return <SettingsAgent />;
+  }
+
+  return (
+    <>
+      <Row>
+        <Button
+          onClick={() => {
+            setPageState(PageStateOpts.register);
+            show();
+          }}
+        >
+          Register
+        </Button>
+        <Button
+          subtle
+          onClick={() => {
+            setPageState(PageStateOpts.signIn);
+            show();
+          }}
+        >
+          Sign In
+        </Button>
+      </Row>
+      <Dialog {...dialogProps}>
+        {pageState === PageStateOpts.register && (
+          <Register
+            setPageState={setPageState}
+            email={email}
+            setEmail={setEmail}
+          />
+        )}
+        {pageState === PageStateOpts.signIn && (
+          <SignIn setPageState={setPageState} />
+        )}
+        {pageState === PageStateOpts.reset && (
+          <Reset
+            email={email}
+            setEmail={setEmail}
+            setPageState={setPageState}
+          />
+        )}
+        {pageState === PageStateOpts.mailSentRegistration && (
+          <MailSentConfirm
+            email={email}
+            close={close}
+            message={'Your account will be created when you open that link.'}
+          />
+        )}
+        {pageState === PageStateOpts.mailSentAddPubkey && (
+          <MailSentConfirm
+            email={email}
+            close={close}
+            message={'Click that link to create a new PassPhrase.'}
+          />
+        )}
+      </Dialog>
+    </>
+  );
 }
 
 function Reset({ email, setEmail, setPageState }) {

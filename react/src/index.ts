@@ -30,4 +30,5 @@ export * from './useDebounce.js';
 export * from './useLocalStorage.js';
 export * from './useMarkdown.js';
 export * from './useServerSearch.js';
+export * from './useServerSupports.js';
 export * from '@tomic/lib';

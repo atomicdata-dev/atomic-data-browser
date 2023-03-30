@@ -15,6 +15,11 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Add `store.getResourceAncestry` method, which returns the ancestry of a resource, including the resource itself.
 - Add `resource.title` property, which returns the name of a resource, or the first property that is can be used to name the resource.
 - `store.createSubject` now accepts a `parent` argument, which allows creating nested subjects.
+- Add `store.getServerSupports` to know which features a Server supports
+
+### @tomic/react
+
+- Add `useServerSupports` hook to see supported features of the server
 
 #### Breaking changes
 
@@ -34,13 +39,13 @@ This changelog covers all three packages, as they are (for now) updated as a who
 - Refactor search, escape query strings for Tantivy
 - Add `import` context menu, allows importing anywhere
 - Let users register using e-mail address, improve sign-up UX.
+
+### @tomic/react
 - `store.createSubject` allows creating nested paths
 - `store.createSubject` allows creating nested paths
 - Add `useChildren` hook and `Store.getChildren` method
 - Add `Store.postToServer` method, add `endpoints`, `import_json_ad_string`
 - Add `store.preloadClassesAndProperties` and remove `urls.properties.getAll` and `urls.classes.getAll`. This enables using `atomic-data-browser` without relying on `atomicdata.dev` being available.
-
-### @tomic/react
 
 - Add more options to `useSearch`
 
