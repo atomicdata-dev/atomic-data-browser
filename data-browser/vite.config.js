@@ -19,7 +19,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true
+        // If you want to test the service worker in development.
+        // Note that if this was registered, you'll need to unregister it first
+        // enabled: true
       },
       manifest: {
         name: 'Atomic Data Browser',
