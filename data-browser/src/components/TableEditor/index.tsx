@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FixedSizeList, ListOnScrollProps } from 'react-window';
 import Autosizer from 'react-virtualized-auto-sizer';
@@ -14,8 +14,9 @@ import { useTableEditorKeyboardNavigation } from './hooks/useTableEditorKeyboard
 import { ActiveCellIndicator } from './ActiveCellIndicator';
 import { ScrollArea, ScrollViewPort } from '../ScrollArea';
 import { useCopyCommand } from './hooks/useCopyCommand';
-import { CellIndex, CopyValue } from './types';
+import { CellIndex, CellPasteData, CopyValue } from './types';
 import { useClearCommands } from './hooks/useClearCommands';
+import { usePasteCommand } from './hooks/usePasteCommand';
 
 interface FancyTableProps<T> {
   columns: T[];
@@ -26,6 +27,7 @@ interface FancyTableProps<T> {
   onClearRow?: (index: number) => void;
   onClearCells?: (cells: CellIndex<T>[]) => void;
   onCopyCommand?: (cells: CellIndex<T>[]) => Promise<CopyValue[][]>;
+  onPasteCommand?: (pasteData: CellPasteData<T>[]) => void;
   HeadingComponent: TableHeadingComponent<T>;
   NewColumnButtonComponent: React.ComponentType;
 }
@@ -58,6 +60,7 @@ function FancyTableInner<T>({
   onClearCells,
   onClearRow,
   onCopyCommand,
+  onPasteCommand,
   HeadingComponent,
   NewColumnButtonComponent,
 }: FancyTableProps<T>): JSX.Element {
@@ -72,6 +75,7 @@ function FancyTableInner<T>({
   );
 
   const triggerCopyCommand = useCopyCommand(columns, onCopyCommand);
+  const triggerPasteCommand = usePasteCommand(columns, onPasteCommand);
 
   const handleKeyDown = useTableEditorKeyboardNavigation(
     columns.length,
@@ -113,6 +117,14 @@ function FancyTableInner<T>({
     ),
     [rowHeight, itemCount, listRef, Row, onScroll],
   );
+
+  useEffect(() => {
+    document.addEventListener('paste', triggerPasteCommand);
+
+    return () => {
+      document.removeEventListener('paste', triggerPasteCommand);
+    };
+  }, [triggerPasteCommand]);
 
   return (
     <Table

@@ -16,10 +16,9 @@ const col = (inner: string) => {
 };
 
 export function valueMatrixToTable(valueMatrix: string[][]): string {
-  // return valueMatrix.map(row => row.join('  ')).join('\n');
   const innerTable = valueMatrix.map(r => row(r.map(col).join('')));
 
-  return `<table>${innerTable.join('')}</table>`;
+  return `<table><tbody>${innerTable.join('')}</tbody></table>`;
 }
 
 function valueMatrixToCSV(valueMatrix: string[][]): string {
@@ -45,4 +44,43 @@ export function copyToClipboard(values: CopyValue[][]): Promise<void> {
   });
 
   return navigator.clipboard.write([item]);
+}
+
+export function parseHTMLTable(data: string): string[][] {
+  const template = document.createElement('template');
+  template.innerHTML = data;
+  const table = template.content.querySelector('table tbody');
+
+  if (!table) {
+    const text = template.content.textContent ?? '';
+
+    return [[text]];
+  }
+
+  const result: string[][] = [];
+
+  table.querySelectorAll('tr').forEach(tr => {
+    const rowData: string[] = [];
+
+    tr.querySelectorAll('td').forEach(td => {
+      const links: string[] = [];
+      td.querySelectorAll('a').forEach(a => {
+        links.push(a.href);
+      });
+
+      if (links.length > 0) {
+        rowData.push(links.join(','));
+
+        return;
+      }
+
+      rowData.push(td.textContent ?? '');
+    });
+
+    result.push(rowData);
+  });
+
+  template.remove();
+
+  return result;
 }

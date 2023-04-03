@@ -11,6 +11,7 @@ import { useTableData } from './useTableData';
 import { getValuesFromSubject } from './helpers/clipboard';
 import { NewColumnButton } from './NewColumnButton';
 import { TablePageContext } from './tablePageContext';
+import { useHandlePaste } from './helpers/useHandlePaste';
 
 const columnToKey = (column: Property) => column.subject;
 
@@ -35,6 +36,14 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     useTableData(resource);
 
   const columns = useTableColumns(tableClass);
+
+  const handlePaste = useHandlePaste(
+    resource,
+    collection,
+    tableClass,
+    invalidateCollection,
+    collectionVersion,
+  );
 
   const tablePageContext = useMemo(
     () => ({
@@ -93,14 +102,12 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
 
       const unresolvedValues = Array.from(
         Object.entries(propertiesPerSubject),
-      ).map(([subject, properties]) =>
-        getValuesFromSubject(subject, properties, store),
-      );
+      ).map(([subject, props]) => getValuesFromSubject(subject, props, store));
 
       return Promise.all(unresolvedValues);
     },
 
-    [collection, store],
+    [collection, collectionVersion, store],
   );
 
   const Row = useCallback(
@@ -138,6 +145,7 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
           onClearRow={handleDeleteRow}
           onClearCells={handleClearCells}
           onCopyCommand={handleCopyCommand}
+          onPasteCommand={handlePaste}
           HeadingComponent={TableHeading}
           NewColumnButtonComponent={NewColumnButton}
         >

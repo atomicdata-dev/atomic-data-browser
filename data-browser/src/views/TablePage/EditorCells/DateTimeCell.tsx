@@ -77,6 +77,14 @@ function DateTimeCellDisplay({
   );
 
   useEffect(() => {
+    setDisplayData(
+      toDisplayData(
+        value,
+        format ?? urls.instances.dateFormats.localNumeric,
+        true,
+      ),
+    );
+
     if (format === urls.instances.dateFormats.localRelative) {
       const interval = setInterval(() => {
         setDisplayData(

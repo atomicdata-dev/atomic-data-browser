@@ -53,6 +53,16 @@ export const dataTypeAlignmentMap = new Map<string, CellAlign>([
   [Datatype.DATE, CellAlign.End],
 ]);
 
+const isURL = (value: string) => {
+  try {
+    new URL(value);
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export function appendStringToType<T extends JSONValue>(
   value: JSONValue,
   append: string,
@@ -73,6 +83,46 @@ export function appendStringToType<T extends JSONValue>(
       return Number.parseFloat(
         `${val}${Number.isNaN(Number.parseFloat(append)) ? '' : append}`,
       ) as T;
+    case Datatype.ATOMIC_URL:
+      if (isURL(append)) {
+        return append as T;
+      }
+
+      return value as T;
+
+    case Datatype.TIMESTAMP:
+      if (!Number.isNaN(Number.parseInt(append, 10))) {
+        const result = Number.parseInt(append, 10) as T;
+
+        return result;
+      }
+
+      return value as T;
+
+    case Datatype.DATE:
+      if (/^\d{4}-\d{2}-\d{2}/.test(append)) {
+        return append as T;
+      }
+
+      return value as T;
+
+    case Datatype.RESOURCEARRAY: {
+      const values = append.split(',');
+
+      if (values.every(isURL)) {
+        return values as T;
+      }
+
+      return value as T;
+    }
+
+    case Datatype.BOOLEAN:
+      if (append === 'true' || append === 'false') {
+        return (append === 'true') as T;
+      }
+
+      return undefined as T;
+
     default:
       return value as T;
   }

@@ -30,13 +30,21 @@ export class Collection {
 
   private _waitForReady: Promise<void>;
 
-  public constructor(store: Store, server: string, params: CollectionParams) {
+  public constructor(
+    store: Store,
+    server: string,
+    params: CollectionParams,
+    noFetch = false,
+  ) {
     this.store = store;
     this.server = server;
     this.params = params;
 
-    this._waitForReady = this.fetchPage(0);
-    this.invalidate = this.invalidate.bind(this);
+    if (!noFetch) {
+      this._waitForReady = this.fetchPage(0);
+    }
+
+    this.clearPages = this.clearPages.bind(this);
   }
 
   public get property(): string | undefined {
@@ -83,29 +91,24 @@ export class Collection {
     return members[index % this.pageSize];
   }
 
-  public invalidate(): Promise<void> {
-    return new Promise(resolve => {
-      if (!this.pages.has(0)) {
-        return resolve();
-      }
+  public clearPages(): void {
+    this.pages = new Map();
+  }
 
-      const page1Subject = this.pages.get(0)!.getSubject();
+  public async refresh(): Promise<void> {
+    this.clearPages();
+    this._waitForReady = this.fetchPage(0);
 
-      const callback = () => {
-        this.store.unsubscribe(page1Subject, callback);
+    return this._waitForReady;
+  }
 
-        resolve();
-      };
+  public clone() {
+    const collection = new Collection(this.store, this.server, this.params);
+    collection._totalMembers = this._totalMembers;
+    collection._waitForReady = this._waitForReady;
+    collection.pages = this.pages;
 
-      // Wait for the store to have updated it's cached resource before resolving.
-      this.store.subscribe(page1Subject, callback);
-
-      this.pages.forEach(page => {
-        this.store.fetchResourceFromServer(page.getSubject());
-      });
-
-      this.pages.clear();
-    });
+    return collection;
   }
 
   private buildSubject(page: number): string {
@@ -122,7 +125,7 @@ export class Collection {
 
   private async fetchPage(page: number): Promise<void> {
     const subject = this.buildSubject(page);
-    const resource = await this.store.getResourceAsync(subject);
+    const resource = await this.store.fetchResourceFromServer(subject);
 
     if (!resource) {
       throw new Error('Invalid collection: resource does not exist');

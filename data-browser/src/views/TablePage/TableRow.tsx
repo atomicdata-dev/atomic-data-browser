@@ -10,7 +10,7 @@ import {
   useStore,
 } from '@tomic/react';
 import { TableCell } from './TableCell';
-import { randomString } from '../../helpers/randomString';
+import { randomSubject } from '../../helpers/randomString';
 import styled, { keyframes } from 'styled-components';
 
 interface TableRowProps {
@@ -60,10 +60,6 @@ type TableNewRowProps = Omit<TableRowProps, 'collection'> & {
 
 const resourceOpts = {
   newResource: true,
-};
-
-const randomSubject = (parent: string) => {
-  return `${parent}/row/${randomString(15)}`;
 };
 
 export function TableNewRow({

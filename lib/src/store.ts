@@ -142,7 +142,7 @@ export class Store {
     const storeResource = this.resources.get(resource.getSubject());
 
     if (storeResource) {
-      if (JSON.stringify(storeResource) === JSON.stringify(resource)) {
+      if (Resource.compare(storeResource, resource)) {
         return;
       }
     }

@@ -9,3 +9,7 @@ export const randomString = (length = 15) => {
 
   return result;
 };
+
+export const randomSubject = (parent: string) => {
+  return `${parent}/row/${randomString(15)}`;
+};

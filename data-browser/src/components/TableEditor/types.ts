@@ -5,3 +5,8 @@ export type CopyValue = {
   plain: string;
   html?: string;
 };
+
+export type CellPasteData<T> = {
+  index: CellIndex<T>;
+  data: string;
+};

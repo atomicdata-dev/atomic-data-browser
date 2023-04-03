@@ -62,7 +62,7 @@ export function NewTableButton({
     await instanceResource.set(properties.parent, parent, store);
     await instanceResource.save(store);
 
-    createResourceAndNavigate('bookmark', {
+    createResourceAndNavigate('table', {
       [properties.name]: name,
       [properties.classType]: instanceResource.getSubject(),
       [properties.isA]: [classes.table],

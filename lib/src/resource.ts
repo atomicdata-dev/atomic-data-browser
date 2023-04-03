@@ -73,6 +73,14 @@ export class Resource {
       this.subject) as string;
   }
 
+  public static compare(resourceA: Resource, resourceB: Resource): boolean {
+    return (
+      resourceA.getSubject() === resourceB.getSubject() &&
+      JSON.stringify(Array.from(resourceA.propvals.entries())) ===
+        JSON.stringify(Array.from(resourceB.propvals.entries()))
+    );
+  }
+
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
   public async canWrite(
     store: Store,
@@ -377,11 +385,19 @@ export class Resource {
    * Commits the changes and sends the Commit to the resource's `/commit`
    * endpoint. Returns the Url of the created Commit. If you don't pass an Agent
    * explicitly, the default Agent of the Store is used.
+   * When there are no changes no commit is made and the function returns Promise<undefined>.
    */
-  public async save(store: Store, differentAgent?: Agent): Promise<string> {
+  public async save(
+    store: Store,
+    differentAgent?: Agent,
+  ): Promise<string | undefined> {
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResources(this);
+
+    if (!this.commitBuilder.hasUnsavedChanges()) {
+      return undefined;
+    }
 
     const agent = store.getAgent() ?? differentAgent;
 
@@ -496,6 +512,7 @@ export class Resource {
     this.propvals.set(prop, value);
     // Add the change to the Commit Builder, so we can commit our changes later
     this.commitBuilder.addSetAction(prop, value);
+    store.notify(this.clone());
   }
 
   /**

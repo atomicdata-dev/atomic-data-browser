@@ -50,12 +50,9 @@ export function useCollection(
   }, []);
 
   const invalidateCollection = useCallback(async () => {
-    await collection.invalidate();
-    // Build a new collection so React sees it as a new object and rerenders the components using it.
-    const newCollection = buildCollection(store, server, queryFilter, pageSize);
-
-    await newCollection.waitForReady();
-    setCollection(newCollection);
+    const clonedCollection = collection.clone();
+    await clonedCollection.refresh();
+    setCollection(clonedCollection);
     setCollectionVersion(version => version + 1);
   }, [collection, store, server, queryFilter, pageSize]);
 
