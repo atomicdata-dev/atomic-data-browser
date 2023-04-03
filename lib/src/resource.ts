@@ -359,9 +359,9 @@ export class Resource {
   /** Appends a Resource to a ResourceArray */
   public pushPropVal(propUrl: string, ...values: JSONArray): void {
     const propVal = (this.get(propUrl) as JSONArray) ?? [];
-    propVal.push(...values);
     this.commitBuilder.addPushAction(propUrl, ...values);
-    this.propvals.set(propUrl, propVal);
+    // Build a new array so that the reference changes. This is needed in most UI frameworks.
+    this.propvals.set(propUrl, [...propVal, ...values]);
   }
 
   /** Removes a property value combination from the resource and adds it to the next Commit */
@@ -394,6 +394,7 @@ export class Resource {
     // Instantly (optimistically) save for local usage
     // Doing this early is essential for having a snappy UX in the document editor
     store.addResources(this);
+    store.notify(this.clone());
 
     if (!this.commitBuilder.hasUnsavedChanges()) {
       return undefined;
