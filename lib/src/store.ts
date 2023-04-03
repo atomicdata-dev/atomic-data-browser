@@ -186,7 +186,11 @@ export class Store {
     className = className ? className : 'things';
 
     if (parentSubject) {
-      return `${parentSubject}/${className}/${random}`;
+      if (parentSubject.endsWith('/')) {
+        return `${parentSubject}${random}`;
+      } else {
+        return `${parentSubject}/${random}`;
+      }
     }
 
     return `${this.getServerUrl()}/${className}/${random}`;
