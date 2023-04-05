@@ -1,5 +1,6 @@
 import {
   classes,
+  getTimestampNow,
   properties,
   useCanWrite,
   useChildren,
@@ -34,6 +35,7 @@ export function ArticlePage({ resource }: ResourcePageProps): JSX.Element {
     createAndNavigate('article', {
       [properties.isA]: [classes.article],
       [properties.name]: 'New Article',
+      ['https://atomicdata.dev/properties/published-at']: getTimestampNow(),
       [properties.description]: '',
     });
   }, [createAndNavigate]);
