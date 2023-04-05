@@ -17,7 +17,7 @@ import FileCard from '../File/FileCard';
 import { defaultHiddenProps } from '../ResourcePageDefault';
 import { MessageCard } from './MessageCard';
 import { BookmarkCard } from './BookmarkCard.jsx';
-import { CardViewPropsBase } from './CardViewProps';
+import { CardViewProps, CardViewPropsBase } from './CardViewProps';
 import { ElementCard } from './ElementCard';
 import { ArticleCard } from '../Article';
 
@@ -70,7 +70,7 @@ function ResourceCard(
  * if the card is in the viewport
  */
 function ResourceCardInner(props: ResourceCardProps): JSX.Element {
-  const { small, subject } = props;
+  const { subject } = props;
   const resource = useResource(subject);
   const [title] = useTitle(resource);
   const [klass] = useString(resource, properties.isA);
@@ -104,11 +104,20 @@ function ResourceCardInner(props: ResourceCardProps): JSX.Element {
       return <ElementCard resource={resource} {...props} />;
     case urls.classes.article:
       return <ArticleCard resource={resource} {...props} />;
+    default:
+      return <ResourceCardDefault resource={resource} {...props} />;
   }
+}
+
+export function ResourceCardDefault({
+  resource,
+  small,
+}: CardViewProps): JSX.Element {
+  const [title] = useTitle(resource);
 
   return (
     <React.Fragment>
-      <AtomicLink subject={subject}>
+      <AtomicLink subject={resource.getSubject()}>
         <h2>{title}</h2>
       </AtomicLink>
       <ValueForm

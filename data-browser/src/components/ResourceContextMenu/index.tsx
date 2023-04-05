@@ -6,6 +6,7 @@ import {
   dataURL,
   constructOpenURL,
   versionsURL,
+  historyURL,
   shareURL,
   importerURL,
 } from '../../helpers/navigation';
@@ -145,6 +146,13 @@ function ResourceContextMenu({
       label: 'versions',
       helper: 'Show the versions of this resource',
       onClick: () => navigate(versionsURL(subject, store.getServerUrl())),
+    },
+    {
+      id: 'history',
+      icon: <FaClock />,
+      label: 'history',
+      helper: 'Show the history of this resource',
+      onClick: () => navigate(historyURL(subject)),
     },
     {
       id: 'import',
