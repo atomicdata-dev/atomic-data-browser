@@ -108,6 +108,10 @@ export function importerURL(subject: string): string {
   return constructURL(paths.import, { subject });
 }
 
+export function historyURL(subject: string): string {
+  return constructURL(paths.history, { subject });
+}
+
 /**
  * Constructs the URL for the `all-versions` endpoint. Assumes the current URL
  * supports that endpoint

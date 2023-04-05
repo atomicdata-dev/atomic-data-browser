@@ -9,7 +9,7 @@ import {
   Commit,
   ErrorType,
   JSONADParser,
-  parseCommit,
+  parseCommitJSON,
   Resource,
   serializeDeterministically,
   setCookieAuthentication,
@@ -29,7 +29,7 @@ export interface HeadersObject {
 
 const JSON_AD_MIME = 'application/ad+json';
 
-interface FetchResourceOptions {
+interface FetchResourceOptions extends ParseOpts {
   /**
    * if the HTTP request needs to be signed by an agent, pass the agent here.
    */
@@ -45,6 +45,11 @@ interface FetchResourceOptions {
   method?: 'GET' | 'POST';
   /** The body is only used combined with the `POST` method */
   body?: ArrayBuffer | string;
+}
+
+export interface ParseOpts {
+  /** Skips processing nested resources, even if they have an @id */
+  noNested?: boolean;
 }
 
 /** Contains one or more Resources */
@@ -158,13 +163,17 @@ export class Client {
         try {
           const json = JSON.parse(body);
 
-          const [parsedResource, parsedCreatedResources] = parser.parseObject(
-            json,
-            subject,
-          );
+          if (opts.noNested) {
+            resource = json;
+          } else {
+            const [parsedResource, parsedCreatedResources] = parser.parseObject(
+              json,
+              subject,
+            );
 
-          resource = parsedResource;
-          createdResources.push(...parsedCreatedResources);
+            resource = parsedResource;
+            createdResources.push(...parsedCreatedResources);
+          }
         } catch (e) {
           throw new AtomicError(
             `Could not parse JSON from fetching ${subject}. Is it an Atomic Data resource? Error message: ${e.message}`,
@@ -217,7 +226,7 @@ export class Client {
       throw new AtomicError(body, ErrorType.Server);
     }
 
-    return parseCommit(body);
+    return parseCommitJSON(body);
   }
 
   /**

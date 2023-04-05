@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as CSS from 'csstype';
 import React from 'react';
+import { ButtonDefault } from './Button';
 
 export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: CSS.Property.Gap;
@@ -59,4 +60,8 @@ const Flex = styled.div<FlexProps>`
   flex-wrap: ${p => (p.wrapItems ? 'wrap' : 'no-wrap')};
   width: ${p => (p.fullWidth ? '100%' : 'initial')};
   height: ${p => (p.fullHeight ? '100%' : 'initial')};
+
+  & ${ButtonDefault} {
+    align-self: flex-start;
+  }
 `;

@@ -10,6 +10,10 @@ import {
   instances,
   JSONArray,
   Client,
+  urls,
+  applyCommitToResource,
+  Commit,
+  parseCommitResource,
 } from './index.js';
 
 /** Contains the PropertyURL / Value combinations */
@@ -119,11 +123,11 @@ export class Resource {
    */
   public clone(): Resource {
     const res = new Resource(this.subject);
-    res.propvals = this.propvals;
-    res.destroy = this.destroy;
+    res.propvals = structuredClone(this.propvals);
     res.loading = this.loading;
     res.new = this.new;
-    res.error = this.error;
+    // structured clone
+    res.error = structuredClone(this.error);
     res.commitError = this.commitError;
     res.commitBuilder = this.commitBuilder.clone();
     res.appliedCommitSignatures = this.appliedCommitSignatures;
@@ -183,17 +187,55 @@ export class Resource {
     return this.commitBuilder;
   }
 
+  public getCommitsCollection(): string {
+    const url = new URL(this.subject);
+    url.pathname = '/commits';
+    url.searchParams.append('property', urls.properties.commit.subject);
+    url.searchParams.append('value', this.subject);
+    url.searchParams.append('sort_by', urls.properties.commit.createdAt);
+    url.searchParams.append('include_nested', 'true');
+    url.searchParams.append('page_size', '9999');
+
+    return url.toString();
+  }
+
   /** Returns the subject of the list of Children */
   public getChildrenCollection(): string {
     // We create a collection that contains all children of the current Subject
-    const generatedCollectionURL = new URL(this.subject);
-    generatedCollectionURL.pathname = '/collections';
-    generatedCollectionURL.searchParams.set('property', properties.parent);
-    generatedCollectionURL.searchParams.set('value', this.subject);
+    const url = new URL(this.subject);
+    url.pathname = '/collections';
+    url.searchParams.set('property', properties.parent);
+    url.searchParams.set('value', this.subject);
 
-    const childrenCollection = generatedCollectionURL.toString();
+    return url.toString();
+  }
 
-    return childrenCollection;
+  /** builds all versions using the Commits */
+  public async getHistory(store: Store): Promise<Version[]> {
+    const commitsCollection = await store.fetchResourceFromServer(
+      this.getCommitsCollection(),
+    );
+    const commits = commitsCollection.get(properties.collection.members);
+
+    const builtVersions: Version[] = [];
+
+    let previousResource = new Resource(this.subject);
+
+    for (const commit of commits as unknown as string[]) {
+      const commitResource = await store.getResourceAsync(commit);
+      const parsedCommit = parseCommitResource(commitResource);
+      const builtResource = await applyCommitToResource(
+        previousResource.clone(),
+        parsedCommit,
+      );
+      builtVersions.push({
+        commit: parsedCommit,
+        resource: builtResource.clone(),
+      });
+      previousResource = builtResource;
+    }
+
+    return builtVersions;
   }
 
   /** Returns the subject URL of the Resource */
@@ -453,4 +495,9 @@ export interface Right {
   setIn: string;
   /** Type of right (e.g. read / write) */
   type: RightType;
+}
+
+export interface Version {
+  commit: Commit;
+  resource: Resource;
 }

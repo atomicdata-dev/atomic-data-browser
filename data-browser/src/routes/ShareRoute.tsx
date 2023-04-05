@@ -20,6 +20,7 @@ import { Title } from '../components/Title';
 import { constructOpenURL } from '../helpers/navigation';
 import { useNavigate } from 'react-router-dom';
 import { ErrorLook } from '../components/ErrorLook';
+import { Column } from '../components/Row';
 
 /** Form for managing and viewing rights for this resource */
 export function ShareRoute(): JSX.Element {
@@ -139,50 +140,54 @@ export function ShareRoute(): JSX.Element {
   return (
     <ContainerNarrow>
       <Title resource={resource} prefix='Share settings' link />
-      {canWrite && !showInviteForm && (
-        <Button onClick={() => setShowInviteForm(true)}>Send Invite...</Button>
-      )}
-      {showInviteForm && <InviteForm target={resource} />}
-      <Card>
-        <RightsHeader text='rights set here:' />
-        <CardInsideFull>
-          {/* This key might be a bit too much, but the component wasn't properly re-rendering before */}
-          {constructAgentProps().map(right => (
-            <AgentRights
-              key={JSON.stringify(right)}
-              {...right}
-              handleSetRight={
-                canWrite && resource.isReady() ? handleSetRight : undefined
-              }
-            />
-          ))}
-        </CardInsideFull>
-      </Card>
-      {canWrite && (
-        <Button
-          disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
-          onClick={handleSave}
-        >
-          Save
-        </Button>
-      )}
-      {err && <ErrorLook>{err.message}</ErrorLook>}
-      {inheritedRights.length > 0 && (
+      <Column>
+        {canWrite && !showInviteForm && (
+          <Button onClick={() => setShowInviteForm(true)}>
+            Send Invite...
+          </Button>
+        )}
+        {showInviteForm && <InviteForm target={resource} />}
         <Card>
-          <RightsHeader text='inherited rights:' />
+          <RightsHeader text='rights set here:' />
           <CardInsideFull>
-            {inheritedRights.map(right => (
+            {/* This key might be a bit too much, but the component wasn't properly re-rendering before */}
+            {constructAgentProps().map(right => (
               <AgentRights
-                inheritedFrom={right.setIn}
-                key={right.for + right.type}
-                read={right.type === 'read'}
-                write={right.type === 'write'}
-                agentSubject={right.for}
+                key={JSON.stringify(right)}
+                {...right}
+                handleSetRight={
+                  canWrite && resource.isReady() ? handleSetRight : undefined
+                }
               />
             ))}
           </CardInsideFull>
         </Card>
-      )}
+        {canWrite && (
+          <Button
+            disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+        )}
+        {err && <ErrorLook>{err.message}</ErrorLook>}
+        {inheritedRights.length > 0 && (
+          <Card>
+            <RightsHeader text='inherited rights:' />
+            <CardInsideFull>
+              {inheritedRights.map(right => (
+                <AgentRights
+                  inheritedFrom={right.setIn}
+                  key={right.for + right.type}
+                  read={right.type === 'read'}
+                  write={right.type === 'write'}
+                  agentSubject={right.for}
+                />
+              ))}
+            </CardInsideFull>
+          </Card>
+        )}
+      </Column>
     </ContainerNarrow>
   );
 }

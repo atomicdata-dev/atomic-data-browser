@@ -370,9 +370,33 @@ export async function generateKeyPair(): Promise<KeyPair> {
   };
 }
 
-export function parseCommit(str: string): Commit {
+export function parseCommitResource(resource: Resource): Commit {
+  const commit: Commit = {
+    id: resource.getSubject(),
+    subject: resource.get(urls.properties.commit.subject) as string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    set: resource.get(urls.properties.commit.set) as Record<string, any>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    push: resource.get(urls.properties.commit.push) as Record<string, any>,
+    signer: resource.get(urls.properties.commit.signer) as string,
+    createdAt: resource.get(urls.properties.commit.createdAt) as number,
+    remove: resource.get(urls.properties.commit.remove) as string[],
+    destroy: resource.get(urls.properties.commit.destroy) as boolean,
+    signature: resource.get(urls.properties.commit.signature) as string,
+  };
+
+  return commit;
+}
+
+export function parseCommitJSON(str: string): Commit {
   try {
     const jsonAdObj = JSON.parse(str);
+
+    // Check if it's an object
+    if (typeof jsonAdObj !== 'object') {
+      throw new Error(`Commit is not an object`);
+    }
+
     const subject = jsonAdObj[urls.properties.commit.subject];
     const set = jsonAdObj[urls.properties.commit.set];
     const push = jsonAdObj[urls.properties.commit.push];
@@ -387,6 +411,10 @@ export function parseCommit(str: string): Commit {
     const previousCommit: undefined | string =
       jsonAdObj[urls.properties.commit.previousCommit];
 
+    if (!signature) {
+      throw new Error(`Commit has no signature`);
+    }
+
     return {
       subject,
       set,
@@ -400,14 +428,36 @@ export function parseCommit(str: string): Commit {
       previousCommit,
     };
   } catch (e) {
-    throw new Error(`Could not parse commit: ${e}`);
+    throw new Error(`Could not parse commit: ${e}, Commit: ${str}`);
   }
 }
 
-/** Parses a JSON-AD Commit, applies it to the store. Does not perform checks */
+/** Applies a commit, but does not modify the store */
+export function applyCommitToResource(
+  resource: Resource,
+  commit: Commit,
+): Resource {
+  const { set, remove, push } = commit;
+
+  if (set) {
+    execSetCommit(set, resource);
+  }
+
+  if (remove) {
+    execRemoveCommit(remove, resource);
+  }
+
+  if (push) {
+    execPushCommit(push, resource);
+  }
+
+  return resource;
+}
+
+/** Parses a JSON-AD Commit, applies it and adds it (and nested resources) to the store. */
 export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
-  const { subject, set, remove, id, destroy, signature, push } =
-    parseCommit(jsonAdObjStr);
+  const commit = parseCommitJSON(jsonAdObjStr);
+  const { subject, id, destroy, signature } = commit;
 
   let resource = store.resources.get(subject) as Resource;
 
@@ -421,17 +471,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
     }
   }
 
-  if (set) {
-    execSetCommit(set, resource, store);
-  }
-
-  if (remove) {
-    execRemoveCommit(remove, resource);
-  }
-
-  if (push) {
-    execPushCommit(push, resource, store);
-  }
+  resource = applyCommitToResource(resource, commit);
 
   if (id) {
     // This is something that the server does, too.
@@ -451,7 +491,7 @@ export function parseAndApplyCommit(jsonAdObjStr: string, store: Store) {
 function execSetCommit(
   set: Record<string, JSONValue>,
   resource: Resource,
-  store: Store,
+  store?: Store,
 ) {
   const parser = new JSONADParser();
   const parsedResources: Resource[] = [];
@@ -477,7 +517,7 @@ function execSetCommit(
     resource.setUnsafe(key, newVal);
   }
 
-  store.addResources(...parsedResources);
+  store && store.addResources(...parsedResources);
 }
 
 function execRemoveCommit(remove: string[], resource: Resource) {
@@ -489,7 +529,7 @@ function execRemoveCommit(remove: string[], resource: Resource) {
 function execPushCommit(
   push: Record<string, JSONArray>,
   resource: Resource,
-  store: Store,
+  store?: Store,
 ) {
   const parser = new JSONADParser();
   const parsedResources: Resource[] = [];
@@ -511,5 +551,5 @@ function execPushCommit(
     resource.setUnsafe(key, new_arr);
   }
 
-  store.addResources(...parsedResources);
+  store && store.addResources(...parsedResources);
 }
