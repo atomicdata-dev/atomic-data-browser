@@ -35,7 +35,7 @@ export function ArticlePage({ resource }: ResourcePageProps): JSX.Element {
     createAndNavigate('article', {
       [properties.isA]: [classes.article],
       [properties.name]: 'New Article',
-      ['https://atomicdata.dev/properties/published-at']: getTimestampNow(),
+      [properties.publishedAt]: getTimestampNow(),
       [properties.description]: '',
     });
   }, [createAndNavigate]);
