@@ -6,6 +6,7 @@ import { isTextFile } from '../../File/isTextFile';
 import { TextPreview } from '../../File/TextPreview';
 import { InnerWrapper } from './components';
 import { GridItemViewProps } from './GridItemViewProps';
+import { useFileImageTransitionStyles } from '../../File/useFileImageTransitionStyles';
 
 const imageMimeTypes = new Set([
   'image/png',
@@ -19,6 +20,7 @@ const imageMimeTypes = new Set([
 export function FileGridItem({ resource }: GridItemViewProps): JSX.Element {
   const { downloadUrl, mimeType, bytes } = useFileInfo(resource);
   const previewSizeLimit = useFilePreviewSizeLimit();
+  const transitionStyles = useFileImageTransitionStyles(resource.getSubject());
 
   if (bytes >= previewSizeLimit) {
     return <TextWrapper>To large for preview</TextWrapper>;
@@ -27,7 +29,12 @@ export function FileGridItem({ resource }: GridItemViewProps): JSX.Element {
   if (imageMimeTypes.has(mimeType)) {
     return (
       <InnerWrapper>
-        <Image src={downloadUrl} alt='' loading='lazy' />
+        <Image
+          src={downloadUrl}
+          alt=''
+          loading='lazy'
+          style={transitionStyles}
+        />
       </InnerWrapper>
     );
   }

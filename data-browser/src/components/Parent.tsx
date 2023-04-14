@@ -8,16 +8,18 @@ import {
   Resource,
   useCanWrite,
 } from '@tomic/react';
-import { useNavigate } from 'react-router';
 import { constructOpenURL } from '../helpers/navigation';
 import { FaEdit, FaSearch } from 'react-icons/fa';
 import { Row } from './Row';
 import { useQueryScopeHandler } from '../hooks/useQueryScope';
 import { IconButton } from './IconButton/IconButton';
+import { useNavigateWithTransition } from '../hooks/useNavigateWithTransition';
 
 type ParentProps = {
   resource: Resource;
 };
+
+export const PARENT_PADDING_BLOCK = '0.2rem';
 
 /** Breadcrumb list. Recursively renders parents. */
 function Parent({ resource }: ParentProps): JSX.Element {
@@ -56,7 +58,7 @@ function Parent({ resource }: ParentProps): JSX.Element {
 
 const ParentWrapper = styled.nav`
   height: ${p => p.theme.heights.breadCrumbBar};
-  padding: 0.2rem;
+  padding-block: ${PARENT_PADDING_BLOCK};
   padding-inline: 0.5rem;
   color: ${props => props.theme.colors.textLight2};
   border-bottom: 1px solid ${props => props.theme.colors.bg2};
@@ -65,6 +67,8 @@ const ParentWrapper = styled.nav`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  view-transition-name: breadcrumb-bar;
 `;
 
 type NestedParentProps = {
@@ -78,7 +82,7 @@ const MAX_BREADCRUMB_DEPTH = 4;
 function NestedParent({ subject, depth }: NestedParentProps): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const [parent] = useString(resource, properties.parent);
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
   const [title] = useTitle(resource);
 
   // Prevent infinite recursion, set a limit to parent breadcrumbs

@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaEdit } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
+import { transitionName } from '../helpers/transitionName';
+import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
 
 export interface EditableTitleProps {
   resource: Resource;
@@ -67,6 +69,7 @@ export function EditableTitle({
       data-test='editable-title'
       onClick={handleClick}
       subtle={!!canEdit && !text}
+      subject={resource.getSubject()}
       className={className}
     >
       <>
@@ -86,7 +89,7 @@ interface TitleProps {
   canEdit: boolean;
 }
 
-const Title = styled.h1<TitleProps>`
+const Title = styled.h1<TitleProps & ViewTransitionProps>`
   ${TitleShared}
   display: flex;
   align-items: center;
@@ -95,6 +98,8 @@ const Title = styled.h1<TitleProps>`
   cursor: pointer;
   cursor: ${props => (props.canEdit ? 'pointer' : 'initial')};
   opacity: ${props => (props.subtle ? 0.5 : 1)};
+
+  ${props => transitionName('page-title', props.subject)};
 `;
 
 const TitleInput = styled.input`

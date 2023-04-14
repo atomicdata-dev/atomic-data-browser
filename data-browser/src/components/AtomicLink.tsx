@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
-import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { constructOpenURL, pathToURL } from '../helpers/navigation';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { ErrorLook } from '../components/ErrorLook';
 import { isRunningInTauri } from '../helpers/tauri';
+import { useNavigateWithTransition } from '../hooks/useNavigateWithTransition';
 
 export interface AtomicLinkProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -36,7 +36,7 @@ export const AtomicLink = ({
   className,
   ...props
 }: AtomicLinkProps): JSX.Element => {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
 
   if (!subject && !href && !path) {
     return (

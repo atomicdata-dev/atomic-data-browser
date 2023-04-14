@@ -6,7 +6,6 @@ import {
   useTitle,
 } from '@tomic/react';
 import React, { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { constructOpenURL } from '../../../helpers/navigation';
 import { getIconForClass } from '../iconMap';
@@ -20,6 +19,8 @@ import { ChatRoomGridItem } from './ChatRoomGridItem';
 import { DocumentGridItem } from './DocumentGridItem';
 import { FileGridItem } from './FileGridItem';
 import { ErrorBoundary } from '../../ErrorPage';
+import { useNavigateWithTransition } from '../../../hooks/useNavigateWithTransition';
+import { LoaderBlock } from '../../../components/Loader';
 
 export interface ResourceGridItemProps {
   subject: string;
@@ -43,7 +44,7 @@ function getResourceRenderer(
 export function ResourceGridItem({
   subject,
 }: ResourceGridItemProps): JSX.Element {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
   const resource = useResource(subject);
   const [title] = useTitle(resource);
 
@@ -56,24 +57,31 @@ export function ResourceGridItem({
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+
       navigate(constructOpenURL(subject));
     },
-    [subject],
+    [subject, navigate],
   );
 
   const Resource = useMemo(() => {
     return getResourceRenderer(classTypeSubject ?? '');
   }, [classTypeSubject]);
 
+  if (classTypeSubject === undefined) {
+    return <Loader />;
+  }
+
   const isFolder = classTypeSubject === classes.folder;
+
+  const transitionSubject = isFolder ? undefined : subject;
 
   return (
     <GridItemWrapper onClick={handleClick} href={subject}>
-      <GridItemTitle>{title}</GridItemTitle>
+      <GridItemTitle subject={transitionSubject}>{title}</GridItemTitle>
       {isFolder ? (
         <FolderIcon />
       ) : (
-        <GridCard>
+        <GridCard subject={transitionSubject}>
           <ClassBanner>
             <Icon />
             <span>{classTypeName}</span>
@@ -126,4 +134,10 @@ const GridItemError: React.FC<GridItemErrorProps> = ({ error }) => {
 const GridItemErrorWrapper = styled.div`
   color: ${p => p.theme.colors.alert};
   text-align: center;
+`;
+
+const Loader = styled(LoaderBlock)`
+  --loader-bg-to: ${p => p.theme.colors.bgBody};
+  height: unset;
+  aspect-ratio: 1/1;
 `;

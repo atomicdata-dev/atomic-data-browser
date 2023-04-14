@@ -34,7 +34,7 @@ export function DownloadButton({
   fileSize,
 }: DownloadButtonProps): JSX.Element {
   return (
-    <Button
+    <StyledButton
       onClick={downloadFile}
       title={`Download file (${displayFileSize(fileSize ?? 0)})`}
     >
@@ -42,6 +42,10 @@ export function DownloadButton({
         <FaDownload />
         Download
       </Row>
-    </Button>
+    </StyledButton>
   );
 }
+
+const StyledButton = styled(Button)`
+  view-transition-name: download-button;
+`;

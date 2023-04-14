@@ -20,7 +20,11 @@ export const AppSettingsContextProvider = (
 ): JSX.Element => {
   const [darkMode, setDarkMode, darkModeSetting] = useDarkMode();
   const [mainColor, setMainColor] = useLocalStorage('mainColor', '#1b50d8');
-  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', false);
+  const [navbarTop, setNavbarTop] = useLocalStorage('navbarTop', true);
+  const [viewTransitionsEnabled, setViewTransitionsEnabled] = useLocalStorage(
+    'viewTransitionsEnabled',
+    false,
+  );
   const [navbarFloating, setNavbarFloating] = useLocalStorage(
     'navbarFloating',
     true,
@@ -73,6 +77,8 @@ export const AppSettingsContextProvider = (
       setSideBarLocked,
       agent,
       setAgent: setAgentAndShowToast,
+      viewTransitionsEnabled,
+      setViewTransitionsEnabled,
     }),
     [
       drive,
@@ -90,6 +96,8 @@ export const AppSettingsContextProvider = (
       setSideBarLocked,
       agent,
       setAgentAndShowToast,
+      viewTransitionsEnabled,
+      setViewTransitionsEnabled,
     ],
   );
 
@@ -127,6 +135,9 @@ interface AppSettings {
   /** The currently signed in Agent */
   agent: Agent | undefined;
   setAgent: (a: Agent | undefined) => void;
+  /** If the app should use view transitions */
+  viewTransitionsEnabled: boolean;
+  setViewTransitionsEnabled: (b: boolean) => void;
 }
 
 const initialState: AppSettings = {
@@ -145,13 +156,13 @@ const initialState: AppSettings = {
   setSideBarLocked: () => undefined,
   agent: undefined,
   setAgent: () => undefined,
+  viewTransitionsEnabled: true,
+  setViewTransitionsEnabled: () => undefined,
 };
 
 /** Hook for using App Settings, such as theme and darkmode */
 export const useSettings = (): AppSettings => {
-  const settings = useContext(SettingsContext);
-
-  return settings;
+  return useContext(SettingsContext);
 };
 
 /**
