@@ -30,6 +30,8 @@ import { ArticlePage } from './Article';
 import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
 import { getTransitionName } from '../helpers/transitionName';
 import { TablePage } from './TablePage';
+import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
+import { getTransitionName } from '../helpers/transitionName';
 
 type Props = {
   subject: string;
