@@ -169,6 +169,10 @@ declare module 'styled-components' {
 /** Adds basic styles for the entire app */
 export const GlobalStyle = createGlobalStyle`
 
+  :root {
+    --view-transition-duration: 150ms;
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -247,6 +251,54 @@ export const GlobalStyle = createGlobalStyle`
   b {
     font-weight: bold;
   }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: var(--view-transition-duration);
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0ms;
+  }
+
+  @keyframes slide-in-from-right {
+    from {
+      transform: translateX(5rem);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  ::view-transition-image-pair(download-button) {
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(download-button):only-child,
+  ::view-transition-new(download-button):only-child {
+    animation: slide-in-from-right var(--view-transition-duration) ease-in-out;
+    animation-fill-mode: both;
+  }
+
+  ::view-transition-old(download-button):only-child {
+    animation-direction: reverse;
+  }
+
+  ::view-transition-group(navbar) {
+    z-index: 10;
+  }
+
+  @media (prefers-reduced-motion) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
 
   @keyframes toast-enter {
     0%   {left:110%;}

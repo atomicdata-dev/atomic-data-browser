@@ -4,11 +4,13 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import styled from 'styled-components';
 import { DialogPortalContext } from './Dialog/dialogContext';
+import { useFileImageTransitionStyles } from '../views/File/useFileImageTransitionStyles';
 
 interface ImageViewerProps {
   src: string;
   alt?: string;
   className?: string;
+  subject: string;
 }
 
 /** Shows an image that becomes fullscreen on click */
@@ -16,10 +18,12 @@ export function ImageViewer({
   src,
   alt,
   className,
+  subject,
 }: ImageViewerProps): JSX.Element {
   const [showFull, setShowFull] = useState(false);
   const portalRef = useContext(DialogPortalContext);
 
+  const transitionStyles = useFileImageTransitionStyles(subject);
   useHotkeys('esc', () => setShowFull(false), { enabled: showFull });
 
   if (!portalRef.current) {
@@ -39,6 +43,7 @@ export function ImageViewer({
           className={className}
           data-test={`image-viewer`}
           loading='lazy'
+          style={transitionStyles}
         />
       )}
       {showFull &&

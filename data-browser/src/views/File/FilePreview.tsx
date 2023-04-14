@@ -27,7 +27,9 @@ export function FilePreview({ resource }: FilePreviewProps) {
   }
 
   if (mimeType.startsWith('image/')) {
-    return <StyledImageViewer src={downloadUrl} />;
+    return (
+      <StyledImageViewer src={downloadUrl} subject={resource.getSubject()} />
+    );
   }
 
   if (mimeType.startsWith('video/')) {

@@ -23,10 +23,12 @@ import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
-import Parent from '../components/Parent';
-import styled, { keyframes } from 'styled-components';
+import Parent, { PARENT_PADDING_BLOCK } from '../components/Parent';
+import styled from 'styled-components';
 import { FolderPage } from './FolderPage';
 import { ArticlePage } from './Article';
+import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
+import { getTransitionName } from '../helpers/transitionName';
 
 type Props = {
   subject: string;
@@ -59,7 +61,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   return (
     <>
       <Parent resource={resource} />
-      <Main>
+      <Main subject={subject}>
         <ErrorBoundary>
           <ReturnComponent resource={resource} />
         </ErrorBoundary>
@@ -68,23 +70,14 @@ function ResourcePage({ subject }: Props): JSX.Element {
   );
 }
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const Main = styled.main`
+const Main = React.memo(styled.main<ViewTransitionProps>`
   /* Makes the contents fit the entire page */
-  display: contents;
-
-  & > * {
-    animation: ${fadeIn} 0.1s ease-out;
-  }
-`;
+  height: calc(
+    100% - (${p => p.theme.heights.breadCrumbBar} + ${PARENT_PADDING_BLOCK} * 2)
+  );
+  view-transition-name: ${props =>
+    getTransitionName('resource-page', props.subject)};
+`);
 
 /** There properties are passed to every View at Page level */
 export type ResourcePageProps = {

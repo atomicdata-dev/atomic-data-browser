@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaBars } from 'react-icons/fa';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ButtonBar } from './Button';
@@ -15,6 +15,7 @@ import { MenuBarDropdownTrigger } from './ResourceContextMenu/MenuBarDropdownTri
 import { NavBarSpacer } from './NavBarSpacer';
 import { Searchbar } from './Searchbar';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { useNavigateWithTransition } from '../hooks/useNavigateWithTransition';
 
 interface NavWrapperProps {
   children: React.ReactNode;
@@ -63,7 +64,7 @@ const Content = styled.div<ContentProps>`
 /** Persistently shown navigation bar */
 function NavBar(): JSX.Element {
   const [subject] = useCurrentSubject();
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
   const { navbarTop, navbarFloating, sideBarLocked, setSideBarLocked } =
     useSettings();
   const [showButtons, setShowButtons] = React.useState<boolean>(true);
@@ -159,6 +160,7 @@ const NavBarBase = styled.div<NavBarStyledProps>`
   display: flex;
   border: solid 1px ${props => props.theme.colors.bg2};
   background-color: ${props => props.theme.colors.bg};
+  view-transition-name: navbar;
 `;
 
 /** Width of the floating navbar in rem */

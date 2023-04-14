@@ -375,6 +375,8 @@ const MessageForm = styled.form`
   border-radius: ${p => p.theme.radius};
   background: ${p => p.theme.colors.bg};
 
+  view-transition-name: chat-input;
+
   > :first-child {
     border-top-left-radius: ${p => p.theme.radius};
     border-bottom-left-radius: ${p => p.theme.radius};
