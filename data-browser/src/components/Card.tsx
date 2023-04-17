@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getTransitionName } from '../helpers/transitionName';
+import { transitionName } from '../helpers/transitionName';
 
 type CardProps = {
   /** Adds a colorful border */
@@ -23,7 +23,7 @@ export const Card = styled.div<CardProps>`
   border-color: ${props =>
     props.highlight ? props.theme.colors.main : props.theme.colors.bg2};
 
-  view-transition-name: ${p => getTransitionName('resource-page', p.about)};
+  ${p => transitionName('resource-page', p.about)};
 `;
 
 export interface CardRowProps {

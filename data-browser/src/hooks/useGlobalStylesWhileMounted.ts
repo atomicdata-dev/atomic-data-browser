@@ -14,6 +14,10 @@ const getNode = (id: string) => {
   return node;
 };
 
+/**
+ * Add a style element to the head with the given cssText while the component is mounted.
+ * @param cssText CSS Styles to be added to the head.
+ */
 export function useGlobalStylesWhileMounted(cssText: string) {
   const id = useId();
 
