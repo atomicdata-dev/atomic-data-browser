@@ -1,4 +1,4 @@
-const cyrb53 = (str, seed = 0) => {
+const hashStringWithCYRB53 = (str, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
     h2 = 0x41c6ce57 ^ seed;
 
@@ -21,7 +21,8 @@ export function getTransitionName(tag: string, subject: string | undefined) {
     throw new Error('Subject is required for transition name');
   }
 
-  return `${tag}-${cyrb53(subject ?? '')}`;
+  // URL's are not allowed in view-transition-name so we hash the subject.
+  return `${tag}-${hashStringWithCYRB53(subject ?? '')}`;
 }
 
 export function transitionName(tag: string, subject: string | undefined) {
