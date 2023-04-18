@@ -1,9 +1,22 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const INDEX_CELL_WIDTH = '6ch';
 
-export function useCellSizes(amountOfCells: number) {
-  const [sizes, setSizes] = useState(Array(amountOfCells).fill('300px'));
+const parseSize = (size: string) => Number.parseFloat(size.replace('px', ''));
+
+const toPixels = (sizes: number[]) => sizes.map(x => `${x}px`);
+
+export function useCellSizes<T>(
+  externalSizes: number[] | undefined,
+  columns: T[],
+  onSizesChange: (sizes: number[]) => void,
+) {
+  const amountOfColumns = columns.length;
+  const [sizes, setSizes] = useState<string[]>(
+    externalSizes
+      ? toPixels(externalSizes)
+      : Array(amountOfColumns).fill('300px'),
+  );
 
   const resizeCell = useCallback(
     (index: number, size: string) => {
@@ -13,9 +26,17 @@ export function useCellSizes(amountOfCells: number) {
 
         return newSizes;
       });
+
+      onSizesChange(sizes.map(parseSize));
     },
-    [amountOfCells],
+    [columns, sizes],
   );
+
+  useEffect(() => {
+    if (externalSizes) {
+      setSizes(toPixels(externalSizes));
+    }
+  }, [externalSizes]);
 
   const templateColumns = `${INDEX_CELL_WIDTH} ${sizes.join(
     ' ',

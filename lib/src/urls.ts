@@ -138,6 +138,9 @@ export const properties = {
     decimalPlaces: 'https://atomicdata.dev/properties/decimalPlaces',
     dateFormat: 'https://atomicdata.dev/properties/dateFormat',
   },
+  table: {
+    tableColumnWidths: 'https://atomicdata.dev/properties/tableColumnWidths',
+  },
   color: 'https://atomicdata.dev/properties/color',
   emoji: 'https://atomicdata.dev/properties/emoji',
 };

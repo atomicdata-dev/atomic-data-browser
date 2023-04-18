@@ -1,7 +1,6 @@
 import { useStore, urls, useString } from '@tomic/react';
 import React, { Suspense, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Checkbox } from '../../../components/forms/Checkbox';
+import { Checkbox, CheckboxLabel } from '../../../components/forms/Checkbox';
 import { DateFormatPicker } from './Inputs/DateFormatPicker';
 import { PropertyCategoryFormProps } from './PropertyCategoryFormProps';
 
@@ -41,10 +40,10 @@ export function DatePropertyForm({
 
   return (
     <Suspense>
-      <Label>
+      <CheckboxLabel>
         <Checkbox onChange={setIncludeTime} />
         Include Time
-      </Label>
+      </CheckboxLabel>
 
       <DateFormatPicker
         value={dateFormat}
@@ -54,10 +53,3 @@ export function DatePropertyForm({
     </Suspense>
   );
 }
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-`;

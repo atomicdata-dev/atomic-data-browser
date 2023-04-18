@@ -12,6 +12,7 @@ import { getValuesFromSubject } from './helpers/clipboard';
 import { NewColumnButton } from './NewColumnButton';
 import { TablePageContext } from './tablePageContext';
 import { useHandlePaste } from './helpers/useHandlePaste';
+import { useHandleColumnResize } from './helpers/useHandleColumnResize';
 
 const columnToKey = (column: Property) => column.subject;
 
@@ -110,6 +111,8 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     [collection, collectionVersion, store],
   );
 
+  const [columnSizes, handleColumnResize] = useHandleColumnResize(resource);
+
   const Row = useCallback(
     ({ index }: { index: number }) => {
       if (index < collection.totalMembers) {
@@ -140,9 +143,11 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
         <EditableTitle resource={resource} />
         <FancyTable
           columns={columns}
+          columnSizes={columnSizes}
           itemCount={collection.totalMembers + 1}
           columnToKey={columnToKey}
           onClearRow={handleDeleteRow}
+          onCellResize={handleColumnResize}
           onClearCells={handleClearCells}
           onCopyCommand={handleCopyCommand}
           onPasteCommand={handlePaste}

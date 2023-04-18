@@ -21,6 +21,7 @@ import { usePasteCommand } from './hooks/usePasteCommand';
 interface FancyTableProps<T> {
   columns: T[];
   itemCount: number;
+  columnSizes?: number[];
   children: (props: { index: number }) => JSX.Element;
   rowHeight?: number;
   columnToKey: (column: T) => string;
@@ -28,6 +29,7 @@ interface FancyTableProps<T> {
   onClearCells?: (cells: CellIndex<T>[]) => void;
   onCopyCommand?: (cells: CellIndex<T>[]) => Promise<CopyValue[][]>;
   onPasteCommand?: (pasteData: CellPasteData<T>[]) => void;
+  onCellResize?: (sizes: number[]) => void;
   HeadingComponent: TableHeadingComponent<T>;
   NewColumnButtonComponent: React.ComponentType;
 }
@@ -56,7 +58,9 @@ function FancyTableInner<T>({
   columns,
   itemCount,
   rowHeight,
+  columnSizes,
   columnToKey,
+  onCellResize = () => undefined,
   onClearCells,
   onClearRow,
   onCopyCommand,
@@ -71,7 +75,9 @@ function FancyTableInner<T>({
   const [onScroll, setOnScroll] = useState<OnScroll>(() => undefined);
 
   const { templateColumns, contentRowWidth, resizeCell } = useCellSizes(
-    columns.length,
+    columnSizes,
+    columns,
+    onCellResize,
   );
 
   const triggerCopyCommand = useCopyCommand(columns, onCopyCommand);
