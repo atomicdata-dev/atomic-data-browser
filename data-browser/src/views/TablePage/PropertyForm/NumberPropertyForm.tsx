@@ -1,4 +1,4 @@
-import { urls, useStore, useString } from '@tomic/react';
+import { urls, useNumber, useStore, useString } from '@tomic/react';
 import React, { useEffect } from 'react';
 import { RadioGroup, RadioInput } from '../../../components/forms/RadioInput';
 import { FormGroupHeading } from './FormGroupHeading';
@@ -15,6 +15,12 @@ export const NumberPropertyForm = ({
   const [numberFormatting, setNumberFormatting] = useString(
     resource,
     urls.properties.constraints.numberFormatting,
+    { commit: true },
+  );
+
+  const [decimalPlaces] = useNumber(
+    resource,
+    urls.properties.constraints.decimalPlaces,
   );
 
   const handleNumberFormatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +33,14 @@ export const NumberPropertyForm = ({
       urls.classes.constraintProperties.formattedNumber,
     );
 
-    resource.set(urls.properties.datatype, urls.datatypes.float, store);
+    // If decimal places is not set yet we assume it is a new property and should default to float.
+    if (decimalPlaces === undefined) {
+      resource.set(urls.properties.datatype, urls.datatypes.float, store);
+    }
 
-    setNumberFormatting(numberFormats.number);
+    if (numberFormatting === undefined) {
+      setNumberFormatting(numberFormats.number);
+    }
   }, []);
 
   return (

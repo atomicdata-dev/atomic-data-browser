@@ -24,18 +24,12 @@ export const tagColors = [
   '#5FF56E',
 ];
 
-const valueProps = {
-  commit: false,
-};
-
 const useTagData = (subject: string) => {
   const resource = useResource(subject);
   const [title] = useTitle(resource);
-  const [color, setColor] = useString(
-    resource,
-    urls.properties.color,
-    valueProps,
-  );
+  const [color, setColor] = useString(resource, urls.properties.color, {
+    commit: true,
+  });
   const [emoji] = useString(resource, urls.properties.emoji);
 
   const text = emoji ? `${emoji} ${title}` : title;

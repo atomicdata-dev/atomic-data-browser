@@ -220,7 +220,6 @@ type useValueOptions = {
 export function useValue(
   resource: Resource,
   propertyURL: string,
-  /** Saves the resource when the resource is changed, after 100ms */
   opts: useValueOptions = {},
 ): [JSONValue | undefined, SetValue] {
   const {

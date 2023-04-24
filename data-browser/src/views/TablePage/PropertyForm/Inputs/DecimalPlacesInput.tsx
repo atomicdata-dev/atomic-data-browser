@@ -15,10 +15,14 @@ export function DecimalPlacesInput({
   resource,
 }: DecimalPlacesInputProps): JSX.Element {
   const [error, setError, onBlur] = useValidation();
-  const [_, setDataType] = useString(resource, urls.properties.datatype);
+  const [_, setDataType] = useString(resource, urls.properties.datatype, {
+    commit: true,
+  });
+
   const [__, setDecimalPlaces] = useNumber(
     resource,
     urls.properties.constraints.decimalPlaces,
+    { commit: true },
   );
 
   const handleDecimalPointChange = useCallback(

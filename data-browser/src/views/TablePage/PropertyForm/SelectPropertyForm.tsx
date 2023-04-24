@@ -43,11 +43,13 @@ export function SelectPropertyForm({
   );
 
   const handleNewTag = useCallback(
-    (subject: string) => {
-      setAllowOnly([...allowOnly, subject]);
-      setSubResources([...subResources, subject]);
+    async (tag: Resource) => {
+      await setAllowOnly([...allowOnly, tag.getSubject()]);
+      await setSubResources([...subResources, tag.getSubject()]);
+
+      tag.save(store);
     },
-    [allowOnly, setAllowOnly, subResources, setSubResources],
+    [allowOnly, setAllowOnly, subResources, setSubResources, store],
   );
 
   const handleDeleteTag = useCallback(
@@ -84,7 +86,7 @@ export function SelectPropertyForm({
 
 interface CreateTagRowProps {
   property: Resource;
-  onNewTag: (subject: string) => void;
+  onNewTag: (tag: Resource) => void;
 }
 
 function CreateTagRow({ property, onNewTag }: CreateTagRowProps) {
@@ -111,7 +113,7 @@ function CreateTagRow({ property, onNewTag }: CreateTagRowProps) {
     }
 
     tag.loading = false;
-    onNewTag(tag.getSubject());
+    onNewTag(tag);
     setTagName('');
     setEmoji(undefined);
     setResetKey(prev => prev + 1);

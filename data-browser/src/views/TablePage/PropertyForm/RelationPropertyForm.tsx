@@ -10,7 +10,7 @@ export function RelationPropertyForm({
   resource,
 }: PropertyCategoryFormProps): JSX.Element {
   const store = useStore();
-  const [_, setClassType] = useString(
+  const [classType, setClassType] = useString(
     resource,
     urls.properties.classType,
     valueOpts,
@@ -28,6 +28,7 @@ export function RelationPropertyForm({
         <strong>Resource type:</strong>
         <ResourceSelector
           classType={urls.classes.class}
+          value={classType}
           setSubject={setClassType}
           setError={setError}
         />

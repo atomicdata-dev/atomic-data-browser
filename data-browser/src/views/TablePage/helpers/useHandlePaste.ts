@@ -40,9 +40,12 @@ export function useHandlePaste(
             row = await store.getResourceAsync(rowSubject);
           } else {
             shouldInvalidate = true;
-            row = store.getResourceLoading(randomSubject(table.getSubject()), {
-              newResource: true,
-            });
+            row = store.getResourceLoading(
+              randomSubject(table.getSubject(), 'row'),
+              {
+                newResource: true,
+              },
+            );
 
             await row.set(properties.isA, [tableClass.getSubject()], store);
             await row.set(properties.commit.createdAt, Date.now(), store);

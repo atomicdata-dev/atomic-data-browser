@@ -48,6 +48,9 @@ export const isItem = (
 
 const shouldSkip = (item?: Item) => !isItem(item) || item.disabled;
 
+const getAdditionalOffest = (increment: number) =>
+  increment === 0 ? 1 : Math.sign(increment);
+
 /**
  * Returns a function that finds the next available index, it skips disabled
  * items and dividers and loops around when at the start or end of the list.
@@ -55,21 +58,25 @@ const shouldSkip = (item?: Item) => !isItem(item) || item.disabled;
  */
 const createIndexOffset =
   (items: Item[]) => (startingPoint: number, offset: number) => {
-    const findNextAvailable = (scopedOffset: number) => {
-      const newIndex = loopingIndex(startingPoint + scopedOffset, items.length);
+    const findNextAvailable = (
+      scopedStartingPoint: number,
+      scopedOffset: number,
+    ) => {
+      const newIndex = loopingIndex(
+        scopedStartingPoint + scopedOffset,
+        items.length,
+      );
 
-      if (newIndex === startingPoint) {
-        return 0;
-      }
+      const additionalIncrement = getAdditionalOffest(offset);
 
       if (shouldSkip(items[newIndex])) {
-        return findNextAvailable(scopedOffset + offset);
+        return findNextAvailable(newIndex, additionalIncrement);
       }
 
       return newIndex;
     };
 
-    return findNextAvailable(offset);
+    return findNextAvailable(startingPoint, offset);
   };
 
 function normalizeItems(items: Item[]) {
@@ -105,12 +112,8 @@ export function DropdownMenu({
   const [isActive, setIsActive] = useState(false);
 
   const handleClose = useCallback(() => {
-    // Whenever the menu closes, assume that the next one will be opened with mouse
-    setUseKeys(false);
-    // Always reset to the top item on close
     setTimeout(() => {
       setIsActive(false);
-      setSelectedIndex(0);
     }, 100);
   }, []);
 
@@ -123,10 +126,10 @@ export function DropdownMenu({
 
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const getNewIndex = createIndexOffset(normalizedItems);
+  const [selectedIndex, setSelectedIndex] = useState<number>(getNewIndex(0, 0));
   // if the keyboard is used to navigate the menu items
-  const [useKeys, setUseKeys] = useState(false);
+  const [useKeys, setUseKeys] = useState(true);
 
   const handleToggle = useCallback(() => {
     if (isActive) {
@@ -136,10 +139,13 @@ export function DropdownMenu({
     }
 
     setIsActive(true);
-
     requestAnimationFrame(() => {
-      const triggerRect = triggerRef.current!.getBoundingClientRect();
-      const menuRect = dropdownRef.current!.getBoundingClientRect();
+      if (!triggerRef.current || !dropdownRef.current) {
+        return;
+      }
+
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const menuRect = dropdownRef.current.getBoundingClientRect();
       const topPos = triggerRect.y - menuRect.height;
 
       // If the top is outside of the screen, render it below
@@ -157,11 +163,22 @@ export function DropdownMenu({
       } else {
         setX(triggerRect.x - menuRect.width + triggerRect.width);
       }
+
+      // The dropdown is hidden at first because in the first few frames it is still position at 0,0.
+      // We only want to show the dropdown after it has been positioned correctly.
+      requestAnimationFrame(() => {
+        dropdownRef.current!.style.visibility = 'visible';
+      });
     });
   }, [isActive]);
 
-  const handleTriggerClick = useCallback(() => {
+  const handleMouseOverMenu = useCallback(() => {
     setUseKeys(false);
+  }, []);
+
+  const handleTriggerActivate = useCallback(() => {
+    setUseKeys(true);
+    setSelectedIndex(getNewIndex(0, 0));
     handleToggle();
   }, [handleToggle]);
 
@@ -226,13 +243,20 @@ export function DropdownMenu({
     <>
       <Trigger
         ref={triggerRef}
-        onClick={handleTriggerClick}
+        onClick={handleTriggerActivate}
         isActive={isActive}
         menuId={menuId}
       />
       {isActive && (
         <DropdownPortal>
-          <Menu ref={dropdownRef} isActive={isActive} x={x} y={y} id={menuId}>
+          <Menu
+            ref={dropdownRef}
+            isActive={isActive}
+            x={x}
+            y={y}
+            id={menuId}
+            onMouseOver={handleMouseOverMenu}
+          >
             {normalizedItems.map((props, i) => {
               if (!isItem(props)) {
                 return <ItemDivider key={i} />;
@@ -351,6 +375,7 @@ const MenuItemStyled = styled(Button)<MenuItemStyledProps>`
   }
   &:disabled {
     color: ${p => p.theme.colors.textLight};
+    cursor: default;
     &:hover {
       cursor: 'default';
     }
@@ -368,6 +393,7 @@ const ItemDivider = styled.div`
 `;
 
 const Menu = styled.div<MenuProps>`
+  visibility: hidden;
   font-size: 0.9rem;
   overflow: hidden;
   background: ${p => p.theme.colors.bg};

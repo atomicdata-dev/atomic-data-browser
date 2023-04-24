@@ -70,7 +70,7 @@ export function TableNewRow({
 }: TableNewRowProps): JSX.Element {
   const store = useStore();
   const [subject] = React.useState<string>(() =>
-    randomSubject(parent.getSubject()),
+    randomSubject(parent.getSubject(), 'row'),
   );
 
   const resource = useResource(subject, resourceOpts);

@@ -3,6 +3,7 @@ import React from 'react';
 import { FaAtom } from 'react-icons/fa';
 import styled from 'styled-components';
 import { dataTypeIconMap } from './dataTypeMaps';
+import { TableHeadingMenu } from './TableHeadingMenu';
 
 export interface TableHeadingProps {
   column: Property;
@@ -14,10 +15,13 @@ export function TableHeading({ column }: TableHeadingProps): JSX.Element {
   const [title] = useTitle(propResource);
 
   return (
-    <Wrapper>
-      <Icon />
-      {title || column.shortname}
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Icon />
+        {title || column.shortname}
+      </Wrapper>
+      <TableHeadingMenu resource={propResource} />
+    </>
   );
 }
 

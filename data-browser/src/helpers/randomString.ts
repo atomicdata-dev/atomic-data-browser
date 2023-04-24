@@ -10,6 +10,6 @@ export const randomString = (length = 15) => {
   return result;
 };
 
-export const randomSubject = (parent: string) => {
-  return `${parent}/row/${randomString(15)}`;
+export const randomSubject = (parent: string, prefix?: string) => {
+  return `${parent}${prefix ? `/${prefix}/` : ''}${randomString(15)}`;
 };

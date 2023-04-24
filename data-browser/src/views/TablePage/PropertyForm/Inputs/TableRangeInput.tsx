@@ -39,6 +39,10 @@ export function TableRangeInput({
 
       const err = validateRange(min, max, true);
       setError(err);
+
+      if (!err) {
+        resource.save(store);
+      }
     },
     [setMinLength, setMaxLength, store, resource],
   );

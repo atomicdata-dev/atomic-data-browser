@@ -11,10 +11,13 @@ export const TextPropertyForm = ({
   const store = useStore();
   const [textFormat, setTextFormat] = useState<Datatype>(Datatype.STRING);
 
-  const handleTextFormatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextFormatChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setTextFormat(e.target.value as Datatype);
 
-    resource.set(urls.properties.datatype, e.target.value, store, false);
+    await resource.set(urls.properties.datatype, e.target.value, store, false);
+    await resource.save(store);
   };
 
   return (

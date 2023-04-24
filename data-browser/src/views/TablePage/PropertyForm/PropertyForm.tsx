@@ -1,5 +1,5 @@
 import { Resource, urls, useString } from '@tomic/react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { ErrorChip } from '../../../components/forms/ErrorChip';
 import { useValidation } from '../../../components/forms/formValidation/useValidation';
@@ -30,6 +30,31 @@ interface PropertyFormProps {
   resource: Resource;
   category?: PropertyFormCategory;
 }
+
+export const getCategoryFromDatatype = (
+  datatype: string | undefined,
+): PropertyFormCategory => {
+  switch (datatype) {
+    case urls.datatypes.string:
+    case urls.datatypes.markdown:
+    case urls.datatypes.slug:
+      return 'text';
+    case urls.datatypes.integer:
+    case urls.datatypes.float:
+      return 'number';
+    case urls.datatypes.boolean:
+      return 'checkbox';
+    case urls.datatypes.date:
+    case urls.datatypes.timestamp:
+      return 'date';
+    case urls.datatypes.resourceArray:
+      return 'select';
+    case urls.datatypes.atomicUrl:
+      return 'relation';
+  }
+
+  throw new Error(`Unknown datatype: ${datatype}`);
+};
 
 const NoCategorySelected = () => {
   return <span>No Type selected</span>;
@@ -88,6 +113,13 @@ export function PropertyForm({
     },
     [setName, setShortName],
   );
+
+  // If name was already set remove the error.
+  useEffect(() => {
+    if (name) {
+      setNameError(undefined);
+    }
+  }, []);
 
   const CategoryForm = categoryFormFactory(category);
 
