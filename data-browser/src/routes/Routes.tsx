@@ -17,6 +17,7 @@ import { paths } from './paths';
 import ResourcePage from '../views/ResourcePage';
 import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
+import { TokenRoute } from './TokenRoute';
 import { ImporterPage } from '../views/ImporterPage';
 
 const homeURL = window.location.origin;
@@ -44,6 +45,7 @@ export function AppRoutes(): JSX.Element {
       <Route path={paths.show} element={<Show />} />
       <Route path={paths.about} element={<About />} />
       <Route path={paths.search} element={<Search />} />
+      <Route path={paths.token} element={<TokenRoute />} />
       {isDev && <Route path={paths.sandbox} element={<Sandbox />} />}
       <Route path='/' element={<ResourcePage subject={homeURL} />} />
       <Route path='*' element={<Local />} />

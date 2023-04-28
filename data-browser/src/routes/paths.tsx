@@ -7,6 +7,7 @@ export const paths = {
   search: '/app/search',
   share: '/app/share',
   show: '/app/show',
+  token: '/app/token',
   data: '/app/data',
   edit: '/app/edit',
   about: '/app/about',
