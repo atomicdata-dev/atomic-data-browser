@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useString,
   useResource,
@@ -43,6 +43,12 @@ type Props = {
 function ResourcePage({ subject }: Props): JSX.Element {
   const resource = useResource(subject);
   const [klass] = useString(resource, properties.isA);
+
+  // The body can have an inert attribute when the user navigated from an open dialog.
+  // we remove it to make the page becomes interavtive again.
+  useEffect(() => {
+    document.body.removeAttribute('inert');
+  });
 
   if (resource.loading) {
     return (

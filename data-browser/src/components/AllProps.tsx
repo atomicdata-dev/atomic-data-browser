@@ -17,7 +17,7 @@ type Props = {
 };
 
 const AllPropsWrapper = styled.div`
-  margin-bottom: ${props => props.theme.margin}rem;
+  /* margin-bottom: ${props => props.theme.margin}rem; */
 `;
 
 /** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */

@@ -41,6 +41,7 @@ const ANIM_SPEED = `${ANIM_MS}ms`;
 interface DialogSlotProps {
   className?: string;
 }
+
 type DialogSlotComponent = React.FC<React.PropsWithChildren<DialogSlotProps>>;
 
 /**

@@ -112,7 +112,7 @@ export class Collection {
   }
 
   private buildSubject(page: number): string {
-    const url = new URL(`${this.server}/collections`);
+    const url = new URL(`${this.server}/query`);
 
     for (const [key, value] of Object.entries(this.params)) {
       url.searchParams.set(key, value);

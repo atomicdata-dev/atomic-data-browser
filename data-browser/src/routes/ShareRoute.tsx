@@ -139,12 +139,14 @@ export function ShareRoute(): JSX.Element {
 
   return (
     <ContainerNarrow>
-      <Title resource={resource} prefix='Share settings' link />
       <Column>
+        <Title resource={resource} prefix='Share settings' link />
         {canWrite && !showInviteForm && (
-          <Button onClick={() => setShowInviteForm(true)}>
-            Send Invite...
-          </Button>
+          <span>
+            <Button onClick={() => setShowInviteForm(true)}>
+              Send Invite...
+            </Button>
+          </span>
         )}
         {showInviteForm && <InviteForm target={resource} />}
         <Card>
@@ -163,12 +165,14 @@ export function ShareRoute(): JSX.Element {
           </CardInsideFull>
         </Card>
         {canWrite && (
-          <Button
-            disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
-            onClick={handleSave}
-          >
-            Save
-          </Button>
+          <span>
+            <Button
+              disabled={!resource.getCommitBuilder().hasUnsavedChanges()}
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </span>
         )}
         {err && <ErrorLook>{err.message}</ErrorLook>}
         {inheritedRights.length > 0 && (

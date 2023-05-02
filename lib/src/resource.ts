@@ -149,8 +149,8 @@ export class Resource {
   }
 
   /** Get a Value by its property */
-  public get(propUrl: string): JSONValue {
-    return this.propvals.get(propUrl);
+  public get<T extends JSONValue = JSONValue>(propUrl: string): T {
+    return this.propvals.get(propUrl) as T;
   }
 
   /**
@@ -232,7 +232,7 @@ export class Resource {
   public getChildrenCollection(): string {
     // We create a collection that contains all children of the current Subject
     const url = new URL(this.subject);
-    url.pathname = '/collections';
+    url.pathname = '/query';
     url.searchParams.set('property', properties.parent);
     url.searchParams.set('value', this.subject);
 

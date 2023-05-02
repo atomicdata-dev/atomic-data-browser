@@ -193,7 +193,6 @@ test.describe('data-browser', async () => {
 
     // context menu, keyboard & data view
     await page.click(contextMenu);
-    await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
     await expect(page.locator('text=JSON-AD')).toBeVisible();
     await page.click('[data-test="fetch-json-ad"]');
@@ -451,7 +450,7 @@ test.describe('data-browser', async () => {
     await page.fill('[data-test="server-url-input"]', 'https://example.com');
     await page.click('[data-test="server-url-save"]');
 
-    await expect(page.locator(currentDriveTitle)).toHaveText('example.com');
+    await expect(page.locator(currentDriveTitle)).toHaveText('...');
 
     await openDriveMenu(page);
     await page.click(':text("https://atomicdata.dev") + button:text("Select")');
@@ -479,12 +478,13 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=Not a valid slug')).not.toBeVisible();
 
     // Add a new property
-    await page.click(
+    const input = page.locator(
       '[placeholder="Select a property or enter a property URL..."]',
     );
-    await page.keyboard.type(
-      'https://atomicdata.dev/properties/invite/usagesLeft',
-    );
+    await input.click();
+
+    await expect(page.locator('text=Create property:')).toBeVisible();
+    await input.fill('https://atomicdata.dev/properties/invite/usagesLeft');
     await page.keyboard.press('Enter');
     await page.click('[title="Add this property"]');
     await expect(page.locator('text=Usages-left').first()).toBeVisible();
@@ -558,6 +558,8 @@ test.describe('data-browser', async () => {
     await newResource('folder', page);
     await contextMenuClick('import', page);
 
+    const parentSubject = await page.getByLabel('Target Parent').inputValue();
+
     const localID = 'localIDtest';
     const name = 'blaat';
     const importStr = {
@@ -572,9 +574,8 @@ test.describe('data-browser', async () => {
     await expect(page.locator('text=Imported!')).toBeVisible();
 
     // get current url, append the localID
-    const url = await page.url();
-    await page.goto(url + '/' + localID);
-    await expect(page.locator(`text=${name}`)).toBeVisible();
+    await page.goto(parentSubject + '/' + localID);
+    await expect(page.locator(`h1:text("${name}")`)).toBeVisible();
   });
 
   test('dialog', async ({ page }) => {
@@ -765,7 +766,7 @@ async function openNewSubjectWindow(browser: Browser, url: string) {
 
 async function openDriveMenu(page: Page) {
   await page.click(sideBarDriveSwitcher);
-  await page.click('[data-test="menu-item-configure-drives"]');
+  await page.click('text=Configure Drives');
 }
 
 async function changeDrive(subject: string, page: Page) {
