@@ -108,5 +108,6 @@ module.exports = {
     "no-implied-eval": "error",
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/member-ordering": "error",
+    "react/no-unknown-property": ["error", { "ignore": ["about"] }],
   },
 };
