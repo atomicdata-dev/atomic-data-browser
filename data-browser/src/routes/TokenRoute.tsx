@@ -16,6 +16,7 @@ export const TokenRoute: React.FunctionComponent = () => {
         setToken(btoa(JSON.stringify(json)));
       }
     }
+
     getToken();
   }, [agent]);
 
