@@ -1,6 +1,7 @@
 // Provides functionality to interact with an Atomic Server.
 // Send requests to the server and receive responses.
 
+import { hasBrowserAPI } from './hasBrowserAPI.js';
 import {
   Agent,
   AtomicError,
@@ -127,9 +128,9 @@ export class Client {
       requestHeaders['Accept'] = JSON_AD_MIME;
 
       if (signInfo) {
-        // Cookies only work for same-origin requests right now
+        // Cookies only work in browsers for same-origin requests right now
         // https://github.com/atomicdata-dev/atomic-data-browser/issues/253
-        if (subject.startsWith(window.location.origin)) {
+        if (hasBrowserAPI() && subject.startsWith(window.location.origin)) {
           if (!checkAuthenticationCookie()) {
             setCookieAuthentication(signInfo.serverURL, signInfo.agent);
           }

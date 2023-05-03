@@ -62,13 +62,11 @@ export class Resource {
     this.commitBuilder = new CommitBuilder(subject);
   }
 
-  public get title() {
-    return (
-      this.get(properties.name) ??
+  public get title(): string {
+    return (this.get(properties.name) ??
       this.get(properties.shortname) ??
       this.get(properties.file.filename) ??
-      this.subject
-    );
+      this.subject) as string;
   }
 
   /** Checks if the agent has write rights by traversing the graph. Recursive function. */
