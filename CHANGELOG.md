@@ -2,7 +2,7 @@
 
 This changelog covers all three packages, as they are (for now) updated as a whole
 
-## URELEASED
+## 0.35.1
 
 ### Atomic Browser
 
@@ -12,13 +12,11 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 ### @tomic/lib
 
+- BREAKING: `buildSearchSubject` now takes a serverURL instead of the store.
+- Fix bug where @tomic/lib would not work in a non-browser context.
 - Add `store.getResourceAncestry` method, which returns the ancestry of a resource, including the resource itself.
 - Add `resource.title` property, which returns the name of a resource, or the first property that is can be used to name the resource.
 - `store.createSubject` now accepts a `parent` argument, which allows creating nested subjects.
-
-#### Breaking changes
-
-- `buildSearchSubject` now takes a serverURL instead of the store.
 
 ## v0.35.0
 

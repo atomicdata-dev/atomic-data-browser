@@ -3,6 +3,7 @@ import {
   setCookieAuthentication,
 } from './authentication.js';
 import { EventManager } from './EventManager.js';
+import { hasBrowserAPI } from './hasBrowserAPI.js';
 import {
   Agent,
   Datatype,
@@ -434,7 +435,7 @@ export class Store {
    */
   public isOffline(): boolean {
     // If we are in a node/server environment assume we are online.
-    if (typeof window === 'undefined') {
+    if (!hasBrowserAPI()) {
       return false;
     }
 
@@ -554,7 +555,9 @@ export class Store {
     this.agent = agent;
 
     if (agent && agent.subject) {
-      setCookieAuthentication(this.serverUrl, agent);
+      if (hasBrowserAPI()) {
+        setCookieAuthentication(this.serverUrl, agent);
+      }
 
       this.webSockets.forEach(ws => {
         ws.readyState === ws.OPEN && authenticate(ws, this);
@@ -566,7 +569,9 @@ export class Store {
         }
       });
     } else {
-      removeCookieAuthentication();
+      if (hasBrowserAPI()) {
+        removeCookieAuthentication();
+      }
     }
 
     this.eventManager.emit(StoreEvents.AgentChanged, agent);
