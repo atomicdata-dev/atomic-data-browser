@@ -31,6 +31,12 @@ export class CollectionBuilder {
     return this;
   }
 
+  public setSortDesc(sortDesc: boolean): CollectionBuilder {
+    this.params.sort_desc = sortDesc;
+
+    return this;
+  }
+
   public setPageSize(pageSize: number): CollectionBuilder {
     this.params.page_size = `${pageSize}`;
 

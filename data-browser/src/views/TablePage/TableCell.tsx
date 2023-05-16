@@ -1,11 +1,4 @@
-import {
-  JSONValue,
-  Property,
-  Resource,
-  urls,
-  useStore,
-  useValue,
-} from '@tomic/react';
+import { JSONValue, Property, Resource, urls, useValue } from '@tomic/react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Cell } from '../../components/TableEditor';
 import { CellAlign } from '../../components/TableEditor/Cell';
@@ -27,11 +20,6 @@ interface TableCell {
   property: Property;
   invalidateTable?: () => void;
 }
-
-const createdAtOpts = {
-  commitDebounce: 0,
-  commit: false,
-};
 
 function useIsEditing(row: number, column: number) {
   const { cursorMode, selectedColumn, selectedRow } = useTableEditorContext();
@@ -56,13 +44,12 @@ export function TableCell({
   property,
   invalidateTable,
 }: TableCell): JSX.Element {
-  const store = useStore();
   const [markForInvalidate, setMarkForInvalidate] = useState(false);
   const [value, setValue] = useValue(resource, property.subject, valueOpts);
   const [createdAt, setCreatedAt] = useValue(
     resource,
     urls.properties.commit.createdAt,
-    createdAtOpts,
+    valueOpts,
   );
 
   const dataType = property.datatype;
@@ -78,8 +65,8 @@ export function TableCell({
   const onChange = useCallback(
     async (v: JSONValue) => {
       if (!createdAt) {
-        await setCreatedAt(Date.now());
         await setValue(v);
+        await setCreatedAt(Date.now());
         setMarkForInvalidate(true);
 
         return;
@@ -99,10 +86,8 @@ export function TableCell({
 
   useEffect(() => {
     if (!isEditing && markForInvalidate) {
-      resource.save(store).then(() => {
-        invalidateTable?.();
-        setMarkForInvalidate(false);
-      });
+      setMarkForInvalidate(false);
+      invalidateTable?.();
     }
   }, [isEditing, markForInvalidate]);
 

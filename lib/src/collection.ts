@@ -7,6 +7,7 @@ export interface QueryFilter {
   property?: string;
   value?: string;
   sort_by?: string;
+  sort_desc?: boolean;
 }
 
 export interface CollectionParams extends QueryFilter {
@@ -57,6 +58,10 @@ export class Collection {
 
   public get sortBy(): string | undefined {
     return this.params.sort_by;
+  }
+
+  public get sortDesc(): boolean {
+    return !!this.params.sort_desc;
   }
 
   public get pageSize(): number {

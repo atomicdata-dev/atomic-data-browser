@@ -10,7 +10,7 @@ import { TableNewRow, TableRow } from './TableRow';
 import { useTableData } from './useTableData';
 import { getValuesFromSubject } from './helpers/clipboard';
 import { NewColumnButton } from './NewColumnButton';
-import { TablePageContext } from './tablePageContext';
+import { TablePageContext, TablePageContextType } from './tablePageContext';
 import { useHandlePaste } from './helpers/useHandlePaste';
 import { useHandleColumnResize } from './helpers/useHandleColumnResize';
 
@@ -33,8 +33,14 @@ const transformToPropertiesPerSubject = async (
 
 export function TablePage({ resource }: ResourcePageProps): JSX.Element {
   const store = useStore();
-  const { tableClass, collection, invalidateCollection, collectionVersion } =
-    useTableData(resource);
+  const {
+    tableClass,
+    sorting,
+    setSortBy,
+    collection,
+    invalidateCollection,
+    collectionVersion,
+  } = useTableData(resource);
 
   const columns = useTableColumns(tableClass);
 
@@ -46,11 +52,13 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     collectionVersion,
   );
 
-  const tablePageContext = useMemo(
+  const tablePageContext: TablePageContextType = useMemo(
     () => ({
       tableClassResource: tableClass,
+      sorting,
+      setSortBy,
     }),
-    [tableClass],
+    [tableClass, setSortBy, sorting],
   );
 
   const handleDeleteRow = useCallback(

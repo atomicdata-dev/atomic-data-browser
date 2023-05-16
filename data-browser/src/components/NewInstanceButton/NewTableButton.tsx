@@ -55,11 +55,12 @@ export function NewTableButton({
     await instanceResource.set(properties.shortname, stringToSlug(name), store);
     await instanceResource.set(
       properties.description,
-      `A row in the ${name} table`,
+      `Represents a row in the ${name} table`,
       store,
     );
     await instanceResource.set(properties.isA, [classes.class], store);
     await instanceResource.set(properties.parent, parent, store);
+    await instanceResource.set(properties.recommends, [properties.name], store);
     await instanceResource.save(store);
 
     createResourceAndNavigate('table', {

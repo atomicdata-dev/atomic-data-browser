@@ -28,8 +28,13 @@ import styled from 'styled-components';
 import { FolderPage } from './FolderPage';
 import { ArticlePage } from './Article';
 import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
-import { getTransitionName } from '../helpers/transitionName';
+import { transitionName } from '../helpers/transitionName';
 import { TablePage } from './TablePage';
+
+/** These properties are passed to every View at Page level */
+export type ResourcePageProps = {
+  resource: Resource;
+};
 
 type Props = {
   subject: string;
@@ -48,7 +53,7 @@ function ResourcePage({ subject }: Props): JSX.Element {
   // we remove it to make the page becomes interavtive again.
   useEffect(() => {
     document.body.removeAttribute('inert');
-  });
+  }, []);
 
   if (resource.loading) {
     return (
@@ -82,14 +87,8 @@ const Main = React.memo(styled.main<ViewTransitionProps>`
   height: calc(
     100% - (${p => p.theme.heights.breadCrumbBar} + ${PARENT_PADDING_BLOCK} * 2)
   );
-  view-transition-name: ${props =>
-    getTransitionName('resource-page', props.subject)};
+  ${p => transitionName('resource-page', p.subject)}
 `);
-
-/** There properties are passed to every View at Page level */
-export type ResourcePageProps = {
-  resource: Resource;
-};
 
 function selectComponent(klass: string) {
   switch (klass) {
