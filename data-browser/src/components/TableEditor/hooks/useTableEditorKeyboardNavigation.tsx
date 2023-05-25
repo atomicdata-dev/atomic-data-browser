@@ -23,11 +23,14 @@ const matchCondition = (handler: KeyboardHandler, context: HandlerContext) =>
   handler.condition === undefined || handler.condition(context);
 
 const isDialogOpened = () => document.body.hasAttribute('inert');
+const tableHeaderHasFocus = (headerRef: React.RefObject<HTMLDivElement>) =>
+  headerRef.current?.contains(document.activeElement);
 
 export function useTableEditorKeyboardNavigation(
   columnCount: number,
   rowCount: number,
   tableRef: React.RefObject<HTMLDivElement>,
+  headerRef: React.RefObject<HTMLDivElement>,
   triggerCopyCommand: () => void,
 ) {
   const tableContext = useTableEditorContext();
@@ -42,7 +45,7 @@ export function useTableEditorKeyboardNavigation(
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (isDialogOpened()) {
+      if (isDialogOpened() || tableHeaderHasFocus(headerRef)) {
         return;
       }
 

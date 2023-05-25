@@ -60,7 +60,7 @@ const Wrapper = styled.div`
   gap: 0.5rem;
 
   svg {
-    color: ${p => p.theme.colors.textLight};
+    color: currentColor;
   }
 `;
 
@@ -71,6 +71,7 @@ interface NameButtonProps {
 const NameButton = styled.button<NameButtonProps>`
   background: none;
   border: none;
+  color: currentColor;
   cursor: pointer;
   font-weight: ${p => (p.bold ? 'bold' : 'normal')};
 `;

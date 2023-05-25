@@ -42,7 +42,7 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     collectionVersion,
   } = useTableData(resource);
 
-  const columns = useTableColumns(tableClass);
+  const { columns, reorderColumns } = useTableColumns(tableClass);
 
   const handlePaste = useHandlePaste(
     resource,
@@ -159,6 +159,7 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
           onClearCells={handleClearCells}
           onCopyCommand={handleCopyCommand}
           onPasteCommand={handlePaste}
+          onColumnReorder={reorderColumns}
           HeadingComponent={TableHeading}
           NewColumnButtonComponent={NewColumnButton}
         >

@@ -10,3 +10,8 @@ export type CellPasteData<T> = {
   index: CellIndex<T>;
   data: string;
 };
+
+export type ColumnReorderHandler = (
+  source: number,
+  destination: number,
+) => void;

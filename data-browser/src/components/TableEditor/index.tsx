@@ -14,7 +14,12 @@ import { useTableEditorKeyboardNavigation } from './hooks/useTableEditorKeyboard
 import { ActiveCellIndicator } from './ActiveCellIndicator';
 import { ScrollArea, ScrollViewPort } from '../ScrollArea';
 import { useCopyCommand } from './hooks/useCopyCommand';
-import { CellIndex, CellPasteData, CopyValue } from './types';
+import {
+  CellIndex,
+  CellPasteData,
+  ColumnReorderHandler,
+  CopyValue,
+} from './types';
 import { useClearCommands } from './hooks/useClearCommands';
 import { usePasteCommand } from './hooks/usePasteCommand';
 
@@ -30,6 +35,7 @@ interface FancyTableProps<T> {
   onCopyCommand?: (cells: CellIndex<T>[]) => Promise<CopyValue[][]>;
   onPasteCommand?: (pasteData: CellPasteData<T>[]) => void;
   onCellResize?: (sizes: number[]) => void;
+  onColumnReorder?: ColumnReorderHandler;
   HeadingComponent: TableHeadingComponent<T>;
   NewColumnButtonComponent: React.ComponentType;
 }
@@ -65,11 +71,14 @@ function FancyTableInner<T>({
   onClearRow,
   onCopyCommand,
   onPasteCommand,
+  onColumnReorder,
   HeadingComponent,
   NewColumnButtonComponent,
 }: FancyTableProps<T>): JSX.Element {
   const tableRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
   const { listRef } = useTableEditorContext();
 
   const [onScroll, setOnScroll] = useState<OnScroll>(() => undefined);
@@ -87,6 +96,7 @@ function FancyTableInner<T>({
     columns.length,
     itemCount,
     tableRef,
+    headerRef,
     triggerCopyCommand,
   );
 
@@ -139,14 +149,17 @@ function FancyTableInner<T>({
       rowHeight={rowHeight!}
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      totalContentHeight={itemCount * rowHeight!}
       ref={tableRef}
     >
       <RelativeScrollArea ref={scrollerRef}>
         <PercentageInsanityFix>
           <TableHeader
+            headerRef={headerRef}
             columns={columns}
             columnToKey={columnToKey}
             onResize={resizeCell}
+            onColumnReorder={onColumnReorder}
             HeadingComponent={HeadingComponent}
             NewColumnButtonComponent={NewColumnButtonComponent}
           />
@@ -168,6 +181,7 @@ interface TableProps {
   gridTemplateColumns: string;
   contentRowWidth: string;
   rowHeight: number;
+  totalContentHeight: number;
 }
 
 const Table = styled.div.attrs<TableProps>(p => ({
@@ -179,11 +193,11 @@ const Table = styled.div.attrs<TableProps>(p => ({
   --table-height: 80vh;
   --table-row-height: ${p => p.rowHeight}px;
   --table-inner-padding: 0.5rem;
+  --table-content-height: ${p => p.totalContentHeight}px;
   background: ${p => p.theme.colors.bg};
   border-radius: ${p => p.theme.radius};
   overflow: hidden;
   overflow-x: auto;
-  height: var(--table-height);
   border: 1px solid ${p => p.theme.colors.bg2};
   width: 100%;
   position: relative;
@@ -206,7 +220,7 @@ const StyledFixedSizeList = styled(FixedSizeList)`
 `;
 
 const AutoSizeTamer = styled.div`
-  height: calc(var(--table-height) - var(--table-row-height));
+  height: min(var(--table-height), var(--table-content-height));
   width: 100%;
 `;
 
@@ -218,3 +232,4 @@ const RelativeScrollArea = styled(ScrollArea)`
 
 export { Cell } from './Cell';
 export * from './types';
+export { reorderArray } from './helpers/reorderArray';

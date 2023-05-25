@@ -80,7 +80,11 @@ export function useResizable<E extends HTMLElement>(
       };
     }
 
-    const mouseDown = () => {
+    const mouseDown = (e: MouseEvent) => {
+      e.stopPropagation();
+
+      if (e.target !== dragAreaRef.current) return;
+
       setDragging(true);
     };
 

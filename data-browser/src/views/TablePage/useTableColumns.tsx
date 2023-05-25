@@ -1,13 +1,58 @@
 import { Resource, useStore, urls, useArray, Property } from '@tomic/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { reorderArray } from '../../components/TableEditor';
 
-export function useTableColumns(tableClass: Resource): Property[] {
+type UseTableColumnsReturnType = {
+  columns: Property[];
+  reorderColumns: (
+    sourceIndex: number,
+    destinationIndex: number,
+  ) => Promise<void>;
+};
+
+const valueOpts = {
+  commit: true,
+};
+
+export function useTableColumns(
+  tableClass: Resource,
+): UseTableColumnsReturnType {
   const store = useStore();
 
-  const [requiredProps] = useArray(tableClass, urls.properties.requires);
-  const [recommendedProps] = useArray(tableClass, urls.properties.recommends);
+  const [requiredProps, setRequiredProps] = useArray(
+    tableClass,
+    urls.properties.requires,
+    valueOpts,
+  );
+  const [recommendedProps, setRecommendedProps] = useArray(
+    tableClass,
+    urls.properties.recommends,
+    valueOpts,
+  );
 
   const [columns, setColumns] = useState<Property[]>([]);
+
+  const reorderColumns = useCallback(
+    async (sourceIndex: number, destinationIndex: number): Promise<void> => {
+      const newColumns = reorderArray(columns, sourceIndex, destinationIndex);
+      const subjects = newColumns.map(c => c.subject);
+
+      const newRequiredProps = subjects.filter(c => requiredProps.includes(c));
+      const newRecommendedProps = subjects.filter(c =>
+        recommendedProps.includes(c),
+      );
+
+      await setRequiredProps(newRequiredProps);
+      await setRecommendedProps(newRecommendedProps);
+    },
+    [
+      requiredProps,
+      recommendedProps,
+      setRecommendedProps,
+      setRequiredProps,
+      columns,
+    ],
+  );
 
   useEffect(() => {
     const props = [...requiredProps, ...recommendedProps];
@@ -17,5 +62,5 @@ export function useTableColumns(tableClass: Resource): Property[] {
     });
   }, [requiredProps, recommendedProps]);
 
-  return columns;
+  return { columns, reorderColumns };
 }
