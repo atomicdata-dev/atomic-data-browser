@@ -17,6 +17,7 @@ import { transition } from '../../helpers/transition';
 import { createPortal } from 'react-dom';
 import { DropdownPortalContext } from './dropdownContext';
 import { loopingIndex } from '../../helpers/loopingIndex';
+import { useControlLock } from '../../hooks/useControlLock';
 
 export const DIVIDER = 'divider' as const;
 
@@ -39,6 +40,7 @@ interface DropdownMenuProps {
   trigger: DropdownTriggerRenderFunction;
   /** Enables the keyboard shortcut */
   isMainMenu?: boolean;
+  bindActive?: (active: boolean) => void;
 }
 
 export const isItem = (
@@ -104,18 +106,30 @@ export function DropdownMenu({
   items,
   trigger,
   isMainMenu,
+  bindActive = () => undefined,
 }: DropdownMenuProps): JSX.Element {
   const menuId = useId();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, _setIsActive] = useState(false);
+
+  useControlLock(isActive);
+
+  const setIsActive = useCallback(
+    (active: boolean) => {
+      _setIsActive(active);
+      bindActive(active);
+    },
+    [bindActive],
+  );
 
   const handleClose = useCallback(() => {
+    triggerRef.current?.focus();
     setTimeout(() => {
       setIsActive(false);
     }, 100);
-  }, []);
+  }, [setIsActive]);
 
   useClickAwayListener([triggerRef, dropdownRef], handleClose, isActive, [
     'click',
@@ -139,6 +153,7 @@ export function DropdownMenu({
     }
 
     setIsActive(true);
+
     requestAnimationFrame(() => {
       if (!triggerRef.current || !dropdownRef.current) {
         return;
@@ -170,7 +185,7 @@ export function DropdownMenu({
         dropdownRef.current!.style.visibility = 'visible';
       });
     });
-  }, [isActive]);
+  }, [isActive, setIsActive]);
 
   const handleMouseOverMenu = useCallback(() => {
     setUseKeys(false);
@@ -183,13 +198,16 @@ export function DropdownMenu({
   }, [handleToggle]);
 
   // Close the menu
+  useHotkeys('esc', handleClose, { enabled: isActive });
   useHotkeys(
-    'esc',
-    () => {
+    'tab',
+    e => {
+      e.preventDefault();
       handleClose();
     },
     { enabled: isActive },
   );
+
   // Toggle menu
   useHotkeys(
     shortcuts.menu,
@@ -217,6 +235,7 @@ export function DropdownMenu({
     'up',
     e => {
       e.preventDefault();
+      e.stopPropagation();
       setUseKeys(true);
       setSelectedIndex(prev => getNewIndex(prev, -1));
     },
@@ -228,6 +247,7 @@ export function DropdownMenu({
     'down',
     e => {
       e.preventDefault();
+      e.stopPropagation();
       setUseKeys(true);
       setSelectedIndex(prev => getNewIndex(prev, 1));
 
@@ -238,6 +258,17 @@ export function DropdownMenu({
   );
 
   const Trigger = useMemo(() => React.forwardRef(trigger), []);
+
+  const handleBlur = useCallback(() => {
+    // Doesn't work without delay, maybe the browser sets document.activeElement after firering the blur event?
+    requestAnimationFrame(() => {
+      if (!dropdownRef.current) return;
+
+      if (!dropdownRef.current.contains(document.activeElement)) {
+        handleClose();
+      }
+    });
+  }, [handleClose]);
 
   return (
     <>
@@ -256,6 +287,9 @@ export function DropdownMenu({
             y={y}
             id={menuId}
             onMouseOver={handleMouseOverMenu}
+            onBlur={handleBlur}
+            aria-labelledby={triggerRef.current?.id}
+            role='menu'
           >
             {normalizedItems.map((props, i) => {
               if (!isItem(props)) {
@@ -324,13 +358,22 @@ export function MenuItem({
   label,
   ...props
 }: MenuItemPropsExtended): JSX.Element {
+  const ref = useRef<HTMLButtonElement>(null);
+
+  if (selected && document.activeElement !== ref.current) {
+    ref.current?.focus();
+  }
+
   return (
     <MenuItemStyled
       clean
+      ref={ref}
       onClick={onClick}
       selected={selected}
       title={helper}
       disabled={disabled}
+      role='menuitem'
+      tabIndex={-1}
       {...props}
     >
       {icon}
@@ -352,7 +395,6 @@ interface MenuItemStyledProps {
   selected: boolean;
 }
 
-// eslint-disable-next-line prettier/prettier
 const MenuItemStyled = styled(Button)<MenuItemStyledProps>`
   align-items: center;
   display: flex;

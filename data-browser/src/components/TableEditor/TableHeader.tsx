@@ -7,15 +7,12 @@ import {
 } from './TableHeading';
 import { TableRow } from './TableRow';
 import {
-  DndContext,
   DragEndEvent,
   DragOverlay,
   DragStartEvent,
-  Modifier,
-  closestCorners,
+  useDndMonitor,
 } from '@dnd-kit/core';
 import { createPortal } from 'react-dom';
-import { useDragSensors } from './useDragSensors';
 import { ColumnReorderHandler } from './types';
 import { ReorderDropArea } from './ReorderDropArea';
 
@@ -35,13 +32,6 @@ export interface TableHeaderProps<T> {
   headerRef: React.Ref<HTMLDivElement>;
 }
 
-const restrictToHorizontalAxis: Modifier = ({ transform }) => {
-  return {
-    ...transform,
-    y: 0,
-  };
-};
-
 export function TableHeader<T>({
   columns,
   onResize,
@@ -52,8 +42,6 @@ export function TableHeader<T>({
   headerRef,
 }: TableHeaderProps<T>): JSX.Element {
   const [activeIndex, setActiveIndex] = React.useState<number | undefined>();
-
-  const sensors = useDragSensors();
 
   const handleDragStart = useCallback(
     (event: DragStartEvent) => {
@@ -74,6 +62,13 @@ export function TableHeader<T>({
         const draggableIndex = active.data.current!.index as number;
         let droppapleIndex = over.data.current!.index as number;
 
+        if (
+          draggableIndex === droppapleIndex ||
+          draggableIndex + 1 === droppapleIndex
+        ) {
+          return;
+        }
+
         if (droppapleIndex > draggableIndex) {
           droppapleIndex -= 1;
         }
@@ -84,16 +79,19 @@ export function TableHeader<T>({
     [onColumnReorder],
   );
 
+  // We use the DndMonitor here instead of the DndContext because the
+  // context creates an aria - live element that is not allowed inside something with role = 'grid'
+  useDndMonitor({
+    onDragStart: handleDragStart,
+    onDragEnd: handleDragEnd,
+  });
+
   return (
-    <DndContext
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      sensors={sensors}
-      collisionDetection={closestCorners}
-      modifiers={[restrictToHorizontalAxis]}
-    >
-      <StyledTableRow ref={headerRef}>
-        <TableHeadingWrapper align='end'>#</TableHeadingWrapper>
+    <div role='rowgroup'>
+      <StyledTableRow ref={headerRef} aria-rowindex={1}>
+        <TableHeadingWrapper align='end' aria-colindex={1} role='columnheader'>
+          #
+        </TableHeadingWrapper>
         {columns.map((column, index) => (
           <TableHeading
             key={columnToKey(column)}
@@ -105,7 +103,7 @@ export function TableHeader<T>({
             <HeadingComponent column={column} />
           </TableHeading>
         ))}
-        <TableHeadingWrapper>
+        <TableHeadingWrapper aria-colindex={columns.length + 2}>
           <ReorderDropArea index={columns.length} />
           <NewColumnButtonComponent />
         </TableHeadingWrapper>
@@ -120,7 +118,7 @@ export function TableHeader<T>({
         </StyledDragOverlay>,
         document.body,
       )}
-    </DndContext>
+    </div>
   );
 }
 

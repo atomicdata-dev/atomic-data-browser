@@ -50,10 +50,15 @@ export function TableHeading({
   }, []);
 
   return (
-    <TableHeadingWrapper ref={setRef} reordering={isReorderingThisNode}>
+    <TableHeadingWrapper
+      ref={setRef}
+      reordering={isReorderingThisNode}
+      role='columnheader'
+      aria-colindex={index + 2}
+    >
+      {children}
       <ReorderHandle {...listeners} {...attributes} title='Reorder column' />
       {isReordering && <ReorderDropArea index={index} />}
-      {children}
       <ResizeHandle isDragging={isDragging} ref={dragAreaRef} />
     </TableHeadingWrapper>
   );

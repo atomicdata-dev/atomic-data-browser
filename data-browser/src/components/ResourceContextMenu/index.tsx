@@ -42,6 +42,7 @@ export interface ResourceContextMenuProps {
   simple?: boolean;
   /** If it's the primary menu in the navbar. Used for triggering keyboard shortcut */
   isMainMenu?: boolean;
+  bindActive?: (active: boolean) => void;
 }
 
 /** Dropdown menu that opens a bunch of actions for some resource */
@@ -51,6 +52,7 @@ function ResourceContextMenu({
   trigger,
   simple,
   isMainMenu,
+  bindActive,
 }: ResourceContextMenuProps) {
   const store = useStore();
   const navigate = useNavigate();
@@ -175,6 +177,7 @@ function ResourceContextMenu({
         items={filteredItems}
         trigger={triggerComp}
         isMainMenu={isMainMenu}
+        bindActive={bindActive}
       />
       <ConfirmationDialog
         title={`Delete resource`}

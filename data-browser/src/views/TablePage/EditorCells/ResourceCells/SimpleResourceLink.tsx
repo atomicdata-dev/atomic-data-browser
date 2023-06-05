@@ -1,19 +1,19 @@
 import { Resource } from '@tomic/react';
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router';
 import { constructOpenURL } from '../../../../helpers/navigation';
+import { useNavigateWithTransition } from '../../../../hooks/useNavigateWithTransition';
+import styled from 'styled-components';
 
-export interface SimpleResourceLinkProps {
+export type SimpleResourceLinkProps = {
   resource: Resource;
-  className?: string;
-}
+} & Omit<React.HTMLAttributes<HTMLAnchorElement>, 'children' | 'resource'>;
 
 export function SimpleResourceLink({
   resource,
   children,
-  className,
+  ...props
 }: React.PropsWithChildren<SimpleResourceLinkProps>): JSX.Element {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
 
   const url = useMemo(() => {
     try {
@@ -31,11 +31,20 @@ export function SimpleResourceLink({
 
   try {
     return (
-      <a href={url} onClick={handleClick} className={className}>
+      <StyledAnchor href={url} onClick={handleClick} {...props}>
         {children}
-      </a>
+      </StyledAnchor>
     );
   } catch (e) {
     return <>{resource.getSubject()}</>;
   }
 }
+
+const StyledAnchor = styled.a`
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+`;

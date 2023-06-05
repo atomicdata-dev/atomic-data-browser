@@ -17,7 +17,7 @@ const SideBarDriveMemo = React.memo(SideBarDrive);
 
 export function SideBar(): JSX.Element {
   const { drive, sideBarLocked, setSideBarLocked } = useSettings();
-  const [ref, hoveringOverSideBar] = useHover<HTMLElement>(sideBarLocked);
+  const [ref, hoveringOverSideBar, listeners] = useHover<HTMLElement>();
   // Check if the window is small enough to hide the sidebar
   const isWideScreen = useMediaQuery(
     `(min-width: ${SIDEBAR_TOGGLE_WIDTH}px)`,
@@ -43,6 +43,8 @@ export function SideBar(): JSX.Element {
     }
   }, [isWideScreen]);
 
+  const sidebarVisible = sideBarLocked || (hoveringOverSideBar && isWideScreen);
+
   return (
     <SideBarContainer>
       <SideBarStyled
@@ -50,7 +52,8 @@ export function SideBar(): JSX.Element {
         size={size}
         data-test='sidebar'
         locked={isWideScreen && sideBarLocked}
-        exposed={sideBarLocked || (hoveringOverSideBar && isWideScreen)}
+        exposed={sidebarVisible}
+        {...listeners}
       >
         <NavBarSpacer position='top' />
         {/* The key is set to make sure the component is re-loaded when the baseURL changes */}

@@ -23,13 +23,11 @@ import { ChatRoomPage } from './ChatRoomPage';
 import { MessagePage } from './MessagePage';
 import { BookmarkPage } from './BookmarkPage/BookmarkPage';
 import { ImporterPage } from './ImporterPage.jsx';
-import Parent, { PARENT_PADDING_BLOCK } from '../components/Parent';
-import styled from 'styled-components';
+import Parent from '../components/Parent';
 import { FolderPage } from './FolderPage';
 import { ArticlePage } from './Article';
-import { ViewTransitionProps } from '../helpers/ViewTransitionProps';
-import { transitionName } from '../helpers/transitionName';
 import { TablePage } from './TablePage';
+import { Main } from '../components/Main';
 
 /** These properties are passed to every View at Page level */
 export type ResourcePageProps = {
@@ -81,14 +79,6 @@ function ResourcePage({ subject }: Props): JSX.Element {
     </>
   );
 }
-
-const Main = React.memo(styled.main<ViewTransitionProps>`
-  /* Makes the contents fit the entire page */
-  height: calc(
-    100% - (${p => p.theme.heights.breadCrumbBar} + ${PARENT_PADDING_BLOCK} * 2)
-  );
-  ${p => transitionName('resource-page', p.subject)}
-`);
 
 function selectComponent(klass: string) {
   switch (klass) {

@@ -17,6 +17,7 @@ export interface CellProps {
   columnIndex: number;
   className?: string;
   align?: CellAlign;
+  role?: string;
   onClearCell?: () => void;
   onEnterEditModeWithCharacter?: (key: string) => void;
 }
@@ -27,7 +28,8 @@ export function Cell({
   className,
   children,
   align,
-  onEnterEditModeWithCharacter,
+  role,
+  onEnterEditModeWithCharacter = () => undefined,
 }: React.PropsWithChildren<CellProps>): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -92,12 +94,15 @@ export function Cell({
     }
 
     if (isActive) {
-      ref.current.focus();
+      if (!ref.current.contains(document.activeElement)) {
+        ref.current.focus();
+      }
+
       activeCellRef.current = ref.current;
 
       const unregister = registerEventListener(
         TableEvent.EnterEditModeWithCharacter,
-        onEnterEditModeWithCharacter ?? (() => undefined),
+        onEnterEditModeWithCharacter,
       );
 
       return () => {
@@ -108,18 +113,32 @@ export function Cell({
 
   return (
     <CellWrapper
+      aria-colindex={columnIndex + 1}
       ref={ref}
+      role={role ?? 'gridcell'}
       className={className}
       onClick={handleClick}
       allowUserSelect={cursorMode === CursorMode.Edit}
       align={align}
+      tabIndex={isActive ? 0 : -1}
     >
       {children}
     </CellWrapper>
   );
 }
 
-export const IndexCell = styled(Cell)`
+export function IndexCell({
+  children,
+  ...props
+}: React.PropsWithChildren<CellProps>): JSX.Element {
+  return (
+    <StyledIndexCell role='rowheader' {...props}>
+      {children}
+    </StyledIndexCell>
+  );
+}
+
+const StyledIndexCell = styled(Cell)`
   justify-content: flex-end !important;
   color: ${p => p.theme.colors.textLight};
 `;
@@ -140,4 +159,5 @@ export const CellWrapper = styled.div<CellWrapperProps>`
   white-space: nowrap;
   text-overflow: ellipsis;
   position: relative;
+  outline: none;
 `;

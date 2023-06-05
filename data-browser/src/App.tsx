@@ -20,6 +20,8 @@ import { NetworkIndicator } from './components/NetworkIndicator';
 import { getAgentFromLocalStorage } from './helpers/agentStorage';
 import { DropdownContainer } from './components/Dropdown/DropdownContainer';
 import { PopoverContainer } from './components/Popover';
+import { SkipNav } from './components/SkipNav';
+import { ControlLockProvider } from './hooks/useControlLock';
 
 function fixDevUrl(url: string) {
   if (isDev()) {
@@ -73,29 +75,32 @@ function App(): JSX.Element {
         <HelmetProvider>
           {/* Basename is for hosting on GitHub pages */}
           <BrowserRouter basename='/'>
-            <HotKeysWrapper>
-              <ThemeWrapper>
-                {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
-                <GlobalStyle />
-                {/* @ts-ignore fallback component type too strict */}
-                <ErrBoundary FallbackComponent={CrashPage}>
-                  <Toaster />
-                  <MetaSetter />
-                  <DropdownContainer>
-                    <DialogContainer>
-                      <PopoverContainer>
-                        <DropdownContainer>
-                          <NavWrapper>
-                            <AppRoutes />
-                          </NavWrapper>
-                        </DropdownContainer>
-                      </PopoverContainer>
-                      <NetworkIndicator />
-                    </DialogContainer>
-                  </DropdownContainer>
-                </ErrBoundary>
-              </ThemeWrapper>
-            </HotKeysWrapper>
+            <ControlLockProvider>
+              <HotKeysWrapper>
+                <ThemeWrapper>
+                  {/* @ts-ignore TODO: Check if types are fixed or upgrade styled-components to 6.0.0 */}
+                  <GlobalStyle />
+                  {/* @ts-ignore fallback component type too strict */}
+                  <ErrBoundary FallbackComponent={CrashPage}>
+                    <Toaster />
+                    <MetaSetter />
+                    <DropdownContainer>
+                      <DialogContainer>
+                        <PopoverContainer>
+                          <DropdownContainer>
+                            <SkipNav />
+                            <NavWrapper>
+                              <AppRoutes />
+                            </NavWrapper>
+                          </DropdownContainer>
+                        </PopoverContainer>
+                        <NetworkIndicator />
+                      </DialogContainer>
+                    </DropdownContainer>
+                  </ErrBoundary>
+                </ThemeWrapper>
+              </HotKeysWrapper>
+            </ControlLockProvider>
           </BrowserRouter>
         </HelmetProvider>
       </AppSettingsContextProvider>

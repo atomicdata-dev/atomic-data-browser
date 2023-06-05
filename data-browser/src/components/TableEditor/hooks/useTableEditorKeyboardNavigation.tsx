@@ -5,6 +5,7 @@ import {
   tableKeyboardHandlers,
 } from '../helpers/keyboardHandlers';
 import { useTableEditorContext } from '../TableEditorContext';
+import { useHasControlLock } from '../../../hooks/useControlLock';
 
 const matchShift = (
   handler: KeyboardHandler,
@@ -22,7 +23,6 @@ const matchModifier = (
 const matchCondition = (handler: KeyboardHandler, context: HandlerContext) =>
   handler.condition === undefined || handler.condition(context);
 
-const isDialogOpened = () => document.body.hasAttribute('inert');
 const tableHeaderHasFocus = (headerRef: React.RefObject<HTMLDivElement>) =>
   headerRef.current?.contains(document.activeElement);
 
@@ -43,9 +43,11 @@ export function useTableEditorKeyboardNavigation(
     listRef,
   } = tableContext;
 
+  const hasControlLock = useHasControlLock();
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (isDialogOpened() || tableHeaderHasFocus(headerRef)) {
+      if (hasControlLock || tableHeaderHasFocus(headerRef)) {
         return;
       }
 
@@ -103,6 +105,7 @@ export function useTableEditorKeyboardNavigation(
       multiSelectCornerColumn,
       tableContext,
       triggerCopyCommand,
+      hasControlLock,
     ],
   );
 

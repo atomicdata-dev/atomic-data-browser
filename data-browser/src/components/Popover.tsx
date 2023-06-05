@@ -3,6 +3,7 @@ import * as RadixPopover from '@radix-ui/react-popover';
 import styled, { keyframes } from 'styled-components';
 import { transparentize } from 'polished';
 import { useDialogTreeContext } from './Dialog/dialogContext';
+import { useControlLock } from '../hooks/useControlLock';
 
 export interface PopoverProps {
   Trigger: React.ReactNode;
@@ -24,6 +25,8 @@ export function Popover({
   const containerRef = useContext(PopoverContainerContext);
 
   const container = containerRef.current ?? undefined;
+
+  useControlLock(!!open);
 
   const handleOpenChange = useCallback(
     (changedToOpen: boolean) => {

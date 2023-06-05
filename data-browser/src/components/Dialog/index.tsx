@@ -20,6 +20,7 @@ import {
   useDialogTreeContext,
 } from './dialogContext';
 import { useDialog } from './useDialog';
+import { useControlLock } from '../../hooks/useControlLock';
 
 export interface InternalDialogProps {
   show: boolean;
@@ -82,6 +83,8 @@ const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   const innerDialogRef = useRef<HTMLDivElement>(null);
   const portalRef = useContext(DialogPortalContext);
   const { hasOpenInnerPopup } = useDialogTreeContext();
+
+  useControlLock(show);
 
   const cancelDialog = useCallback(() => {
     onClose(false);

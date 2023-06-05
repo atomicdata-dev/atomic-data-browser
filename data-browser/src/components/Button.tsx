@@ -63,7 +63,6 @@ Button.displayName = 'Button';
 export const ButtonClean = styled.button<ButtonProps>`
   cursor: pointer;
   border: none;
-  outline: none;
   font-size: inherit;
   padding: 0;
   color: inherit;

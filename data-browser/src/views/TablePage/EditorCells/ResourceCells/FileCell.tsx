@@ -16,7 +16,7 @@ export function FileCell({ resource }: ResourceCellProps) {
   return (
     <Wrapper>
       {isImage ? (
-        <StyledLink resource={resource}>
+        <StyledLink resource={resource} tabIndex={-1} aria-hidden>
           <Img src={downloadUrl} alt={title} loading='lazy' />
         </StyledLink>
       ) : (
