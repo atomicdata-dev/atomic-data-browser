@@ -8,7 +8,7 @@ import {
   JSONValue,
 } from '@tomic/react';
 import { ResourceInline } from '../views/ResourceInline';
-import DateTime from './datatypes/DateTime';
+import { DateTime } from './datatypes/DateTime';
 import Markdown from './datatypes/Markdown';
 import Nestedresource from './datatypes/NestedResource';
 import ResourceArray from './datatypes/ResourceArray';

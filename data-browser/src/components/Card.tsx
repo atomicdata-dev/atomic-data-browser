@@ -19,7 +19,7 @@ export const Card = styled.div<CardProps>`
   padding-bottom: 0;
   border-radius: ${props => props.theme.radius};
   max-height: ${props => (props.small ? '10rem' : 'none')};
-  overflow: ${props => (props.small ? 'hidden' : 'auto')};
+  overflow: ${props => (props.small ? 'hidden' : 'visible')};
   border-color: ${props =>
     props.highlight ? props.theme.colors.main : props.theme.colors.bg2};
 

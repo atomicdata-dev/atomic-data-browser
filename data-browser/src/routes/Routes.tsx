@@ -19,7 +19,7 @@ import { ShareRoute } from './ShareRoute';
 import { Sandbox } from './Sandbox';
 import { TokenRoute } from './TokenRoute';
 import { ImporterPage } from '../views/ImporterPage';
-import History from './HistoryRoute';
+import { History } from './History';
 
 const homeURL = window.location.origin;
 

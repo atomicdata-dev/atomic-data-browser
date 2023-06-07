@@ -5,12 +5,10 @@ type Props = {
 };
 
 /** Renders a Date value */
-function DateTime({ date }: Props): JSX.Element {
+export function DateTime({ date }: Props): JSX.Element {
   return (
-    <span title={date.toLocaleString()}>
+    <time dateTime={date.toISOString()}>
       {date.toLocaleDateString()} {date.toLocaleTimeString()}
-    </span>
+    </time>
   );
 }
-
-export default DateTime;
