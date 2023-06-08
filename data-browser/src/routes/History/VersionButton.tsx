@@ -21,6 +21,7 @@ export function VersionButton({
       key={version.commit.signature}
       onClick={onClick}
       about={version.commit.id}
+      data-testid='version-button'
     >
       <DateTime date={new Date(version.commit.createdAt)} />
     </VersionRow>
