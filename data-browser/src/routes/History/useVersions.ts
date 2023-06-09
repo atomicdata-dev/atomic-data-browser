@@ -1,5 +1,6 @@
 import { Resource, Version, useStore } from '@tomic/react';
 import { useState, useEffect } from 'react';
+import { dedupeVersions } from './versionHelpers';
 
 export interface UseVersionsResult {
   versions: Version[];
@@ -17,7 +18,7 @@ export function useVersions(resource: Resource): UseVersionsResult {
     resource
       .getHistory(store)
       .then(history => {
-        setVersions(history);
+        setVersions(dedupeVersions(history));
       })
       .catch(e => {
         setError(e);

@@ -5,7 +5,6 @@ import {
   editURL,
   dataURL,
   constructOpenURL,
-  versionsURL,
   historyURL,
   shareURL,
   importerURL,
@@ -139,13 +138,6 @@ function ResourceContextMenu({
       helper:
         'Fetch the resouce again from the server, possibly see new changes.',
       onClick: handleDestroy,
-    },
-    {
-      id: 'versions',
-      icon: <FaClock />,
-      label: 'versions',
-      helper: 'Show the versions of this resource',
-      onClick: () => navigate(versionsURL(subject, store.getServerUrl())),
     },
     {
       id: 'history',
