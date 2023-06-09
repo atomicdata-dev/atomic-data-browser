@@ -8,12 +8,14 @@ This changelog covers all three packages, as they are (for now) updated as a who
 
 - Improve performance collapsed sidebar items.
 - Add article view #319
+- Add resource history view
 - New subjects have nested paths by default
 
 ### @tomic/lib
 
 - BREAKING: `buildSearchSubject` now takes a serverURL instead of the store.
 - Fix bug where @tomic/lib would not work in a non-browser context.
+- Add `resource.getHistory` method that returns a list of previous versions of the resource.
 - Add `store.getResourceAncestry` method, which returns the ancestry of a resource, including the resource itself.
 - Add `resource.title` property, which returns the name of a resource, or the first property that is can be used to name the resource.
 - `store.createSubject` now accepts a `parent` argument, which allows creating nested subjects.
