@@ -64,6 +64,38 @@ const getMultiSelectStartPosition = ({
   return { row, col };
 };
 
+const relativePositionToMultiSelectCorner = ({
+  multiSelectCornerColumn,
+  multiSelectCornerRow,
+  selectedColumn,
+  selectedRow,
+}: TableEditorContext) => {
+  const row = (multiSelectCornerRow ?? selectedRow ?? 0) - (selectedRow ?? 0);
+  const col =
+    (multiSelectCornerColumn ?? selectedColumn ?? 0) - (selectedColumn ?? 0);
+
+  return [row, col];
+};
+
+const createCursorHandler =
+  (rowMod: number, columnMod: number) =>
+  ({ translateCursor, tableContext }: HandlerContext) => {
+    let rowTranslation = rowMod;
+    let columnTranslation = columnMod;
+
+    if (tableContext.cursorMode === CursorMode.MultiSelect) {
+      const [relativeRow, relativeColumn] =
+        relativePositionToMultiSelectCorner(tableContext);
+      rowTranslation += relativeRow;
+      columnTranslation += relativeColumn;
+
+      tableContext.setMultiSelectCorner(undefined, undefined);
+    }
+
+    tableContext.setCursorMode(CursorMode.Visual);
+    translateCursor(rowTranslation, columnTranslation);
+  };
+
 const exitEditMode: KeyboardHandler = {
   id: KeyboardInteraction.ExitEditMode,
   keys: new Set(['Escape']),
@@ -158,10 +190,7 @@ const moveCursorUp: KeyboardHandler = {
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
 
   preventDefault: true,
-  handler: ({ translateCursor, tableContext }) => {
-    tableContext.setCursorMode(CursorMode.Visual);
-    translateCursor(-1, 0);
-  },
+  handler: createCursorHandler(-1, 0),
 };
 
 const moveCursorDown: KeyboardHandler = {
@@ -171,10 +200,7 @@ const moveCursorDown: KeyboardHandler = {
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
 
   preventDefault: true,
-  handler: ({ translateCursor, tableContext }) => {
-    tableContext.setCursorMode(CursorMode.Visual);
-    translateCursor(1, 0);
-  },
+  handler: createCursorHandler(1, 0),
 };
 
 const moveCursorLeft: KeyboardHandler = {
@@ -184,10 +210,7 @@ const moveCursorLeft: KeyboardHandler = {
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
 
   preventDefault: true,
-  handler: ({ translateCursor, tableContext }) => {
-    tableContext.setCursorMode(CursorMode.Visual);
-    translateCursor(0, -1);
-  },
+  handler: createCursorHandler(0, -1),
 };
 
 const moveCursorRight: KeyboardHandler = {
@@ -197,10 +220,7 @@ const moveCursorRight: KeyboardHandler = {
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
 
   preventDefault: true,
-  handler: ({ translateCursor, tableContext }) => {
-    tableContext.setCursorMode(CursorMode.Visual);
-    translateCursor(0, 1);
-  },
+  handler: createCursorHandler(0, 1),
 };
 
 const enterEditModeWithEnter: KeyboardHandler = {
