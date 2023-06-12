@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import { EventManager } from '../../helpers/EventManager';
+import { KeyboardInteraction } from './helpers/keyboardHandlers';
 
 export enum TableEvent {
   EnterEditModeWithCharacter = 'enterEditModeWithCharacter',
@@ -20,7 +21,15 @@ export enum CursorMode {
   MultiSelect,
 }
 
+function emptySetState<T>(_: T | ((__: T) => T)): undefined {
+  return undefined;
+}
+
 export interface TableEditorContext {
+  disabledKeyboardInteractions: Set<KeyboardInteraction>;
+  setDisabledKeyboardInteractions: React.Dispatch<
+    React.SetStateAction<Set<KeyboardInteraction>>
+  >;
   selectedRow: number | undefined;
   selectedColumn: number | undefined;
   multiSelectCornerRow: number | undefined;
@@ -49,21 +58,23 @@ export interface TableEditorContext {
 }
 
 const initial = {
+  disabledKeyboardInteractions: new Set<KeyboardInteraction>(),
+  setDisabledKeyboardInteractions: emptySetState,
   selectedRow: undefined,
   selectedColumn: undefined,
   multiSelectCornerRow: undefined,
   multiSelectCornerColumn: undefined,
   setActiveCell: () => undefined,
   indicatorHidden: false,
-  setIndicatorHidden: (_: boolean | ((__: boolean) => boolean)) => false,
+  setIndicatorHidden: emptySetState,
   setMultiSelectCorner: () => undefined,
   activeCellRef: { current: null },
   multiSelectCornerCellRef: { current: null },
   isDragging: false,
-  setIsDragging: (_: boolean | ((__: boolean) => boolean)) => false,
+  setIsDragging: emptySetState,
   listRef: { current: null },
   cursorMode: CursorMode.Visual,
-  setCursorMode: (_: CursorMode | ((__: CursorMode) => CursorMode)) => 0,
+  setCursorMode: emptySetState,
   clearCell: () => undefined,
   clearRow: (_: number) => undefined,
   enterEditModeWithCharacter: (_: string) => undefined,
@@ -79,6 +90,8 @@ export function TableEditorContextProvider({
   const [eventManager] = useState(
     () => new EventManager<TableEvent, TableEventHandlers>(),
   );
+  const [disabledKeyboardInteractions, setDisabledKeyboardInteractions] =
+    useState<Set<KeyboardInteraction>>(new Set());
   const [selectedRow, setSelectedRow] = useState<number | undefined>();
   const [selectedColumn, setSelectedColumn] = useState<number | undefined>();
   const [multiSelectCornerRow, setMultiSelectCornerRow] = useState<
@@ -132,6 +145,8 @@ export function TableEditorContextProvider({
 
   const context = useMemo(
     () => ({
+      disabledKeyboardInteractions,
+      setDisabledKeyboardInteractions,
       selectedRow,
       selectedColumn,
       multiSelectCornerRow,
@@ -153,6 +168,7 @@ export function TableEditorContextProvider({
       enterEditModeWithCharacter,
     }),
     [
+      disabledKeyboardInteractions,
       selectedRow,
       selectedColumn,
       multiSelectCornerColumn,

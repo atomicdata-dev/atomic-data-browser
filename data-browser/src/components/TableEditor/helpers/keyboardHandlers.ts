@@ -3,6 +3,26 @@ import { CursorMode, TableEditorContext } from '../TableEditorContext';
 const triggerCharacters =
   'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{};:"|,./<>?`~ø';
 
+export enum KeyboardInteraction {
+  ExitEditMode,
+  EditNextRow,
+  EditNextCell,
+  EditPreviousCell,
+  Copy,
+  DeleteCell,
+  DeleteRow,
+  MoveCursorUp,
+  MoveCursorDown,
+  MoveCursorLeft,
+  MoveCursorRight,
+  EnterEditModeWithEnter,
+  EnterEditModeByTyping,
+  MoveMultiSelectCornerUp,
+  MoveMultiSelectCornerDown,
+  MoveMultiSelectCornerLeft,
+  MoveMultiSelectCornerRight,
+}
+
 export interface HandlerContext {
   tableContext: TableEditorContext;
   event: React.KeyboardEvent;
@@ -13,6 +33,7 @@ export interface HandlerContext {
 }
 
 export interface KeyboardHandler {
+  id: KeyboardInteraction;
   keys: Set<string>;
   cursorMode: Set<CursorMode>;
   preventDefault?: boolean;
@@ -44,7 +65,8 @@ const getMultiSelectStartPosition = ({
 };
 
 const exitEditMode: KeyboardHandler = {
-  keys: new Set(['Enter', 'Escape']),
+  id: KeyboardInteraction.ExitEditMode,
+  keys: new Set(['Escape']),
   cursorMode: new Set([CursorMode.Edit]),
 
   handler: ({ tableContext, tableRef }) => {
@@ -53,8 +75,21 @@ const exitEditMode: KeyboardHandler = {
   },
 };
 
+const editNextRow: KeyboardHandler = {
+  id: KeyboardInteraction.EditNextRow,
+  keys: new Set(['Enter']),
+  shift: false,
+  cursorMode: new Set([CursorMode.Edit]),
+  preventDefault: true,
+  handler: ({ translateCursor }) => {
+    translateCursor(1, 0);
+  },
+};
+
 const editNextCell: KeyboardHandler = {
+  id: KeyboardInteraction.EditNextCell,
   keys: new Set(['Tab']),
+  shift: false,
   cursorMode: new Set([CursorMode.Edit]),
   preventDefault: true,
   handler: ({ translateCursor }) => {
@@ -62,7 +97,19 @@ const editNextCell: KeyboardHandler = {
   },
 };
 
+const editPreviousCell: KeyboardHandler = {
+  id: KeyboardInteraction.EditPreviousCell,
+  keys: new Set(['Tab']),
+  shift: true,
+  cursorMode: new Set([CursorMode.Edit]),
+  preventDefault: true,
+  handler: ({ translateCursor }) => {
+    translateCursor(0, -1);
+  },
+};
+
 const copy: KeyboardHandler = {
+  id: KeyboardInteraction.Copy,
   keys: new Set(['c']),
   mod: true,
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
@@ -77,6 +124,7 @@ const copy: KeyboardHandler = {
 };
 
 const deleteCell: KeyboardHandler = {
+  id: KeyboardInteraction.DeleteCell,
   keys: new Set(['Delete', 'Backspace']),
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
   condition: ({ tableContext }) =>
@@ -90,6 +138,7 @@ const deleteCell: KeyboardHandler = {
 };
 
 const deleteRow: KeyboardHandler = {
+  id: KeyboardInteraction.DeleteRow,
   keys: new Set(['Delete', 'Backspace']),
   cursorMode: new Set([CursorMode.Visual]),
   condition: ({ tableContext }) =>
@@ -103,6 +152,7 @@ const deleteRow: KeyboardHandler = {
 };
 
 const moveCursorUp: KeyboardHandler = {
+  id: KeyboardInteraction.MoveCursorUp,
   keys: new Set(['ArrowUp']),
   shift: false,
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
@@ -115,6 +165,7 @@ const moveCursorUp: KeyboardHandler = {
 };
 
 const moveCursorDown: KeyboardHandler = {
+  id: KeyboardInteraction.MoveCursorDown,
   keys: new Set(['ArrowDown']),
   shift: false,
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
@@ -127,6 +178,7 @@ const moveCursorDown: KeyboardHandler = {
 };
 
 const moveCursorLeft: KeyboardHandler = {
+  id: KeyboardInteraction.MoveCursorLeft,
   keys: new Set(['ArrowLeft']),
   shift: false,
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
@@ -139,6 +191,7 @@ const moveCursorLeft: KeyboardHandler = {
 };
 
 const moveCursorRight: KeyboardHandler = {
+  id: KeyboardInteraction.MoveCursorRight,
   keys: new Set(['ArrowRight']),
   shift: false,
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
@@ -151,6 +204,7 @@ const moveCursorRight: KeyboardHandler = {
 };
 
 const enterEditModeWithEnter: KeyboardHandler = {
+  id: KeyboardInteraction.EnterEditModeWithEnter,
   keys: new Set(['Enter']),
   cursorMode: new Set([CursorMode.Visual]),
   condition: ({ tableContext }) =>
@@ -164,6 +218,7 @@ const enterEditModeWithEnter: KeyboardHandler = {
 };
 
 const enterEditModeByTyping: KeyboardHandler = {
+  id: KeyboardInteraction.EnterEditModeByTyping,
   keys: new Set(triggerCharacters.split('')),
   cursorMode: new Set([CursorMode.Visual]),
   mod: false,
@@ -180,6 +235,7 @@ const enterEditModeByTyping: KeyboardHandler = {
 };
 
 const moveMultiSelectCornerUp: KeyboardHandler = {
+  id: KeyboardInteraction.MoveMultiSelectCornerUp,
   keys: new Set(['ArrowUp']),
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
   shift: true,
@@ -193,6 +249,7 @@ const moveMultiSelectCornerUp: KeyboardHandler = {
 };
 
 const moveMultiSelectCornerDown: KeyboardHandler = {
+  id: KeyboardInteraction.MoveMultiSelectCornerDown,
   keys: new Set(['ArrowDown']),
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
   shift: true,
@@ -206,6 +263,7 @@ const moveMultiSelectCornerDown: KeyboardHandler = {
 };
 
 const moveMultiSelectCornerLeft: KeyboardHandler = {
+  id: KeyboardInteraction.MoveMultiSelectCornerLeft,
   keys: new Set(['ArrowLeft']),
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
   shift: true,
@@ -222,6 +280,7 @@ const moveMultiSelectCornerLeft: KeyboardHandler = {
 };
 
 const moveMultiSelectCornerRight: KeyboardHandler = {
+  id: KeyboardInteraction.MoveMultiSelectCornerRight,
   keys: new Set(['ArrowRight']),
   cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
   shift: true,
@@ -239,7 +298,9 @@ const moveMultiSelectCornerRight: KeyboardHandler = {
 
 export const tableKeyboardHandlers = [
   exitEditMode,
+  editNextRow,
   editNextCell,
+  editPreviousCell,
   copy,
   deleteCell,
   deleteRow,

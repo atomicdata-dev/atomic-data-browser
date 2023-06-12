@@ -69,13 +69,13 @@ export function useControlLock(active: boolean): void {
   useEffect(() => {
     if (active) {
       requestLock(id);
-
-      return () => {
-        releaseLock(id);
-      };
     } else {
       releaseLock(id);
     }
+
+    return () => {
+      releaseLock(id);
+    };
   }, [active]);
 }
 

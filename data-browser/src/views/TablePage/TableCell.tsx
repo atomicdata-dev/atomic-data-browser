@@ -79,9 +79,9 @@ export function TableCell({
 
   const handleEnterEditModeWithCharacter = useCallback(
     (key: string) => {
-      onChange(appendStringToType(value, key, dataType));
+      onChange(appendStringToType(undefined, key, dataType));
     },
-    [onChange, value, dataType],
+    [onChange, dataType],
   );
 
   useEffect(() => {

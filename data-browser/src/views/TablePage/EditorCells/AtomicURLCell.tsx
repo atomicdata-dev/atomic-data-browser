@@ -41,6 +41,10 @@ import {
 import { useResourceSearch } from './useResourceSearch';
 import { IconButton } from '../../../components/IconButton/IconButton';
 import { AtomicLink } from '../../../components/AtomicLink';
+import {
+  KeyboardInteraction,
+  useCellOptions,
+} from '../../../components/TableEditor';
 
 const useClassType = (subject: string) => {
   const resource = useResource(subject);
@@ -52,6 +56,10 @@ const useClassType = (subject: string) => {
     classType,
     classTypeTitle,
   };
+};
+
+const cellOptions = {
+  disabledKeyboardInteractions: new Set([KeyboardInteraction.EditNextRow]),
 };
 
 function AtomicURLCellEdit({
@@ -68,6 +76,8 @@ function AtomicURLCellEdit({
   const selectedElement = useRef<HTMLLIElement>(null);
 
   const [searchValue, setSearchValue] = useState('');
+
+  useCellOptions(cellOptions);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -150,47 +160,45 @@ function AtomicURLCellEdit({
   const showNoResults = results.length === 0 && classType !== urls.classes.file;
 
   return (
-    <>
-      <SearchPopover
-        Trigger={Trigger}
-        open={open}
-        onOpenChange={handleOpenChange}
-      >
-        <InputWrapper>
-          <InputStyled
-            type='search'
-            value={searchValue}
-            placeholder={placehoder}
-            onChange={handleChange}
-            onKeyDown={modifiedHandleKeyDown}
+    <SearchPopover
+      Trigger={Trigger}
+      open={open}
+      onOpenChange={handleOpenChange}
+    >
+      <InputWrapper>
+        <InputStyled
+          type='search'
+          value={searchValue}
+          placeholder={placehoder}
+          onChange={handleChange}
+          onKeyDown={modifiedHandleKeyDown}
+        />
+      </InputWrapper>
+      <ResultWrapper>
+        {results.length > 0 && (
+          <ol>
+            {results.map((result, index) => (
+              <li
+                key={result}
+                data-selected={index === selectedIndex}
+                ref={index === selectedIndex ? selectedElement : null}
+              >
+                <Result subject={result} onClick={handleResultClick} />
+              </li>
+            ))}
+          </ol>
+        )}
+        {showNoResults && 'No results'}
+        {showFileDropzone && (
+          <FileUploadContainer
+            cellResource={cell}
+            onChange={onChange}
+            row={row}
+            onFilesUploaded={handleFilesUploaded}
           />
-        </InputWrapper>
-        <ResultWrapper>
-          {results.length > 0 && (
-            <ol>
-              {results.map((result, index) => (
-                <li
-                  key={result}
-                  data-selected={index === selectedIndex}
-                  ref={index === selectedIndex ? selectedElement : null}
-                >
-                  <Result subject={result} onClick={handleResultClick} />
-                </li>
-              ))}
-            </ol>
-          )}
-          {showNoResults && 'No results'}
-          {showFileDropzone && (
-            <FileUploadContainer
-              cellResource={cell}
-              onChange={onChange}
-              row={row}
-              onFilesUploaded={handleFilesUploaded}
-            />
-          )}
-        </ResultWrapper>
-      </SearchPopover>
-    </>
+        )}
+      </ResultWrapper>
+    </SearchPopover>
   );
 }
 

@@ -35,6 +35,7 @@ export function useTableEditorKeyboardNavigation(
 ) {
   const tableContext = useTableEditorContext();
   const {
+    disabledKeyboardInteractions,
     selectedRow,
     selectedColumn,
     multiSelectCornerRow,
@@ -83,6 +84,7 @@ export function useTableEditorKeyboardNavigation(
 
       const handlers = tableKeyboardHandlers.filter(
         h =>
+          !disabledKeyboardInteractions.has(h.id) &&
           h.keys.has(e.key) &&
           h.cursorMode.has(tableContext.cursorMode) &&
           matchShift(h, e) &&
@@ -99,6 +101,7 @@ export function useTableEditorKeyboardNavigation(
       }
     },
     [
+      disabledKeyboardInteractions,
       selectedRow,
       selectedColumn,
       multiSelectCornerRow,

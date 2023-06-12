@@ -8,6 +8,7 @@ import { useControlLock } from '../hooks/useControlLock';
 export interface PopoverProps {
   Trigger: React.ReactNode;
   open?: boolean;
+  defaultOpen?: boolean;
   onOpenChange: (open: boolean) => void;
   className?: string;
   noArrow?: boolean;
@@ -17,6 +18,7 @@ export function Popover({
   children,
   className,
   open,
+  defaultOpen,
   noArrow,
   onOpenChange,
   Trigger,
@@ -41,7 +43,12 @@ export function Popover({
   }, [open, setHasOpenInnerPopup]);
 
   return (
-    <RadixPopover.Root open={open} onOpenChange={handleOpenChange}>
+    <RadixPopover.Root
+      modal
+      open={open}
+      onOpenChange={handleOpenChange}
+      defaultOpen={defaultOpen}
+    >
       {Trigger}
       <RadixPopover.Portal container={container}>
         <Content collisionPadding={10} sticky='always' className={className}>

@@ -6,7 +6,7 @@ import {
   useResource,
   useStore,
 } from '@tomic/react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import * as RadixPopover from '@radix-ui/react-popover';
 import styled from 'styled-components';
@@ -22,9 +22,15 @@ import { Row } from '../../../components/Row';
 import { stringToSlug } from '../../../helpers/stringToSlug';
 import { loopingIndex } from '../../../helpers/loopingIndex';
 import { fadeIn } from '../../../helpers/commonAnimations';
-import { useCellOptions } from '../../../components/TableEditor/hooks/useCellOptions';
+import {
+  KeyboardInteraction,
+  useCellOptions,
+} from '../../../components/TableEditor';
+import { useTableEditorContext } from '../../../components/TableEditor/TableEditorContext';
 
 const TAG_SPACING = '0.5rem';
+
+const emptyArray: string[] = [];
 
 function buildListWithTitles(
   store: Store,
@@ -38,10 +44,6 @@ function buildListWithTitles(
   });
 }
 
-const cellOptions = {
-  hideActiveIndicator: true,
-};
-
 function ResourceArrayCellEdit({
   value,
   property,
@@ -51,9 +53,35 @@ function ResourceArrayCellEdit({
   const propertyResource = useResource(property);
   const [allowsOnly] = useArray(propertyResource, properties.allowsOnly);
   const [filteredTags, setFilteredTags] = React.useState<string[]>(allowsOnly);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [focusIndex, setFocusIndex] = React.useState(0);
+
+  const { activeCellRef } = useTableEditorContext();
+
+  const val = (value as string[]) ?? emptyArray;
+
+  const cellOptions = useMemo(() => {
+    const disabledKeyboardInteractions = new Set<KeyboardInteraction>([
+      KeyboardInteraction.EditNextRow,
+    ]);
+
+    if (focusIndex !== 0) {
+      disabledKeyboardInteractions.add(KeyboardInteraction.EditPreviousCell);
+    }
+
+    if (focusIndex !== val.length) {
+      disabledKeyboardInteractions.add(KeyboardInteraction.EditNextCell);
+    }
+
+    return {
+      disabledKeyboardInteractions,
+      hideActiveIndicator: true,
+    };
+  }, [focusIndex, val]);
+
   useCellOptions(cellOptions);
+
   const listWithTitles = useMemo(
     () => buildListWithTitles(store, allowsOnly),
     [allowsOnly],
@@ -68,8 +96,6 @@ function ResourceArrayCellEdit({
     },
     [listWithTitles],
   );
-
-  const val = (value as string[]) ?? [];
 
   const handleAddTag = useCallback(
     (subject: string) => {
@@ -92,6 +118,12 @@ function ResourceArrayCellEdit({
     [filteredTags],
   );
 
+  useEffect(() => {
+    if (!open) {
+      activeCellRef.current?.focus();
+    }
+  }, [open]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch (e.key) {
@@ -109,21 +141,24 @@ function ResourceArrayCellEdit({
           break;
         case 'Escape':
           e.preventDefault();
-          e.stopPropagation();
+
           setOpen(false);
           break;
       }
     },
-    [changeSelection, filteredTags, selectedIndex],
+    [changeSelection, filteredTags, selectedIndex, open],
   );
 
   return (
     <AbsoluteCell>
       <Row gap={TAG_SPACING} center wrapItems>
-        {val.map(v => (
+        {val.map((v, i) => (
           <Tag subject={v} key={v}>
             <TagIconButton
               title='remove tag'
+              onFocus={() => {
+                setFocusIndex(i);
+              }}
               onClick={() => handleRemoveTag(v)}
             >
               <FaTimes />
@@ -131,10 +166,17 @@ function ResourceArrayCellEdit({
           </Tag>
         ))}
         <Popover
+          defaultOpen
           open={open}
           onOpenChange={setOpen}
           Trigger={
-            <IconButton title='Add tag' as={RadixPopover.Trigger}>
+            <IconButton
+              title='Add tag'
+              as={RadixPopover.Trigger}
+              onFocus={() => {
+                setFocusIndex(val.length);
+              }}
+            >
               <StyledIcon />
             </IconButton>
           }
@@ -142,7 +184,7 @@ function ResourceArrayCellEdit({
           <Content onKeyDown={handleKeyDown}>
             <SearchInputWrapper>
               <InputStyled
-                placeholder='Search tag...'
+                placeholder='Filter tags...'
                 onChange={handleSearch}
               />
             </SearchInputWrapper>
