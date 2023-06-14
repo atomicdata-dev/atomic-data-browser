@@ -95,7 +95,7 @@ export function Cell({
 
     if (isActive) {
       if (!ref.current.contains(document.activeElement)) {
-        ref.current.focus();
+        ref.current.focus({ preventScroll: true });
       }
 
       activeCellRef.current = ref.current;
