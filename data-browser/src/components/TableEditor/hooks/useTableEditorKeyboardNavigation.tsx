@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import {
   HandlerContext,
   KeyboardHandler,
+  TableCommands,
   tableKeyboardHandlers,
 } from '../helpers/keyboardHandlers';
 import { useTableEditorContext } from '../TableEditorContext';
@@ -31,7 +32,7 @@ export function useTableEditorKeyboardNavigation(
   rowCount: number,
   tableRef: React.RefObject<HTMLDivElement>,
   headerRef: React.RefObject<HTMLDivElement>,
-  triggerCopyCommand: () => void,
+  commands: TableCommands,
 ) {
   const tableContext = useTableEditorContext();
   const {
@@ -78,7 +79,7 @@ export function useTableEditorKeyboardNavigation(
         event: e,
         tableRef,
         columnCount,
-        triggerCopyCommand,
+        ...commands,
         translateCursor,
       };
 
@@ -107,7 +108,7 @@ export function useTableEditorKeyboardNavigation(
       multiSelectCornerRow,
       multiSelectCornerColumn,
       tableContext,
-      triggerCopyCommand,
+      commands,
       hasControlLock,
     ],
   );

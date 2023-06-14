@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // T is a generic type for value parameter, our case this will be string
 export function useDebounce<T>(value: T, delay: number): T {
@@ -23,4 +23,40 @@ export function useDebounce<T>(value: T, delay: number): T {
   );
 
   return debouncedValue;
+}
+
+export function useDebouncedCallback<F extends (...args: any[]) => void>(
+  func: F,
+  time: number,
+  deps: unknown[],
+): [debouncedFunction: (...args: Parameters<F>) => void, isWaiting: boolean] {
+  const [timeoutId, setTimeoutId] = useState<
+    ReturnType<typeof setTimeout> | undefined
+  >(undefined);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, []);
+
+  const memoizedFunction = useCallback(
+    (...args: Parameters<F>) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      const id = setTimeout(() => {
+        func(...args);
+        setTimeoutId(undefined);
+      }, time);
+
+      setTimeoutId(id);
+    },
+    [...deps, time],
+  );
+
+  return [memoizedFunction, timeoutId !== undefined];
 }

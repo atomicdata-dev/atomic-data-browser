@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { FixedSizeList, ListOnScrollProps } from 'react-window';
 import Autosizer from 'react-virtualized-auto-sizer';
@@ -36,6 +43,7 @@ interface FancyTableProps<T> {
   rowHeight?: number;
   columnToKey: (column: T) => string;
   lablledBy: string;
+  onUndoCommand?: () => void;
   onClearRow?: (index: number) => void;
   onClearCells?: (cells: CellIndex<T>[]) => void;
   onCopyCommand?: (cells: CellIndex<T>[]) => Promise<CopyValue[][]>;
@@ -77,6 +85,7 @@ function FancyTableInner<T>({
   onClearCells,
   onClearRow,
   onCopyCommand,
+  onUndoCommand,
   onPasteCommand,
   onColumnReorder,
   HeadingComponent,
@@ -100,12 +109,20 @@ function FancyTableInner<T>({
   const triggerCopyCommand = useCopyCommand(columns, onCopyCommand);
   const triggerPasteCommand = usePasteCommand(columns, onPasteCommand);
 
+  const tableCommands = useMemo(
+    () => ({
+      copy: triggerCopyCommand,
+      undo: onUndoCommand,
+    }),
+    [triggerCopyCommand, onUndoCommand],
+  );
+
   const handleKeyDown = useTableEditorKeyboardNavigation(
     columns.length,
     itemCount,
     tableRef,
     headerRef,
-    triggerCopyCommand,
+    tableCommands,
   );
 
   useClearCommands(columns, onClearRow, onClearCells);

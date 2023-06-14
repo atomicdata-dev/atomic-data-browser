@@ -506,6 +506,7 @@ export class Resource {
 
     if (value === undefined) {
       this.removePropVal(prop);
+      store.notify(this.clone());
 
       return;
     }

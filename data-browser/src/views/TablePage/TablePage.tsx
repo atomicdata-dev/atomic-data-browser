@@ -1,35 +1,25 @@
-import { Collection, Property, useStore } from '@tomic/react';
+import { Property, useStore } from '@tomic/react';
 import React, { useCallback, useId, useMemo } from 'react';
 import { ContainerFull } from '../../components/Containers';
 import { EditableTitle } from '../../components/EditableTitle';
-import { CellIndex, CopyValue, FancyTable } from '../../components/TableEditor';
+import { FancyTable } from '../../components/TableEditor';
 import type { ResourcePageProps } from '../ResourcePage';
 import { TableHeading } from './TableHeading';
 import { useTableColumns } from './useTableColumns';
 import { TableNewRow, TableRow } from './TableRow';
 import { useTableData } from './useTableData';
-import { getValuesFromSubject } from './helpers/clipboard';
 import { NewColumnButton } from './NewColumnButton';
 import { TablePageContext, TablePageContextType } from './tablePageContext';
 import { useHandlePaste } from './helpers/useHandlePaste';
 import { useHandleColumnResize } from './helpers/useHandleColumnResize';
+import {
+  createResourceDeletedHistoryItem,
+  useTableHistory,
+} from './helpers/useTableHistory';
+import { useHandleClearCells } from './helpers/useHandleClearCells';
+import { useHandleCopyCommand } from './helpers/useHandleCopyCommand';
 
 const columnToKey = (column: Property) => column.subject;
-
-const transformToPropertiesPerSubject = async (
-  cells: CellIndex<Property>[],
-  collection: Collection,
-): Promise<Record<string, Property[]>> => {
-  const result: Record<string, Property[]> = {};
-
-  for (const [rowIndex, property] of cells) {
-    const subject = await collection.getMemberWithIndex(rowIndex);
-
-    result[subject] = [...(result[subject] ?? []), property];
-  }
-
-  return result;
-};
 
 export function TablePage({ resource }: ResourcePageProps): JSX.Element {
   const store = useStore();
@@ -46,11 +36,15 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
 
   const { columns, reorderColumns } = useTableColumns(tableClass);
 
+  const { undoLastItem, addItemsToHistoryStack } =
+    useTableHistory(invalidateCollection);
+
   const handlePaste = useHandlePaste(
     resource,
     collection,
     tableClass,
     invalidateCollection,
+    addItemsToHistoryStack,
     collectionVersion,
   );
 
@@ -59,8 +53,9 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
       tableClassResource: tableClass,
       sorting,
       setSortBy,
+      addItemsToHistoryStack,
     }),
-    [tableClass, setSortBy, sorting],
+    [tableClass, setSortBy, sorting, addItemsToHistoryStack],
   );
 
   const handleDeleteRow = useCallback(
@@ -72,54 +67,21 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
       }
 
       const rowResource = store.getResourceLoading(row);
+      addItemsToHistoryStack(createResourceDeletedHistoryItem(rowResource));
+
       await rowResource.destroy(store);
+
       invalidateCollection();
     },
     [collection, store, invalidateCollection],
   );
 
-  const handleClearCells = useCallback(
-    async (cells: CellIndex<Property>[]) => {
-      const resourcePropMap = await transformToPropertiesPerSubject(
-        cells,
-        collection,
-      );
-
-      const removePropvals = async ([subject, props]: [string, Property[]]) => {
-        const res = await store.getResourceAsync(subject);
-
-        await Promise.all(
-          props.map(prop => res.set(prop.subject, undefined, store, false)),
-        );
-
-        await res.save(store);
-      };
-
-      await Promise.all(
-        Array.from(Object.entries(resourcePropMap)).map(removePropvals),
-      );
-
-      invalidateCollection();
-    },
-    [store, collection, invalidateCollection],
+  const handleClearCells = useHandleClearCells(
+    collection,
+    addItemsToHistoryStack,
   );
 
-  const handleCopyCommand = useCallback(
-    async (cells: CellIndex<Property>[]): Promise<CopyValue[][]> => {
-      const propertiesPerSubject = await transformToPropertiesPerSubject(
-        cells,
-        collection,
-      );
-
-      const unresolvedValues = Array.from(
-        Object.entries(propertiesPerSubject),
-      ).map(([subject, props]) => getValuesFromSubject(subject, props, store));
-
-      return Promise.all(unresolvedValues);
-    },
-
-    [collection, collectionVersion, store],
-  );
+  const handleCopyCommand = useHandleCopyCommand(collection, collectionVersion);
 
   const [columnSizes, handleColumnResize] = useHandleColumnResize(resource);
 
@@ -162,6 +124,7 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
           onClearCells={handleClearCells}
           onCopyCommand={handleCopyCommand}
           onPasteCommand={handlePaste}
+          onUndoCommand={undoLastItem}
           onColumnReorder={reorderColumns}
           HeadingComponent={TableHeading}
           NewColumnButtonComponent={NewColumnButton}

@@ -21,16 +21,21 @@ export enum KeyboardInteraction {
   MoveMultiSelectCornerDown,
   MoveMultiSelectCornerLeft,
   MoveMultiSelectCornerRight,
+  Undo,
 }
 
-export interface HandlerContext {
+export type TableCommands = {
+  copy?: () => void;
+  undo?: () => void;
+};
+
+export type HandlerContext = {
   tableContext: TableEditorContext;
   event: React.KeyboardEvent;
   tableRef: React.RefObject<HTMLDivElement>;
   translateCursor: (row: number, column: number) => void;
   columnCount: number;
-  triggerCopyCommand: () => void;
-}
+} & TableCommands;
 
 export interface KeyboardHandler {
   id: KeyboardInteraction;
@@ -140,7 +145,7 @@ const editPreviousCell: KeyboardHandler = {
   },
 };
 
-const copy: KeyboardHandler = {
+const copyCommand: KeyboardHandler = {
   id: KeyboardInteraction.Copy,
   keys: new Set(['c']),
   mod: true,
@@ -149,9 +154,20 @@ const copy: KeyboardHandler = {
     tableContext.selectedColumn !== undefined &&
     tableContext.selectedRow !== undefined,
 
-  handler: ({ event, triggerCopyCommand }) => {
+  handler: ({ event, copy }) => {
     event.preventDefault();
-    triggerCopyCommand();
+    copy?.();
+  },
+};
+
+const undoCommand: KeyboardHandler = {
+  id: KeyboardInteraction.Undo,
+  keys: new Set(['z']),
+  mod: true,
+  cursorMode: new Set([CursorMode.Visual, CursorMode.MultiSelect]),
+  condition: () => document.activeElement?.tagName !== 'INPUT',
+  handler: ({ undo }) => {
+    undo?.();
   },
 };
 
@@ -321,7 +337,8 @@ export const tableKeyboardHandlers = [
   editNextRow,
   editNextCell,
   editPreviousCell,
-  copy,
+  copyCommand,
+  undoCommand,
   deleteCell,
   deleteRow,
   moveCursorUp,

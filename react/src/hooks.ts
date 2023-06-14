@@ -23,7 +23,7 @@ import {
   unknownSubject,
   JSONArray,
 } from '@tomic/lib';
-import { useDebounce } from './index.js';
+import { useDebouncedCallback } from './index.js';
 
 /**
  * Hook for getting a Resource in a React component. Will try to fetch the
@@ -230,32 +230,18 @@ export function useValue(
   } = opts;
   const [val, set] = useState<JSONValue>(undefined);
   const store = useStore();
-  const debounced = useDebounce(val, commitDebounce);
-  const [touched, setTouched] = useState(false);
 
-  // Try without this
-  // When a component mounts, it needs to let the store know that it will subscribe to changes to that resource.
-  // useEffect(() => {
-  //   function handleNotify(updated: Resource) {
-  //     // When a change happens, set the new Resource.
-  //     set(updated.get(propertyURL));
-  //   }
-  //   store.subscribe(subject, handleNotify);
+  const [saveResource, isWaitingForDebounce] = useDebouncedCallback(
+    () => {
+      if (!commit) {
+        return;
+      }
 
-  //   return () => {
-  //     // When the component is unmounted, unsubscribe from the store.
-  //     store.unsubscribe(subject, handleNotify);
-  //   };
-  // }, [store, resource, subject]);
-
-  // Save the resource when the debounced value has changed
-  useEffect(() => {
-    // Touched prevents the resource from being saved when it is loaded (and not changed)
-    if (commit && touched) {
-      setTouched(false);
       resource.save(store, store.getAgent()).catch(e => store.notifyError(e));
-    }
-  }, [JSON.stringify(debounced)]);
+    },
+    commitDebounce,
+    [resource, store],
+  );
 
   /**
    * Validates the value. If it fails, it calls the function in the second
@@ -267,20 +253,19 @@ export function useValue(
         // remove the value
         resource.removePropVal(propertyURL);
         set(undefined);
+        saveResource();
 
         return;
       }
 
       set(newVal);
-      setTouched(true);
 
       // Validates and sets a property / value combination. Will invoke the
       // callback if the value is not valid.
       try {
         await resource.set(propertyURL, newVal, store, validate);
+        saveResource();
         handleValidationError?.(undefined);
-        // Clone resource to force hooks to re-evaluate due to shallow comparison.
-        store.notify(resource.clone());
       } catch (e) {
         if (handleValidationError) {
           handleValidationError(e);
@@ -289,11 +274,11 @@ export function useValue(
         }
       }
     },
-    [resource, handleValidationError, store, validate],
+    [resource, handleValidationError, store, validate, saveResource],
   );
 
   // If a value has already been set, return it.
-  if (val !== undefined) {
+  if (isWaitingForDebounce) {
     return [val, validateAndSet];
   }
 
@@ -303,11 +288,6 @@ export function useValue(
   // Try to actually get the value, log any error
   try {
     value = resource.get(propertyURL);
-
-    if (resource.getSubject().startsWith('http://localhost/sear')) {
-      // eslint-disable-next-line no-console
-      console.error('useValue', val, resource.getSubject());
-    }
   } catch (e) {
     store.notifyError(e);
   }

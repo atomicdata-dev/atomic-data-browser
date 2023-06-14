@@ -1,5 +1,11 @@
 import { JSONValue, Property, Resource, urls, useValue } from '@tomic/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Cell } from '../../components/TableEditor';
 import { CellAlign } from '../../components/TableEditor/Cell';
 import {
@@ -12,6 +18,8 @@ import {
   dataTypeCellMap,
 } from './dataTypeMaps';
 import { StringCell } from './EditorCells/StringCell';
+import { TablePageContext } from './tablePageContext';
+import { createValueChangedHistoryItem } from './helpers/useTableHistory';
 
 interface TableCell {
   columnIndex: number;
@@ -45,7 +53,10 @@ export function TableCell({
   invalidateTable,
 }: TableCell): JSX.Element {
   const [markForInvalidate, setMarkForInvalidate] = useState(false);
+  const { addItemsToHistoryStack } = useContext(TablePageContext);
+
   const [value, setValue] = useValue(resource, property.subject, valueOpts);
+
   const [createdAt, setCreatedAt] = useValue(
     resource,
     urls.properties.commit.createdAt,
@@ -65,6 +76,9 @@ export function TableCell({
   const onChange = useCallback(
     async (v: JSONValue) => {
       if (!createdAt) {
+        addItemsToHistoryStack(
+          createValueChangedHistoryItem(resource, property.subject),
+        );
         await setValue(v);
         await setCreatedAt(Date.now());
         setMarkForInvalidate(true);
@@ -72,9 +86,12 @@ export function TableCell({
         return;
       }
 
+      addItemsToHistoryStack(
+        createValueChangedHistoryItem(resource, property.subject),
+      );
       await setValue(v);
     },
-    [setValue, setCreatedAt, createdAt],
+    [setValue, setCreatedAt, createdAt, value, resource, property],
   );
 
   const handleEnterEditModeWithCharacter = useCallback(
@@ -106,11 +123,13 @@ export function TableCell({
           resource={resource}
         />
       ) : (
-        <Editor.Display
-          value={value}
-          onChange={onChange}
-          property={property.subject}
-        />
+        <React.Fragment key={`${value}`}>
+          <Editor.Display
+            value={value}
+            onChange={onChange}
+            property={property.subject}
+          />
+        </React.Fragment>
       )}
     </Cell>
   );
