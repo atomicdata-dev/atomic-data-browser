@@ -6,17 +6,11 @@ import {
   useStore,
   useTitle,
 } from '@tomic/react';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-  useCallback,
-} from 'react';
+import React, { Dispatch, SetStateAction, useState, useCallback } from 'react';
 import { ErrMessage, InputWrapper } from './InputStyles';
 import { DropdownInput } from './DropdownInput';
 import { Dialog, useDialog } from '../Dialog';
-import { DialogTreeContext } from '../Dialog/dialogContext';
+import { useDialogTreeContext } from '../Dialog/dialogContext';
 import { useSettings } from '../../helpers/AppSettings';
 import styled from 'styled-components';
 import { NewFormDialog } from './NewForm/NewFormDialog';
@@ -53,6 +47,7 @@ interface ResourceSelectorProps {
   autoFocus?: boolean;
   /** Is used when a new item is created using the ResourceSelector */
   parent?: string;
+  hideCreateOption?: boolean;
 }
 
 /**
@@ -69,6 +64,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   classType,
   disabled,
   parent,
+  hideCreateOption,
   ...props
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
@@ -114,7 +110,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
     [setInputValue, handleUpdate],
   );
 
-  const { inDialog } = useContext(DialogTreeContext);
+  const { inDialog } = useDialogTreeContext();
 
   if (options.length === 0) {
     options = store.getAllSubjects();
@@ -141,7 +137,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         initial={value}
         disabled={disabled}
         classType={classType}
-        onCreateClick={showDialog}
+        onCreateClick={hideCreateOption ? undefined : showDialog}
         onInputChange={onInputChange}
         {...props}
       />

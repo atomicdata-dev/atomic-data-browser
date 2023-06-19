@@ -66,12 +66,20 @@ type DialogSlotComponent = React.FC<React.PropsWithChildren<DialogSlotProps>>;
  *  );
  * ```
  */
-export const Dialog: React.FC<React.PropsWithChildren<InternalDialogProps>> =
-  props => (
+export function Dialog(props) {
+  const portalRef = useContext(DialogPortalContext);
+
+  if (!portalRef.current) {
+    return null;
+  }
+
+  return createPortal(
     <DialogTreeContextProvider>
       <InnerDialog {...props} />
-    </DialogTreeContextProvider>
+    </DialogTreeContextProvider>,
+    portalRef.current,
   );
+}
 
 const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
   children,
@@ -81,7 +89,6 @@ const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const innerDialogRef = useRef<HTMLDivElement>(null);
-  const portalRef = useContext(DialogPortalContext);
   const { hasOpenInnerPopup } = useDialogTreeContext();
 
   useControlLock(show);
@@ -142,11 +149,7 @@ const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
     }
   }, [show, onClosed]);
 
-  if (!portalRef.current) {
-    return null;
-  }
-
-  return createPortal(
+  return (
     <StyledDialog ref={dialogRef} onMouseDown={handleOutSideClick}>
       <StyledInnerDialog ref={innerDialogRef}>
         <PopoverContainer>
@@ -160,8 +163,7 @@ const InnerDialog: React.FC<React.PropsWithChildren<InternalDialogProps>> = ({
           </DropdownContainer>
         </PopoverContainer>
       </StyledInnerDialog>
-    </StyledDialog>,
-    portalRef.current,
+    </StyledDialog>
   );
 };
 

@@ -1,11 +1,12 @@
 import { Datatype } from '@tomic/react';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import { FaChevronCircleDown, FaFile, FaPlus } from 'react-icons/fa';
-import { DropdownMenu, Item } from '../../components/Dropdown';
+import { FaChevronCircleDown, FaFile, FaHashtag, FaPlus } from 'react-icons/fa';
+import { DIVIDER, DropdownMenu, Item } from '../../components/Dropdown';
 import { buildDefaultTrigger } from '../../components/Dropdown/DefaultTrigger';
 import { dataTypeIconMap } from './dataTypeMaps';
 import { NewPropertyDialog } from './PropertyForm/NewPropertyDialog';
 import { TablePageContext } from './tablePageContext';
+import { ExternalPropertyDialog } from './PropertyForm/ExternalPropertyDialog';
 
 const NewColumnTrigger = buildDefaultTrigger(<FaPlus />, 'Add column');
 
@@ -19,6 +20,7 @@ const RelationIcon = dataTypeIconMap.get(Datatype.ATOMIC_URL)!;
 
 export function NewColumnButton(): JSX.Element {
   const [showDialog, setShowDialog] = useState(false);
+  const [showExternalDialog, setShowExternalDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>();
 
   const { tableClassResource } = useContext(TablePageContext);
@@ -75,6 +77,13 @@ export function NewColumnButton(): JSX.Element {
         onClick: openDialog('relation'),
         icon: <RelationIcon />,
       },
+      DIVIDER,
+      {
+        id: 'external',
+        label: 'External Property',
+        onClick: () => setShowExternalDialog(true),
+        icon: <FaHashtag />,
+      },
     ];
   }, []);
 
@@ -86,6 +95,11 @@ export function NewColumnButton(): JSX.Element {
         tableClassResource={tableClassResource}
         selectedCategory={selectedCategory}
         bindShow={setShowDialog}
+      />
+      <ExternalPropertyDialog
+        open={showExternalDialog}
+        tableClassResource={tableClassResource}
+        bindShow={setShowExternalDialog}
       />
     </>
   );
