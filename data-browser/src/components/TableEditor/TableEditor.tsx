@@ -50,6 +50,7 @@ interface FancyTableProps<T> {
   onPasteCommand?: (pasteData: CellPasteData<T>[]) => void;
   onCellResize?: (sizes: number[]) => void;
   onColumnReorder?: ColumnReorderHandler;
+  onRowExpand?: (index: number) => void;
   HeadingComponent: TableHeadingComponent<T>;
   NewColumnButtonComponent: React.ComponentType;
 }
@@ -88,15 +89,15 @@ function FancyTableInner<T>({
   onUndoCommand,
   onPasteCommand,
   onColumnReorder,
+  onRowExpand = () => undefined,
   HeadingComponent,
   NewColumnButtonComponent,
 }: FancyTableProps<T>): JSX.Element {
   const ariaUsageId = useId();
-  const tableRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const { listRef } = useTableEditorContext();
+  const { listRef, tableRef } = useTableEditorContext();
 
   const [onScroll, setOnScroll] = useState<OnScroll>(() => undefined);
 
@@ -113,8 +114,9 @@ function FancyTableInner<T>({
     () => ({
       copy: triggerCopyCommand,
       undo: onUndoCommand,
+      expand: onRowExpand,
     }),
-    [triggerCopyCommand, onUndoCommand],
+    [triggerCopyCommand, onUndoCommand, onRowExpand],
   );
 
   const handleKeyDown = useTableEditorKeyboardNavigation(
@@ -131,7 +133,7 @@ function FancyTableInner<T>({
     ({ index, style }: RowProps) => {
       return (
         <TableRow style={style} aria-rowindex={index + 2}>
-          <IndexCell rowIndex={index} columnIndex={0}>
+          <IndexCell rowIndex={index} columnIndex={0} onExpand={onRowExpand}>
             {index + 1}
           </IndexCell>
           {children({ index })}

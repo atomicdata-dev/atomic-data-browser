@@ -69,7 +69,7 @@ const TagWrapper = styled.span`
     setLightness(0.4, props.color)};
   --tag-light-color: ${(props: TagWrapperProps) =>
     setSaturation(0.5, setLightness(0.9, props.color))};
-  display: flex;
+  display: inline-flex;
   gap: 0.5rem;
   align-items: center;
   padding-inline: 0.5rem;

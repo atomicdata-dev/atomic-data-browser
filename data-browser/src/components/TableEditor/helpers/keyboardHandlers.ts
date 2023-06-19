@@ -8,6 +8,7 @@ export enum KeyboardInteraction {
   EditNextRow,
   EditNextCell,
   EditPreviousCell,
+  ExpandRow,
   Copy,
   DeleteCell,
   DeleteRow,
@@ -27,6 +28,7 @@ export enum KeyboardInteraction {
 export type TableCommands = {
   copy?: () => void;
   undo?: () => void;
+  expand?: (row: number) => void;
 };
 
 export type HandlerContext = {
@@ -253,6 +255,16 @@ const enterEditModeWithEnter: KeyboardHandler = {
   },
 };
 
+const expandRow: KeyboardHandler = {
+  id: KeyboardInteraction.ExpandRow,
+  cursorMode: new Set([CursorMode.Visual]),
+  keys: new Set(['Enter']),
+  condition: ({ tableContext }) => tableContext.selectedColumn === 0,
+  handler: ({ expand, tableContext }) => {
+    expand?.(tableContext.selectedRow!);
+  },
+};
+
 const enterEditModeByTyping: KeyboardHandler = {
   id: KeyboardInteraction.EnterEditModeByTyping,
   keys: new Set(triggerCharacters.split('')),
@@ -337,6 +349,7 @@ export const tableKeyboardHandlers = [
   editNextRow,
   editNextCell,
   editPreviousCell,
+  expandRow,
   copyCommand,
   undoCommand,
   deleteCell,

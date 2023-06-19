@@ -5,6 +5,8 @@ import {
   TableEvent,
   useTableEditorContext,
 } from './TableEditorContext';
+import { FaExpandAlt } from 'react-icons/fa';
+import { IconButton } from '../IconButton/IconButton';
 
 export enum CellAlign {
   Start = 'flex-start',
@@ -20,6 +22,10 @@ export interface CellProps {
   role?: string;
   onClearCell?: () => void;
   onEnterEditModeWithCharacter?: (key: string) => void;
+}
+
+interface IndexCellProps extends CellProps {
+  onExpand: (rowIndex: number) => void;
 }
 
 export function Cell({
@@ -54,6 +60,7 @@ export function Cell({
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      // When Shift is pressed, enter multi-select mode
       if (e.shiftKey) {
         e.stopPropagation();
         setCursorMode(CursorMode.MultiSelect);
@@ -62,20 +69,21 @@ export function Cell({
         return;
       }
 
-      if (isActive) {
-        // @ts-ignore
-        if (e.target.tagName === 'INPUT') {
-          // If the user clicked on an input don't enter edit mode. (Necessary for normal checkbox behavior)
-          return;
-        }
+      // @ts-ignore
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') {
+        // If the user clicked on an input don't enter edit mode. (Necessary for normal checkbox behavior)
+        return;
+      }
 
+      if (isActive && columnIndex !== 0) {
+        // Enter edit mode when clicking on a higlighted cell, except when it's the index column.
         return setCursorMode(CursorMode.Edit);
       }
 
       setCursorMode(CursorMode.Visual);
       setActiveCell(rowIndex, columnIndex);
     },
-    [setActiveCell, isActive],
+    [setActiveCell, isActive, columnIndex],
   );
 
   useLayoutEffect(() => {
@@ -129,18 +137,40 @@ export function Cell({
 
 export function IndexCell({
   children,
+  onExpand,
   ...props
-}: React.PropsWithChildren<CellProps>): JSX.Element {
+}: React.PropsWithChildren<IndexCellProps>): JSX.Element {
   return (
     <StyledIndexCell role='rowheader' {...props}>
-      {children}
+      <IconButton
+        title='Open resource'
+        onClick={() => onExpand(props.rowIndex)}
+      >
+        <FaExpandAlt />
+      </IconButton>
+      <IndexNumber>{children}</IndexNumber>
     </StyledIndexCell>
   );
 }
 
+const IndexNumber = styled.span``;
+
 const StyledIndexCell = styled(Cell)`
   justify-content: flex-end !important;
   color: ${p => p.theme.colors.textLight};
+
+  & button {
+    display: none;
+  }
+
+  &:hover ${IndexNumber}, &:focus-within ${IndexNumber} {
+    display: none;
+  }
+
+  &:hover button,
+  &:focus-within button {
+    display: block;
+  }
 `;
 
 export interface CellWrapperProps {

@@ -26,8 +26,6 @@ const instanceOpts = {
   newResource: true,
 };
 
-const empty = () => undefined;
-
 export function NewTableButton({
   klass,
   subtle,
@@ -51,7 +49,7 @@ export function NewTableButton({
     instanceResource.destroy(store);
   }, []);
 
-  const onSucces = useCallback(async () => {
+  const onSuccess = useCallback(async () => {
     await instanceResource.set(properties.shortname, stringToSlug(name), store);
     await instanceResource.set(
       properties.description,
@@ -70,7 +68,7 @@ export function NewTableButton({
     });
   }, [name, instanceResource]);
 
-  const [dialogProps, show, hide] = useDialog(empty, onCancel, onSucces);
+  const [dialogProps, show, hide] = useDialog({ onCancel, onSuccess });
 
   return (
     <>

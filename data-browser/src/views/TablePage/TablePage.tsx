@@ -1,5 +1,5 @@
-import { Property, useStore } from '@tomic/react';
-import React, { useCallback, useId, useMemo } from 'react';
+import { Property, unknownSubject, useStore } from '@tomic/react';
+import React, { useCallback, useId, useMemo, useState } from 'react';
 import { ContainerFull } from '../../components/Containers';
 import { EditableTitle } from '../../components/EditableTitle';
 import { FancyTable } from '../../components/TableEditor';
@@ -18,6 +18,7 @@ import {
 } from './helpers/useTableHistory';
 import { useHandleClearCells } from './helpers/useHandleClearCells';
 import { useHandleCopyCommand } from './helpers/useHandleCopyCommand';
+import { ExpandedRowDialog } from './ExpandedRowDialog';
 
 const columnToKey = (column: Property) => column.subject;
 
@@ -46,6 +47,18 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
     invalidateCollection,
     addItemsToHistoryStack,
     collectionVersion,
+  );
+
+  const [showExpandedRowDialog, setShowExpandedRowDialog] = useState(false);
+  const [expandedRowSubject, setExpandedRowSubject] = useState<string>();
+
+  const handleRowExpand = useCallback(
+    async (index: number) => {
+      const row = await collection.getMemberWithIndex(index);
+      setExpandedRowSubject(row);
+      setShowExpandedRowDialog(true);
+    },
+    [collection],
   );
 
   const tablePageContext: TablePageContextType = useMemo(
@@ -126,11 +139,17 @@ export function TablePage({ resource }: ResourcePageProps): JSX.Element {
           onPasteCommand={handlePaste}
           onUndoCommand={undoLastItem}
           onColumnReorder={reorderColumns}
+          onRowExpand={handleRowExpand}
           HeadingComponent={TableHeading}
           NewColumnButtonComponent={NewColumnButton}
         >
           {Row}
         </FancyTable>
+        <ExpandedRowDialog
+          subject={expandedRowSubject ?? unknownSubject}
+          open={showExpandedRowDialog}
+          bindOpen={setShowExpandedRowDialog}
+        />
       </TablePageContext.Provider>
     </ContainerFull>
   );

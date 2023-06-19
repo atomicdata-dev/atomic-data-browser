@@ -26,6 +26,7 @@ function emptySetState<T>(_: T | ((__: T) => T)): undefined {
 }
 
 export interface TableEditorContext {
+  tableRef: React.MutableRefObject<HTMLDivElement | null>;
   disabledKeyboardInteractions: Set<KeyboardInteraction>;
   setDisabledKeyboardInteractions: React.Dispatch<
     React.SetStateAction<Set<KeyboardInteraction>>
@@ -58,6 +59,7 @@ export interface TableEditorContext {
 }
 
 const initial = {
+  tableRef: { current: null },
   disabledKeyboardInteractions: new Set<KeyboardInteraction>(),
   setDisabledKeyboardInteractions: emptySetState,
   selectedRow: undefined,
@@ -86,6 +88,7 @@ const TableEditorContext = React.createContext<TableEditorContext>(initial);
 export function TableEditorContextProvider({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element {
+  const tableRef = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<FixedSizeList>(null);
   const [eventManager] = useState(
     () => new EventManager<TableEvent, TableEventHandlers>(),
@@ -145,6 +148,7 @@ export function TableEditorContextProvider({
 
   const context = useMemo(
     () => ({
+      tableRef,
       disabledKeyboardInteractions,
       setDisabledKeyboardInteractions,
       selectedRow,

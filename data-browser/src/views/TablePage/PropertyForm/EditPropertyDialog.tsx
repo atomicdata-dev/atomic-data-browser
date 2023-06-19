@@ -27,7 +27,7 @@ export function EditPropertyDialog({
   const [datatype] = useString(resource, properties.datatype);
 
   const category = getCategoryFromDatatype(datatype);
-  const [dialogProps, show, hide] = useDialog(bindShow);
+  const [dialogProps, show, hide] = useDialog({ bindShow });
 
   useEffect(() => {
     if (showDialog) {

@@ -33,11 +33,11 @@ export function ConfirmationDialog({
   bindShow,
   theme = ConfirmationDialogTheme.Default,
 }: React.PropsWithChildren<ConfirmationDialogProps>): JSX.Element {
-  const [dialogProps, showDialog, hideDialog] = useDialog(
+  const [dialogProps, showDialog, hideDialog] = useDialog({
     bindShow,
     onCancel,
-    onConfirm,
-  );
+    onSuccess: onConfirm,
+  });
 
   useEffect(() => {
     if (show) {

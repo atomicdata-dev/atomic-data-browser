@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Callback = (...args: any[]) => void;
+
 // T is a generic type for value parameter, our case this will be string
 export function useDebounce<T>(value: T, delay: number): T {
   // State and setters for debounced value
@@ -25,7 +28,7 @@ export function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-export function useDebouncedCallback<F extends (...args: any[]) => void>(
+export function useDebouncedCallback<F extends Callback>(
   func: F,
   time: number,
   deps: unknown[],

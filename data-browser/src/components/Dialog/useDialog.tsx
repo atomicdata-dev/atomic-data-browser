@@ -12,12 +12,19 @@ export type UseDialogReturnType = [
   isOpen: boolean,
 ];
 
+export type UseDialogOptions<E extends HTMLElement> = {
+  bindShow?: React.Dispatch<boolean>;
+  onCancel?: () => void;
+  onSuccess?: () => void;
+  triggerRef?: React.RefObject<E>;
+};
+
 /** Sets up state, and functions to use with a {@link Dialog} */
-export const useDialog = (
-  bindShow?: React.Dispatch<boolean>,
-  onCancel?: () => void,
-  onSuccess?: () => void,
-): UseDialogReturnType => {
+export function useDialog<E extends HTMLElement>(
+  options?: UseDialogOptions<E>,
+): UseDialogReturnType {
+  const { bindShow, onCancel, onSuccess, triggerRef } = options ?? {};
+
   const [showDialog, setShowDialog] = useState(false);
   const [visible, setVisible] = useState(false);
   const [wasSuccess, setWasSuccess] = useState(false);
@@ -46,6 +53,8 @@ export const useDialog = (
     }
 
     setWasSuccess(false);
+
+    triggerRef?.current?.focus();
   }, [wasSuccess, onSuccess, onCancel]);
 
   /** Props that should be passed to a {@link Dialog} component. */
@@ -59,4 +68,4 @@ export const useDialog = (
   );
 
   return [dialogProps, show, close, visible];
-};
+}

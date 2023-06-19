@@ -32,7 +32,7 @@ export default function EmojiInput({
   const [showPicker, setShowPicker] = useState(false);
   const [emoji, setEmoji] = useState<string | undefined>(initialValue);
 
-  const handleEmojiSelect = useCallback((e: any) => {
+  const handleEmojiSelect = useCallback((e: { native: string }) => {
     setEmoji(e.native);
     setShowPicker(false);
     onChange(e.native);

@@ -106,11 +106,11 @@ export function NewPropertyDialog({
     setResource(null);
   }, [resource, store, tableClassResource]);
 
-  const [dialogProps, show, hide] = useDialog(
+  const [dialogProps, show, hide] = useDialog({
     bindShow,
-    handleUserCancelAction,
-    handleUserSuccessAction,
-  );
+    onCancel: handleUserCancelAction,
+    onSuccess: handleUserSuccessAction,
+  });
 
   const createProperty = async () => {
     const subject = createSubjectWithBase(tableClassResource.getSubject());
