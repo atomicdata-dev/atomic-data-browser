@@ -22,6 +22,7 @@ Designed for interacting with [`atomic-server`](https://github.com/atomicdata-de
   - Accept [Invites](https://docs.atomicdata.dev/invitations.html), manage user [Agents](https://docs.atomicdata.dev/agents.html) (including private keys) and Servers.
   - [Authorization] - view and edit permissions in the [hierarchy](https://docs.atomicdata.dev/hierarchy.html).
   - [Authentication](https://docs.atomicdata.dev/authentication.html) - all requests are signed.
+  - History view + revert to older versions
 - **Other**
   - Document editor with Markdown & real-time sync / collaboration (using WebSockets)
   - Import webpages and convert them to Markdown for personal backups
