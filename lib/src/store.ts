@@ -14,6 +14,7 @@ import {
   urls,
   Commit,
   JSONADParser,
+  FileOrFileLike,
 } from './index.js';
 import { authenticate, fetchWebSocket, startWebsocket } from './websockets.js';
 
@@ -691,7 +692,13 @@ export class Store {
     return this.eventManager.register(event, callback);
   }
 
-  public async uploadFiles(files: File[], parent: string): Promise<string[]> {
+  /** Uploads files to atomic server and create resources for them, then returns the subjects.
+   * If using this in Node.js and it does not work, try injecting node-fetch using `Store.injectFetch()` Some versions of Node create mallformed FormData when using the build-in fetch.
+   */
+  public async uploadFiles(
+    files: FileOrFileLike[],
+    parent: string,
+  ): Promise<string[]> {
     const agent = this.getAgent();
 
     if (!agent) {

@@ -35,7 +35,7 @@ function ResourceLine({ subject, clickable, className }: Props): JSX.Element {
   return (
     <span about={subject} className={className}>
       {clickable ? (
-        <ResourceInline untabbable subject={subject} />
+        <ResourceInline untabbable subject={subject} basic />
       ) : (
         <b>{title}</b>
       )}

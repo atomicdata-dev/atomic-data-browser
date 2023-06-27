@@ -13,18 +13,20 @@ export type ResourceInlineInstanceProps = {
 type ResourceInlineProps = {
   untabbable?: boolean;
   className?: string;
+  basic?: boolean;
 } & ResourceInlineInstanceProps;
 
 /** Renders a Resource in a compact, inline link. Shows tooltip on hover. */
 export function ResourceInline({
   subject,
   untabbable,
+  basic,
   className,
 }: ResourceInlineProps): JSX.Element {
   const resource = useResource(subject, { allowIncomplete: true });
   const [isA] = useArray(resource, urls.properties.isA);
 
-  const Comp = classMap.get(isA[0]) ?? DefaultInline;
+  const Comp = basic ? DefaultInline : classMap.get(isA[0]) ?? DefaultInline;
 
   if (!subject) {
     return <ErrorLook>No subject passed</ErrorLook>;

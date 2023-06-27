@@ -1,6 +1,6 @@
 import { Resource } from '@tomic/react';
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropVal from './PropVal';
 
 type Props = {
@@ -14,20 +14,13 @@ type Props = {
    * but only on large screens.
    */
   columns?: boolean;
+  basic?: boolean;
 };
 
-const AllPropsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  border-radius: ${p => p.theme.radius};
-  border: 1px solid ${p => p.theme.colors.bg2};
-`;
-
 /** Lists all PropVals for some resource. Optionally ignores a bunch of subjects */
-function AllProps({ resource, except = [], editable, columns }: Props) {
+function AllProps({ resource, except = [], editable, columns, basic }: Props) {
   return (
-    <AllPropsWrapper>
+    <AllPropsWrapper basic={basic}>
       {[...resource.getPropVals()]
         .filter(([prop]) => !except.includes(prop))
         .map(
@@ -35,6 +28,7 @@ function AllProps({ resource, except = [], editable, columns }: Props) {
             <StyledPropVal
               columns={columns}
               key={prop}
+              basic={basic}
               propertyURL={prop}
               resource={resource}
               editable={!!editable}
@@ -45,15 +39,27 @@ function AllProps({ resource, except = [], editable, columns }: Props) {
   );
 }
 
-const StyledPropVal = styled(PropVal)`
-  padding: 0.5rem;
-  &:nth-child(1) {
-    border-top-left-radius: ${p => p.theme.radius};
-    border-top-right-radius: ${p => p.theme.radius};
-  }
-  &:nth-child(odd) {
-    background-color: ${p => p.theme.colors.bg1};
-  }
+const AllPropsWrapper = styled.div<{ basic: boolean | undefined }>`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: ${p => p.theme.radius};
+  border: ${p => (p.basic ? 'none' : `1px solid ${p.theme.colors.bg2}`)};
+`;
+
+const StyledPropVal = styled(PropVal)<{ basic: boolean | undefined }>`
+  ${p =>
+    !p.basic &&
+    css`
+      padding: 0.5rem;
+      &:nth-child(1) {
+        border-top-left-radius: ${p.theme.radius};
+        border-top-right-radius: ${p.theme.radius};
+      }
+      &:nth-child(odd) {
+        background-color: ${p.theme.colors.bgBody};
+      }
+    `}
 `;
 
 export default AllProps;

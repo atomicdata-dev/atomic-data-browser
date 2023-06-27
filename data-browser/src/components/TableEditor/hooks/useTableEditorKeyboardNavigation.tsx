@@ -108,7 +108,9 @@ export function useTableEditorKeyboardNavigation(
       multiSelectCornerRow,
       multiSelectCornerColumn,
       tableContext,
-      commands,
+      commands.copy,
+      commands.undo,
+      commands.expand,
       hasControlLock,
     ],
   );

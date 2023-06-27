@@ -180,7 +180,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
             <ResourceInputOverlayWrapper>
               {selectedItem && !isFocus && (
                 <StyledInputOverlay>
-                  <ResourceInline subject={selectedItem} untabbable />
+                  <ResourceInline subject={selectedItem} untabbable basic />
                 </StyledInputOverlay>
               )}
               <InputStyled
