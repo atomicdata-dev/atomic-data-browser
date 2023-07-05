@@ -29,6 +29,7 @@
     "react-pdf": "^6.2.2",
     "react-router": "^6.9.0",
     "react-router-dom": "^6.9.0",
+    "react-vis": "^1.12.1",
     "remark-gfm": "^3.0.1",
     "styled-components": "^5.3.3",
     "yamde": "^1.7.1"
