@@ -21,6 +21,7 @@ import { useCreateAndNavigate } from './useCreateAndNavigate';
 import { NewInstanceButtonProps } from './NewInstanceButtonProps';
 import { stringToSlug } from '../../helpers/stringToSlug';
 import styled from 'styled-components';
+import { BetaBadge } from '../BetaBadge';
 
 const instanceOpts = {
   newResource: true,
@@ -83,9 +84,10 @@ export function NewTableButton({
         {children}
       </Base>
       <Dialog {...dialogProps}>
-        <DialogTitle>
+        <RelativeDialogTitle>
           <h1>New Table</h1>
-        </DialogTitle>
+          <BetaBadge />
+        </RelativeDialogTitle>
         <WiderDialogContent>
           <form
             onSubmit={(e: FormEvent) => {
@@ -120,4 +122,10 @@ export function NewTableButton({
 
 const WiderDialogContent = styled(DialogContent)`
   width: min(80vw, 20rem);
+`;
+
+const RelativeDialogTitle = styled(DialogTitle)`
+  display: flex;
+  align-items: flex-start;
+  gap: 1ch;
 `;
