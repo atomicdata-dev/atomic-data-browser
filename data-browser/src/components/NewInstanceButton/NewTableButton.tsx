@@ -110,7 +110,7 @@ export function NewTableButton({
             Cancel
           </Button>
           <Button onClick={() => hide(true)} disabled={name.trim() === ''}>
-            Ok
+            Create
           </Button>
         </DialogActions>
       </Dialog>

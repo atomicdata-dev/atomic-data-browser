@@ -10,17 +10,18 @@ import * as RadixPopover from '@radix-ui/react-popover';
 import { useResource, useTitle } from '@tomic/react';
 import { FaCaretDown, FaTimes, FaTrash } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
-import { Hit, useLocalSearch } from '../../helpers/useLocalSearch';
-import { ButtonInput } from '../Button';
-import { ResourceInline } from '../../views/ResourceInline';
-import { InputOverlay, InputStyled, InputWrapper } from './InputStyles';
+import { Hit, useLocalSearch } from '../../../helpers/useLocalSearch';
+import { ButtonInput } from '../../Button';
+import { InputOverlay, InputStyled, InputWrapper } from '../InputStyles';
 import ResourceLine, {
   ResourceLineDescription,
-} from '../../views/ResourceLine';
-import { useClickAwayListener } from '../../hooks/useClickAwayListener';
-import { useAvailableSpace } from './hooks/useAvailableSpace';
-import { DropdownPortalContext } from '../Dropdown/dropdownContext';
-import { ScrollArea } from '../ScrollArea';
+} from '../../../views/ResourceLine';
+import { useClickAwayListener } from '../../../hooks/useClickAwayListener';
+import { useAvailableSpace } from '../hooks/useAvailableSpace';
+import { DropdownPortalContext } from '../../Dropdown/dropdownContext';
+import { ScrollArea } from '../../ScrollArea';
+import { ErrorLook } from '../../ErrorLook';
+import { InlineOverlay } from './InlineOverlay';
 
 interface DropDownListProps {
   required?: boolean;
@@ -43,6 +44,7 @@ interface DropDownListProps {
   /** Called after change of input - also if no value has been selected yet */
   onInputChange?: (newInput: string) => void;
   onBlur?: () => void;
+  invalid?: boolean;
 }
 
 type CreateOption = {
@@ -72,6 +74,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   onCreateClick,
   onInputChange,
   onBlur,
+  invalid,
   ...props
 }) => {
   const [inputValue, setInputValue] = useState<string>(initial ? initial : '');
@@ -97,7 +100,7 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
   const handleClickOutside = useCallback(() => {
     setIsOpen(false);
     setIsFocus(false);
-    onBlur && onBlur();
+    onBlur?.();
     // Does this do what it should?
     setSelectedItem(inputValue);
   }, [onBlur, inputValue]);
@@ -180,7 +183,11 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
             <ResourceInputOverlayWrapper>
               {selectedItem && !isFocus && (
                 <StyledInputOverlay>
-                  <ResourceInline subject={selectedItem} untabbable basic />
+                  {invalid ? (
+                    <ErrorLook>{selectedItem}</ErrorLook>
+                  ) : (
+                    <InlineOverlay subject={selectedItem} />
+                  )}
                 </StyledInputOverlay>
               )}
               <InputStyled
@@ -189,8 +196,6 @@ export const DropdownInput: React.FC<DropDownListProps> = ({
                 size={5}
                 required={required}
                 placeholder={placeholder}
-                // This might not be the most pretty approach, maybe I should use an overlay element
-                // That would also allow for a richer resource view in the input
                 value={inputValue}
                 onChange={handleInputChange}
                 ref={inputRef}
@@ -467,7 +472,6 @@ const DropDownItem = styled.li<DropDownItemProps>`
   margin: 0;
   white-space: nowrap;
   padding: 0.3rem;
-  /* text-decoration: ${p => (p.selected ? 'underline' : 'none')}; */
 
   ${props =>
     props.selected &&
@@ -510,7 +514,7 @@ const NewItemName = styled.span`
 `;
 
 const StyledInputOverlay = styled(InputOverlay)`
-  a {
+  span {
     width: 100%;
     height: 2rem;
     display: block;

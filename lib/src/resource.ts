@@ -51,6 +51,8 @@ export class Resource {
   private subject: string;
   private propvals: PropVals;
 
+  private queuedFetch: Promise<unknown> | undefined;
+
   public constructor(subject: string, newResource?: boolean) {
     if (typeof subject !== 'string') {
       throw new Error(
@@ -139,6 +141,7 @@ export class Resource {
     res.commitError = this.commitError;
     res.commitBuilder = this.commitBuilder.clone();
     res.appliedCommitSignatures = this.appliedCommitSignatures;
+    res.queuedFetch = this.queuedFetch;
 
     return res;
   }
@@ -430,8 +433,15 @@ export class Resource {
     const endpoint = new URL(this.getSubject()).origin + `/commit`;
 
     try {
+      // If a commit is already being posted we wait for it to finish because the server can not garantee the commits will be processed in the correct order.
+      if (this.queuedFetch) {
+        await this.queuedFetch;
+      }
+
       this.commitError = undefined;
-      const createdCommit = await store.postCommit(commit, endpoint);
+      const createdCommitPromise = store.postCommit(commit, endpoint);
+      this.queuedFetch = createdCommitPromise;
+      const createdCommit = await createdCommitPromise;
 
       this.setUnsafe(properties.commit.lastCommit, createdCommit.id!);
       // The first `SUBSCRIBE` message will not have worked, because the resource didn't exist yet.

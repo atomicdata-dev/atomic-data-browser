@@ -50,6 +50,8 @@ export function useTableEditorKeyboardNavigation(
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (hasControlLock || tableHeaderHasFocus(headerRef)) {
+        console.warn('Control lock enabled, can not use keyboard.');
+
         return;
       }
 

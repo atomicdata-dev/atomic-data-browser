@@ -27,7 +27,6 @@ export function InputResource({
     <div>
       <ResourceSelector
         error={error}
-        setError={setError}
         classType={property.classType}
         setSubject={setSubject}
         value={subject}

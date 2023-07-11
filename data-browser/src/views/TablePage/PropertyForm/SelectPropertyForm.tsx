@@ -47,18 +47,18 @@ export function SelectPropertyForm({
       await setAllowOnly([...allowOnly, tag.getSubject()]);
       await setSubResources([...subResources, tag.getSubject()]);
 
-      tag.save(store);
+      await tag.save(store);
     },
     [allowOnly, setAllowOnly, subResources, setSubResources, store],
   );
 
   const handleDeleteTag = useCallback(
-    (subject: string) => {
+    async (subject: string) => {
       const tag = store.getResourceLoading(subject);
       tag.destroy(store);
 
-      setAllowOnly(removeFromArray(allowOnly, subject));
-      setSubResources(removeFromArray(subResources, subject));
+      await setAllowOnly(removeFromArray(allowOnly, subject));
+      await setSubResources(removeFromArray(subResources, subject));
     },
     [store, setAllowOnly, setSubResources, allowOnly, subResources],
   );
@@ -117,7 +117,7 @@ function CreateTagRow({ property, onNewTag }: CreateTagRowProps) {
     setTagName('');
     setEmoji(undefined);
     setResetKey(prev => prev + 1);
-  }, [property, store, tagName, emoji]);
+  }, [property, store, tagName, emoji, onNewTag]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTagName(stringToSlug(e.target.value));

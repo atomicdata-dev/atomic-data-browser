@@ -33,10 +33,12 @@ const populatePropertyWithDefaults = async (
 ) => {
   await property.set(urls.properties.isA, [urls.classes.property], store);
   await property.set(urls.properties.parent, tableClass.getSubject(), store);
-  await property.set(urls.properties.shortname, '', store, false);
+  await property.set(urls.properties.shortname, 'new-column', store, false);
   await property.set(urls.properties.name, '', store, false);
   await property.set(urls.properties.description, 'A column in a table', store);
   await property.set(urls.properties.datatype, urls.datatypes.string, store);
+
+  await property.save(store);
 };
 
 const getChildren = (store: Store, resource: Resource) =>

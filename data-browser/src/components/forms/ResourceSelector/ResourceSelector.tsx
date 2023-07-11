@@ -1,19 +1,16 @@
-import {
-  ArrayError,
-  urls,
-  useArray,
-  useResource,
-  useStore,
-  useTitle,
-} from '@tomic/react';
-import React, { Dispatch, SetStateAction, useState, useCallback } from 'react';
-import { ErrMessage, InputWrapper } from './InputStyles';
+import { urls, useArray, useResource, useStore, useTitle } from '@tomic/react';
+import React, { useState, useCallback, useReducer } from 'react';
+import { ErrMessage, InputWrapper } from '../InputStyles';
 import { DropdownInput } from './DropdownInput';
-import { Dialog, useDialog } from '../Dialog';
-import { useDialogTreeContext } from '../Dialog/dialogContext';
-import { useSettings } from '../../helpers/AppSettings';
+import { Dialog, useDialog } from '../../Dialog';
+import { useDialogTreeContext } from '../../Dialog/dialogContext';
+import { useSettings } from '../../../helpers/AppSettings';
 import styled from 'styled-components';
-import { NewFormDialog } from './NewForm/NewFormDialog';
+import { NewFormDialog } from '../NewForm/NewFormDialog';
+import { useDeferredUpdate } from '../../../hooks/useDeferredUpdate';
+import { ErrorChip } from '../ErrorChip';
+
+type SetSubject = (subject: string | undefined) => void;
 
 interface ResourceSelectorProps {
   /**
@@ -28,21 +25,14 @@ interface ResourceSelectorProps {
    * Handler as the second argument to set an error message. Take the second
    * argument of a `useString` hook and pass the setString part to this property
    */
-  setSubject: (
-    subject: string | undefined,
-    errHandler?: Dispatch<SetStateAction<ArrayError | undefined>>,
-  ) => void;
+  setSubject: SetSubject;
   /** The value (URL of the Resource that is selected) */
   value?: string;
   /** A function to remove this item. Only relevant in arrays. */
   handleRemove?: () => void;
   /** Only pass an error if it is applicable to this specific field */
   error?: Error;
-  /**
-   * Set an ArrayError. A special type, because the parent needs to know where
-   * in the Array the error occurred
-   */
-  setError?: Dispatch<SetStateAction<ArrayError | undefined>>;
+  onValidate?: (e: Error | undefined) => void;
   disabled?: boolean;
   autoFocus?: boolean;
   /** Is used when a new item is created using the ResourceSelector */
@@ -59,16 +49,17 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   setSubject,
   value,
   handleRemove,
-  error,
-  setError,
   classType,
   disabled,
+  onValidate,
   parent,
   hideCreateOption,
   ...props
 }: ResourceSelectorProps): JSX.Element {
   // TODO: This list should use the user's Pod instead of a hardcoded collection;
   const classesCollection = useResource(getCollectionURL(classType));
+  const [touched, handleBlur] = useReducer(() => true, false);
+  const [error, setError] = useState<string>();
   let [options] = useArray(
     classesCollection,
     urls.properties.collection.members,
@@ -85,15 +76,17 @@ export const ResourceSelector = React.memo(function ResourceSelector({
     setInputValue,
   ] = useState(value || '');
 
+  const updateSubject = useDeferredUpdate(
+    setSubject,
+    inputValue as string | undefined,
+  );
+
   const handleUpdate = useCallback(
-    (newval?: string) => {
-      // Pass the error setter for validation purposes
-      // Pass the Error handler to its parent, so validation errors appear locally
-      setSubject(newval, setError);
-      // Reset the error every time anything changes
-      // setError(null);
+    (newValue: string | undefined) => {
+      setError(undefined);
+      updateSubject(newValue);
     },
-    [setSubject],
+    [updateSubject],
   );
 
   const onInputChange = useCallback(
@@ -102,12 +95,22 @@ export const ResourceSelector = React.memo(function ResourceSelector({
 
       try {
         new URL(str);
-        handleUpdate(str);
+        updateSubject(str);
+        setError(undefined);
       } catch (e) {
-        handleUpdate(undefined);
+        // Don't cause state changes when the value didn't change.
+        if (value !== undefined) {
+          updateSubject(undefined);
+        }
+
+        if (str !== '') {
+          setError('Invalid URL');
+        } else {
+          setError(undefined);
+        }
       }
     },
-    [setInputValue, handleUpdate],
+    [setInputValue, updateSubject, onValidate],
   );
 
   const { inDialog } = useDialogTreeContext();
@@ -129,6 +132,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
   return (
     <Wrapper>
       <DropdownInput
+        invalid={!!error}
         placeholder={placeholder}
         required={required}
         onUpdate={handleUpdate}
@@ -138,11 +142,12 @@ export const ResourceSelector = React.memo(function ResourceSelector({
         disabled={disabled}
         classType={classType}
         onCreateClick={hideCreateOption ? undefined : showDialog}
+        onBlur={handleBlur}
         onInputChange={onInputChange}
         {...props}
       />
-      {value && value !== '' && error && (
-        <ErrMessage>{error?.message}</ErrMessage>
+      {touched && error && (
+        <PositionedErrorChip noMovement>{error}</PositionedErrorChip>
       )}
       {!inDialog && (
         <Dialog {...dialogProps}>
@@ -153,7 +158,7 @@ export const ResourceSelector = React.memo(function ResourceSelector({
               classSubject={classType!}
               closeDialog={closeDialog}
               initialTitle={inputValue!}
-              onSave={handleUpdate}
+              onSave={updateSubject}
             />
           )}
         </Dialog>
@@ -184,6 +189,7 @@ export function getCollectionURL(classtypeUrl?: string): string | undefined {
 
 const Wrapper = styled.div`
   flex: 1;
+  position: relative;
   --radius: ${props => props.theme.radius};
   ${InputWrapper} {
     border-radius: 0;
@@ -202,4 +208,10 @@ const Wrapper = styled.div`
   &:not(:last-of-type) ${InputWrapper} {
     border-bottom: none;
   }
+`;
+
+const PositionedErrorChip = styled(ErrorChip)`
+  position: absolute;
+  top: 2rem;
+  z-index: 100;
 `;

@@ -30,7 +30,7 @@ export function RelationPropertyForm({
           classType={urls.classes.class}
           value={classType}
           setSubject={setClassType}
-          setError={setError}
+          onValidate={setError}
         />
       </Label>
       {error}

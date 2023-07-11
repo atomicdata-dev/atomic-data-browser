@@ -44,7 +44,7 @@ export default function EmojiInput({
       open={showPicker}
       onOpenChange={setShowPicker}
       Trigger={
-        <PickerButton onClick={() => setShowPicker(true)}>
+        <PickerButton onClick={() => setShowPicker(true)} title='Pick an emoji'>
           {emoji ? <Preview>{emoji}</Preview> : <Placeholder>😎</Placeholder>}
         </PickerButton>
       }

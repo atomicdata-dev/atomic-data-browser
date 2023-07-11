@@ -179,7 +179,7 @@ export interface CellWrapperProps {
 }
 
 export const CellWrapper = styled.div<CellWrapperProps>`
-  background: ${p => p.theme.colors.bg};
+  background-color: ${p => p.theme.colors.bg};
   display: flex;
   width: 100%;
   justify-content: ${p => p.align ?? 'flex-start'};

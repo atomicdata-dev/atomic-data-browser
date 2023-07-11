@@ -237,7 +237,7 @@ export function useValue(
         return;
       }
 
-      resource.save(store, store.getAgent()).catch(e => store.notifyError(e));
+      resource.save(store).catch(e => store.notifyError(e));
     },
     commitDebounce,
     [resource, store],
@@ -277,7 +277,7 @@ export function useValue(
     [resource, handleValidationError, store, validate, saveResource],
   );
 
-  // If a value has already been set, return it.
+  // If the hook is waiting to commit the changes return the current local value so the component using this hook shows the most recent value.
   if (isWaitingForDebounce) {
     return [val, validateAndSet];
   }

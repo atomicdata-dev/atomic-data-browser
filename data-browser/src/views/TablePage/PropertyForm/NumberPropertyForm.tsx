@@ -15,7 +15,6 @@ export const NumberPropertyForm = ({
   const [numberFormatting, setNumberFormatting] = useString(
     resource,
     urls.properties.constraints.numberFormatting,
-    { commit: true },
   );
 
   const [decimalPlaces] = useNumber(
@@ -45,7 +44,7 @@ export const NumberPropertyForm = ({
 
   return (
     <>
-      <FormGroupHeading>Number Format:</FormGroupHeading>
+      <FormGroupHeading>Number Format</FormGroupHeading>
       <RadioGroup>
         <RadioInput
           name='number-format'
@@ -64,7 +63,6 @@ export const NumberPropertyForm = ({
           Percentage
         </RadioInput>
       </RadioGroup>
-      <FormGroupHeading>Decimal Places</FormGroupHeading>
       <DecimalPlacesInput resource={resource} />
       <FormGroupHeading>Range</FormGroupHeading>
       <TableRangeInput

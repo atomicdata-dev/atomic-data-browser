@@ -73,6 +73,8 @@ export function TableNewRow({
     randomSubject(parent.getSubject(), 'row'),
   );
 
+  const [loading, setLoading] = React.useState(true);
+
   const resource = useResource(subject, resourceOpts);
 
   useEffect(() => {
@@ -80,13 +82,29 @@ export function TableNewRow({
       return;
     }
 
-    resource.set(urls.properties.parent, parent.getSubject(), store);
-    resource.set(
-      urls.properties.isA,
-      [parent.get(urls.properties.classType)],
-      store,
-    );
+    resource
+      .set(urls.properties.parent, parent.getSubject(), store)
+      .then(() =>
+        resource.set(
+          urls.properties.isA,
+          [parent.get(urls.properties.classType)],
+          store,
+        ),
+      )
+      .then(() => {
+        setLoading(false);
+      });
   }, [resource.getSubject()]);
+
+  if (loading) {
+    return (
+      <>
+        {columns.map((column, i) => (
+          <Loader key={column.subject} delay={i * 100} />
+        ))}
+      </>
+    );
+  }
 
   return (
     <>

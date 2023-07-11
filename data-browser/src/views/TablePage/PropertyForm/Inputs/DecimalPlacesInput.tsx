@@ -1,11 +1,12 @@
 import { Resource, urls, useNumber, useString } from '@tomic/react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useId } from 'react';
 import { ErrorChip } from '../../../../components/forms/ErrorChip';
 import { useValidation } from '../../../../components/forms/formValidation/useValidation';
 import {
   InputStyled,
   InputWrapper,
 } from '../../../../components/forms/InputStyles';
+import { FormGroupHeading } from '../FormGroupHeading';
 
 interface DecimalPlacesInputProps {
   resource: Resource;
@@ -14,6 +15,7 @@ interface DecimalPlacesInputProps {
 export function DecimalPlacesInput({
   resource,
 }: DecimalPlacesInputProps): JSX.Element {
+  const id = useId();
   const [error, setError, onBlur] = useValidation();
   const [_, setDataType] = useString(resource, urls.properties.datatype, {
     commit: true,
@@ -52,16 +54,22 @@ export function DecimalPlacesInput({
   );
 
   return (
-    <div>
-      <InputWrapper invalid={error !== undefined}>
-        <InputStyled
-          type='number'
-          min={0}
-          onBlur={onBlur}
-          onChange={handleDecimalPointChange}
-        />
-      </InputWrapper>
-      {error && <ErrorChip>{error}</ErrorChip>}
-    </div>
+    <>
+      <FormGroupHeading as='label' htmlFor={id}>
+        Decimal Places
+      </FormGroupHeading>
+      <div>
+        <InputWrapper invalid={error !== undefined}>
+          <InputStyled
+            id={id}
+            type='number'
+            min={0}
+            onBlur={onBlur}
+            onChange={handleDecimalPointChange}
+          />
+        </InputWrapper>
+        {error && <ErrorChip>{error}</ErrorChip>}
+      </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -65,16 +66,27 @@ export function ControlLockProvider({ children }: React.PropsWithChildren) {
 export function useControlLock(active: boolean): void {
   const id = useId();
   const { requestLock, releaseLock } = useContext(ControlLockContext);
+  const funcs = useRef({
+    requestLock,
+    releaseLock,
+  });
+
+  useEffect(() => {
+    funcs.current = {
+      requestLock,
+      releaseLock,
+    };
+  }, [releaseLock, requestLock]);
 
   useEffect(() => {
     if (active) {
-      requestLock(id);
+      funcs.current.requestLock(id);
     } else {
-      releaseLock(id);
+      funcs.current.releaseLock(id);
     }
 
     return () => {
-      releaseLock(id);
+      funcs.current.releaseLock(id);
     };
   }, [active]);
 }

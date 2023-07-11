@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    top: 0rem;
+    top: var(--error-chip-starting-position);
   }
   to {
     opacity: 1;
@@ -11,7 +11,8 @@ const fadeIn = keyframes`
   }
 `;
 
-export const ErrorChip = styled.span`
+export const ErrorChip = styled.span<{ noMovement?: boolean }>`
+  --error-chip-starting-position: ${p => (p.noMovement ? '0.5rem' : '0rem')};
   position: relative;
   top: 0.5rem;
   background-color: ${p => p.theme.colors.alert};

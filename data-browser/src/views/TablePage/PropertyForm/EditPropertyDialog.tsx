@@ -1,5 +1,5 @@
-import { Resource, properties, useString } from '@tomic/react';
-import React, { useEffect, useState } from 'react';
+import { Resource, properties, useStore, useString } from '@tomic/react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { PropertyForm, getCategoryFromDatatype } from './PropertyForm';
 import { FormValidationContextProvider } from '../../../components/forms/formValidation/FormValidationContextProvider';
 import {
@@ -22,12 +22,18 @@ export function EditPropertyDialog({
   showDialog,
   bindShow,
 }: EditPropertyDialogProps): JSX.Element {
+  const store = useStore();
   const [valid, setValid] = useState(true);
 
   const [datatype] = useString(resource, properties.datatype);
 
   const category = getCategoryFromDatatype(datatype);
-  const [dialogProps, show, hide] = useDialog({ bindShow });
+
+  const onSuccess = useCallback(() => {
+    resource.save(store);
+  }, [resource]);
+
+  const [dialogProps, show, hide] = useDialog({ bindShow, onSuccess });
 
   useEffect(() => {
     if (showDialog) {
@@ -47,8 +53,8 @@ export function EditPropertyDialog({
           <PropertyForm resource={resource} category={category} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => hide()} disabled={!valid}>
-            Done
+          <Button onClick={() => hide(true)} disabled={!valid}>
+            Save
           </Button>
         </DialogActions>
       </Dialog>

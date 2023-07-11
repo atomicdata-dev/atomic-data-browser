@@ -96,7 +96,6 @@ function NewResourceSelector() {
             setSubject={setClassInputValue}
             value={classInputValue}
             error={error}
-            setError={setError}
             classType={urls.classes.class}
           />
         </div>

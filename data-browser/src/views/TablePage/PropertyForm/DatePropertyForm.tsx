@@ -35,8 +35,6 @@ export function DatePropertyForm({
           store,
         );
       }
-
-      await resource.save(store);
     })();
   }, [dateFormat, store, includeTime]);
 

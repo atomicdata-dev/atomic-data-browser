@@ -43,7 +43,7 @@ export function ResourceInline({
   }
 
   if (resource.loading) {
-    return <LoaderInline about={subject} title={`${subject} is loading..`} />;
+    return <LoaderInline about={subject}>loading...</LoaderInline>;
   }
 
   if (!Client.isValidSubject(subject)) {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -33,33 +33,31 @@ export function useDebouncedCallback<F extends Callback>(
   time: number,
   deps: unknown[],
 ): [debouncedFunction: (...args: Parameters<F>) => void, isWaiting: boolean] {
-  const [timeoutId, setTimeoutId] = useState<
-    ReturnType<typeof setTimeout> | undefined
-  >(undefined);
+  const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      if (timeout.current) {
+        clearTimeout(timeout.current);
       }
     };
   }, []);
 
   const memoizedFunction = useCallback(
     (...args: Parameters<F>) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      if (timeout.current) {
+        clearTimeout(timeout.current);
       }
 
       const id = setTimeout(() => {
         func(...args);
-        setTimeoutId(undefined);
+        timeout.current = undefined;
       }, time);
 
-      setTimeoutId(id);
+      timeout.current = id;
     },
     [...deps, time],
   );
 
-  return [memoizedFunction, timeoutId !== undefined];
+  return [memoizedFunction, timeout.current !== undefined];
 }

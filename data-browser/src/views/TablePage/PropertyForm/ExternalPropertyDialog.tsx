@@ -56,7 +56,7 @@ export function ExternalPropertyDialog({
           hideCreateOption
           setSubject={setSubject}
           value={subject}
-          setError={setError}
+          onValidate={setError}
           classType={urls.classes.property}
         />
         {error && <ErrorLook>{error.message}</ErrorLook>}
