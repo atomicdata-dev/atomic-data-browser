@@ -831,24 +831,28 @@ test.describe('data-browser', async () => {
     await page.waitForResponse(`${serverUrl}/commit`);
 
     await editTitle('First Title', page);
-    expect(page.locator('text=First Title')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'First Title', level: 1 }),
+    ).toBeVisible();
 
     await editTitle('Second Title', page, true);
-    expect(page.locator('text=Second Title')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Second Title', level: 1 }),
+    ).toBeVisible();
 
     await contextMenuClick('history', page);
-    expect(page.locator('text=History of Second Title')).toBeVisible();
+    await expect(page.locator('text=History of Second Title')).toBeVisible();
 
     await page.getByTestId('version-button').nth(1).click();
 
-    expect(page.locator('text=First Title')).toBeVisible();
+    await expect(page.locator('text=First Title')).toBeVisible();
 
     await page.click('text=Make current version');
 
-    expect(page.locator('text=Resource version updated')).toBeVisible();
-    await page.waitForNavigation();
-    expect(page.locator('h1:has-text("First Title")')).toBeVisible();
-    expect(page.locator('text=History of First Title')).not.toBeVisible();
+    await expect(page.locator('text=Resource version updated')).toBeVisible();
+    // await page.waitForNavigation();
+    await expect(page.locator('h1:has-text("First Title")')).toBeVisible();
+    await expect(page.locator('text=History of First Title')).not.toBeVisible();
   });
 });
 
@@ -983,6 +987,7 @@ async function editTitle(title: string, page: Page, clear = false) {
   await page.keyboard.press('Space');
   await page.keyboard.press('Backspace');
   await page.keyboard.type(title);
+  await page.keyboard.press('Escape');
   await page.waitForResponse(`${serverUrl}/commit`);
 }
 

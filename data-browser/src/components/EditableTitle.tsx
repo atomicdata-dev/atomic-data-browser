@@ -41,6 +41,14 @@ export function EditableTitle({
     { enableOnTags: ['INPUT'] },
   );
 
+  useHotkeys(
+    'esc',
+    () => {
+      setIsEditing(false);
+    },
+    { enableOnTags: ['INPUT'] },
+  );
+
   function handleClick() {
     setIsEditing(true);
   }
